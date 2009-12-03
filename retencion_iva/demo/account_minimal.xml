@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="False">
+
+    
+        <!--
+        Account Type
+        -->
+<!--  tipo cuenta  -->
+
+    <record id="view" model="account.account.type">
+        <field name="name">Vista</field>
+        <field name="code">view</field>
+        <field name="close_method">none</field>
+    </record>
+    <record id="capital" model="account.account.type">
+        <field name="name">Capital</field>
+        <field name="code">capital</field>
+        <field name="close_method">balance</field>
+    </record>
+    <record id="inmo" model="account.account.type">
+        <field name="name">Inmobilizado</field>
+        <field name="code">inmo</field>
+        <field name="close_method">balance</field>
+    </record>
+    <record id="stock" model="account.account.type">
+        <field name="name">Existencias</field>
+        <field name="code">stock</field>
+        <field name="close_method">balance</field>
+    </record>
+    <record id="terceros" model="account.account.type">
+        <field name="name">Terceros</field>
+        <field name="code">terceros</field>
+        <field name="close_method">balance</field>
+    </record>
+    <record id="terceros - rec" model="account.account.type">
+        <field name="name">Terceros - A Cobrar</field>
+        <field name="code">terceros - rec</field>
+        <field name="close_method">unreconciled</field>
+    </record>
+    <record id="terceros - pay" model="account.account.type">
+        <field name="name">Terceros - A Pagar</field>
+        <field name="code">terceros - pay</field>
+        <field name="close_method">unreconciled</field>
+    </record>
+    <record id="tax" model="account.account.type">
+        <field name="name">Impuestos</field>
+        <field name="code">tax</field>
+        <field name="close_method">unreconciled</field>
+    </record>
+    <record id="financieras" model="account.account.type">
+        <field name="name">Financieras</field>
+        <field name="code">financieras</field>
+        <field name="close_method">balance</field>
+    </record>
+    <record id="gastos" model="account.account.type">
+        <field name="name">Gastos</field>
+        <field name="code">gastos</field>
+        <field name="close_method">none</field>
+    </record>
+    <record id="ingresos" model="account.account.type">
+        <field name="name">Ingresos</field>
+        <field name="code">ingresos</field>
+        <field name="close_method">none</field>
+    </record>
+    <record id="costo" model="account.account.type">
+        <field name="name">Costo</field>
+        <field name="code">costo</field>
+        <field name="close_method">none</field>
+    </record>
+
+        <!--
+        Chart of Account
+        -->
+<!--  primer nivel  -->
+
+    <record id="peq_0" model="account.account">
+        <field name="code">0</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="False"/>
+        <field name="type">view</field>
+        <field name="name">Plan Contable Para Pruebas Automaticas</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+This chart of account is used for automated testing purpose. It is installed
+only if you selected demo data during your database creation. Modules can
+do black box testing on entries on this chart of account, without modifying
+your own accounts.
+        </field>
+    </record>
+
+<!--  2do nivel  -->
+
+    <record id="a_acti" model="account.account">
+        <field name="code">1</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Activo</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+    <record id="a_pasi" model="account.account">
+        <field name="code">2</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Pasivo</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+    <record id="a_capi" model="account.account">
+        <field name="code">3</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Capital</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+    <record id="a_ingr" model="account.account">
+        <field name="code">4</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Ingresos</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+    <record id="a_egre" model="account.account">
+        <field name="code">5</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Egresos</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+    <record id="a_cost" model="account.account">
+        <field name="code">6</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Costos</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+    <record id="a_exis" model="account.account">
+        <field name="code">7</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="peq_0"/>
+        <field name="type">view</field>
+        <field name="name">Existencia</field>
+        <field name="user_type" ref="view"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  3er nivel  -->
+<!--  Activo  -->
+
+    <record id="a_cxc" model="account.account">
+        <field name="code">1.1</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_acti"/>
+        <field name="type">receivable</field>
+        <field name="name">Cuentas X Cobrar</field>
+        <field name="user_type" ref="terceros - rec"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_maq" model="account.account">
+        <field name="code">1.2</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_acti"/>
+        <field name="type">other</field>
+        <field name="name">Maquinaria</field>
+        <field name="user_type" ref="inmo"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_crf" model="account.account">
+        <field name="code">1.3</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_acti"/>
+        <field name="type">payable</field>
+        <field name="name">Credito Fiscal</field>
+        <field name="user_type" ref="tax"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_dfr" model="account.account">
+        <field name="code">1.4</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_acti"/>
+        <field name="type">receivable</field>
+        <field name="name">Debito Fiscal Retenido</field>
+        <field name="user_type" ref="tax"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_ban" model="account.account">
+        <field name="code">1.5</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_acti"/>
+        <field name="type">other</field>
+        <field name="name">Banco</field>
+        <field name="user_type" ref="financieras"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_caj" model="account.account">
+        <field name="code">1.6</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_acti"/>
+        <field name="type">other</field>
+        <field name="name">Caja Chica</field>
+        <field name="user_type" ref="financieras"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  Pasivo  -->
+
+    <record id="a_cxp" model="account.account">
+        <field name="code">2.1</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_pasi"/>
+        <field name="type">payable</field>
+        <field name="name">Cuentas X Pagar</field>
+        <field name="user_type" ref="terceros - pay"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_def" model="account.account">
+        <field name="code">2.2</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_pasi"/>
+        <field name="type">payable</field>
+        <field name="name">Debito Fiscal</field>
+        <field name="user_type" ref="tax"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_cfr" model="account.account">
+        <field name="code">2.3</field>
+        <field name="reconcile" eval="True"/>
+        <field name="parent_id" ref="a_pasi"/>
+        <field name="type">payable</field>
+        <field name="name">Credito Fiscal Retenido</field>
+        <field name="user_type" ref="tax"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  Capital  -->
+
+    <record id="a_cps" model="account.account">
+        <field name="code">3.1</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_capi"/>
+        <field name="type">other</field>
+        <field name="name">Capital Social</field>
+        <field name="user_type" ref="capital"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_uti" model="account.account">
+        <field name="code">3.2</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_capi"/>
+        <field name="type">other</field>
+        <field name="name">Utilidad</field>
+        <field name="user_type" ref="capital"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  Ingresos  -->
+
+    <record id="a_vtp" model="account.account">
+        <field name="code">4.1</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_ingr"/>
+        <field name="type">other</field>
+        <field name="name">Ventas Productos</field>
+        <field name="user_type" ref="ingresos"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  Egresos  -->
+
+    <record id="a_gas" model="account.account">
+        <field name="code">5.1</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_egre"/>
+        <field name="type">other</field>
+        <field name="name">Gastos</field>
+        <field name="user_type" ref="gastos"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  Costos  -->
+
+    <record id="a_cmp" model="account.account">
+        <field name="code">6.1</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_cost"/>
+        <field name="type">other</field>
+        <field name="name">Compras Productos</field>
+        <field name="user_type" ref="costo"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+<!--  Existencia  -->
+
+    <record id="a_inv" model="account.account">
+        <field name="code">7.1</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_exis"/>
+        <field name="type">other</field>
+        <field name="name">Inventario</field>
+        <field name="user_type" ref="stock"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+    <record id="a_vai" model="account.account">
+        <field name="code">7.2</field>
+        <field name="reconcile" eval="False"/>
+        <field name="parent_id" ref="a_exis"/>
+        <field name="type">other</field>
+        <field name="name">Variación Inventario</field>
+        <field name="user_type" ref="stock"/>
+        <field name="note">
+        This chart of account is used for automated testing purpose. It is installed
+        only if you selected demo data during your database creation. Modules can
+        do black box testing on entries on this chart of account, without modifying
+        your own chart of account.
+        </field>
+    </record>
+
+
+
+        <!-- Properties -->
+        <record forcecreate="True" id="property_account_receivable" model="ir.property">
+            <field name="name">property_account_receivable</field>
+            <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_receivable')]"/>
+            <field eval="'account.account,'+str(a_cxc)" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record forcecreate="True" id="property_account_payable" model="ir.property">
+            <field name="name">property_account_payable</field>
+            <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_payable')]"/>
+            <field eval="'account.account,'+str(a_cxp)" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record forcecreate="True" id="property_account_position" model="ir.property">
+            <field name="name">property_account_position</field>
+            <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_position')]"/>
+            <field eval="False" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+        <!--
+        Account Journal
+        -->
+
+        <record id="diario_venta" model="account.journal">
+            <field name="name">Diario de Ventas</field>
+            <field name="code">venta</field>
+            <field name="type">sale</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="account.sequence_sale_journal"/>
+            <field model="account.account" name="default_credit_account_id" ref="a_vtp"/>
+            <field model="account.account" name="default_debit_account_id" ref="a_vtp"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+
+        <record id="diario_compra" model="account.journal">
+            <field name="name">Diario de Compras</field>
+            <field name="code">compra</field>
+            <field name="type">purchase</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="account.sequence_purchase_journal"/>
+            <field model="account.account" name="default_debit_account_id" ref="a_cmp"/>
+            <field model="account.account" name="default_credit_account_id" ref="a_cmp"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+
+        <record id="diario_banco" model="account.journal">
+            <field name="name">Diario de Banco</field>
+            <field name="code">banco</field>
+            <field name="type">cash</field>
+            <field name="view_id" ref="account.account_journal_bank_view"/>
+            <field name="sequence_id" ref="account.sequence_journal"/>
+            <field model="account.account" name="default_debit_account_id" ref="a_ban"/>
+            <field model="account.account" name="default_credit_account_id" ref="a_ban"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+        <record id="diario_caja_chica" model="account.journal">
+            <field name="name">Caja Chica</field>
+            <field name="code">caja</field>
+            <field name="type">cash</field>
+            <field name="view_id" ref="account.account_journal_bank_view"/>
+            <field name="sequence_id" ref="account.sequence_journal"/>
+            <field model="account.account" name="default_debit_account_id" ref="a_caj"/>
+            <field model="account.account" name="default_credit_account_id" ref="a_caj"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+
+        <record forcecreate="1" id="diario_stock" model="account.journal">
+            <field name="name">Diario de Inventario</field>
+            <field name="code">stock</field>
+            <field name="type">general</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="account.sequence_journal"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+
+
+
+        <!--
+        Product income and expense accounts, default parameters
+    -->
+        
+        <record id="property_account_expense_prd" model="ir.property">
+            <field name="name">property_account_expense</field>
+            <field name="fields_id" search="[('model','=','product.template'),('name','=','property_account_expense')]"/>
+            <field eval="False" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="property_account_income_prd" model="ir.property">
+            <field name="name">property_account_income</field>
+            <field name="fields_id" search="[('model','=','product.template'),('name','=','property_account_income')]"/>
+            <field eval="False" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="property_account_expense_categ" model="ir.property">
+            <field name="name">property_account_expense_categ</field>
+            <field name="fields_id" search="[('model','=','product.category'),('name','=','property_account_expense_categ')]"/>
+            <field eval="'account.account,'+str(ref('account.a_cmp'))" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="property_account_income_categ" model="ir.property">
+            <field name="name">property_account_income_categ</field>
+            <field name="fields_id" search="[('model','=','product.category'),('name','=','property_account_income_categ')]"/>
+            <field eval="'account.account,'+str(ref('account.a_vtp'))" model="account.account" name="value"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+<!-- Configuracion de codigos de impuesto-->
+        
+    
+    <!-- *********************************************** -->
+    <!--IVA DEVENGADO -->
+    <!-- *********************************************** -->
+    
+    <!--Base imponible-->
+    <!-- *********************************************** -->
+
+<!--  primer nivel  -->
+
+        <record id="iva_cod_base" model="account.tax.code">
+            <field name="name">IVA (Impuesto al Valor Agregado)</field>
+            <field name="code">IVA</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="False"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+<!--  segundo nivel  -->
+
+        <record id="iva_cod_cre_bas" model="account.tax.code">
+            <field name="name">B1. CRÉDITOS FISCALES - BASE IMPONIBLE</field>
+            <field name="code">B1</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_base"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="iva_cod_deb_bas" model="account.tax.code">
+            <field name="name">A1. DÉBITOS FISCALES - BASE IMPONIBLE</field>
+            <field name="code">A1</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_base"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="iva_cod_cre_cre" model="account.tax.code">
+            <field name="name">B2. CRÉDITOS FISCALES - CRÉDITO FISCAL</field>
+            <field name="code">B2</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_base"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="iva_cod_deb_deb" model="account.tax.code">
+            <field name="name">A2. DÉBITOS FISCALES - DÉBITO FISCAL</field>
+            <field name="code">A2</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_base"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+<!--  tercer nivel  -->
+<!--  A1- Deb. Fis. - Base Imp.  -->
+
+        <record id="iva_cod_ven_ing" model="account.tax.code">
+            <field name="name">Ventas Internas No Gravadas</field>
+            <field name="code">40</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_deb_bas"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+        <record id="iva_cod_ven_iga" model="account.tax.code">
+            <field name="name">Ventas Internas Gravadas sólo por Alícuota General</field>
+            <field name="code">42</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_deb_bas"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+<!--  A2 - Deb. Fis. - Deb Fis.  -->
+
+        <record id="iva_cod_ven_iga_deb" model="account.tax.code">
+            <field name="name">Ventas Internas Gravadas sólo por Alícuota General</field>
+            <field name="code">43</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_deb_deb"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+<!--  B1- Cred. Fis. - Base Imp.  -->
+
+        <record id="iva_cod_com_ing" model="account.tax.code">
+            <field name="name">Compras No Gravadas y/o Sin Derecho a Crédito Fiscal</field>
+            <field name="code">30</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_cre_bas"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+        <record id="iva_cod_com_iga" model="account.tax.code">
+            <field name="name">Compras Internas Gravadas por Alícuota General</field>
+            <field name="code">33</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_cre_bas"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+<!--  B2 - Cred. Fis. - Cred. Fis.  -->
+
+        <record id="iva_cod_com_iga_fis" model="account.tax.code">
+            <field name="name">Compras Internas Gravadas por Alícuota General</field>
+            <field name="code">34</field>
+            <field name="sign">1.0</field>
+            <field name="parent_id" ref="iva_cod_cre_cre"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+
+
+<!-- ********************************* -->
+<!-- Impuestos IVA       -->
+<!-- ********************************* -->
+
+<!-- IVA Soportado -->
+
+        <record id="iva_comp_12" model="account.tax.template">
+            <field name="name">IVA - 12% COMPRAS</field>
+            <field eval="0.12" name="amount"/>
+            <field name="type">percent</field>
+            <field name="account_collected_id" ref="a_crf"/>
+            <field name="account_paid_id" ref="a_crf"/>
+            <field name="base_code_id" ref="iva_cod_com_iga"/>
+            <field name="tax_code_id" ref="iva_cod_com_iga_fis"/>
+            <field name="ref_base_code_id" ref="iva_cod_com_iga"/>
+            <field name="ref_tax_code_id" ref="iva_cod_com_iga_fis"/>
+            <field eval="1.0" name="tax_sign"/>
+            <field eval="1.0" name="base_sign"/>
+            <field eval="-1.0" name="ref_tax_sign"/>
+            <field eval="-1.0" name="ref_base_sign"/>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group">vat</field>
+        </record>
+
+
+        <record id="iva_vent_12" model="account.tax.template">
+            <field name="name">IVA - 12% VENTAS</field>
+            <field eval="0.12" name="amount"/>
+            <field name="type">percent</field>
+            <field name="account_collected_id" ref="a_def"/>
+            <field name="account_paid_id" ref="a_def"/>
+            <field name="base_code_id" ref="iva_cod_ven_iga"/>
+            <field name="tax_code_id" ref="iva_cod_ven_iga_deb"/>
+            <field name="ref_base_code_id" ref="iva_cod_ven_iga"/>
+            <field name="ref_tax_code_id" ref="iva_cod_ven_iga_deb"/>
+            <field eval="1.0" name="tax_sign"/>
+            <field eval="1.0" name="base_sign"/>
+            <field eval="-1.0" name="ref_tax_sign"/>
+            <field eval="-1.0" name="ref_base_sign"/>
+            <field name="type_tax_use">sale</field>
+            <field name="tax_group">vat</field>
+        </record>
+
+
+
+        <record id="iva_comp_0" model="account.tax.template">
+            <field name="name">IVA - 0% COMPRAS</field>
+            <field eval="0.0" name="amount"/>
+            <field name="type">percent</field>
+            <field name="account_collected_id" ref="a_crf"/>
+            <field name="account_paid_id" ref="a_crf"/>
+            <field name="base_code_id" ref="iva_cod_com_ing"/>
+            <field name="ref_base_code_id" ref="iva_cod_com_ing"/>
+            <field eval="1.0" name="tax_sign"/>
+            <field eval="1.0" name="base_sign"/>
+            <field eval="-1.0" name="ref_tax_sign"/>
+            <field eval="-1.0" name="ref_base_sign"/>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group">vat</field>
+        </record>
+
+
+        <record id="iva_vent_0" model="account.tax.template">
+            <field name="name">IVA - 0% VENTAS</field>
+            <field eval="0.0" name="amount"/>
+            <field name="type">percent</field>
+            <field name="account_collected_id" ref="a_def"/>
+            <field name="account_paid_id" ref="a_def"/>
+            <field name="base_code_id" ref="iva_cod_ven_ing"/>
+            <field name="ref_base_code_id" ref="iva_cod_ven_ing"/>
+            <field eval="1.0" name="tax_sign"/>
+            <field eval="1.0" name="base_sign"/>
+            <field eval="-1.0" name="ref_tax_sign"/>
+            <field eval="-1.0" name="ref_base_sign"/>
+            <field name="type_tax_use">sale</field>
+            <field name="tax_group">vat</field>
+        </record>
+
+
+
+    </data>
+</openerp>

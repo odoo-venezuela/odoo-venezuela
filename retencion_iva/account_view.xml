@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+
+	<!-- 
+	=====================================================
+	Taxs Extension
+	=====================================================
+	-->  
+
+        <record id="account_tax_ext_view_form_loc_ve" model="ir.ui.view">
+            <field name="name">tax_extended.account.tax.form.view.loc_ve</field>
+            <field name="model">account.tax</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="Loc. Venezuela" position="inside">                        
+                        <field name="ret" />
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

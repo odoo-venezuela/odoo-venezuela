@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="retention_order" model="workflow">
+            <field name="name">Retention Order Basic Workflow</field>
+            <field name="osv">account.retention</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="retention_order"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+        </record>
+
+        <record id="act_done" model="workflow.activity">
+            <field name="wkf_id" ref="retention_order"/>
+            <field name="name">done</field>
+            <field name="action">action_move_create()
+action_number()
+write({'state':'done'})</field>
+            <field name="kind">function</field>
+        </record>
+
+
+        <record id="trans_draft_done" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">retention_done</field>
+        </record>
+
+    </data>
+</openerp>

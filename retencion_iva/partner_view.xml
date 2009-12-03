@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+	<!-- 
+	=====================================================
+	Partners Extension
+	=====================================================
+	-->  
+
+        <record id="partner_ext_view_form_loc_ve" model="ir.ui.view">
+            <field name="name">partner_extended.res.partner.form.view.loc_ve</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="Loc. Venezuela" position="inside">
+                    <group col="2" colspan="2">
+                        <separator string="Retenciones I.V.A." colspan="2"/>
+                        <field name="special"/>
+                        <field name="retention"/>
+                        <field name="property_retention_payable"/>
+                        <field name="property_retention_receivable"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <separator string="Retenciones I.S.L.R." colspan="2"/>
+                    </group>
+                </page>
+                </notebook>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

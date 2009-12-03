@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences type for account.retention --> 
+
+        <record id="seq_type_account_retention" model="ir.sequence.type">
+            <field name="name">Retenciones</field>
+            <field name="code">account.retention</field>
+        </record>
+
+        <record id="seq_type_account_retention_compras" model="ir.sequence.type">
+            <field name="name">Retenciones Compras</field>
+            <field name="code">account.retention.in_invoice</field>
+        </record>
+
+        <!-- Sequences for account.retention --> 
+
+        <record id="seq_account_retention" model="ir.sequence">
+            <field name="name">Retenciones</field>
+            <field name="code">account.retention</field>
+            <field name="prefix">RE:</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_account_retention_compras" model="ir.sequence">
+            <field name="name">Retenciones Compras</field>
+            <field name="code">account.retention.in_invoice</field>
+            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+    </data>
+</openerp>

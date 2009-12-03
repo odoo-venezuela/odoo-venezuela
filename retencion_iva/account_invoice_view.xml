@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+    <!-- 
+    =====================================================
+    Invoices Extension
+    =====================================================
+    -->  
+
+        <record id="account_invoice_ext_view_form_loc_ve" model="ir.ui.view">
+            <field name="name">invoice_extended.account.invoice.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="Loc. Venezuela" position="inside">
+                        <field name="nro_ctrl"/>
+                        <separator string="Retenciones I.V.A." colspan="4"/>
+                        <group col="6" colspan="4">
+                            <field name="retention"/>
+                            <field name="p_ret"/>
+                            <field name="num_ret"/>
+                            <field name="sin_cred"/>
+                        </group>
+                        <separator string="Retenciones I.S.L.R." colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+
+        <record id="account_invoice_ext_view_supp_form_loc_ve" model="ir.ui.view">
+            <field name="name">invoice_extended.account.invoice.supplier.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="Loc. Venezuela" position="inside">
+                        <field name="nro_ctrl"/>
+                        <separator string="Retenciones I.V.A." colspan="4"/>
+                        <group col="6" colspan="4">
+                            <field name="retention"/>
+                            <field name="p_ret"/>
+                            <field name="num_ret"/>
+                            <field name="sin_cred"/>
+                        </group>
+                        <separator string="Retenciones I.S.L.R." colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+        <record id="account_invoice_ext_view_tree_loc_ve" model="ir.ui.view">
+            <field name="name">invoice_extended.account.invoice.tree.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="retention"/>
+                </field>
+            </field>
+        </record>
+
+
+
+
+
+
+    </data>
+</openerp>
