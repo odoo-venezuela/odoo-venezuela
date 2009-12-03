@@ -30,7 +30,7 @@
 
 
 {
-    'name': 'RIF para Venezuela',
+    'name': 'Manejo del RIF para Venezuela',
     'version': '0.1',
     'category': 'Generic Modules/Base',
     'description': """
