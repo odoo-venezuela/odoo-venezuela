@@ -32,7 +32,7 @@
 	"version" : "0.1",
 	"author" : "Netquatro",
 	"category" : "Generic Modules",
-	"website": "http://openerp.netquatro.com/",
+	"website": "http://wiki.openerp.org.ve/",
 	"description": "Permite solo una direccion fiscal(una direccion de tipo invoice)",
 	"depends" : ["base"],
 	"init_xml" : [],
