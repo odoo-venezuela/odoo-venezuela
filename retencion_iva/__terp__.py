@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# Copyright (c) 2009 Latinux Inc (http://www.latinux.com/) All Rights Reserved.
+# Copyright (c) 2009 Latinux Inc (http://www.latinux.com/) Y http://openerp.netquatro.com All Rights Reserved.
 #                    Javier Duran <jduran@corvus.com.ve>
 # 
 #
@@ -32,7 +32,7 @@
 	"version" : "0.1",
 	"author" : "Latinux",
 	"category" : "Generic Modules",
-	"website": "http://www.latinux.com/",
+	"website": "http://wiki.openerp.org.ve/",
 	"description": "Administración de las retenciones aplicadas al Impuesto del Valor Agregado",
 	"depends" : ["base","account","stock"],
 	"init_xml" : [],
