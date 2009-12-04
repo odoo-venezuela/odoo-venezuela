@@ -30,10 +30,16 @@
 {
 	"name" : "Retenciones al Impuesto del Valor Agregado",
 	"version" : "0.1",
-	"author" : "Latinux",
+	"author" : "Latinux & Netquatro",
 	"category" : "Generic Modules",
 	"website": "http://wiki.openerp.org.ve/",
-	"description": "Administración de las retenciones aplicadas al Impuesto del Valor Agregado",
+	"description": "
+Administración de las retenciones aplicadas al Impuesto del Valor Agregado
+Compras
+Ventas
+Verificar pestañas en Partners, Invoices y menús creados.
+
+",
 	"depends" : ["base","account","stock"],
 	"init_xml" : [],
 	"demo_xml" : [
