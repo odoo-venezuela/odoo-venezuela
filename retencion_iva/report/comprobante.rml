@@ -95,6 +95,10 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
     </blockTableStyle>
+    <blockTableStyle id="Tabla7">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
@@ -108,27 +112,26 @@
     <paraStyle name="P8" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P9" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT"/>
     <paraStyle name="P10" fontName="Helvetica" fontSize="12.0" leading="15" alignment="RIGHT"/>
-    <paraStyle name="P11" fontName="Helvetica" fontSize="9.0" leading="11"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="12.0" leading="15" alignment="RIGHT"/>
     <paraStyle name="P12" fontName="Helvetica" fontSize="9.0" leading="11"/>
     <paraStyle name="P13" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
     <paraStyle name="P14" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
     <paraStyle name="P15" fontName="Helvetica" fontSize="8.0" leading="10" alignment="RIGHT"/>
-    <paraStyle name="P16" fontName="Helvetica" fontSize="2.0" leading="3" alignment="RIGHT"/>
-    <paraStyle name="P17" fontName="Helvetica" fontSize="2.0" leading="3" alignment="CENTER"/>
-    <paraStyle name="P18" fontName="Helvetica" fontSize="2.0" leading="3" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="P19" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="P20" fontName="Helvetica-Bold" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="P21" fontName="Helvetica" fontSize="10.0" leading="13" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="P22" fontName="Helvetica" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="P23" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="P24" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
-    <paraStyle name="P25" fontName="Helvetica" fontSize="11.0" leading="14" alignment="CENTER"/>
-    <paraStyle name="P26" fontName="Helvetica" fontSize="11.0" leading="14" alignment="RIGHT"/>
-    <paraStyle name="P27" fontName="Helvetica" fontSize="12.0" leading="15" alignment="RIGHT"/>
-    <paraStyle name="P28" fontName="Helvetica" fontSize="12.0" leading="15" alignment="RIGHT"/>
-    <paraStyle name="P29" fontName="Helvetica" fontSize="8.0" leading="10" alignment="RIGHT"/>
-    <paraStyle name="P30" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="RIGHT"/>
-    <paraStyle name="P31" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="RIGHT"/>
+    <paraStyle name="P16" fontName="Helvetica" fontSize="2.0" leading="3" alignment="CENTER"/>
+    <paraStyle name="P17" fontName="Helvetica" fontSize="11.0" leading="14" alignment="RIGHT"/>
+    <paraStyle name="P18" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P19" fontName="Helvetica" fontSize="10.0" leading="13" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P20" fontName="Helvetica" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P21" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P22" fontName="Helvetica-Bold" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P23" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="RIGHT"/>
+    <paraStyle name="P24" fontName="Helvetica" fontSize="9.0" leading="11" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P25" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P26" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P27" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT"/>
+    <paraStyle name="P28" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P29" fontName="Helvetica" fontSize="9.0" leading="11"/>
+    <paraStyle name="P30" fontName="Helvetica" fontSize="9.0" leading="11"/>
     <paraStyle name="Standard" fontName="Times-Roman"/>
     <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
@@ -143,7 +146,7 @@
   </stylesheet>
   <images/>
   <story>
-    <para style="P8">[[repeatIn(objects,'o')]]</para>
+    <para style="P8">[[repeatIn(objects,'o')]]<font face="Times-Roman" size="9.0">[[ get_totales(o.id) ]]</font></para>
     <para style="P1">COMPROBANTE RETENCION I.V.A.</para>
     <blockTable colWidths="431.0,277.0" style="Tabla1">
       <tr>
@@ -152,10 +155,10 @@
           <para style="P2">[[ get_partner_addr( company.partner_id.id ) ]]</para>
         </td>
         <td>
-          <para style="P19">Fecha: <font face="Times-Roman">[[ time.strftime('%d/%m/%Y', time.strptime(o.date_ret, '%Y-%m-%d')) ]]</font></para>
-          <para style="P19">PERIODO FISCAL</para>
-          <para style="P20">[[ o.period_id.name]] [[ o.number]]</para>
-          <para style="P20">AÑO MES NRO. COMPROBANTE</para>
+          <para style="P21">Fecha: <font face="Times-Roman">[[ time.strftime('%d/%m/%Y', time.strptime(o.date_ret, '%Y-%m-%d')) ]]</font></para>
+          <para style="P21">PERIODO FISCAL</para>
+          <para style="P22">[[ o.period_id.name]] [[ o.number]]</para>
+          <para style="P22">AÑO MES NRO. COMPROBANTE</para>
         </td>
       </tr>
     </blockTable>
@@ -262,24 +265,26 @@
             <para style="P12">[[ ((not l.invoice_id.sin_cred) and l.invoice_id.amount_total) or '' ]]</para>
           </td>
           <td>
-            <para style="P11">[[ ((l.invoice_id.sin_cred) and l.invoice_id.amount_total) or '' ]]</para>
+            <para style="P29"><font face="Times-Roman">[[ ((l.invoice_id.type not in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]]</font>[[ ((l.invoice_id.sin_cred) and l.invoice_id.amount_total) or '' ]]</para>
           </td>
           <td>
             <para style="P7">[[repeatIn(l.invoice_id.tax_line,'t')]]</para>
             <blockTable colWidths="74.0,31.0,54.0,53.0" style="Tabla5">
               <tr>
                 <td>
-                  <para style="P13">[[ t.base_ret ]]</para>
+                  <para style="P13">[[ ((l.invoice_id.type not in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.base_ret ]]</para>
+                  <para style="P13">([[ ((l.invoice_id.type in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.base_ret ]])</para>
                 </td>
                 <td>
                   <para style="P13">[[ get_alicuota( t.name ) ]]</para>
                 </td>
                 <td>
-                  <para style="P13">[[ t.amount ]]</para>
+                  <para style="P13">[[ ((l.invoice_id.type not in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.amount ]]</para>
+                  <para style="P13">([[ ((l.invoice_id.type in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.amount ]])</para>
                 </td>
                 <td>
                   <para style="P13">[[ ((l.invoice_id.type not in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.amount_ret ]]</para>
-                  <para style="P13">-[[ ((l.invoice_id.type in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.amount_ret ]]</para>
+                  <para style="P13">([[ ((l.invoice_id.type in ['in_refund', 'out_refund']) or removeParentNode('para')) and '' ]][[ t.amount_ret ]])</para>
                 </td>
               </tr>
             </blockTable>
@@ -293,30 +298,91 @@
     <blockTable colWidths="480.0,227.0" style="Tabla2">
       <tr>
         <td>
-          <para style="P25">
-            <font face="Times-Roman" size="12.0"/>
-          </para>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <para style="P17">
+          <blockTable colWidths="54.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0,77.0,31.0,54.0,56.0" style="Tabla7">
+            <tr>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">[[ get_tot_gral_compra() ]]</para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">[[ get_tot_gral_base() ]]</para>
+              </td>
+              <td>
+                <para style="P24">
+                  <font color="white"> </font>
+                </para>
+              </td>
+              <td>
+                <para style="P24">[[ get_tot_gral_iva() ]]</para>
+              </td>
+              <td>
+                <para style="P24">[[ get_tot_gral_retencion() ]]</para>
+              </td>
+            </tr>
+          </blockTable>
+          <para style="P9">
             <font color="white"> </font>
           </para>
         </td>
       </tr>
       <tr>
         <td>
-          <para style="P22">LEY IVA – ART. 11: “SERAN RESPONSABLES DEL PAGO DE IMPUESTO EN CALIDAD DE AGENTES DE RETENCION, LOS COMPRADORES O ADQUIRIENTES DE DETERMINADOS BIENES MUEBLES Y LOS RECEPTORES DE CIERTOS SERVICIOS A QUIENES LA ADMINISTRACION TRIBUTARIA DESIGNE COMO TAL”</para>
-        </td>
-        <td>
-          <para style="P31">----------------------------------------------------</para>
-          <para style="P28">RECIBIDO POR<font color="white"> .........</font><font color="white"> .........</font></para>
+          <para style="P16">
+            <font color="white"> </font>
+          </para>
         </td>
       </tr>
       <tr>
         <td>
-          <para style="P21">
+          <para style="P20">LEY IVA – ART. 11: “SERAN RESPONSABLES DEL PAGO DE IMPUESTO EN CALIDAD DE AGENTES DE RETENCION, LOS COMPRADORES O ADQUIRIENTES DE DETERMINADOS BIENES MUEBLES Y LOS RECEPTORES DE CIERTOS SERVICIOS A QUIENES LA ADMINISTRACION TRIBUTARIA DESIGNE COMO TAL”</para>
+        </td>
+        <td>
+          <para style="P23">----------------------------------------------------</para>
+          <para style="P11">RECIBIDO POR<font color="white"> .........</font><font color="white"> .........</font></para>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para style="P19">
             <font color="white"> </font>
           </para>
         </td>
@@ -326,10 +392,10 @@
         </td>
       </tr>
     </blockTable>
-    <para style="P26">
+    <para style="P17">
       <font color="white"> </font>
     </para>
-    <para style="P30">
+    <para style="P18">
       <font color="white"> </font>
     </para>
   </story>

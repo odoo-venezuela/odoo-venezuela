@@ -32,13 +32,26 @@ from osv import osv
 import pooler
 
 class rep_comprobante(report_sxw.rml_parse):
+    #Variables Globales----------------------------------------------------
+    ttcompra     = 0
+    ttretencion  = 0
+    ttbase       = 0
+    ttiva        = 0
+
+    #---------------------------------------------------------------------
+
     def __init__(self, cr, uid, name, context):
         super(rep_comprobante, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
             'get_alicuota': self._get_alicuota,
-            'get_tipo_doc': self._get_tipo_doc
+            'get_tipo_doc': self._get_tipo_doc,
+            'get_totales': self._get_totales,
+            'get_tot_gral_compra': self._get_tot_gral_compra,
+            'get_tot_gral_base': self._get_tot_gral_base,
+            'get_tot_gral_iva': self._get_tot_gral_iva,
+            'get_tot_gral_retencion': self._get_tot_gral_retencion
         })
 
     def _get_partner_addr(self, idp=None):
@@ -78,49 +91,46 @@ class rep_comprobante(report_sxw.rml_parse):
     def _get_totales(self, comp_id):        
         if not comp_id:
             return []
-        sql = """
-        SELECT    d.name,d.quantity_received,d.price_unit,d.discount,d.price_standard  
-        FROM    account_invoice_line AS d
-        WHERE    invoice_id=%d
-        ORDER    BY d.id;"""%order
-        self.cr.execute (sql)
-        resp = [] 
 
-        tot_comp = 0.0
-        tot_comp_sdc = 0.0
-        tot_base_imp = 0.0
-        tot_imp_iva = 0.0
-        tot_iva_ret = 0.0
+        types = {'out_invoice': 's', 'in_invoice': 's', 'out_refund': 'r', 'in_refund': 'r'}
+        tot_comp = {}
+        tot_comp_sdc = {}
+        tot_base_imp = {}
+        tot_imp_iva = {}
+        tot_iva_ret = {}
+
         comp_obj = self.pool.get('account.retention')
         comp = comp_obj.browse(self.cr,self.uid, comp_id)
+        res = {}
+        ttal = {}
 
-        for rl in comp:
+        for rl in comp.retention_line:
+            tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
+            for txl in rl.invoice_id.tax_line:
+                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base_ret
+                tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type],0.0) + txl.amount
+                tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type],0.0) + txl.amount_ret
 
-        for inf in self.cr.fetchall():
-            total    = 0
-            totalcs    =0
-            desc    = 0 
-            if self.currentOrderId == 0 or self.currentOrderId != order:
-                self.currentOrderId = order
-                self.subtotal        = 0
-                self.totalgral        = 0
-                self.totalnd        = 0
-                self.subtotalcs        = 0
-                self.totalcxp        = 0
-            if (inf[1] > 0) and (inf[2] > 0):
-                total = inf[1]*inf[2]
-                totalcs = inf[1]*inf[4]
-                if inf[3] > 0:
-                    desc = total * inf[3] /100
-                    total -=  desc
-                self.subtotal    +=  total                            
-                self.subtotalcs    += totalcs
+
+        self.ttcompra = tot_comp['s'] - tot_comp['r']
+        self.ttbase = tot_base_imp['s'] - tot_base_imp['r']
+        self.ttiva = tot_imp_iva['s'] - tot_imp_iva['r']
+        self.ttretencion = tot_iva_ret['s'] - tot_iva_ret['r']
                                 
-            resp.append({"nomb":inf[0],"cant":inf[1],"preciop":inf[2],"precios":inf[4],"totalS":totalcs,"totalP":total})        
-        #Reserva 
-        self.totalreserva = self.subtotalcs - self.subtotal        
-        return resp        
 
+        return ""        
+
+    def _get_tot_gral_compra(self): 
+        return self.ttcompra
+
+    def _get_tot_gral_base(self): 
+        return self.ttbase 
+        
+    def _get_tot_gral_iva(self): 
+        return self.ttiva
+
+    def _get_tot_gral_retencion(self): 
+        return self.ttretencion 
 
     
       
