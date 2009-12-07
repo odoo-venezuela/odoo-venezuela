@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+		<record model="workflow.transition" id="sale.trans_draft_router">
+            <field name="condition">test_ocreq()</field>
+		</record>
+	
+        
+    </data>
+</openerp>
