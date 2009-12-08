@@ -33,10 +33,11 @@ import pooler
 
 class rep_comprobante(report_sxw.rml_parse):
     #Variables Globales----------------------------------------------------
-    ttcompra     = 0
-    ttretencion  = 0
-    ttbase       = 0
-    ttiva        = 0
+    ttcompra        = 0
+    ttcompra_sdcf   = 0
+    ttretencion     = 0
+    ttbase          = 0
+    ttiva           = 0
 
     #---------------------------------------------------------------------
 
@@ -49,6 +50,7 @@ class rep_comprobante(report_sxw.rml_parse):
             'get_tipo_doc': self._get_tipo_doc,
             'get_totales': self._get_totales,
             'get_tot_gral_compra': self._get_tot_gral_compra,
+            'get_tot_gral_compra_scf': self._get_tot_gral_compra_scf,
             'get_tot_gral_base': self._get_tot_gral_base,
             'get_tot_gral_iva': self._get_tot_gral_iva,
             'get_tot_gral_retencion': self._get_tot_gral_retencion
@@ -105,23 +107,31 @@ class rep_comprobante(report_sxw.rml_parse):
         ttal = {}
 
         for rl in comp.retention_line:
-            tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
+            print 'sin credito fiscal: ',rl.invoice_id.sin_cred
+            if rl.invoice_id.sin_cred:
+                tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
+            else:
+                tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
             for txl in rl.invoice_id.tax_line:
                 tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base_ret
                 tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type],0.0) + txl.amount
                 tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type],0.0) + txl.amount_ret
 
 
-        self.ttcompra = tot_comp['s'] - tot_comp['r']
-        self.ttbase = tot_base_imp['s'] - tot_base_imp['r']
-        self.ttiva = tot_imp_iva['s'] - tot_imp_iva['r']
-        self.ttretencion = tot_iva_ret['s'] - tot_iva_ret['r']
+        self.ttcompra = tot_comp.get('s',0.0) - tot_comp.get('r',0.0)
+        self.ttcompra_sdcf = tot_comp_sdc.get('s',0.0) - tot_comp_sdc.get('r',0.0)
+        self.ttbase = tot_base_imp.get('s',0.0) - tot_base_imp.get('r',0.0)
+        self.ttiva = tot_imp_iva.get('s',0.0) - tot_imp_iva.get('r',0.0)
+        self.ttretencion = tot_iva_ret.get('s',0.0) - tot_iva_ret.get('r',0.0)
                                 
 
         return ""        
 
     def _get_tot_gral_compra(self): 
         return self.ttcompra
+
+    def _get_tot_gral_compra_scf(self): 
+        return self.ttcompra_sdcf
 
     def _get_tot_gral_base(self): 
         return self.ttbase 
