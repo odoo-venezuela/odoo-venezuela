@@ -16,11 +16,9 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <notebook>
-                    <page string="Loc. Venezuela" position="inside">
-                        <field name="ocreq"/>
-                    </page>
-                </notebook>
+                <field name="supplier" position="after">
+                    <field name="ocreq"/>
+                </field>
             </field>
         </record>
 
