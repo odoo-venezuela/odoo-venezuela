@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2009 Latinux Inc (http://www.latinux.com/) Y http://openerp.netquatro.com All Rights Reserved.
@@ -33,13 +34,13 @@
 	"author" : "Latinux & Netquatro",
 	"category" : "Generic Modules",
 	"website": "http://wiki.openerp.org.ve/",
-	"description": "
+	"description": '''
 Administración de las retenciones aplicadas al Impuesto del Valor Agregado
 Compras
 Ventas
 Verificar pestañas en Partners, Invoices y menús creados.
 
-",
+''',
 	"depends" : ["base","account","stock"],
 	"init_xml" : [],
 	"demo_xml" : [
@@ -53,6 +54,7 @@ Verificar pestañas en Partners, Invoices y menús creados.
             "partner_view.xml",
             "stock_view.xml", 
             "retention_report.xml",
+            "retention_wizard.xml",
     ],
 	"active": False,
 	"installable": True

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<wizard 
+			string="Cambiar Porcentaje Retenido" 
+			model="account.retention"
+			name="account.retention.pxtaje"
+			id="wizard_pxje_retencion" />
+
+
+
+
+	</data>
+</openerp>

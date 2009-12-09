@@ -28,7 +28,10 @@
 #
 ##############################################################################
 
+import wizard_retencion
 
-import partner
-import purchase
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
