@@ -116,7 +116,7 @@ class account_retention(osv.osv):
     }
 
     _sql_constraints = [
-      ('ret_num_uniq', 'unique (code)', 'The Code must be unique !')
+      ('ret_num_uniq', 'unique (number)', 'El numero debe ser unico !')
     ] 
 
 
@@ -351,7 +351,9 @@ class account_retention_line(osv.osv):
 
     }
 
-
+    _sql_constraints = [
+      ('ret_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
+    ] 
 
     def invoice_id_change(self, cr, uid, ids, invoice, context=None):
         if context is None:
