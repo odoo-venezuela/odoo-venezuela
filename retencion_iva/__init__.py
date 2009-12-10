@@ -34,4 +34,5 @@ import invoice
 import partner
 import stock
 import report
+import wizard
 
