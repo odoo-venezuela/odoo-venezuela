@@ -79,7 +79,7 @@
 	<record id="ve_a_cash" model="account.account.template">
 		<field name="code">1050</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart10000"/>
+		<field name="parent_id" ref="chart1000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Caja</field>
