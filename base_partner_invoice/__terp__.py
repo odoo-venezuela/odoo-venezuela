@@ -30,16 +30,14 @@
 
 {
 	"name" : "Direccion Fiscal Obligatoria",
-	"version" : "0.1",
+	"version" : "1.0",
 	"author" : "Netquatro",
-	"category" : "Generic Modules",
+	"category" : "Localisation/Venezuela",
 	"website": "http://openerp.netquatro.com/",
 	"description": "Definición obligatoria en el partner de por lo menos una direccion fiscal(tipo=invoice)",
 	"depends" : ["base", "purchase"],
 	"init_xml" : [],
-	"demo_xml" : [
-
-    ], 
+	"demo_xml" : [], 
 	"update_xml" : [
             "account_invoice_view.xml" 
     ],

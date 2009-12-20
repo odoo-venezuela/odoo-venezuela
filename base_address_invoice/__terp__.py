@@ -30,19 +30,19 @@
 
 {
 	"name" : "Direccion Fiscal Unica",
-	"version" : "0.1",
+	"version" : "1.0",
 	"author" : "Netquatro",
-	"category" : "Generic Modules",
+	"category" : "Localisation/Venezuela",
 	"website": "http://wiki.openerp.org.ve/",
-	"description": "Permite solo una direccion fiscal(una direccion de tipo invoice)",
+	"description": 
+    '''
+    Filter that only can exist ONE invoice address for partner -
+    Permite solo una direccion fiscal (una direccion de tipo invoice)
+    ''',
 	"depends" : ["base"],
 	"init_xml" : [],
-	"demo_xml" : [
-
-    ], 
-	"update_xml" : [
- 
-    ],
+	"demo_xml" : [], 
+	"update_xml" : [],
 	"active": False,
 	"installable": True
 }

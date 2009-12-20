@@ -31,8 +31,9 @@
 
 {
     'name': 'Manejo del RIF para Venezuela',
-    'version': '0.1',
-    'category': 'Generic Modules/Base',
+    'version': '1.0',
+    'author': 'Netquatro',
+    'category': 'Localisation/Venezuela',
     'description': """
     Habilita y revisa el numero de RIF en Venezuela.
     HABILITA EL CHEQUEO HEREDANDO LA FUNCION DE base_vat ORIGINAL
@@ -44,9 +45,7 @@
     VEJ123456789
     VEV111234456
     VEE112344556
-   
     """,
-    'author': 'Netquatro',
 	"website": "http://openerp.netquatro.com/",
     'depends': ['base', 'account', 'base_vat'],
     'update_xml': [],
