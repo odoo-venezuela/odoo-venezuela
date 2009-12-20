@@ -61,7 +61,7 @@
 	
 	<!-- Account Templates -->
 	<record id="chart0" model="account.account.template">
-		<field name="code">0</field>
+		<field name="code">1</field>
 		<field name="name">Account Chart</field>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
@@ -139,7 +139,7 @@
 		<field name="name">Provision Cuentas Incobrables</field>
 	</record>
 	<record id="chart1210" model="account.account.template">
-		<field name="code">1200</field>
+		<field name="code">1210</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart1200"/>
 		<field name="type">other</field>
