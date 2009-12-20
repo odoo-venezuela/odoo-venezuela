@@ -5,6 +5,9 @@
 #    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
+#    OpenERP, Open Source Management Solution	
+#    Copyright (C) 2004-2008 Netquatro, C.A. (<http://openerp.netquatro.com>). All Rights Reserved
+#    $Id$
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -22,9 +25,13 @@
 {
     "name" : "Venezuela -Chart of Account",
     "version" : "1.0",
-    "author" : "Tiny",
-    "category" : "Localisation/Account Charts",
-    "description": "This is the module to manage the accounting chart for Venezuela in Open ERP.",
+    "author" : "Tiny & Netquatro",
+    "category" : "Localisation/Venezuela",
+    "description": 
+'''
+This is the module to manage the accounting chart for Venezuela in Open ERP.
+Este módulo es para manejar un catálogo de cuentas ejemplo para Venezuela.
+''',
     "depends" : ["account", "base_vat", "account_chart"],
     "demo_xml" : [],
     "update_xml" : ['account_tax_code.xml',"account_chart.xml",

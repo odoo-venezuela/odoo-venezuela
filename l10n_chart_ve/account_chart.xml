@@ -246,16 +246,38 @@
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">Cuentas por Pagar</field>
 	</record>
-
 	<record id="chart2150" model="account.account.template">
 		<field name="code">2150</field>
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
-		<field name="name">IVA</field>
+		<field name="name">IVA 12</field>
 	</record>
-
+	<record id="chart2151" model="account.account.template">
+		<field name="code">2151</field>
+		<field name="reconcile" eval="False"/>
+		<field name="parent_id" ref="chart0"/>
+		<field name="type">other</field>
+		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
+		<field name="name">IVA 8</field>
+	</record>
+	<record id="chart2152" model="account.account.template">
+		<field name="code">2152</field>
+		<field name="reconcile" eval="False"/>
+		<field name="parent_id" ref="chart0"/>
+		<field name="type">other</field>
+		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
+		<field name="name">RETENCION IVA VENTA</field>
+	</record>	
+<record id="chart2153" model="account.account.template">
+		<field name="code">2153</field>
+		<field name="reconcile" eval="False"/>
+		<field name="parent_id" ref="chart0"/>
+		<field name="type">other</field>
+		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
+		<field name="name">RETENCION IVA COMPRA</field>
+	</record>
 	<record id="chart2600" model="account.account.template">
 		<field name="code">2600</field>
 		<field name="reconcile" eval="False"/>
@@ -271,7 +293,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
-		<field name="name">Pr�stamos Bancarios</field>
+		<field name="name">Prestamos Bancarios</field>
 	</record>
 
 	<record id="chart2680" model="account.account.template">
@@ -280,7 +302,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
-		<field name="name">Pr�stamos de Accionistas</field>
+		<field name="name">Prestamos de Accionistas</field>
 	</record>
 
 	<record id="chart2700" model="account.account.template">
@@ -361,7 +383,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_tax"/>
-		<field name="name">Utilidades Retenidas - a�os anteriores</field>
+		<field name="name">Utilidades Retenidas -  Anos anteriores</field>
 	</record>
 
 	<record id="chart3600" model="account.account.template">
@@ -406,7 +428,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_income"/>
-		<field name="name">Shipping &amp; Handling</field>
+		<field name="name">Manejo y Envio</field>
 	</record>
 
 	<record id="chart4440" model="account.account.template">
@@ -550,7 +572,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">Gastos de Representaci�n</field>
+		<field name="name">Gastos de Representacion</field>
 	</record>
 
 	<record id="chart5450" model="account.account.template">
@@ -559,7 +581,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">Instrucci�n y Mejoramiento</field>
+		<field name="name">Instruccion y Mejoramiento</field>
 	</record>
 
 	<record id="chart5510" model="account.account.template">
@@ -615,7 +637,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">Gasto de Amortizaci�n</field>
+		<field name="name">Gasto de Amortizacion</field>
 	</record>
 
 	<record id="chart5685" model="account.account.template">
@@ -642,7 +664,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">Art�culos de Oficina</field>
+		<field name="name">Articulos de Oficina</field>
 	</record>
 
 	<record id="chart5760" model="account.account.template">
@@ -660,7 +682,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">Reparaci�n y Mantenimiento</field>
+		<field name="name">Reparacion y Mantenimiento</field>
 	</record>
 
 	<record id="chart5780" model="account.account.template">
@@ -669,7 +691,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">Tel�fono</field>
+		<field name="name">Telefono</field>
 	</record>
 
 	<record id="chart5785" model="account.account.template">
@@ -705,7 +727,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
-		<field name="name">P�rdidas Paridad Cambiaria</field>
+		<field name="name">Perdidas Paridad Cambiaria</field>
 	</record>
 
 
