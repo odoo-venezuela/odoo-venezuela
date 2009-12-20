@@ -136,7 +136,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Provisi�n Cuentas Incobrables</field>
+		<field name="name">Provision Cuentas Incobrables</field>
 	</record>
 
 	<record id="chart1500" model="account.account.template">
@@ -154,7 +154,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Mercanc�a en Almac�n</field>
+		<field name="name">Mercancia en Almacen</field>
 	</record>
 
 	<record id="chart1530" model="account.account.template">
@@ -163,7 +163,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Mercanc�a en Consignaci�n</field>
+		<field name="name">Mercancia en Consignacion</field>
 	</record>
 
 	<record id="chart1800" model="account.account.template">
@@ -199,7 +199,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Veh�culo</field>
+		<field name="name">Vehiculo</field>
 	</record>
 
 	<record id="chart1845" model="account.account.template">
@@ -208,7 +208,7 @@
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Amort. Acum. -Veh�culo</field>
+		<field name="name">Amort. Acum. -Vehiculo</field>
 	</record>
 
 	<record id="chart1850" model="account.account.template">
