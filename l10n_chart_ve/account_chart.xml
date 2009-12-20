@@ -79,7 +79,7 @@
 	<record id="ve_a_cash" model="account.account.template">
 		<field name="code">1050</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="ve_a_cash"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Caja</field>
@@ -88,37 +88,37 @@
 	<record id="chart1100" model="account.account.template">
 		<field name="code">1100</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="ve_a_cash"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Banesco APD</field>
+		<field name="name">Banco Mercantil</field>
 	</record>
 
 	<record id="chart1110" model="account.account.template">
 		<field name="code">1110</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="ve_a_cash"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Provincial</field>
+		<field name="name">Banco Provincial</field>
 	</record>
 
 	<record id="chart1120" model="account.account.template">
 		<field name="code">1120</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="ve_a_cash"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Venezuela</field>
+		<field name="name">Banco de Venezuela</field>
 	</record>
 
 	<record id="chart1130" model="account.account.template">
 		<field name="code">1130</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="ve_a_cash"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
-		<field name="name">Banesco JD</field>
+		<field name="name">Banco Banesco</field>
 	</record>
 
 	<record id="chart1200" model="account.account.template">
@@ -126,17 +126,25 @@
 		<field name="reconcile" eval="False"/>
 		<field name="parent_id" ref="chart0"/>
 		<field name="type">other</field>
-		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
+		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">Cuentas por Cobrar</field>
 	</record>
 
 	<record id="chart1205" model="account.account.template">
 		<field name="code">1205</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1200"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Provision Cuentas Incobrables</field>
+	</record>
+	<record id="chart1210" model="account.account.template">
+		<field name="code">1200</field>
+		<field name="reconcile" eval="False"/>
+		<field name="parent_id" ref="chart1200"/>
+		<field name="type">other</field>
+		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
+		<field name="name">Cuentas por Cobrar</field>
 	</record>
 
 	<record id="chart1500" model="account.account.template">
@@ -241,7 +249,7 @@
 	<record id="chart2100" model="account.account.template">
 		<field name="code">2100</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">Cuentas por Pagar</field>
@@ -249,7 +257,7 @@
 	<record id="chart2150" model="account.account.template">
 		<field name="code">2150</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">IVA 12</field>
@@ -257,7 +265,7 @@
 	<record id="chart2151" model="account.account.template">
 		<field name="code">2151</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">IVA 8</field>
@@ -265,7 +273,7 @@
 	<record id="chart2152" model="account.account.template">
 		<field name="code">2152</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">RETENCION IVA VENTA</field>
@@ -273,7 +281,7 @@
 <record id="chart2153" model="account.account.template">
 		<field name="code">2153</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">RETENCION IVA COMPRA</field>
@@ -281,7 +289,7 @@
 	<record id="chart2600" model="account.account.template">
 		<field name="code">2600</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">PASIVO LARGO PLAZO</field>
@@ -290,7 +298,7 @@
 	<record id="chart2620" model="account.account.template">
 		<field name="code">2620</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">Prestamos Bancarios</field>
@@ -299,7 +307,7 @@
 	<record id="chart2680" model="account.account.template">
 		<field name="code">2680</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">Prestamos de Accionistas</field>
@@ -308,7 +316,7 @@
 	<record id="chart2700" model="account.account.template">
 		<field name="code">2700</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">APARTADOS</field>
@@ -317,7 +325,7 @@
 	<record id="chart2710" model="account.account.template">
 		<field name="code">2710</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart2000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_cash"/>
 		<field name="name">Apartados Indem. Laborales</field>
@@ -335,7 +343,7 @@
 	<record id="chart3350" model="account.account.template">
 		<field name="code">3350</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_tax"/>
 		<field name="name">Acciones Comunes</field>
@@ -344,7 +352,7 @@
 	<record id="chart3400" model="account.account.template">
 		<field name="code">3400</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">RESERVAS</field>
@@ -353,7 +361,7 @@
 	<record id="chart3410" model="account.account.template">
 		<field name="code">3410</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_tax"/>
 		<field name="name">Reserva Legal</field>
@@ -362,7 +370,7 @@
 	<record id="chart3420" model="account.account.template">
 		<field name="code">3420</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_tax"/>
 		<field name="name">Reserva Voluntaria</field>
@@ -371,7 +379,7 @@
 	<record id="chart3500" model="account.account.template">
 		<field name="code">3500</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">UTILIDADES RETENIDAS</field>
@@ -380,7 +388,7 @@
 	<record id="chart3590" model="account.account.template">
 		<field name="code">3590</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_tax"/>
 		<field name="name">Utilidades Retenidas -  Anos anteriores</field>
@@ -389,7 +397,7 @@
 	<record id="chart3600" model="account.account.template">
 		<field name="code">3600</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart3300"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_tax"/>
 		<field name="name">Ganancia del Ejercicio</field>
@@ -407,7 +415,7 @@
 	<record id="ve_a_income" model="account.account.template">
 		<field name="code">4020</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart4000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_income"/>
 		<field name="name">Ventas Autopartes</field>
@@ -416,7 +424,7 @@
 	<record id="chart4400" model="account.account.template">
 		<field name="code">4400</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart4000"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">OTROS INGRESOS</field>
@@ -425,7 +433,7 @@
 	<record id="chart4430" model="account.account.template">
 		<field name="code">4430</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart4000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_income"/>
 		<field name="name">Manejo y Envio</field>
@@ -434,7 +442,7 @@
 	<record id="chart4440" model="account.account.template">
 		<field name="code">4440</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart4000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_income"/>
 		<field name="name">Intereses</field>
@@ -443,7 +451,7 @@
 	<record id="ve_a_recv" model="account.account.template">
 		<field name="code">4450</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart4000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_income"/>
 		<field name="name">Ganancia en Paridad Cambiaria</field>
@@ -461,7 +469,7 @@
 	<record id="chart5010" model="account.account.template">
 		<field name="code">5010</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Compras</field>
@@ -470,7 +478,7 @@
 	<record id="ve_a_expense" model="account.account.template">
 		<field name="code">5020</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">COSTO DE VENTA: Autopartes</field>
@@ -479,7 +487,7 @@
 	<record id="chart5100" model="account.account.template">
 		<field name="code">5100</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Flete</field>
@@ -488,7 +496,7 @@
 	<record id="chart5400" model="account.account.template">
 		<field name="code">5400</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">GASTO DE PERSONAL</field>
@@ -497,7 +505,7 @@
 	<record id="chart5405" model="account.account.template">
 		<field name="code">5405</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Sueldos Directivo y Administradores</field>
@@ -506,7 +514,7 @@
 	<record id="chart5410" model="account.account.template">
 		<field name="code">5410</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Sueldos Empleados</field>
@@ -515,7 +523,7 @@
 	<record id="chart5415" model="account.account.template">
 		<field name="code">5415</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Comisiones Vendedores</field>
@@ -524,7 +532,7 @@
 	<record id="chart5420" model="account.account.template">
 		<field name="code">5420</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Vacaciones</field>
@@ -533,7 +541,7 @@
 	<record id="chart5425" model="account.account.template">
 		<field name="code">5425</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Bono Vacacional</field>
@@ -542,7 +550,7 @@
 	<record id="chart5430" model="account.account.template">
 		<field name="code">5430</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Utilidades</field>
@@ -551,7 +559,7 @@
 	<record id="chart5435" model="account.account.template">
 		<field name="code">5435</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Indemnizaciones</field>
@@ -560,7 +568,7 @@
 	<record id="chart5440" model="account.account.template">
 		<field name="code">5440</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Movilizaciones y Traslados</field>
@@ -569,7 +577,7 @@
 	<record id="chart5445" model="account.account.template">
 		<field name="code">5445</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Gastos de Representacion</field>
@@ -578,7 +586,7 @@
 	<record id="chart5450" model="account.account.template">
 		<field name="code">5450</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Instruccion y Mejoramiento</field>
@@ -587,7 +595,7 @@
 	<record id="chart5510" model="account.account.template">
 		<field name="code">5510</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">ISRL</field>
@@ -596,8 +604,7 @@
 	<record id="chart5530" model="account.account.template">
 		<field name="code">5530</field>
 		<field name="reconcile" eval="False"/>
-	
-		<field name="parent_id" ref="chart0"/>
+	   <field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Derecho de Frente</field>
@@ -607,7 +614,7 @@
 	<record id="chart5600" model="account.account.template">
 		<field name="code">5600</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">view</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_view"/>
 		<field name="name">GASTOS GENERALES</field>
@@ -616,7 +623,7 @@
 	<record id="chart5610" model="account.account.template">
 		<field name="code">5610</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Honorarios Profesionales</field>
@@ -625,7 +632,7 @@
 	<record id="chart5615" model="account.account.template">
 		<field name="code">5615</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Propaganda</field>
@@ -634,7 +641,7 @@
 	<record id="chart5660" model="account.account.template">
 		<field name="code">5660</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Gasto de Amortizacion</field>
@@ -643,7 +650,7 @@
 	<record id="chart5685" model="account.account.template">
 		<field name="code">5685</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Seguros</field>
@@ -652,7 +659,7 @@
 	<record id="chart5690" model="account.account.template">
 		<field name="code">5690</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Intereses y Gastos Bancarios</field>
@@ -661,7 +668,7 @@
 	<record id="chart5700" model="account.account.template">
 		<field name="code">5700</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Articulos de Oficina</field>
@@ -670,7 +677,7 @@
 	<record id="chart5760" model="account.account.template">
 		<field name="code">5760</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Alquileres</field>
@@ -679,7 +686,7 @@
 	<record id="chart5765" model="account.account.template">
 		<field name="code">5765</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Reparacion y Mantenimiento</field>
@@ -688,7 +695,7 @@
 	<record id="chart5780" model="account.account.template">
 		<field name="code">5780</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Telefono</field>
@@ -697,7 +704,7 @@
 	<record id="chart5785" model="account.account.template">
 		<field name="code">5785</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Viajes y Entretenimiento</field>
@@ -706,7 +713,7 @@
 	<record id="chart5790" model="account.account.template">
 		<field name="code">5790</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Servicios</field>
@@ -715,7 +722,7 @@
 	<record id="chart5795" model="account.account.template">
 		<field name="code">5795</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Patentes</field>
@@ -724,7 +731,7 @@
 	<record id="ve_a_pay" model="account.account.template">
 		<field name="code">5810</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart5000"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_expense"/>
 		<field name="name">Perdidas Paridad Cambiaria</field>
