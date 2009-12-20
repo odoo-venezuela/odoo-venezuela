@@ -159,7 +159,7 @@
 	<record id="chart1520" model="account.account.template">
 		<field name="code">1520</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1500"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Mercancia en Almacen</field>
@@ -168,7 +168,7 @@
 	<record id="chart1530" model="account.account.template">
 		<field name="code">1530</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1500"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Mercancia en Consignacion</field>
@@ -186,7 +186,7 @@
 	<record id="chart1820" model="account.account.template">
 		<field name="code">1820</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1800"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Mobiliario y Equipo</field>
@@ -195,7 +195,7 @@
 	<record id="chart1825" model="account.account.template">
 		<field name="code">1825</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1800"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Amort. Acum. -Inv. y Equip.</field>
@@ -204,7 +204,7 @@
 	<record id="chart1840" model="account.account.template">
 		<field name="code">1840</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1800"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Vehiculo</field>
@@ -213,7 +213,7 @@
 	<record id="chart1845" model="account.account.template">
 		<field name="code">1845</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1800"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Amort. Acum. -Vehiculo</field>
@@ -222,7 +222,7 @@
 	<record id="chart1850" model="account.account.template">
 		<field name="code">1850</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1800"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Edificio</field>
@@ -231,7 +231,7 @@
 	<record id="chart1855" model="account.account.template">
 		<field name="code">1855</field>
 		<field name="reconcile" eval="False"/>
-		<field name="parent_id" ref="chart0"/>
+		<field name="parent_id" ref="chart1800"/>
 		<field name="type">other</field>
 		<field name="user_type" ref="l10n_chart_ve.account_type_asset"/>
 		<field name="name">Amort. Acum. -Edificio</field>
