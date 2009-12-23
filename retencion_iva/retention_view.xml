@@ -102,7 +102,7 @@
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
-                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id),('journal_id','=',journal_id)]" name="account_id"/>
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
                         <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')]}"/>

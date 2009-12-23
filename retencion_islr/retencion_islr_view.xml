@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+	<!-- 
+	=====================================================
+	Linea de Retencion ISLR
+	=====================================================
+	-->  
+
+        <record id="view_retencion_islr_line_tree" model="ir.ui.view">
+            <field name="name">account.retencion.islr.line.tree</field>
+            <field name="model">account.retencion.islr.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas de Retencion ISLR" editable="bottom">
+                    <field name="name"/>
+                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_retencion_islr_line_form" model="ir.ui.view">
+            <field name="name">account.retencion.islr.line.form</field>
+            <field name="model">account.retencion.islr.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Lineas de Retencion ISLR">
+                    <notebook>
+                        <page string="Linea">
+                            <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)"/>
+                            <field colspan="4" name="name" select="1"/>
+                            <field name="amount"/>
+                            <field name="move_id"/>  
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+	<!-- 
+	=====================================================
+	Retencion ISLR
+	=====================================================
+	-->  
+
+
+        <record id="view_retencion_islr_tree" model="ir.ui.view">
+            <field name="name">account.retencion.islr.tree</field>
+            <field name="model">account.retencion.islr</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='draft'" string="Retencion ISLR">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="code"/>
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="date_ret"/>
+                    <field name="currency_id"/>
+                    <field name="period_id"/>
+                    <field name="state"/>
+                    <field name="amount"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_retencion_islr_form" model="ir.ui.view">
+            <field name="name">account.retencion.islr.form</field>
+            <field name="model">account.retencion.islr</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Retencion ISLR">
+                    <group colspan="4" col="6">
+                        <field name="journal_id" select="2"/>
+                        <field name="type" select="2"/>
+                        <field name="code" select="1"/>
+                        <field name="partner_id" />
+                        <field name="currency_id" />
+                        <field name="date_ret" />
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="name" select="2"/>
+                        <field name="period_id"/>
+                        <field name="number" select="1" />                        
+                        <field name="date" />
+                        <field name="amount" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Retencion ISLR">
+                            <field name="islr_line_ids" default_get="{'lines': islr_line_ids }" colspan="4" nolabel="1" height="275"/>
+                            <group col="4" colspan="2">
+                                <field name="state" select="2"/>
+                                
+                            </group>
+                        </page>
+                        <page string="Otra Informacion">
+                            <field name="company_id"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+    	<record model="ir.actions.act_window" id="action_account_retencion_islr">
+	    	<field name="name">Retenciones ISLR</field>
+	    	<field name="res_model">account.retencion.islr</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_account_retencion_islr_tree">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_retencion_islr_tree"/> 
+	    	<field name="act_window_id" ref="action_account_retencion_islr"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_account_retencion_islr_form">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_retencion_islr_form"/>
+	    	<field name="act_window_id" ref="action_account_retencion_islr"/>
+	    </record>
+
+	    <menuitem
+	    	id="menu_action_account_retencion_islr"
+	    	name="Retencion ISLR" 		
+	    	parent="account.menu_finance"
+	    	action="action_account_retencion_islr"/>
+
+
+
+    	<record model="ir.actions.act_window" id="action_account_retencion_islr_customer">
+	    	<field name="name">Retenciones ISLR Clientes</field>
+	    	<field name="res_model">account.retencion.islr</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">{'type':'out_invoice'}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_account_retencion_islr_customer_tree">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_retencion_islr_tree"/> 
+	    	<field name="act_window_id" ref="action_account_retencion_islr_customer"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_account_retencion_islr_customer_form">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_retencion_islr_form"/>
+	    	<field name="act_window_id" ref="action_account_retencion_islr_customer"/>
+	    </record>
+
+	    <menuitem
+	    	id="menu_action_account_retencion_islr_customer"
+	    	name="Retencion ISLR Clientes" 		
+	    	parent="menu_action_account_retencion_islr"
+	    	action="action_account_retencion_islr_customer"/>
+
+
+
+    	<record model="ir.actions.act_window" id="action_account_retencion_islr_supplier">
+	    	<field name="name">Retenciones ISLR Proveedores</field>
+	    	<field name="res_model">account.retencion.islr</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','in_invoice')]</field>
+            <field name="context">{'type':'in_invoice'}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_account_retencion_islr_supplier_tree">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_retencion_islr_tree"/> 
+	    	<field name="act_window_id" ref="action_account_retencion_islr_supplier"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_account_retencion_islr_supplier_form">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_retencion_islr_form"/>
+	    	<field name="act_window_id" ref="action_account_retencion_islr_supplier"/>
+	    </record>
+
+	    <menuitem
+	    	id="menu_action_account_retencion_islr_supplier"
+	    	name="Retencion ISLR Proveedores" 		
+	    	parent="menu_action_account_retencion_islr"
+	    	action="action_account_retencion_islr_supplier"/>
+
+    </data>
+</openerp>
