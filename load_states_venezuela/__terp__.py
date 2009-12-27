@@ -1,6 +1,6 @@
 # module_name/__terp__.py
 {
-  'name' : 'Load States Venezuela',
+  'name' : 'States Venezuela',
   'version' : '0.1',
   'author' : 'Netquatro',
   'website' : 'http://wiki.openerp.org.ve/index.php?title=Boceto_estados_municipios',
