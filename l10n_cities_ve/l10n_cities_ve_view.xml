@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+		City
+		-->
+        <record id="view_country_city_tree" model="ir.ui.view">
+            <field name="name">res.country.city.tree</field>
+            <field name="model">res.country.state.city</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="City">
+                    <field name="state_id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_country_city_form" model="ir.ui.view">
+            <field name="name">res.country.city.form</field>
+            <field name="model">res.country.state.city</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="city">
+                    <field name="state_id" select="1"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_country_city" model="ir.actions.act_window">
+            <field name="name">Cities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.state.city</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_country_city_tree"/>
+        </record>
+        
+        <menuitem action="action_country_city" id="menu_country_city_partner" parent="base.menu_localisation"/>
+<!--
+Adding fields on models
+-->
+<!--
+States Form
+-->
+    <record model="ir.ui.view" id="view_country_state_form2">
+        <field name="name">view_country_state_form2</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="city_ids" colspan="4" nolabel="1" widget="one2many_list"/>
+            </field>
+        </field>
+    </record>
+    </data>
+</openerp>
