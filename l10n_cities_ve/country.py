@@ -50,6 +50,7 @@ class CountryStateCity(osv.osv):
         return self.name_get(cr, user, ids, context)
 
     _order = 'code'
+
 CountryStateCity()
 
 class CountryState(osv.osv):
@@ -58,6 +59,5 @@ class CountryState(osv.osv):
 		'city_ids': fields.one2many('res.country.state.city', 'state_id', 'Cities'),
 	}
 
-    _order = 'code'
 CountryState()
 
