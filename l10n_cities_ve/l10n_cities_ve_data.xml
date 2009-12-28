@@ -586,6 +586,26 @@
    3. Pedernales (Pedernales)
    4. Tucupita (Tucupita) 
 -->
+        <record id="res_country_state_city_102" model="res.country.state.city">
+            <field name="name">Antonio Diaz</field>
+            <field name="code">102</field>
+            <field search="[('code','=','da')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_103" model="res.country.state.city">
+            <field name="name">Casacoima</field>
+            <field name="code">103</field>
+            <field search="[('code','=','da')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_104" model="res.country.state.city">
+            <field name="name">Pedernales</field>
+            <field name="code">104</field>
+            <field search="[('code','=','da')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_102" model="res.country.state.city">
+            <field name="name">Tucupita</field>
+            <field name="code">104</field>
+            <field search="[('code','=','da')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Falcon-->
 <!--Guarico-->
 <!--Lara-->
