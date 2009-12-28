@@ -540,44 +540,44 @@
             <field name="code">094</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_095" model="res.country.state.city">
             <field name="name">Falcon</field>
-            <field name="code">094</field>
+            <field name="code">095</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_095" model="res.country.state.city">
             <field name="name">Girardot</field>
-            <field name="code">094</field>
+            <field name="code">095</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_096" model="res.country.state.city">
             <field name="name">Lima Blanco</field>
-            <field name="code">094</field>
+            <field name="code">096</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_097" model="res.country.state.city">
             <field name="name">Pao de San Juan Bautista</field>
-            <field name="code">094</field>
+            <field name="code">097</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_098" model="res.country.state.city">
             <field name="name">Ricaurte</field>
-            <field name="code">094</field>
+            <field name="code">098</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_099" model="res.country.state.city">
             <field name="name">Romulo Gallegos</field>
-            <field name="code">094</field>
+            <field name="code">099</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_100" model="res.country.state.city">
             <field name="name">San Carlos</field>
-            <field name="code">094</field>
+            <field name="code">100</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_094" model="res.country.state.city">
+        <record id="res_country_state_city_101" model="res.country.state.city">
             <field name="name">Tinaco</field>
-            <field name="code">094</field>
+            <field name="code">101</field>
             <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
          </record>
 <!--Delta Amacuro
