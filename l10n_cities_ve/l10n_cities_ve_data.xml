@@ -1705,6 +1705,101 @@
             <field name="code">301</field>
             <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
          </record>
+        <record id="res_country_state_city_302" model="res.country.state.city">
+            <field name="name">Bocono</field>
+            <field name="code">302</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_303" model="res.country.state.city">
+            <field name="name">Bolivar</field>
+            <field name="code">303</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_304" model="res.country.state.city">
+            <field name="name">Candelaria</field>
+            <field name="code">304</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_305" model="res.country.state.city">
+            <field name="name">Carache</field>
+            <field name="code">305</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_306" model="res.country.state.city">
+            <field name="name">Escuque</field>
+            <field name="code">306</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_307" model="res.country.state.city">
+            <field name="name">Jose Felipe Marquez Canizalez</field>
+            <field name="code">307</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_308" model="res.country.state.city">
+            <field name="name">Juan Vicente Campos Elias</field>
+            <field name="code">308</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_309" model="res.country.state.city">
+            <field name="name">La Ceiba</field>
+            <field name="code">309</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_310" model="res.country.state.city">
+            <field name="name">Miranda</field>
+            <field name="code">310</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_311" model="res.country.state.city">
+            <field name="name">Monte Carmelo</field>
+            <field name="code">311</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_312" model="res.country.state.city">
+            <field name="name">Motatan</field>
+            <field name="code">312</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_313" model="res.country.state.city">
+            <field name="name">Pampan</field>
+            <field name="code">313</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_314" model="res.country.state.city">
+            <field name="name">Pampanito</field>
+            <field name="code">314</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_315" model="res.country.state.city">
+            <field name="name">Rafael Rangel</field>
+            <field name="code">315</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_316" model="res.country.state.city">
+            <field name="name">San Rafael de Carvajal</field>
+            <field name="code">316</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_317" model="res.country.state.city">
+            <field name="name">Sucre</field>
+            <field name="code">317</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_318" model="res.country.state.city">
+            <field name="name">Trujillo</field>
+            <field name="code">318</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_319" model="res.country.state.city">
+            <field name="name">Urdaneta</field>
+            <field name="code">319</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_320" model="res.country.state.city">
+            <field name="name">Valera</field>
+            <field name="code">320</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Vargas
 Vargas (La Guaira) 
 -->
@@ -1823,8 +1918,114 @@ Vargas (La Guaira)
   21. Valmore Rodríguez (Bachaquero) 
 -->
         <record id="res_country_state_city_501" model="res.country.state.city">
-            <field name="name">Aristides Bastidas </field>
+            <field name="name">Aristides Bastidas</field>
             <field name="code">501</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_502" model="res.country.state.city">
+            <field name="name">Baralt</field>
+            <field name="code">502</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_503" model="res.country.state.city">
+            <field name="name">Cabimas</field>
+            <field name="code">503</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_501" model="res.country.state.city">
+            <field name="name">Catatumbo</field>
+            <field name="code">501</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_504" model="res.country.state.city">
+            <field name="name">Colon</field>
+            <field name="code">504</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_505" model="res.country.state.city">
+            <field name="name">Francisco Javier Pulgar</field>
+            <field name="code">505</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_506" model="res.country.state.city">
+            <field name="name">Jesús Enrique Losada</field>
+            <field name="code">506</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_507" model="res.country.state.city">
+            <field name="name">Jesus Maria Semprun</field>
+            <field name="code">507</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_508" model="res.country.state.city">
+            <field name="name">La Cañada de Urdaneta</field>
+            <field name="code">508</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_509" model="res.country.state.city">
+            <field name="name">Lagunillas</field>
+            <field name="code">509</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+
+        <record id="res_country_state_city_510" model="res.country.state.city">
+            <field name="name">Machiques de Perija</field>
+            <field name="code">510</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_511" model="res.country.state.city">
+            <field name="name">Mara</field>
+            <field name="code">511</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_512" model="res.country.state.city">
+            <field name="name">Maracaibo</field>
+            <field name="code">512</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_513" model="res.country.state.city">
+            <field name="name">Miranda</field>
+            <field name="code">513</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_514" model="res.country.state.city">
+            <field name="name">Páez</field>
+            <field name="code">514</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_515" model="res.country.state.city">
+            <field name="name">Rosario de Perija</field>
+            <field name="code">515</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_516" model="res.country.state.city">
+            <field name="name">Rosario de Perija</field>
+            <field name="code">516</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_517" model="res.country.state.city">
+            <field name="name">San Francisco</field>
+            <field name="code">517</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_518" model="res.country.state.city">
+            <field name="name">Santa Rita</field>
+            <field name="code">518</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_519" model="res.country.state.city">
+            <field name="name">Simon Bolivar</field>
+            <field name="code">519</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_520" model="res.country.state.city">
+            <field name="name">Sucre</field>
+            <field name="code">520</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_521" model="res.country.state.city">
+            <field name="name">Valmore Rodriguez</field>
+            <field name="code">521</field>
             <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
          </record>
     </data>
