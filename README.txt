@@ -24,6 +24,5 @@ l10n_cities_ve
 l10n_currency_ve
 l10n_states_ve
 purchase_declaration
-README.txt
 retencion_iva
 sale_extended

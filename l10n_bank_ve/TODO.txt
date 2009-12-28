@@ -3,3 +3,4 @@
 - Buscar las Direcciones de oficinas.
 - Buscar los números de teléfono principales.
 - Agregarle ayuda al formulario bancos al objeto: res.bank cn el objeto de explicar que la direccion es la de apertura de la cuenta.
+- Formatos Para Impresión de Cheques, que se encuentre enlazado con el módulo de pago, hr_expense, account_voucher.
