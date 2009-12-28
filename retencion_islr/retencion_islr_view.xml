@@ -94,7 +94,8 @@
                             <field name="islr_line_ids" default_get="{'lines': islr_line_ids }" colspan="4" nolabel="1" height="275"/>
                             <group col="4" colspan="2">
                                 <field name="state" select="2"/>
-                                
+                                <button name="action_confirm" string="Confirmar" states="draft" type="object" icon="gtk-open"/>
+                                <button name="action_done" string="Realizar" states="confirmed" type="object"  icon="gtk-go-forward"/>
                             </group>
                         </page>
                         <page string="Otra Informacion">

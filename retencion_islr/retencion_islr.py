@@ -74,6 +74,7 @@ class account_retencion_islr(osv.osv):
             ],'Tipo', readonly=True, select=True, help="Tipo del Comprobante"),
         'state': fields.selection([
             ('draft','Draft'),
+            ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
@@ -106,6 +107,23 @@ class account_retencion_islr(osv.osv):
 
     ] 
 
+
+
+    def action_confirm(self, cr, uid, ids, context={}):
+        obj=self.pool.get('account.retencion.islr').browse(cr,uid,ids)
+        total=0
+        for i in obj[0].islr_line_ids:
+            total+=i.amount
+        self.write(cr,uid,ids,{'amount':total})
+        self.write(cr, uid, ids, {'state':'confirmed'})
+        return True
+
+    def action_done(self, cr, uid, ids, context={}):
+#        self.action_number(cr, uid, ids)
+        self.action_move_create(cr, uid, ids)
+        self.write(cr, uid, ids, {'state':'done'})
+        return True
+
     def action_move_create(self, cr, uid, ids, *args):
         inv_obj = self.pool.get('account.invoice')
         context = {}
@@ -122,8 +140,8 @@ class account_retencion_islr(osv.osv):
                 if len(period_ids):
                     period_id = period_ids[0]
 
-            if ret.retention_line:
-                for line in ret.retention_line:
+            if ret.islr_line_ids:
+                for line in ret.islr_line_ids:
                     journal_id = line.invoice_id.journal_id.id
                     writeoff_account_id = False
                     writeoff_journal_id = False
@@ -231,8 +249,8 @@ class account_retencion_islr_line(osv.osv):
         'invoice_id': fields.many2one('account.invoice', 'Factura', required=True, ondelete='set null', select=True, help="Factura a retener"),
         'amount':fields.float('Amount'),
         'move_id': fields.many2one('account.move', 'Movimiento Contable', readonly=True, help="Asiento Contable"),
-        'retencion_islr':fields.float('Retencion por 100'),
-        'monto_fijo':fields.float('Adedum'),
+#        'retencion_islr':fields.float('Retencion por 100'),
+#        'monto_fijo':fields.float('Adedum'),
 
 
     }
