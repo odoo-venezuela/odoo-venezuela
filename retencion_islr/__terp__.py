@@ -49,6 +49,7 @@ Verificar pestañas en Partners, Invoices y menús creados.
 	"update_xml" : [
 #            "retention_workflow.xml",
             "retencion_islr_view.xml",
+            "retencion_islr_sequence.xml",
 #            "account_invoice_view.xml",
 #            "account_view.xml", 
 #            "partner_view.xml",

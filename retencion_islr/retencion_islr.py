@@ -118,11 +118,30 @@ class account_retencion_islr(osv.osv):
         self.write(cr, uid, ids, {'state':'confirmed'})
         return True
 
+
+    def action_number(self, cr, uid, ids, *args):
+        obj_ret = self.browse(cr, uid, ids)[0]
+        if obj_ret.type == 'in_invoice':
+            cr.execute('SELECT id, number ' \
+                    'FROM account_retencion_islr ' \
+                    'WHERE id IN ('+','.join(map(str,ids))+')')
+
+            for (id, number) in cr.fetchall():
+                if not number:
+                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.retencion_islr.%s' % obj_ret.type)
+                cr.execute('UPDATE account_retencion_islr SET number=%s ' \
+                        'WHERE id=%s', (number, id))
+
+
+        return True
+
+
     def action_done(self, cr, uid, ids, context={}):
-#        self.action_number(cr, uid, ids)
+        self.action_number(cr, uid, ids)
         self.action_move_create(cr, uid, ids)
         self.write(cr, uid, ids, {'state':'done'})
         return True
+
 
     def action_move_create(self, cr, uid, ids, *args):
         inv_obj = self.pool.get('account.invoice')
