@@ -1699,7 +1699,12 @@
   18. Trujillo (Trujillo)
   19. Urdaneta (La Quebrada)
   20. Valera (Valera) 
--->
+-->        
+        <record id="res_country_state_city_301" model="res.country.state.city">
+            <field name="name">Andres Bello</field>
+            <field name="code">301</field>
+            <field search="[('code','=','tr')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Vargas
 Vargas (La Guaira) 
 -->
@@ -1724,6 +1729,76 @@ Vargas (La Guaira)
   13. Urachiche (Urachiche)
   14. Veroes (Farriar) 
 -->
+        <record id="res_country_state_city_401" model="res.country.state.city">
+            <field name="name">Aristides Bastidas</field>
+            <field name="code">401</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_402" model="res.country.state.city">
+            <field name="name">Bolivar</field>
+            <field name="code">402</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_403" model="res.country.state.city">
+            <field name="name">Bruzual</field>
+            <field name="code">403</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_404" model="res.country.state.city">
+            <field name="name">Cocorote</field>
+            <field name="code">404</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_405" model="res.country.state.city">
+            <field name="name">Independencia</field>
+            <field name="code">405</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_406" model="res.country.state.city">
+            <field name="name">Jose Antonio Paez</field>
+            <field name="code">406</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_407" model="res.country.state.city">
+            <field name="name">La Trinidad</field>
+            <field name="code">407</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_408" model="res.country.state.city">
+            <field name="name">Manuel Monge</field>
+            <field name="code">408</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_409" model="res.country.state.city">
+            <field name="name">Nirgua</field>
+            <field name="code">409</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_410" model="res.country.state.city">
+            <field name="name">Pena</field>
+            <field name="code">410</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_411" model="res.country.state.city">
+            <field name="name">San Felipe</field>
+            <field name="code">411</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_412" model="res.country.state.city">
+            <field name="name">Sucre</field>
+            <field name="code">412</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_413" model="res.country.state.city">
+            <field name="name">Urachiche</field>
+            <field name="code">413</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_414" model="res.country.state.city">
+            <field name="name">Veroes</field>
+            <field name="code">414</field>
+            <field search="[('code','=','ya')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Zulia
    1. Almirante Padilla (El Toro)
    2. Baralt (San Timoteo)
@@ -1747,6 +1822,11 @@ Vargas (La Guaira)
   20. Sucre (Bobures)
   21. Valmore Rodríguez (Bachaquero) 
 -->
+        <record id="res_country_state_city_501" model="res.country.state.city">
+            <field name="name">Aristides Bastidas </field>
+            <field name="code">501</field>
+            <field search="[('code','=','zu')]" model='res.country.state' name='state_id'/> 
+         </record>
     </data>
 </openerp>
 
