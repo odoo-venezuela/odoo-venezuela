@@ -776,6 +776,81 @@
   14. San José de Guaribe (San José de Guaribe)
   15. Santa María de Ipire (Santa María de Ipire) 
 -->
+        <record id="res_country_state_city_131" model="res.country.state.city">
+            <field name="name">Camaguan</field>
+            <field name="code">131</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_132" model="res.country.state.city">
+            <field name="name">Chaguaramas</field>
+            <field name="code">132</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_133" model="res.country.state.city">
+            <field name="name">El Socorro</field>
+            <field name="code">133</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_134" model="res.country.state.city">
+            <field name="name">Sebastian Francisco de Miranda</field>
+            <field name="code">134</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_135" model="res.country.state.city">
+            <field name="name">Jose Felix Ribas</field>
+            <field name="code">135</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_136" model="res.country.state.city">
+            <field name="name">Jose Tadeo Monagas</field>
+            <field name="code">136</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_137" model="res.country.state.city">
+            <field name="name">Juan German Roscio</field>
+            <field name="code">137</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_138" model="res.country.state.city">
+            <field name="name">Julian Mellado</field>
+            <field name="code">138</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_139" model="res.country.state.city">
+            <field name="name">Las Mercedes</field>
+            <field name="code">139</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_140" model="res.country.state.city">
+            <field name="name">Leonardo Infante</field>
+            <field name="code">140</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_141" model="res.country.state.city">
+            <field name="name">Pedro Zaraza</field>
+            <field name="code">141</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_142" model="res.country.state.city">
+            <field name="name">Ortiz</field>
+            <field name="code">142</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_143" model="res.country.state.city">
+            <field name="name">San Geronimo de Guayabal</field>
+            <field name="code">143</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_144" model="res.country.state.city">
+            <field name="name">San Jose de Guaribe</field>
+            <field name="code">144</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_145" model="res.country.state.city">
+            <field name="name">Santa Maria de Ipire</field>
+            <field name="code">145</field>
+            <field search="[('code','=','gu')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Lara
    1. Andrés Eloy Blanco (Sanare)
    2. Crespo (Duaca)
