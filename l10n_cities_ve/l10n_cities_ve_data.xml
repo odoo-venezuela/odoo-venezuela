@@ -862,6 +862,51 @@
    8. Torres (Carora)
    9. Urdaneta (Siquisique) 
 -->
+        <record id="res_country_state_city_146" model="res.country.state.city">
+            <field name="name">Andres Eloy Blanco</field>
+            <field name="code">146</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_147" model="res.country.state.city">
+            <field name="name">Crespo</field>
+            <field name="code">147</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_148" model="res.country.state.city">
+            <field name="name">Iribarren</field>
+            <field name="code">148</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_149" model="res.country.state.city">
+            <field name="name">Jimenez</field>
+            <field name="code">149</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_150'" model="res.country.state.city">
+            <field name="name">Moran </field>
+            <field name="code">150</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_151" model="res.country.state.city">
+            <field name="name">Palavecino</field>
+            <field name="code">151</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_152" model="res.country.state.city">
+            <field name="name">Simon Planas</field>
+            <field name="code">152</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_153" model="res.country.state.city">
+            <field name="name">Torres</field>
+            <field name="code">153</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_154" model="res.country.state.city">
+            <field name="name">Urdaneta</field>
+            <field name="code">154</field>
+            <field search="[('code','=','la')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Merida
    1. Alberto Adriani (El Vigía)
    2. Andrés Bello (La Azulita)
