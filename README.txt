@@ -21,6 +21,7 @@ hr_salesman_commission
 l10n_bank_ve
 l10n_chart_ve
 l10n_cities_ve
+l10n_currency_ve
 l10n_states_ve
 purchase_declaration
 README.txt

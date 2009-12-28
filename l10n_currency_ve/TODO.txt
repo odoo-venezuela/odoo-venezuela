@@ -1,0 +1,3 @@
+- Corregir los factores de cambio de las monedas.
+- Establecer Bs. por defecto y moneda 1=1.
+
