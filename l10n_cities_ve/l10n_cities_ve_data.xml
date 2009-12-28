@@ -601,25 +601,396 @@
             <field name="code">104</field>
             <field search="[('code','=','da')]" model='res.country.state' name='state_id'/> 
          </record>
-        <record id="res_country_state_city_102" model="res.country.state.city">
+        <record id="res_country_state_city_105" model="res.country.state.city">
             <field name="name">Tucupita</field>
-            <field name="code">104</field>
+            <field name="code">105</field>
             <field search="[('code','=','da')]" model='res.country.state' name='state_id'/> 
          </record>
-<!--Falcon-->
-<!--Guarico-->
-<!--Lara-->
-<!--Merida-->
-<!--Miranda-->
-<!--Monagas-->
-<!--Nueva Esparta-->
-<!--Portuguesa-->
-<!--Sucre-->
-<!--Tachira-->
-<!--Trujillo-->
-<!--Vargas-->
-<!--Yaracuy-->
-<!--Zulia-->
+<!--Falcon
+   1. Acosta (San Juan de los Cayos)
+   2. Bolívar (San Luis)
+   3. Buchivacoa (Capatárida)
+   4. Cacique Manaure (Yaracal)
+   5. Carirubana (Punto Fijo)
+   6. Colina (La Vela de Coro)
+   7. Dabajuro (Dabajuro)
+   8. Democracia (Pedregal)
+   9. Falcón (Pueblo Nuevo)
+  10. Federación (Churuguara)
+  11. Jacura (Jacura)
+  12. Los Taques (Santa Cruz de Los Taques)
+  13. Mauroa (Mene de Mauroa)
+  14. Miranda (Santa Ana de Coro)
+  15. Monseñor Iturriza (Chichiriviche)
+  16. Palmasola (Palmasola)
+  17. Petit (Cabure)
+  18. Píritu (Píritu)
+  19. San Francisco (Mirimire)
+  20. Silva (Tucacas)
+  21. Sucre (La Cruz de Taratara)
+  22. Tocópero (Tocópero)
+  23. Unión (Santa Cruz de Bucaral)
+  24. Urumaco (Urumaco)
+  25. Zamora (Puerto Cumarebo) 
+-->
+        <record id="res_country_state_city_106" model="res.country.state.city">
+            <field name="name">Acosta</field>
+            <field name="code">106</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_107" model="res.country.state.city">
+            <field name="name">Bolivar</field>
+            <field name="code">107</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_108" model="res.country.state.city">
+            <field name="name">Buchivacoa</field>
+            <field name="code">108</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_109" model="res.country.state.city">
+            <field name="name">Cacique Manaure</field>
+            <field name="code">109</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_110" model="res.country.state.city">
+            <field name="name">Carirubana</field>
+            <field name="code">110</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_111" model="res.country.state.city">
+            <field name="name">Colina</field>
+            <field name="code">111</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_112" model="res.country.state.city">
+            <field name="name">Dabajuro</field>
+            <field name="code">112</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_113" model="res.country.state.city">
+            <field name="name">Democracia</field>
+            <field name="code">113</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_114" model="res.country.state.city">
+            <field name="name">Falcon</field>
+            <field name="code">114</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_115" model="res.country.state.city">
+            <field name="name">Federacion</field>
+            <field name="code">115</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_116" model="res.country.state.city">
+            <field name="name">Jacura</field>
+            <field name="code">116</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_117" model="res.country.state.city">
+            <field name="name">Los Taques</field>
+            <field name="code">117</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_118" model="res.country.state.city">
+            <field name="name">Mauroa</field>
+            <field name="code">118</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_119" model="res.country.state.city">
+            <field name="name">Miranda</field>
+            <field name="code">119</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_120" model="res.country.state.city">
+            <field name="name">Monsenor Iturriza</field>
+            <field name="code">120</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_121" model="res.country.state.city">
+            <field name="name">Palmasola</field>
+            <field name="code">121</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_122" model="res.country.state.city">
+            <field name="name">Petit</field>
+            <field name="code">122</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_123" model="res.country.state.city">
+            <field name="name">Piritu</field>
+            <field name="code">123</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_124" model="res.country.state.city">
+            <field name="name">San Francisco</field>
+            <field name="code">124</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_125" model="res.country.state.city">
+            <field name="name">Silva</field>
+            <field name="code">125</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_126" model="res.country.state.city">
+            <field name="name">Sucre</field>
+            <field name="code">126</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_127" model="res.country.state.city">
+            <field name="name">Tocopero</field>
+            <field name="code">127</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_128" model="res.country.state.city">
+            <field name="name">Union</field>
+            <field name="code">128</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_129" model="res.country.state.city">
+            <field name="name">Urumaco</field>
+            <field name="code">129</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_130" model="res.country.state.city">
+            <field name="name">Zamora</field>
+            <field name="code">130</field>
+            <field search="[('code','=','fa')]" model='res.country.state' name='state_id'/> 
+         </record>
+
+<!--Guarico
+   1. Camaguán (Camaguán).
+   2. Chaguaramas (Chaguaramas)
+   3. El Socorro (El Socorro)
+   4. Sebastian Francisco de Miranda (Calabozo)
+   5. José Félix Ribas (Tucupido)
+   6. José Tadeo Monagas (Altagracia de Orituco).
+   7. Juan Germán Roscio (San Juan de Los Morros)
+   8. Julián Mellado (El Sombrero)
+   9. Las Mercedes (Las Mercedes)
+  10. Leonardo Infante (Valle de La Pascua)
+  11. Pedro Zaraza (Zaraza).
+  12. Ortiz (Ortiz)
+  13. San Gerónimo de Guayabal (Guayabal)
+  14. San José de Guaribe (San José de Guaribe)
+  15. Santa María de Ipire (Santa María de Ipire) 
+-->
+<!--Lara
+   1. Andrés Eloy Blanco (Sanare)
+   2. Crespo (Duaca)
+   3. Iribarren (Barquisimeto)
+   4. Jiménez (Quibor)
+   5. Morán (El Tocuyo)
+   6. Palavecino (Cabudare)
+   7. Simón Planas (Sarare)
+   8. Torres (Carora)
+   9. Urdaneta (Siquisique) 
+-->
+<!--Merida
+   1. Alberto Adriani (El Vigía)
+   2. Andrés Bello (La Azulita)
+   3. Antonio Pinto Salinas (Santa Cruz de Mora)
+   4. Aricagua (Aricagua)
+   5. Arzobispo Chacón (Canaguá)
+   6. Campo Elías (Ejido)
+   7. Caracciolo Parra Olmedo (Tucaní)
+   8. Cardenal Quintero (Santo Domingo)
+   9. Guaraque (Guaraque)
+  10. Julio César Salas (Arapuey)
+  11. Justo Briceño (Torondoy)
+  12. Libertador (Mérida)
+  13. Miranda (Timotes)
+  14. Obispo Ramos de Lora (Santa Elena de Arenales)
+  15. Padre Noguera (Santa María de Caparo)
+  16. Pueblo Llano (Pueblo Llano)
+  17. Rangel (Mucuchíes)
+  18. Rivas Dávila (Bailadores)
+  19. Santos Marquina (Tabay)
+  20. Sucre (Lagunillas)
+  21. Tovar (Tovar)
+  22. Tulio Febres Cordero (Nueva Bolivia)
+  23. Zea (Zea) 
+-->
+<!--Miranda
+   1. Acevedo (Caucagua)
+   2. Andrés Bello (San José de Barlovento)
+   3. Baruta (Baruta)
+   4. Brión (Higuerote)
+   5. Buroz (Mamporal)
+   6. Carrizal (Carrizal)
+   7. Chacao (Chacao)
+   8. Cristóbal Rojas (Charallave)
+   9. El Hatillo (Santa Rosalía de Palermo)
+  10. Guaicaipuro (Los Teques)
+  11. Independencia (Santa Teresa del Tuy)
+  12. Lander (Ocumare del Tuy)
+  13. Los Salias (San Antonio de los Altos)
+  14. Páez (Río Chico)
+  15. Paz Castillo (Santa Lucía)
+  16. Pedro Gual (Cúpira)
+  17. Plaza (Guarenas)
+  18. Simón Bolívar (San Francisco de Yare)
+  19. Sucre (Petare)
+  20. Urdaneta (Cúa)
+  21. Zamora (Guatire) 
+-->
+<!--Monagas
+   1. Acosta (San Antonio de Capayacuar)
+   2. Aguasay (Aguasay)
+   3. Bolívar (Caripito)
+   4. Caripe (Caripe)
+   5. Cedeño (Caicara)
+   6. Ezequiel Zamora (Punta de Mata)
+   7. Libertador (Temblador)
+   8. Maturín (Maturín)
+   9. Piar (Aragua de Maturín)
+  10. Punceres (Quiriquire)
+  11. Santa Bárbara (Santa Bárbara)
+  12. Sotillo (Barrancas del Orinco)
+  13. Uracoa (Uracoa) 
+-->
+<!--Nueva Esparta
+   1.  Antolín del Campo (La Plaza de Paraguachí)
+   2. Arismendi (La Asunción)
+   3. Díaz (San Juan Bautista)
+   4. García (El Valle del Espíritu Santo)
+   5. Gómez (Santa Ana)
+   6. Maneiro (Pampatar)
+   7. Marcano (Juan Griego)
+   8. Mariño (Porlamar)
+   9. Península de Macanao (Boca de Río)
+  10. Tubores (Punta de Piedras)
+  11. Villalba (San Pedro de Coche) 
+-->
+<!--Portuguesa
+   1. Agua Blanca (Agua Blanca)
+   2. Araure (Araure)
+   3. Esteller (Píritu)
+   4. Guanare (Guanare)
+   5. Guanarito (Guanarito)
+   6. Monseñor José Vicente de Unda (Chabasquén de Unda)
+   7. Ospino (Ospino)
+   8. Páez (Acarigua)
+   9. Papelón (Papelón)
+  10. San Genaro de Boconoíto (Boconoíto)
+  11. San Rafael de Onoto (San Rafael de Onoto)
+  12. Santa Rosalía (El Playón)
+  13. Sucre (Biscucuy)
+  14. Turén (Villa Bruzual) 
+-->
+<!--Sucre
+   1. Andrés Eloy Blanco (Casanay)
+   2. Andrés Mata (San José de Aerocuar)
+   3. Arismendi (Río Caribe)
+   4. Benítez (El Pilar)
+   5. Bermúdez (Carúpano)
+   6. Bolívar (Marigüitar)
+   7. Cajigal (Yaguaraparo)
+   8. Cruz Salmerón Acosta (Araya)
+   9. Libertador (Tunapuy)
+  10. Mariño (Irapa)
+  11. Mejía (San Antonio del Golfo)
+  12. Montes (Cumanacoa)
+  13. Ribero (Cariaco)
+  14. Sucre (Cumaná)
+  15. Valdez (Güiria) 
+-->
+<!--Tachira
+   1. Andrés Bello (Cordero)
+   2. Antonio Rómulo Costa (Las Mesas)
+   3. Ayacucho (Colón)
+   4. Bolívar (San Antonio del Táchira)
+   5. Cárdenas (Táriba)
+   6. Córdoba (Santa Ana de Táchira)
+   7. Fernández Feo (San Rafael del Piñal)
+   8. Francisco de Miranda (San José de Bolívar)
+   9. García de Hevia (La Fría)
+  10. Guásimos (Palmira)
+  11. Independencia (Capacho Nuevo)
+  12. Jáuregui (La Grita)
+  13. José María Vargas (El Cobre)
+  14. Junín (Rubio)
+  15. Libertad (Capacho Viejo)
+  16. Libertador (Abejales)
+  17. Lobatera (Lobatera)
+  18. Michelena (Michelena)
+  19. Panamericano (Coloncito)
+  20. Pedro María Ureña (Ureña)
+  21. Rafael Urdaneta (Delicias)
+  22. Samuel Darío Maldonado (La Tendida)
+  23. San Cristóbal (San Cristóbal)
+  24. Seboruco (Seboruco)
+  25. Simón Rodríguez (San Simón)
+  26. Sucre (Queniquea)
+  27. Torbes (San Josecito)
+  28. Uribante (Pregonero)
+  29. San Judas Tadeo (Umuquena) 
+-->
+<!--Trujillo
+   1. Andrés Bello (Santa Isabel)
+   2. Boconó (Boconó)
+   3. Bolívar (Sabana Grande)
+   4. Candelaria (Chejendé)
+   5. Carache (Carache)
+   6. Escuque (Escuque)
+   7. José Felipe Márquez Cañizalez (El Paradero)
+   8. Juan Vicente Campos Elías (Campo Elías)
+   9. La Ceiba (Santa Apolonia)
+  10. Miranda (El Dividive)
+  11. Monte Carmelo (Monte Carmelo)
+  12. Motatán (Motatán)
+  13. Pampán (Pampán)
+  14. Pampanito (Pampanito)
+  15. Rafael Rangel (Betijoque)
+  16. San Rafael de Carvajal (Carvajal)
+  17. Sucre (Sabana de Mendoza)
+  18. Trujillo (Trujillo)
+  19. Urdaneta (La Quebrada)
+  20. Valera (Valera) 
+-->
+<!--Vargas
+Vargas (La Guaira) 
+-->
+<!--Yaracuy
+   1. Arístides Bastidas (San Pablo)
+   2. Bolívar (Aroa)
+   3. Bruzual (Chivacoa)
+   4. Cocorote (Cocorote)
+   5. Independencia (Independencia)
+   6. José Antonio Páez (Sabana de Parra)
+   7. La Trinidad (Boraure)
+   8. Manuel Monge (Yumare)
+   9. Nirgua (Nirgua)
+  10. Peña (Yaritagua)
+  11. San Felipe (San Felipe)
+  12. Sucre (Guama)
+  13. Urachiche (Urachiche)
+  14. Veroes (Farriar) 
+-->
+<!--Zulia
+   1. Almirante Padilla (El Toro)
+   2. Baralt (San Timoteo)
+   3. Cabimas (Cabimas)
+   4. Catatumbo (Encontrados)
+   5. Colón (San Carlos del Zulia)
+   6. Francisco Javier Pulgar (Pueblo Nuevo-El Chivo)
+   7. Jesús Enrique Losada (La Concepción)
+   8. Jesús María Semprún (Casigua El Cubo)
+   9. La Cañada de Urdaneta (Concepción)
+  10. Lagunillas (Ciudad Ojeda)
+  11. Machiques de Perijá (Machiques)
+  12. Mara (San Rafael del Moján)
+  13. Maracaibo (Maracaibo)
+  14. Miranda (Los Puertos de Altagracia)
+  15. Páez (Sinamaica)
+  16. Rosario de Perijá (La Villa del Rosario)
+  17. San Francisco (San Francisco)
+  18. Santa Rita (Santa Rita)
+  19. Simón Bolívar (Tía Juana)
+  20. Sucre (Bobures)
+  21. Valmore Rodríguez (Bachaquero) 
+-->
     </data>
 </openerp>
 
