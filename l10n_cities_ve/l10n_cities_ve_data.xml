@@ -454,6 +454,76 @@
   13. San Joaquín (San Joaquín)
   14. Valencia (Valencia) 
 -->
+        <record id="res_country_state_city_080" model="res.country.state.city">
+            <field name="name">Bejuma</field>
+            <field name="code">080</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_081" model="res.country.state.city">
+            <field name="name">Carlos Arvelo</field>
+            <field name="code">081</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_082" model="res.country.state.city">
+            <field name="name">Guacara</field>
+            <field name="code">082</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_083" model="res.country.state.city">
+            <field name="name">Bejuma</field>
+            <field name="code">083</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_084" model="res.country.state.city">
+            <field name="name">Juan Jose Mora</field>
+            <field name="code">084</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_085" model="res.country.state.city">
+            <field name="name">Libertador</field>
+            <field name="code">085</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_086" model="res.country.state.city">
+            <field name="name">Los Guayos</field>
+            <field name="code">086</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_087" model="res.country.state.city">
+            <field name="name">Libertador</field>
+            <field name="code">087</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_088" model="res.country.state.city">
+            <field name="name">Miranda</field>
+            <field name="code">088</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_089" model="res.country.state.city">
+            <field name="name">Montalban</field>
+            <field name="code">089</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_090" model="res.country.state.city">
+            <field name="name">Puerto Cabello</field>
+            <field name="code">090</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_091" model="res.country.state.city">
+            <field name="name">San Diego</field>
+            <field name="code">091</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_092" model="res.country.state.city">
+            <field name="name">San Joaquín</field>
+            <field name="code">092</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_093" model="res.country.state.city">
+            <field name="name">Valencia</field>
+            <field name="code">093</field>
+            <field search="[('code','=','ca')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Cojedes
    1. Anzoátegui (Cojedes)
    2. Falcón (Tinaquillo)
@@ -465,6 +535,51 @@
    8. San Carlos (San Carlos)
    9. Tinaco (Tinaco) 
 -->
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Anzoategui</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Falcon</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Girardot</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Lima Blanco</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Pao de San Juan Bautista</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Ricaurte</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Romulo Gallegos</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">San Carlos</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_094" model="res.country.state.city">
+            <field name="name">Tinaco</field>
+            <field name="code">094</field>
+            <field search="[('code','=','co')]" model='res.country.state' name='state_id'/> 
+         </record>
 <!--Delta Amacuro
    1. Antonio Díaz (Curiapo)
    2. Casacoima (Sierra Imataca)
