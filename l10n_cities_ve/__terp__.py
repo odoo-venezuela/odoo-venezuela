@@ -13,7 +13,7 @@ Este Módulo solo carga las Ciudades de venezuela en la base de datos llenando e
   'depends' : ['base','l10n_states_ve'],
   'init_xml' : [],
   'demo_xml' : [],
-  'update_xml' : ['l10n_cities_ve_view.xml'],
+  'update_xml' : ['l10n_cities_ve_view.xml', 'l10n_cities_ve_data.xml'],
   'installable' : True,
   'active' : False,
 }

@@ -53,11 +53,12 @@ class CountryStateCity(osv.osv):
 
 CountryStateCity()
 
-class CountryState(osv.osv):
+class CountryStateCity(osv.osv):
 	_inherit = 'res.country.state'
 	_columns = {
 		'city_ids': fields.one2many('res.country.state.city', 'state_id', 'Cities'),
 	}
 
-CountryState()
+CountryStateCity()
+
 

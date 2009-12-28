@@ -1,126 +1,490 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
-        <record id="res_country_state_dc" model="res.country.state">
-            <field name="name">Distrito Capital</field>
-            <field name="code">dc</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
+<!--Distrito Capital-->
+        <record id="res_country_state_city_001" model="res.country.state.city">
+            <field name="name">Libertador</field>
+            <field name="code">001</field>
+            <field search="[('code','=','dc')]" model='res.country.state' name='state_id'/> 
         </record>
-        <record id="res_country_state_am" model="res.country.state">
-            <field name="name">Amazonas</field>
-            <field name="code">am</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
+<!--Amazonas-->
+        <record id="res_country_state_city_002" model="res.country.state.city">
+            <field name="name">Alto Orinoco</field>
+            <field name="code">002</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
         </record>
-        <record id="res_country_state_an" model="res.country.state">
-            <field name="name">Anzoategui</field>
-            <field name="code">an</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
+        <record id="res_country_state_city_003" model="res.country.state.city">
+            <field name="name">Atabapo</field>
+            <field name="code">003</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
         </record>
-        <record id="res_country_state_ap" model="res.country.state">
-            <field name="name">Apure</field>
-            <field name="code">ap</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
+        <record id="res_country_state_city_004" model="res.country.state.city">
+            <field name="name">Atures</field>
+            <field name="code">004</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
         </record>
-        <record id="res_country_state_ar" model="res.country.state">
+        <record id="res_country_state_city_005" model="res.country.state.city">
+            <field name="name">Autana</field>
+            <field name="code">005</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
+        </record>
+        <record id="res_country_state_city_006" model="res.country.state.city">
+            <field name="name">Manapiare</field>
+            <field name="code">006</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
+        </record>
+        <record id="res_country_state_city_007" model="res.country.state.city">
+            <field name="name">Maroa</field>
+            <field name="code">007</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
+        </record>
+        <record id="res_country_state_city_008" model="res.country.state.city">
+            <field name="name">Rio Negro</field>
+            <field name="code">008</field>
+            <field search="[('code','=','am')]" model='res.country.state' name='state_id'/> 
+        </record>
+<!--Anzoategui-->
+        <record id="res_country_state_city_009" model="res.country.state.city">
+            <field name="name">Anaco</field>
+            <field name="code">009</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_010" model="res.country.state.city">
             <field name="name">Aragua</field>
-            <field name="code">ar</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_ba" model="res.country.state">
-            <field name="name">Barinas</field>
-            <field name="code">ba</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_bo" model="res.country.state">
+            <field name="code">010</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_011" model="res.country.state.city">
             <field name="name">Bolivar</field>
-            <field name="code">bo</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_ca" model="res.country.state">
-            <field name="name">Carabobo</field>
-            <field name="code">ca</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_co" model="res.country.state">
-            <field name="name">Cojedes</field>
-            <field name="code">co</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_da" model="res.country.state">
-            <field name="name">Delta Amacuro</field>
-            <field name="code">da</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_fa" model="res.country.state">
-            <field name="name">Falcon</field>
-            <field name="code">fa</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_gu" model="res.country.state">
-            <field name="name">Guarico</field>
-            <field name="code">gu</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_la" model="res.country.state">
-            <field name="name">Lara</field>
-            <field name="code">la</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_me" model="res.country.state">
-            <field name="name">Merida</field>
-            <field name="code">me</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_mi" model="res.country.state">
+            <field name="code">011</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_012" model="res.country.state.city">
+            <field name="name">Bruzual</field>
+            <field name="code">012</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_013" model="res.country.state.city">
+            <field name="name">Cajigal</field>
+            <field name="code">013</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_014" model="res.country.state.city">
+            <field name="name">Carvajal</field>
+            <field name="code">014</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_015" model="res.country.state.city">
+            <field name="name">Diego Bautista Urbaneja</field>
+            <field name="code">015</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_016" model="res.country.state.city">
+            <field name="name">Freites</field>
+            <field name="code">016</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_017" model="res.country.state.city">
+            <field name="name">Guanipa</field>
+            <field name="code">017</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_018" model="res.country.state.city">
+            <field name="name">Guanta</field>
+            <field name="code">018</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_019" model="res.country.state.city">
+            <field name="name">Independencia</field>
+            <field name="code">019</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_030" model="res.country.state.city">
+            <field name="name">Libertad</field>
+            <field name="code">030</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_021" model="res.country.state.city">
+            <field name="name">McGregor</field>
+            <field name="code">021</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_022" model="res.country.state.city">
             <field name="name">Miranda</field>
-            <field name="code">mi</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_mo" model="res.country.state">
+            <field name="code">022</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_023" model="res.country.state.city">
             <field name="name">Monagas</field>
-            <field name="code">mo</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_ne" model="res.country.state">
-            <field name="name">Nueva Esparta</field>
-            <field name="code">ne</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_po" model="res.country.state">
-            <field name="name">Portuguesa</field>
-            <field name="code">po</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_su" model="res.country.state">
+            <field name="code">023</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_024" model="res.country.state.city">
+            <field name="name">Penalver</field>
+            <field name="code">024</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_025" model="res.country.state.city">
+            <field name="name">Piritu</field>
+            <field name="code">025</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_026" model="res.country.state.city">
+            <field name="name">San Juan de Capistrano</field>
+            <field name="code">026</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_027" model="res.country.state.city">
+            <field name="name">Santa Ana</field>
+            <field name="code">027</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_028" model="res.country.state.city">
+            <field name="name">Simon Rodriguez</field>
+            <field name="code">028</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_029" model="res.country.state.city">
+            <field name="name">Sotillo</field>
+            <field name="code">029</field>
+            <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
+         </record>
+<!--Apure-->
+        <record id="res_country_state_city_031" model="res.country.state.city">
+            <field name="name">Achaguas</field>
+            <field name="code">031</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_032" model="res.country.state.city">
+            <field name="name">Biruaca</field>
+            <field name="code">032</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_033" model="res.country.state.city">
+            <field name="name">Munoz</field>
+            <field name="code">033</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_034" model="res.country.state.city">
+            <field name="name">Paez</field>
+            <field name="code">034</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_035" model="res.country.state.city">
+            <field name="name">Pedro Camejo</field>
+            <field name="code">035</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_036" model="res.country.state.city">
+            <field name="name">Romulo Gallegos</field>
+            <field name="code">036</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_037" model="res.country.state.city">
+            <field name="name">San Fernando</field>
+            <field name="code">037</field>
+            <field search="[('code','=','ap')]" model='res.country.state' name='state_id'/> 
+         </record>
+<!--Aragua
+   1. Bolívar (San Mateo)
+   2. Camatagua (Camatagua)
+   3. Francisco Linares Alcántara (Santa Rita)
+   4. Girardot (Maracay)
+   5. José Angel Lamas (Santa Cruz de Aragua)
+   6. José Félix Ribas (La Victoria)
+   7. José Rafael Revenga (El Consejo)
+   8. Libertador (Palo Negro)
+   9. Mario Briceño Iragorry (El Limón)
+  10. Ocumare de la Costa de Oro (Ocumare de la Costa)
+  11. San Casimiro (San Casimiro)
+  12. San Sebastián (San Sebastián de Los Reyes (Venezuela))
+  13. Santiago Mariño (Turmero)
+  14. Santos Michelena (Las Tejerías)
+  15. Sucre (Cagua)
+  16. Tovar (Colonia Tovar)
+  17. Urdaneta (Barbacoas)
+  18. Zamora (Villa de Cura) 
+-->
+        <record id="res_country_state_city_038" model="res.country.state.city">
+            <field name="name">Bolivar</field>
+            <field name="code">038</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_039" model="res.country.state.city">
+            <field name="name">Camatagua</field>
+            <field name="code">039</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_040" model="res.country.state.city">
+            <field name="name">Francisco Linares Alcantara</field>
+            <field name="code">040</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_041" model="res.country.state.city">
+            <field name="name">Girardot</field>
+            <field name="code">041</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_042" model="res.country.state.city">
+            <field name="name">Jose Angel Lamas</field>
+            <field name="code">042</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_043" model="res.country.state.city">
+            <field name="name">Jose Felix Ribas </field>
+            <field name="code">043</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_044" model="res.country.state.city">
+            <field name="name">José Rafael Revenga </field>
+            <field name="code">044</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_045" model="res.country.state.city">
+            <field name="name">Libertador</field>
+            <field name="code">046</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_047" model="res.country.state.city">
+            <field name="name">Mario Briceno Iragorry </field>
+            <field name="code">047</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_048" model="res.country.state.city">
+            <field name="name">Ocumare de la Costa de Oro</field>
+            <field name="code">048</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_049" model="res.country.state.city">
+            <field name="name">San Casimiro</field>
+            <field name="code">049</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_050" model="res.country.state.city">
+            <field name="name">San Sebastian</field>
+            <field name="code">050</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_051" model="res.country.state.city">
+            <field name="name">Santiago Marino</field>
+            <field name="code">051</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_052" model="res.country.state.city">
+            <field name="name">Santos Michelena</field>
+            <field name="code">052</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_053" model="res.country.state.city">
             <field name="name">Sucre</field>
-            <field name="code">su</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_ta" model="res.country.state">
-            <field name="name">Tachira</field>
-            <field name="code">ta</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_tr" model="res.country.state">
-            <field name="name">Trujillo</field>
-            <field name="code">tr</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_va" model="res.country.state">
-            <field name="name">Vargas</field>
-            <field name="code">va</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_ya" model="res.country.state">
-            <field name="name">Yaracuy</field>
-            <field name="code">ya</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
-        <record id="res_country_state_zu" model="res.country.state">
-            <field name="name">Zulia</field>
-            <field name="code">zu</field>
-            <field search="[('code','=','VE')]" model='res.country' name='country_id'/> 
-        </record>
+            <field name="code">053</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_054" model="res.country.state.city">
+            <field name="name">Tovar</field>
+            <field name="code">054</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_055" model="res.country.state.city">
+            <field name="name">Urdaneta</field>
+            <field name="code">055</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_056" model="res.country.state.city">
+            <field name="name">Zamora</field>
+            <field name="code">056</field>
+            <field search="[('code','=','ar')]" model='res.country.state' name='state_id'/> 
+         </record>
+<!--Barinas
+   1. Alberto Arvelo Torrealba (Sabaneta)
+   2. Andrés Eloy Blanco (El Cantón)
+   3. Antonio José de Sucre (Socopó)
+   4. Arismendi (Arismendi)
+   5. Barinas (Barinas)
+   6. Bolívar (Barinitas)
+   7. Cruz Paredes (Barrancas)
+   8. Ezequiel Zamora (Santa Bárbara)
+   9. Obispos (Obispos)
+  10. Pedraza (Ciudad Bolivia)
+  11. Rojas (Libertad)
+  12. Sosa (Ciudad de Nutrias) 
+-->
+        <record id="res_country_state_city_057" model="res.country.state.city">
+            <field name="name">Alberto Arvelo Torrealba</field>
+            <field name="code">057</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_058" model="res.country.state.city">
+            <field name="name">Andres Eloy Blanco</field>
+            <field name="code">058</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_059" model="res.country.state.city">
+            <field name="name">Antonio Jose de Sucre</field>
+            <field name="code">059</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_060" model="res.country.state.city">
+            <field name="name">Arismendi</field>
+            <field name="code">060</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_061" model="res.country.state.city">
+            <field name="name">Barinas</field>
+            <field name="code">061</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_062" model="res.country.state.city">
+            <field name="name">Bolivar</field>
+            <field name="code">062</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_063" model="res.country.state.city">
+            <field name="name">Cruz Paredes</field>
+            <field name="code">063</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_064" model="res.country.state.city">
+            <field name="name">Ezequiel Zamora</field>
+            <field name="code">064</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_065" model="res.country.state.city">
+            <field name="name">Obispos</field>
+            <field name="code">065</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_066" model="res.country.state.city">
+            <field name="name">Pedraza</field>
+            <field name="code">066</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_067" model="res.country.state.city">
+            <field name="name">Rojas</field>
+            <field name="code">067</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_068" model="res.country.state.city">
+            <field name="name">Sosa</field>
+            <field name="code">068</field>
+            <field search="[('code','=','ba')]" model='res.country.state' name='state_id'/> 
+         </record>
+
+<!--Bolivar
+   1. Caroní (Ciudad Guayana)
+   2. Cedeño (Caicara del Orinoco)
+   3. El Callao (El Callao)
+   4. Gran Sabana (Santa Elena de Uairén)
+   5. Heres (Ciudad Bolívar)
+   6. Piar (Upata)
+   7. Raúl Leoni (Ciudad Piar)
+   8. Roscio (Guasipati)
+   9. Sifontes (El Dorado)
+  10. Sucre (Maripa)
+  11. Padre Pedro Chien (El Palmar) 
+-->
+        <record id="res_country_state_city_069" model="res.country.state.city">
+            <field name="name">Caroni</field>
+            <field name="code">069</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_070" model="res.country.state.city">
+            <field name="name">Cedeno</field>
+            <field name="code">070</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_071" model="res.country.state.city">
+            <field name="name">El Callao</field>
+            <field name="code">071</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_072" model="res.country.state.city">
+            <field name="name">Gran Sabana</field>
+            <field name="code">072</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_073" model="res.country.state.city">
+            <field name="name">Heres</field>
+            <field name="code">073</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_074" model="res.country.state.city">
+            <field name="name">Piar</field>
+            <field name="code">074</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_075" model="res.country.state.city">
+            <field name="name">Raul Leoni</field>
+            <field name="code">075</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_076" model="res.country.state.city">
+            <field name="name">Roscio</field>
+            <field name="code">076</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_077" model="res.country.state.city">
+            <field name="name">Sifontes</field>
+            <field name="code">077</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_078" model="res.country.state.city">
+            <field name="name">Sucre</field>
+            <field name="code">078</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+        <record id="res_country_state_city_079" model="res.country.state.city">
+            <field name="name">Padre Pedro Chien</field>
+            <field name="code">079</field>
+            <field search="[('code','=','bo')]" model='res.country.state' name='state_id'/> 
+         </record>
+<!--Carabobo
+   1. Bejuma (Bejuma)
+   2. Carlos Arvelo (Güigüe)
+   3. Diego Ibarra (Mariara)
+   4. Guacara (Guacara)
+   5. Juan José Mora (Morón)
+   6. Libertador (Tocuyito)
+   7. Los Guayos (Los Guayos)
+   8. Miranda (Miranda)
+   9. Montalbán (Montalbán)
+  10. Naguanagua (Naguanagua)
+  11. Puerto Cabello (Puerto Cabello)
+  12. San Diego (San Diego)
+  13. San Joaquín (San Joaquín)
+  14. Valencia (Valencia) 
+-->
+<!--Cojedes
+   1. Anzoátegui (Cojedes)
+   2. Falcón (Tinaquillo)
+   3. Girardot (El Baúl)
+   4. Lima Blanco (Macapo)
+   5. Pao de San Juan Bautista (El Pao)
+   6. Ricaurte (Libertad)
+   7. Rómulo Gallegos (Las Vegas)
+   8. San Carlos (San Carlos)
+   9. Tinaco (Tinaco) 
+-->
+<!--Delta Amacuro
+   1. Antonio Díaz (Curiapo)
+   2. Casacoima (Sierra Imataca)
+   3. Pedernales (Pedernales)
+   4. Tucupita (Tucupita) 
+-->
+<!--Falcon-->
+<!--Guarico-->
+<!--Lara-->
+<!--Merida-->
+<!--Miranda-->
+<!--Monagas-->
+<!--Nueva Esparta-->
+<!--Portuguesa-->
+<!--Sucre-->
+<!--Tachira-->
+<!--Trujillo-->
+<!--Vargas-->
+<!--Yaracuy-->
+<!--Zulia-->
     </data>
 </openerp>
 
