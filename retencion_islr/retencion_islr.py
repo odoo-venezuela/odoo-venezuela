@@ -245,6 +245,23 @@ class account_retencion_islr(osv.osv):
         return {'move_id': move_id}
 
 
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+        acc_id = False        
+        if partner_id:
+            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            if type in ('out_invoice', 'out_refund'):
+                acc_id = p.property_retencion_islr_receivable.id
+            else:
+                acc_id = p.property_retencion_islr_payable.id
+
+
+        result = {'value': {
+            'account_id': acc_id}
+        }
+
+        return result
+
+
 account_retencion_islr()
 
 

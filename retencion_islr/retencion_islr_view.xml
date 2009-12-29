@@ -79,7 +79,7 @@
                         <field name="journal_id" select="2"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" />
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
