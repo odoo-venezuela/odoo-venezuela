@@ -52,11 +52,11 @@ class account_invoice(osv.osv):
 #                'account.move.line': (_get_invoice_from_line, None, 50),
 #                'account.move.reconcile': (_get_invoice_from_reconcile, None, 50),
 #            }, help="The account moves of the invoice have been reconciled with account moves of the payment(s)."),
-        'retention': fields.boolean('¿Retención Realizada?', readonly=True, help="Indica si la factura ha sido retenida"),
-        'p_ret': fields.float('Retención Por 100', digits=(14,4), readonly=True, states={'draft':[('readonly',False)]}, help="Porcentaje de Retencion ha aplicar a la factura"),
+        'retention': fields.boolean('Retencion Realizada?', readonly=True, help="Indica si la factura ha sido retenida"),
+        'p_ret': fields.float('Retencion Por 100', digits=(14,4), readonly=True, states={'draft':[('readonly',False)]}, help="Porcentaje de Retencion ha aplicar a la factura"),
         'num_ret': fields.char('Numero de Retencion', size=32, readonly=True, help="Numero del comprobante de retencion donde se declaro la factura"),
         'nro_ctrl': fields.char('Nro. de Control', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Numero de control de la factura"),
-        'sin_cred': fields.boolean('¿Sin derecho a credito fiscal?', readonly=True, help="Determina si la factura esta sujeta o no a credito fiscal"),
+        'sin_cred': fields.boolean('Sin derecho a credito fiscal?', readonly=True, help="Determina si la factura esta sujeta o no a credito fiscal"),
     }
     
 

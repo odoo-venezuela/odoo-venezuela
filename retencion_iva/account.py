@@ -35,7 +35,7 @@ class account_tax(osv.osv):
     _inherit = 'account.tax'
     _description = "Retencion de Impuesto"
     _columns = {
-        'ret': fields.boolean('¿Retenible?', help="Indica si el impuesto es retenible"),
+        'ret': fields.boolean('Retenible?', help="Indica si el impuesto es retenible"),
    }
 
 

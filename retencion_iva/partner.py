@@ -35,7 +35,7 @@ class res_partner(osv.osv):
     _inherit = 'res.partner'
     _description = "Contribuyente Especial"
     _columns = {
-        'special': fields.boolean('¿Agente Retencion?', help="Indica si el partner es Agente de Retencion"),
+        'special': fields.boolean('Agente Retencion?', help="Indica si el partner es Agente de Retencion"),
         'retention': fields.float(string='Retencion Por 100', help="Porcentaje de Retencion ha aplicar al partner"),
         'property_retention_payable': fields.property(
             'account.account',
