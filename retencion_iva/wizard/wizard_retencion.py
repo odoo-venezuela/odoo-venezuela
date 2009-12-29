@@ -44,7 +44,7 @@ _transaction_form = '''<?xml version="1.0"?>
 
 _transaction_fields = {
     'pret': {'string':'Retencion Por 100', 'type':'float', 'required':True},
-    'sure': {'string':'¿Esta Seguro?', 'type':'boolean'},
+    'sure': {'string':'Esta Seguro?', 'type':'boolean'},
    
 }
 

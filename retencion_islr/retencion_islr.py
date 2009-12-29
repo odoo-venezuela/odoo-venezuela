@@ -275,7 +275,7 @@ class account_retencion_islr_line(osv.osv):
     }
 
     _sql_constraints = [
-
+        ('islr_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
     ] 
 
 
