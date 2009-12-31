@@ -23,9 +23,14 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="city">
+                    <group colspan="2" >
                     <field name="state_id" select="1"/>
+                    <newline/>
                     <field name="name" select="1"/>
+                    <newline/>
                     <field name="code" select="1"/>
+                    <newline/>
+                    </group>
                 </form>
             </field>
         </record>
@@ -45,13 +50,23 @@ Adding fields on models
 <!--
 States Form
 -->
+
     <record model="ir.ui.view" id="view_country_state_form2">
         <field name="name">view_country_state_form2</field>
         <field name="model">res.country.state</field>
         <field name="inherit_id" ref="base.view_country_state_form"/>
         <field name="arch" type="xml">
             <field name="code" position="after">
-                <field name="city_ids" colspan="4" nolabel="1" widget="one2many_list" />
+                <field name="city_ids" colspan="4" mode="tree,form" nolabel="1">
+                    <tree string="Cities">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </tree>
+                    <form string="Cities">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </form>
+                 </field>
             </field>
         </field>
     </record>
