@@ -55,6 +55,10 @@
     <blockTableStyle id="Tabla4">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
+      <blockTopPadding length="0mm"/>
+      <blockBottomPadding length="0mm"/>
+      <blockRightPadding length="0mm"/>
+      <blockLeftPadding length="1mm"/>
       <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,-1"/>
       <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
       <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
@@ -90,6 +94,10 @@
     <blockTableStyle id="Tabla5">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
+      <blockTopPadding length="0mm"/>
+      <blockBottomPadding length="0mm"/>
+      <blockRightPadding length="0mm"/>
+      <blockLeftPadding length="0mm"/>
     </blockTableStyle>
     <blockTableStyle id="Tabla2">
       <blockAlignment value="LEFT"/>

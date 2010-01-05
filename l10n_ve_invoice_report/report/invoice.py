@@ -36,7 +36,24 @@ class account_invoice(report_sxw.rml_parse):
         super(account_invoice, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
+            'get_alicuota': self._get_alicuota
         })
+
+    def _get_alicuota(self, tnom=None):
+        if not tnom:
+            return []
+
+        tax_obj = self.pool.get('account.tax')
+        print 'impuestosxxx nom: ',tnom
+        tax_ids = tax_obj.search(self.cr,self.uid,[('name','=',tnom)])
+        if not tax_ids:
+            tax_ids = tax_obj.search(self.cr,self.uid,[('description','=',tnom)])
+        print 'impuestosxxx: ',tax_ids
+        tax = tax_obj.browse(self.cr,self.uid, tax_ids)[0]
+
+        return str(tax.amount*100)
+
+
 report_sxw.report_sxw(
     'report.account.invoice_ve',
     'account.invoice',
