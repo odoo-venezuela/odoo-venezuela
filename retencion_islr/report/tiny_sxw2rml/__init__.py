@@ -1,9 +1,7 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
-# 
+# Copyright (c) 2004 TINY SPRL. (http://tiny.be) All Rights Reserved.
+#                    Fabien Pinckaers <fp@tiny.Be>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -28,12 +26,4 @@
 #
 ##############################################################################
 
-
-import retencion_islr
-#import invoice
-#import account
-import partner
-#import stock
-import report
-#import wizard
-
+from tiny_sxw2rml import sxw2rml

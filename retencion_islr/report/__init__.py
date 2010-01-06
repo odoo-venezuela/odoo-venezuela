@@ -28,12 +28,5 @@
 #
 ##############################################################################
 
-
-import retencion_islr
-#import invoice
-#import account
-import partner
-#import stock
-import report
-#import wizard
+import comprobante_islr
 

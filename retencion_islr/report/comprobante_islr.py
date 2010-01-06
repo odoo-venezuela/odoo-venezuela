@@ -28,12 +28,38 @@
 #
 ##############################################################################
 
+import time
+from report import report_sxw
+from osv import osv
+import pooler
 
-import retencion_islr
-#import invoice
-#import account
-import partner
-#import stock
-import report
-#import wizard
+class rep_comprobante_islr(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(rep_comprobante_islr, self).__init__(cr, uid, name, context)    
+        self.localcontext.update({
+            'time': time,
+            'get_partner_addr': self._get_partner_addr
+        })
 
+    def _get_partner_addr(self, idp=None):
+        if not idp:
+            return []
+
+        addr_obj = self.pool.get('res.partner.address')
+        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
+        addr_ids = addr_obj.search(self.cr,self.uid,[('partner_id','=',idp), ('type','=','invoice')])
+        if addr_ids:                
+            addr = addr_obj.browse(self.cr,self.uid, addr_ids[0])
+            addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
+        return addr_inv 
+
+
+    
+      
+report_sxw.report_sxw(
+    'report.comprobante.retencion.islr',
+    'account.retencion.islr',
+    'addons/retencion_islr/report/comprobante_islr.rml',
+    parser=rep_comprobante_islr,
+    header=False
+)      

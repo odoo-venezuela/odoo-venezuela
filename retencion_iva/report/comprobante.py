@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2006 TINY SPRL. (http://tiny.be) All Rights Reserved.
+# Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
+#                    Javier Duran <javier.duran@netquatro.com>
+# 
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -107,7 +109,6 @@ class rep_comprobante(report_sxw.rml_parse):
         ttal = {}
 
         for rl in comp.retention_line:
-            print 'sin credito fiscal: ',rl.invoice_id.sin_cred
             if rl.invoice_id.sin_cred:
                 tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
             else:
