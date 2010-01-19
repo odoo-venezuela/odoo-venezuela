@@ -36,7 +36,8 @@ class account_invoice(report_sxw.rml_parse):
         super(account_invoice, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
-            'get_alicuota': self._get_alicuota
+            'get_alicuota': self._get_alicuota,
+            'get_rif': self._get_rif
         })
 
     def _get_alicuota(self, tnom=None):
@@ -50,6 +51,14 @@ class account_invoice(report_sxw.rml_parse):
         tax = tax_obj.browse(self.cr,self.uid, tax_ids)[0]
 
         return str(tax.amount*100)
+
+
+    def _get_rif(self, vat=''):
+        if not vat:
+            return []
+        return vat[2:].replace(' ', '')
+
+
 
 
 report_sxw.report_sxw(

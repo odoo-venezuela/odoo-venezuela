@@ -16,6 +16,8 @@
                 <tree string="Lineas de Retencion ISLR" editable="bottom">
                     <field name="name"/>
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
+                    <field name="concepto_id"/>
+                    <field name="retencion_islr"/>
                     <field name="amount"/>
                 </tree>
             </field>
@@ -31,6 +33,8 @@
                         <page string="Linea">
                             <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
                             <field colspan="4" name="name" select="1"/>
+                            <field name="concepto_id"/>
+                            <field name="retencion_islr"/>
                             <field name="amount"/>
                             <field name="move_id"/>  
                         </page>

@@ -28,12 +28,10 @@
 #
 ##############################################################################
 
+import wizard_ret_islr_xml
 
-import retencion_islr
-#import invoice
-#import account
-import partner
-#import stock
-import report
-import wizard
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
