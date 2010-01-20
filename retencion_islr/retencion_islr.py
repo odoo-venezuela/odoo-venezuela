@@ -285,8 +285,9 @@ class account_retencion_islr_line(osv.osv):
         'invoice_id': fields.many2one('account.invoice', 'Factura', required=True, ondelete='set null', select=True, help="Factura a retener"),
         'amount':fields.float('Amount'),
         'move_id': fields.many2one('account.move', 'Movimiento Contable', readonly=True, help="Asiento Contable"),
-#        'retencion_islr':fields.float('Retencion por 100'),
+        'retencion_islr':fields.float('Retencion por 100'),
 #        'monto_fijo':fields.float('Adedum'),
+        'concepto_id': fields.integer('Concepto de Retencion', size=3),
 
 
     }

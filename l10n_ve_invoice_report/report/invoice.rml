@@ -229,7 +229,7 @@
       <tr>
         <td>
           <para style="terp_default_8">Nombre : [[ o.partner_id.title or '' ]] [[ o.partner_id.name ]]</para>
-          <para style="terp_default_8">RIF : [[ o.partner_id.vat or '' ]]</para>
+          <para style="terp_default_8">RIF : [[ get_rif(o.partner_id.vat) or '' ]]</para>
           <para style="terp_default_8">Tel. : [[ o.address_invoice_id.phone or '' ]]</para>
           <para style="terp_default_8">E-mail : [[ o.address_invoice_id.email or removeParentNode('para') ]]</para>
           <para style="terp_default_8">Direccion : [[ o.address_invoice_id.street ]]</para>

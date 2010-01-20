@@ -55,7 +55,7 @@ Verificar pestañas en Partners, Invoices y menús creados.
             "partner_view.xml",
 #            "stock_view.xml", 
             "retencion_islr_report.xml",
-#            "retention_wizard.xml",
+            "retencion_islr_wizard.xml",
     ],
 	"active": False,
 	"installable": True
