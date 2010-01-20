@@ -2,10 +2,10 @@
 <openerp>
     <data> 
         <report id="reprml"
-            string="Valued Packing List"
+            string="Nota de Entrega con Precios"
              model="stock.picking"
-            name="stock_valued.stock_valued_rml"
-            rml="stock_valued/report/albaran.rml" 
+            name="l10n_ve_stock.l10n_ve_stock_rml"
+            rml="l10n_ve_stock/report/albaran.rml" 
             menu="True"
       auto="True"
       header="True"
