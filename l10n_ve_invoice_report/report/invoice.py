@@ -50,7 +50,7 @@ class account_invoice(report_sxw.rml_parse):
             tax_ids = tax_obj.search(self.cr,self.uid,[('description','=',tnom)])
         tax = tax_obj.browse(self.cr,self.uid, tax_ids)[0]
 
-        return str(tax.amount*100)
+        return str(tax.amount*100).replace('.',',')
 
 
     def _get_rif(self, vat=''):
