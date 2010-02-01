@@ -77,6 +77,7 @@ class stock_picking(osv.osv):
         'amount_tax': fields.function(_amount_tax, method=True, string='Taxes'),
         'amount_total': fields.function(_amount_total, method=True, string='Total'),
         'tracking': fields.char('Tracking', size=64),
+        'number': fields.char('Numero Orden Entrega', size=32, readonly=True, help="Nro. de la Orden de Entrega"),
             }
 
 stock_picking()
