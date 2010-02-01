@@ -189,7 +189,7 @@ def _get_reason(self, cr, uid, data, context):
 def _data_save(self, cr, uid, data, context):
     agree = data['form'].get('sure3',data['form']['sure2'])
     comment = data['form'].get('note2',data['form']['note'])
-    razon = data['form']['reason']
+    razon = data['form'].get('reason',False)
     motiv = {
             'rep':'Reparación',
             'tdep':'Traslado a depósito',
@@ -211,7 +211,8 @@ def _data_save(self, cr, uid, data, context):
 
     if pick.type == 'out':
         number = make_nro(cr, uid, [id], context)
-        comment += '\n' + motiv[razon]
+        if razon:
+            comment += '\n' + motiv[razon]
         pick_obj.write(cr, uid, [id], {'note': comment})
         _end_fields['nro'] = {'string':'Numero' ,'type':'char', 'size': 32, 'readonly':True, 'default' : make_default(number)}
 
