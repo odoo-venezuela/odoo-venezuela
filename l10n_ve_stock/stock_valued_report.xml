@@ -1,15 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data> 
-        <report id="reprml"
-            string="Nota de Entrega con Precios"
-             model="stock.picking"
-            name="l10n_ve_stock.l10n_ve_stock_rml"
+        <report id="stock_valued"
+            string="Nota de Entrega"
+            model="stock.picking"
+            name="stock.valued_ve"
             rml="l10n_ve_stock/report/albaran.rml" 
-            menu="True"
-      auto="True"
-      header="True"
+            menu="False"
+            auto="False"
+            header="False"
         />
+        <report id="guia_despacho"
+            string="Guia de Despacho"
+            model="stock.picking"
+            name="stock.guia_ve"
+            rml="l10n_ve_stock/report/guiadespacho.rml" 
+            menu="False"
+            auto="False"
+            header="False"
+        />
+
+
     </data>
 </openerp>
 

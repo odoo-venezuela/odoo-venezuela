@@ -23,6 +23,5 @@
 ##############################################################################
 
 import stock_valued
-
-#import wizard
-#import report
+import report
+import wizard

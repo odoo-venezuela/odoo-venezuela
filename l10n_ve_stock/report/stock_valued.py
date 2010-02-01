@@ -28,6 +28,44 @@
 #
 ##############################################################################
 
+import time
+from report import report_sxw
 
-#import expense
-import invoice
+class stock_valued(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(stock_valued, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+            'get_alicuota': self._get_alicuota,
+            'get_rif': self._get_rif
+        })
+
+    def _get_alicuota(self, tnom=None):
+        if not tnom:
+            return []
+
+        
+        tax_obj = self.pool.get('account.tax')
+        tax_ids = tax_obj.search(self.cr,self.uid,[('name','=',tnom)])
+        if not tax_ids:
+            tax_ids = tax_obj.search(self.cr,self.uid,[('description','=',tnom)])
+        tax = tax_obj.browse(self.cr,self.uid, tax_ids)[0]
+        return tax.amount*100
+
+
+    def _get_rif(self, vat=''):
+        if not vat:
+            return []
+        return vat[2:].replace(' ', '')
+
+
+
+
+report_sxw.report_sxw(
+    'report.stock.valued_ve',
+    'stock.picking',
+    'addons/l10n_ve_stock/report/albaran.rml',
+    parser=stock_valued,
+    header=False
+)
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

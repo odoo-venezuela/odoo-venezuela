@@ -26,8 +26,10 @@
     "depends" : ["base", "account", "stock", "sale"],
     "init_xml" : [],
     "update_xml" : [
+        'stock_valued_sequence.xml',
         'stock_valued_view.xml',
         'stock_valued_report.xml',
+        'stock_valued_wizard.xml',
                    ],
     "active": False,
     "installable": True,

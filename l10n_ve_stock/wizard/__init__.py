@@ -28,6 +28,10 @@
 #
 ##############################################################################
 
+import wizard_stock_valued
 
-#import expense
-import invoice
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
