@@ -31,6 +31,7 @@
 from osv import osv, fields
 import time
 from tools import config
+from tools.translate import _
 
 
 class account_retencion_islr(osv.osv):
@@ -113,6 +114,8 @@ class account_retencion_islr(osv.osv):
         obj=self.pool.get('account.retencion.islr').browse(cr,uid,ids)
         total=0
         for i in obj[0].islr_line_ids:
+            if i.amount >= i.invoice_id.check_total*0.15:
+                raise osv.except_osv(_('Invalid action !'), _("La linea que contiene El documento '%s' luce como si el monto retenido estuviera incorrecto por favor verificar.!") % (i.invoice_id.reference))
             total+=i.amount
         self.write(cr,uid,ids,{'amount':total})
         self.write(cr, uid, ids, {'state':'confirmed'})
