@@ -14,15 +14,20 @@ Solicitud realizada en el bug:
 Listado de Directorios de importancia
 ------------------------
 Archivos_Referencia_legal
+bancos de venezuela.txt
 base_address_invoice
 base_partner_invoice
 base_vat_ve
 hr_salesman_commission
-l10n_bank_ve
 l10n_chart_ve
-l10n_cities_ve
-l10n_currency_ve
-l10n_states_ve
+l10n_ve_bank
+l10n_ve_cities
+l10n_ve_currency
+l10n_ve_invoice_report
+l10n_ve_pagos_atrs
+l10n_ve_states
+l10n_ve_stock
 purchase_declaration
+retencion_islr
 retencion_iva
 sale_extended
