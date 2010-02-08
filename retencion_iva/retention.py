@@ -189,14 +189,14 @@ class account_retention(osv.osv):
                 self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
 
             period_id = ret.period_id and ret.period_id.id or False
+            journal_id = ret.journal_id.id
             if not period_id:
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
                 if len(period_ids):
                     period_id = period_ids[0]
 
             if ret.retention_line:
-                for line in ret.retention_line:
-                    journal_id = line.invoice_id.journal_id.id
+                for line in ret.retention_line:                    
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount_tax_ret
