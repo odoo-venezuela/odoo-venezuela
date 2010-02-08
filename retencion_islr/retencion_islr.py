@@ -161,6 +161,8 @@ class account_retencion_islr(osv.osv):
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
                 if len(period_ids):
                     period_id = period_ids[0]
+                else:
+                    raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
 
             if ret.islr_line_ids:
                 for line in ret.islr_line_ids:
