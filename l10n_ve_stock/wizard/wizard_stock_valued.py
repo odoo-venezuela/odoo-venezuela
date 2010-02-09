@@ -90,7 +90,7 @@ _reason_fields = {
         'selection':[('rep','Reparación'),('tdep','Traslado a depósito'),
                     ('talmo','Traslado almacenes o bodegas de otros'),('talmp','Traslado almacenes o bodegas propios'),
                     ('tdis','Traslado para su distribución'),('otr','Otros')],
-        'default': lambda *a:'entrega'
+        'default': lambda *a:'talmp'
     },    
     'sure4': {'string':'Esta Seguro?', 'type':'boolean'},
    
