@@ -113,6 +113,7 @@ def make_default(val):
 
 
 def make_nro(cr, uid, ids, context):
+    pool = pooler.get_pool(cr.dbname)
     cr.execute('SELECT id, number ' \
             'FROM stock_picking ' \
             'WHERE id IN ('+','.join(map(str,ids))+')')
