@@ -38,7 +38,8 @@ class rep_comprobante_islr(report_sxw.rml_parse):
         super(rep_comprobante_islr, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
-            'get_partner_addr': self._get_partner_addr
+            'get_partner_addr': self._get_partner_addr,
+            'get_rif': self._get_rif
         })
 
     def _get_partner_addr(self, idp=None):
@@ -53,6 +54,11 @@ class rep_comprobante_islr(report_sxw.rml_parse):
             addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv 
 
+
+    def _get_rif(self, vat=''):
+        if not vat:
+            return []
+        return vat[2:].replace(' ', '')
 
     
       
