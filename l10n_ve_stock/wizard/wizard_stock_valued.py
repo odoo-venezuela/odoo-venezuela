@@ -37,7 +37,7 @@ from tools.misc import UpdateableStr, UpdateableDict
 
 _start_form = '''<?xml version="1.0"?>
 <form string=" Generacion del Nro de la Nota de Entrega">   
-    <separator string="Esta seguro de generarlo ?" colspan="4"/>
+    <separator string="Esta seguro de generar una Nota de entrega ?, este es un documento legal que deberá ser impreso en forma libre." colspan="4"/>
     <field name="type"/>
     <newline/>
     <field name="sure"/>
@@ -49,7 +49,7 @@ _start_fields = {
     'type':{
         'string':"Tipo",
         'type':'selection',
-        'selection':[('entrega','Orden Entrega'),('despacho','Guia Despacho')],
+        'selection':[('entrega','Nota de Entrega (Con Precios)'),('despacho','Nota de Entrega (Sin Precios)')],
         'default': lambda *a:'entrega'
     },    
     'sure': {'string':'Esta Seguro?', 'type':'boolean'},
@@ -77,7 +77,7 @@ _note_fields = UpdateableDict()
 
 _reason_form = '''<?xml version="1.0"?>
 <form string=" Razon de la nota de entrega sin valor">   
-    <separator string="Motivo ?" colspan="4"/>
+    <separator string="Elija un motivo por el cual genera una Nota de Entrega Sin Precios?" colspan="4"/>
     <field name="reason"/>
     <newline/>
     <field name="sure4"/>
