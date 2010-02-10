@@ -77,8 +77,6 @@
     <paraStyle name="P22" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P23" fontName="Helvetica-Bold" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P24" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
-    <paraStyle name="P25" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
-    <paraStyle name="P26" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT"/>
     <paraStyle name="Standard" fontName="Times-Roman"/>
     <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
@@ -173,7 +171,7 @@
       <blockTable colWidths="527.0" style="Tabla3">
         <tr>
           <td>
-            <para style="P20">COMPROBANTE DE RETENCION DE I.S.L.R DE FACTURA: <font face="Helvetica" size="9.0">[[ l.invoice_id.number ]]</font></para>
+            <para style="P20">COMPROBANTE DE RETENCION DE I.S.L.R DE FACTURA: <font face="Helvetica" size="9.0">[[ l.invoice_id.reference ]]</font></para>
           </td>
         </tr>
       </blockTable>
@@ -201,21 +199,13 @@
         </tr>
         <tr>
           <td>
-            <para style="P20">Total Base de Retención</para>
-          </td>
-          <td>
-            <para style="P15">[[ l.invoice_id.amount_total ]]</para>
-          </td>
-        </tr>
-        <tr>
-          <td>
             <para style="P20">Retención</para>
           </td>
           <td>
             <para style="P15">[[ o.amount ]]</para>
           </td>
           <td>
-            <para style="P15">[[ l.retencion_islr ]]%</para>
+            <para style="P15"><font face="Helvetica" size="8.0">% Retención: </font>[[ l.retencion_islr ]]%</para>
           </td>
         </tr>
       </blockTable>
