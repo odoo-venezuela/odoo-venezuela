@@ -118,6 +118,102 @@ class salesman_commission_payment(osv.osv):
         self.pool.get('salesman.commission.payment').write(cr, uid, ids, {'state':'draft'}, context=context)    
             
         return True
+
+    
+    #################################
+    #Loading Partners a account move lines on banks
+    ##################################
+    def action_number(self, cr, uid, ids, *args):
+        obj_sc = self.browse(cr, uid, ids)[0]
+        res = {}
+        print 'vendedor: ',obj_sc.user_id.id
+        print 'periodo: ',obj_sc.period_ids.id
+        cr.execute(("""            
+                select
+                    l.id,
+                    l.period_id, 	
+                    l.move_id,	
+                    p.id as partner,
+                    u.id as user
+                from res_partner p
+                    inner join res_users u on (u.id=p.user_id)
+                    inner join account_move_line l on (p.id=l.partner_id)
+                    inner join account_account c on (c.id=l.account_id)
+                where l.credit != 0
+                and c.type = 'receivable'
+                and u.id = %s
+                and l.period_id = %s
+        """)%(obj_sc.user_id.id,obj_sc.period_ids.id)
+        )
+
+        for line_id, period_id, move_id, partner_id, user_id in cr.fetchall():
+            res[move_id] = (line_id, period_id, partner_id, user_id)
+        #################################
+        #Debugging changes BEFORE DONE
+        ##################################
+        print 'comprobante: (asiento,periodo,partner,usuario)'
+        print 'PAGO DE TODOS LOS CLIENTES DE UN VENDEDOR: ',res
+        return res
+    
+    def action_move_create(self, cr, uid, ids, *args):
+        obj_sc = self.browse(cr, uid, ids)[0]
+        print 'argument: ',args
+        move_ids = args[0].keys()
+        id_set = ','.join(map(str, move_ids))
+        print 'comprobantes: ',move_ids
+        res = {}
+
+        cr.execute(("""            
+                select
+                    l.id,
+                    l.period_id, 
+                    l.journal_id, 	
+                    l.partner_id, 	
+                    j.type,
+                    l.move_id	 
+                from account_move_line l
+                    inner join account_journal j on (j.id=l.journal_id)
+                where l.partner_id is null
+                and j.type='cash'
+                and l.period_id=%s
+                and l.move_id in (%s)
+        """)%(obj_sc.period_ids.id,id_set)
+        )
+
+        for line_id, period_id, journal_id, partner_id, jtpo, move_id in cr.fetchall():
+            res[line_id] = (period_id, journal_id, partner_id, jtpo, move_id)
+
+        for aml in res.keys():
+            cr.execute(("""            
+                    update
+                        account_move_line
+                    set
+                        partner_id=%s	 
+                    where id=%s
+            """)%(args[0][res[aml][4]][2],aml)
+            )
+    #################################
+    #Debugging changes AFTER DONE
+    ##################################
+        print 'asiento: (periodo,diario,partner,tipodiario)'
+        print 'ASIENTO DE BANCO SIN PARTNER: ',res
+        return res
+
+    #################################
+    #END OF INTERVENTION
+    ##################################
+
+
+
+    def action_done(self, cr, uid, ids, context={}):
+        res = {}
+
+        res = self.action_number(cr, uid, ids)
+        self.action_move_create(cr, uid, ids, res)
+#        self.write(cr, uid, ids, {'state':'done'})
+        return True
+
+
 salesman_commission_payment()
 
 class salesman_commission_payment_line(osv.osv):

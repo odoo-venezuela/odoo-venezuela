@@ -4,9 +4,10 @@
         <!-- Salesman Commission Main Menu-->
         <menuitem 
             name="Salesman Commission" 
-            id="salesman_commission_mi" 
-            sequence="1" 
-            icon="terp-project" />
+            id="salesman_commission_mi"  
+            icon="terp-project"
+            parent="hr.menu_hr_root"
+            sequence="10"/>
 
         <!-- View FORM Creation for the object salesman.commission.payment-->
         <record model="ir.ui.view" id="salesman_commission_payment_form">
@@ -27,7 +28,12 @@
                             <field name="state"/>
                         </group>
                         <group col='1' colspan='1' >
-                            <button name='fill_payments' string='Fill Payments' icon='gtk-execute'/>
+<!--
+    ======================
+                            <button name='fill_payments' string='Fill Payments' icon='gtk-execute'/>                            
+    ======================
+-->
+                            <button name="action_done" string="Update Payments on Bank" type="object"  icon="gtk-go-forward"/>
                         </group>
                     </group>
                     <group col='1' colspan='3' string="Payments to apply commissions to:">
@@ -80,6 +86,8 @@
             <field name="arch" type="xml">
                 <tree string="Salesman Commission">
                     <field name="user_id" />
+                    <field name="period_ids" />
+                    <field name="state" />
                 </tree>
             </field>
         </record>
@@ -94,9 +102,10 @@
 
         <!-- Creating a menu to use the action sales_commission_payment_all_act -->
         <menuitem 
-            name="Salesman Commission/All Commissions"
+            name="All Commissions"
             id="salesman_commission_all_mi" 
-            action="sales_commission_payment_all_act" />
+            action="sales_commission_payment_all_act"
+            parent="salesman_commission_mi" />
 
         <!-- Creating a menu to open the View FORM of the object salesman.commission.payment -->
         <record model="ir.actions.act_window" id="sales_commission_payment_new_act">
@@ -108,8 +117,9 @@
 
         <!-- Creating a menu to use the action sales_commission_payment_new_act -->
         <menuitem 
-            name="Salesman Commission/All Commissions/New Commission"
+            name="Create New Commission"
             id="sales_commission_payment_new_mi" 
-            action="sales_commission_payment_new_act" />
+            action="sales_commission_payment_new_act" 
+            parent="salesman_commission_all_mi"/>
     </data>
 </openerp>
