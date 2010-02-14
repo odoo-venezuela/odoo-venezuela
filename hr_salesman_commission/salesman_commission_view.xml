@@ -2,12 +2,7 @@
 <openerp>
     <data>
         <!-- Salesman Commission Main Menu-->
-        <menuitem 
-            name="Salesman Commission" 
-            id="salesman_commission_mi"  
-            icon="terp-project"
-            parent="hr.menu_hr_root"
-            sequence="10"/>
+        <menuitem name="Salesman Commission" id="menu_salesman_commission"  parent="hr.menu_hr_root" sequence="10"/>
 
         <!-- View FORM Creation for the object salesman.commission.payment-->
         <record model="ir.ui.view" id="salesman_commission_payment_form">
@@ -105,7 +100,8 @@
             name="All Commissions"
             id="salesman_commission_all_mi" 
             action="sales_commission_payment_all_act"
-            parent="salesman_commission_mi" />
+            icon="terp-project"
+            parent="menu_salesman_commission" />
 
         <!-- Creating a menu to open the View FORM of the object salesman.commission.payment -->
         <record model="ir.actions.act_window" id="sales_commission_payment_new_act">
