@@ -32,7 +32,7 @@
                         </group>
                     </group>
                     <group col='1' colspan='3' string="Payments to apply commissions to:">
-                        <field name="payment_ids" on_change='payment_ids_change(payment_ids,commission_rate)' domain="[('period_id','=',period_ids),('partner_id.user_id','=',user_id),('account_id.user_type','=','Financieras'),('debit','>',0)]" nolabel="1">
+                        <field name="payment_ids" on_change='payment_ids_change(payment_ids,commission_rate)' domain="[('period_id','=',period_ids),('partner_id.user_id','=',user_id),('journal_id.type','=','cash'),('debit','>',0)]" nolabel="1">
                             <tree>
                                 <field name="date"/>
                                 <field name="period_id"/>
