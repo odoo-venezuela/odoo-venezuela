@@ -17,12 +17,9 @@
   'update_xml' : ['salesman_commission_view.xml',],
   'init_xml' : [],
   'demo_xml' : [],
-  # This line is used to bring in other Open ERP modules
-  # You can leave a trailing ',' inside the list to make it easier when you're adding other modules later
-  'depends' : ['account_invoice_salesman',],
+  'depends' : ['account_invoice_salesman','account_voucher_payment','account_voucher_workflow'],
   'installable' : True,
   'active' : False,
-  # This line would be 'Profiles' to enable it to appear with other profiles during installation
   'category' : 'Generic Modules/Human Resources',
   'author' : 'Netquatro',
   'website' : 'http://openerp.netquatro.com',
