@@ -33,26 +33,26 @@ from osv import fields, osv
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
-    _description = "Contribuyente Especial"
+    _description = "Propiedades Retenciones Municipales."
     _columns = {
-        'property_retencion_islr_payable': fields.property(
+        'property_retencion_munici_payable': fields.property(
             'account.account',
             type='many2one',
             relation='account.account',
-            string="Cuenta Retencion Compra ISLR",
+            string="Cuenta Retencion Compra munici",
             method=True,
             view_load=True,
             domain="[('type', '=', 'payable')]",
-            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.V.A.  en vez de la cuenta de reserva predeterminda para el actual partner"),
-        'property_retencion_islr_receivable': fields.property(
+            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos por concepto de Impuestos Municipales en vez de la cuenta de reserva predeterminda para el actual partner"),
+        'property_retencion_munici_receivable': fields.property(
             'account.account',
             type='many2one',
             relation='account.account',
-            string="Cuenta Retencion Venta ISLR",
+            string="Cuenta Retencion Venta munici",
             method=True,
             view_load=True,
             domain="[('type', '=', 'receivable')]",
-            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.S.L.R. en vez de la cuenta de reserva predeterminda para el actual partner"),
+            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos por concepto de Impuestos Municipales en vez de la cuenta de reserva predeterminda para el actual partner"),
 
    }
 

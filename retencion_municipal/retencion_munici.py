@@ -34,7 +34,7 @@ from tools import config
 from tools.translate import _
 
 
-class account_retencion_islr(osv.osv):
+class account_retencion_munici(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
         if context is None:
@@ -61,8 +61,8 @@ class account_retencion_islr(osv.osv):
         else:
             return self.pool.get('res.currency').search(cr, uid, [('rate','=',1.0)])[0]
 
-    _name = "account.retencion.islr"
-    _description = "Comprobante de Retencion de ISLR"
+    _name = "account.retencion.munici"
+    _description = "Comprobante de Retencion de munici"
     _columns = {
         'name': fields.char('Descripcion', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, help="Descripcion del Comprobante"),
         'code': fields.char('Codigo', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Referencia del Comprobante"),
@@ -87,7 +87,7 @@ class account_retencion_islr(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Moneda', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Moneda enla cual se realiza la operacion"),
         'journal_id': fields.many2one('account.journal', 'Diario', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Diario donde se registran los asientos"),
         'company_id': fields.many2one('res.company', 'Compania', required=True, help="Compania"),
-        'islr_line_ids': fields.one2many('account.retencion.islr.line', 'retention_id', 'Lineas de Retencion', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
+        'munici_line_ids': fields.one2many('account.retencion.munici.line', 'retention_id', 'Lineas de Retencion', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'amount':fields.float('Amount', readonly=True),
         'move_id':fields.many2one('account.move', 'Account Entry'),
 
@@ -111,9 +111,9 @@ class account_retencion_islr(osv.osv):
 
 
     def action_confirm(self, cr, uid, ids, context={}):
-        obj=self.pool.get('account.retencion.islr').browse(cr,uid,ids)
+        obj=self.pool.get('account.retencion.munici').browse(cr,uid,ids)
         total=0
-        for i in obj[0].islr_line_ids:
+        for i in obj[0].munici_line_ids:
             if i.amount >= i.invoice_id.check_total*0.15:
                 raise osv.except_osv(_('Invalid action !'), _("La linea que contiene El documento '%s' luce como si el monto retenido estuviera incorrecto por favor verificar.!") % (i.invoice_id.reference))
             total+=i.amount
@@ -126,13 +126,13 @@ class account_retencion_islr(osv.osv):
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
-                    'FROM account_retencion_islr ' \
+                    'FROM account_retencion_munici ' \
                     'WHERE id IN ('+','.join(map(str,ids))+')')
 
             for (id, number) in cr.fetchall():
                 if not number:
-                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.ret_islr.%s' % obj_ret.type)
-                cr.execute('UPDATE account_retencion_islr SET number=%s ' \
+                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.ret_munici.%s' % obj_ret.type)
+                cr.execute('UPDATE account_retencion_munici SET number=%s ' \
                         'WHERE id=%s', (number, id))
 
 
@@ -164,8 +164,8 @@ class account_retencion_islr(osv.osv):
                 else:
                     raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
 
-            if ret.islr_line_ids:
-                for line in ret.islr_line_ids:
+            if ret.munici_line_ids:
+                for line in ret.munici_line_ids:
                     journal_id = line.invoice_id.journal_id.id
                     writeoff_account_id = False
                     writeoff_journal_id = False
@@ -179,7 +179,7 @@ class account_retencion_islr(osv.osv):
                         'move_id': ret_move['move_id'],
                     }
                     lines = [(1, line.id, rl)]
-                    self.write(cr, uid, [ret.id], {'islr_line_ids':lines, 'period_id':period_id})
+                    self.write(cr, uid, [ret.id], {'munici_line_ids':lines, 'period_id':period_id})
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
     
 
@@ -255,9 +255,9 @@ class account_retencion_islr(osv.osv):
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_retencion_islr_receivable.id
+                acc_id = p.property_retencion_munici_receivable.id
             else:
-                acc_id = p.property_retencion_islr_payable.id
+                acc_id = p.property_retencion_munici_payable.id
 
 
         result = {'value': {
@@ -267,30 +267,30 @@ class account_retencion_islr(osv.osv):
         return result
 
 
-account_retencion_islr()
+account_retencion_munici()
 
 
 
-class account_retencion_islr_line(osv.osv):
+class account_retencion_munici_line(osv.osv):
 
     def default_get(self, cr, uid, fields, context={}):
-        data = super(account_retencion_islr_line, self).default_get(cr, uid, fields, context)
-        self.islr_context = context
+        data = super(account_retencion_munici_line, self).default_get(cr, uid, fields, context)
+        self.munici_context = context
         return data
 #TODO
 #necesito crear el campo y tener la forma de calcular el monto del impuesto
-#islr retenido en la factura
+#munici retenido en la factura
 
 
-    _name = "account.retencion.islr.line"
+    _name = "account.retencion.munici.line"
     _description = "Linea de Retencion"
     _columns = {
         'name': fields.char('Descripcion', size=64, required=True, help="Descripcion de la linea del comprobante"),
-        'retention_id': fields.many2one('account.retencion.islr', 'Comprobante', ondelete='cascade', select=True, help="Comprobante"),
+        'retention_id': fields.many2one('account.retencion.munici', 'Comprobante', ondelete='cascade', select=True, help="Comprobante"),
         'invoice_id': fields.many2one('account.invoice', 'Factura', required=True, ondelete='set null', select=True, help="Factura a retener"),
         'amount':fields.float('Amount'),
         'move_id': fields.many2one('account.move', 'Movimiento Contable', readonly=True, help="Asiento Contable"),
-        'retencion_islr':fields.float('Retencion por 100'),
+        'retencion_munici':fields.float('Retencion por 100'),
 #        'monto_fijo':fields.float('Adedum'),
         'concepto_id': fields.integer('Concepto de Retencion', size=3),
 
@@ -298,15 +298,15 @@ class account_retencion_islr_line(osv.osv):
     }
 
     _sql_constraints = [
-        ('islr_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
+        ('munici_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
     ] 
 
 
     def onchange_invoice_id(self, cr, uid, ids, invoice_id, context={}):
         lines = []
 
-        if  hasattr(self, 'islr_context') and ('lines' in self.islr_context):
-            lines = [x[2] for x in self.islr_context['lines']]
+        if  hasattr(self, 'munici_context') and ('lines' in self.munici_context):
+            lines = [x[2] for x in self.munici_context['lines']]
         if not invoice_id:
             return {'value':{'amount':0.0}}
         else:
@@ -315,4 +315,4 @@ class account_retencion_islr_line(osv.osv):
             return {'value' : {'amount':total}} 
 
 
-account_retencion_islr_line()
+account_retencion_munici_line()
