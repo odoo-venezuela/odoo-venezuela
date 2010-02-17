@@ -56,7 +56,8 @@ class rep_comprobante(report_sxw.rml_parse):
             'get_tot_gral_base': self._get_tot_gral_base,
             'get_tot_gral_iva': self._get_tot_gral_iva,
             'get_tot_gral_retencion': self._get_tot_gral_retencion,
-            'get_rif': self._get_rif
+            'get_rif': self._get_rif,
+            'get_tot_linea': self._get_tot_linea
         })
 
     def _get_partner_addr(self, idp=None):
@@ -148,6 +149,9 @@ class rep_comprobante(report_sxw.rml_parse):
         if not vat:
             return []
         return vat[2:].replace(' ', '')
+
+    def _get_tot_linea(self, base, iva): 
+        return base + iva
     
       
 report_sxw.report_sxw(
