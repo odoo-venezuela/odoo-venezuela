@@ -165,7 +165,7 @@
       <font color="white"> </font>
     </para>
     <section>
-      <para style="P10">[[repeatIn(o.islr_line_ids,'l')]]</para>
+      <para style="P10">[[repeatIn(o.munici_line_ids,'l')]]</para>
       <para style="P11">Retención por concepto de impuestos municipales:</para>
       <blockTable colWidths="527.0" style="Tabla3">
         <tr>
@@ -204,7 +204,7 @@
             <para style="P15">[[ o.amount ]]</para>
           </td>
           <td>
-            <para style="P15"><font face="Helvetica" size="8.0">% Retención: </font>[[ l.retencion_islr ]]%</para>
+            <para style="P15"><font face="Helvetica" size="8.0">% Retención: </font>[[ l.retencion_munici ]]%</para>
           </td>
         </tr>
       </blockTable>
