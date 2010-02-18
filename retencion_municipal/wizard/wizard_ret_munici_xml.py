@@ -55,7 +55,7 @@ _transaction_fields = {
 def _data_save(self, cr, uid, data, context):
     pool = pooler.get_pool(cr.dbname)
     period_obj = pool.get('account.period')
-    comp_obj = pool.get('account.retencion.islr')
+    comp_obj = pool.get('account.retencion.munici')
     form = data['form']
 
     res = {}
@@ -65,12 +65,12 @@ def _data_save(self, cr, uid, data, context):
     print 'comprobantes: ',comp_ids
     for comprobante in comp_obj.browse(cr, uid, comp_ids):
         res['rif_r'] = comprobante.partner_id.vat
-        for line in comprobante.islr_line_ids:            
+        for line in comprobante.munici_line_ids:            
             res['nro'] = line.invoice_id.number
             res['ctrl'] = line.invoice_id.nro_ctrl
             res['conce'] = line.concepto_id
             res['monto'] = line.amount
-            res['ptaje'] = line.retencion_islr
+            res['ptaje'] = line.retencion_munici
 
         lst.append(res)
 
@@ -79,12 +79,12 @@ def _data_save(self, cr, uid, data, context):
 
         
     
-#    os.system("python /home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_islr/wizard/prueba1.py "+period.name)
+#    os.system("python /home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_munici/wizard/prueba1.py "+period.name)
 
 
     return self._csv_write(cr, uid, lst, context)
 
-class wiz_ret_islr_xml(wizard.interface):
+class wiz_ret_munici_xml(wizard.interface):
 
     def _csv_write(self, cr, uid, data, context):
         orden = [
@@ -110,7 +110,7 @@ class wiz_ret_islr_xml(wizard.interface):
         print 'archxxx: ',arch
 
         import csv
-        cw = csv.writer(open("/home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_islr/wizard/out.csv", "wb"))
+        cw = csv.writer(open("/home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_munici/wizard/out.csv", "wb"))
         cw.writerows(arch)
         return {}
 
@@ -125,7 +125,7 @@ class wiz_ret_islr_xml(wizard.interface):
             'result': {'type': 'state', 'state':'end'}
         }
     }
-wiz_ret_islr_xml('account.ret.islr.xml.seniat')
+wiz_ret_munici_xml('account.ret.munici.xml.seniat')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
