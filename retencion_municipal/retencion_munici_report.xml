@@ -6,7 +6,7 @@
             model="account.retencion.munici" 
             name="comprobante.retencion.munici" 
             rml="retencion_municipal/report/comprobante_munici.rml" 
-            string="Comprobante Retención Municipal"
+            string="Comprobante Retencion Municipal"
             auto="False" />
 
 
