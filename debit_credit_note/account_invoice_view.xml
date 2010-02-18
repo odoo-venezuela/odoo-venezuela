@@ -18,7 +18,7 @@
             <field name="arch" type="xml">
                 <notebook>
                     <page string="Debit-Credit Notes" position="inside">
-                        <field name="child_ids"/>
+                        <field name="child_ids" nolabel="1"/>
                     </page>
                 </notebook>
             </field>
@@ -34,7 +34,7 @@
             <field name="arch" type="xml">
                 <notebook>
                     <page string="Debit-Credit Notes" position="inside">
-                        <field name="child_ids"/>
+                        <field name="child_ids" nolabel="1"/>
                     </page>
                 </notebook>
             </field>

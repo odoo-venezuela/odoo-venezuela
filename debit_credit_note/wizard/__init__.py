@@ -28,21 +28,6 @@
 #
 ##############################################################################
 
-{
-	"name" : "Debit and Credit Notes on Invoice",
-	"version" : "0.1",
-	"author" : "Netquatro",
-	"category" : "Localisation/Venezuela",
-	"website": "http://wiki.openerp.org.ve/",
-	"description": '''This module ads credit a debit notes on each invoices
-''',
-	"depends" : ["base","account"],
-	"init_xml" : [],
-	"demo_xml" : [], 
-	"update_xml" : [
-            "account_invoice_view.xml",
-            "debit_credit_note_wizard.xml",
-    ],
-	"active": False,
-	"installable": True
-}
+
+import wizard_refund
+
