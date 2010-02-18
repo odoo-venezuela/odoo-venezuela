@@ -4,7 +4,7 @@
 
 	<!-- 
 	=====================================================
-	Linea de Retencion munici
+	Linea de Retencion municipal
 	=====================================================
 	-->  
 
@@ -13,7 +13,7 @@
             <field name="model">account.retencion.munici.line</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Lineas de Retencion munici" editable="bottom">
+                <tree string="Lineas de Retencion municipal" editable="bottom">
                     <field name="name"/>
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
                     <field name="concepto_id"/>
@@ -28,7 +28,7 @@
             <field name="model">account.retencion.munici.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Lineas de Retencion munici">
+                <form string="Lineas de Retencion municipal">
                     <notebook>
                         <page string="Linea">
                             <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
@@ -46,7 +46,7 @@
 
 	<!-- 
 	=====================================================
-	Retencion munici
+	Retencion municipal
 	=====================================================
 	-->  
 
@@ -56,7 +56,7 @@
             <field name="model">account.retencion.munici</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state=='draft'" string="Retencion munici">
+                <tree colors="blue:state=='draft'" string="Retencion municipal">
                     <field name="name"/>
                     <field name="type"/>
                     <field name="code"/>
@@ -78,7 +78,7 @@
             <field name="model">account.retencion.munici</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Retencion munici">
+                <form string="Retencion municipal">
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2"/>
                         <field name="type" select="2"/>
@@ -94,7 +94,7 @@
                         <field name="amount" />
                     </group>
                     <notebook colspan="4">
-                        <page string="Retencion munici">
+                        <page string="Retencion municipal">
                             <field name="munici_line_ids" default_get="{'lines': munici_line_ids }" colspan="4" nolabel="1" height="275"/>
                             <group col="4" colspan="2">
                                 <field name="state" select="2"/>
@@ -132,7 +132,7 @@
 
 	    <menuitem
 	    	id="menu_action_account_retencion_munici"
-	    	name="Retencion munici" 		
+	    	name="Retencion municipal" 		
 	    	parent="account.menu_finance"
 	    	action="action_account_retencion_munici"/>
 
@@ -162,7 +162,7 @@
 
 	    <menuitem
 	    	id="menu_action_account_retencion_munici_customer"
-	    	name="Retencion munici Clientes" 		
+	    	name="Retencion municipal Clientes" 		
 	    	parent="menu_action_account_retencion_munici"
 	    	action="action_account_retencion_munici_customer"/>
 
@@ -192,7 +192,7 @@
 
 	    <menuitem
 	    	id="menu_action_account_retencion_munici_supplier"
-	    	name="Retencion munici Proveedores" 		
+	    	name="Retencion municipal Proveedores" 		
 	    	parent="menu_action_account_retencion_munici"
 	    	action="action_account_retencion_munici_supplier"/>
 
