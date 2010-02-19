@@ -30,4 +30,5 @@
 
 
 import wizard_refund
+import wizard_debit_note
 

@@ -9,6 +9,13 @@
             string="Credit Note" 
             groups="base.group_user"/>
 
+        <wizard 
+            id="account.wizard_debit_note" 
+            model="account.invoice" 
+            name="account.invoice.debit_note" 
+            string="Debit Note" 
+            groups="base.group_user"/>
+
 
     </data>
 </openerp>
