@@ -42,6 +42,7 @@
 	"update_xml" : [
             "account_invoice_view.xml",
             "debit_credit_note_wizard.xml",
+            "debit_credit_note_sequence.xml",
     ],
 	"active": False,
 	"installable": True
