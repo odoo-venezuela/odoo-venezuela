@@ -44,6 +44,45 @@ class account_invoice(osv.osv):
         'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes'),
     }
     
+    def action_number(self, cr, uid, ids, *args):
+        cr.execute('SELECT id, type, number, move_id, reference ' \
+                'FROM account_invoice ' \
+                'WHERE id IN ('+','.join(map(str,ids))+')')
+        obj_inv = self.browse(cr, uid, ids)[0]
+        for (id, invtype, number, move_id, reference) in cr.fetchall():
+            if not number:
+                if obj_inv.journal_id.invoice_sequence_id:
+                    sid = obj_inv.journal_id.invoice_sequence_id.id
+                    number = self.pool.get('ir.sequence').get_id(cr, uid, sid, 'id=%s', {'fiscalyear_id': obj_inv.period_id.fiscalyear_id.id})
+                else:
+                    if obj_inv.parent_id and obj_inv.parent_id.id:
+                        type_dict = {
+                                'out_invoice': 'out_debit', # Customer Invoice
+                                'in_invoice': 'in_debit',   # Supplier Invoice
+                        }
+                        number = self.pool.get('ir.sequence').get(cr, uid,
+                                'account.invoice.' + type_dict[invtype])
+                    else:
+                        number = self.pool.get('ir.sequence').get(cr, uid,
+                                'account.invoice.' + invtype)
+                if invtype in ('in_invoice', 'in_refund'):
+                    ref = reference
+                else:
+                    ref = self._convert_ref(cr, uid, number)
+                cr.execute('UPDATE account_invoice SET number=%s ' \
+                        'WHERE id=%s', (number, id))
+                cr.execute('UPDATE account_move SET ref=%s ' \
+                        'WHERE id=%s AND (ref is null OR ref = \'\')',
+                        (ref, move_id))
+                cr.execute('UPDATE account_move_line SET ref=%s ' \
+                        'WHERE move_id=%s AND (ref is null OR ref = \'\')',
+                        (ref, move_id))
+                cr.execute('UPDATE account_analytic_line SET ref=%s ' \
+                        'FROM account_move_line ' \
+                        'WHERE account_move_line.move_id = %s ' \
+                            'AND account_analytic_line.move_id = account_move_line.id',
+                            (ref, move_id))
+        return True
 
 account_invoice()
 
