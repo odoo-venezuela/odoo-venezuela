@@ -55,6 +55,9 @@ class wiz_debit(wizard.interface):
         for inv in pool.get('account.invoice').browse(cr, uid, data['ids']):
             if inv.state in ['draft', 'proforma2', 'cancel']:
                 raise wizard.except_wizard(_('Error !'), _('Can not make a debit note on a draft/proforma/cancel invoice.'))
+            if inv.type not in ['in_invoice', 'out_invoice']:
+                raise wizard.except_wizard(_('Error !'), _('Can not make a debit note on a refund invoice.'))
+
             if form['period'] :
                 period = form['period']
             else:
