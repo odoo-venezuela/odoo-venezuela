@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<wizard 
+			string="Update Cost Price" 
+			model="report.profit"
+			name="profit.update.costprice"
+			id="wizard_profit_cost_price" />
+
+
+
+
+	</data>
+</openerp>
