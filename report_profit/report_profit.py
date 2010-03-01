@@ -31,8 +31,8 @@
 from osv import fields,osv
 
 class report_profit(osv.osv):
-    _name = "report.sale.order.product"
-    _description = "Sales Orders by Products"
+    _name = "report.profit"
+    _description = "Profit by Products"
     _auto = False
     _columns = {
         'name': fields.date('Month', readonly=True),
@@ -46,7 +46,7 @@ class report_profit(osv.osv):
         'last_price_subtotal': fields.float('Subtotal Last Price', readonly=True),
         'uom_id': fields.many2one('product.uom', ' UoM', readonly=True),
     }
-    _order = 'name desc,price_total desc'
+
     def init(self, cr):
         cr.execute("""
             create or replace view report_profit as (
@@ -61,7 +61,8 @@ class report_profit(osv.osv):
                     l.last_price as last_price,
                     l.price_subtotal as price_subtotal,
                     sum(l.quantity*l.last_price) as last_price_subtotal,
-                    l.uos_id as uom_id
+                    l.uos_id as uom_id,
+                    p.name as partner
                 from account_invoice i
                     inner join res_partner p on (p.id=i.partner_id)
                     left join res_users u on (u.id=p.user_id)
@@ -70,8 +71,8 @@ class report_profit(osv.osv):
                     left join product_template t on (t.id=l.product_id)
                     left join product_product d on (d.product_tmpl_id=l.product_id)
                 where l.quantity != 0
-                group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id
-                order by name desc
+                group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name
+                order by p.name
             )
         """)
 report_profit()
