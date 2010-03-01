@@ -296,7 +296,10 @@ class account_retencion_munici_line(osv.osv):
 
 
     }
-
+    _defaults = {
+        'concepto_id': lambda *a: 1,
+        
+    }
     _sql_constraints = [
         ('munici_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
     ] 
