@@ -33,6 +33,7 @@ from osv import fields
 from osv import osv
 import ir
 import pooler
+import time
 
 class product_supplierinfo(osv.osv):
     _inherit = 'product.supplierinfo'
@@ -74,36 +75,50 @@ class product_product(osv.osv):
     _inherit = 'product.product'
 
 
-    def _last_invoice(self, cr, uid, ids, name, arg, context):
+    def _get_last_invoice_func(states, what):
+        def _last_invoice(self, cr, uid, ids, name, arg, context):
+            res = self._product_get_invoice(cr, uid, ids, [], False, context, states, what)
+            return res
+        return _last_invoice
+
+
+    def _get_last_invoice_date_func(states, what):
+        def _last_invoice_date(self, cr, uid, ids, name, arg, context):
+            res = {}
+            inv = self.pool.get('account.invoice')
+            _last_invoices = self._product_get_invoice(cr, uid, ids, [], False, context, states, what)
+            dates = inv.read(cr, uid, filter(None, _last_invoices.values()), ['date_invoice'])
+            for prod_id in ids:
+                date_inv = [x['date_invoice'] for x in dates if x['id']==_last_invoices[prod_id]]
+                if date_inv:
+                    res[prod_id] = date_inv[0]
+                else:
+                    res[prod_id] = False
+            return res
+        return _last_invoice_date
+
+    def _product_get_invoice(self, cr, uid, ids, supplier_ids=False, date_ref=False, context={}, states=['open', 'paid'], what='in_invoice'):
         res = {}
-        tipo='in_invoice'
+        states_str = ','.join(map(lambda s: "'%s'" % s, states))
+        date = date_ref or time.strftime('%Y-%m-%d')
         for product in self.browse(cr, uid, ids):
-            cr.execute("select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and state in ('open', 'paid') and type=%s group by inv.id order by date desc", (product.id, tipo,))
+            sql = "select inv.id, max(%s) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and state in (%s) and type='%s' group by inv.id order by date desc" % (date,product.id,states_str,what)
+            print 'sql: ',sql
+            cr.execute(sql)
             record = cr.fetchone()
+            print 'record: ',record
             if record:
                 res[product.id] = record[0]
             else:
                 res[product.id] = False
         return res
 
-    def _last_invoice_date(self, cr, uid, ids, name, arg, context):
-        res = {}
-        inv = self.pool.get('account.invoice')
-        _last_invoices = self._last_invoice(cr, uid, ids, name, arg, context)
-        dates = inv.read(cr, uid, filter(None, _last_invoices.values()), ['date_invoice'])
-        for prod_id in ids:
-            date_inv = [x['date_invoice'] for x in dates if x['id']==_last_invoices[prod_id]]
-            if date_inv:
-                res[prod_id] = date_inv[0]
-            else:
-                res[prod_id] = False
-        return res
 
-
-
+    _invoice_available = _get_last_invoice_func(('open', 'paid'), 'in_invoice')
+    _invoice_date_available = _get_last_invoice_date_func(('open', 'paid'), 'in_invoice')
     _columns = {
-        'last_inv' : fields.function(_last_invoice, type='many2one', obj='account.invoice', method=True, string='Last Invoice'),
-        'last_inv_date' : fields.function(_last_invoice_date, type='date', method=True, string='Last Invoice date'),
+        'last_inv' : fields.function(_invoice_available, type='many2one', obj='account.invoice', method=True, string='Last Invoice'),
+        'last_inv_date' : fields.function(_invoice_date_available, type='date', method=True, string='Last Invoice date'),
     }
 
 product_product()
