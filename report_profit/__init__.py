@@ -31,4 +31,5 @@
 
 import invoice
 import product
+import report_profit
 
