@@ -30,7 +30,7 @@
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
                 <field name="cost_method" position="after">
-                    <field name="last_inv" />
+                    <field name="last_pur_inv" />
                 </field>
             </field>
         </record>
@@ -41,8 +41,8 @@
             <field name="inherit_id" ref="product.product_product_tree_view" />
             <field name="arch" type="xml">
                 <field name="standard_price" position="after">
-                    <field name="last_inv price" />
-                    <field name="last_inv_date" />
+                    <field name="last_cost" />
+                    <field name="last_pur_inv_date" />
                 </field>
             </field>
         </record>

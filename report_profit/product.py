@@ -142,13 +142,13 @@ class product_product(osv.osv):
         return res
 
 
-    _invoice_available = _get_last_invoice_func(('open', 'paid'), 'in_invoice')
-    _invoice_date_available = _get_last_invoice_date_func(('open', 'paid'), 'in_invoice')
-    _invoice_price_available = _get_last_invoice_price_func(('open', 'paid'), 'in_invoice')
+    _pur_inv = _get_last_invoice_func(('open', 'paid'), 'in_invoice')
+    _pur_inv_date = _get_last_invoice_date_func(('open', 'paid'), 'in_invoice')
+    _pur_inv_cost = _get_last_invoice_price_func(('open', 'paid'), 'in_invoice')
     _columns = {
-        'last_inv' : fields.function(_invoice_available, type='many2one', obj='account.invoice', method=True, string='Last Invoice'),
-        'last_inv_date' : fields.function(_invoice_date_available, type='date', method=True, string='Last Invoice date'),
-        'last_inv price': fields.function(_invoice_price_available, type="float", method=True, string='Last Invoice price', digits=(16, int(config['price_accuracy']))),
+        'last_pur_inv' : fields.function(_pur_inv, type='many2one', obj='account.invoice', method=True, string='Last Purchase Invoice'),
+        'last_pur_inv_date' : fields.function(_pur_inv_date, type='date', method=True, string='Last Purchase Invoice date'),
+        'last_cost': fields.function(_pur_inv_cost, type="float", method=True, string='Last Cost', digits=(16, int(config['price_accuracy']))),
     }
 
 product_product()
