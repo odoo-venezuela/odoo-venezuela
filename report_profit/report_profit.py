@@ -45,6 +45,8 @@ class report_profit(osv.osv):
         'price_subtotal': fields.float('Subtotal Price', readonly=True),
         'last_price_subtotal': fields.float('Subtotal Last Price', readonly=True),
         'uom_id': fields.many2one('product.uom', ' UoM', readonly=True),
+        'profit': fields.float('Profit', readonly=True),
+        'perc': fields.float('Profit Percent', readonly=True),
     }
 
     def init(self, cr):
@@ -60,7 +62,9 @@ class report_profit(osv.osv):
                     l.price_unit as price_unit,
                     l.last_price as last_price,
                     l.price_subtotal as price_subtotal,
-                    sum(l.quantity*l.last_price) as last_price_subtotal,
+                    (l.quantity*l.last_price) as last_price_subtotal,
+                    (price_subtotal-l.quantity*l.last_price) as profit,
+                    ((price_subtotal-l.quantity*l.last_price)/(price_subtotal)*100) as perc,
                     l.uos_id as uom_id,
                     p.name as partner
                 from account_invoice i

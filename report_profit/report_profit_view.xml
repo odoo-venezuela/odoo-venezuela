@@ -17,8 +17,10 @@
                     <field name="quantity"/>
                     <field name="price_unit"/>
                     <field name="last_price"/>
-                    <field name="price_subtotal"/>
-                    <field name="last_price_subtotal"/>
+                    <field name="price_subtotal" sum="Price amount"/>
+                    <field name="last_price_subtotal" sum="Cost amount"/>
+                    <field name="profit"/>
+                    <field name="perc"/>
                     <field name="uom_id"/>
                 </tree>
             </field>
