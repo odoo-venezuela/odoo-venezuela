@@ -49,18 +49,12 @@ def _data_save(self, cr, uid, data, context):
         raise wizard.except_wizard(_('Error Usuario'), _('Updating Invoice Line, please check the box !'))
     pool = pooler.get_pool(cr.dbname)
     prod_obj = pool.get('product.product')
-#    pxt = data['form']['pret']
-#    inv_lst = []
+    line_inv_obj = pool.get('account.invoice.line')
 
-    for inv in pool.get('account.invoice').browse(cr, uid, data['ids']):
-        if inv.state in ('open', 'paid') and inv.invoice_line:
-            for line in inv.invoice_line:
-                prod_info = prod_obj._get_last_invoice_func(('done',))
-#                inv_lst.append(line.invoice_id.id)
-
-#    inv_obj.write(cr, uid, inv_lst, {'p_ret':pxt}, context=context)
-#    inv_obj.button_compute(cr, uid, inv_lst)
-
+    for line in line_inv_obj.browse(cr, uid, data['ids']):
+        if line.invoice_id.state in ('open', 'paid'):
+            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], line.invoice_id.id, line.invoice_id.partner_id.id, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
+            line_inv_obj.write(cr, uid,line.id, {'last_price':prod_price[line.product_id.id]}, context=context)
     return {}
 
 class wiz_last_cost(wizard.interface):

@@ -78,7 +78,7 @@ class product_product(osv.osv):
 
     def _get_last_invoice_func(states, what):
         def _last_invoice(self, cr, uid, ids, name, arg, context):
-            res = self._product_get_invoice(cr, uid, ids, False, [], False, context, states, what)
+            res = self._product_get_invoice(cr, uid, ids, False, False, False, context, states, what)
             return res
         return _last_invoice
 
@@ -87,7 +87,7 @@ class product_product(osv.osv):
         def _last_invoice_date(self, cr, uid, ids, name, arg, context):
             res = {}
             inv = self.pool.get('account.invoice')
-            _last_invoices = self._product_get_invoice(cr, uid, ids, False, [], False, context, states, what)
+            _last_invoices = self._product_get_invoice(cr, uid, ids, False, False, False, context, states, what)
             dates = inv.read(cr, uid, filter(None, _last_invoices.values()), ['date_invoice'])
             for prod_id in ids:
                 date_inv = [x['date_invoice'] for x in dates if x['id']==_last_invoices[prod_id]]
