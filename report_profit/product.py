@@ -133,7 +133,7 @@ class product_product(osv.osv):
             cr.execute(sql)
             allrecord = cr.fetchall()
             record = allrecord and allrecord.pop(0) or False                
-            if invoice_id and record[0]==invoice_id:
+            if invoice_id and record and record[0]==invoice_id:
                 record = allrecord and allrecord.pop(0) or False
             if record:
                 res[product.id] = record[0]
