@@ -74,7 +74,7 @@ class report_profit(osv.osv):
                     left join product_uom m on (m.id=l.uos_id)
                     left join product_template t on (t.id=l.product_id)
                     left join product_product d on (d.product_tmpl_id=l.product_id)
-                where l.quantity != 0
+                where l.quantity != 0 and i.type='out_invoice'
                 group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name
                 order by p.name
             )
