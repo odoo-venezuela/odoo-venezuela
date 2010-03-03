@@ -34,6 +34,7 @@ from osv import osv
 import ir
 import pooler
 import time
+from tools import config
 
 class product_supplierinfo(osv.osv):
     _inherit = 'product.supplierinfo'
@@ -77,7 +78,7 @@ class product_product(osv.osv):
 
     def _get_last_invoice_func(states, what):
         def _last_invoice(self, cr, uid, ids, name, arg, context):
-            res = self._product_get_invoice(cr, uid, ids, [], False, context, states, what)
+            res = self._product_get_invoice(cr, uid, ids, False, [], False, context, states, what)
             return res
         return _last_invoice
 
@@ -86,7 +87,7 @@ class product_product(osv.osv):
         def _last_invoice_date(self, cr, uid, ids, name, arg, context):
             res = {}
             inv = self.pool.get('account.invoice')
-            _last_invoices = self._product_get_invoice(cr, uid, ids, [], False, context, states, what)
+            _last_invoices = self._product_get_invoice(cr, uid, ids, False, [], False, context, states, what)
             dates = inv.read(cr, uid, filter(None, _last_invoices.values()), ['date_invoice'])
             for prod_id in ids:
                 date_inv = [x['date_invoice'] for x in dates if x['id']==_last_invoices[prod_id]]
@@ -97,16 +98,43 @@ class product_product(osv.osv):
             return res
         return _last_invoice_date
 
-    def _product_get_invoice(self, cr, uid, ids, supplier_ids=False, date_ref=False, context={}, states=['open', 'paid'], what='in_invoice'):
+
+    def _get_last_invoice_price_func(states, what):
+        def _last_invoice_price(self, cr, uid, ids, name, arg, context):
+            return self._product_get_price(cr, uid, ids, False, False, False, context, states, what)
+        return _last_invoice_price
+
+
+    def _product_get_price(self, cr, uid, ids, invoice_id=False, supplier_id=False, date_ref=False, context={}, states=['open', 'paid'], what='in_invoice'):
+        res = {}
+        _last_invoices = self._product_get_invoice(cr, uid, ids, invoice_id, supplier_id, date_ref, context, states, what)
+        lstprod=filter(lambda x:_last_invoices[x], _last_invoices.keys())
+        for prod_id in ids:
+            record = False
+            if prod_id in lstprod:
+                cr.execute("select line.id, max(line.price_unit) as price from account_invoice_line as line where line.invoice_id=%s and product_id=%s group by line.id order by price desc", (_last_invoices[prod_id], prod_id))
+                record = cr.fetchone()
+            if record:
+                res[prod_id] = record[1]
+            else:
+                res[prod_id] = False
+        return res
+
+
+    def _product_get_invoice(self, cr, uid, ids, invoice_id=False, supplier_id=False, date_ref=False, context={}, states=['open', 'paid'], what='in_invoice'):
         res = {}
         states_str = ','.join(map(lambda s: "'%s'" % s, states))
         date = date_ref or time.strftime('%Y-%m-%d')
         for product in self.browse(cr, uid, ids):
-            sql = "select inv.id, max(%s) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and state in (%s) and type='%s' group by inv.id order by date desc" % (date,product.id,states_str,what)
-            print 'sql: ',sql
+            sql = "select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and state in (%s) and type='%s' and date_invoice<='%s' group by inv.id order by date desc" % (product.id,states_str,what,date)
+            if supplier_id:
+                sql = "select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and partner_id=%s and state in (%s) and type='%s' and date_invoice<='%s' group by inv.id order by date desc" % (product.id,supplier_id,states_str,what,date)
+
             cr.execute(sql)
-            record = cr.fetchone()
-            print 'record: ',record
+            allrecord = cr.fetchall()
+            record = allrecord and allrecord.pop(0) or False                
+            if invoice_id and record[0]==invoice_id:
+                record = allrecord and allrecord.pop(0) or False
             if record:
                 res[product.id] = record[0]
             else:
@@ -116,9 +144,11 @@ class product_product(osv.osv):
 
     _invoice_available = _get_last_invoice_func(('open', 'paid'), 'in_invoice')
     _invoice_date_available = _get_last_invoice_date_func(('open', 'paid'), 'in_invoice')
+    _invoice_price_available = _get_last_invoice_price_func(('open', 'paid'), 'in_invoice')
     _columns = {
         'last_inv' : fields.function(_invoice_available, type='many2one', obj='account.invoice', method=True, string='Last Invoice'),
         'last_inv_date' : fields.function(_invoice_date_available, type='date', method=True, string='Last Invoice date'),
+        'last_inv price': fields.function(_invoice_price_available, type="float", method=True, string='Last Invoice price', digits=(16, int(config['price_accuracy']))),
     }
 
 product_product()

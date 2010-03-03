@@ -41,6 +41,7 @@
             <field name="inherit_id" ref="product.product_product_tree_view" />
             <field name="arch" type="xml">
                 <field name="standard_price" position="after">
+                    <field name="last_inv price" />
                     <field name="last_inv_date" />
                 </field>
             </field>

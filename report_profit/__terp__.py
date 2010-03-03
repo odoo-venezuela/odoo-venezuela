@@ -42,7 +42,6 @@
 	"update_xml" : [
             "product_view.xml",
             "report_profit_view.xml",
-            "report_profit_view.xml",
     ],
 	"active": False,
 	"installable": True
