@@ -44,6 +44,7 @@ Administración de las retenciones aplicadas al Impuesto del Valor Agregado:
 	"init_xml" : [],
 	"demo_xml" : [], 
 	"update_xml" : [
+            "security/ir.model.access.csv",
             "retention_workflow.xml",
             "retention_view.xml", 
             "account_view.xml", 
