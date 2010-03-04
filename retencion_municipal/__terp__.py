@@ -43,6 +43,7 @@ Administración de las retenciones aplicadas a tributos municipales.
 
     ], 
 	"update_xml" : [
+            "security/ir.model.access.csv",
 #            "retention_workflow.xml",
             "retencion_munici_view.xml",
             "retencion_munici_sequence.xml",
