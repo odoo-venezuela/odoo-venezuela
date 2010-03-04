@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_account_retencion_islr","account.retencion.islr","model_account_retencion_islr","account.group_account_user",1,1,1,1
+"access_account_retencion_islr_line","account.retencion.islr.line","model_account_retencion_islr_line","account.group_account_user",1,1,1,1
+"access_account_retencion_islr_manager","account.retencion.islr","model_account_retencion_islr","account.group_account_manager",1,1,1,1
+"access_account_retencion_islr_line_manager","account.retencion.islr.line","model_account_retencion_islr_line","account.group_account_manager",1,1,1,1
+
