@@ -53,7 +53,7 @@ def _data_save(self, cr, uid, data, context):
 
     for line in line_inv_obj.browse(cr, uid, data['ids']):
         if line.invoice_id.state in ('open', 'paid'):
-            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], line.invoice_id.id, line.invoice_id.partner_id.id, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
+            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], line.invoice_id.id, False, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
             line_inv_obj.write(cr, uid,line.id, {'last_price':prod_price[line.product_id.id]}, context=context)
     return {}
 
