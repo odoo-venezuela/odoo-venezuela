@@ -47,6 +47,7 @@ Verificar pestañas en Partners, Invoices y menús creados.
 
     ], 
 	"update_xml" : [
+            "security/ir.model.access.csv",
 #            "retention_workflow.xml",
             "retencion_islr_view.xml",
             "retencion_islr_sequence.xml",

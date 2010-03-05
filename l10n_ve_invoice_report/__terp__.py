@@ -34,7 +34,10 @@
 	"author" : "Netquatro",
 	"category" : "Generic Modules/Others",
 	"website": "http://wiki.openerp.org.ve/",
-	"depends" : ["account"],
+	"description": '''
+Factura Personalizada para Venezuela
+''',
+	"depends" : ["account", "debit_credit_note"],
 	"init_xml" : [],
 	"update_xml" : [
 		"l10n_ve_invoice_report.xml",
