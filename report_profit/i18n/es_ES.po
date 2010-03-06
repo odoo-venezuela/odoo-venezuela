@@ -1,0 +1,211 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* report_profit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.7\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-03-06 05:14:18+0000\n"
+"PO-Revision-Date: 2010-03-06 05:14:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_profit
+#: field:product.product,last_pur_inv_date:0
+msgid "Last Purchase Invoice date"
+msgstr "Fecha última Fact. Compra"
+
+#. module: report_profit
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "¡El nombre del objeto debe empezar con x_ y no contener ningún carácter especial!"
+
+#. module: report_profit
+#: field:report.profit,price_subtotal:0
+msgid "Subtotal Price"
+msgstr "Subtotal PVP"
+
+#. module: report_profit
+#: field:report.profit,profit:0
+msgid "Profit"
+msgstr "Utilidad"
+
+#. module: report_profit
+#: wizard_field:profit.update.costprice,init,sure:0
+#: wizard_field:profit.update.costprice2,init,sure:0
+msgid "Check this box?"
+msgstr ""
+
+#. module: report_profit
+#: wizard_button:profit.update.costprice,init,change:0
+#: wizard_button:profit.update.costprice2,init,change:0
+msgid "Update"
+msgstr "Actualizar"
+
+#. module: report_profit
+#: field:report.profit,price_unit:0
+msgid "Unit Price"
+msgstr "PVP Unitario"
+
+#. module: report_profit
+#: model:ir.actions.wizard,name:report_profit.wizard_profit_cost_price
+msgid "Update Cost Price"
+msgstr "Actualiza Precio Costo"
+
+#. module: report_profit
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo no válido en la definición de acción."
+
+#. module: report_profit
+#: field:product.product,last_pur_inv:0
+msgid "Last Purchase Invoice"
+msgstr "Última fact. Compra"
+
+#. module: report_profit
+#: wizard_view:profit.update.costprice,init:0
+#: wizard_view:profit.update.costprice2,init:0
+msgid "Are you sure ?"
+msgstr ""
+
+#. module: report_profit
+#: field:product.supplierinfo,last_inv:0
+msgid "Last Invoice"
+msgstr "Últma Factura"
+
+#. module: report_profit
+#: field:product.product,last_cost:0
+#: field:report.profit,last_cost:0
+msgid "Last Cost"
+msgstr "Último Costo"
+
+#. module: report_profit
+#: field:report.profit,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: report_profit
+#: view:report.profit:0
+msgid "Price amount"
+msgstr "Monto PVP"
+
+#. module: report_profit
+#: field:report.profit,user_id:0
+msgid "User"
+msgstr "Vendedor"
+
+#. module: report_profit
+#: field:report.profit,quantity:0
+msgid "# of Products"
+msgstr "No. Producto"
+
+#. module: report_profit
+#: field:report.profit,last_cost_subtotal:0
+msgid "Subtotal Last Cost"
+msgstr "Subtotal Costo x Cantidad"
+
+#. module: report_profit
+#: code:addons/report_profit/wizard/wizard_last_cost_price.py:0
+#: code:addons/report_profit/wizard/wizard_last_cost_price2.py:0
+#, python-format
+msgid "Error Usuario"
+msgstr "Error usuario"
+
+#. module: report_profit
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: report_profit
+#: field:account.invoice.line,last_price:0
+msgid "Last Price"
+msgstr ""
+
+#. module: report_profit
+#: model:ir.module.module,description:report_profit.module_meta_information
+msgid "Report of profitability for high-risk economies\n"
+""
+msgstr "Reporte de rentabilidad para economías de alto riesgo"
+
+#. module: report_profit
+#: model:ir.actions.wizard,name:report_profit.wizard_profit_cost_price2
+#: model:ir.ui.menu,name:report_profit.menu_report_profit
+msgid "Update Cost Price2"
+msgstr "Actualiza Costos de Reposicion"
+
+#. module: report_profit
+#: wizard_view:profit.update.costprice,init:0
+#: wizard_view:profit.update.costprice2,init:0
+msgid "Update Last Cost Price"
+msgstr "Actualiza último precio de costo"
+
+#. module: report_profit
+#: model:ir.model,name:report_profit.model_report_profit
+msgid "Profit by Products"
+msgstr "Rentabilidad por Producto"
+
+#. module: report_profit
+#: model:ir.module.module,shortdesc:report_profit.module_meta_information
+msgid "Report Profit"
+msgstr "Reporte de Rentabilidad"
+
+#. module: report_profit
+#: field:report.profit,uom_id:0
+msgid " UoM"
+msgstr "UoM"
+
+#. module: report_profit
+#: view:report.profit:0
+msgid "Cost amount"
+msgstr "Valor Costos"
+
+#. module: report_profit
+#: field:report.profit,perc:0
+msgid "Profit Percent"
+msgstr "Porcentaje Rentabilidad"
+
+#. module: report_profit
+#: field:report.profit,name:0
+msgid "Month"
+msgstr "Mes"
+
+#. module: report_profit
+#: model:ir.actions.act_window,name:report_profit.action_profit_product_tree
+#: model:ir.ui.menu,name:report_profit.menu_report_profit_product
+#: view:report.profit:0
+msgid "Profit by Product"
+msgstr "Rentabilidad por Producto"
+
+#. module: report_profit
+#: field:product.supplierinfo,last_inv_date:0
+msgid "Last Invoice date"
+msgstr "Fecha Última Fact."
+
+#. module: report_profit
+#: model:ir.ui.menu,name:report_profit.profit_reporting
+msgid "Management Reporting"
+msgstr "Reporte Gerencial"
+
+#. module: report_profit
+#: wizard_button:profit.update.costprice,init,end:0
+#: wizard_button:profit.update.costprice2,init,end:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: report_profit
+#: field:report.profit,partner_id:0
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: report_profit
+#: code:addons/report_profit/wizard/wizard_last_cost_price.py:0
+#: code:addons/report_profit/wizard/wizard_last_cost_price2.py:0
+#, python-format
+msgid "Updating Invoice Line, please check the box !"
+msgstr "Para actualizar las líneas de factura, por favor chequea la caja."
+
