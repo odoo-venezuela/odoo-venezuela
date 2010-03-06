@@ -29,7 +29,7 @@
 ##############################################################################
 
 import wizard_last_cost_price
-
+import wizard_last_cost_price2
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

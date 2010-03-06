@@ -9,6 +9,19 @@
 			name="profit.update.costprice"
 			id="wizard_profit_cost_price" />
 
+		<wizard 
+			string="Update Cost Price2" 
+			model="report.profit"
+			name="profit.update.costprice2"
+			id="wizard_profit_cost_price2" 
+            menu="False"/>
+
+        <menuitem 
+            action="wizard_profit_cost_price2" 
+            id="menu_report_profit" 
+            parent="report_profit.profit_reporting" 
+            type="wizard"/>
+
 
 
 
