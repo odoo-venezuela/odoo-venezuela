@@ -35,10 +35,10 @@ class report_profit(osv.osv):
     _description = "Profit by Products"
     _auto = False
     _columns = {
-        'name': fields.date('Month', readonly=True),
-        'product_id':fields.many2one('product.product', 'Product', readonly=True),
-        'partner_id': fields.many2one('res.partner', 'Partner', readonly=True),
-        'user_id':fields.many2one('res.users', 'User', readonly=True),
+        'name': fields.date('Month', readonly=True, select=True),
+        'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
+        'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, select=True),
+        'user_id':fields.many2one('res.users', 'User', readonly=True, select=True),
         'quantity': fields.float('# of Products', readonly=True),
         'price_unit': fields.float('Unit Price', readonly=True),
         'last_cost': fields.float('Last Cost', readonly=True),
@@ -47,6 +47,12 @@ class report_profit(osv.osv):
         'uom_id': fields.many2one('product.uom', ' UoM', readonly=True),
         'profit': fields.float('Profit', readonly=True),
         'perc': fields.float('Profit Percent', readonly=True),
+        'type': fields.selection([
+            ('out_invoice','Customer Invoice'),
+            ('in_invoice','Supplier Invoice'),
+            ('out_refund','Customer Refund'),
+            ('in_refund','Supplier Refund'),
+            ],'Type', readonly=True, select=True),
     }
 
     def init(self, cr):
@@ -66,7 +72,8 @@ class report_profit(osv.osv):
                     (price_subtotal-l.quantity*l.last_price) as profit,
                     ((price_subtotal-l.quantity*l.last_price)/(price_subtotal)*100) as perc,
                     l.uos_id as uom_id,
-                    p.name as partner
+                    p.name as partner,
+                    i.type as type
                 from account_invoice i
                     inner join res_partner p on (p.id=i.partner_id)
                     left join res_users u on (u.id=p.user_id)
@@ -74,8 +81,8 @@ class report_profit(osv.osv):
                     left join product_uom m on (m.id=l.uos_id)
                     left join product_template t on (t.id=l.product_id)
                     left join product_product d on (d.product_tmpl_id=l.product_id)
-                where l.quantity != 0 and i.type='out_invoice'
-                group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name
+                where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid')
+                group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type
                 order by p.name
             )
         """)
