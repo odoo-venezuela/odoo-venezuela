@@ -9,7 +9,7 @@
             <field name="model">report.profit</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Profit by Product">
+                <tree string="Profit by Product" colors="red:profit&lt;0 and (type=='out_invoice');blue:type=='out_refund' and (profit&gt;0);grey:type=='out_refund' and (profit&lt;=0)">
                     <field name="name"/>
                     <field name="product_id"/>
                     <field name="partner_id"/>
