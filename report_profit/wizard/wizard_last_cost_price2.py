@@ -98,14 +98,10 @@ def _data_save(self, cr, uid, data, context):
 
         #we get the model
         result = mod_obj._get_id(cr, uid, 'report_profit', xml_id)
-        print 'modelo: ',result
         id = mod_obj.read(cr, uid, result, ['res_id'])['res_id']
-        print 'res_id: ',id
         # we read the act window
         result = act_obj.read(cr, uid, id)
-        print 'updated_inv_line: ',updated_inv_line
         result['res_id'] = updated_inv_line
-
 
 
     return result
