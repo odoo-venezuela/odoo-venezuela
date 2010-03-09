@@ -22,6 +22,7 @@
                     <field name="profit"/>
                     <field name="perc"/>
                     <field name="uom_id"/>
+                    <field name="type"/>
                 </tree>
             </field>
         </record>
@@ -44,6 +45,7 @@
                     <field name="price_subtotal"/>
                     <field name="last_cost_subtotal"/>
                     <field name="uom_id"/>
+                    <field name="type"/>
                 </form>
             </field>
         </record>
