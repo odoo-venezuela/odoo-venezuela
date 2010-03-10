@@ -117,7 +117,8 @@ def _data_save(self, cr, uid, data, context):
     res = cr.fetchall()
     for line in line_inv_obj.browse(cr, uid, map(lambda x:x[0],res)):
         if line.invoice_id.state in ('open', 'paid'):
-            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], line.invoice_id.id, False, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
+            inv_id = line.invoice_id.parent_id and line.invoice_id.parent_id.id or line.invoice_id.id            
+            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], inv_id, False, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
             line_inv_obj.write(cr, uid,line.id, {'last_price':prod_price[line.product_id.id]}, context=context)
             updated_inv_line.append(line.id)
         #we get the view id

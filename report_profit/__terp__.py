@@ -36,7 +36,7 @@
 	"website": "http://wiki.openerp.org.ve/",
 	"description": '''Report of profitability for high-risk economies
 ''',
-	"depends" : ["base","account"],
+	"depends" : ["base","account","debit_credit_note"],
 	"init_xml" : [],
 	"demo_xml" : [], 
 	"update_xml" : [
