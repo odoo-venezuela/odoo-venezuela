@@ -119,6 +119,14 @@ def _data_save(self, cr, uid, data, context):
         if line.invoice_id.state in ('open', 'paid'):
             inv_id = line.invoice_id.parent_id and line.invoice_id.parent_id.id or line.invoice_id.id            
             prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], inv_id, False, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
+            if (not prod_price[line.product_id.id]) and line.product_id.seller_ids:
+                supinfo_ids = []
+                for sup in line.product_id.seller_ids:
+                    supinfo_ids.append(sup.id)
+                cr.execute('select max(price) from pricelist_partnerinfo where suppinfo_id in ('+','.join(map(str,supinfo_ids))+')')
+                record = cr.fetchone()
+                prod_price[line.product_id.id] = record and record[0] or False
+
             line_inv_obj.write(cr, uid,line.id, {'last_price':prod_price[line.product_id.id]}, context=context)
             updated_inv_line.append(line.id)
         #we get the view id
