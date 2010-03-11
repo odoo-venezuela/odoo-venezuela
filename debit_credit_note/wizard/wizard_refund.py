@@ -159,6 +159,11 @@ class wiz_refund(wizard.interface):
                         cr, uid, invoice['tax_line'])
                     tax_lines = pool.get('account.invoice')._refund_cleanup_lines(cr, uid, tax_lines)
 
+                    nro_ref = invoice['reference']
+                    if inv.type == 'out_invoice':
+                        nro_ref = inv.number
+                    orig = 'Devolucion FACT:' +(nro_ref or '') + '- DE FECHA:' + (inv.date_invoice or '') + (' TOTAL:' + str(inv.amount_total) or '')
+
                     invoice.update({
                         'type': inv.type,
                         'date_invoice': date,
@@ -167,7 +172,8 @@ class wiz_refund(wizard.interface):
                         'invoice_line': invoice_lines,
                         'tax_line': tax_lines,
                         'period_id': period,
-                        'name':description
+                        'name':description,
+                        'origin': orig,
                         })
 
                     #take the id part of the tuple returned for many2one fields
