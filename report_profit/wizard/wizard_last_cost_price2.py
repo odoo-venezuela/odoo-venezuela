@@ -60,12 +60,42 @@ def _data_save(self, cr, uid, data, context):
                 p.id as partner_id,
                 u.id as user_id,
                 l.quantity as quantity,
-                l.price_unit as price_unit,
-                l.last_price as last_cost,
-                l.price_subtotal as price_subtotal,
-                (l.quantity*l.last_price) as last_cost_subtotal,
-                (price_subtotal-l.quantity*l.last_price) as profit,
-                ((price_subtotal-l.quantity*l.last_price)/(price_subtotal)*100) as perc,
+                case when i.type='out_refund'
+                    then
+                        l.price_unit*(-1)
+                    else
+                        l.price_unit 
+                end as price_unit,
+                case when i.type='out_refund'
+                    then
+                        l.last_price*(-1)
+                    else
+                        l.last_price 
+                end as last_cost,                 
+                case when i.type='out_refund'
+                    then
+                        l.price_subtotal*(-1)
+                    else
+                        l.price_subtotal 
+                end as price_subtotal,
+                case when i.type='out_refund'
+                    then
+                        (l.quantity*l.last_price)*(-1)
+                    else
+                        (l.quantity*l.last_price) 
+                end as last_cost_subtotal,
+                case when i.type='out_refund'
+                    then
+                        (price_subtotal-l.quantity*l.last_price)*(-1)
+                    else
+                        (price_subtotal-l.quantity*l.last_price)
+                end as profit,
+                case when i.type='out_refund'
+                    then
+                        ((price_subtotal-l.quantity*l.last_price)*(-1)/(price_subtotal)*100)
+                    else
+                        ((price_subtotal-l.quantity*l.last_price)/(price_subtotal)*100)
+                end as perc,
                 l.uos_id as uom_id,
                 p.name as partner,
                 i.type as type
@@ -87,7 +117,16 @@ def _data_save(self, cr, uid, data, context):
     res = cr.fetchall()
     for line in line_inv_obj.browse(cr, uid, map(lambda x:x[0],res)):
         if line.invoice_id.state in ('open', 'paid'):
-            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], line.invoice_id.id, False, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
+            inv_id = line.invoice_id.parent_id and line.invoice_id.parent_id.id or line.invoice_id.id            
+            prod_price = prod_obj._product_get_price(cr, uid, [line.product_id.id], inv_id, False, line.invoice_id.date_invoice, context, ('open', 'paid'), 'in_invoice')
+            if (not prod_price[line.product_id.id]) and line.product_id.seller_ids:
+                supinfo_ids = []
+                for sup in line.product_id.seller_ids:
+                    supinfo_ids.append(sup.id)
+                cr.execute('select max(price) from pricelist_partnerinfo where suppinfo_id in ('+','.join(map(str,supinfo_ids))+')')
+                record = cr.fetchone()
+                prod_price[line.product_id.id] = record and record[0] or False
+
             line_inv_obj.write(cr, uid,line.id, {'last_price':prod_price[line.product_id.id]}, context=context)
             updated_inv_line.append(line.id)
         #we get the view id
@@ -98,14 +137,10 @@ def _data_save(self, cr, uid, data, context):
 
         #we get the model
         result = mod_obj._get_id(cr, uid, 'report_profit', xml_id)
-        print 'modelo: ',result
         id = mod_obj.read(cr, uid, result, ['res_id'])['res_id']
-        print 'res_id: ',id
         # we read the act window
         result = act_obj.read(cr, uid, id)
-        print 'updated_inv_line: ',updated_inv_line
         result['res_id'] = updated_inv_line
-
 
 
     return result

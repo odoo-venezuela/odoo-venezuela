@@ -9,7 +9,7 @@
             <field name="model">report.profit</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Profit by Product">
+                <tree string="Profit by Product" colors="red:profit&lt;0 and (type=='out_invoice');blue:type=='out_refund' and (profit&gt;0);grey:type=='out_refund' and (profit&lt;=0)">
                     <field name="name"/>
                     <field name="product_id"/>
                     <field name="partner_id"/>
@@ -59,7 +59,6 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="profit_reporting" name="Management Reporting" parent="sale.menu_sale_root"/>
-        <menuitem action="action_profit_product_tree" id="menu_report_profit_product" parent="profit_reporting"/>
 
     </data>
 </openerp>

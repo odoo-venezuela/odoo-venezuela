@@ -41,7 +41,7 @@ Ventas
 Verificar pestañas en Partners, Invoices y menús creados.
 
 ''',
-	"depends" : ["base","account"],
+	"depends" : ["base","account","retencion_iva"],
 	"init_xml" : [],
 	"demo_xml" : [
 
