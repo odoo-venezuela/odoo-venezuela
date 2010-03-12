@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution    
@@ -24,13 +25,14 @@
 from osv import osv
 from osv import fields
 import time
-import pooler
-import urllib
+#import pooler
+#import urllib
 import base64
 import tools
 from tools.translate import _
-import wizard
+#import wizard
 from tools.misc import currency
+import csv
 
 #class product_template(osv.osv):
 #    '''
@@ -66,6 +68,24 @@ Price agreements from suppliers
         ('dne','Done'),
         ],'State', select=True, readonly=True),
     }
+
+
+
+
+    def product_price_list_import(self, cr, uid, id, file, filename, context={}):
+
+
+        file2 = base64.decodestring(file)
+
+
+
+        file2 = file2.split('\n')
+        reader = csv.DictReader(file2, delimiter=',', quotechar='"')
+        print 'archivo: ',list(reader)
+        return []
+
+
+
 load_pricelist()
 
 class load_pricelist_lines(osv.osv):

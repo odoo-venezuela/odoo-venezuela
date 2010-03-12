@@ -36,7 +36,7 @@ form = """<?xml version="1.0" encoding="utf-8"?>
 
 fields = {
     'file': {'string': 'Price Supplier List File', 'type': 'binary', 'required': True},
-    'name': {'string':"File name", 'type':'char', 'size':64, 'readonly':True},
+    'name': {'string':"File name", 'type':'char', 'size':64, },
 }
 
 result_form = """<?xml version="1.0"?>
@@ -55,18 +55,13 @@ result_fields = {
 class wiz_price_supp_list(wizard.interface):
 
     def _get_defaults(self, cr, uid, data, context={}):
-#        config_ids = pooler.get_pool(cr.dbname).get('account.payment.epassporte.import.config').search(cr, uid, [])
-#        if len(config_ids):
-#            data['form']['config_id'] = config_ids[0]
-#        else:
-#            raise wizard.except_wizard(_('Warning'), _('You must define an ePassporte configuration.'))
         return data['form']
 
 
     def _import(obj, cr, uid, data, context={}):
         pool = pooler.get_pool(cr.dbname)
-#        statement_obj = pool.get('account.bank.statement')
-#        (note, state) = statement_obj.epassporte_import(cr, uid, data['id'], data['form']['file'], data['form']['name'], data['form']['config_id'], context=context)
+        load_pl_obj = pool.get('load.pricelist')
+        load_pl_obj.product_price_list_import(cr, uid, data['id'], data['form']['file'], data['form']['name'], context=context)
 #        return {'note':note, 'state':state}
         return {}
 
