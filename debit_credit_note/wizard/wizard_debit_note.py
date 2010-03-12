@@ -33,13 +33,15 @@ sur_form = '''<?xml version="1.0"?>
     <field name="date" />
     <field name="period" />
     <field name="description" width="150" />
+    <field name="comment"/>
 </form>'''
 
 sur_fields = {
     'date': {'string':'Operation date','type':'date', 'required':'False'},
     'period':{'string': 'Force period', 'type': 'many2one',
         'relation': 'account.period', 'required': False},
-    'description':{'string':'Description', 'type':'char', 'required':'True'},
+    'description':{'string':'Description', 'type':'char', 'required':'False'},
+    'comment': {'string': 'Comment', 'type':'char', 'required':True},
     }
 
 
@@ -100,7 +102,7 @@ class wiz_debit(wizard.interface):
             #we create a new invoice that is the copy of the original
 
             invoice = pool.get('account.invoice').read(cr, uid, [inv.id],
-                ['name', 'type', 'number', 'reference',
+                ['name', 'type', 'number', 'reference', 'date_invoice',
                     'comment', 'date_due', 'partner_id', 'address_contact_id',
                     'address_invoice_id', 'partner_insite','partner_contact',
                     'partner_ref', 'payment_term', 'account_id', 'currency_id',
@@ -111,6 +113,10 @@ class wiz_debit(wizard.interface):
             del invoice['id']
             invoice_lines = []
             tax_lines = []
+            nro_ref = invoice['reference']
+            if inv.type == 'out_invoice':
+                nro_ref = invoice['number']
+            orig = 'FACT:' +(nro_ref or '') + '- DE FECHA:' + (invoice['date_invoice'] or '') + (' TOTAL:' + str(inv.amount_total) or '')
 
             invoice.update({
                 'type': inv.type,
@@ -121,7 +127,9 @@ class wiz_debit(wizard.interface):
                 'tax_line': tax_lines,
                 'period_id': period,
                 'name':description,
-                'parent_id':inv.id
+                'parent_id':inv.id,
+                'origin': orig,
+                'comment':form['comment']
                 })
 
             #take the id part of the tuple returned for many2one fields
