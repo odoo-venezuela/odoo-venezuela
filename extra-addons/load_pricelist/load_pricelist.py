@@ -31,18 +31,18 @@ from tools.translate import _
 import wizard
 from tools.misc import currency
 
-class product_template(osv.osv):
-    '''
-    Relation with product
-    '''
-    _description = 'Inheriting Products templates'
-    _inherit = 'product.template'
-    #Do not touch _name it must be same as _inherit
-    _name = 'product.template'
-    _columns = {
-        'list_line_ids': fields.one2many('load.pricelist.lines', 'product_id', 'Partners'),
-    }
-product_template()
+#class product_template(osv.osv):
+#    '''
+#    Relation with product
+#    '''
+#    _description = 'Inheriting Products templates'
+#    _inherit = 'product.template'
+#    #Do not touch _name it must be same as _inherit
+#    _name = 'product.template'
+#    _columns = {
+#        'list_line_ids': fields.one2many('load.pricelist.lines', 'product_id', 'Partners'),
+#    }
+#product_template()
 
 
 class load_pricelist(osv.osv):
@@ -76,7 +76,7 @@ This is recorded and imported before put on right place for control of changes
     _description = 'Pricelist from supplier'
     _columns = {
         'name':fields.char("Element's Identifier", size=64, required=False, readonly=False),
-        'product_id' : fields.many2one('product.template', 'Product', required=True, ondelete='cascade', select=True),
+        #'product_id' : fields.many2one('product.template', 'Product', required=True, ondelete='cascade', select=True),
         'product_name':fields.char('Product name', size=64, required=False, readonly=False),
         'product_sup_name':fields.char('Product Sup Name', size=64, required=False, readonly=False),
         'min_qt':fields.float('Min Quantity'),
