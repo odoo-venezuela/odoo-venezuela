@@ -53,7 +53,7 @@ Price agreements from suppliers
     _description = 'load_pricelist'
     _columns = {
         'name':fields.char('Name', size=64, required=False, readonly=False),
-        'partner_id': fields.related('partner_id','partner_id', type='many2one', relation='res.partner', string='Partner'),
+        #'partner_id': fields.related('partner_id','partner_id', type='many2one', relation='res.partner', string='Partner'),
         'file_csv':fields.binary('CSV List', filters=None, help='Load in this order supplier,price,quantity,product_code'),
         'date': fields.date('Valid Since'),
         'price_ids':fields.one2many('load.pricelist.lines', 'line_id', 'Price2Load', required=False),
