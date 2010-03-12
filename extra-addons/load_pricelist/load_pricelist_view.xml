@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--
+    ======================
+    You will need to load 4 Changes:
+    1.- Class defined on .py file
+    2.- Object defined on .py file
+    3.- Menu Location to List of elements
+    4.- Menu location to New Element
+    5.- Correct names of fields to show on form and tree view
+    ======================
+-->
+<!--
+    ======================
+    Formulario para la carga de datos.
+    ======================
+-->
+        <record model="ir.ui.view" id="load_pricelist_form_view">
+            <field name="name">load.pricelist.form.view</field>
+            <field name="type">form</field>
+            <field name="model">load.pricelist</field>
+            <field name="arch" type="xml">
+                <form string="New Lista de precios">
+                    <group colspan="4" col="4">
+                      <field name="partner_id" />
+                      <field name="name" />
+                      <field name="file_csv" />
+                      <field name="date" />
+                      </group>
+                    <newline/>
+                      <field name="price_ids" nolabel="1" />
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="load_pricelist_lines_form_view">
+            <field name="name">load.pricelist.lines.form.view</field>
+            <field name="type">form</field>
+            <field name="model">load.pricelist.lines</field>
+            <field name="arch" type="xml">
+                <form string="PriceList lines">
+                    <field name="name" />
+                    <field name="product_name" />
+                    <field name="load_line_id" />
+                    <field name="product_sup_name" />
+                    <field name="cost" />
+                    <field name="price" />
+                    <field name="min_qt" />
+                    <field name="imported" />
+                </form>
+            </field>
+        </record>
+<!--
+    ======================
+    Listado de elementos
+    ======================
+-->
+        <record model="ir.ui.view" id="load_pricelist_tree">
+            <field name="name">load.pricelist.tree</field>
+            <field name="model">load.pricelist</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="List of load_pricelist">
+                    <field name="name" />
+                    <field name="file_csv" />
+                    <field name="date" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="load_pricelist_lines_tree">
+            <field name="name">load.pricelist.lines.tree</field>
+            <field name="model">load.pricelist.lines</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="List of Prices">
+                    <field name="name" />
+                    <field name="product_name" />
+                    <field name="product_sup_name" />
+                    <field name="load_line_id" />
+                    <field name="min_qt" />
+                    <field name="cost" />
+                    <field name="price" />
+                    <field name="imported" />
+                </tree>
+            </field>
+        </record>
+<!--
+    ======================
+    Accion para ver el formulario cargando Nuevo.
+    ======================
+-->
+        <record id="load_pricelist_act_form" model="ir.actions.act_window">
+            <field name="name">Lists</field>
+            <field name="res_model">load.pricelist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+        </record>
+<!--
+    ======================
+    Accion para ver la lista de elementos
+    ======================
+-->
+        <record id="load_pricelist_act_tree" model="ir.actions.act_window">
+            <field name="name">List of Costs.</field>
+            <field name="res_model">load.pricelist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+<!--
+    ======================
+    Menú de la Lista
+    ======================
+-->
+        <menuitem  name="Listas de Proveedores" 
+            id="menu_load_pricelist_tree_view" 
+            action="load_pricelist_act_tree"
+            parent="product.menu_main_product" />
+<!--
+    ======================
+    Menú nuevo
+    ======================
+-->
+        <menuitem 
+            name="Nueva Carga"
+            id="menu_load_pricelist_form_view" 
+            action="load_pricelist_act_form"
+            parent="product.menu_main_product" />
+    </data>
+</openerp>
