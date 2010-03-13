@@ -74,14 +74,15 @@ Price agreements from suppliers
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
         print 'archivo: ',list(reader)
         return []
-    def _get_csv(self, cr, uid, data, context):
-        pool = pooler.get_pool(cr.dbname)
-        print data['form']['id']
-        #report = pool.get('load.pricelist').browse(cr, uid, data['form']['file_csv'], context)
-        try:
-            print report
-        except:
-            raise wizard.except_wizard(_('Error'), _('Report does not contain the sxw content!'))
+    def _get_csv(self, cr, uid, ids, context={}):
+        '''
+        Obtengo el Csv del Objeto en cuestion
+        '''
+        result=self.read(cr,uid,ids,['file_csv'])[-1]['file_csv']
+        file2 = base64.decodestring(result)
+        file2 = file2.split('\n')
+        reader = csv.DictReader(file2, delimiter=',', quotechar='"')
+        print "Datos de entrada",list(reader)
         
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),

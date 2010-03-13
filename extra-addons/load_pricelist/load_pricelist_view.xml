@@ -23,7 +23,7 @@
                     <newline/>
                     <group colspan="4" col="4">
                       <field name="state" nolabel="1" />
-                      <button name="_get_csv" type="object" states="draft" string="Cargar" icon="gtk-execute"/>
+                      <button name="_get_csv" states="draft" string="Cargar" icon="gtk-execute"/>
                     </group>
                 </form>
             </field>
