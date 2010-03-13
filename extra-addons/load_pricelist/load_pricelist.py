@@ -75,15 +75,17 @@ Price agreements from suppliers
         print 'archivo: ',list(reader)
         return []
     def _get_csv(self, cr, uid, ids, context={}):
-        '''
-        Obtengo el Csv del Objeto en cuestion
-        '''
         result=self.read(cr,uid,ids,['file_csv'])[-1]['file_csv']
-        file2 = base64.decodestring(result)
-        file2 = file2.split('\n')
-        reader = csv.DictReader(file2, delimiter=',', quotechar='"')
-        print "Datos de entrada",list(reader)
-        
+        if result:
+            file2 = base64.decodestring(result)
+            file2 = file2.split('\n')
+            reader = csv.DictReader(file2, delimiter=',', quotechar='"')
+            print "Datos de entrada",list(reader)
+        else:
+            reader = {}
+            print "Datos de entrada",list(reader)
+        return list(reader)
+            
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
         'state': lambda *a: 'draft',
@@ -109,9 +111,6 @@ This is recorded and imported before put on right place for control of changes
         'imported':fields.boolean('Imported', required=False),
     }
 load_pricelist_lines()
-
-from osv import osv
-from osv import fields
 
 class res_partner_list(osv.osv):
     '''
