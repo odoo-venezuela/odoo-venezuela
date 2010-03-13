@@ -56,7 +56,7 @@ Price agreements from suppliers
     _description = 'load_pricelist'
     _columns = {
         'name':fields.char('Name', size=64, required=False, readonly=False),
-        #'partner_id': fields.related('partner_id','partner_id', type='many2one', relation='res.partner', string='Partner'),
+        'partner_id':fields.many2one('res.partner', 'Partner Supplier', required=False),
         'file_csv':fields.binary('CSV List', filters=None, help='Load in this order supplier,price,quantity,product_code'),
         'date': fields.date('Valid Since'),
         'price_ids':fields.one2many('load.pricelist.lines', 'line_id', 'Price2Load', required=False),
@@ -68,19 +68,12 @@ Price agreements from suppliers
         ('dne','Done'),
         ],'State', select=True, readonly=True),
     }
-
-
-
-
     def product_price_list_import(self, cr, uid, id, file, filename, context={}):
         file2 = base64.decodestring(file)
         file2 = file2.split('\n')
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
         print 'archivo: ',list(reader)
         return []
-
-
-
 load_pricelist()
 
 class load_pricelist_lines(osv.osv):
@@ -103,4 +96,17 @@ This is recorded and imported before put on right place for control of changes
     }
 load_pricelist_lines()
 
+from osv import osv
+from osv import fields
 
+class res_partner_list(osv.osv):
+    '''
+    Adding relation with Partners
+    '''
+    _name = 'res.partner'
+    _description = 'Partners'
+    _inherit = 'res.partner'
+    _columns = {
+    'loadpl_ids':fields.one2many('load.pricelistl', 'partner_id', 'Partner', required=False),   
+    }
+res_partner_list()

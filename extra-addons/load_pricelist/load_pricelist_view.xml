@@ -3,16 +3,6 @@
     <data>
 <!--
     ======================
-    You will need to load 4 Changes:
-    1.- Class defined on .py file
-    2.- Object defined on .py file
-    3.- Menu Location to List of elements
-    4.- Menu location to New Element
-    5.- Correct names of fields to show on form and tree view
-    ======================
--->
-<!--
-    ======================
     Formulario para la carga de datos.
     ======================
 -->
@@ -23,6 +13,7 @@
             <field name="arch" type="xml">
                 <form string="New Lista de precios">
                     <group colspan="4" col="4">
+                      <field name="partner_id" domain="[('supplier', '=', 'True')]" />
                       <field name="name" />
                       <field name="file_csv" />
                       <field name="date" />
@@ -59,6 +50,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="List of load_pricelist">
+                    <field name="date" />
                     <field name="name" />
                     <field name="file_csv" />
                     <field name="date" />
