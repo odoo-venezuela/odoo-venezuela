@@ -25,7 +25,7 @@
 from osv import osv
 from osv import fields
 import time
-#import pooler
+import pooler
 #import urllib
 import base64
 import tools
@@ -66,7 +66,7 @@ Price agreements from suppliers
         ('review','Review'),
         ('toprocess','To Process'),
         ('dne','Done'),
-        ],'State', select=True, readonly=True),
+        ],'State', select=True, readonly=False),
     }
     def product_price_list_import(self, cr, uid, id, file, filename, context={}):
         file2 = base64.decodestring(file)
@@ -74,6 +74,15 @@ Price agreements from suppliers
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
         print 'archivo: ',list(reader)
         return []
+    def _get_csv(self, cr, uid, data, context):
+        pool = pooler.get_pool(cr.dbname)
+        print data['form']['id']
+        #report = pool.get('load.pricelist').browse(cr, uid, data['form']['file_csv'], context)
+        try:
+            print report
+        except:
+            raise wizard.except_wizard(_('Error'), _('Report does not contain the sxw content!'))
+        
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
         'state': lambda *a: 'draft',
