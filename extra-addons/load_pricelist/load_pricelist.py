@@ -74,6 +74,10 @@ Price agreements from suppliers
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
         print 'archivo: ',list(reader)
         return []
+    _defaults = {
+        'date': lambda *a: time.strftime('%Y-%m-%d'),
+        'state': lambda *a: 'draft',
+    }
 load_pricelist()
 
 class load_pricelist_lines(osv.osv):

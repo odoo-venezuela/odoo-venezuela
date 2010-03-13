@@ -17,9 +17,14 @@
                       <field name="name" />
                       <field name="file_csv" />
                       <field name="date" />
-                      </group>
+                    </group>
                     <newline/>
                       <field name="price_ids" nolabel="1" />
+                    <newline/>
+                    <group colspan="4" col="4">
+                      <field name="state" nolabel="1" />
+                      <button name="change_state" states="draft" string="Cargar" icon="gtk-execute"/>
+                    </group>
                 </form>
             </field>
         </record>

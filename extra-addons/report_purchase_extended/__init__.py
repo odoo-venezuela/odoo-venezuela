@@ -1,14 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    d$
-#    This Modules was developed by Netquatro, C.A. (<http://openerp.netquatro.com>)
-#    Silver partner of Tiny.
-#    author Javier Duran (<javier.duran@netquatro.com>) & 
-#           Nhomar Hernandez (nhomar.hernandez@netquatro.com)
-#
+#    made by nhomar.hernandez@netquatro.com
+#               http://openerp.netquatro.com
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -24,8 +20,7 @@
 #
 ##############################################################################
 
+import report_purchase
 
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
-import load_pricelist
-import wizard
-import extract_csv_fromfield

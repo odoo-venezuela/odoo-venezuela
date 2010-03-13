@@ -1,13 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution	
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    d$
-#    This Modules was developed by Netquatro, C.A. (<http://openerp.netquatro.com>)
-#    Silver partner of Tiny.
-#    author Javier Duran (<javier.duran@netquatro.com>) & 
-#           Nhomar Hernandez (nhomar.hernandez@netquatro.com)
+#    made by nhomar.hernandez@netquatro.com
+#               http://openerp.netquatro.com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,7 +22,22 @@
 ##############################################################################
 
 
-
-import load_pricelist
-import wizard
-import extract_csv_fromfield
+{
+    'name': 'Purchase Management - Reporting - Extended',
+    'version': '0.1',
+    'category': 'Generic Modules/Sales & Purchases',
+    'description': """
+    Module to add views like
+    Purchase By Product, Purchase By Category of Product, All Months, Current Month.
+    This module does not make group of purchase by product allowing export the result easiest to excel to analisys.
+    """,
+    'author': 'Netquatro',
+    'website': 'http://openerp.netquatro.com',
+    'depends': ['purchase'],
+    'init_xml': [],
+    'update_xml': ['security/ir.model.access.csv', 'report_purchase_ext_view.xml'],
+    'demo_xml': [],
+    'installable': True,
+    'active': False,
+}
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
