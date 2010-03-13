@@ -73,12 +73,7 @@ Price agreements from suppliers
 
 
     def product_price_list_import(self, cr, uid, id, file, filename, context={}):
-
-
         file2 = base64.decodestring(file)
-
-
-
         file2 = file2.split('\n')
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
         print 'archivo: ',list(reader)

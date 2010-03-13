@@ -105,22 +105,20 @@
         </record>
 <!--
     ======================
-    Menú de la Lista
+    Menues de la Lista
     ======================
--->
-        <menuitem  name="Listas de Proveedores" 
+-->        
+        <menuitem  name="Asign Suppliers to Product" 
+            id="menu_load_pricelist_main" 
+            parent="product.menu_product_pricelist_main" />
+        <menuitem  name="Files Loaded" 
             id="menu_load_pricelist_tree_view" 
             action="load_pricelist_act_tree"
-            parent="product.menu_main_product" />
-<!--
-    ======================
-    Menú nuevo
-    ======================
--->
+            parent="load_pricelist.menu_load_pricelist_main" />
         <menuitem 
-            name="Nueva Carga"
+            name="Load New file"
             id="menu_load_pricelist_form_view" 
             action="load_pricelist_act_form"
-            parent="product.menu_main_product" />
+            parent="load_pricelist.menu_load_pricelist_main" />
     </data>
 </openerp>

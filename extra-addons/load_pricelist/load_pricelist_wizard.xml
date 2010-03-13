@@ -4,7 +4,7 @@
 
 
 		<wizard 
-			string="Import Price Supplier List" 
+			string="Import from file" 
 			model="load.pricelist"
 			name="price_sup_list"
 			id="wizard_price_prod_suplist" 
@@ -13,7 +13,7 @@
         <menuitem 
             action="wizard_price_prod_suplist" 
             id="menu_price_prod_suplist" 
-            parent="product.menu_main_product" 
+            parent="load_pricelist.menu_load_pricelist_main" 
             type="wizard"/>
 
 
