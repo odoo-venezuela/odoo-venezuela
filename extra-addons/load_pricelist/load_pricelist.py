@@ -59,37 +59,70 @@ Price agreements from suppliers
         'partner_id':fields.many2one('res.partner', 'Partner Supplier', required=False),
         'file_csv':fields.binary('CSV List', filters=None, help='Load in this order supplier,price,quantity,product_code'),
         'date': fields.date('Valid Since'),
-        'price_ids':fields.one2many('load.pricelist.lines', 'line_id', 'Price2Load', required=False),
+        'price_ids':fields.one2many('load.pricelist.lines', 'pricelist_id', 'Price2Load', required=False),
         'state':fields.selection([
         ('draft','Draft'),
         ('loaded','Loaded'),
         ('review','Review'),
         ('toprocess','To Process'),
-        ('dne','Done'),
+        ('done','Done'),
         ],'State', select=True, readonly=False),
     }
+    _defaults = {
+        'date': lambda *a: time.strftime('%Y-%m-%d'),
+        'state': lambda *a: 'draft',
+    }
+
+
+
     def product_price_list_import(self, cr, uid, id, file, filename, context={}):
         file2 = base64.decodestring(file)
         file2 = file2.split('\n')
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
         print 'archivo: ',list(reader)
         return []
+
     def _get_csv(self, cr, uid, ids, context={}):
-        result=self.read(cr,uid,ids,['file_csv'])[-1]['file_csv']
-        if result:
-            file2 = base64.decodestring(result)
+#        result=self.read(cr,uid,ids,['file_csv'])[-1]['file_csv']
+        obj_pricelst = self.browse(cr, uid, ids)[0]
+        if obj_pricelst.file_csv:
+            file2 = base64.decodestring(obj_pricelst.file_csv)
             file2 = file2.split('\n')
             reader = csv.DictReader(file2, delimiter=',', quotechar='"')
-            print "Datos de entrada",list(reader)
+#            print "Datos de entrada",list(reader)
+            for row in list(reader):
+                for fields in row.keys():
+                    print 'campos: ',fields
+                    check = getattr(self, '_check_' + fields, self._check_default)
+                    check(cr, uid, ids, row[fields], context)
+
+                    
         else:
             reader = {}
             print "Datos de entrada",list(reader)
         return list(reader)
+
+    def _check_default_code(self, cr, uid, ids, code, context):
+        cr.execute("SELECT p.id FROM product_product p WHERE p.default_code = '%s'" % (code,))
+        res = cr.fetchall()
+        if not res:
+            print 'codigo no existe, producto nuevo'
+        if len(res) > 1:
+            print 'codigo duplicadoXXXXX'
+        if len(res)==1:
+            print 'id el producto: ', res[0][0]
+
+        return True
+
+
+    def _check_default(self, cr, uid, ids, code, context):
+        print 'valor de chequeo por defecto: '
+
+        return True
+
+
+
             
-    _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'state': lambda *a: 'draft',
-    }
 load_pricelist()
 
 class load_pricelist_lines(osv.osv):
@@ -107,7 +140,7 @@ This is recorded and imported before put on right place for control of changes
         'min_qt':fields.float('Min Quantity'),
         'cost':fields.float('Cost by Unit'),
         'price':fields.float('Sugested Price'),
-        'line_id':fields.many2one('load.pricelist', 'Load ID', required=False),
+        'pricelist_id':fields.many2one('load.pricelist', 'Load ID', required=False),
         'imported':fields.boolean('Imported', required=False),
     }
 load_pricelist_lines()
