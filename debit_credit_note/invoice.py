@@ -55,7 +55,7 @@ class account_invoice(osv.osv):
                     sid = obj_inv.journal_id.invoice_sequence_id.id
                     number = self.pool.get('ir.sequence').get_id(cr, uid, sid, 'id=%s', {'fiscalyear_id': obj_inv.period_id.fiscalyear_id.id})
                 else:
-                    if obj_inv.parent_id and obj_inv.parent_id.id:
+                    if invtype!='in_refund' and obj_inv.parent_id and obj_inv.parent_id.id:
                         type_dict = {
                                 'out_invoice': 'out_debit', # Customer Invoice
                                 'in_invoice': 'in_debit',   # Supplier Invoice

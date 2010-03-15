@@ -58,7 +58,6 @@
                     <field name="date" />
                     <field name="name" />
                     <field name="file_csv" />
-                    <field name="date" />
                 </tree>
             </field>
         </record>
