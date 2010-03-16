@@ -9,7 +9,7 @@
             <field name="model">report.purchase.ext</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Purchase Invoice by Product">
+                <tree string="Purchase Invoice by Product" colors="red:price_subtotal&lt;0 and (type=='in_refund')">
                     <field name="name"/>
                     <field name="product_id"/>
                     <field name="partner_id"/>

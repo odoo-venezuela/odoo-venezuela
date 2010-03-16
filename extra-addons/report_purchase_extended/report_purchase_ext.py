@@ -61,8 +61,18 @@ class report_purchase_ext(osv.osv):
                 p.id as partner_id,
                 u.id as user_id,
                 l.quantity as quantity,
-                l.price_unit as price_unit,
-                l.price_subtotal as price_subtotal,
+                case when i.type='in_refund'
+                    then
+                        l.price_unit*(-1)
+                    else
+                        l.price_unit 
+                end as price_unit,
+                case when i.type='in_refund'
+                    then
+                        l.price_subtotal*(-1)
+                    else
+                        l.price_subtotal 
+                end as price_subtotal,
                 l.uos_id as uom_id,
                 p.name as partner,
                 i.type as type
@@ -73,7 +83,7 @@ class report_purchase_ext(osv.osv):
                 left join product_uom m on (m.id=l.uos_id)
                 left join product_template t on (t.id=l.product_id)
                 left join product_product d on (d.product_tmpl_id=l.product_id)
-            where l.quantity != 0 and i.type in ('in_invoice') and i.state in ('open', 'paid')
+            where l.quantity != 0 and i.type in ('in_invoice', 'in_refund') and i.state in ('open', 'paid')
             group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.price_subtotal,l.uos_id,p.name,i.type
             order by p.name
             )
