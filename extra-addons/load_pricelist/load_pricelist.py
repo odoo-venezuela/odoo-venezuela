@@ -84,17 +84,30 @@ Price agreements from suppliers
 
     def _get_csv(self, cr, uid, ids, context={}):
 #        result=self.read(cr,uid,ids,['file_csv'])[-1]['file_csv']
+        vals = {}
         obj_pricelst = self.browse(cr, uid, ids)[0]
         if obj_pricelst.file_csv:
             file2 = base64.decodestring(obj_pricelst.file_csv)
             file2 = file2.split('\n')
             reader = csv.DictReader(file2, delimiter=',', quotechar='"')
-#            print "Datos de entrada",list(reader)
-            for row in list(reader):
-                for fields in row.keys():
-                    print 'campos: ',fields
-                    check = getattr(self, '_check_' + fields, self._check_default)
-                    check(cr, uid, ids, row[fields], context)
+#            print "Datos de entrada",list(reader)            
+#            lst = []
+
+            load_pl = self.price_line_get_item(cr, uid, list(reader), context)
+            vals['price_ids'] = load_pl
+            print 'lista verificada: ',load_pl
+            self.write(cr, uid, [obj_pricelst.id], vals, context=context)
+
+
+#                lineDict = {}               
+#                for fields in row.keys():
+#                    check = getattr(self, '_check_' + fields, self._check_default)
+#                    lineDict[fields] = (row[fields], check(cr, uid, ids, row[fields], context))
+
+#                self.move_line_get_item(cr, uid, row, context)
+#                lst.append(lineDict)
+#            print 'lista',lst
+
 
                     
         else:
@@ -102,23 +115,37 @@ Price agreements from suppliers
             print "Datos de entrada",list(reader)
         return list(reader)
 
+
+    def price_line_get_item(self, cr, uid, lines, context=None):
+        pricelines_obj = self.pool.get('load.pricelist.lines')
+        vals = {}
+        for line in lines:
+            for field in line.keys():
+                if not pricelines_obj._columns.has_key(field):
+                    raise osv.except_osv(_('Field Error!'), _('You have no Fields : %s ') % (field,) )
+
+        return map(lambda x: (0,0,x), lines)
+
+
+
     def _check_default_code(self, cr, uid, ids, code, context):
+        warnings = ''
+        flag = False
         cr.execute("SELECT p.id FROM product_product p WHERE p.default_code = '%s'" % (code,))
         res = cr.fetchall()
         if not res:
-            print 'codigo no existe, producto nuevo'
+            warnings = 'codigo no existe, producto nuevo'
         if len(res) > 1:
-            print 'codigo duplicadoXXXXX'
+            warnings = 'codigo duplicado'
         if len(res)==1:
-            print 'id el producto: ', res[0][0]
-
-        return True
+            return (res[0][0], True)
+        return (warnings, flag)
 
 
     def _check_default(self, cr, uid, ids, code, context):
-        print 'valor de chequeo por defecto: '
-
-        return True
+        flag = True
+        warnings = 'valor de chequeo por defecto'
+        return (warnings, flag)
 
 
 
@@ -134,7 +161,7 @@ This is recorded and imported before put on right place for control of changes
     _description = 'Pricelist from supplier'
     _columns = {
         'name':fields.char("Element's Identifier", size=64, required=False, readonly=False),
-        #'product_id' : fields.many2one('product.template', 'Product', required=True, ondelete='cascade', select=True),
+        'product_id': fields.many2one('product.product', 'Product', ondelete='set null'),
         'product_name':fields.char('Product name', size=64, required=False, readonly=False),
         'product_sup_name':fields.char('Product Sup Name', size=64, required=False, readonly=False),
         'min_qt':fields.float('Min Quantity'),

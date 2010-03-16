@@ -27,7 +27,7 @@
     "category" : "Generic Modules/Sales",
     "module": "",
     "website": "http://www.openerp.netquatro.com",
-    "depends" : ["base",],
+    "depends" : ["base", "product"],
     "init_xml" : [],
     "update_xml" : [
         "load_pricelist_view.xml",
