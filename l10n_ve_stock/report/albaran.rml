@@ -324,7 +324,7 @@
           <para style="P8">Ref. Cliente:</para>
         </td>
         <td>
-          <para style="P8">[[o.name or '' ]]</para>
+          <para style="P8">[[o.sale_id.client_order_ref or '' ]]</para>
         </td>
         <td>
           <para style="P25">
