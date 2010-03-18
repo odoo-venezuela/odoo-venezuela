@@ -25,13 +25,14 @@
 from osv import osv
 from osv import fields
 import time
-import pooler
+#import pooler
 #import urllib
 import base64
-import tools
+#import tools
+from tools import config
 from tools.translate import _
 #import wizard
-from tools.misc import currency
+#from tools.misc import currency
 import csv
 
 #class product_template(osv.osv):
@@ -95,7 +96,7 @@ Price agreements from suppliers
 
             load_pl = self.price_line_get_item(cr, uid, list(reader), context)
             vals['price_ids'] = load_pl
-            print 'lista verificada: ',load_pl
+#            print 'lista verificada: ',load_pl
             self.write(cr, uid, [obj_pricelst.id], vals, context=context)
 
 
@@ -122,7 +123,7 @@ Price agreements from suppliers
         for line in lines:
             for field in line.keys():
                 if not pricelines_obj._columns.has_key(field):
-                    raise osv.except_osv(_('Field Error!'), _('You have no Fields : %s ') % (field,) )
+                    raise osv.except_osv(_('Field Error!'), _('You have not Fields : %s ') % (field,) )
 
         return map(lambda x: (0,0,x), lines)
 
@@ -162,11 +163,14 @@ This is recorded and imported before put on right place for control of changes
     _columns = {
         'name':fields.char("Element's Identifier", size=64, required=False, readonly=False),
         'product_id': fields.many2one('product.product', 'Product', ondelete='set null'),
-        'product_name':fields.char('Product name', size=64, required=False, readonly=False),
-        'product_sup_name':fields.char('Product Sup Name', size=64, required=False, readonly=False),
-        'min_qt':fields.float('Min Quantity'),
-        'cost':fields.float('Cost by Unit'),
-        'price':fields.float('Sugested Price'),
+        'default_code' : fields.char('Code', size=64, help="The internal code of the product"),
+        'prod_int_name':fields.char('Product name', size=128, required=False, help="The internal name of the product"),
+        'product_code': fields.char('Partner Product Code', size=64, help="Code of the product for this partner."),
+        'product_name':fields.char('Product Sup Name', size=128, required=False, help="Name of the product for this partner."),
+        'qty' : fields.float('Minimal Quantity', required=False, help="The minimal quantity to purchase for this supplier, expressed in the default unit of measure."),
+        'min_quantity':fields.float('Quantity'),
+        'price': fields.float('Cost by Quantity', digits=(16, int(config['price_accuracy'])),  help="The cost by quantity."),
+        'list_price': fields.float('Sugested Price', digits=(16, int(config['price_accuracy'])), help="Base price for computing the customer price. Sometimes called the catalog price."),
         'pricelist_id':fields.many2one('load.pricelist', 'Load ID', required=False),
         'imported':fields.boolean('Imported', required=False),
     }

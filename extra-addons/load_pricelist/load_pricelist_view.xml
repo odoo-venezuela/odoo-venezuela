@@ -35,11 +35,15 @@
             <field name="arch" type="xml">
                 <form string="PriceList lines">
                     <field name="name" />
+                    <field name="product_id" />
+                    <field name="default_code" />
+                    <field name="prod_int_name" />
+                    <field name="product_code" />
                     <field name="product_name" />
-                    <field name="product_sup_name" />
-                    <field name="cost" />
+                    <field name="qty" />
+                    <field name="min_quantity" />
                     <field name="price" />
-                    <field name="min_qt" />
+                    <field name="list_price" />
                     <field name="imported" />
                 </form>
             </field>
@@ -56,8 +60,7 @@
             <field name="arch" type="xml">
                 <tree string="List of load_pricelist">
                     <field name="date" />
-                    <field name="name" />
-                    <field name="file_csv" />
+                    <field name="name" />                   
                 </tree>
             </field>
         </record>
@@ -68,11 +71,15 @@
             <field name="arch" type="xml">
                 <tree string="List of Prices">
                     <field name="name" />
+                    <field name="product_id" />
+                    <field name="default_code" />
+                    <field name="prod_int_name" />
+                    <field name="product_code" />
                     <field name="product_name" />
-                    <field name="product_sup_name" />
-                    <field name="min_qt" />
-                    <field name="cost" />
+                    <field name="qty" />
+                    <field name="min_quantity" />
                     <field name="price" />
+                    <field name="list_price" />
                     <field name="imported" />
                 </tree>
             </field>
