@@ -24,9 +24,17 @@
 #
 ##############################################################################
 
+from osv import fields, osv
+from tools.translate import _
 
 
-import load_pricelist
-import wizard
-import extract_csv_fromfield
-import product
+class pricelist_partnerinfo(osv.osv):
+    _inherit = "pricelist.partnerinfo"
+
+    _columns = {
+        'date': fields.date('Valid Since'),
+    }
+pricelist_partnerinfo()
+
+
+

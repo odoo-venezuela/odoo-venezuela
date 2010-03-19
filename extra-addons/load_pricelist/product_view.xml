@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        
+        <record id="product_supplierinfo_form_view_ext" model="ir.ui.view">
+            <field name="name">product.supplierinfo.form.view_ext</field>
+            <field name="model">product.supplierinfo</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_supplierinfo_form_view" />
+            <field name="arch" type="xml">
+                <field name="pricelist_ids" position="replace">
+                    <field colspan="4" groups="base.group_extended" name="pricelist_ids" nolabel="1" widget="one2many_list">
+                        <tree editable="bottom" string="Pricelist">
+                            <field name="date"/>
+                            <field name="min_quantity"/>
+                            <field name="price"/>
+                        </tree>
+                        <form>
+                            <field name="date"/>
+                            <field name="min_quantity"/>
+                            <field name="price"/>
+                        </form>
+                    </field>
+                </field>
+            </field>
+        </record>
+        
+
+        
+        
+    </data>
+</openerp>

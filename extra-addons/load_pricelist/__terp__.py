@@ -31,7 +31,8 @@
     "init_xml" : [],
     "update_xml" : [
         "load_pricelist_view.xml",
-        "load_pricelist_wizard.xml"
+        "load_pricelist_wizard.xml",
+        "product_view.xml"
     ],
     "demo_xml" : [],
     "active": False,

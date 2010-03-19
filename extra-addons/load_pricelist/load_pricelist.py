@@ -149,6 +149,23 @@ Price agreements from suppliers
         return (warnings, flag)
 
 
+    def action_create_data(self, cr, uid, ids, context={}):
+        prod_obj = self.pool.get('product.product')
+        prod_supp_obj = self.pool.get('product.supplierinfo')
+        part_info_obj = self.pool.get('pricelist.partnerinfo')
+
+
+        for load_plst in self.browse(cr, uid, ids):
+            supp_id = load_plst.partner_id.id
+            print 'arcivvvv: ',load_plst
+            for line in load_plst.price_ids:
+                sql= "select id from product_supplierinfo where product_id=%s and name=%s" % (line.product_id.id, supp_id,)
+                print 'lineaaaaaa: ',sql
+                cr.execute("select id from product_supplierinfo where product_id=%s and name=%s", (line.product_id.id, supp_id,))
+                record = cr.fetchone()
+#                supp_info_id = record[0]
+                print 'suplier_info: ',record
+        return True
 
             
 load_pricelist()
