@@ -24,13 +24,32 @@ from osv import osv
 from osv import fields
 
 
+class CountryStateCity(osv.osv):
+    '''
+    Model added to manipulate separately the cities on Partner address.
+    '''
+    _description='Model to manipulate Cities'
+    _name ='res.country.state.city'
+    _columns = {
+        'state_id': fields.many2one('res.country.state', 'State', required=True),
+        'name': fields.char('City Name', size=64, required=True),
+        'code': fields.char('City Code', size=3,
+            help='The city code in three chars.\n', required=True),
+    }
+    def name_search(self, cr, user, name='', args=None, operator='ilike',
+            context=None, limit=80):
+        if not args:
+            args = []
+        if not context:
+            context = {}
+        ids = self.search(cr, user, [('code', '=', name)] + args, limit=limit,
+                context=context)
+        if not ids:
+            ids = self.search(cr, user, [('name', operator, name)] + args,
+                    limit=limit, context=context)
+        return self.name_get(cr, user, ids, context)
 
-class CountryState(osv.osv):
-	_inherit = 'res.country.state'
-	_columns = {
-		'city_ids': fields.one2many('res.country.state.city', 'state_id', 'Cities'),
-	}
+    _order = 'code'
 
-CountryState()
-
+CountryStateCity()
 
