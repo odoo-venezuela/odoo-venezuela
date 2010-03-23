@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>       
+        
+<!--
+Adding fields on models
+-->
+<!--
+States Form
+-->
+
+    <record model="ir.ui.view" id="view_country_state_mun_form">
+        <field name="name">view_country_state_form_mun</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="municipalities_ids" colspan="4" mode="tree,form" nolabel="1">
+                    <tree string="municipalities">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </tree>
+                    <form string="Municipalities">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </form>
+                 </field>
+            </field>
+        </field>
+    </record>
+        
+    </data>
+</openerp>

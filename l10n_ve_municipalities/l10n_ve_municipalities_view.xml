@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+		Municipio
+		-->
+        <record id="view_country_municipalities_tree" model="ir.ui.view">
+            <field name="name">res.country.municipalities.tree</field>
+            <field name="model">res.country.state.municipalities</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="municipalities">
+                    <field name="state_id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_country_municipalities_form" model="ir.ui.view">
+            <field name="name">res.country.municipalities.form</field>
+            <field name="model">res.country.state.municipalities</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="municipalities">
+                    <group colspan="2" >
+                    <field name="state_id" select="1"/>
+                    <newline/>
+                    <field name="name" select="1"/>
+                    <newline/>
+                    <field name="code" select="1"/>
+                    <newline/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_country_municipalities" model="ir.actions.act_window">
+            <field name="name">Municipalities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.state.municipalities</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_country_municipalities_tree"/>
+        </record>
+        
+        <menuitem action="action_country_municipalities" id="menu_country_municipalities_partner" parent="base.menu_localisation"/>
+
+s    </data>
+</openerp>
