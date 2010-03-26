@@ -46,6 +46,8 @@
                     <field name="price" />
                     <field name="list_price" />
                     <field name="imported" />
+                    <newline/>
+                    <field name="note" />
                 </form>
             </field>
         </record>
@@ -81,6 +83,7 @@
                     <field name="min_quantity" />
                     <field name="price" />
                     <field name="list_price" />
+                    <field name="note" />
                     <field name="imported" />
                 </tree>
             </field>

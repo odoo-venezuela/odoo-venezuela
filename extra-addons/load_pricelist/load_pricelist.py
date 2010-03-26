@@ -80,11 +80,12 @@ Price agreements from suppliers
         file2 = base64.decodestring(file)
         file2 = file2.split('\n')
         reader = csv.DictReader(file2, delimiter=',', quotechar='"')
-        print 'archivo: ',list(reader)
+#        print 'archivo: ',list(reader)
         return []
 
     def _get_csv(self, cr, uid, ids, context={}):
 #        result=self.read(cr,uid,ids,['file_csv'])[-1]['file_csv']
+        prod_obj = self.pool.get('product.product')
         vals = {}
         obj_pricelst = self.browse(cr, uid, ids)[0]
         if obj_pricelst.file_csv:
@@ -96,8 +97,20 @@ Price agreements from suppliers
 
             load_pl = self.price_line_get_item(cr, uid, list(reader), context)
             vals['price_ids'] = load_pl
-#            print 'lista verificada: ',load_pl
-            self.write(cr, uid, [obj_pricelst.id], vals, context=context)
+            print 'lista verificada: ',load_pl
+            for line in load_pl:
+                res_ids = prod_obj.name_search(cr, uid, line['default_code'])
+                print 'productoXXXX:',res_ids
+                if not res_ids:
+#                    raise osv.except_osv(_('Product Error!'), _('No product with this code  : %s ') % (line['default_code'],) )
+                    print 'No product with this code'
+                if len(res_ids) > 1:
+#                    raise osv.except_osv(_('Product Error!'), _('Product code duplicate : %s ') % (line['default_code'],) )
+                    print 'Product code duplicate'
+                if len(res_ids) == 1:
+                    line.update({'product_id':res_ids[0][0]})
+
+#            self.write(cr, uid, [obj_pricelst.id], vals, context=context)
 
 
 #                lineDict = {}               
@@ -109,7 +122,7 @@ Price agreements from suppliers
 #                lst.append(lineDict)
 #            print 'lista',lst
 
-
+            print 'lista despues: ',load_pl
                     
         else:
             reader = {}
@@ -125,7 +138,8 @@ Price agreements from suppliers
                 if not pricelines_obj._columns.has_key(field):
                     raise osv.except_osv(_('Field Error!'), _('You have not Fields : %s ') % (field,) )
 
-        return map(lambda x: (0,0,x), lines)
+        return lines
+#        return map(lambda x: (0,0,x), lines)
 
 
 
@@ -150,24 +164,52 @@ Price agreements from suppliers
 
 
     def action_create_data(self, cr, uid, ids, context={}):
+        res = {}
         prod_obj = self.pool.get('product.product')
-        prod_supp_obj = self.pool.get('product.supplierinfo')
-        part_info_obj = self.pool.get('pricelist.partnerinfo')
+#        prod_supp_obj = self.pool.get('product.supplierinfo')
+#        part_info_obj = self.pool.get('pricelist.partnerinfo')
 
 
         for load_plst in self.browse(cr, uid, ids):
             supp_id = load_plst.partner_id.id
             print 'arcivvvv: ',load_plst
             for line in load_plst.price_ids:
+                seller = {}
                 sql= "select id from product_supplierinfo where product_id=%s and name=%s" % (line.product_id.id, supp_id,)
                 print 'lineaaaaaa: ',sql
                 cr.execute("select id from product_supplierinfo where product_id=%s and name=%s", (line.product_id.id, supp_id,))
                 record = cr.fetchone()
-#                supp_info_id = record[0]
+                if record:
+                    supp_info_id = record[0]
                 print 'suplier_info: ',record
+                seller['pricelist_ids'] = self.partnerinfo_line_get_item(cr, uid, line)
+                seller.update(self.supplierinfo_line_get_item(cr, uid, line))
+                res['seller_ids'] = [(1,supp_info_id,seller)]
+                print 'supplierinfo',res
+                prod_obj.write(cr, uid, [line.product_id.id], res)
+                
         return True
 
-            
+           
+    def partnerinfo_line_get_item(self, cr, uid, plist):
+        res = {
+            'date': plist.pricelist_id.date,
+            'min_quantity': plist.min_quantity,
+            'price': plist.price
+        }
+        return [(0,0,res)]
+
+    def supplierinfo_line_get_item(self, cr, uid, plist):
+        res = {
+            'name': plist.pricelist_id.partner_id.id,
+            'product_code': plist.product_code,
+            'product_name': plist.product_name,
+            'qty': plist.qty
+
+        }
+        return res
+
+ 
 load_pricelist()
 
 class load_pricelist_lines(osv.osv):
@@ -190,6 +232,7 @@ This is recorded and imported before put on right place for control of changes
         'list_price': fields.float('Sugested Price', digits=(16, int(config['price_accuracy'])), help="Base price for computing the customer price. Sometimes called the catalog price."),
         'pricelist_id':fields.many2one('load.pricelist', 'Load ID', required=False),
         'imported':fields.boolean('Imported', required=False),
+        'note': fields.text('Notes'),
     }
 load_pricelist_lines()
 
