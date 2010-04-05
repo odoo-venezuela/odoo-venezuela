@@ -109,6 +109,19 @@ Price agreements from suppliers
                     print 'Product code duplicate'
                 if len(res_ids) == 1:
                     line.update({'product_id':res_ids[0][0]})
+                if not res_ids:
+                    res_ids = prod_obj.name_search(cr, uid, line['prod_int_name'])
+                    print 'productoNNNNAME:',res_ids
+                    if not res_ids:
+    #                    raise osv.except_osv(_('Product Error!'), _('No product with this name  : %s ') % (line['prod_int_name],) )
+                        print 'No product with this name'
+                    if len(res_ids) > 1:
+    #                    raise osv.except_osv(_('Product Error!'), _('Product name duplicate : %s ') % (line['prod_int_name'],) )
+                        print 'Product name duplicate'
+                    if len(res_ids) == 1:
+                        line.update({'product_id':res_ids[0][0]})
+
+
 
 #            self.write(cr, uid, [obj_pricelst.id], vals, context=context)
 
