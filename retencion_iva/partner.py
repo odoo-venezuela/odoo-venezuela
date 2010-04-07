@@ -56,7 +56,11 @@ class res_partner(osv.osv):
             domain="[('type', '=', 'receivable')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.V.A. por el Agente de Retencion  en vez de la cuenta de reserva predeterminda para el actual partner"),
 
-   }
+    }
+    _defaults = {
+        'retention': lambda *a: 0,
+
+    }
 
 
 res_partner()
