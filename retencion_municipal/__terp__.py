@@ -37,7 +37,7 @@
 	"description": '''
 Administración de las retenciones aplicadas a tributos municipales.
 ''',
-	"depends" : ["base","account"],
+	"depends" : ["base","account","retencion_iva"],
 	"init_xml" : [],
 	"demo_xml" : [
 

@@ -140,3 +140,15 @@ class account_tax(osv.osv):
 
 
 account_tax()
+
+
+
+class account_journal(osv.osv):
+    _inherit = 'account.journal'
+    _description = "Journal"
+    _columns = {
+        'type': fields.selection([('sale', 'Sale'), ('purchase', 'Purchase'), ('cash', 'Cash'), ('general', 'General'), ('situation', 'Situation'), ('retiva', 'Ret IVA'), ('retislr', 'Ret ISLR'), ('retmun', 'Ret Municipal')], 'Type', size=32, required=True),
+    }
+
+account_journal()
+
