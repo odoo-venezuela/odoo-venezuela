@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    
+    <!-- Views for Addresses -->
+      <record model="ir.ui.view" id="view_partner_address_form_mun">
+        <field name='name'>res.partner.address.form.municipalities</field>
+        <field name='model'>res.partner.address</field>
+        <field name="inherit_id" ref="base.view_partner_address_form1"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+            <field name="phone" position="before">
+                <field name="municipalities_id"/>
+            </field>
+        </field>
+    </record>
+    
+</data>
+</openerp>

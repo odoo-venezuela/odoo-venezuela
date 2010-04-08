@@ -28,4 +28,5 @@
 
 import municipalities
 import country
+import partner
 

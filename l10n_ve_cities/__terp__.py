@@ -16,7 +16,8 @@
     'update_xml' : [
         'l10n_cities_ve_view.xml', 
         'l10n_cities_ve_data.xml',
-        'country_view.xml'
+        'country_view.xml',
+        'partner_view.xml'
     ],
     'installable' : True,
     'active' : False,

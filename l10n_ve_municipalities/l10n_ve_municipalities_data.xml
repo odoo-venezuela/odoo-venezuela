@@ -101,7 +101,7 @@
          </record>
         <record id="res_country_state_municipalities_030" model="res.country.state.municipalities">
             <field name="name">Libertad</field>
-            <field name="code">030</field>
+            <field name="code">020</field>
             <field search="[('code','=','an')]" model='res.country.state' name='state_id'/> 
          </record>
         <record id="res_country_state_municipalities_021" model="res.country.state.municipalities">

@@ -4,6 +4,7 @@
         <!--
 		Municipio
 		-->
+		
         <record id="view_country_municipalities_tree" model="ir.ui.view">
             <field name="name">res.country.municipalities.tree</field>
             <field name="model">res.country.state.municipalities</field>
