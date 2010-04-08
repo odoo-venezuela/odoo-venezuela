@@ -10,7 +10,7 @@
 This Module only load Venezuela's municipalities on object res.country.state.municipalities
 Este Módulo solo carga las Municipios de venezuela en la base de datos llenando el objeto res.country.state.municipalities
 ''',
-    'depends' : ['base','l10n_ve_states'],
+    'depends' : ['base','l10n_ve_states','l10n_ve_cities'],
     'init_xml' : [],
     'demo_xml' : [],
     'update_xml' : [
