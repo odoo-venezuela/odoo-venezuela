@@ -202,7 +202,7 @@ class account_retention(osv.osv):
                     amount = line.amount_tax_ret
                     ret_move = self.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, context)
+                            period_id, writeoff_journal_id, context, ret.code)
 
                     # make the retencion line point to that move
                     rl = {
@@ -250,8 +250,11 @@ class account_retention(osv.osv):
             'date': date,
         }
 
-        if not name:
-            name = invoice.invoice_line and invoice.invoice_line[0].name or invoice.number
+        if invoice.type in ['in_invoice','in_refund']:
+            name = 'Cmp. Ret. ' + name + ' Doc. '+ (invoice.reference or '')
+        else:
+            name = 'Cmp. Ret. ' + name + ' Doc. '+ (str(int(invoice.number)) or '')
+
         l1['name'] = name
         l2['name'] = name
 
