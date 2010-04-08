@@ -19,6 +19,7 @@
                     <field name="concepto_id"/>
                     <field name="retencion_islr"/>
                     <field name="amount"/>
+                    <field name="move_id"/>
                 </tree>
             </field>
         </record>

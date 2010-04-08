@@ -18,6 +18,7 @@
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
                     <field name="retencion_munici"/>
                     <field name="amount"/>
+                    <field name="move_id"/>
                 </tree>
             </field>
         </record>

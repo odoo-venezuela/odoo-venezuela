@@ -19,6 +19,7 @@
                     <field name="retention_rate" />
                     <field name="amount_tax_ret"/>                                
                     <field name="base_ret"/>
+                    <field name="move_id"/>
                 </tree>
             </field>
         </record>
