@@ -152,3 +152,28 @@ class account_journal(osv.osv):
 
 account_journal()
 
+
+
+
+def _models_get3(self, cr, uid, context={}):
+    obj = self.pool.get('ir.model.fields')
+    ids = obj.search(cr, uid, [('model','in',['account.retention', 'account.retencion.islr', 'account.retencion.munici'])])
+    res = []
+    done = {}
+    for o in obj.browse(cr, uid, ids, context=context):
+        if o.model_id.id not in done:
+            res.append( [o.model_id.model, o.model_id.name])
+            done[o.model_id.id] = True
+    return res
+
+
+class account_move_line(osv.osv):
+    _inherit = 'account.move.line'
+    _description = "Entry lines"
+    _columns = {
+        'res_id': fields.reference('Resource', selection=_models_get3, size=128),
+    }
+
+
+account_move_line()
+
