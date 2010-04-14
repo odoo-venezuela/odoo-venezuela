@@ -155,7 +155,7 @@ account_journal()
 
 
 
-def _models_get3(self, cr, uid, context={}):
+def _models_retencion_get(self, cr, uid, context={}):
     obj = self.pool.get('ir.model.fields')
     ids = obj.search(cr, uid, [('model','in',['account.retention', 'account.retencion.islr', 'account.retencion.munici'])])
     res = []
@@ -170,8 +170,38 @@ def _models_get3(self, cr, uid, context={}):
 class account_move_line(osv.osv):
     _inherit = 'account.move.line'
     _description = "Entry lines"
+
+    def _document_get(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        model_lst = ['account.retention.line', 'account.retencion.islr.line', 'account.retencion.munici.line']
+        obj = self.pool.get('ir.model.fields')
+        for aml in self.browse(cr, uid, ids, context=context):
+            res[aml.id] = ''
+            for model in model_lst:
+                record = False
+                sql ='''                
+                        select
+                            l.retention_id as id
+                        from %s l
+                            inner join account_move m on (m.id=l.move_id)
+                            inner join account_move_line u on (m.id=u.move_id)
+                        where u.id=%s
+                    ''' % (model.replace('.','_'),aml.id)
+
+                cr.execute(sql)
+                record = cr.fetchone()
+                if record:
+                    model_ids = obj.search(cr, uid, [('name','=','retention_id'),('model','=',model)])
+                    model_field = obj.browse(cr, uid, model_ids, context=context)[0]
+                    doc_str = "%s,%s" % (model_field.relation,record[0])
+                    res[aml.id] = doc_str
+                    continue
+
+        return res
+
     _columns = {
-        'res_id': fields.reference('Resource', selection=_models_get3, size=128),
+        'res_id': fields.function(_document_get, method=True, string='Document', size=128,
+            type='reference', selection=_models_retencion_get),
     }
 
 

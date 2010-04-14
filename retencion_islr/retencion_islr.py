@@ -170,9 +170,9 @@ class account_retencion_islr(osv.osv):
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount
-                    ret_move = self.ret_and_reconcile(cr, uid, [line.invoice_id.id],
+                    ret_move = self.ret_and_reconcile(cr, uid, [ret.id], [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, context, ret.code)
+                            period_id, writeoff_journal_id, context)
 
                     # make the retencion line point to that move
                     rl = {
@@ -187,13 +187,14 @@ class account_retencion_islr(osv.osv):
 
 
 
-    def ret_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context=None, name=''):
+    def ret_and_reconcile(self, cr, uid, ids, invoice_ids, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context=None, name=''):
         inv_obj = self.pool.get('account.invoice')
+        ret = self.browse(cr, uid, ids)[0]
         if context is None:
             context = {}
         #TODO check if we can use different period for payment and the writeoff line
-        assert len(ids)==1, "Can only pay one invoice at a time"
-        invoice = inv_obj.browse(cr, uid, ids[0])
+        assert len(invoice_ids)==1, "Can only pay one invoice at a time"
+        invoice = inv_obj.browse(cr, uid, invoice_ids[0])
         src_account_id = invoice.account_id.id
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
@@ -219,11 +220,11 @@ class account_retencion_islr(osv.osv):
             'ref':invoice.number,
             'date': date,
         }
-
-        if invoice.type in ['in_invoice','in_refund']:
-            name = 'Cmp. Ret. ' + name + ' Doc. '+ (invoice.reference or '')
-        else:
-            name = 'Cmp. Ret. ' + name + ' Doc. '+ (str(int(invoice.number)) or '')
+        if not name:
+            if invoice.type in ['in_invoice','in_refund']:
+                name = 'Cmp. Ret. ' + ret.code + ' Doc. '+ (invoice.reference or '')
+            else:
+                name = 'Cmp. Ret. ' + ret.code + ' Doc. '+ (str(int(invoice.number)) or '')
 
         l1['name'] = name
         l2['name'] = name
@@ -249,7 +250,7 @@ class account_retencion_islr(osv.osv):
             self.pool.get('account.move.line').reconcile_partial(cr, uid, line_ids, 'manual', context)
 
         # Update the stored value (fields.function), so we write to trigger recompute
-        self.pool.get('account.invoice').write(cr, uid, ids, {}, context=context)
+        self.pool.get('account.invoice').write(cr, uid, invoice_ids, {}, context=context)
         return {'move_id': move_id}
 
 
