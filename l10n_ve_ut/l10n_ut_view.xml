@@ -34,7 +34,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem 
-            parent="account.menu_finance_configuration" 
+            parent="account.next_id_27" 
             id="menu_action_l10n_ut_tree" 
             action="act_l10n_ut_tree"/>      
     </data>

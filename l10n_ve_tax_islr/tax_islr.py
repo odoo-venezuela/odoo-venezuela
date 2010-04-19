@@ -32,16 +32,13 @@ class concepts_rates_islr(osv.osv):
     _description = 'concepts_rates_islr List to cals'
     
     _columns = {
-        'name':fields.char('Concept', size=255, required=False, readonly=False),
-        'literal':fields.char('Articulo 9 Num/Lit', size=8, required=False, readonly=False),
-        'code':fields.char('Code', size=64, required=False, readonly=False),
-        'rate': fields.float('Rate', digits=(16, int(config['price_accuracy'])),
-        'limit': fields.float('Limit', digits=(16, int(config['price_accuracy'])),
-        'person':fields.boolean('Apply to Person', required=False),
-        'company':fields.boolean('Apply to Company', required=False),
+        'name':fields.char('Concept', size=255, required=False, readonly=False, help="Name Exactly as described on the law for this Case/Activity"),
+        'literal':fields.char('Articulo 9 Num/Lit', size=8, required=False, readonly=False, help="Reference to law"),
+        'code':fields.char('Code', size=8, required=False, readonly=False, help="Code to be exported to SENIAT XML file"),
+        'rate': fields.float('Rate', digits=(16, int(config['price_accuracy']), help="Rate to be applied over the untaxed amount"),
+        'limit': fields.float('Limit', digits=(16, int(config['price_accuracy']), help="Limit amount in UT to apply this rate"),
+        'person':fields.boolean('Apply to Person', required=False, help="Apply to Natural person"),
+        'company':fields.boolean('Apply to Company', required=False, help="Apply to Companies"),
         'subtrahend': fields.float('Subtrahend', digits=(16, int(config['price_accuracy'])),
-    }
-    _defaults = {
-        'name': lambda *a: None,
     }
 concepts_rates_islr()

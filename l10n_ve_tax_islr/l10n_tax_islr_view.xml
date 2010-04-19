@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_concepts_rates_islr_form">
+            <field name="name">concepts.rates.islr.form</field>
+            <field name="model">concepts.rates.islr</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Concept">
+                    <group col="6" colspan="4">
+                        <field name="date" select="1"/>
+                        <field name="amount" select="1"/>
+                        <field name="name" select="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_concepts_rates_islr_tree">
+            <field name="name">concepts.rates.islr.tree</field>
+            <field name="model">concepts.rates.islr</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Concepts" editable="top/bottom">
+                    <field name="date" select="1"/>
+                    <field name="amount" select="1"/>
+                    <field name="name" select="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="act_concepts_rates_islr_tree" model="ir.actions.act_window">
+            <field name="name">Concept</field>
+            <field name="res_model">concepts.rates.islr</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem 
+            parent="account.next_id_27" 
+            id="menu_action_concepts_rates_islr_tree" 
+            action="act_concepts_rates_islr_tree"/>      
+    </data>
+</openerp>

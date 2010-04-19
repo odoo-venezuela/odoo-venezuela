@@ -25,6 +25,6 @@
             <field name="name">38.350</field>
             <field name="date">2006-01-04</field>
             <field name="amount">33.60</field>
-            </record>        
+            </record>
     </data>
 </openerp>
