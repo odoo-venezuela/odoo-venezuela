@@ -1,13 +1,30 @@
 <?xml version="1.0"?>
 <openerp>
         <data noupdate="1">
-    
-
-        <record id="l10n_ut_data_2010" model="l10n.ut">
+            <record id="l10n_ut_data_2010" model="l10n.ut">
             <field name="name">39.361</field>
             <field name="date">2010-02-04</field>
             <field name="amount">65.00</field>
-        </record>
-        
+            </record>
+            <record id="l10n_ut_data_2009" model="l10n.ut">
+            <field name="name">39.127</field>
+            <field name="date">2009-02-26</field>
+            <field name="amount">55.00</field>
+            </record>
+            <record id="l10n_ut_data_2008" model="l10n.ut">
+            <field name="name">38.855</field>
+            <field name="date">2008-01-22</field>
+            <field name="amount">46.00</field>
+            </record>
+            <record id="l10n_ut_data_2007" model="l10n.ut">
+            <field name="name">38.603</field>
+            <field name="date">2007-01-12</field>
+            <field name="amount">37.632</field>
+            </record>
+            <record id="l10n_ut_data_2006" model="l10n.ut">
+            <field name="name">38.350</field>
+            <field name="date">2006-01-04</field>
+            <field name="amount">33.60</field>
+            </record>        
     </data>
 </openerp>
