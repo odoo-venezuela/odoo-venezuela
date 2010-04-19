@@ -27,7 +27,7 @@
                 </tree>
             </field>
         </record>
-        <record id="action_l10n_ut_tree" model="ir.actions.act_window">
+        <record id="act_l10n_ut_tree" model="ir.actions.act_window">
             <field name="name">Tax Unit</field>
             <field name="res_model">l10n.ut</field>
             <field name="view_type">form</field>
