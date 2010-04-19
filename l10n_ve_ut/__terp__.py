@@ -15,6 +15,7 @@
     ],
     "update_xml" : [
         "l10n_ut_view.xml",
+        "l10n_ut_data.xml",
     ],
     "active": False,
     "installable": True,
