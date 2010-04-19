@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
+#                    Javier Duran <javier.duran@netquatro.com> Nhomar Hernandez <nhomar.hernandez@netquatro.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -43,6 +43,7 @@
             "product_view.xml",
             "report_profit_view.xml",
             "report_profit_wizard.xml",
+            "unit_analisys_view.xml",
     ],
 	"active": False,
 	"installable": True

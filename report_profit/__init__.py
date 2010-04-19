@@ -31,6 +31,7 @@
 
 import invoice
 import product
+import unit_analisys
 import report_profit
 import wizard
 
