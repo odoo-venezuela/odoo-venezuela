@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from osv import osv
 from osv import fields
+from tools import config
 from tools.translate import _
 import time
 
