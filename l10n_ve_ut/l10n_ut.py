@@ -15,7 +15,7 @@ class l10n_ut(osv.osv):
     _columns = {
         'name':fields.char('Law Number Reference', size=64, required=False, readonly=False),
         'date': fields.date('Date'),
-        'amount': fields.float('Amount', digits=(16, int(config['price_accuracy']), help="Amount Bs per UT."),
+        'amount': fields.float('Amount', digits=(16, int(config['price_accuracy'])), help="Amount Bs per UT."),
     }
     _defaults = {
         'name': lambda *a: None,
