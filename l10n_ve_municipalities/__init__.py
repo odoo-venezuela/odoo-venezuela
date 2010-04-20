@@ -25,8 +25,8 @@
 #    publicada por "the Free Software Foundation,"
 #
 ##############################################################################
-from osv import osv
-from osv import fields
+
+import municipalities
 import country
-import city
 import partner
+

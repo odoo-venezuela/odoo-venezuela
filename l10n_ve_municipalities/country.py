@@ -1,7 +1,9 @@
 ##############################################################################
 #
-#    OpenERP-Venezuela, Venezuelan Localization of OpenERP    
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://openerp.netquatro.com>). All Rights Reserved
+#    OpenERP, Open Source Management Solution    
+#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
+#    d$
+# Copyright (C) 2004-2009 Netquatro, C.A. (<http://openerp.netquatro.com>). All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,17 +18,17 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
-#    OpenERP-Venezuela, Localizacion Venezolana de OpenERP    
-#    Copyright (C) 2010 Netquatro (<http://openerp.netquatro.com>). Todos los derechos Reservados
-#
-#    Este programa es un Software Libre lo puedes redistribuir y/o modificar
-#    Se encuentra bajo los terminos de licencia GNU
-#    publicada por "the Free Software Foundation,"
-#
 ##############################################################################
+
 from osv import osv
 from osv import fields
-import country
-import city
-import partner
+
+class CountryState(osv.osv):
+	_inherit = 'res.country.state'
+	_columns = {
+		'municipalities_ids': fields.one2many('res.country.state.municipalities', 'state_id', 'Municipios'),
+	}
+
+CountryState()
+
+
