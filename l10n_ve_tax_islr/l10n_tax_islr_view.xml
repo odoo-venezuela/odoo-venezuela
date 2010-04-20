@@ -8,9 +8,13 @@
             <field name="arch" type="xml">
                 <form string="Concept">
                     <group col="6" colspan="4">
-                        <field name="date" select="1"/>
-                        <field name="amount" select="1"/>
+                        <field name="code" select="1"/>
                         <field name="name" select="1"/>
+                        <field name="literal" select="1"/>
+                        <field name="rate" select="1"/>
+                        <field name="person" select="1"/>
+                        <field name="company" select="1"/>
+                        <field name="subtrahend" select="1"/>
                     </group>
                 </form>
             </field>
@@ -21,8 +25,6 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Concepts" editable="top/bottom">
-                    <field name="date" select="1"/>
-                    <field name="amount" select="1"/>
                     <field name="name" select="1"/>
                 </tree>
             </field>
