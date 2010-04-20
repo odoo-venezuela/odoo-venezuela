@@ -58,9 +58,9 @@ class product_uom(osv.osv):
                     
 product_uom()
 
-class product_uom_consol():
+class product_uom_consol(osv.osv):
     _name = 'product.uom.consol'
-    _description = 'Object to control a third unit to consolidate the sales and purchase.'
+    _description = 'A third unit to consolidate the sales and purchase.'
     _columns = {
         'name': fields.char('Name', size=64, required=True, translate=True),
 #        'uom_ids':fields.one2many('product.uom', 'p_uom_id', 'Units', required=False),

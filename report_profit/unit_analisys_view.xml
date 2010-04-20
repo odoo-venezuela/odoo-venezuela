@@ -37,7 +37,7 @@
             </field>
         </record>
 
-        <record id="product_category_action_form" model="ir.actions.act_window">
+        <record id="product_cat_action_form" model="ir.actions.act_window">
             <field name="name">Products UOMs</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.uom.consol</field>
@@ -45,18 +45,18 @@
             <field name="view_id" ref="view_product_uom_consol_form"/>
         </record>
         <menuitem
-            action="product_category_action_form"
+            action="product_cat_action_form"
             id="menu_config_product_uom_con"
             name="UOM to Consolidate"
             parent="product.next_id_16"
             sequence="10"
-            groups="group_product_manager"/>
+            groups="product.group_product_manager"/>
         <record id="product_uom_con_action_tree" model="ir.actions.act_window">
             <field name="name">UOM Consol</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.uom.consol</field>
             <field name="view_type">tree</field>
-            <field name="view_id" ref="view_product_uom_consol_list"/>
+            <field name="view_id" ref="view_product_uom_consol_tree"/>
         </record>
         <menuitem 
             action="product_uom_con_action_tree" 
