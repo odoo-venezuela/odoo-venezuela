@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+        <record>
+        <field name="name">BBVA Banco Provincial</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BBVA</field>
+        </record>
+        <record>
+        <field name="name">Banco Mercantil</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">MERCANTIL</field>
+        </record>
+        <record>
+        <field name="name">Banesco - Banco Universal</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BANESCO</field>
+        </record>
+        <record>
+        <field name="name">Banco Occidental de Descuento</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BOD</field>
+        </record>
+        <record>
+        <field name="name">Banco de Venezuela</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">VENEZUELA</field>
+        </record>
+        <record>
+        <field name="name">Banco Venezolano de Credito</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BVC</field>
+        </record>
+        <record>
+        <field name="name">Banco Exterior</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">EXTERIOR</field>
+        </record>
+        <record>
+        <field name="name">Banco Federal</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">FEDERAL</field>
+        </record>
+        <record>
+        <field name="name">Banco Industrial de Venezuela</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BIV</field>
+        </record>
+        <record>
+        <field name="name">Banco Plaza</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">PLAZA</field>
+        </record>
+        <record>
+        <field name="name">Banco Central de Venezuela</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BCV</field>
+        </record>
+        <record>
+        <field name="name">Banco de Comercio Exterior – Venezuela</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BCE</field>
+        </record>
+        <record>
+        <field name="name">Banco Fondo Comun</field>
+        <field search="[('code','=','VE')]" model='res.country' name='country'/>
+        <field name="code">BFC</field>
+        </record> 
+        
+    </data>
+</openerp>
+

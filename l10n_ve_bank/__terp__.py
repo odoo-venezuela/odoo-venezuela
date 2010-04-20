@@ -17,7 +17,7 @@
     "demo_xml" : [
     ],
     "update_xml" : [
-        "data/res.bank.csv",
+        "data/res.bank.xml",
     ],
     "active": False,
     "installable": True,
