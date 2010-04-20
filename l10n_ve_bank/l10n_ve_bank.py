@@ -39,7 +39,7 @@ class res_partner_bank_checkbook(osv.osv):
         'check_ids':fields.one2many('res.partner.bank.check', 'checkbook_id', 'Label', required=False),
     }
 
-res.partner.bank.checkbook()
+res_partner_bank_checkbook()
 
 class res_partner_bank_check(osv.osv):
     """
