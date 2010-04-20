@@ -24,7 +24,7 @@
                         <field name="situation" select="1"/>
                     </group>
                         <separator string="Note - Description, with an example case." colspan="4"/>
-                        <field name="note" select="1"/>
+                        <field name="note" select="1" nolabel="1"/>
                 </form>
             </field>
         </record>
@@ -58,10 +58,13 @@
             <field name="arch" type="xml">
                 <form string="Group">
                     <group col="2" colspan="4">
-                        <field name="name" select="1"/>
-                        <field name="code" select="1"/>
+                        <separator string="Name" colspan="4"/>
+                        <field name="name" select="1" nolabel="1"/>
+                        <separator string="Code" colspan="4"/>
+                        <field name="code" select="1" nolabel="1"/>
                     </group>
-                        <field name="concept_ids" select="1"/>
+                        <separator string="Concepts" colspan="4"/>
+                        <field name="concept_ids" select="1" nolabel="1"/>
                 </form>
             </field>
         </record>
