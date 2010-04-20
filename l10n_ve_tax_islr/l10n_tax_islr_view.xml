@@ -34,6 +34,8 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Concepts">
+                    <field name="code" select="1"/>
+                    <field name="rate"/>
                     <field name="name" select="1"/>
                 </tree>
             </field>
