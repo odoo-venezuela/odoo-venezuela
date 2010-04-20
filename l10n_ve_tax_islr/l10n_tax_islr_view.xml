@@ -25,7 +25,7 @@
             <field name="model">concepts.rates.islr</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Concepts" editable="top/bottom">
+                <tree string="Concepts">
                     <field name="name" select="1"/>
                 </tree>
             </field>
