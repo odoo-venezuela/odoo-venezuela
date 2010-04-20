@@ -22,33 +22,13 @@
 from osv import osv
 from osv import fields
 from tools.translate import _
-import time
 
-class res_partner_bank_checkbook(osv.osv):
+class res_partner_bank(osv.osv):
     """
-    OpenERP Model : res.partner.bank.checkbook
+    res_partner_bank
     """
-    
-    _name = 'res.partner.bank.checkbook'
-    _description = 'Control for checkbooks'
+    _inherit = 'res.partner.bank'
     _columns = {
-        'name':fields.char('Serial', size=64, required=True, readonly=False),
-        'date': fields.date('Printed date'),
-        'account_id':fields.many2one('res.partner.bank', 'Bank Account', required=False),
-        'check_ids':fields.one2many('res.partner.bank.check', 'checkbook_id', 'Label', required=False),
+        'checkbook_ids':fields.one2many('res.partner.bank.checkbook', 'account_id', 'Bank Account', required=False),
     }
-res_partner_bank_checkbook()
-
-
-class res_partner_bank_check(osv.osv):
-    """
-    OpenERP Model : res_partner_bank_check
-    """
-    _name = 'res.partner.bank.check'
-    _description = 'Control for Checks'
-    
-    _columns = {
-        'name':fields.char('Number', size=64, required=True, readonly=False),
-        'checkbook_id':fields.many2one('res.partner.bank.checkbook', 'Checkbook', required=False),
-    }
-res_partner_bank_check()
+res_partner_bank()
