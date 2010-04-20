@@ -54,7 +54,7 @@ class concepts_rates_islr(osv.osv):
         'name':fields.char('Concept', size=270, required=False, readonly=False, help="Name Exactly as described on the law for this Case/Activity"),
         'literal':fields.char('Articulo 9 Num/Lit', size=8, required=False, readonly=False, help="Reference to law"),
         'code':fields.char('Code', size=8, required=False, readonly=False, help="Code to be exported to SENIAT XML file"),
-        'rate': fields.float('Rate', digits=(16, int(config['price_accuracy'])), help="Rate to be applied over the untaxed amount"),
+        'rate': fields.float('Tax Rate', digits=(16, int(config['price_accuracy'])), help="Tax Rate to be applied over the untaxed amount after applying 'Untaxed Amount Rate'"),
         'limit': fields.float('Limit', digits=(16, int(config['price_accuracy'])), help="Limit amount in UT to apply this rate"),
         'situation':fields.selection([
             ('PNR','Persona Natural Residente'),
@@ -66,7 +66,7 @@ class concepts_rates_islr(osv.osv):
         
         'subtrahend': fields.float('Subtrahend', digits=(16, int(config['price_accuracy']))),
         'group_id':fields.many2one('group.concept.islr', 'Group', required=False),
-        'base_imp': fields.float('Rate untaxed amount', digits=(16, int(config['price_accuracy']))),
+        'base_imp': fields.float('Untaxed amount rate', digits=(16, int(config['price_accuracy'])), help="Rate of the untaxed amount over which is going to be aplied the tax Rate"),
         'note': fields.text('Description', help="Description for this case is necesary an example for every case on english and Spanish"),
     }
 concepts_rates_islr()
