@@ -41,5 +41,23 @@ class concepts_rates_islr(osv.osv):
         'person':fields.boolean('Apply to Person', required=False, help="Apply to Natural person"),
         'company':fields.boolean('Apply to Company', required=False, help="Apply to Companies"),
         'subtrahend': fields.float('Subtrahend', digits=(16, int(config['price_accuracy']))),
+        'group_id':fields.many2one('group.concept.islr', 'Group', required=False),
     }
 concepts_rates_islr()
+
+class group_concept_islr(osv.osv):
+    """
+    OpenERP Model : group_concept_islr
+    """
+    
+    _name = 'group.concept.islr'
+    _description = 'Grouping for concepts in ISLR'
+    
+    _columns = {
+        'name':fields.char('Name', size=64, required=False, readonly=False),
+        'concept_ids':fields.one2many('concepts.rates.islr', 'group_id', 'Concepts', required=False),
+    }
+    _defaults = {
+        'name': lambda *a: None,
+    }
+group_concept_islr()

@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <menuitem 
+            parent="account.next_id_27" 
+            id="menu_config_islr" 
+            name="ISLR - Config"/> 
+<!-- Concepts -->
         <record model="ir.ui.view" id="view_concepts_rates_islr_form">
             <field name="name">concepts.rates.islr.form</field>
             <field name="model">concepts.rates.islr</field>
@@ -10,6 +15,7 @@
                     <group col="2" colspan="4">
                         <field name="code" select="1"/>
                         <field name="name" select="1"/>
+                        <field name="group" select="1"/>
                         <field name="literal" select="1"/>
                         <field name="rate" select="1"/>
                         <field name="subtrahend" select="1"/>
@@ -31,14 +37,48 @@
             </field>
         </record>
         <record id="act_concepts_rates_islr_tree" model="ir.actions.act_window">
-            <field name="name">Concept</field>
+            <field name="name">Concepts</field>
             <field name="res_model">concepts.rates.islr</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem 
-            parent="account.next_id_27" 
+            parent="l10n_ve_tax_islr.menu_config_islr" 
             id="menu_action_concepts_rates_islr_tree" 
-            action="act_concepts_rates_islr_tree"/>      
+            action="act_concepts_rates_islr_tree"/>  
+<!-- Group Concepts -->
+        <record model="ir.ui.view" id="view_group_concept_islr_form">
+            <field name="name">group.concept.islr.form</field>
+            <field name="model">group.concept.islr</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Group">
+                    <group col="2" colspan="4">
+                        <field name="name" select="1"/>
+                        <field name="concept_ids" select="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_group_concept_islr_tree">
+            <field name="name">group.concept.islr.tree</field>
+            <field name="model">group.concept.islr</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Groups">
+                    <field name="name" select="1"/>
+                </tree>
+            </field>
+        </record>    
+       <record id="act_group_concept_islr_tree" model="ir.actions.act_window">
+            <field name="name">Groups</field>
+            <field name="res_model">group.concept.islr</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem 
+            parent="l10n_ve_tax_islr.menu_config_islr" 
+            id="menu_action_group_concept_islr_tree" 
+            action="act_group_concept_islr_tree"/>  
     </data>
 </openerp>
