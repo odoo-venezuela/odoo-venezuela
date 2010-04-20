@@ -15,7 +15,7 @@
                     <group col="2" colspan="4">
                         <field name="code" select="1"/>
                         <field name="name" select="1"/>
-                        <field name="group" select="1"/>
+                        <field name="group_id" select="1"/>
                         <field name="literal" select="1"/>
                         <field name="rate" select="1"/>
                         <field name="subtrahend" select="1"/>
