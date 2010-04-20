@@ -21,6 +21,7 @@
 ##############################################################################
 from osv import osv
 from osv import fields
+from tools import config
 from tools.translate import _
 
 class concepts_rates_islr(osv.osv):
