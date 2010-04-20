@@ -69,8 +69,8 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Groups">
-                    <field name="name" select="1"/>
                     <field name="code" select="1"/>
+                    <field name="name" select="1"/>
                 </tree>
             </field>
         </record>    
