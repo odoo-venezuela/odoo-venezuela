@@ -63,7 +63,6 @@
                         <separator string="Code" colspan="4"/>
                         <field name="code" select="1" nolabel="1"/>
                     </group>
-                        <separator string="Concepts" colspan="4"/>
                         <field name="concept_ids" select="1" nolabel="1"/>
                 </form>
             </field>
