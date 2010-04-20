@@ -31,26 +31,24 @@ class res_partner_bank_checkbook(osv.osv):
     
     _name = 'res.partner.bank.checkbook'
     _description = 'Control for checkbooks'
-    
     _columns = {
         'name':fields.char('Serial', size=64, required=True, readonly=False),
         'date': fields.date('Printed date'),
         'account_id':fields.many2one('res.partner.bank', 'Bank Account', required=False),
         'check_ids':fields.one2many('res.partner.bank.check', 'checkbook_id', 'Label', required=False),
     }
-
 res_partner_bank_checkbook()
+
 
 class res_partner_bank_check(osv.osv):
     """
     OpenERP Model : res_partner_bank_check
     """
-    
     _name = 'res.partner.bank.check'
     _description = 'Control for Checks'
     
     _columns = {
         'name':fields.char('Number', size=64, required=True, readonly=False),
-        'checkbook_id':fields.many2one('openerp.model', 'Label', required=False),
+        'checkbook_id':fields.many2one('res.partner.bank.checkbook', 'Checkbook', required=False),
     }
 res_partner_bank_check()
