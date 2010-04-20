@@ -55,7 +55,7 @@
                 <form string="Group">
                     <group col="2" colspan="4">
                         <field name="name" select="1"/>
-                        <field name="concept_ids" select="1"/>
+                        <field name="concept_ids" select="1" widget="selection"/>
                     </group>
                 </form>
             </field>
