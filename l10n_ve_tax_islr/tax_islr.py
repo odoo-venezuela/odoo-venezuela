@@ -59,6 +59,7 @@ class concepts_rates_islr(osv.osv):
         'company':fields.boolean('Apply to Company', required=False, help="Apply to Companies"),
         'subtrahend': fields.float('Subtrahend', digits=(16, int(config['price_accuracy']))),
         'group_id':fields.many2one('group.concept.islr', 'Group', required=False),
+        'base_imp': fields.float('Rate untaxed amount', digits=(16, int(config['price_accuracy'])),
     }
 concepts_rates_islr()
 

@@ -19,6 +19,7 @@
                         <field name="literal" select="1"/>
                         <field name="rate" select="1"/>
                         <field name="subtrahend" select="1"/>
+                        <field name="base_imp" select="1"/>
                         <field name="limit" select="1"/>
                         <field name="person" select="1"/>
                         <field name="company" select="1"/>
