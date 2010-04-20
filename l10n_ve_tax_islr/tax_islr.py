@@ -55,7 +55,7 @@ class concepts_rates_islr(osv.osv):
         'literal':fields.char('Articulo 9 Num/Lit', size=8, required=False, readonly=False, help="Reference to law"),
         'code':fields.char('Code', size=8, required=False, readonly=False, help="Code to be exported to SENIAT XML file"),
         'rate': fields.float('Tax Rate', digits=(16, int(config['price_accuracy'])), help="Tax Rate to be applied over the untaxed amount after applying 'Untaxed Amount Rate'"),
-        'limit': fields.float('Limit', digits=(16, int(config['price_accuracy'])), help="Limit amount in UT to apply this rate"),
+        'limit': fields.float('Limit', digits=(16, int(config['price_accuracy'])), help="Limit amount in TU to be applied this rate 0.00 to all cases -1 for the bigest limit or amounts in the middle ie: 2000 TU, 3000 TU"),
         'situation':fields.selection([
             ('PNR','Persona Natural Residente'),
             ('PNNR','Persona Natural No Residente'),
