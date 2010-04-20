@@ -55,12 +55,18 @@ class concepts_rates_islr(osv.osv):
         'code':fields.char('Code', size=8, required=False, readonly=False, help="Code to be exported to SENIAT XML file"),
         'rate': fields.float('Rate', digits=(16, int(config['price_accuracy'])), help="Rate to be applied over the untaxed amount"),
         'limit': fields.float('Limit', digits=(16, int(config['price_accuracy'])), help="Limit amount in UT to apply this rate"),
-        'person':fields.boolean('Apply to Person', required=False, help="Apply to Natural person"),
-        'company':fields.boolean('Apply to Company', required=False, help="Apply to Companies"),
+        'situation':fields.selection([
+            ('PNR','Persona Natural Residente'),
+            ('PNNR','Persona Natural No Residente'),
+            ('PJD','Persona Jurídica Domiciliada'),
+            ('PJND','Persona Jurídica No Domiciliada'),
+            ('PJNCD','Persona Jurídica No Constituida Domiciliada')
+        ],'Situation', select=True, readonly=False),
         'subtrahend': fields.float('Subtrahend', digits=(16, int(config['price_accuracy']))),
         'group_id':fields.many2one('group.concept.islr', 'Group', required=False),
         'base_imp': fields.float('Rate untaxed amount', digits=(16, int(config['price_accuracy'])),
         'note': fields.text('Description',help="Description for this case, is necesary an example for every case on english and Spanish"),
+
     }
 concepts_rates_islr()
 

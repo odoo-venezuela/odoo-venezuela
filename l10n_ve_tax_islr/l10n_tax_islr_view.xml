@@ -17,12 +17,11 @@
                         <field name="name" select="1"/>
                         <field name="group_id" select="1"  widget="selection"/>
                         <field name="literal" select="1"/>
-                        <field name="rate" select="1"/>
-                        <field name="subtrahend" select="1"/>
-                        <field name="base_imp" select="1"/>
-                        <field name="limit" select="1"/>
-                        <field name="person" select="1"/>
-                        <field name="company" select="1"/>
+                        <field name="rate"/>
+                        <field name="subtrahend"/>
+                        <field name="base_imp"/>
+                        <field name="limit"/>
+                        <field name="situation" select="1"/>
                     </group>
                         <separator string="Note - Description, with an example case." colspan="4"/>
                         <field name="note" select="1"/>
