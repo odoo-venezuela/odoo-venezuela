@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Author: nhomar.hernandez@netquatro.com
+#    nhomar.hernandez@netquatro.com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import tax_islr
-import partner
+from osv import osv
+from osv import fields
+from tools import config
+from tools.translate import _
 
+class res_partner(osv.osv):
+    """
+    To calc the condition of the partner. And in future make decisions about ISLR
+    """
+    
+    _inherit = 'res.partner'
+    _columns = {
+        'situation':fields.selection([
+            ('PNR','Persona Natural Residente'),
+            ('PNNR','Persona Natural No Residente'),
+            ('PJD','Persona Jurídica Domiciliada'),
+            ('PJND','Persona Jurídica No Domiciliada'),
+            ('PJNCD','Persona Jurídica No Constituida Domiciliada')
+        ],'Situation', select=True, readonly=False),
+    }
+res_partner()

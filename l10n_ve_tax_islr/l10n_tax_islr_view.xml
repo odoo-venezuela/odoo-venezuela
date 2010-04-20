@@ -57,8 +57,9 @@
                 <form string="Group">
                     <group col="2" colspan="4">
                         <field name="name" select="1"/>
-                        <field name="concept_ids" select="1"/>
+                        <field name="code" select="1"/>
                     </group>
+                        <field name="concept_ids" select="1"/>
                 </form>
             </field>
         </record>
@@ -69,6 +70,7 @@
             <field name="arch" type="xml">
                 <tree string="Groups">
                     <field name="name" select="1"/>
+                    <field name="code" select="1"/>
                 </tree>
             </field>
         </record>    

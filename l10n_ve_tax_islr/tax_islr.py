@@ -34,6 +34,7 @@ class group_concept_islr(osv.osv):
     
     _columns = {
         'name':fields.char('Name', size=64, required=False, readonly=False),
+        'code':fields.char('Code Group', size=64, required=False, readonly=False),
         'concept_ids':fields.one2many('concepts.rates.islr', 'group_id', 'Concepts', required=False),
     }
     _defaults = {
