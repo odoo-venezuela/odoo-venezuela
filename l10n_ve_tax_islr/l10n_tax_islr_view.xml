@@ -24,6 +24,8 @@
                         <field name="person" select="1"/>
                         <field name="company" select="1"/>
                     </group>
+                        <separator string="Note - Description, with an example case." colspan="4"/>
+                        <field name="note" select="1"/>
                 </form>
             </field>
         </record>
