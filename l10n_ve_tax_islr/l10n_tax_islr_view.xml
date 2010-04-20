@@ -7,14 +7,15 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Concept">
-                    <group col="6" colspan="4">
+                    <group col="2" colspan="4">
                         <field name="code" select="1"/>
                         <field name="name" select="1"/>
                         <field name="literal" select="1"/>
                         <field name="rate" select="1"/>
+                        <field name="subtrahend" select="1"/>
+                        <field name="limit" select="1"/>
                         <field name="person" select="1"/>
                         <field name="company" select="1"/>
-                        <field name="subtrahend" select="1"/>
                     </group>
                 </form>
             </field>
