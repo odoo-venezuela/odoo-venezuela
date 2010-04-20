@@ -45,6 +45,7 @@
     "update_xml" : [
         "l10n_tax_islr_view.xml",
         "data/group.concept.islr.csv",
+        "data/concepts.rates.islr.csv"
     ],
     "active": False,
     "installable": True,
