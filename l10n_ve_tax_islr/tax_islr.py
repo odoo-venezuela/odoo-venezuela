@@ -62,11 +62,11 @@ class concepts_rates_islr(osv.osv):
             ('PJND','Persona Jurídica No Domiciliada'),
             ('PJNCD','Persona Jurídica No Constituida Domiciliada')
         ],'Situation', select=True, readonly=False),
+        
         'subtrahend': fields.float('Subtrahend', digits=(16, int(config['price_accuracy']))),
         'group_id':fields.many2one('group.concept.islr', 'Group', required=False),
-        'base_imp': fields.float('Rate untaxed amount', digits=(16, int(config['price_accuracy'])),
+        'base_imp': fields.float('Rate untaxed amount', digits=(16, int(config['price_accuracy']))),
         'note': fields.text('Description', help="Description for this case is necesary an example for every case on english and Spanish"),
-
     }
 concepts_rates_islr()
 
