@@ -41,7 +41,7 @@ class report_purchase_byproduct(osv.osv):
     _description = 'report_purchase_byproduct'
     _auto = False
     _columns = {
-        'invoice_reference':fields.char('Reference', size=64, required=False, readonly=False),
+        'name':fields.char('Reference', size=64, required=False, readonly=False),
         'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, select=True),
         'type': fields.selection([
@@ -60,7 +60,7 @@ class report_purchase_byproduct(osv.osv):
     def init(self, cr):
             cr.execute('''
                 create or replace view report_purchase_byproduct as ( SELECT
-                    account_invoice."reference" AS invoice_reference,
+                    account_invoice."reference" AS name,
                     account_invoice."partner_id" AS partner_id,
                     account_invoice_line."product_id" AS product_id,
                     account_invoice."type" AS type,
