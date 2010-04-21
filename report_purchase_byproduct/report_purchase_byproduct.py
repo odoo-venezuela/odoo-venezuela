@@ -44,7 +44,6 @@ class report_purchase_byproduct(osv.osv):
         'invoice_reference':fields.char('Reference', size=64, required=False, readonly=False),
         'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, select=True),
-        'product_type': fields.char('Reference', size=64, required=False, readonly=False),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
@@ -55,8 +54,7 @@ class report_purchase_byproduct(osv.osv):
         'uos_id':fields.many2one('product.uom', 'UOM    ', readonly=True, select=True),
         'invoice_line_quantity': fields.float('Unit Price', readonly=True),
         'line_discount': fields.float('Unit Price', readonly=True),
-        'invoice_line_price_sub': fields.float('Unit Price', readonly=True),    
-        'invoice_state': fields.char('Reference', size=64, required=False, readonly=False),    
+        'invoice_line_price_sub': fields.float('Unit Price', readonly=True),       
     }
 
     def init(self, cr):
@@ -65,12 +63,10 @@ class report_purchase_byproduct(osv.osv):
                     account_invoice."reference" AS invoice_reference,
                     account_invoice."partner_id" AS partner_id,
                     account_invoice_line."product_id" AS product_id,
-                    product_template."type" AS product_type,
                     account_invoice."type" AS type,
                     account_invoice_line."price_subtotal" AS invoice_line_price_sub,
                     account_invoice_line."price_unit" AS invoice_line_price_unit,
                     account_invoice_line."quantity" AS invoice_line_quantity,
-                    account_invoice."state" AS invoice_state,
                     account_invoice_line."uos_id" AS uos_id,
                     account_invoice_line."discount" AS line_discount
                 FROM
