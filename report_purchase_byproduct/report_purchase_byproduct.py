@@ -52,9 +52,9 @@ class report_purchase_byproduct(osv.osv):
             ],'Type', readonly=True, select=True),
         'invoice_line_price_unit': fields.float('Unit Price', readonly=True),
         'uos_id':fields.many2one('product.uom', 'UOM    ', readonly=True, select=True),
-        'invoice_line_quantity': fields.float('Unit Price', readonly=True),
-        'line_discount': fields.float('Unit Price', readonly=True),
-        'invoice_line_price_sub': fields.float('Unit Price', readonly=True),       
+        'invoice_line_quantity': fields.float('Quantity', readonly=True),
+        'line_discount': fields.float('Discount', readonly=True),
+        'invoice_line_price_sub': fields.float('Sub Total', readonly=True),       
     }
 
     def init(self, cr):
