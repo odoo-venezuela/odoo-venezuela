@@ -46,6 +46,6 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="menu_report_purchase_byproduct" name="Management Reporting" parent="purchase.menu_purchase_root"/>
-        <menuitem id="menu_report_purchase_byproduct_tree" name="Management Reporting by Line" parent="report_purchse_byproduct.menu_report_purchase_byproduct" action="action_report_purchase_byproduct_tree"/>
+        <menuitem id="menu_report_purchase_byproduct_tree" name="Management Reporting by Line" parent="report_purchase_byproduct.menu_report_purchase_byproduct" action="action_report_purchase_byproduct_tree"/>
     </data>
 </openerp>
