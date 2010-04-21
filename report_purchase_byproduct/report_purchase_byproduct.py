@@ -43,7 +43,6 @@ class report_purchase_byproduct(osv.osv):
     _auto = False
     _columns = {
         'name':fields.char('Reference', size=64, required=False, readonly=False),
-        #TODO : import time required to get currect date
         'date': fields.date('Date'),
         'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, select=True),
@@ -64,7 +63,7 @@ class report_purchase_byproduct(osv.osv):
             cr.execute('''
                 create or replace view report_purchase_byproduct as ( SELECT
                     account_invoice_line.id as id,
-                    account_invoice.date as date,
+                    account_invoice.date_invoice as date,
                     account_invoice."reference" AS name,
                     account_invoice."partner_id" AS partner_id,
                     account_invoice_line."product_id" AS product_id,
