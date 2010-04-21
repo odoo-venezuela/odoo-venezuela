@@ -64,15 +64,30 @@ class report_purchase_byproduct(osv.osv):
                 create or replace view report_purchase_byproduct as ( SELECT
                     account_invoice_line.id as id,
                     account_invoice.date_invoice as date,
-                    account_invoice."reference" AS name,
+                    account_invoice."reference" AS invoice_reference,
                     account_invoice."partner_id" AS partner_id,
                     account_invoice_line."product_id" AS product_id,
                     account_invoice."type" AS type,
-                    account_invoice_line."price_subtotal" AS invoice_line_price_sub,
-                    account_invoice_line."price_unit" AS invoice_line_price_unit,
+                    case when account_invoice."type"='in_refund'
+                    then
+                        account_invoice_line."price_unit"*(-1)
+                    else
+                        account_invoice_line."price_unit" 
+		    end AS invoice_line_price_unit,
+		    case when account_invoice."type"='in_refund'
+                    then
+                        account_invoice_line."price_subtotal"*(-1)
+                    else
+                        account_invoice_line."price_subtotal" 
+		    end AS invoice_line_price_sub,
+		    case when account_invoice."type"='in_refund'
+                    then
+                        account_invoice_line."discount"*(-1)
+                    else
+                        account_invoice_line."discount" 
+		    end AS line_discount,
                     account_invoice_line."quantity" AS invoice_line_quantity,
-                    account_invoice_line."uos_id" AS uos_id,
-                    account_invoice_line."discount" AS line_discount
+                    account_invoice_line."uos_id" AS uos_id
                 FROM
                     "account_invoice" account_invoice INNER JOIN "account_invoice_line" account_invoice_line ON account_invoice."id" = account_invoice_line."invoice_id"
                 INNER JOIN "product_uom" product_uom ON account_invoice_line."uos_id" = product_uom."id"
