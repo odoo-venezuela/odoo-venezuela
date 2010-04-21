@@ -59,7 +59,7 @@ class report_purchase_byproduct(osv.osv):
 
     def init(self, cr):
             cr.execute('''
-                create or replace view report_profit as ( SELECT
+                create or replace view report_purchase_byproduct as ( SELECT
                     account_invoice."reference" AS invoice_reference,
                     account_invoice."partner_id" AS partner_id,
                     account_invoice_line."product_id" AS product_id,
