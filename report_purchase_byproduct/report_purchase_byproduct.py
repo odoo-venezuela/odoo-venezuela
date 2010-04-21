@@ -86,7 +86,12 @@ class report_purchase_byproduct(osv.osv):
                     else
                         account_invoice_line."discount" 
 		    end AS line_discount,
-                    account_invoice_line."quantity" AS invoice_line_quantity,
+		    		    case when account_invoice."type"='in_refund'
+                    then
+                        account_invoice_line."quantity"*(-1)
+                    else
+                        account_invoice_line."quantity" 
+		    end AS invoice_line_quantity,
                     account_invoice_line."uos_id" AS uos_id
                 FROM
                     "account_invoice" account_invoice INNER JOIN "account_invoice_line" account_invoice_line ON account_invoice."id" = account_invoice_line."invoice_id"
