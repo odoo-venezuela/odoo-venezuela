@@ -64,7 +64,7 @@ class report_purchase_byproduct(osv.osv):
                 create or replace view report_purchase_byproduct as ( SELECT
                     account_invoice_line.id as id,
                     account_invoice.date_invoice as date,
-                    account_invoice."reference" AS invoice_reference,
+                    account_invoice."reference" AS name,
                     account_invoice."partner_id" AS partner_id,
                     account_invoice_line."product_id" AS product_id,
                     account_invoice."type" AS type,
