@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="Listado de Compras" colors="blue:type=='in_invoice';red:type=='in_refund'">
                     <field name="name" select="1"/>
+                    <field name="date"/>
                     <field name="partner_id" select="1"/>
                     <field name="product_id" select="1"/>
                     <field name="type" select="1"/>
@@ -27,6 +28,7 @@
                 <form string="Element Report ">
                     <group col="6" colspan="4">
                         <field name="name"/>
+                        <field name="date"/>
                         <field name="partner_id"/>
                         <field name="product_id"/>
                         <field name="type"/>
