@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Author: nhomar.hernandez@netquatro.com
+#    Author: nhomar.hernandez@netquatro.com  & Javier Duran <javier.duran@netquatro.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -44,6 +44,8 @@
     ],
     "update_xml" : [
         "l10n_tax_islr_view.xml",
+        "partner_view.xml",
+        "product_view.xml",
         "data/group.concept.islr.csv",
         "data/concepts.rates.islr.csv"
     ],

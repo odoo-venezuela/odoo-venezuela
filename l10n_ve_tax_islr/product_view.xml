@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_product_islr_form_view">
+            <field name="name">product_islr.product.form.view</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="priority">3</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="I.S.L.R." position="inside">                    
+                        <field colspan="4" name="grp_id" widget="selection" attrs="{'readonly':[('type','!=','service')]}"/>                   
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</openerp>
+

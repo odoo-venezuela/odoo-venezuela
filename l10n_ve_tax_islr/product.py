@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <jduran@corvus.com.ve>
+#Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
+#                    Javier Duran <javier.duran@netquatro.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -31,30 +31,13 @@
 from osv import fields, osv
 
 
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    _description = "Contribuyente Especial"
+class product_product(osv.osv):
+    _inherit = 'product.product'    
+
     _columns = {
-        'property_retencion_islr_payable': fields.property(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Cuenta Retencion Compra ISLR",
-            method=True,
-            view_load=True,
-            domain="[('type', '=', 'payable')]",
-            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.V.A.  en vez de la cuenta de reserva predeterminda para el actual partner"),
-        'property_retencion_islr_receivable': fields.property(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Cuenta Retencion Venta ISLR",
-            method=True,
-            view_load=True,
-            domain="[('type', '=', 'receivable')]",
-            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.S.L.R. en vez de la cuenta de reserva predeterminda para el actual partner"),
-
-   }
+        'grp_id': fields.many2one('group.concept.islr', 'ISLR Group', help="Reglamento de retenciones e Impuestos sobre la renta - Decreto No. 1808 de GO No. 36203 fecha 12-05-1997"),
+    }
 
 
-res_partner()
+
+product_product()
