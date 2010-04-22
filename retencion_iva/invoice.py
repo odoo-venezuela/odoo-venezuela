@@ -37,22 +37,50 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
 
-#    def _retenida(self, cr, uid, ids, name, args, context):
-#        res = {}
-#        for id in ids:
-#            res[id] = self.test_paid(cr, uid, [id])
-#        return res
+    def _retenida(self, cr, uid, ids, name, args, context):
+        res = {}
+        for id in ids:
+            res[id] = self.test_retenida(cr, uid, [id], 'purchase')
+        return res
+
+
+    def _get_inv_from_line(self, cr, uid, ids, context={}):
+        move = {}
+        for line in self.pool.get('account.move.line').browse(cr, uid, ids):
+            if line.reconcile_partial_id:
+                for line2 in line.reconcile_partial_id.line_partial_ids:
+                    move[line2.move_id.id] = True
+            if line.reconcile_id:
+                for line2 in line.reconcile_id.line_id:
+                    move[line2.move_id.id] = True
+        invoice_ids = []
+        if move:
+            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
+        return invoice_ids
+
+    def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
+        move = {}
+        for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
+            for line in r.line_partial_ids:
+                move[line.move_id.id] = True
+            for line in r.line_id:
+                move[line.move_id.id] = True
+        
+        invoice_ids = []
+        if move:
+            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
+        return invoice_ids
 
 
     _description = "Retencion de Impuesto"
     _columns = {
-#        'retention': fields.function(_retenida, method=True, string='Retention', type='boolean',
-#            store={
-#                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, None, 50),
-#                'account.move.line': (_get_invoice_from_line, None, 50),
-#                'account.move.reconcile': (_get_invoice_from_reconcile, None, 50),
-#            }, help="The account moves of the invoice have been reconciled with account moves of the payment(s)."),
-        'retention': fields.boolean('Retencion Realizada?', readonly=True, help="Indica si la factura ha sido retenida"),
+        'retention': fields.function(_retenida, method=True, string='Retention', type='boolean',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, None, 50),
+                'account.move.line': (_get_inv_from_line, None, 50),
+                'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
+            }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),
+#        'retention': fields.boolean('Retencion Realizada?', readonly=True, help="Indica si la factura ha sido retenida"),
         'p_ret': fields.float('Retencion Por 100', digits=(14,4), readonly=True, states={'draft':[('readonly',False)]}, help="Porcentaje de Retencion ha aplicar a la factura"),
         'num_ret': fields.char('Numero de Retencion', size=32, readonly=True, help="Numero del comprobante de retencion donde se declaro la factura"),
         'nro_ctrl': fields.char('Nro. de Control', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Numero de control de la factura"),
@@ -79,15 +107,31 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).create(cr, uid, vals, context)
 
 
-#    def test_paid(self, cr, uid, ids, *args):
-#        res = self.move_line_id_payment_get(cr, uid, ids)
-#        if not res:
-#            return False
-#        ok = True
-#        for id in res:
-#            cr.execute('select reconcile_id from account_move_line where id=%s', (id,))
-#            ok = ok and  bool(cr.fetchone()[0])
-#        return ok
+    def test_retenida(self, cr, uid, ids, type, *args):
+        print 'type: ',type
+        print 'args: ',args
+        res = self.move_journal_id_payment_get(cr, uid, ids)
+        if not res:
+            return False
+        ok = True
+
+        cr.execute("select id from account_journal where id in (%s) and type=%s", (','.join(map(str,res)),type))
+        ok = ok and  bool(cr.fetchone()[0])
+        return ok
+
+
+    # return the ids of the journal of those move lines which has the same account than the invoice
+    # whose id is in ids
+    def move_journal_id_payment_get(self, cr, uid, ids, *args):
+        res = []
+        if not ids: return res
+        cr.execute('select \
+                l.journal_id \
+            from account_move_line l \
+                left join account_invoice i on (i.move_id=l.move_id) \
+            where i.id in ('+','.join(map(str,ids))+') and l.account_id=i.account_id')
+        res = map(lambda x: x[0], cr.fetchall())
+        return res
 
 
 account_invoice()
