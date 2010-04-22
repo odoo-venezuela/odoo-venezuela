@@ -125,7 +125,7 @@ class account_invoice(osv.osv):
     def move_journal_id_payment_get(self, cr, uid, ids, *args):
         res = []
         if not ids: return res
-        cr.execute('select \
+        cr.execute('select distinct\
                 l.journal_id \
             from account_move_line l \
                 left join account_invoice i on (i.move_id=l.move_id) \
