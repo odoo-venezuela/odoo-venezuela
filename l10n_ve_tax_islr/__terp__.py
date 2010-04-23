@@ -46,6 +46,7 @@
         "l10n_tax_islr_view.xml",
         "partner_view.xml",
         "product_view.xml",
+        "account_invoice_view.xml",
         "data/group.concept.islr.csv",
         "data/concepts.rates.islr.csv"
     ],
