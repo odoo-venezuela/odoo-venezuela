@@ -108,8 +108,6 @@ class account_invoice(osv.osv):
 
 
     def test_retenida(self, cr, uid, ids, type, *args):
-        print 'type: ',type
-        print 'args: ',args
         res = self.move_journal_id_payment_get(cr, uid, ids)
         if not res:
             return False

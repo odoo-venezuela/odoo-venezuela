@@ -36,7 +36,6 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'    
 
     def _get_concept_ids(self, cr, uid, ids, field_name, arg, context={}):
-        print 'holaaaaaaa: '
         result = {}
         rate_obj = self.pool.get('concepts.rates.islr')
         for inv in self.browse(cr, uid, ids, context):
@@ -45,16 +44,13 @@ class account_invoice(osv.osv):
             for line in inv.invoice_line:
                 grp_ids = []
                 if line.product_id.type=='service':
-                    print 'grupo,situacion: ',line.product_id.grp_id.id,',',inv.partner_id.situation
                     grp_ids = rate_obj.search(cr, uid, [('group_id','=',line.product_id.grp_id.id),('situation','=',inv.partner_id.situation)])
-                    print 'grp_ids: ',grp_ids
                     rates = rate_obj.browse(cr, uid, grp_ids, context=context)
                     ant_grp = False
                     for r in rates:                        
                         if r.rate > ant:
                             if r.group_id.id != ant_grp:
                                 result[inv.id] = grp_ids
-                                print 'result: ',result
                                 ant_grp = r.group_id.id
                             ant = r.rate
                             

@@ -56,7 +56,6 @@ class account_retencion_islr(osv.osv):
 #            for invoice in aii_obj.compute(cr, uid, id, context=context):
             invoice = aii_obj.compute(cr, uid, id, context=context)
             aii_obj.create(cr, uid, invoice)
-            print 'crearrrrr'
          # Update the stored value (fields.function), so we write to trigger recompute
         self.pool.get('account.retencion.islr').write(cr, uid, ids, {'invoice_line':[]}, context=context)    
 #        self.pool.get('account.invoice').write(cr, uid, ids, {}, context=context)
@@ -104,11 +103,8 @@ class account_islr_invoice(osv.osv):
                     val['amount'] += invoice.amount_untaxed
 
 
-
-                print 'subtotal: ',invoice.amount_untaxed
-
         val['rate'] = ant        
-        print val
+
         return val
 
 account_islr_invoice()
