@@ -53,11 +53,12 @@ class account_retencion_islr(osv.osv):
             partner = self.browse(cr, uid, id,context=context).partner_id
             if partner.lang:
                 context.update({'lang': partner.lang})
-            for invoice in aii_obj.compute(cr, uid, id, context=context):
-#                aii_obj.create(cr, uid, invoice)
-                print 'crearrrrr'
+#            for invoice in aii_obj.compute(cr, uid, id, context=context):
+            invoice = aii_obj.compute(cr, uid, id, context=context)
+            aii_obj.create(cr, uid, invoice)
+            print 'crearrrrr'
          # Update the stored value (fields.function), so we write to trigger recompute
-#        self.pool.get('account.retencion.islr').write(cr, uid, ids, {'invoice_line':[]}, context=context)    
+        self.pool.get('account.retencion.islr').write(cr, uid, ids, {'invoice_line':[]}, context=context)    
 #        self.pool.get('account.invoice').write(cr, uid, ids, {}, context=context)
         return True
 
@@ -74,44 +75,41 @@ class account_islr_invoice(osv.osv):
         'retencion_id': fields.many2one('account.retencion.islr', 'Invoice Line', ondelete='cascade', select=True),
         'name': fields.char('Description', size=64),
         'base': fields.float('Base', digits=(16,int(config['price_accuracy']))),
-#        'amount': fields.float('Amount', digits=(16,int(config['price_accuracy']))),
-#        'manual': fields.boolean('Manual'),
-#        'sequence': fields.integer('Sequence'),
-
-#        'base_code_id': fields.many2one('account.tax.code', 'Base Code', help="The account basis of the tax declaration."),
-#        'base_amount': fields.float('Base Code Amount', digits=(16,int(config['price_accuracy']))),
-#        'tax_code_id': fields.many2one('account.tax.code', 'Tax Code', help="The tax basis of the tax declaration."),
-#        'tax_amount': fields.float('Tax Code Amount', digits=(16,int(config['price_accuracy']))),
+        'amount': fields.float('Retention Amount', digits=(16,int(config['price_accuracy']))),
+        'rate': fields.float('Tax Rate', digits=(16,int(config['price_accuracy']))),
     }
 
     def compute(self, cr, uid, ret_id, context={}):
         tax_grouped = {}
         val={}
-#        tax_obj = self.pool.get('account.tax')
-#        cur_obj = self.pool.get('res.currency')
+        ant = 0
         inv_obj = self.pool.get('account.invoice')
         ret = self.pool.get('account.retencion.islr').browse(cr, uid, ret_id, context)
-#        cur = inv.currency_id
-#        company_currency = inv.company_id.currency_id.id
-
-        print "select id from account_invoice where partner_id=%s and period_id=%s" % (ret.partner_id.id,ret.journal_id.id)
-        cr.execute("select id from account_invoice where partner_id=%s and period_id=%s", (ret.partner_id.id,12))
+        cr.execute("select id from account_invoice where partner_id=%s and period_id=%s", (ret.partner_id.id,ret.period_id.id))
         inv_ids = map(lambda x: x[0], cr.fetchall())
-
+        val = {
+            'base': 0.0,
+            'amount': 0.0,
+            'rate': 0.0
+        }        
+        val['retencion_id'] = ret.id
+        val['name'] = ret.name
         for invoice in inv_obj.browse(cr, uid, inv_ids, context):
-#                val={}
-                val['retencion_id'] = ret.id
-#                val['name'] = tax['name']
-#                val['amount'] = tax['amount']
-#                val['manual'] = False
-#                val['sequence'] = tax['sequence']
-                if not 'base' in val:
-                    val['base'] = 0
+                for r in invoice.grp_conpt_ids:
+                    if r.rate > ant:
+                        ant = r.rate
+
                 val['base'] += invoice.amount_untaxed
+                if invoice.ret_islr:
+                    val['amount'] += invoice.amount_untaxed
+
+
+
                 print 'subtotal: ',invoice.amount_untaxed
 
+        val['rate'] = ant        
         print val
-        return [val]
+        return val
 
 account_islr_invoice()
 

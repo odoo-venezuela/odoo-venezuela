@@ -17,6 +17,9 @@
                 <tree string="Invoice Lines">
                     <field name="name"/>
                     <field name="base"/>
+                    <field name="amount"/>
+                    <field name="rate"/>
+
                 </tree>
             </field>
         </record>
@@ -28,7 +31,9 @@
             <field name="arch" type="xml">
                 <form string="Invoice Lines">
                     <field colspan="4" name="name" select="1"/>
-                    <field name="base"/>  
+                    <field name="base"/>
+                    <field name="amount"/>
+                    <field name="rate"/>
                 </form>
             </field>
         </record>
