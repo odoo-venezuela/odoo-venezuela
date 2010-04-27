@@ -21,6 +21,7 @@
                         <field name="subtrahend"/>
                         <field name="base_imp"/>
                         <field name="limit"/>
+                        <field name="base_imp_min"/>
                         <field name="situation" select="1"/>
                     </group>
                         <separator string="Note - Description, with an example case." colspan="4"/>

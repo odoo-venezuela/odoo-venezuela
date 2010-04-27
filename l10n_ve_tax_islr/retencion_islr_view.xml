@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+	<!-- 
+	=====================================================
+	Linea de facturas
+	=====================================================
+	-->  
+
+        <record id="view_islr_invoice_tree" model="ir.ui.view">
+            <field name="name">account.islr.invoice.tree</field>
+            <field name="model">account.islr.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Lines">
+                    <field name="name"/>
+                    <field name="base"/>
+                    <field name="amount"/>
+                    <field name="rate"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_islr_invoice_form" model="ir.ui.view">
+            <field name="name">account.islr.invoice.form</field>
+            <field name="model">account.islr.invoice</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Lines">
+                    <field colspan="4" name="name" select="1"/>
+                    <field name="base"/>
+                    <field name="amount"/>
+                    <field name="rate"/>
+                </form>
+            </field>
+        </record>
+
+
+	<!-- 
+	=====================================================
+	Retencion ISLR
+	=====================================================
+	-->  
+
+
+        <record id="ret_islr_ext_view_form" model="ir.ui.view">
+            <field name="name">islr_ext.form</field>
+            <field name="model">account.retencion.islr</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="retencion_islr.view_retencion_islr_form"/>
+            <field name="arch" type="xml">
+                <field name="islr_line_ids" position="after">
+                    <group col="1" colspan="2">
+                        <field name="invoice_line" nolabel="1"/>
+                    </group>
+                        <button colspan="2" name="button_reset_invoices" states="draft" string="Compute Amount" type="object"/>
+                </field>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

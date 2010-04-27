@@ -30,7 +30,7 @@
 
 
 import retencion_islr
-#import invoice
+import invoice
 #import account
 import partner
 #import stock

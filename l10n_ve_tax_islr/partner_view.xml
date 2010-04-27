@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <field name="property_retencion_islr_receivable" position="after">
                     <field name="situation" select="1"/>
+                    <field name="no_const"/>
                 </field>
             </field>
         </record>

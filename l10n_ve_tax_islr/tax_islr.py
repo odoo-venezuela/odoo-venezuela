@@ -68,6 +68,7 @@ class concepts_rates_islr(osv.osv):
         'group_id':fields.many2one('group.concept.islr', 'Group', required=False),
         'base_imp': fields.float('Untaxed amount rate', digits=(16, int(config['price_accuracy'])), help="Rate of the untaxed amount over which is going to be aplied the tax Rate"),
         'note': fields.text('Description', help="Description for this case is necesary an example for every case on english and Spanish"),
+        'base_imp_min': fields.float('Min. untaxed amount', digits=(16, int(config['price_accuracy'])), help="minimum untaxed amount over which is going to be aplied the tax Rate"),
     }
 concepts_rates_islr()
 

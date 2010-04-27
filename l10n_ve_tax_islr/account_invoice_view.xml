@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+    <!-- 
+    =====================================================
+    Invoices Extension
+    =====================================================
+    -->  
+
+        <record id="acc_inv_islr_ext_view_form_loc_ve" model="ir.ui.view">
+            <field name="name">invoice_ext.tax.islr.invoice.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="I.S.L.R." position="inside">
+                        <separator string="I.S.L.R. Rates" colspan="4"/>                        
+                        <field name="grp_conpt_ids" nolabel="1">
+                            <tree string="Concepts">
+                                <field name="code" select="1"/>
+                                <field name="rate"/>
+                                <field name="name" select="1"/>
+                                <field name="subtrahend"/>
+                                <field name="base_imp"/>
+                                <field name="limit"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+        <record id="acc_inv_islr_ext_view_supp_form_loc_ve" model="ir.ui.view">
+            <field name="name">invoice_ext.tax.islr.invoice.supplier.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                    <page string="I.S.L.R." position="inside">
+                        <separator string="I.S.L.R. Rates" colspan="4"/>                        
+                        <field name="grp_conpt_ids" nolabel="1">
+                            <tree string="Concepts">
+                                <field name="code" select="1"/>
+                                <field name="rate"/>
+                                <field name="name" select="1"/>
+                                <field name="subtrahend"/>
+                                <field name="base_imp"/>
+                                <field name="limit"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+
+
+
+
+    </data>
+</openerp>
