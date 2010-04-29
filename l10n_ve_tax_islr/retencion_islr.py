@@ -37,12 +37,24 @@ from tools.translate import _
 class account_retencion_islr(osv.osv):
     _inherit = 'account.retencion.islr'
 
+
+    def _get_period(self, cr, uid, context):
+        periods = self.pool.get('account.period').find(cr, uid)
+        if periods:
+            return periods[0]
+        else:
+            return False
     _columns = {
         'invoice_line': fields.one2many('account.islr.invoice', 'retencion_id', 'Invoice Lines', readonly=True, states={'draft':[('readonly',False)]}),
-
+        'rate_ids': fields.many2many('concepts.rates.islr', 'account_ret_islr_concep_rates_rel','retencion_id','rate_id', 'Concepts Rates'),
+        'base': fields.float('Base', digits=(16,int(config['price_accuracy']))),
+        'amount_ret': fields.float('Retention Amount', digits=(16,int(config['price_accuracy']))),
 
     } 
 
+    _defaults = {
+        'period_id': _get_period,
+    }
 
     def button_reset_invoices(self, cr, uid, ids, context=None):
         if not context:
@@ -50,6 +62,7 @@ class account_retencion_islr(osv.osv):
         aii_obj = self.pool.get('account.islr.invoice')
         for id in ids:
             cr.execute("DELETE FROM account_islr_invoice WHERE retencion_id=%s", (id,))
+            cr.execute("DELETE FROM account_retencion_islr_line WHERE retention_id=%s", (id,))
             partner = self.browse(cr, uid, id,context=context).partner_id
             if partner.lang:
                 context.update({'lang': partner.lang})
@@ -71,21 +84,47 @@ class account_islr_invoice(osv.osv):
     _name = "account.islr.invoice"
     _description = "Invoice total amount"
     _columns = {
-        'retencion_id': fields.many2one('account.retencion.islr', 'Invoice Line', ondelete='cascade', select=True),
+        'retencion_id': fields.many2one('account.retencion.islr', 'Total Description', ondelete='cascade', select=True),
         'name': fields.char('Description', size=64),
         'base': fields.float('Base', digits=(16,int(config['price_accuracy']))),
         'amount': fields.float('Retention Amount', digits=(16,int(config['price_accuracy']))),
         'rate': fields.float('Tax Rate', digits=(16,int(config['price_accuracy']))),
     }
 
+    def populate(self, cr, uid, ret_id, invoice_ids, context={}):
+        res = []
+        for inv_id in invoice_ids: 
+            values = {
+                'name': 'xxx',
+                'retention_id': ret_id,
+                'invoice_id': inv_id,
+            }
+            res.append((0,0,values))
+        return res
+
+
     def compute(self, cr, uid, ret_id, context={}):
         tax_grouped = {}
         val={}
         ant = 0
         inv_obj = self.pool.get('account.invoice')
+        ret_obj = self.pool.get('account.retencion.islr')
+        rate_obj = self.pool.get('concepts.rates.islr')
         ret = self.pool.get('account.retencion.islr').browse(cr, uid, ret_id, context)
         cr.execute("select id from account_invoice where partner_id=%s and period_id=%s", (ret.partner_id.id,ret.period_id.id))
         inv_ids = map(lambda x: x[0], cr.fetchall())
+        lst_ret = []
+        rate_ids = []
+        
+
+
+        invvvv = inv_obj.search(cr, uid,
+                [('partner_id', '=', ret.partner_id.id),
+                    ('period_id', '=', ret.period_id.id)])
+
+        print 'nhomar said ,era q esto funciona: ',invvvv
+
+
         val = {
             'base': 0.0,
             'amount': 0.0,
@@ -97,13 +136,32 @@ class account_islr_invoice(osv.osv):
                 for r in invoice.grp_conpt_ids:
                     if r.rate > ant:
                         ant = r.rate
+                        grp_ids = invoice.grp_conpt_ids
 
                 val['base'] += invoice.amount_untaxed
                 if invoice.ret_islr:
                     val['amount'] += invoice.amount_untaxed
+                    lst_ret.append(invoice.id)
 
 
         val['rate'] = ant        
+        print 'grupo: ',grp_ids
+        for r in grp_ids:
+            rate_ids.append(r.id)
+#        rate_ids = rate_obj.search(cr, uid,[
+#                    ('group_id', '=', grp_id)
+#                    ], 
+#                    order='rate'
+#        )
+        print 'ratas: ',rate_ids
+        inv_nret_ids = [elem for elem in inv_ids if elem not in lst_ret]
+        ret_obj.write(cr, uid, [ret_id], {
+            'islr_line_ids': self.populate(cr, uid, ret_id, inv_nret_ids, context),
+            'rate_ids': [(6,0,rate_ids)],
+            'base': val['base'],
+            'amount_ret': val['amount'],
+        })
+
 
         return val
 

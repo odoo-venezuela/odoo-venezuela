@@ -54,9 +54,13 @@
             <field name="arch" type="xml">
                 <field name="islr_line_ids" position="after">
                     <group col="1" colspan="2">
-                        <field name="invoice_line" nolabel="1"/>
+                        <field name="rate_ids" nolabel="1"/>
                     </group>
+                    <group col="4" colspan="2">
+                        <field name="base"/>
+                        <field name="amount_ret"/>
                         <button colspan="2" name="button_reset_invoices" states="draft" string="Compute Amount" type="object"/>
+                    </group>
                 </field>
             </field>
         </record>
