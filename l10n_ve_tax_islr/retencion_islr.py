@@ -74,6 +74,36 @@ class account_retencion_islr(osv.osv):
 #        self.pool.get('account.invoice').write(cr, uid, ids, {}, context=context)
         return True
 
+    def button_compute_ret(self, cr, uid, ids, date_ref=False, context={}):
+        ut_obj = self.pool.get('l10n.ut')
+        if not date_ref:
+            date_ref = time.strftime('%Y-%m-%d')
+        ret = self.browse(cr, uid, ids, context)[0]
+        for line in ret.islr_line_ids:
+            ut = ut_obj.compute(cr, uid, line.invoice_id.amount_untaxed)
+            if len(ret.rate_ids) == 3:
+                print '3: ',ut
+            elif len(ret.rate_ids) == 1:
+
+                print "1: ",ut
+
+            else:
+                print 'nada'
+                
+
+
+        return True
+
+
+    def compute_line(self, cr, uid, ids, bs, context={}):
+        ret = self.browse(cr, uid, ids, context)[0]
+        if bs:
+            res = bs*ret.rate_ids[0].rate*ret.rate_ids[0].base_imp
+
+        return res
+
+
+
 
 account_retencion_islr()
 

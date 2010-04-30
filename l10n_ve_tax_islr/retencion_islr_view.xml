@@ -60,6 +60,7 @@
                         <field name="base"/>
                         <field name="amount_ret"/>
                         <button colspan="2" name="button_reset_invoices" states="draft" string="Compute Amount" type="object"/>
+                        <button colspan="2" name="button_compute_ret" states="draft" string="Compute Retention" type="object"/>
                     </group>
                 </field>
             </field>
