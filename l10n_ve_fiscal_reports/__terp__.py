@@ -20,6 +20,8 @@
     "update_xml" : [
         "fiscal_report_purchase_view.xml",
         "fiscal_report_sale_view.xml",
+        "fiscal_report_whp.xml",
+        "fiscal_report_whs.xml",
     ],
     "active": False,
     "installable": True,

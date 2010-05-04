@@ -120,4 +120,101 @@ class fiscal_reports_sale(osv.osv):
                 )
         """)
 fiscal_reports_sale()
-  
+
+class fiscal_reports_whp(osv.osv):
+    _name = "fiscal.reports.whp"
+    _description = "Sale by period"
+    _auto = False
+    _rec_name = 'ai_nro_ctrl'
+    _columns = {
+    'ai_date_invoice': fields.date('Date'),
+    'rp_vat':fields.char('VAT Number', size=64, required=False, readonly=False),
+    'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
+    'ai_number':fields.char('Invoice Number', size=64, required=False, readonly=False),
+    'ai_nro_ctrl':fields.char('Control No.', size=64, required=False, readonly=False),
+    'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_untaxed': fields.float('Untaxed amount', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_tax': fields.float('Tax Amount', digits=(16, int(config['price_accuracy']))),
+    'ai_type':fields.char('Type', size=64, required=False, readonly=False),
+    'rp_retention': fields.float('Withholding', digits=(16, int(config['price_accuracy']))),
+    'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
+    }
+    def init(self, cr):    
+        cr.execute("""
+            create or replace view fiscal_reports_whp as (
+                SELECT
+                ai."date_invoice" AS ai_date_invoice,
+                rp."vat" AS rp_vat,
+                rp."id" AS rp_id,
+                ai."number" AS ai_number,
+                ai."nro_ctrl" AS ai_nro_ctrl,
+                ai."amount_total" AS ai_amount_total,
+                ai."amount_untaxed" AS ai_amount_untaxed,
+                ai."amount_tax" AS ai_amount_tax,
+                ai."type" AS ai_type,
+                rp."retention" AS rp_retention,
+                ai."id" AS id,
+                ai."id" AS ai_id
+                FROM
+                "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
+                WHERE
+                (ai.type = 'out_refund'
+                OR ai.type = 'out_invoice')
+                AND (ai.state = 'open'
+                OR ai.state = 'paid'
+                OR ai.state = 'done')
+                ORDER BY
+                ai_date_invoice ASC,
+                ai."number" ASC
+                )
+        """)
+fiscal_reports_whp()
+
+class fiscal_reports_whs(osv.osv):
+    _name = "fiscal.reports.whs"
+    _description = "Sale by period"
+    _auto = False
+    _rec_name = 'ai_nro_ctrl'
+    _columns = {
+    'ai_date_invoice': fields.date('Date'),
+    'rp_vat':fields.char('VAT Number', size=64, required=False, readonly=False),
+    'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
+    'ai_number':fields.char('Invoice Number', size=64, required=False, readonly=False),
+    'ai_nro_ctrl':fields.char('Control No.', size=64, required=False, readonly=False),
+    'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_untaxed': fields.float('Untaxed amount', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_tax': fields.float('Tax Amount', digits=(16, int(config['price_accuracy']))),
+    'ai_type':fields.char('Type', size=64, required=False, readonly=False),
+    'rp_retention': fields.float('Withholding', digits=(16, int(config['price_accuracy']))),
+    'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
+    }
+    def init(self, cr):    
+        cr.execute("""
+            create or replace view fiscal_reports_whs as (
+                SELECT
+                ai."date_invoice" AS ai_date_invoice,
+                rp."vat" AS rp_vat,
+                rp."id" AS rp_id,
+                ai."number" AS ai_number,
+                ai."nro_ctrl" AS ai_nro_ctrl,
+                ai."amount_total" AS ai_amount_total,
+                ai."amount_untaxed" AS ai_amount_untaxed,
+                ai."amount_tax" AS ai_amount_tax,
+                ai."type" AS ai_type,
+                rp."retention" AS rp_retention,
+                ai."id" AS id,
+                ai."id" AS ai_id
+                FROM
+                "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
+                WHERE
+                (ai.type = 'out_refund'
+                OR ai.type = 'out_invoice')
+                AND (ai.state = 'open'
+                OR ai.state = 'paid'
+                OR ai.state = 'done')
+                ORDER BY
+                ai_date_invoice ASC,
+                ai."number" ASC
+                )
+        """)
+fiscal_reports_whs()
