@@ -114,7 +114,7 @@ class account_invoice(osv.osv):
         ok = True
 
         cr.execute("select id from account_journal where id in (%s) and type=%s", (','.join(map(str,res)),type))
-        ok = ok and  bool(cr.fetchone()[0])
+        ok = ok and  bool(cr.fetchone())
         return ok
 
 
