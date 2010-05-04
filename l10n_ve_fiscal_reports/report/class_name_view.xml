@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--
+    ======================
+    You will need to load 4 Changes:
+    1.- Class defined on .py file
+    2.- Object defined on .py file
+    3.- Menu Location to List of elements
+    4.- Menu location to New Element
+    5.- Correct names of fields to show on form and tree view
+    ======================
+-->
+<!--
+    ======================
+    Formulario para la carga de datos.
+    ======================
+-->
+        <record model="ir.ui.view" id="${1:class_name}_form_view">
+            <field name="name">${2:object.name}.form.view</field>
+            <field name="type">form</field>
+            <field name="model">${2:object.name}</field>
+            <field name="arch" type="xml">
+                <form string="New ${1:class_name}">
+                    <field name="${5:field1}" />
+                    <field name="${6:field2}" />
+                    <field name="${7:field3}" />
+                </form>
+            </field>
+        </record>
+<!--
+    ======================
+    Listado de elementos
+    ======================
+-->
+        <record model="ir.ui.view" id="${1:class_name}_tree">
+            <field name="name">${2:object.name}.tree</field>
+            <field name="model">${2:object.name}</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="List of ${1:class_name}">
+                    <field name="${8:field1}"/>
+                </tree>
+            </field>
+        </record>
+<!--
+    ======================
+    Accion para ver el formulario cargando Nuevo.
+    ======================
+-->
+        <record id="${1:class_name}_act_form" model="ir.actions.act_window">
+            <field name="name">Parameters to Calc</field>
+            <field name="res_model">${2:object.name}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+        </record>
+<!--
+    ======================
+    Accion para ver la lista de elementos
+    ======================
+-->
+        <record id="${1:class_name}_act_tree" model="ir.actions.act_window">
+            <field name="name">List of Parameters to Calc</field>
+            <field name="res_model">${2:object.name}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+<!--
+    ======================
+    Menú de la Lista
+    ======================
+-->
+        <menuitem  name="${3:Menu/Path/to/tree}" 
+            id="menu_${1:class_name}_tree_view" 
+            action="${1:class_name}_act_tree" />
+<!--
+    ======================
+    Menú nuevo
+    ======================
+-->
+        <menuitem 
+            name="${4:Menu/path/to/new}"
+            id="menu_${1:class_name}_form_view" 
+            action="${1:class_name}_act_form" />
+    </data>
+</openerp>
