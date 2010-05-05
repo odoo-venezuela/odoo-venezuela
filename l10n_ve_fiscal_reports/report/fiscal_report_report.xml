@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-<!--Purchases and Sales-->
+<!--Purchases and Sales
         <report             
             id="report_purchase_seniat" 
             model="fiscal.reports.purchase" 
@@ -10,7 +10,7 @@
             sxw="l10n_ve_fiscal_reports/report/sources/purchase_seniat.sxw"
             string="Purchase SENIAT"
             auto="False" />
-<!--        <report             
+        <report             
             id="report_sale_seniat"
             model="fiscal.reports.sale" 
             name="fiscal.reports.purchase.sale_seniat" 
@@ -19,7 +19,7 @@
             string="Sale SENIAT"
             auto="False" /> -->
 
-<!-- Withholding purchases and sales [whp and whs]-->
+<!-- Withholding purchases and sales [whp and whs]
       <report             
             id="report_whp_seniat" 
             model="fiscal.reports.whp" 
@@ -28,7 +28,7 @@
             sxw="l10n_ve_fiscal_reports/report/sources/whp_seniat.sxw"
             string="Whitholding Purchase SENIAT"
             auto="False" />
- <!-- 
+
         <report             
             id="report_whs_seniat" 
             model="fiscal.reports.whs" 
