@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+Purchases and Sales
+        <report             
+            id="report_purchase_seniat" 
+            model="fiscal.reports.purchase" 
+            name="fiscal.reports.purchase.purchase_seniat" 
+            rml="l10n_ve_fiscal_reports/report/book_seniat.rml" 
+            sxw="l10n_ve_fiscal_reports/report/sources/book_seniat.sxw"
+            string="Purchase SENIAT"
+            auto="False" 
+            menu="False"/>
+<!--        <report             
+            id="report_sale_seniat"
+            model="fiscal.reports.sale" 
+            name="fiscal.reports.purchase.sale_seniat" 
+            rml="l10n_ve_fiscal_reports/report/sale_seniat.rml" 
+            sxw="l10n_ve_fiscal_reports/report/sources/sale_seniat.sxw"
+            string="Sale SENIAT"
+            auto="False" /> -->
+
+<!-- Withholding purchases and sales [whp and whs]
+      <report             
+            id="report_whp_seniat" 
+            model="fiscal.reports.whp" 
+            name="fiscal.reports.whp.whp_seniat" 
+            rml="l10n_ve_fiscal_reports/report/whp_seniat.rml" 
+            sxw="l10n_ve_fiscal_reports/report/sources/whp_seniat.sxw"
+            string="Whitholding Purchase SENIAT"
+            auto="False" />
+
+        <report             
+            id="report_whs_seniat" 
+            model="fiscal.reports.whs" 
+            name="fiscal.reports.purchase.whs_seniat" 
+            rml="l10n_ve_fiscal_reports/report/whs_seniat.rml" 
+            sxw="l10n_ve_fiscal_reports/report/sources/whs_seniat.sxw"
+            string="Whitholding Purchase SENIAT"
+            auto="False" />
+-->
+    </data>
+</openerp>

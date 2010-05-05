@@ -22,6 +22,8 @@
         "fiscal_report_sale_view.xml",
         "fiscal_report_whp.xml",
         "fiscal_report_whs.xml",
+        "fiscal_report_report.xml",
+        "fiscal_report_wizard.xml",
     ],
     "active": False,
     "installable": True,

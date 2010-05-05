@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <wizard
+            id="wizard_sale_forecast_salesman"
+            model="fiscal.reports.purchase"
+            name="fiscal.reports.purchase.book_seniat"
+            string="Book Seniat"/>
+    </data>
+</openerp>
+
