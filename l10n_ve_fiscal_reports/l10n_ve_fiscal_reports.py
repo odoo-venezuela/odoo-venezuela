@@ -41,6 +41,7 @@ class fiscal_reports_purchase(osv.osv):
         'ai_type':fields.char('Document Type', size=64, required=False, readonly=False),
         'rp_retention': fields.float('Whitholding Rate', digits=(16, int(config['price_accuracy']))),
         'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
+        'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     }
     def init(self, cr):
         cr.execute("""
@@ -57,9 +58,11 @@ class fiscal_reports_purchase(osv.osv):
                      ai."type" AS ai_type,
                      rp."retention" AS rp_retention,
                      ai."id" AS id,
-                     ai."id" AS ai_id
+                     ai."id" AS ai_id,
+                     ar_line."id" AS ar_line_id
                 FROM
                      "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
+                     LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
                 WHERE
                      (ai.type = 'in_refund'
                   OR ai.type = 'in_invoice')
@@ -90,6 +93,7 @@ class fiscal_reports_sale(osv.osv):
     'ai_type':fields.char('Type', size=64, required=False, readonly=False),
     'rp_retention': fields.float('Withholding', digits=(16, int(config['price_accuracy']))),
     'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
+    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     }
     def init(self, cr):    
         cr.execute("""
@@ -106,9 +110,11 @@ class fiscal_reports_sale(osv.osv):
                 ai."type" AS ai_type,
                 rp."retention" AS rp_retention,
                 ai."id" AS id,
-                ai."id" AS ai_id
+                ai."id" AS ai_id,
+                ar_line."id" AS ar_line_id
                 FROM
                 "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
+                LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
                 WHERE
                 (ai.type = 'out_refund'
                 OR ai.type = 'out_invoice')
