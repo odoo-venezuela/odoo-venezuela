@@ -9,17 +9,15 @@
             <field name="arch" type="xml">
                 <form string="Detail of entry">
                     <group col="6" colspan="4">
-                        <field name="ai_date_invoice"/>
+                        <field name="ar_date_ret"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
-                        <field name="ai_nro_ctrl"/>
-                        <field name="ai_number"/>
+                        <field name="ar_number"/>
+                        <field name="ai_reference"/>
                         <field name="ai_amount_total"/>
                         <field name="ai_amount_untaxed"/>
                         <field name="ai_amount_tax"/>
-                        <field name="ai_type"/>
-                        <field name="rp_retention"/>
-                        <field name="ai_id"/>
+                        <field name="ar_line_id"/>
                     </group>
                 </form>
             </field>
@@ -30,20 +28,29 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="List of Purchases." editable="top/bottom">
-                        <field name="ai_date_invoice"/>
+                        <field name="ar_date_ret"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
-                        <field name="ai_nro_ctrl"/>
-                        <field name="ai_number"/>
+                        <field name="ar_number"/>
+                        <field name="ai_reference"/>
                         <field name="ai_amount_total"/>
                         <field name="ai_amount_untaxed"/>
                         <field name="ai_amount_tax"/>
-                        <field name="ai_type"/>
-                        <field name="rp_retention"/>
-                        <field name="ai_id"/>
+                        <field name="ar_line_id"/>
                 </tree>
             </field>
         </record>
+<!--
+    'ar_date_ret': fields.date('Date ret.'),
+    'rp_vat':fields.char('Vat Number', size=64, readonly=True),
+    'rp_id':fields.many2one('res.partner', 'Partner', required=False),
+    'ar_number':fields.char('Retention Number', size=64, required=False, readonly=False),
+    'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=False),
+    'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy']))),
+    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', required=False),
+-->
     <record id="action_fiscal_reports_whp_tree" model="ir.actions.act_window">
     <field name="name">Profit by Product</field>
     <field name="res_model">fiscal.reports.whp</field>

@@ -9,17 +9,16 @@
             <field name="arch" type="xml">
                 <form string="Detail of entry">
                     <group col="6" colspan="4">
-                        <field name="ai_date_invoice"/>
+                        <field name="ar_date_ret"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
-                        <field name="ai_nro_ctrl"/>
+                        <field name="ar_number"/>
                         <field name="ai_number"/>
+                        <field name="ai_id"/>
                         <field name="ai_amount_total"/>
                         <field name="ai_amount_untaxed"/>
                         <field name="ai_amount_tax"/>
-                        <field name="ai_type"/>
-                        <field name="rp_retention"/>
-                        <field name="ai_id"/>
+                        <field name="ar_id"/>
                     </group>
                 </form>
             </field>
@@ -30,22 +29,21 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="List of Purchases." editable="top/bottom">
-                        <field name="ai_date_invoice"/>
+                        <field name="ar_date_ret"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
-                        <field name="ai_nro_ctrl"/>
+                        <field name="ar_number"/>
                         <field name="ai_number"/>
+                        <field name="ai_id"/>
                         <field name="ai_amount_total"/>
                         <field name="ai_amount_untaxed"/>
                         <field name="ai_amount_tax"/>
-                        <field name="ai_type"/>
-                        <field name="rp_retention"/>
-                        <field name="ai_id"/>
+                        <field name="ar_id"/>
                 </tree>
             </field>
         </record>
     <record id="action_fiscal_reports_whs_tree" model="ir.actions.act_window">
-    <field name="name">Profit by Product</field>
+    <field name="name">whitholding Sales.</field>
     <field name="res_model">fiscal.reports.whs</field>
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
