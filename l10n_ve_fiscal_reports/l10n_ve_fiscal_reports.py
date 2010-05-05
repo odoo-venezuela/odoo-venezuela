@@ -127,15 +127,15 @@ class fiscal_reports_whp(osv.osv):
     _auto = False
     _rec_name = 'ai_nro_ctrl'
     _columns = {
-    'ar_date_ret': fields.date('Date ret.'),
+    'ar_date_ret': fields.date('Date ret.', readonly=True),
     'rp_vat':fields.char('Vat Number', size=64, readonly=True),
-    'rp_id':fields.many2one('res.partner', 'Partner', required=False),
-    'ar_number':fields.char('Retention Number', size=64, required=False, readonly=False),
-    'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=False),
+    'rp_id':fields.many2one('res.partner', 'Partner', readonly=True),
+    'ar_number':fields.char('Retention Number', size=64, required=False, readonly=True),
+    'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=True),
     'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy']))),
-    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', required=False),
+    'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
+    'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy'])), readonly=True),
+    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     }
     def init(self, cr):    
         cr.execute("""
@@ -149,6 +149,7 @@ class fiscal_reports_whp(osv.osv):
                      ai."amount_untaxed" AS ai_amount_untaxed,
                      ai."amount_tax" AS ai_amount_tax,
                      ar_line."id" AS id,
+                     ar_line."id" AS ar_line_id,
                      ar."id" AS ar_id,
                      rp."id" AS rp_id,
                      ai."id" AS ai_id
@@ -174,11 +175,11 @@ class fiscal_reports_whs(osv.osv):
     'rp_id':fields.many2one('res.partner', 'Partner Name', readonly=True),
     'ar_number':fields.char('WH Number', size=64, readonly=True),
     'ai_number':fields.char('Invoice Number', size=64, readonly=True),
-    'ai_id':fields.many2one('account.invoice', 'Invoice', required=False),
+    'ai_id':fields.many2one('account.invoice', 'Invoice', required=False, readonly=True),
     'ai_amount_total': fields.float('Invoice Total', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ai_amount_tax': fields.float('Amoun Tax', digits=(16, int(config['price_accuracy'])), readonly=True),
-    'ar_id':fields.many2one('account.retention', 'Retention', required=False),
+    'ar_id':fields.many2one('account.retention', 'Retention', required=False, readonly=True),
     }
     def init(self, cr):    
         cr.execute("""
