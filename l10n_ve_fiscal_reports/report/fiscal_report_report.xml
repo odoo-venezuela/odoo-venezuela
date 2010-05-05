@@ -23,10 +23,10 @@
       <report             
             id="report_whp_seniat" 
             model="fiscal.reports.whp" 
-            name="fiscal.reports.purchase.whp_seniat" 
+            name="fiscal.reports.whp.whp_seniat" 
             rml="l10n_ve_fiscal_reports/report/whp_seniat.rml" 
             sxw="l10n_ve_fiscal_reports/report/sources/whp_seniat.sxw"
-            string="Whitholding Sales SENIAT"
+            string="Whitholding Purchase SENIAT"
             auto="False" />
  <!-- 
         <report             

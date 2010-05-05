@@ -31,9 +31,9 @@
 import time
 from report import report_sxw
 
-class fiscal_reports_purchase(report_sxw.rml_parse):
+class fiscal_reports_whp(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
-        super(fiscal_reports_purchase, self).__init__(cr, uid, name, context=context)
+        super(fiscal_reports_whp, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
 #            'get_alicuota': self._get_alicuota,
@@ -62,9 +62,9 @@ class fiscal_reports_purchase(report_sxw.rml_parse):
 
 
 report_sxw.report_sxw(
-    'report.fiscal.reports.purchase.purchase_seniat',
-    'fiscal.reports.purchase',
-    'addons/l10n_ve_invoice_report/report/invoice.rml',
-    parser=fiscal_reports_purchase,
+    'report.fiscal.reports.whp.whp_seniat',
+    'fiscal.reports.whp',
+    'addons/l10n_ve_fiscal_reports/report/whp_seniat.rml',
+    parser=fiscal_reports_whp,
 )
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
