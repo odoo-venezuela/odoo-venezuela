@@ -132,7 +132,7 @@
           <para style="P2">[[ get_partner_addr( company.partner_id.id ) ]]</para>
         </td>
         <td>
-          <para style="P16">Fecha: </para>
+          <para style="P16">Date: </para>
         </td>
       </tr>
     </blockTable>
@@ -145,40 +145,40 @@
     <blockTable colWidths="44.0,41.0,50.0,60.0,62.0,81.0,73.0,83.0,34.0,59.0,60.0,60.0" style="Tabla3">
       <tr>
         <td>
-          <para style="P11">Fecha de la Factura/Doc.</para>
+          <para style="P11">Date Invoice/Doc.</para>
         </td>
         <td>
           <para style="P11">R.I.F./C.I.</para>
         </td>
         <td>
-          <para style="P11">Nombre o Razon Social</para>
+          <para style="P11">Company Name</para>
         </td>
         <td>
-          <para style="P11">Número de la Fact./Doc.</para>
+          <para style="P11">Invoice/Doc. Number</para>
         </td>
         <td>
-          <para style="P11">Num. Control</para>
+          <para style="P11">Control Number</para>
         </td>
         <td>
-          <para style="P11">Total Compras Incluyendo el IVA</para>
+          <para style="P11">Total purchases including VAT</para>
         </td>
         <td>
-          <para style="P11">Compras sin Derecho a Crédito IVA</para>
+          <para style="P11">Buy without right to credit VAT</para>
         </td>
         <td>
-          <para style="P11">Base Imponible</para>
+          <para style="P11">Taxable Base</para>
         </td>
         <td>
-          <para style="P11">% Alícuota</para>
+          <para style="P11">% Aliquot</para>
         </td>
         <td>
-          <para style="P11">Impuesto IVA</para>
+          <para style="P11">VAT Tax</para>
         </td>
         <td>
-          <para style="P11">IVA Retenido</para>
+          <para style="P11">Retained VAT</para>
         </td>
         <td>
-          <para style="P11">Comp. Ret. IVA Nº</para>
+          <para style="P11">VAT Retention voucher number</para>
         </td>
       </tr>
     </blockTable>
