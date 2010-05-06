@@ -3,10 +3,17 @@
     <data>
 
         <wizard
-            id="wizard_sale_forecast_salesman"
+            id="wizard_sale_purchase_book"
             model="fiscal.reports.purchase"
             name="fiscal.reports.purchase.book_seniat"
             string="Book Seniat"/>
+
+        <wizard
+            id="wizard_wh_book"
+            model="fiscal.reports.whp"
+            name="fiscal.reports.whp.wh_book"
+            string="Witholding Book"/>
+
     </data>
 </openerp>
 

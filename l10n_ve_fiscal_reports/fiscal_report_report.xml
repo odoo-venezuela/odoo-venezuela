@@ -20,17 +20,17 @@ Purchases and Sales
             string="Sale SENIAT"
             auto="False" /> -->
 
-<!-- Withholding purchases and sales [whp and whs]
+Withholding purchases and sales [whp and whs]
       <report             
             id="report_whp_seniat" 
             model="fiscal.reports.whp" 
             name="fiscal.reports.whp.whp_seniat" 
-            rml="l10n_ve_fiscal_reports/report/whp_seniat.rml" 
-            sxw="l10n_ve_fiscal_reports/report/sources/whp_seniat.sxw"
-            string="Whitholding Purchase SENIAT"
+            rml="l10n_ve_fiscal_reports/report/witholding_book.rml" 
+            sxw="l10n_ve_fiscal_reports/report/sources/witholding_book.sxw"
+            string="Witholding Purchase SENIAT"
             auto="False" />
 
-        <report             
+<!--        <report             
             id="report_whs_seniat" 
             model="fiscal.reports.whs" 
             name="fiscal.reports.purchase.whs_seniat" 

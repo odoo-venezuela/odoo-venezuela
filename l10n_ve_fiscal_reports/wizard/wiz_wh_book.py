@@ -27,5 +27,56 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-import book
-import wh_book
+
+'''
+Fiscal Report For Venezuela
+'''
+
+from osv import fields
+from osv import osv
+import time
+import ir
+from mx import DateTime
+import datetime
+import pooler
+from tools import config
+import wizard
+import netsvc
+
+
+book_form= """<?xml version="1.0"?>
+<form string="Seniat Book">
+     <field name="date_start" />
+     <field name="date_end" />
+
+</form>
+"""
+
+book_field= {
+    'date_start': {'string':'Start Date','type':'date','required': True},
+    'date_end': {'string':'End Date','type':'date','required': True},
+
+}
+
+
+class wiz_retencion_list(wizard.interface):
+    '''
+    Wizzard invoice list
+    '''
+
+    states = {
+        'init' : {
+            'actions' : [],
+            'result' : {'type' : 'form',
+                    'arch' : book_form,
+                    'fields' : book_field,
+                    'state' : [('end', 'Cancel','gtk-cancel'),('print_report', 'Print Report','gtk-print') ]}
+        },
+        'print_report' : {
+            'actions' : [],
+            'result' : {'type' : 'print',
+                   'report':'fiscal.reports.whp.whp_seniat',
+                    'state' : 'end'}
+        },
+    }
+wiz_retencion_list("fiscal.reports.whp.wh_book")
