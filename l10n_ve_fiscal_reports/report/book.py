@@ -28,14 +28,24 @@
 #
 ##############################################################################
 
+'''
+Fiscal Report For Venezuela
+'''
+
 import time
 from report import report_sxw
 from osv import osv
 import pooler
 
 class pur_sal_book(report_sxw.rml_parse):
+    '''
+    Book generates purchase and sale
+    '''
 
     def __init__(self, cr, uid, name, context):
+        '''
+        Reference to the current instance
+        '''
         super(pur_sal_book, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
@@ -46,6 +56,9 @@ class pur_sal_book(report_sxw.rml_parse):
         })
 
     def _get_partner_addr(self, idp=None):
+        '''
+        Obtains the address of partner
+        '''
         if not idp:
             return []
 
@@ -59,6 +72,9 @@ class pur_sal_book(report_sxw.rml_parse):
 
 
     def _get_alicuota(self, tnom=None):
+        '''
+        Get Aliquot
+        '''
         if not tnom:
             return []
 
@@ -70,12 +86,18 @@ class pur_sal_book(report_sxw.rml_parse):
 
 
     def _get_rif(self, vat=''):
+        '''
+        Get R.I.F.
+        '''
         if not vat:
             return []
         return vat[2:].replace(' ', '')
 
 
     def _get_data(self,form):
+        '''
+        Get Data
+        '''
         d1=form['date_start']
         d2=form['date_end']
         data=[]

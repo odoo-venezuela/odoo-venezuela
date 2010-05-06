@@ -1,30 +1,46 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    nhomar.hernandez@netquatro.com
+# Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
+#                    Javier Duran <javier.duran@netquatro.com>
+# 
 #
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+# WARNING: This program as such is intended to be used by professional
+# programmers who take the whole responsability of assessing all potential
+# consequences resulting from its eventual inadequacies and bugs
+# End users who are looking for a ready-to-use solution with commercial
+# garantees and support are strongly adviced to contract a Free Software
+# Service Company
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is Free Software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+
+'''
+Fiscal Report For Venezuela
+'''
+
 from osv import osv
 from osv import fields
 from tools.translate import _
 from tools import config
 
 class fiscal_reports_purchase(osv.osv):
+    '''
+    Modifying the object fiscal.reports.purchase
+    '''
     _name = "fiscal.reports.purchase"
     _description = "Purchase by period"
     _auto = False
@@ -44,6 +60,9 @@ class fiscal_reports_purchase(osv.osv):
         'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     }
     def init(self, cr):
+        '''
+        Create or replace view fiscal_reports_purchase
+        '''
         cr.execute("""
             create or replace view fiscal_reports_purchase as (
                 SELECT
@@ -77,6 +96,9 @@ class fiscal_reports_purchase(osv.osv):
 fiscal_reports_purchase()  
 
 class fiscal_reports_sale(osv.osv):
+    '''
+    Modifying the object fiscal.reports.sales
+    '''
     _name = "fiscal.reports.sale"
     _description = "Sale by period"
     _auto = False
@@ -95,7 +117,10 @@ class fiscal_reports_sale(osv.osv):
     'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
     'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     }
-    def init(self, cr):    
+    def init(self, cr):
+        '''
+        Create or replace view fiscal_reports_sale
+        '''    
         cr.execute("""
             create or replace view fiscal_reports_sale as (
                 SELECT
@@ -128,6 +153,9 @@ class fiscal_reports_sale(osv.osv):
         """)
 fiscal_reports_sale()
 class fiscal_reports_whp(osv.osv):
+    '''
+    Modifying the object fiscal.reports.whp
+    '''
     _name = "fiscal.reports.whp"
     _description = "Sale by period"
     _auto = False
@@ -143,7 +171,10 @@ class fiscal_reports_whp(osv.osv):
     'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     }
-    def init(self, cr):    
+    def init(self, cr):
+        '''
+        Create or replace view fiscal_reports_whp
+        '''    
         cr.execute("""
             create or replace view fiscal_reports_whp as (
                 SELECT
@@ -171,6 +202,9 @@ class fiscal_reports_whp(osv.osv):
         """)
 fiscal_reports_whp()
 class fiscal_reports_whs(osv.osv):
+    '''
+    Modifying the object fiscal.reports.whs
+    '''
     _name = "fiscal.reports.whs"
     _description = "Sale by period"
     _auto = False
@@ -187,7 +221,10 @@ class fiscal_reports_whs(osv.osv):
     'ai_amount_tax': fields.float('Amoun Tax', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ar_id':fields.many2one('account.retention', 'Retention', required=False, readonly=True),
     }
-    def init(self, cr):    
+    def init(self, cr):
+        '''
+        Create or replace view fiscal_reports_whs
+        '''    
         cr.execute("""
             create or replace view fiscal_reports_whs as (
                 SELECT
