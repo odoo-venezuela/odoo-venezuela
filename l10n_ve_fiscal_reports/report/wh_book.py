@@ -78,9 +78,11 @@ class pur_sal_wh_book(report_sxw.rml_parse):
     def _get_data(self,form):
         d1=form['date_start']
         d2=form['date_end']
+        if form['model']=='wh_p':
+            book_type='fiscal.reports.whp'            
+        else:
+            book_type='fiscal.reports.whs'
         data=[]
-        book_type='fiscal.reports.whp'
-
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
