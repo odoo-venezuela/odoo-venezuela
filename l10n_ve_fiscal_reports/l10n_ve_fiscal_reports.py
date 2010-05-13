@@ -4,8 +4,6 @@
 # Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
 #                    Javier Duran <javier.duran@netquatro.com>
 #                    Nhomar Hernandéz <nhomar.hernandez@netquatro.com>
-# 
-#
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
 # consequences resulting from its eventual inadequacies and bugs
@@ -37,6 +35,7 @@ from osv import osv
 from osv import fields
 from tools.translate import _
 from tools import config
+from tools.sql import drop_view_if_exists
 
 class fiscal_reports_purchase(osv.osv):
     '''
@@ -64,6 +63,7 @@ class fiscal_reports_purchase(osv.osv):
         '''
         Create or replace view fiscal_reports_purchase
         '''
+        drop_view_if_exists(cr, 'fiscal_reports_purchase')
         cr.execute("""
             create or replace view fiscal_reports_purchase as (
                 SELECT
@@ -121,7 +121,8 @@ class fiscal_reports_sale(osv.osv):
     def init(self, cr):
         '''
         Create or replace view fiscal_reports_sale
-        '''    
+        '''   
+        drop_view_if_exists(cr, 'fiscal_reports_sale') 
         cr.execute("""
             create or replace view fiscal_reports_sale as (
                 SELECT
@@ -176,6 +177,7 @@ class fiscal_reports_whp(osv.osv):
         '''
         Create or replace view fiscal_reports_whp
         '''    
+        drop_view_if_exists(cr, 'fiscal_reports_whp')
         cr.execute("""
             create or replace view fiscal_reports_whp as (
                 SELECT
@@ -226,6 +228,7 @@ class fiscal_reports_whs(osv.osv):
         '''
         Create or replace view fiscal_reports_whs
         '''    
+        drop_view_if_exists(cr, 'fiscal_reports_whs')
         cr.execute("""
             create or replace view fiscal_reports_whs as (
                 SELECT

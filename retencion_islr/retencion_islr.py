@@ -222,9 +222,9 @@ class account_retencion_islr(osv.osv):
         }
         if not name:
             if invoice.type in ['in_invoice','in_refund']:
-                name = 'Cmp. Ret. ' + ret.code + ' Doc. '+ (invoice.reference or '')
+                name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (invoice.reference or '')
             else:
-                name = 'Cmp. Ret. ' + ret.code + ' Doc. '+ (str(int(invoice.number)) or '')
+                name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (str(int(invoice.number)) or '')
 
         l1['name'] = name
         l2['name'] = name
