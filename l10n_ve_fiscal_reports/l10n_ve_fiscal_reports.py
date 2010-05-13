@@ -172,6 +172,7 @@ class fiscal_reports_whp(osv.osv):
     'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
+    'ai_id':fields.many2one('account.invoice', 'Account Invoice', readonly=True),
     }
     def init(self, cr):
         '''
