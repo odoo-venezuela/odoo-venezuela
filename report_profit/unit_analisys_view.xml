@@ -29,11 +29,11 @@
             <field name="model">product.uom.consol</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <form string="UOM third to Consolidate">
+                <tree string="UOM third to Consolidate">
                     <group col="6" colspan="4">
                        <field name="name" select="1"/> 
                     </group>
-                </form>
+                </tree>
             </field>
         </record>
 

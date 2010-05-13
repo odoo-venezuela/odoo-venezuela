@@ -48,3 +48,4 @@
 	"active": False,
 	"installable": True
 }
+
