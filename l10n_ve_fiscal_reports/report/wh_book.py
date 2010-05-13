@@ -42,7 +42,8 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_partner_addr': self._get_partner_addr,
             'get_alicuota': self._get_alicuota,
             'get_rif': self._get_rif,
-            'get_data':self._get_data
+            'get_data':self._get_data,
+            'get_exc':self._get_exc,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -90,7 +91,12 @@ class pur_sal_wh_book(report_sxw.rml_parse):
 
         return data
 
-
+    def _get_exc(self,obj_rl):
+        excent=0.0
+        for taxes in obj_rl.tax_line:
+            if not taxes.tax_amount:
+                excent=excent + taxes.base_amount
+        return excent
       
 report_sxw.report_sxw(
     'report.fiscal.reports.whp.whp_seniat',
