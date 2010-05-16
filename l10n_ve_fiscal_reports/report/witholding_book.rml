@@ -126,7 +126,7 @@
   <story>
     <section>
       <para style="BIGHEADER">WITHOLDING BOOK</para>
-      <blockTable colWidths="365.0,365.0" style="Tabla1">
+      <blockTable colWidths="365.0,365.0" style="Tabla1" repeatRows="1">
         <tr>
           <td>
             <para style="HEADERDOCBOLD">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>

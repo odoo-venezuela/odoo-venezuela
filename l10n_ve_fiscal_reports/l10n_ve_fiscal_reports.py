@@ -224,8 +224,10 @@ class fiscal_reports_whs(osv.osv):
     'ai_id':fields.many2one('account.invoice', 'Invoice', required=False, readonly=True),
     'ai_amount_total': fields.float('Invoice Total', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
+    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
     'ai_amount_tax': fields.float('Amoun Tax', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ar_id':fields.many2one('account.retention', 'Retention', required=False, readonly=True),
+    'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=True),
     }
     def init(self, cr):
         '''
@@ -238,11 +240,13 @@ class fiscal_reports_whs(osv.osv):
                      ar."date_ret" AS ar_date_ret,
                      rp."vat" AS rp_vat,
                      ar."number" AS ar_number,
+                     ai."number" AS ai_reference,
                      ai."number" AS ai_number,
                      ai."amount_total" AS ai_amount_total,
                      ai."amount_untaxed" AS ai_amount_untaxed,
                      ai."amount_tax" AS ai_amount_tax,
                      ar_line."id" AS id,
+                     ar_line."id" AS ar_line_id,
                      ar."id" AS ar_id,
                      rp."id" AS rp_id,
                      ai."id" AS ai_id

@@ -97,6 +97,7 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             book_type='fiscal.reports.whs'
         data=[]
         fr_obj = self.pool.get(book_type)
+        print fr_obj
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
