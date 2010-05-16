@@ -228,6 +228,7 @@
             <para style="P7">[[ formatLang(l.ar_line_id.retention_rate) ]]</para>
           </td>
           <td>
+<section>
             <para style="P5">[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]</para>
             <blockTable colWidths="40.0,41.0" style="Tabla2">
               <tr>
@@ -245,6 +246,7 @@
           </td>
         </tr>
       </blockTable>
+</section>
     </section>
     <para style="P9">
       <font color="white"> </font>
