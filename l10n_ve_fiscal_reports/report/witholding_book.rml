@@ -3,6 +3,14 @@
   <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
     <pageTemplate id="first">
       <frame id="first" x1="31.0" y1="31.0" width="730" height="553"/>
+			<pageGraphics>
+				<setFont name="Helvetica" size="9"/>
+				<drawString x="1.3cm" y="0.90cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
+				<drawString x="25cm" y="1cm">Page <pageNumber/></drawString>
+			    <lineMode width="0.7"/>
+                <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
+				<setFont name="Helvetica" size="8"/>
+			</pageGraphics>
     </pageTemplate>
   </template>
   <stylesheet>
