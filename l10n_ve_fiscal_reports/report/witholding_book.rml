@@ -2,15 +2,7 @@
 <document filename="test.pdf">
   <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
     <pageTemplate id="first">
-      <frame id="first" x1="31.0" y1="31.0" width="730" height="550"/>
-			<pageGraphics>
-				<setFont name="Helvetica" size="9"/>
-				<drawString x="1.3cm" y="0.90cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
-				<drawString x="25cm" y="1cm">Page <pageNumber/></drawString>
-			    <lineMode width="0.7"/>
-                <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
-				<setFont name="Helvetica" size="8"/>
-			</pageGraphics>
+      <frame id="first" x1="31.0" y1="31.0" width="730" height="553"/>
     </pageTemplate>
   </template>
   <stylesheet>
@@ -100,20 +92,19 @@
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
-    <paraStyle name="P1" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="P2" fontName="Helvetica" fontSize="2.0" leading="3"/>
-    <paraStyle name="P3" fontName="Helvetica-Bold" fontSize="2.0" leading="3" alignment="CENTER"/>
-    <paraStyle name="P4" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
-    <paraStyle name="P5" fontName="Helvetica-Bold" fontSize="14.0" leading="17" alignment="CENTER"/>
-    <paraStyle name="P6" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P1" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P2" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P3" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="2.0" leading="3"/>
+    <paraStyle name="P6" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT"/>
     <paraStyle name="P7" fontName="Helvetica" fontSize="8.0" leading="10"/>
     <paraStyle name="P8" fontName="Helvetica" fontSize="8.0" leading="10"/>
-    <paraStyle name="P9" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
-    <paraStyle name="P10" fontName="Helvetica" fontSize="2.0" leading="3"/>
-    <paraStyle name="P11" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT"/>
-    <paraStyle name="P12" fontName="Helvetica" fontSize="8.0" leading="10"/>
-    <paraStyle name="P13" fontName="Helvetica" fontSize="8.0" leading="10"/>
-    <paraStyle name="P14" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P9" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="2.0" leading="3" alignment="CENTER"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P12" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
     <paraStyle name="Standard" fontName="Times-Roman"/>
     <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
@@ -128,136 +119,126 @@
   </stylesheet>
   <images/>
   <story>
-    <para style="P6">
-      <font color="white"> </font>
-    </para>
     <section>
-      <para style="P5">WITHOLDING BOOK</para>
+      <para style="P13">WITHOLDING BOOK</para>
       <blockTable colWidths="365.0,365.0" style="Tabla1">
         <tr>
           <td>
-            <para style="P11">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>
-            <para style="P4">[[ get_partner_addr( company.partner_id.id ) ]]</para>
+            <para style="P6">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>
+            <para style="P11">[[ get_partner_addr( company.partner_id.id ) ]]</para>
           </td>
           <td>
-            <para style="P1">
-              <font color="white"> </font>
-            </para>
+            <para style="P12">Mes: [[ get_month( data['form'] ) ]]</para>
+            <para style="P11">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
+            <para style="P11">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
           </td>
         </tr>
       </blockTable>
-      <para style="P3">
+      <para style="P10">
         <font color="white"> </font>
       </para>
     </section>
-    <section>
-      <para style="P2">
-        <font color="white"> </font>
-      </para>
-    </section>
-    <blockTable colWidths="50.0,53.0,168.0,75.0,36.0,48.0,49.0,49.0,42.0,42.0,34.0,41.0,41.0" style="Tabla3">
+    <blockTable colWidths="49.0,54.0,168.0,75.0,36.0,48.0,49.0,49.0,42.0,42.0,34.0,41.0,41.0" style="Tabla3">
       <tr>
         <td>
-          <para style="P9">Fecha</para>
+          <para style="P4">Fecha</para>
         </td>
         <td>
-          <para style="P9">RIF</para>
+          <para style="P4">RIF</para>
         </td>
         <td>
-          <para style="P9">Razon Social</para>
+          <para style="P4">Razon Social</para>
         </td>
         <td>
-          <para style="P9">Comprobante</para>
+          <para style="P4">Comprobante</para>
         </td>
         <td>
-          <para style="P9">Periodo Fiscal</para>
+          <para style="P4">Periodo Fiscal</para>
         </td>
         <td>
-          <para style="P9">Factura Afectada</para>
+          <para style="P4">Factura Afectada</para>
         </td>
         <td>
-          <para style="P9">Total Ventas</para>
+          <para style="P4">Total Ventas</para>
         </td>
         <td>
-          <para style="P9">Ventas Exentas</para>
+          <para style="P4">Ventas Exentas</para>
         </td>
         <td>
-          <para style="P9">Impuesto</para>
+          <para style="P4">Impuesto</para>
         </td>
         <td>
-          <para style="P9">Monto Retencion</para>
+          <para style="P4">Monto Retencion</para>
         </td>
         <td>
-          <para style="P9">% Ret</para>
+          <para style="P4">% Ret</para>
         </td>
         <td>
-          <para style="P9">Base Ret.</para>
+          <para style="P4">Base Ret.</para>
         </td>
         <td>
-          <para style="P9">% Iva.</para>
+          <para style="P4">% Iva.</para>
         </td>
       </tr>
     </blockTable>
     <section>
-      <para style="P6">[[repeatIn( get_data( data['form'] ),'l')]]</para>
-      <para style="P6">[[ setLang(l.ai_id.company_id.partner_id.lang) ]]</para>
+      <para style="P1">[[repeatIn( get_data( data['form'] ),'l')]]</para>
+      <para style="P1">[[ setLang(l.ai_id.company_id.partner_id.lang) ]]</para>
       <blockTable colWidths="49.0,54.0,168.0,75.0,37.0,48.0,49.0,49.0,42.0,42.0,34.0,81.0" style="Tabla4">
         <tr>
           <td>
-            <para style="P7">[[ time.strftime('%d/%m/%Y', time.strptime(l.ar_date_ret, '%Y-%m-%d')) ]]</para>
+            <para style="P2">[[ time.strftime('%d/%m/%Y', time.strptime(l.ar_date_ret, '%Y-%m-%d')) ]]</para>
           </td>
           <td>
-            <para style="P7">[[ get_rif( l.rp_vat) ]]</para>
+            <para style="P2">[[ get_rif( l.rp_vat) ]]</para>
           </td>
           <td>
-            <para style="P7">[[ l.rp_id.name ]]</para>
+            <para style="P2">[[ l.rp_id.name ]]</para>
           </td>
           <td>
-            <para style="P7">[[ l.ar_number ]]</para>
+            <para style="P2">[[ l.ar_number ]]</para>
           </td>
           <td>
-            <para style="P7">[[ l.ar_number.replace("-","")[0:6] ]]</para>
+            <para style="P2">[[ l.ar_number.replace("-","")[0:6] ]]</para>
           </td>
           <td>
-            <para style="P7">[[ l.ai_reference ]]</para>
+            <para style="P2">[[ l.ai_reference ]]</para>
           </td>
           <td>
-            <para style="P8">[[ formatLang(l.ai_amount_total) ]]</para>
+            <para style="P3">[[ formatLang(l.ai_amount_total) ]]</para>
           </td>
           <td>
-            <para style="P8">[[ get_exc(l.ar_line_id) ]]</para>
+            <para style="P3">[[ get_exc(l.ar_line_id) ]]</para>
           </td>
           <td>
-            <para style="P12">[[ formatLang(l.ar_line_id.base_ret) ]]</para>
+            <para style="P7">[[ formatLang(l.ar_line_id.base_ret) ]]</para>
           </td>
           <td>
-            <para style="P12">[[ formatLang(l.ar_id.total_tax_ret) ]]</para>
+            <para style="P7">[[ formatLang(l.ar_id.total_tax_ret) ]]</para>
           </td>
           <td>
-            <para style="P12">[[ formatLang(l.ar_line_id.retention_rate) ]]</para>
+            <para style="P7">[[ formatLang(l.ar_line_id.retention_rate) ]]</para>
           </td>
           <td>
-<section>
-            <para style="P10">[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]</para>
+            <para style="P5">[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]</para>
             <blockTable colWidths="40.0,41.0" style="Tabla2">
               <tr>
                 <td>
-                  <para style="P13">[[ formatLang(t.base_ret) ]]</para>
+                  <para style="P8">[[ formatLang(t.base_ret) ]]</para>
                 </td>
                 <td>
-                  <para style="P13">[[ formatLang(t.tax_amount) ]]</para>
+                  <para style="P8">[[ formatLang(t.tax_amount) ]]</para>
                 </td>
               </tr>
             </blockTable>
-</section>
-            <para style="P10">
+            <para style="P5">
               <font color="white"> </font>
             </para>
           </td>
         </tr>
       </blockTable>
     </section>
-    <para style="P14">
+    <para style="P9">
       <font color="white"> </font>
     </para>
   </story>

@@ -44,6 +44,8 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_rif': self._get_rif,
             'get_data':self._get_data,
             'get_exc':self._get_exc,
+            'get_month':self._get_month,
+            'get_dates':self._get_dates,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -68,7 +70,17 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         tax = tax_obj.browse(self.cr,self.uid, tax_ids)
 
         return tax.amount*100
-
+    
+    def _get_month(self, form):
+        months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+        res = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
+        return res
+    
+    def _get_dates(self, form):
+        res=[]
+        res.append(form['date_start'])
+        res.append(form['date_end'])
+        return res
 
     def _get_rif(self, vat=''):
         if not vat:
@@ -80,15 +92,13 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         d1=form['date_start']
         d2=form['date_end']
         if form['model']=='wh_p':
-            book_type='fiscal.reports.whp'            
+            book_type='fiscal.reports.whp'           
         else:
             book_type='fiscal.reports.whs'
         data=[]
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-
-
         return data
 
     def _get_exc(self,obj_rl):
