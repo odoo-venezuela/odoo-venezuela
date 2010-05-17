@@ -46,7 +46,6 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_exc':self._get_exc,
             'get_month':self._get_month,
             'get_dates':self._get_dates,
-            'group_tax':self._group_tax,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -108,22 +107,6 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             if not taxes.tax_amount:
                 excent=excent + taxes.base_amount
         return excent
-    
-    def _group_tax(self,list_tax=[]):
-        tax_obj = self.pool.get('account.tax')
-        tax_ids = tax_obj.search(self.cr,self.uid,[])
-        tax = tax_obj.browse(self.cr,self.uid, tax_ids)
-        tax_detail = []
-        if len(list_tax) > 1:
-            print list_tax
-            for taxes in list_tax:
-                if taxes.tax_amount/taxes.base_ret*100:
-                    print "TAXES......................",taxes
-            res = ["hola","mundo"]
-        else:
-            res = [list_tax[0]]
-
-        return res
       
 report_sxw.report_sxw(
     'report.fiscal.reports.whp.whp_seniat',
