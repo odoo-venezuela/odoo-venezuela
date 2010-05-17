@@ -3,14 +3,6 @@
   <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
     <pageTemplate id="first">
       <frame id="first" x1="31.0" y1="31.0" width="730" height="553"/>
-			<pageGraphics>
-				<setFont name="Helvetica" size="9"/>
-				<drawString x="1.3cm" y="0.90cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
-				<drawString x="25cm" y="1cm">Page <pageNumber/></drawString>
-			    <lineMode width="0.7"/>
-                <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
-				<setFont name="Helvetica" size="8"/>
-			</pageGraphics>
     </pageTemplate>
   </template>
   <stylesheet>
@@ -94,48 +86,51 @@
       <lineStyle kind="LINEBELOW" colorName="#000000" start="11,-1" stop="11,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Tabla2">
-      <blockAlignment value="CENTER"/>
-      <blockValign value="LEFT"/>
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
     </blockTableStyle>
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
     <paraStyle name="P1" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-<!-- COMENTARIO -->
+    <paraStyle name="P2" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P3" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="2.0" leading="3"/>
+    <paraStyle name="P6" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P8" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P9" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="RIGHT"/>
     <paraStyle name="P10" fontName="Helvetica" fontSize="2.0" leading="3" alignment="CENTER"/>
-    <paraStyle name="VALORES" fontName="Helvetica" fontSize="7.0" leading="8" spaceBefore="2.0"/>
-    <paraStyle name="ENCABEZADO" fontName="Helvetica-Bold" fontSize="7.0" leading="6" alignment="CENTER"/>
-    <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="0.1" leading="1"/>
-    <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="7.0" leading="3" alignment="LEFT"/>
-    <paraStyle name="HEADERDOC" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
-    <paraStyle name="HEADERDOCBOLD" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
-    <paraStyle name="BIGHEADER" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
-    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P12" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
+    <paraStyle name="Standard" fontName="Times-Roman"/>
     <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
-    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="Caption" fontName="Helvetica" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
-    <paraStyle name="Index" fontName="Helvetica"/>
+    <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Times-Roman" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Times-Roman"/>
     <paraStyle name="terp_header" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="terp_default_8" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="Table Contents" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="Table Contents" fontName="Times-Roman" fontSize="8.0" leading="10"/>
     <paraStyle name="terp_default_9" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="Table Heading" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="Table Heading" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="CENTER"/>
   </stylesheet>
   <images/>
   <story>
     <section>
-      <para style="BIGHEADER">WITHOLDING BOOK</para>
-      <blockTable colWidths="365.0,365.0" style="Tabla1" repeatRows="1">
+      <para style="P13">WITHOLDING BOOK</para>
+      <blockTable colWidths="365.0,365.0" style="Tabla1">
         <tr>
           <td>
-            <para style="HEADERDOCBOLD">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>
-            <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
+            <para style="P6">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>
+            <para style="P11">[[ get_partner_addr( company.partner_id.id ) ]]</para>
           </td>
           <td>
-            <para style="HEADERDOCBOLD">Mes: [[ get_month( data['form'] ) ]]</para>
-            <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
-            <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
+            <para style="P12">Mes: [[ get_month( data['form'] ) ]]</para>
+            <para style="P11">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
+            <para style="P11">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
           </td>
         </tr>
       </blockTable>
@@ -143,46 +138,46 @@
         <font color="white"> </font>
       </para>
     </section>
-    <blockTable colWidths="49.0,54.0,168.0,75.0,36.0,48.0,49.0,49.0,42.0,42.0,34.0,41.0,41.0" style="Tabla3" repeatRows="1">
+    <blockTable colWidths="49.0,54.0,168.0,75.0,36.0,48.0,49.0,49.0,42.0,42.0,34.0,41.0,41.0" style="Tabla3">
       <tr>
         <td>
-          <para style="ENCABEZADO">Fecha</para>
+          <para style="P4">Fecha</para>
         </td>
         <td>
-          <para style="ENCABEZADO">RIF</para>
+          <para style="P4">RIF</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Razon Social</para>
+          <para style="P4">Razon Social</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Comprobante</para>
+          <para style="P4">Comprobante</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Periodo Fiscal</para>
+          <para style="P4">Periodo Fiscal</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Factura Afectada</para>
+          <para style="P4">Factura Afectada</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Total Ventas</para>
+          <para style="P4">Total Ventas</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Ventas Exentas</para>
+          <para style="P4">Ventas Exentas</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Impuesto</para>
+          <para style="P4">Impuesto</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Monto Retencion</para>
+          <para style="P4">Monto Retencion</para>
         </td>
         <td>
-          <para style="ENCABEZADO">% Ret</para>
+          <para style="P4">% Ret</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Base Ret.</para>
+          <para style="P4">Base Ret.</para>
         </td>
         <td>
-          <para style="ENCABEZADO">% Iva.</para>
+          <para style="P4">% Iva.</para>
         </td>
       </tr>
     </blockTable>
@@ -192,68 +187,58 @@
       <blockTable colWidths="49.0,54.0,168.0,75.0,37.0,48.0,49.0,49.0,42.0,42.0,34.0,81.0" style="Tabla4">
         <tr>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ time.strftime('%d/%m/%Y', time.strptime(l.ar_date_ret, '%Y-%m-%d')) ]]</para>
+            <para style="P2">[[ time.strftime('%d/%m/%Y', time.strptime(l.ar_date_ret, '%Y-%m-%d')) ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ get_rif( l.rp_vat) ]]</para>
+            <para style="P2">[[ get_rif( l.rp_vat) ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ l.rp_id.name ]]</para>
+            <para style="P2">[[ l.rp_id.name ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ l.ar_number ]]</para>
+            <para style="P2">[[ l.ar_number ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ l.ar_number.replace("-","")[0:6] ]]</para>
+            <para style="P2">[[ l.ar_number.replace("-","")[0:6] ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ l.ai_reference ]]</para>
+            <para style="P2">[[ l.ai_reference ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ formatLang(l.ai_amount_total) ]]</para>
+            <para style="P3">[[ formatLang(l.ai_amount_total) ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ get_exc(l.ar_line_id) ]]</para>
+            <para style="P3">[[ get_exc(l.ar_line_id) ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ formatLang(l.ar_line_id.base_ret) ]]</para>
+            <para style="P7">[[ formatLang(l.ar_line_id.base_ret) ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ formatLang(l.ar_id.total_tax_ret) ]]</para>
+            <para style="P7">[[ formatLang(l.ar_id.total_tax_ret) ]]</para>
           </td>
           <td>
-            <para style="HIDINGVALUES"> ONLYFILL </para>
-            <para style="VALORES">[[ formatLang(l.ar_line_id.retention_rate) ]]</para>
+            <para style="P7">[[ formatLang(l.ar_line_id.retention_rate) ]]</para>
           </td>
           <td>
-<section>
-            <para style="HIDINGVALUES">[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]</para>
-            <blockTable colWidths="40.0,40.0" style="Tabla2">
+            <para style="P5">[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]</para>
+            <blockTable colWidths="40.0,41.0" style="Tabla2">
               <tr>
                 <td>
-                  <para style="SUBTABLE">[[ formatLang(t.base_ret) ]]</para>
+                  <para style="P8">[[ formatLang(t.base_ret) ]]</para>
                 </td>
                 <td>
-                  <para style="SUBTABLE">[[ formatLang(t.tax_amount/t.base_ret*100) ]]</para>
+                  <para style="P8">[[ formatLang(t.tax_amount) ]]</para>
                 </td>
               </tr>
             </blockTable>
-</section>
+            <para style="P5">
+              <font color="white"> </font>
+            </para>
           </td>
         </tr>
       </blockTable>
     </section>
-    <para style="P10">
+    <para style="P9">
       <font color="white"> </font>
     </para>
   </story>
