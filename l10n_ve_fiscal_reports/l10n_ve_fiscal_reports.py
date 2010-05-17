@@ -187,9 +187,24 @@ class fiscal_reports_whp(osv.osv):
                      rp."vat" AS rp_vat,
                      ar."number" AS ar_number,
                      ai."reference" AS ai_reference,
-                     ai."amount_total" AS ai_amount_total,
-                     ai."amount_untaxed" AS ai_amount_untaxed,
-                     ai."amount_tax" AS ai_amount_tax,
+                    case when ai.type='in_refund'
+                    then
+                        ai."amount_total"*(-1)
+                    else
+                        ai."amount_total" 
+                    end as ai_amount_total,
+                    case when ai.type='in_refund'
+                    then
+                        ai."amount_tax"*(-1)
+                    else
+                        ai."amount_tax" 
+                    end as ai_amount_tax,
+                    case when ai.type='in_refund'
+                    then
+                        ai."amount_untaxed"*(-1)
+                    else
+                        ai."amount_untaxed" 
+                    end as ai_amount_untaxed,
                      ar_line."id" AS id,
                      ar_line."id" AS ar_line_id,
                      ar."id" AS ar_id,
@@ -242,9 +257,24 @@ class fiscal_reports_whs(osv.osv):
                      ar."number" AS ar_number,
                      ai."number" AS ai_reference,
                      ai."number" AS ai_number,
-                     ai."amount_total" AS ai_amount_total,
-                     ai."amount_untaxed" AS ai_amount_untaxed,
-                     ai."amount_tax" AS ai_amount_tax,
+                    case when ai.type='out_refund'
+                    then
+                        ai."amount_total"*(-1)
+                    else
+                        ai."amount_total" 
+                    end as ai_amount_total,
+                    case when ai.type='out_refund'
+                    then
+                        ai."amount_tax"*(-1)
+                    else
+                        ai."amount_tax" 
+                    end as ai_amount_tax,
+                    case when ai.type='out_refund'
+                    then
+                        ai."amount_untaxed"*(-1)
+                    else
+                        ai."amount_untaxed" 
+                    end as ai_amount_untaxed,
                      ar_line."id" AS id,
                      ar_line."id" AS ar_line_id,
                      ar."id" AS ar_id,
