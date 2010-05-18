@@ -46,7 +46,7 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_exc':self._get_exc,
             'get_month':self._get_month,
             'get_dates':self._get_dates,
-            'group_tax':self._group_tax,
+            'get_totals':self._get_totals,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -109,21 +109,22 @@ class pur_sal_wh_book(report_sxw.rml_parse):
                 excent=excent + taxes.base_amount
         return excent
     
-    def _group_tax(self,list_tax=[]):
-        tax_obj = self.pool.get('account.tax')
-        tax_ids = tax_obj.search(self.cr,self.uid,[])
-        tax = tax_obj.browse(self.cr,self.uid, tax_ids)
-        tax_detail = []
-        if len(list_tax) > 1:
-            print list_tax
-            for taxes in list_tax:
-                if taxes.tax_amount/taxes.base_ret*100:
-                    print "TAXES......................",taxes
-            res = ["hola","mundo"]
+    def _get_totals(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['model']=='wh_p':
+            book_type='fiscal.reports.whp'           
         else:
-            res = [list_tax[0]]
-
-        return res
+            book_type='fiscal.reports.whs'
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        total=[0.0,0.0,0.0,0.0]
+        for d in fr_obj.browse(self.cr,self.uid, fr_ids):
+            total[0]=total[0]+d.ai_amount_total
+            total[1]=total[1]+d.ai_amount_untaxed
+            total[2]=total[2]+d.ai_amount_tax
+            total[3]=total[3]+d.ar_id.total_tax_ret
+        return total
       
 report_sxw.report_sxw(
     'report.fiscal.reports.whp.whp_seniat',
