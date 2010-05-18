@@ -15,90 +15,21 @@
     </pageTemplate>
   </template>
   <stylesheet>
-    <blockTableStyle id="Standard_Outline">
+    <blockTableStyle id="ENCABEZADOGENERAL">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
-    </blockTableStyle>
-    <blockTableStyle id="Tabla1">
-      <blockAlignment value="LEFT"/>
-      <blockValign value="TOP"/>
-    </blockTableStyle>
-    <blockTableStyle id="Tabla3">
-      <blockAlignment value="LEFT"/>
-      <blockValign value="TOP"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,0" stop="2,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="3,0" stop="3,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,0" stop="4,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,-1" stop="4,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="5,0" stop="5,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="5,-1" stop="5,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="6,0" stop="6,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,-1" stop="6,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="7,0" stop="7,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="7,-1" stop="7,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="8,0" stop="8,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="8,-1" stop="8,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="9,0" stop="9,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="9,-1" stop="9,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="10,0" stop="10,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="10,-1" stop="10,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="11,0" stop="11,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="11,-1" stop="11,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="12,0" stop="12,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="12,-1" stop="12,-1"/>
     </blockTableStyle>
     <blockTableStyle id="CONTENIDO">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="1,0" stop="1,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="2,0" stop="2,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,0" stop="2,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="3,0" stop="3,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="3,0" stop="3,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="4,0" stop="4,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,0" stop="4,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,-1" stop="4,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="5,0" stop="5,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="5,0" stop="5,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="5,-1" stop="5,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="6,0" stop="6,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="6,0" stop="6,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,-1" stop="6,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="7,0" stop="7,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="7,0" stop="7,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="7,-1" stop="7,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="8,0" stop="8,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="8,0" stop="8,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="8,-1" stop="8,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="9,0" stop="9,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="9,0" stop="9,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="9,-1" stop="9,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="10,0" stop="10,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="10,0" stop="10,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="10,-1" stop="10,-1"/>
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="11,0" stop="11,-1"/>
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="11,0" stop="11,-1"/>
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="11,0" stop="11,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="11,-1" stop="11,-1"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
-      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="-1,-1"/>
+        <lineStyle kind="LINEABOVE" colorName="black" thickness="1" start="0,0" stop="-1,0" />
+        <lineStyle kind="LINEBELOW" colorName="black" thickness="1" start="0,0" stop="-1,0" count="2"/>
+        <lineStyle kind="LINEBELOW" colorName="black" thickness="2" start="-6,-2" stop="-3,-2" count="2"/>
+        <lineStyle kind="GRID" colorName="#e6e6e6" thickness="1" start="0,1" stop="-1,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Tabla2">
       <blockAlignment value="CENTER"/>
-      <blockValign value="TOP"/>
+      <blockValign value="CENTER"/>
     </blockTableStyle>
     <blockTableStyle id="TablaTotales">
       <blockAlignment value="CENTER"/>
@@ -112,12 +43,13 @@
     <paraStyle name="P1" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
 <!-- COMENTARIO -->
     <paraStyle name="P10" fontName="Helvetica" fontSize="2.0" leading="3" alignment="CENTER"/>
-    <paraStyle name="VALORES" fontName="Helvetica" fontSize="7.0" leading="8" spaceBefore="2.0"/>
+    <paraStyle name="VALORES" fontName="Helvetica" fontSize="6.0" leading="3" spaceBefore="3.0" alignment="CENTER"/>
+    <paraStyle name="NAMEVAL" fontName="Helvetica" fontSize="6.0" leading="6" spaceBefore="3.0" alignment="LEFT"/>
     <paraStyle name="ENCABEZADO" fontName="Helvetica-Bold" fontSize="7.0" leading="6" alignment="CENTER"/>
-    <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="0.1" leading="1"/>
-    <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="7.0" leading="3" alignment="LEFT" spaceBefore="-2.0"/>
-    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="7.0" leading="3" alignment="LEFT" spaceBefore="-2.0"/>
-    <paraStyle name="HEADERDOC" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="0" leading="0" textColor="white"/>
+    <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT" spaceBefore="-2.0"/>
+    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="8.0" leading="0" alignment="CENTER" spaceBefore="1.0"/>
+    <paraStyle name="HEADERDOC" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" />
     <paraStyle name="HEADERDOCBOLD" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
     <paraStyle name="BIGHEADER" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
     <paraStyle name="Standard" fontName="Helvetica"/>
@@ -136,7 +68,7 @@
   <story>
 <!--    <section>-->
       <para style="BIGHEADER">WITHOLDING BOOK</para>
-      <blockTable colWidths="365.0,365.0" style="Tabla1">
+      <blockTable colWidths="365.0,365.0" style="ENCABEZADOGENERAL">
         <tr>
           <td>
             <para style="HEADERDOCBOLD">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>
@@ -153,7 +85,7 @@
         <font color="white"> </font>
       </para>
 <!--    </section>-->
-    <blockTable colWidths="49.0,54.0,168.0,75.0,36.0,48.0,49.0,49.0,42.0,42.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
+    <blockTable colWidths="45.0,50.0,206.0,65.0,32.0,44.0,42.0,42.0,42.0,42.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
       <tr>
         <td>
           <para style="ENCABEZADO">Fecha</para>
@@ -206,7 +138,7 @@
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ l.rp_id.name ]]</para>
+            <para style="NAMEVAL">[[ l.rp_id.name ]]</para>
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
@@ -254,60 +186,32 @@
                 </blockTable>
           </td>
         </tr>
-            <tr noSplitRowCount="3">
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                    <para style="TOTALES">SUB</para>
-                </td>
-                <td>
-                    <para style="TOTALES">HEADER</para>
-                </td>
-                <td>
-                </td>
-            </tr>
             <tr>
                 <td>
                 </td>
-                <td>
+<td>
+                </td>
+<td>
+                </td>
+<td>
+                </td>
+<td>
+                </td>
+<td>
+                </td>
+<td>
                 </td>
                 <td>
+                    <para style="TOTALES">TOTALES</para>
                 </td>
                 <td>
+                    <para style="TOTALES">TOTALES</para>
                 </td>
-                <td>
+<td>
                 </td>
-                <td>
+<td>
                 </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                    <para style="TOTALES">VARIABLE</para>
-                </td>
-                <td>
-                    <para style="TOTALES">CALCULATED</para>
-                </td>
-                <td>
+<td>
                 </td>
             </tr>
       </blockTable>
