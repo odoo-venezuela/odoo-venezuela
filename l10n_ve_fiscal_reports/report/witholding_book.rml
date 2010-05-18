@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
 <document filename="test.pdf">
   <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="24">
-    <pageTemplate id="first">
-      <frame id="first" x1="15.0" y1="7.0" width="760" height="595"/>
-			<pageGraphics>
-				<setFont name="Helvetica" size="9"/>
-				<drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
-				<drawString x="25cm" y="0.5cm">Pagina <pageNumber/></drawString>
-			    <lineMode width="0.7"/>
-                <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
-				<setFont name="Helvetica" size="8"/>
-			</pageGraphics>
+    <pageTemplate id="Layout1">
+        <frame id="first" x1="15.0" y1="15.0" width="760" height="590"/>
+  <!--      <frame id="second" x1="15.0" y1="9.0" width="760" height="10"/>-->
+            <pageGraphics>
+            <setFont name="Helvetica" size="9"/>
+            <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
+            <drawString x="25cm" y="0.5cm">Pagina <pageNumber/></drawString>
+            <lineMode width="0.7"/>
+            <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
+            <setFont name="Helvetica" size="8"/>
+            </pageGraphics>
     </pageTemplate>
   </template>
   <stylesheet>
@@ -97,7 +98,13 @@
     </blockTableStyle>
     <blockTableStyle id="Tabla2">
       <blockAlignment value="CENTER"/>
-      <blockValign value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="TablaTotales">
+      <blockAlignment value="CENTER"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="-1,-1"/>
     </blockTableStyle>
     <initialize>
       <paraStyle name="all" alignment="justify"/>
@@ -109,6 +116,7 @@
     <paraStyle name="ENCABEZADO" fontName="Helvetica-Bold" fontSize="7.0" leading="6" alignment="CENTER"/>
     <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="0.1" leading="1"/>
     <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="7.0" leading="3" alignment="LEFT" spaceBefore="-2.0"/>
+    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="7.0" leading="3" alignment="LEFT" spaceBefore="-2.0"/>
     <paraStyle name="HEADERDOC" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
     <paraStyle name="HEADERDOCBOLD" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
     <paraStyle name="BIGHEADER" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
@@ -223,7 +231,8 @@
           <td>
             <para style="HIDINGVALUES">HIDING</para>
             <para style="VALORES">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_line_id.base_ret*(-1)) or l.ar_line_id.base_ret)) ]]</para>
-          </td>
+          </td>            
+
           <td>
             <para style="HIDINGVALUES">HIDING</para>
             <para style="VALORES">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_id.total_tax_ret*(-1)) or l.ar_id.total_tax_ret)) ]]</para>
@@ -245,11 +254,67 @@
                 </blockTable>
           </td>
         </tr>
+            <tr noSplitRowCount="3">
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <para style="TOTALES">SUB</para>
+                </td>
+                <td>
+                    <para style="TOTALES">HEADER</para>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <para style="TOTALES">VARIABLE</para>
+                </td>
+                <td>
+                    <para style="TOTALES">CALCULATED</para>
+                </td>
+                <td>
+                </td>
+            </tr>
       </blockTable>
 <!--    </section>-->
     <para style="P10">
       <font color="white"> </font>
-    </para>
+    </para>      
   </story>
 </document>
 
