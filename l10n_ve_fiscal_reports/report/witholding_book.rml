@@ -48,7 +48,7 @@
     <paraStyle name="ENCABEZADO" fontName="Helvetica-Bold" fontSize="7.0" leading="6" alignment="CENTER"/>
     <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="0" leading="0" textColor="white"/>
     <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT" spaceBefore="-2.0"/>
-    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="8.0" leading="0" alignment="CENTER" spaceBefore="1.0"/>
+    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="8.0" leading="0" alignment="CENTER" spaceBefore="1.0" bottomPadding="-4"/>
     <paraStyle name="HEADERDOC" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" />
     <paraStyle name="HEADERDOCBOLD" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
     <paraStyle name="BIGHEADER" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
@@ -199,15 +199,17 @@
                 </td>
 <td>
                 </td>
-<td>
+                <td>
+                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[0]) ]]</para>
                 </td>
                 <td>
-                    <para style="TOTALES">TOTALES</para>
+                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
                 </td>
                 <td>
-                    <para style="TOTALES">TOTALES</para>
+                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
                 </td>
-<td>
+                <td>
+                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[3]) ]]</para>
                 </td>
 <td>
                 </td>
