@@ -24,7 +24,7 @@
       <blockValign value="TOP"/>
         <lineStyle kind="LINEABOVE" colorName="black" thickness="1" start="0,0" stop="-1,0" />
         <lineStyle kind="LINEBELOW" colorName="black" thickness="1" start="0,0" stop="-1,0" count="2"/>
-        <lineStyle kind="LINEBELOW" colorName="black" thickness="2" start="-6,-2" stop="-3,-2" count="2"/>
+        <lineStyle kind="LINEBELOW" colorName="black" thickness="2" start="-6,-2" stop="-1,-2" count="2"/>
         <lineStyle kind="GRID" colorName="#e6e6e6" thickness="1" start="0,1" stop="-1,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Tabla2">
@@ -203,7 +203,6 @@
                     <para style="TOTALES">[[ formatLang(get_totals(data['form'])[0]) ]]</para>
                 </td>
                 <td>
-                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
                 </td>
                 <td>
                     <para style="TOTALES">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
@@ -211,9 +210,10 @@
                 <td>
                     <para style="TOTALES">[[ formatLang(get_totals(data['form'])[3]) ]]</para>
                 </td>
-<td>
+                <td>
                 </td>
-<td>
+                <td>
+                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
                 </td>
             </tr>
       </blockTable>
