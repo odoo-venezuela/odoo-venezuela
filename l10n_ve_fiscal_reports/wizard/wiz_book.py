@@ -48,13 +48,14 @@ book_form= """<?xml version="1.0"?>
 <form string="Seniat Book">
      <field name="date_start" />
      <field name="date_end" />
-
+     <field name="model" />
 </form>
 """
 
 book_field= {
     'date_start': {'string':'Start Date','type':'date','required': True},
     'date_end': {'string':'End Date','type':'date','required': True},
+    'model':{'string':"Type of Report", 'type':'selection', 'selection':[('b_p','Book Purchase'),('b_s','Book Sales')]},
 
 }
 
