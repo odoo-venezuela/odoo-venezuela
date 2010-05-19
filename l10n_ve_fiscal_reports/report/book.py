@@ -50,6 +50,7 @@ class pur_sal_book(report_sxw.rml_parse):
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
+            'get_p_country': self._get_p_country,
             'get_alicuota': self._get_alicuota,
             'get_rif': self._get_rif,
             'get_data':self._get_data,
@@ -70,7 +71,22 @@ class pur_sal_book(report_sxw.rml_parse):
         if addr_ids:                
             addr = addr_obj.browse(self.cr,self.uid, addr_ids[0])
             addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
-        return addr_inv 
+        return addr_inv
+    
+    def _get_p_country(self, idp=None):
+        '''
+        Obtains the address of partner
+        '''
+        if not idp:
+            return []
+
+        addr_obj = self.pool.get('res.partner.address')
+        a_id = 1000
+        a_ids = addr_obj.search(self.cr,self.uid,[('partner_id','=',idp), ('type','=','invoice')])
+        if a_ids:                
+            a = addr_obj.browse(self.cr,self.uid, a_ids[0])
+            a_id = a.country_id.id
+        return a_id 
 
 
     def _get_alicuota(self, tnom=None):
@@ -96,15 +112,27 @@ class pur_sal_book(report_sxw.rml_parse):
         return vat[2:].replace(' ', '')
 
 
+#    def _get_data(self,form):
+#        '''
+#        Get Data
+#        '''
+#        d1=form['date_start']
+#        d2=form['date_end']
+#        data=[]
+#        book_type='fiscal.reports.purchase'
+
+#        fr_obj = self.pool.get(book_type)
+#        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
+#        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+#        return data
     def _get_data(self,form):
-        '''
-        Get Data
-        '''
         d1=form['date_start']
         d2=form['date_end']
+        if form['model']=='b_p':
+            book_type='fiscal.reports.purchase'           
+        else:
+            book_type='fiscal.reports.sale'
         data=[]
-        book_type='fiscal.reports.purchase'
-
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)

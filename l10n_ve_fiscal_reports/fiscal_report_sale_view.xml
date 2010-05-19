@@ -13,7 +13,7 @@
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
                         <field name="ai_nro_ctrl"/>
-                        <field name="ai_number"/>
+                        <field name="ai_reference"/>
                         <field name="ai_amount_total"/>
                         <field name="ai_amount_untaxed"/>
                         <field name="ai_amount_tax"/>
@@ -34,7 +34,7 @@
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
                         <field name="ai_nro_ctrl"/>
-                        <field name="ai_number"/>
+                        <field name="ai_reference"/>
                         <field name="ai_amount_total"/>
                         <field name="ai_amount_untaxed"/>
                         <field name="ai_amount_tax"/>
