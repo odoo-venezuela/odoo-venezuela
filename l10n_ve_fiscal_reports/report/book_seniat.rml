@@ -30,7 +30,7 @@
     <blockTableStyle id="CONTENIDOTABLE">
       <blockAlignment value="LEFT"/>
       <blockValign value="MIDDLE"/>
-<!--Definiendo los colores de las Columnas.-->
+<!--Defining the colors of the columns.-->
         <blockBackground colorName="#e6e6e6" start="7,0" stop="7,-1"/>
         <blockBackground colorName="#4c4c4c" start="8,0" stop="8,-1"/>
         <blockBackground colorName="#99ccff" start="9,1" stop="9,-1"/>
@@ -79,9 +79,9 @@
           <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
         </td>
         <td>
-          <para style="HEADERDOC">Libro: [[ (data['form']['model'] == 'b_p') and "Compras"or "Ventas" ]] del Mes: [[ get_month( data['form'] ) ]]</para>
-          <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
-          <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
+          <para style="HEADERDOC">Book: [[ (data['form']['model'] == 'b_p') and "Compras"or "Ventas" ]] of the Month: [[ get_month( data['form'] ) ]]</para>
+          <para style="HEADERDOC">From : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
+          <para style="HEADERDOC">To: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
         </td>
       </tr>
     </blockTable>
@@ -96,7 +96,7 @@
                 <blockTable colWidths="110.0" style="INTERNALTABLE">
                     <tr>
                         <td vAlign="MIDDLE">
-                            <para style="HEADER">Operaciones Nacionales</para>
+                            <para style="HEADER">National Operations</para>
                         </td>
                     </tr>
                 </blockTable>
@@ -105,7 +105,7 @@
                 <blockTable colWidths="110.0" style="INTERNALTABLE">
                     <tr>
                         <td vAlign="MIDDLE">
-                            <para style="HEADERWHITE">Operaciones Internacionales</para>
+                            <para style="HEADERWHITE">International Operations</para>
                         </td>
                     </tr>
                 </blockTable>
@@ -264,7 +264,7 @@
             TOTALCI
             </para>
         </td>
-      <!-- Total Sin derecho a Credito Fiscal -->
+      <!-- Total no right to tax credits -->
         <td>#e6e6e6
             <para style="CONTENIDO">
             TOTALSDCF

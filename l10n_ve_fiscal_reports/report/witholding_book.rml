@@ -75,9 +75,9 @@
             <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
           </td>
           <td>
-            <para style="HEADERDOCBOLD">Libro: [[ (data['form']['model'] == 'wh_p') and "Retenciones Compras"or "Retenciones Ventas" ]] del Mes: [[ get_month( data['form'] ) ]]</para>
-            <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
-            <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
+            <para style="HEADERDOCBOLD">Book: [[ (data['form']['model'] == 'wh_p') and "Retenciones Compras"or "Retenciones Ventas" ]] of the Month: [[ get_month( data['form'] ) ]]</para>
+            <para style="HEADERDOC">From : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
+            <para style="HEADERDOC">To: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
           </td>
         </tr>
       </blockTable>
