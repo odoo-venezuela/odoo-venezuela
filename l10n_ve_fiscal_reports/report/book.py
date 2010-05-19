@@ -56,6 +56,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_data':self._get_data,
             'get_month':self._get_month,
             'get_dates':self._get_dates,
+            'get_totals':self._get_totals,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -147,6 +148,24 @@ class pur_sal_book(report_sxw.rml_parse):
         res.append(form['date_start'])
         res.append(form['date_end'])
         return res
+
+    def _get_totals(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['model']=='b_p':
+            book_type='fiscal.reports.purchase'           
+        else:
+            book_type='fiscal.reports.sale'
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
+        total=[0.0,0.0,0.0,0.0,0.0]
+        for d in fr_obj.browse(self.cr,self.uid, fr_ids):
+            total[0]=total[0]+d.ai_amount_total
+            total[1]=total[1]+d.ai_amount_untaxed
+            total[2]=total[2]+d.ai_amount_tax
+            #total[3]=total[3]+d.ar_id.total_tax_ret
+            #total[4]=total[4]+d.ar_id.total_tax_ret
+        return total
       
 report_sxw.report_sxw(
     'report.fiscal.reports.purchase.purchase_seniat',
