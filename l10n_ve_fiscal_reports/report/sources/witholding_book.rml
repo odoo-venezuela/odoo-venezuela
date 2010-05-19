@@ -128,9 +128,9 @@
             <para style="P11">[[ get_partner_addr( company.partner_id.id ) ]]</para>
           </td>
           <td>
-            <para style="P12">Mes: [[ get_month( data['form'] ) ]]</para>
-            <para style="P11">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
-            <para style="P11">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
+            <para style="P12">Month: [[ get_month( data['form'] ) ]]</para>
+            <para style="P11">From : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
+            <para style="P11">To: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
           </td>
         </tr>
       </blockTable>
@@ -141,34 +141,34 @@
     <blockTable colWidths="49.0,54.0,168.0,75.0,36.0,48.0,49.0,49.0,42.0,42.0,34.0,41.0,41.0" style="Tabla3">
       <tr>
         <td>
-          <para style="P4">Fecha</para>
+          <para style="P4">Date</para>
         </td>
         <td>
-          <para style="P4">RIF</para>
+          <para style="P4">R.I.F.</para>
         </td>
         <td>
-          <para style="P4">Razon Social</para>
+          <para style="P4">Company Name</para>
         </td>
         <td>
-          <para style="P4">Comprobante</para>
+          <para style="P4">Voucher</para>
         </td>
         <td>
-          <para style="P4">Periodo Fiscal</para>
+          <para style="P4">Fiscal Period</para>
         </td>
         <td>
-          <para style="P4">Factura Afectada</para>
+          <para style="P4">Affected Invoice</para>
         </td>
         <td>
-          <para style="P4">Total Ventas</para>
+          <para style="P4">Total Sales</para>
         </td>
         <td>
-          <para style="P4">Ventas Exentas</para>
+          <para style="P4">Exempt Sales</para>
         </td>
         <td>
-          <para style="P4">Impuesto</para>
+          <para style="P4">Tax</para>
         </td>
         <td>
-          <para style="P4">Monto Retencion</para>
+          <para style="P4">Retention Amount</para>
         </td>
         <td>
           <para style="P4">% Ret</para>
@@ -177,7 +177,7 @@
           <para style="P4">Base Ret.</para>
         </td>
         <td>
-          <para style="P4">% Iva.</para>
+          <para style="P4">% VAT.</para>
         </td>
       </tr>
     </blockTable>

@@ -139,10 +139,17 @@ class pur_sal_book(report_sxw.rml_parse):
         return data
 
     def _get_month(self, form):
+        '''
+        Get Month
+        '''
         months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
         res = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
         return res
+        
     def _get_dates(self, form):
+        '''
+        Get Dates
+        '''
         res=[]
         res.append(form['date_start'])
         res.append(form['date_end'])

@@ -75,9 +75,9 @@
             <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
           </td>
           <td>
-            <para style="HEADERDOCBOLD">Mes: [[ get_month( data['form'] ) ]]</para>
-            <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
-            <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
+            <para style="HEADERDOCBOLD">Month: [[ get_month( data['form'] ) ]]</para>
+            <para style="HEADERDOC">From : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
+            <para style="HEADERDOC">To : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
           </td>
         </tr>
       </blockTable>
@@ -88,40 +88,40 @@
     <blockTable colWidths="45.0,50.0,206.0,65.0,32.0,44.0,42.0,42.0,42.0,42.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
       <tr>
         <td>
-          <para style="ENCABEZADO">Fecha</para>
+          <para style="ENCABEZADO">Date</para>
         </td>
         <td>
-          <para style="ENCABEZADO">RIF</para>
+          <para style="ENCABEZADO">R.I.F.</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Razon Social</para>
+          <para style="ENCABEZADO">Company Name</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Comprobante</para>
+          <para style="ENCABEZADO">Voucher</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Periodo Fiscal</para>
+          <para style="ENCABEZADO">Fiscal Period</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Factura Afectada</para>
+          <para style="ENCABEZADO">Affected Invoice</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Total Ventas</para>
+          <para style="ENCABEZADO">Total Sales</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Ventas Exentas</para>
+          <para style="ENCABEZADO">Exempt Sales</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Impuesto</para>
+          <para style="ENCABEZADO">Tax</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Monto Retencion</para>
+          <para style="ENCABEZADO">Retention Amount</para>
         </td>
         <td>
           <para style="ENCABEZADO">% Ret</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Base Ret.   % Iva.</para>
+          <para style="ENCABEZADO">Base Ret.   % VAT.</para>
         </td>
       </tr>
 <!--    <section> -->
