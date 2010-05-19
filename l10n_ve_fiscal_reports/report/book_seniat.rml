@@ -275,14 +275,12 @@
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td>
-                        <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
                     </td>
                     <td>
-                            <para style="HEADERWHITE">%</para>
-                            <para style="HEADERWHITE">IVA</para>
                     </td>
                     <td>
-                            <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
+                            <para style="HEADER">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
                     </td>
                 </tr>
             </blockTable>
@@ -292,11 +290,9 @@
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td>
-                        <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
                     </td>
                     <td>
-                            <para style="HEADERWHITE">%</para>
-                            <para style="HEADERWHITE">IVA</para>
                     </td>
                     <td>
                             <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
