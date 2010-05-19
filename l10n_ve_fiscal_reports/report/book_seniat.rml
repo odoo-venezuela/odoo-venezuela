@@ -261,31 +261,53 @@
       <!-- Total Con IVA -->
         <td>
             <para style="CONTENIDO">
-            TOTALCI
+            [[ formatLang(get_totals(data['form'])[0]) ]]
             </para>
         </td>
       <!-- Total no right to tax credits -->
         <td>#e6e6e6
             <para style="CONTENIDO">
-            TOTALSDCF
+            [[ formatLang(get_totals(data['form'])[1]) ]]
             </para>
         </td>
-      <!-- Total BI Nacionales -->
+      <!-- Totales Nacionales -->
         <td>
-            <para style="CONTENIDO">
-            TOTALSBINAC
-            </para>
+            <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                <tr>
+                    <td>
+                        <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                    </td>
+                    <td>
+                            <para style="HEADERWHITE">%</para>
+                            <para style="HEADERWHITE">IVA</para>
+                    </td>
+                    <td>
+                            <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
+                    </td>
+                </tr>
+            </blockTable>
         </td>
-      <!-- Total iva Nacionales -->
+      <!-- Total IntNacionales -->
         <td>
-            <para style="CONTENIDO">
-            TOTALIVANAC
-            </para>
+            <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                <tr>
+                    <td>
+                        <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                    </td>
+                    <td>
+                            <para style="HEADERWHITE">%</para>
+                            <para style="HEADERWHITE">IVA</para>
+                    </td>
+                    <td>
+                            <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
+                    </td>
+                </tr>
+            </blockTable>
         </td>
-      <!-- Total iva Nacionales -->
+      <!-- Total Retenciones -->
         <td>
             <para style="CONTENIDO">
-            TOTALRETNAC
+            [[ formatLang(get_totals(data['form'])[2]) ]]
             </para>
         </td>
         <td></td>
