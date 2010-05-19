@@ -69,6 +69,7 @@ class DomApiGeneral:
             return (temp[0])
 
     def stringPercentToFloat(self,string):
+        """String Percent To Float"""
         temp = string.replace("""%""","")
         return float(temp)/100
 
@@ -106,12 +107,14 @@ class DomApiGeneral:
             return None
 
     def _tupleToString(self,t):
+        """Tuple To String"""
         try:
             return self.openOfficeStringUtf8("%s,%s" % (t[0],t[1]))
         except:
             return None
 
     def _lengthToFloat(self,value):
+        """Length To Float"""
         v = value
         if not self.re_digits.search(v):
             return v
@@ -128,6 +131,7 @@ class DomApiGeneral:
             return v
 
     def openOfficeStringUtf8(self,string):
+        """OpenOffice String Utf8"""
         if type(string) == unicode:
             return string.encode("utf-8")
         tempstring = unicode(string,"cp1252").encode("utf-8")
@@ -136,6 +140,7 @@ class DomApiGeneral:
 class DomApi(DomApiGeneral):
     """This class provides a DOM-API for XML-Files from an SXW-Archive."""
     def __init__(self,xml_content,xml_styles):
+        """Initializing variables"""
         DomApiGeneral.__init__(self)
         self.content_dom = xml.dom.minidom.parseString(xml_content)
         self.styles_dom = xml.dom.minidom.parseString(xml_styles)
@@ -156,6 +161,7 @@ class DomApi(DomApiGeneral):
         self.document = self.content_dom.getElementsByTagName("office:document-content")[0]
 
     def buildStylePropertiesDict(self):
+        """Build Style Properties Dict"""
         for s in self.style_dict.keys():
             self.style_properties_dict[s] = self.getStylePropertiesDict(s)
 
@@ -259,6 +265,7 @@ class DomApi(DomApiGeneral):
         return self.content_dom.toxml(encoding="utf-8")
 
     def getStylePropertiesDict(self,style_name):
+        """Get Style Properties Dict"""
         res = {}
 
         if self.style_dict[style_name].hasAttribute("style:parent-style-name"):
@@ -275,11 +282,13 @@ class DomApi(DomApiGeneral):
 class PyOpenOffice(object):
     """This is the main class which provides all functionality."""
     def __init__(self, path='.', save_pict=False):
+        """Initializing variables"""
         self.path = path
         self.save_pict = save_pict
         self.images = {}
 
     def oo_read(self,fname):
+        """Read"""
         z = zipfile.ZipFile(fname,"r")
         content = z.read('content.xml')
         style = z.read('styles.xml')
@@ -296,6 +305,7 @@ class PyOpenOffice(object):
         return content,style
 
     def oo_replace(self,content):
+        """Replace"""
         regex = [
             (r"<para[^>]*/>", ""),
             #(r"<text:ordered-list.*?>(.*?)</text:ordered-list>", "$1"),
@@ -307,6 +317,7 @@ class PyOpenOffice(object):
         return content
 
     def unpackNormalize(self,sourcefile):
+        """Unpack Normalize"""
         c,s = self.oo_read(sourcefile)
         c = self.oo_replace(c)
         dom = DomApi(c,s)
@@ -318,6 +329,7 @@ class PyOpenOffice(object):
         return new_c
 
 def sxw2rml(sxw_file, xsl, output='.', save_pict=False):
+    """Apply Styles heet"""
     import libxslt
     import libxml2
     tool = PyOpenOffice(output, save_pict = save_pict)
