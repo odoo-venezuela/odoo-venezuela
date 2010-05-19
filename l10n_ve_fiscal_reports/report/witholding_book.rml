@@ -88,7 +88,7 @@
     <blockTable colWidths="45.0,50.0,206.0,65.0,32.0,44.0,42.0,42.0,42.0,42.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
       <tr>
         <td>
-          <para style="ENCABEZADO">Fecha</para>
+          <para style="ENCABEZADO">Date</para>
         </td>
         <td>
           <para style="ENCABEZADO">R.I.F.</para>
@@ -121,7 +121,7 @@
           <para style="ENCABEZADO">% Ret</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Base Ret.   % Iva.</para>
+          <para style="ENCABEZADO">Base Ret.   % VAT.</para>
         </td>
       </tr>
 <!--    <section> -->
