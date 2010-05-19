@@ -28,14 +28,24 @@
 #
 ##############################################################################
 
+'''
+Fiscal Report For Venezuela
+'''
+
 import time
 from report import report_sxw
 from osv import osv
 import pooler
 
 class pur_sal_wh_book(report_sxw.rml_parse):
+    '''
+    Purchase and sales book
+    '''
 
     def __init__(self, cr, uid, name, context):
+        '''
+        Obtained invoice address
+        '''
         super(pur_sal_wh_book, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
@@ -50,6 +60,9 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         })
 
     def _get_partner_addr(self, idp=None):
+        '''
+        Obtained invoice address
+        '''
         if not idp:
             return []
 
@@ -63,6 +76,9 @@ class pur_sal_wh_book(report_sxw.rml_parse):
 
 
     def _get_alicuota(self, tnom=None):
+        '''
+        Get Alicuota
+        '''
         if not tnom:
             return []
 
@@ -73,23 +89,35 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         return tax.amount*100
     
     def _get_month(self, form):
+        '''
+        Get Month
+        '''
         months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
         res = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
         return res
     
     def _get_dates(self, form):
+        '''
+        Get Dates
+        '''
         res=[]
         res.append(form['date_start'])
         res.append(form['date_end'])
         return res
 
     def _get_rif(self, vat=''):
+        '''
+        Get the R.I.F. of partner
+        '''
         if not vat:
             return []
         return vat[2:].replace(' ', '')
 
 
     def _get_data(self,form):
+        '''
+        Get Data
+        '''
         d1=form['date_start']
         d2=form['date_end']
         if form['model']=='wh_p':
@@ -103,6 +131,9 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         return data
 
     def _get_exc(self,obj_rl):
+        '''
+        Get Excent
+        '''
         excent=0.0
         for taxes in obj_rl.tax_line:
             if not taxes.tax_amount:
@@ -110,6 +141,9 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         return excent
     
     def _get_totals(self,form):
+        '''
+        Get Totals
+        '''
         d1=form['date_start']
         d2=form['date_end']
         if form['model']=='wh_p':
