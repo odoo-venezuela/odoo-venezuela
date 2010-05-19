@@ -52,7 +52,9 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_partner_addr': self._get_partner_addr,
             'get_alicuota': self._get_alicuota,
             'get_rif': self._get_rif,
-            'get_data':self._get_data
+            'get_data':self._get_data,
+            'get_month':self._get_month,
+            'get_dates':self._get_dates,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -106,11 +108,17 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-
-
         return data
 
-
+    def _get_month(self, form):
+        months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+        res = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
+        return res
+    def _get_dates(self, form):
+        res=[]
+        res.append(form['date_start'])
+        res.append(form['date_end'])
+        return res
       
 report_sxw.report_sxw(
     'report.fiscal.reports.purchase.purchase_seniat',
