@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-Purchases and Sales
+<!--Purchases and Sales-->
         <report             
             id="report_purchase_seniat" 
             model="fiscal.reports.purchase" 
             name="fiscal.reports.purchase.purchase_seniat" 
             rml="l10n_ve_fiscal_reports/report/book_seniat.rml" 
             sxw="l10n_ve_fiscal_reports/report/sources/book_seniat.sxw"
-            string="Purchase SENIAT"
+            string="Book Sales and Purchase SENIAT"
             auto="False" 
             menu="False"/>
 <!--        <report             
@@ -20,7 +20,7 @@ Purchases and Sales
             string="Sale SENIAT"
             auto="False" /> -->
 
-Withholding purchases and sales [whp and whs]
+<!--Withholding purchases and sales [whp and whs]-->
       <report             
             id="report_whp_seniat" 
             model="fiscal.reports.whp" 

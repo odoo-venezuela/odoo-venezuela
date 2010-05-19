@@ -58,6 +58,7 @@ class fiscal_reports_purchase(osv.osv):
         'rp_retention': fields.float('Whitholding Rate', digits=(16, int(config['price_accuracy']))),
         'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
         'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
+        'ar_id':fields.many2one('account.retention', 'Account Retention', readonly=True),
     }
     def init(self, cr):
         '''
@@ -79,7 +80,8 @@ class fiscal_reports_purchase(osv.osv):
                      rp."retention" AS rp_retention,
                      ai."id" AS id,
                      ai."id" AS ai_id,
-                     ar_line."id" AS ar_line_id
+                     ar_line."id" AS ar_line_id,
+                     ar_line."retention_id" AS ar_id
                 FROM
                      "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
                      LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
@@ -117,6 +119,7 @@ class fiscal_reports_sale(osv.osv):
     'rp_retention': fields.float('Withholding', digits=(16, int(config['price_accuracy']))),
     'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
     'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
+    'ar_id':fields.many2one('account.retention', 'Account Retention', readonly=True),
     }
     def init(self, cr):
         '''
@@ -138,7 +141,8 @@ class fiscal_reports_sale(osv.osv):
                 rp."retention" AS rp_retention,
                 ai."id" AS id,
                 ai."id" AS ai_id,
-                ar_line."id" AS ar_line_id
+                ar_line."id" AS ar_line_id,
+                ar_line."retention_id" AS ar_id
                 FROM
                 "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
                 LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"

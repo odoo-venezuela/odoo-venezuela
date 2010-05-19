@@ -84,7 +84,7 @@ class account_invoice(osv.osv):
         'p_ret': fields.float('Retencion Por 100', digits=(14,4), readonly=True, states={'draft':[('readonly',False)]}, help="Porcentaje de Retencion ha aplicar a la factura"),
         'num_ret': fields.char('Numero de Retencion', size=32, readonly=True, help="Numero del comprobante de retencion donde se declaro la factura"),
         'nro_ctrl': fields.char('Nro. de Control', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Numero de control de la factura"),
-        'sin_cred': fields.boolean('Sin derecho a credito fiscal?', readonly=True, help="Determina si la factura esta sujeta o no a credito fiscal"),
+        'sin_cred': fields.boolean('Sin derecho a credito fiscal?', readonly=False, help="Determina si la factura esta sujeta o no a credito fiscal, revisar correctamente cuando esta modalidad puede y será utilizada."),
     }
     
 

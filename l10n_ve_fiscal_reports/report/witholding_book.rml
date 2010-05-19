@@ -71,7 +71,7 @@
       <blockTable colWidths="365.0,365.0" style="ENCABEZADOGENERAL">
         <tr>
           <td>
-            <para style="HEADERDOCBOLD">[[ company.partner_id.name ]] [[ get_rif( company.partner_id.vat ) ]]</para>
+            <para style="HEADERDOCBOLD">[[ company.partner_id.name ]] [[ company.partner_id.vat[2:] ]]</para>
             <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
           </td>
           <td>
@@ -134,7 +134,7 @@
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ get_rif( l.rp_vat) ]]</para>
+            <para style="VALORES">[[ l.rp_vat[2:] ]]</para>
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
