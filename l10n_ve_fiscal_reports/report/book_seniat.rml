@@ -119,39 +119,39 @@
       </tr>
       <tr>
         <td>
-          <para style="HEADER">Fecha Fact.</para>
+          <para style="HEADER">Invoice Date</para>
         </td>
         <td>
-          <para style="HEADER">RIF</para>
+          <para style="HEADER">R.I.F.</para>
         </td>
         <td>
-          <para style="HEADER">Razon Social</para>
+          <para style="HEADER">Company Name</para>
         </td>
         <td>
-          <para style="HEADER">Numero Factura</para>
+          <para style="HEADER">Invoice Number</para>
         </td>
         <td>
-          <para style="HEADER">Numero Control</para>
+          <para style="HEADER">Control Number</para>
         </td>
         <td>
-          <para style="HEADER">Total con IVA</para>
+          <para style="HEADER">Total with VAT</para>
         </td>
         <td>
-          <para style="HEADER">Sin derecho a Credito Fiscal</para>
+          <para style="HEADER">No right to tax credits</para>
         </td>
         <td>
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                     <tr>
                         <td>
-                            <para style="HEADER">Base Imponible</para>
+                            <para style="HEADER">Taxable Base</para>
                         </td>
                         <td>
                               <para style="HEADER">%</para>
-                              <para style="HEADER">IVA</para>
+                              <para style="HEADER">VAT</para>
                         </td>
                         <td>
-                              <para style="HEADER">Monto</para>
-                              <para style="HEADER">Impuesto</para>
+                              <para style="HEADER">Amount</para>
+                              <para style="HEADER">Tax</para>
                         </td>
                     </tr>
                 </blockTable>
@@ -160,24 +160,24 @@
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                     <tr>
                         <td>
-                            <para style="HEADERWHITE">Base Imponible</para>
+                            <para style="HEADERWHITE">Taxable Base</para>
                         </td>
                         <td>
                               <para style="HEADERWHITE">%</para>
-                              <para style="HEADERWHITE">IVA</para>
+                              <para style="HEADERWHITE">VAT</para>
                         </td>
                         <td>
-                              <para style="HEADERWHITE">Monto</para>
-                              <para style="HEADERWHITE">Impuesto</para>
+                              <para style="HEADERWHITE">Amount</para>
+                              <para style="HEADERWHITE">Tax</para>
                         </td>
                     </tr>
                 </blockTable>
         </td>
         <td>
-          <para style="HEADER">Retencion Iva</para>
+          <para style="HEADER">Retention VAT</para>
         </td>
         <td>
-          <para style="HEADER">Comprobante</para>
+          <para style="HEADER">Voucher</para>
         </td>
       </tr>
       <tr>
