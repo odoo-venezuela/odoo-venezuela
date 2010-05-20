@@ -31,3 +31,4 @@ purchase_declaration
 retencion_islr
 retencion_iva
 sale_extended
+l10n_ve_fiscal_reports "Reportes fiscales"
