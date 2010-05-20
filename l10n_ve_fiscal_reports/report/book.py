@@ -57,6 +57,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_month':self._get_month,
             'get_dates':self._get_dates,
             'get_totals':self._get_totals,
+            'get_doc':self._get_doc,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -103,6 +104,22 @@ class pur_sal_book(report_sxw.rml_parse):
 
         return tax.amount*100
 
+    def _get_doc(self, inv_id=None):
+        '''
+        Get String Document Type
+        '''
+        inv_obj = self.pool.get('account.invoice')
+        inv_ids = inv_obj.search(self.cr,self.uid,[('id', '=', inv_id)])
+        inv = inv_obj.browse(self.cr,self.uid, inv_ids)[0]        
+        doc_type = ''
+        if (inv.type=="in_invoice" or inv.type=="out_invoice") and inv.parent_id:
+            doc_type = "ND"
+        elif inv.type=='in_refund' or inv.type=='out_refund':
+            doc_type = "NC"
+        elif inv.type=="in_invoice" or inv.type=="out_invoice":
+            doc_type = "F"
+        return doc_type
+
 
     def _get_rif(self, vat=''):
         '''
@@ -112,20 +129,6 @@ class pur_sal_book(report_sxw.rml_parse):
             return []
         return vat[2:].replace(' ', '')
 
-
-#    def _get_data(self,form):
-#        '''
-#        Get Data
-#        '''
-#        d1=form['date_start']
-#        d2=form['date_end']
-#        data=[]
-#        book_type='fiscal.reports.purchase'
-
-#        fr_obj = self.pool.get(book_type)
-#        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
-#        data = fr_obj.browse(self.cr,self.uid, fr_ids)
-#        return data
     def _get_data(self,form):
         d1=form['date_start']
         d2=form['date_end']
@@ -140,9 +143,15 @@ class pur_sal_book(report_sxw.rml_parse):
         return data
 
     def _get_month(self, form):
+        '''
+        return year and month
+        '''
         months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-        res = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
+        res = ['',0]
+        res[0] = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
+        res[1] = time.strptime(form['date_start'],"%Y-%m-%d")[0]
         return res
+    
     def _get_dates(self, form):
         res=[]
         res.append(form['date_start'])
@@ -150,6 +159,14 @@ class pur_sal_book(report_sxw.rml_parse):
         return res
 
     def _get_totals(self,form):
+        '''
+        Get Totals
+        Total:
+            [0],[1],[2] Absolute totals
+            [3],[4] Invoice without right to fiscal declaration.
+            [5],[6] National Invoices
+            [7],[8] International Invoices
+        '''    
         d1=form['date_start']
         d2=form['date_end']
         if form['model']=='b_p':
@@ -157,14 +174,27 @@ class pur_sal_book(report_sxw.rml_parse):
         else:
             book_type='fiscal.reports.sale'
         fr_obj = self.pool.get(book_type)
+        user_obj = self.pool.get('res.users')
+        user_ids = user_obj.search(self.cr,self.uid,[('id', '=', self.uid)])
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
-        total=[0.0,0.0,0.0,0.0,0.0]
+        user=user_obj.browse(self.cr,self.uid, [self.uid])
+        total=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
         for d in fr_obj.browse(self.cr,self.uid, fr_ids):
-            total[0]=total[0]+d.ai_amount_total
-            total[1]=total[1]+d.ai_amount_untaxed
-            total[2]=total[2]+d.ai_amount_tax
-            #total[3]=total[3]+d.ar_id.total_tax_ret
-            #total[4]=total[4]+d.ar_id.total_tax_ret
+            #Sum for Invoice in period
+            total[1]+=d.ai_amount_untaxed
+            total[2]+=d.ai_amount_tax
+            if d.ai_id.sin_cred:
+                #Sum for Invoice without right to fiscal declaration.
+                total[3]+=d.ai_amount_untaxed
+                total[4]+=d.ai_amount_tax
+            if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
+                #National Invoices
+                total[5]+=d.ai_amount_untaxed
+                total[6]+=d.ai_amount_tax
+            else:
+                #International Invoices
+                total[7]+=d.ai_amount_untaxed
+                total[8]+=d.ai_amount_tax
         return total
       
 report_sxw.report_sxw(

@@ -2,7 +2,7 @@
 <document filename="test.pdf">
   <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
     <pageTemplate id="first">
-      <frame id="first" x1="15.0" y1="15.0" width="760" height="556"/>
+      <frame id="first" x1="15.0" y1="15.0" width="760" height="580"/>
             <pageGraphics>
             <setFont name="Helvetica" size="9"/>
             <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
@@ -20,7 +20,7 @@
     </blockTableStyle>
     <blockTableStyle id="HEADERTABLE">
       <blockAlignment value="LEFT"/>
-      <blockValign value="MIDDLE"/>
+      <blockValign value="TOP"/>
       <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,0" stop="14,0" count="2"/>
     </blockTableStyle>
     <blockTableStyle id="INTERNALTABLE">
@@ -31,17 +31,18 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="MIDDLE"/>
 <!--Definiendo los colores de las Columnas.-->
-        <blockBackground colorName="#e6e6e6" start="7,0" stop="7,-1"/>
-        <blockBackground colorName="#4c4c4c" start="8,0" stop="8,-1"/>
-        <blockBackground colorName="#99ccff" start="9,1" stop="9,-1"/>
-        <blockBackground colorName="#99ccff" start="10,1" stop="10,-1"/>
+        <blockBackground colorName="#ececec" start="0,1" stop="9,-1"/>
+        <blockBackground colorName="#e6e6e6" start="9,0" stop="10,-1"/>
+        <blockBackground colorName="#dfe3cc" start="10,0" stop="10,-1"/>
+        <blockBackground colorName="#cdd1bc" start="11,1" stop="11,-1"/>
+        <blockBackground colorName="#cdd1bc" start="12,1" stop="12,-1"/>
 <!--Fin definicion de Colores.-->
 <!--Definiendo las líneas de los Bordes "NUMERO DE COLUMNA, NUMERO DE FILA"-->
-        <lineStyle kind="LINEABOVE" colorName="black" thickness="1" start="7,0" stop="8,0" count="2"/>
-        <lineStyle kind="LINEBELOW" colorName="black" thickness="1" start="0,0" stop="14,1" count="2"/>
-        <lineStyle kind="LINEABOVE" colorName="black" thickness="1" start="0,1" stop="14,1" count="2"/>
-        <lineStyle kind="LINEBELOW" colorName="black" start="0,2" stop="-1,-2" thickness="0.5"/>
-        <lineStyle kind="LINEBELOW" colorName="black" thickness="2" start="-10,-2" stop="-1,-1" count="2"/>
+        <lineStyle kind="LINEABOVE" colorName="white" thickness="1" start="9,0" stop="10,0" count="2"/>
+        <lineStyle kind="LINEBELOW" colorName="white" thickness="1" start="0,0" stop="14,1" count="2"/>
+        <lineStyle kind="LINEABOVE" colorName="white" thickness="1" start="0,1" stop="14,1" count="2"/>
+        <lineStyle kind="LINEBELOW" colorName="white" start="0,2" stop="-1,-2" thickness="0.5"/>
+        <lineStyle kind="LINEBELOW" colorName="white" thickness="2" start="-10,-2" stop="-1,-1" count="2"/>
 <!--Fin definición bordes-->
     </blockTableStyle>
     <initialize>
@@ -52,13 +53,13 @@
     <paraStyle name="P3" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
     <paraStyle name="P4" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
     <paraStyle name="P5" fontName="Helvetica" fontSize="6.0" leading="8"/>
-    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="6.0" leading="2" alignment="CENTER"/>
+    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="6.0" leading="6" alignment="CENTER"/>
     <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="6.0" leading="1" alignment="CENTER"/>
-    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="6.0" leading="2" alignment="LEFT"/>
-    <paraStyle name="HEADERDOC" fontName="Helvetica-bold" fontSize="8.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT"/>
+    <paraStyle name="HEADERDOC" fontName="Helvetica-bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
     <paraStyle name="HEADER" fontName="Helvetica" fontSize="6.0" leading="6" alignment="CENTER"/>
-    <paraStyle name="HEADERWHITE" fontName="Helvetica" fontSize="6.0" leading="6" alignment="CENTER" textColor="#ffffff" />
-    <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="5.0" leading="1" textColor="white"/>
+    <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="5.0" leading="1" textColor="#ececec"/>
+    <paraStyle name="HIDINGVALUESSPACE" fontName="Helvetica" fontSize="5.0" leading="4" textColor="white"/>
     <paraStyle name="P7" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
     <paraStyle name="P8" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
     <paraStyle name="Standard" fontName="Times-Roman"/>
@@ -72,26 +73,29 @@
   </stylesheet>
   <images/>
   <story>
-    <blockTable colWidths="380.0,380.0" style="HEADERTABLE">
+    <blockTable colWidths="350.0,190.0,220.0" style="HEADERTABLE">
       <tr>
         <td>
           <para style="HEADERDOC">[[ company.partner_id.name ]] [[ company.partner_id.vat[2:] ]]</para>
           <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
         </td>
         <td>
-          <para style="HEADERDOC">Libro: [[ (data['form']['model'] == 'b_p') and "Compras"or "Ventas" ]] del Mes: [[ get_month( data['form'] ) ]]</para>
+          <para style="HEADERDOC">Libro: [[ (data['form']['model'] == 'b_p') and "Compras"or "Ventas" ]] </para>
+          <para style="HEADERDOC">Correspodiente al Mes de [[ get_month( data['form'] )[0] ]] del año [[ get_month( data['form'] )[1] ]] </para>
           <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
           <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
         </td>
+        <td>
+          <para style="HEADERDOC" fontName="Helvetica">Según Articulo 76 del Reglamento de la Ley del IVA GO 5.363 del 12 de Julio de 1999</para>
+        </td>
       </tr>
     </blockTable>
-    <para style="Standard">
+    <para style="HIDINGVALUESSPACE">
       <font color="white"> </font>
     </para>
-    <blockTable colWidths="33.0,33.0,219.0,38.0,38.0,38.0,44.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">
+    <blockTable colWidths="33.0,33.0,181.0,38.0,38.0,38.0,10.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">
       <tr>
-        <td>
-        </td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         <td>
                 <blockTable colWidths="110.0" style="INTERNALTABLE">
                     <tr>
@@ -105,7 +109,7 @@
                 <blockTable colWidths="110.0" style="INTERNALTABLE">
                     <tr>
                         <td vAlign="MIDDLE">
-                            <para style="HEADERWHITE">Operaciones Internacionales</para>
+                            <para style="HEADER">Operaciones Internacionales</para>
                         </td>
                     </tr>
                 </blockTable>
@@ -137,6 +141,13 @@
           <para style="HEADER">Total con IVA</para>
         </td>
         <td>
+          <para style="HEADER">T.</para>
+          <para style="HEADER">Doc.</para>
+        </td>
+        <td>
+          <para style="HEADER">Documento Afectado</para>
+        </td>
+        <td>
           <para style="HEADER">Sin derecho a Credito Fiscal</para>
         </td>
         <td>
@@ -160,15 +171,15 @@
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                     <tr>
                         <td>
-                            <para style="HEADERWHITE">Base Imponible</para>
+                            <para style="HEADER">Base Imponible</para>
                         </td>
                         <td>
-                              <para style="HEADERWHITE">%</para>
-                              <para style="HEADERWHITE">IVA</para>
+                              <para style="HEADER">%</para>
+                              <para style="HEADER">IVA</para>
                         </td>
                         <td>
-                              <para style="HEADERWHITE">Monto</para>
-                              <para style="HEADERWHITE">Impuesto</para>
+                              <para style="HEADER">Monto</para>
+                              <para style="HEADER">Impuesto</para>
                         </td>
                     </tr>
                 </blockTable>
@@ -191,7 +202,7 @@
             <para style="HIDINGVALUES">HIDING</para>
           <para style="CONTENIDO">[[ l.rp_id.vat[2:] ]]</para>
         </td>
-        <td>get_p_country(t.invoice_id.partner_id.id)
+        <td>
             <para style="HIDINGVALUES">HIDING</para>
           <para style="CONTENIDOLEFT">[[ l.rp_id.name ]]</para>
         </td>
@@ -204,8 +215,16 @@
           <para style="CONTENIDO">[[ l.ai_id.nro_ctrl ]]</para>
         </td>
         <td>
-            <para style="HIDINGVALUES">HIDING</para>
+          <para style="HIDINGVALUES">HIDING</para>
           <para style="CONTENIDO">[[ formatLang((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_total*(-1) or l.ai_amount_total) ]]</para>
+        </td>
+        <td>
+        <para style="HIDINGVALUES">HIDING</para>
+        <para style="CONTENIDO">[[ get_doc(l.ai_id.id) ]]</para>
+        </td>
+        <td>
+          <para style="HIDINGVALUES">HIDING</para>
+          <para style="HEADER">[[ (data['form']['model'] == 'b_p') and l.ai_id.parent_id.reference or l.ai_id.parent_id.number ]]</para>
         </td>
         <td>
             <para style="HIDINGVALUES">HIDING</para>
@@ -261,13 +280,14 @@
       <!-- Total Con IVA -->
         <td>
             <para style="CONTENIDO">
-            [[ formatLang(get_totals(data['form'])[0]) ]]
+            [[ formatLang(get_totals(data['form'])[1]+get_totals(data['form'])[2]) ]]
             </para>
         </td>
       <!-- Total Sin derecho a Credito Fiscal -->
-        <td>#e6e6e6
+        <td></td><td></td>
+        <td>
             <para style="CONTENIDO">
-            [[ formatLang(get_totals(data['form'])[1]) ]]
+            [[ formatLang(get_totals(data['form'])[3]+get_totals(data['form'])[4]) ]]
             </para>
         </td>
       <!-- Totales Nacionales -->
@@ -275,12 +295,12 @@
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td>
-                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[5]) ]]</para>
                     </td>
                     <td>
                     </td>
                     <td>
-                            <para style="HEADER">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
+                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[6]) ]]</para>
                     </td>
                 </tr>
             </blockTable>
@@ -290,12 +310,12 @@
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td>
-                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[7]) ]]</para>
                     </td>
                     <td>
                     </td>
                     <td>
-                            <para style="HEADERWHITE">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
+                        <para style="HEADER">[[ formatLang(get_totals(data['form'])[8]) ]]</para>
                     </td>
                 </tr>
             </blockTable>
@@ -303,7 +323,7 @@
       <!-- Total Retenciones -->
         <td>
             <para style="CONTENIDO">
-            [[ formatLang(get_totals(data['form'])[2]) ]]
+            [[ formatLang(get_totals(data['form'])[4]) ]]
             </para>
         </td>
         <td></td>

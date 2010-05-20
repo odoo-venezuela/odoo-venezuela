@@ -121,7 +121,7 @@
           <para style="ENCABEZADO">% Ret</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Base Ret.   % Iva.</para>
+          <para style="ENCABEZADO">Base Ret. % Iva.</para>
         </td>
       </tr>
 <!--    <section> -->
@@ -162,12 +162,12 @@
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_line_id.base_ret*(-1)) or l.ar_line_id.base_ret)) ]]</para>
+            <para style="VALORES">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_tax*(-1) or l.ai_amount_tax)) ]]</para>
           </td>            
 
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_id.total_tax_ret*(-1)) or l.ar_id.total_tax_ret)) ]]</para>
+            <para style="VALORES">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and l.ar_id.total_tax_ret*(-1) or l.ar_id.total_tax_ret)) ]]</para>
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
