@@ -108,29 +108,38 @@ class account_invoice(osv.osv):
 
 
     def test_retenida(self, cr, uid, ids, type, *args):
-        res = self.move_journal_id_payment_get(cr, uid, ids)
+        res = self.ret_payment_get(cr, uid, ids)
         if not res:
             return False
         ok = True
 
-        cr.execute("select id from account_journal where id in (%s) and type=%s", (','.join(map(str,res)),type))
+        cr.execute('select \
+                l.id \
+            from account_move_line l \
+                inner join account_journal j on (j.id=l.journal_id) \
+            where l.id in ('+','.join(map(str,res))+') and j.type='+ '\''+type+'\'')
         ok = ok and  bool(cr.fetchone())
         return ok
 
 
-    # return the ids of the journal of those move lines which has the same account than the invoice
-    # whose id is in ids
-    def move_journal_id_payment_get(self, cr, uid, ids, *args):
-        res = []
-        if not ids: return res
-        cr.execute('select distinct\
-                l.journal_id \
-            from account_move_line l \
-                left join account_invoice i on (i.move_id=l.move_id) \
-            where i.id in ('+','.join(map(str,ids))+') and l.account_id=i.account_id')
-        res = map(lambda x: x[0], cr.fetchall())
-        return res
 
+    def ret_payment_get(self, cr, uid, ids, *args):
+        for invoice in self.browse(cr, uid, ids):
+            moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
+            src = []
+            lines = []
+            for m in self.pool.get('account.move.line').browse(cr, uid, moves):
+                temp_lines = []#Added temp list to avoid duplicate records
+                if m.reconcile_id:
+                    temp_lines = map(lambda x: x.id, m.reconcile_id.line_id)
+                elif m.reconcile_partial_id:
+                    temp_lines = map(lambda x: x.id, m.reconcile_partial_id.line_partial_ids)
+                lines += [x for x in temp_lines if x not in lines]
+                src.append(m.id)
+                
+            lines = filter(lambda x: x not in src, lines)
+
+        return lines
 
 account_invoice()
 
