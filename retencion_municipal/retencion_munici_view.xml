@@ -15,7 +15,7 @@
             <field name="arch" type="xml">
                 <tree string="Lineas de Retencion municipal" editable="bottom">
                     <field name="name"/>
-                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
+                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('ret_munici', '=', False)]"/>
                     <field name="retencion_munici"/>
                     <field name="amount"/>
                     <field name="move_id"/>
@@ -31,7 +31,7 @@
                 <form string="Lineas de Retencion municipal">
                     <notebook>
                         <page string="Linea">
-                            <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id)]"/>
+                            <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('ret_munici', '=', False)]"/>
                             <field colspan="4" name="name" select="1"/>
                             <field name="retencion_munici"/>
                             <field name="amount"/>
@@ -79,7 +79,7 @@
             <field name="arch" type="xml">
                 <form string="Retencion municipal">
                     <group colspan="4" col="6">
-                        <field name="journal_id" select="2"/>
+                        <field name="journal_id" select="2" domain="[('type','=','retmun')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1"/>
@@ -88,7 +88,7 @@
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
-                        <field name="number" select="1" />                        
+                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>                        
                         <field name="date" />
                         <field name="amount" />
                     </group>

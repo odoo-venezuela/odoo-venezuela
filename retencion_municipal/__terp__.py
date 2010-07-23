@@ -47,7 +47,7 @@ Administración de las retenciones aplicadas a tributos municipales.
 #            "retention_workflow.xml",
             "retencion_munici_view.xml",
             "retencion_munici_sequence.xml",
-#            "account_invoice_view.xml",
+            "account_invoice_view.xml",
 #            "account_view.xml", 
             "partner_view.xml",
 #            "stock_view.xml", 
