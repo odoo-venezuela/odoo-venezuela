@@ -46,9 +46,9 @@ class account_retencion_islr(osv.osv):
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'sale', 'in_invoice': 'purchase', 'out_refund': 'sale', 'in_refund': 'purchase'}
+        type2journal = {'out_invoice': 'retislr', 'in_invoice': 'retislr', 'out_refund': 'retislr', 'in_refund': 'retislr'}
         journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'purchase'))], limit=1)
+        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislr'))], limit=1)
         if res:
             return res[0]
         else:
@@ -157,6 +157,7 @@ class account_retencion_islr(osv.osv):
                 self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
 
             period_id = ret.period_id and ret.period_id.id or False
+            journal_id = ret.journal_id.id
             if not period_id:
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
                 if len(period_ids):
@@ -166,7 +167,6 @@ class account_retencion_islr(osv.osv):
 
             if ret.islr_line_ids:
                 for line in ret.islr_line_ids:
-                    journal_id = line.invoice_id.journal_id.id
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount
@@ -263,13 +263,70 @@ class account_retencion_islr(osv.osv):
             else:
                 acc_id = p.property_retencion_islr_payable.id
 
-
+        self._update_check(cr, uid, ids, partner_id)
         result = {'value': {
             'account_id': acc_id}
         }
 
         return result
 
+
+    def _update_check(self, cr, uid, ids, partner_id, context={}):
+        if ids:
+            ret = self.browse(cr, uid, ids[0])
+            inv_str = ''
+            for line in ret.islr_line_ids:
+                if line.invoice_id.partner_id.id != partner_id:
+                    inv_str+= '%s'% '\n'+line.invoice_id.name
+
+            if inv_str:
+                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+
+        return True
+
+    def _new_check(self, cr, uid, values, context={}):
+        lst_inv = []
+
+        if 'islr_line_ids' in values and values['islr_line_ids']:
+            if 'partner_id' in values and values['partner_id']:
+                for l in values['islr_line_ids']:
+                    if 'invoice_id' in l[2] and l[2]['invoice_id']:
+                        lst_inv.append(l[2]['invoice_id'])
+
+        if lst_inv:
+            invoices = self.pool.get('account.invoice').browse(cr, uid, lst_inv)
+            inv_str = ''
+            for inv in invoices:
+                if inv.partner_id.id != values['partner_id']:
+                    inv_str+= '%s'% '\n'+inv.name        
+
+            if inv_str:
+                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+
+        return True
+
+
+
+    def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
+        if not context:
+            context={}
+        ret = self.browse(cr, uid, ids[0])
+        if update_check:
+            if 'partner_id' in vals and vals['partner_id']:
+                self._update_check(cr, uid, ids, vals['partner_id'], context)
+            else:
+                self._update_check(cr, uid, ids, ret.partner_id.id, context)
+
+        return super(account_retencion_islr, self).write(cr, uid, ids, vals, context=context)
+
+
+    def create(self, cr, uid, vals, context=None, check=True):
+        if not context:
+            context={}
+        if check:
+            self._new_check(cr, uid, vals, context)
+
+        return super(account_retencion_islr, self).create(cr, uid, vals, context)
 
 account_retencion_islr()
 
@@ -302,7 +359,7 @@ class account_retencion_islr_line(osv.osv):
     }
 
     _sql_constraints = [
-        ('islr_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
+        ('islr_fact_uniq', 'unique (invoice_id)', 'La factura ya fue asignada y debe ser retenida unicamente una vez !')
     ] 
 
 
@@ -314,8 +371,16 @@ class account_retencion_islr_line(osv.osv):
         if not invoice_id:
             return {'value':{'amount':0.0}}
         else:
-            invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
-            total = invoice_obj.amount_total
+            ok = True
+            res = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
+            cr.execute('select retention_id from account_retencion_islr_line where invoice_id=%s', (invoice_id,))
+            ret_ids = cr.fetchone()
+            ok = ok and bool(ret_ids)
+            if ok:
+                ret = self.pool.get('account.retencion.islr').browse(cr, uid, ret_ids[0], context)
+                raise osv.except_osv('Factura Asignada !',"Esta factura esta asignada en el comprobante con codigo: '%s' !" % (ret.code,))
+
+            total = res.amount_total
             return {'value' : {'amount':total}} 
 
 

@@ -40,7 +40,7 @@ class account_invoice(osv.osv):
     def _retenida_islr(self, cr, uid, ids, name, args, context):
         res = {}
         for id in ids:
-            res[id] = self.test_retenida(cr, uid, [id], 'purchase')
+            res[id] = self.test_retenida(cr, uid, [id], 'retislr')
         return res
 
 
