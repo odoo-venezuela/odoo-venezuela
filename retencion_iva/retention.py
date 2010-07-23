@@ -57,9 +57,9 @@ class account_retention(osv.osv):
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'sale', 'in_invoice': 'purchase', 'out_refund': 'sale', 'in_refund': 'purchase'}
+        type2journal = {'out_invoice': 'retiva', 'in_invoice': 'retiva', 'out_refund': 'retiva', 'in_refund': 'retiva'}
         journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'purchase'))], limit=1)
+        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retiva'))], limit=1)
         if res:
             return res[0]
         else:
@@ -75,7 +75,7 @@ class account_retention(osv.osv):
     _name = "account.retention"
     _description = "Comprobante de Retencion"
     _columns = {
-        'name': fields.char('Descripcion', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, help="Descripcion del Comprobante"),
+        'name': fields.char('Descripcion', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Descripcion del Comprobante"),
         'code': fields.char('Codigo', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Referencia del Comprobante"),
         'number': fields.char('Numero de Retencion', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Nro. del Comprobante"),
         'type': fields.selection([
@@ -286,7 +286,7 @@ class account_retention(osv.osv):
 
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id):
-        acc_id = False        
+        acc_id = False
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
@@ -294,13 +294,70 @@ class account_retention(osv.osv):
             else:
                 acc_id = p.property_retention_payable.id
 
-
+        self._update_check(cr, uid, ids, partner_id)
         result = {'value': {
             'account_id': acc_id}
         }
 
         return result
 
+
+    def _update_check(self, cr, uid, ids, partner_id, context={}):
+        if ids:
+            ret = self.browse(cr, uid, ids[0])
+            inv_str = ''
+            for line in ret.retention_line:
+                if line.invoice_id.partner_id.id != partner_id:
+                    inv_str+= '%s'% '\n'+line.invoice_id.name
+
+            if inv_str:
+                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+
+        return True
+
+    def _new_check(self, cr, uid, values, context={}):
+        lst_inv = []
+
+        if 'retention_line' in values and values['retention_line']:
+            if 'partner_id' in values and values['partner_id']:
+                for l in values['retention_line']:
+                    if 'invoice_id' in l[2] and l[2]['invoice_id']:
+                        lst_inv.append(l[2]['invoice_id'])
+
+        if lst_inv:
+            invoices = self.pool.get('account.invoice').browse(cr, uid, lst_inv)
+            inv_str = ''
+            for inv in invoices:
+                if inv.partner_id.id != values['partner_id']:
+                    inv_str+= '%s'% '\n'+inv.name        
+
+            if inv_str:
+                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+
+        return True
+
+
+
+    def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
+        if not context:
+            context={}
+        ret = self.browse(cr, uid, ids[0])
+        if update_check:
+            if 'partner_id' in vals and vals['partner_id']:
+                self._update_check(cr, uid, ids, vals['partner_id'], context)
+            else:
+                self._update_check(cr, uid, ids, ret.partner_id.id, context)
+
+        return super(account_retention, self).write(cr, uid, ids, vals, context=context)
+
+
+    def create(self, cr, uid, vals, context=None, check=True):
+        if not context:
+            context={}
+        if check:
+            self._new_check(cr, uid, vals, context)
+
+        return super(account_retention, self).create(cr, uid, vals, context)
 
 account_retention()
 
@@ -356,7 +413,7 @@ class account_retention_line(osv.osv):
     }
 
     _sql_constraints = [
-      ('ret_fact_uniq', 'unique (invoice_id)', 'La factura debe ser unica !')
+      ('ret_fact_uniq', 'unique (invoice_id)', 'La factura ya fue asignada y debe ser retenida unicamente una vez !')
     ] 
 
     def invoice_id_change(self, cr, uid, ids, invoice, context=None):
@@ -366,15 +423,19 @@ class account_retention_line(osv.osv):
             return {}
         result = {}
         lst=[]
+        domain = {}
+        ok = True
         res = self.pool.get('account.invoice').browse(cr, uid, invoice, context=context)
-#        for tax in res.tax_line:
-#            lst.append({'tax_amount': tax.tax_amount, 'name': tax.name, 'base_amount': tax.base_amount, 'amount': #tax.amount, 'base': tax.base, 'id': tax.id})
-#            lst.append(tax.id)
-#        result['tax_line'] = lst
-#        print 'resultadooooo: ',result
+        cr.execute('select retention_id from account_retention_line where invoice_id=%s', (invoice,))
+        ret_ids = cr.fetchone()
+        ok = ok and bool(ret_ids)
+        if ok:
+            ret = self.pool.get('account.retention').browse(cr, uid, ret_ids[0], context)
+            raise osv.except_osv('Factura Asignada !',"Esta factura esta asignada en el comprobante con codigo: '%s' !" % (ret.code,))
+
         result['name'] = res.name
 
-        domain = {}
+
         return {'value':result, 'domain':domain}
 
 account_retention_line()

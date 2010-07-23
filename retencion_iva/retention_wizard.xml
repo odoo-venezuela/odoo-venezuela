@@ -10,6 +10,12 @@
 			id="wizard_pxje_retencion" />
 
 
+		<wizard 
+			string="Cambiar Nro. Control" 
+			model="account.invoice"
+			name="account.retention.nroctrl"
+			id="wizard_nr_ctrol" />
+
 
 
 	</data>

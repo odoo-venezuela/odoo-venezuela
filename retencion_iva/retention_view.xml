@@ -15,7 +15,7 @@
             <field name="arch" type="xml">
                 <tree string="Lineas de Retencion">
                     <field name="name"/>
-                    <field name="invoice_id"/>
+                    <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('retention', '=', False), ('partner_id','=',parent.partner_id)]"/>
                     <field name="retention_rate" />
                     <field name="amount_tax_ret"/>                                
                     <field name="base_ret"/>
@@ -97,7 +97,7 @@
             <field name="arch" type="xml">
                 <form string="Retention">
                     <group colspan="4" col="6">
-                        <field name="journal_id" select="2"/>
+                        <field name="journal_id" select="2" domain="[('type','=','retiva')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1"/>
@@ -106,7 +106,7 @@
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
-                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')]}"/>
+                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date" />
                     </group>
                     <notebook colspan="4">

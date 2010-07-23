@@ -29,6 +29,7 @@
 ##############################################################################
 
 import wizard_retencion
+import wizard_nro_ctrl
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

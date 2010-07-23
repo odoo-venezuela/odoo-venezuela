@@ -203,5 +203,7 @@ class account_move_line(osv.osv):
         'res_id': fields.function(_document_get, method=True, string='Document', size=128,
             type='reference', selection=_models_retencion_get),
     }
+
+
 account_move_line()
 
