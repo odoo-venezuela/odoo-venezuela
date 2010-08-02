@@ -48,7 +48,6 @@ class rep_comprobante(report_sxw.rml_parse):
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
-            'get_alicuota': self._get_alicuota,
             'get_tipo_doc': self._get_tipo_doc,
             'get_totales': self._get_totales,
             'get_tot_gral_compra': self._get_tot_gral_compra,
@@ -72,16 +71,6 @@ class rep_comprobante(report_sxw.rml_parse):
             addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv 
 
-
-    def _get_alicuota(self, tnom=None):
-        if not tnom:
-            return []
-
-        tax_obj = self.pool.get('account.tax')
-        tax_ids = tax_obj.search(self.cr,self.uid,[('name','=',tnom)])[0]
-        tax = tax_obj.browse(self.cr,self.uid, tax_ids)
-
-        return tax.amount*100
 
 
     def _get_tipo_doc(self, tipo=None):
@@ -109,17 +98,39 @@ class rep_comprobante(report_sxw.rml_parse):
         comp = comp_obj.browse(self.cr,self.uid, comp_id)
         res = {}
         ttal = {}
+        lst_comp = []
 
         for rl in comp.retention_line:
-            if rl.invoice_id.sin_cred:
-                tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
-            else:
-                tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + rl.invoice_id.amount_total
+            k=1
+            if rl.invoice_id.type in ['in_refund', 'out_refund']:
+                k=-1
             for txl in rl.invoice_id.tax_line:
+                sdcf = False
                 tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base_ret
                 tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type],0.0) + txl.amount
                 tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type],0.0) + txl.amount_ret
-
+                if txl.name.find('SDCF')!=-1:
+                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + (txl.base_ret+txl.amount)
+                    sdcf = True
+                else:
+                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + (txl.base_ret+txl.amount)
+                d1 = {
+                    'fecha': rl.invoice_id.date_invoice,
+                    'nro_fact': rl.invoice_id.reference,
+                    'nro_ctrl': rl.invoice_id.nro_ctrl,
+                    'nro_ncre': rl.invoice_id.reference,
+                    'nro_ndeb': rl.invoice_id.reference,
+                    'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
+                    'nro_fafe': rl.invoice_id.origin or '',
+                    'tot_civa': not sdcf and k*(txl.base_ret+txl.amount) or 0.0,
+                    'cmp_sdcr': sdcf and k*(txl.base_ret+txl.amount) or 0.0,
+                    'bas_impo': k*txl.base_ret,
+                    'alic': txl.tax_amount/txl.base_amount*100 or 0.0,
+                    'iva': k*txl.amount,
+                    'iva_ret': k*txl.amount_ret,
+                    'inv_type': rl.invoice_id.type
+                }
+                lst_comp.append(d1)
 
         self.ttcompra = tot_comp.get('s',0.0) - tot_comp.get('r',0.0)
         self.ttcompra_sdcf = tot_comp_sdc.get('s',0.0) - tot_comp_sdc.get('r',0.0)
@@ -127,8 +138,7 @@ class rep_comprobante(report_sxw.rml_parse):
         self.ttiva = tot_imp_iva.get('s',0.0) - tot_imp_iva.get('r',0.0)
         self.ttretencion = tot_iva_ret.get('s',0.0) - tot_iva_ret.get('r',0.0)
                                 
-
-        return ""        
+        return lst_comp        
 
     def _get_tot_gral_compra(self): 
         return self.ttcompra
