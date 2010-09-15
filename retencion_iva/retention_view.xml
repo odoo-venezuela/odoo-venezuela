@@ -129,6 +129,20 @@
             </field>
         </record>
 
+
+        <record id="view_retention_form_customer" model="ir.ui.view">
+            <field name="name">account.retention.form.customer</field>
+            <field name="model">account.retention</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="view_retention_form"/>
+            <field name="arch" type="xml">
+				<field name="partner_id" position="replace">
+						<field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('special','=',True)]"/>
+				</field>
+            </field>
+        </record>
+
+
     	<record model="ir.actions.act_window" id="action_account_retention">
 	    	<field name="name">Retenciones</field>
 	    	<field name="res_model">account.retention</field>
@@ -175,7 +189,7 @@
 	    <record model="ir.actions.act_window.view" id="act_wv_account_retention_customer_form">
 	    	<field name="sequence" eval="20"/>
 	    	<field name="view_mode">form</field>
-	    	<field name="view_id" ref="view_retention_form"/>
+	    	<field name="view_id" ref="view_retention_form_customer"/>
 	    	<field name="act_window_id" ref="action_account_retention_customer"/>
 	    </record>
 
