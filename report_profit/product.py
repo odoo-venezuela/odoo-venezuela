@@ -115,7 +115,11 @@ class product_product(osv.osv):
                 cr.execute("select line.id, max(line.price_unit) as price from account_invoice_line as line where line.invoice_id=%s and product_id=%s group by line.id order by price desc", (_last_invoices[prod_id], prod_id))
                 record = cr.fetchone()
             if record:
-                res[prod_id] = record[1]
+                #TODO REVERTIR EL CAMBIO CUANDO EL CALCULO EN EL MODULO PURCHASE DISCOUNT SE REALICE CORRECTAMENTE
+                il_obj = self.pool.get('account.invoice.line').browse(cr, uid, record[0])
+                cost = il_obj.price_subtotal/il_obj.quantity
+#                res[prod_id] = record[1]
+                res[prod_id] = cost
             else:
                 res[prod_id] = False
         return res

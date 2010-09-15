@@ -28,17 +28,42 @@
 #
 ##############################################################################
 
+from osv import fields,osv
+from tools.sql import drop_view_if_exists
 
-import invoice
-import product
-import unit_analisys
-import report_profit
-import report_profit_user
-import report_profit_partner
-import report_profit_category
-import report_profit_var
-import report_profit_invoice
-import report
-import wizard
 
+class report_profit_user(osv.osv):
+    _name = "report.profit.user"
+    _description = "Profit by Products and User"
+    _auto = False
+    _columns = {
+        'user_id':fields.many2one('res.users', 'User', readonly=True, select=True),
+        'sum_last_cost': fields.float('Last Cost Sum', readonly=True),
+        'sum_price_subtotal': fields.float('Subtotal Price Sum', readonly=True),
+        'sum_qty_consol': fields.float('Consolidate qty Sum', readonly=True),
+        'p_uom_c_id':fields.many2one('product.uom.consol', 'Consolidate Unit', readonly=True),
+    }
+
+
+#            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid')
+
+    def init(self, cr):
+        drop_view_if_exists(cr, 'report_profit_user')
+        cr.execute("""
+            create or replace view report_profit_user as (
+            select
+                user_id as id,
+                user_id,        
+                SUM(last_cost) as sum_last_cost,
+                SUM(price_subtotal) as sum_price_subtotal,
+                SUM(qty_consol) as sum_qty_consol,
+                p_uom_c_id
+            from report_profit p
+            group by user_id,p_uom_c_id
+            )
+        """)
+report_profit_user()
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

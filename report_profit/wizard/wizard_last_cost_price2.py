@@ -35,22 +35,21 @@ from tools.translate import _
 
 _transaction_form = '''<?xml version="1.0"?>
 <form string="Update Last Cost Price">
-    <separator string="Are you sure ?" colspan="4"/>
-    <field name="sure"/>    
+    <separator string="Analyze Unit of Last Cost Price" colspan="4"/>
+     <field name="uom_c_id" widget="selection"/>
 </form>'''
 
 _transaction_fields = {    
-    'sure': {'string':'Check this box?', 'type':'boolean'},
+    'uom_c_id': {'string':'Consolidate Unit', 'type':'many2one', 'relation': 'product.uom.consol','required':True},
    
 }
 
 def _data_save(self, cr, uid, data, context):
-    if not data['form']['sure']:
-        raise wizard.except_wizard(_('Error Usuario'), _('Updating Invoice Line, please check the box !'))
     pool = pooler.get_pool(cr.dbname)
     prod_obj = pool.get('product.product')
     line_inv_obj = pool.get('account.invoice.line')
     updated_inv_line = []
+
     cr.execute("""
         create or replace view report_profit as (
             select
@@ -98,19 +97,29 @@ def _data_save(self, cr, uid, data, context):
                 end as perc,
                 l.uos_id as uom_id,
                 p.name as partner,
-                i.type as type
+                i.type as type,
+                c.p_uom_c_id as p_uom_c_id,
+                (l.quantity*c.factor_consol) as qty_consol,
+                t.categ_id as cat_id
             from account_invoice i
                 inner join res_partner p on (p.id=i.partner_id)
                 left join res_users u on (u.id=p.user_id)
                 right join account_invoice_line l on (i.id=l.invoice_id)
                 left join product_uom m on (m.id=l.uos_id)
+                left join product_uom_consol_line c on (m.id=c.p_uom_id)
                 left join product_template t on (t.id=l.product_id)
                 left join product_product d on (d.product_tmpl_id=l.product_id)
-            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid')
-            group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type
+            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid') and l.uos_id in (
+                select
+                    u.id as id
+                from product_uom u
+                    inner join product_uom_consol_line c on (u.id=c.p_uom_id)
+                where c.p_uom_c_id=%s
+            )
+            group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type,c.p_uom_c_id,c.factor_consol,t.categ_id
             order by p.name
         )
-    """)
+    """, (data['form']['uom_c_id'],))
     sql = """
         SELECT id FROM report_profit"""
     cr.execute(sql)
@@ -129,18 +138,18 @@ def _data_save(self, cr, uid, data, context):
 
             line_inv_obj.write(cr, uid,line.id, {'last_price':prod_price[line.product_id.id]}, context=context)
             updated_inv_line.append(line.id)
-        #we get the view id
-        mod_obj = pool.get('ir.model.data')
-        act_obj = pool.get('ir.actions.act_window')
+    #we get the view id
+    mod_obj = pool.get('ir.model.data')
+    act_obj = pool.get('ir.actions.act_window')
 
-        xml_id = 'action_profit_product_tree'
+    xml_id = 'action_profit_product_tree'
 
-        #we get the model
-        result = mod_obj._get_id(cr, uid, 'report_profit', xml_id)
-        id = mod_obj.read(cr, uid, result, ['res_id'])['res_id']
-        # we read the act window
-        result = act_obj.read(cr, uid, id)
-        result['res_id'] = updated_inv_line
+    #we get the model
+    result = mod_obj._get_id(cr, uid, 'report_profit', xml_id)
+    id = mod_obj.read(cr, uid, result, ['res_id'])['res_id']
+    # we read the act window
+    result = act_obj.read(cr, uid, id)
+    result['res_id'] = updated_inv_line
 
 
     return result

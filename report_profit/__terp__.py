@@ -42,10 +42,18 @@
 	"update_xml" : [
             "product_view.xml",
             "report_profit_view.xml",
-            "report_profit_wizard.xml",
+            "report_profit_user_view.xml",
+            "report_profit_partner_view.xml",
+            "report_profit_category_view.xml",
+            "report_profit_var_view.xml",
+            "report_profit_graph_view.xml",
+            "report_profit_invoice_view.xml",
+            "account_invoice_view.xml",
             "unit_analisys_view.xml",
+            "report_profit_report.xml",
+            "report_profit_wizard.xml",
+
     ],
 	"active": False,
 	"installable": True
 }
-

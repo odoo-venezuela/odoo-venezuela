@@ -29,6 +29,7 @@
 ##############################################################################
 
 from osv import fields,osv
+from tools.sql import drop_view_if_exists
 
 class report_profit(osv.osv):
     _name = "report.profit"
@@ -47,6 +48,9 @@ class report_profit(osv.osv):
         'uom_id': fields.many2one('product.uom', ' UoM', readonly=True),
         'profit': fields.float('Profit', readonly=True),
         'perc': fields.float('Profit Percent', readonly=True),
+        'p_uom_c_id':fields.many2one('product.uom.consol', 'Consolidate Unit', readonly=True),
+        'qty_consol': fields.float('Consolidate qty', readonly=True),
+        'cat_id':fields.many2one('product.category', 'Category', readonly=True),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
@@ -56,6 +60,7 @@ class report_profit(osv.osv):
     }
 
     def init(self, cr):
+        drop_view_if_exists(cr, 'report_profit')
         cr.execute("""
             create or replace view report_profit as (
             select
@@ -103,16 +108,25 @@ class report_profit(osv.osv):
                 end as perc,
                 l.uos_id as uom_id,
                 p.name as partner,
-                i.type as type
+                i.type as type,
+                c.p_uom_c_id as p_uom_c_id,
+                (l.quantity*c.factor_consol) as qty_consol,
+                t.categ_id as cat_id
             from account_invoice i
                 inner join res_partner p on (p.id=i.partner_id)
                 left join res_users u on (u.id=p.user_id)
                 right join account_invoice_line l on (i.id=l.invoice_id)
                 left join product_uom m on (m.id=l.uos_id)
+                left join product_uom_consol_line c on (m.id=c.p_uom_id)
                 left join product_template t on (t.id=l.product_id)
                 left join product_product d on (d.product_tmpl_id=l.product_id)
-            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid')
-            group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type
+            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid') and l.uos_id in (
+                select
+                    u.id as id
+                from product_uom u
+                    inner join product_uom_consol_line c on (u.id=c.p_uom_id)
+            )
+            group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type,c.p_uom_c_id,c.factor_consol,t.categ_id
             order by p.name
             )
         """)

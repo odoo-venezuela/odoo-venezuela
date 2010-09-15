@@ -15,14 +15,16 @@
                     <field name="partner_id"/>
                     <field name="user_id"/>
                     <field name="quantity"/>
+                    <field name="uom_id"/>
                     <field name="price_unit"/>
                     <field name="last_cost"/>
                     <field name="price_subtotal" sum="Price amount"/>
                     <field name="last_cost_subtotal" sum="Cost amount"/>
                     <field name="profit"/>
                     <field name="perc"/>
-                    <field name="uom_id"/>
                     <field name="type"/>
+                    <field name="qty_consol"/>
+                    <field name="p_uom_c_id"/>
                 </tree>
             </field>
         </record>
@@ -40,12 +42,14 @@
                     <field name="partner_id"/>
                     <field name="user_id"/>
                     <field name="quantity"/>
+                    <field name="uom_id"/>
                     <field name="price_unit"/>
                     <field name="last_cost"/>
                     <field name="price_subtotal"/>
                     <field name="last_cost_subtotal"/>
-                    <field name="uom_id"/>
                     <field name="type"/>
+                    <field name="qty_consol"/>
+                    <field name="p_uom_c_id"/>
                 </form>
             </field>
         </record>

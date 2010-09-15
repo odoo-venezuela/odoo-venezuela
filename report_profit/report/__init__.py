@@ -28,17 +28,5 @@
 #
 ##############################################################################
 
-
-import invoice
-import product
-import unit_analisys
-import report_profit
-import report_profit_user
-import report_profit_partner
-import report_profit_category
-import report_profit_var
-import report_profit_invoice
-import report
-import wizard
-
+import trial_cost
 
