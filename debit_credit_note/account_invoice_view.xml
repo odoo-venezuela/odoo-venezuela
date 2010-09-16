@@ -52,6 +52,28 @@
                 </field>
             </field>
         </record>
+        <record id="account_inv_ext_form_crdrc" model="ir.ui.view">
+            <field name="name">invoice_ext.form.crdrc</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="period_id" position="after">
+                    <field name="parent_id" attrs="{'required':[('type','=','out_refund')]}" domain="[('type','=','out_invoice')]"/>
+                </field>
+            </field>
+        </record>
+        <record id="account_inv_ext_form_crdrs" model="ir.ui.view">
+            <field name="name">invoice_ext.form.crdrs</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_bank" position="replace">
+                    <field name="parent_id" attrs="{'required':[('type','=','in_refund')]}" domain="[('type','=','in_invoice')]"/>
+                </field>
+            </field>
+        </record>
 
 
 
