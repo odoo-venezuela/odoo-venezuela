@@ -73,9 +73,24 @@ class fiscal_reports_purchase(osv.osv):
                      rp."id" AS rp_id,
                      ai."nro_ctrl" AS ai_nro_ctrl,
                      ai."reference" AS ai_reference,
-                     ai."amount_total" AS ai_amount_total,
-                     ai."amount_untaxed" AS ai_amount_untaxed,
-                     ai."amount_tax" AS ai_amount_tax,
+                case when ai.type='in_refund'
+                then
+                    ai."amount_total"*(-1)
+                else
+                    ai."amount_total" 
+                end as ai_amount_total,
+                case when ai.type='in_refund'
+                then
+                    ai."amount_untaxed"*(-1)
+                else
+                    ai."amount_untaxed" 
+                end as ai_amount_untaxed,
+                case when ai.type='in_refund'
+                then
+                    ai."amount_tax"*(-1)
+                else
+                    ai."amount_tax" 
+                end as ai_amount_tax,
                      ai."type" AS ai_type,
                      rp."retention" AS rp_retention,
                      ai."id" AS id,
@@ -93,7 +108,7 @@ class fiscal_reports_purchase(osv.osv):
                   OR ai.state = 'done')
                 ORDER BY
                      ai_date_invoice ASC,
-                     ai."number" ASC 
+                     ai."nro_ctrl" ASC 
                  )
         """)
 fiscal_reports_purchase()  
@@ -134,9 +149,24 @@ class fiscal_reports_sale(osv.osv):
                 rp."id" AS rp_id,
                 ai."number" AS ai_reference,
                 ai."nro_ctrl" AS ai_nro_ctrl,
-                ai."amount_total" AS ai_amount_total,
-                ai."amount_untaxed" AS ai_amount_untaxed,
-                ai."amount_tax" AS ai_amount_tax,
+                case when ai.type='out_refund'
+                then
+                    ai."amount_total"*(-1)
+                else
+                    ai."amount_total" 
+                end as ai_amount_total,
+                case when ai.type='out_refund'
+                then
+                    ai."amount_untaxed"*(-1)
+                else
+                    ai."amount_untaxed" 
+                end as ai_amount_untaxed,
+                case when ai.type='out_refund'
+                then
+                    ai."amount_tax"*(-1)
+                else
+                    ai."amount_tax" 
+                end as ai_amount_tax,
                 ai."type" AS ai_type,
                 rp."retention" AS rp_retention,
                 ai."id" AS id,
@@ -154,7 +184,7 @@ class fiscal_reports_sale(osv.osv):
                 OR ai.state = 'done')
                 ORDER BY
                 ai_date_invoice ASC,
-                ai."number" ASC
+                ai."nro_ctrl" ASC
                 )
         """)
 fiscal_reports_sale()
