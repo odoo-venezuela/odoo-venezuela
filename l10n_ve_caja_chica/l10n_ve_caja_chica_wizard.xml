@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<wizard 
+			string="Pago Caja Chica" 
+			model="res.partner"
+			name="caja.chica"
+			id="wizard_caja_chica" 
+            menu="True"/>
+
+
+	</data>
+</openerp>

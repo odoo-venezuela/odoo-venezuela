@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="act_inv_caj_chi_tree2" model="ir.actions.act_window">
+            <field name="name">Facturas de caja chica</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_invoice'),('caj_chi','=',1)]</field>
+            <field name="context">{'type':'in_invoice','caj_chi':True}</field>
+        </record>
+        <menuitem action="act_inv_caj_chi_tree2" id="menu_act_inv_caj_chi_tree2" parent="account.menu_finance_invoice"/>
+        <record id="act_inv_caj_chi_tree2_new" model="ir.actions.act_window">
+            <field name="name">Nueva factura de caja chica</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree,calendar,graph</field>
+            <field name="view_id" ref="account.invoice_supplier_form"/>
+            <field name="domain">[('type','=','in_invoice'),('caj_chi','=',1)]</field>
+            <field name="context">{'type':'in_invoice','caj_chi':True}</field>
+        </record>
+        <menuitem action="act_inv_caj_chi_tree2_new" id="menu_act_inv_caj_chi_tree2_new" parent="menu_act_inv_caj_chi_tree2"/>
+
+
+        <record id="act_inv_caj_chi_tree8" model="ir.actions.act_window">
+            <field name="name">Facturas de caja chica en borrador</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('state','=','draft'),('type','=','in_invoice'),('caj_chi','=',1)]</field>
+            <field name="context">{'type':'in_invoice','caj_chi':True}</field>
+        </record>
+        <record id="act_inv_caj_chi_tree8_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="act_inv_caj_chi_tree8"/>
+        </record>
+        <record id="act_inv_caj_chi_tree8_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_supplier_form"/>
+            <field name="act_window_id" ref="act_inv_caj_chi_tree8"/>
+        </record>
+
+        <menuitem action="act_inv_caj_chi_tree8" id="menu_act_inv_caj_chi_tree8" parent="menu_act_inv_caj_chi_tree2"/>
+
+        <record id="act_inv_caj_chi_tree9" model="ir.actions.act_window">
+            <field name="name">Facturas de caja chica sin pagar</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('state','not in',['draft','cancel']),('reconciled','=',False),('type','=','in_invoice'),('caj_chi','=',1)]</field>
+            <field name="context">{'type':'in_invoice','caj_chi':True}</field>
+        </record>
+        <record id="act_inv_caj_chi_tree9_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="act_inv_caj_chi_tree9"/>
+        </record>
+        <record id="act_inv_caj_chi_tree9_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_supplier_form"/>
+            <field name="act_window_id" ref="act_inv_caj_chi_tree9"/>
+        </record>
+
+        <menuitem action="act_inv_caj_chi_tree9" id="menu_act_inv_caj_chi_tree9" parent="menu_act_inv_caj_chi_tree2"/>
+
+
+
+    </data>
+</openerp>
