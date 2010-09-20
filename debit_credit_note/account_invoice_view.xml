@@ -59,7 +59,7 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <field name="period_id" position="after">
-                    <field name="parent_id" attrs="{'required':[('type','=','out_refund')]}" domain="[('type','=','out_invoice')]"/>
+                    <field name="parent_id" attrs="{'required':[('type','=','out_refund')]}" domain="[('type','=','out_invoice'), ('partner_id','=',partner_id)]"/>
                 </field>
             </field>
         </record>
@@ -70,7 +70,7 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <field name="partner_bank" position="replace">
-                    <field name="parent_id" attrs="{'required':[('type','=','in_refund')]}" domain="[('type','=','in_invoice')]"/>
+                    <field name="parent_id" attrs="{'required':[('type','=','in_refund')]}" domain="[('type','=','in_invoice'), ('partner_id','=',partner_id)]"/>
                 </field>
             </field>
         </record>
