@@ -40,8 +40,8 @@ class account_invoice(osv.osv):
 
     _description = "Debit and Credit Notes"
     _columns = {
-        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', select=True),
-        'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes'),
+        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', select=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
     }
     
     def action_number(self, cr, uid, ids, *args):
