@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="21.0" y1="21.0" width="750" height="570"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="tablalineas">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="-1,-1"/>
+      <blockBackground colorName="#e6e6e6" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    <blockTableStyle id="TABLATOTALES">
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="-1,-1"/>
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <blockBackground colorName="#e6e6e6" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    <paraStyle name="OCULTOS" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="AYUDA" fontName="Helvetica" fontSize="11.0" leading="12" alignment="LEFT" spaceBefore="5.0" spaceAfter="5.0"/>
+    <paraStyle name="CANTIDADES" fontName="Helvetica" fontSize="10.0" leading="10" alignment="CENTER" spaceBefore="1.0" spaceAfter="1.0"/>
+    <paraStyle name="TITULOS" fontName="Helvetica-bold" fontSize="11.0" leading="11" alignment="CENTER"/>
+    <paraStyle name="FTITULOS" fontName="Helvetica-bold" fontSize="11.0" leading="11" alignment="LEFT"/>
+    <images/>
+  </stylesheet>
+  <story>
+    <section>
+      <blockTable colWidths="292.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0" style="tablalineas" repeatRows="2">
+        <tr>
+          <td>
+            <para style="TITULOS">[[ get_company(data['form']).company_id.name ]]</para>
+            <para style="TITULOS">Fecha Base: [[ data['form']['date_start'] ]]</para>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <para style="FTITULOS">Cliente</para>
+          </td>
+          <td>
+            <para style="TITULOS">0-30</para>
+          </td>
+          <td>
+            <para style="TITULOS">31-60</para>
+          </td>
+          <td>
+            <para style="TITULOS">61-90</para>
+          </td>
+          <td>
+            <para style="TITULOS">91-120</para>
+          </td>
+          <td>
+            <para style="TITULOS">&gt;121</para>
+          </td>
+          <td>
+            <para style="TITULOS">Total Contable</para>
+          </td>
+          <td>
+            <para style="TITULOS">Total Balance</para>
+          </td>
+          <td>
+            <para style="TITULOS">Total Admin.</para>
+          </td>
+        </tr>
+        <tr>[[ repeatIn(lines_get(data['form']),'o') ]][[ setLang(o.company_id.partner_id.lang) ]]
+          <td>
+            <para style="OCULTOS">[[(get_balance(o.property_account_receivable.id)==o.credit==get_invoices(data['form'], o.id, 0, 10000)) or removeParentNode('tr') ]][[ removeParentNode('para') ]]</para>
+            <para style="FTITULOS">[[ o.name ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 0, 30)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 31, 60)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 61, 90)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 91, 120)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 121, 10000)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(o.credit) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_balance(o.property_account_receivable.id)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 0, 10000)) ]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      <blockTable colWidths="292.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0" style="TABLATOTALES">
+        <tr>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </blockTable>
+    </section>
+    <pageBreak/>
+    <para style="AYUDA">La Contabilidad y documentación de estas empresas debe ser auditada ya que presentan diferencias entre los valores contables y administrativos.</para>
+    <section>
+      <blockTable colWidths="292.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0" style="tablalineas" repeatRows="2">
+        <tr>
+          <td>
+            <para style="TITULOS">EMPRESAS EN  CONFLICTO DE ANALISIS</para>
+            <para style="TITULOS">[[ get_company(data['form']).company_id.name ]]</para>
+            <para style="TITULOS">Fecha Base: [[ data['form']['date_start'] ]]</para>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <para style="FTITULOS">Cliente</para>
+          </td>
+          <td>
+            <para style="TITULOS">0-30</para>
+          </td>
+          <td>
+            <para style="TITULOS">31-60</para>
+          </td>
+          <td>
+            <para style="TITULOS">61-90</para>
+          </td>
+          <td>
+            <para style="TITULOS">91-120</para>
+          </td>
+          <td>
+            <para style="TITULOS">&gt;121</para>
+          </td>
+          <td>
+            <para style="TITULOS">Total Contable</para>
+          </td>
+          <td>
+            <para style="TITULOS">Total Balance</para>
+          </td>
+          <td>
+            <para style="TITULOS">Total Admin.</para>
+          </td>
+        </tr>
+        <tr>[[ repeatIn(lines_get(data['form']),'o') ]][[ setLang(o.company_id.partner_id.lang) ]]
+          <td>
+            <para style="OCULTOS">[[(get_balance(o.property_account_receivable.id)!=o.credit or get_balance(o.property_account_receivable.id)!=get_invoices(data['form'], o.id, 0, 10000) or o.credit!=get_invoices(data['form'], o.id, 0, 10000)) or removeParentNode('tr') ]][[ removeParentNode('para') ]]</para>
+            <para style="FTITULOS">[[ o.name ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 0, 30)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 31, 60)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 61, 90)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 91, 120)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 121, 10000)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(o.credit) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_balance(o.property_account_receivable.id)) ]]</para>
+          </td>
+          <td>
+            <para style="CANTIDADES">[[ formatLang(get_invoices(data['form'], o.id, 0, 10000)) ]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      <blockTable colWidths="292.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0,54.0" style="TABLATOTALES">
+        <tr>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </blockTable>
+    </section>
+  </story>
+</document>
+

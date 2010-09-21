@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <wizard
+            id="wizard_overdue_report"
+            model="res.partner"
+            name="wizard.overdue_report"
+            string="Overdue Report"
+            menu="False"
+            /> 
+
+		<menuitem
+			name="Overdue Report."
+			parent="account.menu_finance_reporting"
+			action="wizard_overdue_report"
+			type="wizard"
+			icon="STOCK_PRINT"
+			id="menu_wizard_overdue_report"
+            sequence="50"/>
+
+    </data>
+</openerp>
+
+
