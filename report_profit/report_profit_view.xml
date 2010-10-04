@@ -23,7 +23,7 @@
                     <field name="profit"/>
                     <field name="perc"/>
                     <field name="type"/>
-                    <field name="qty_consol"/>
+                    <field name="qty_consol" sum="Consolidate amount"/>
                     <field name="p_uom_c_id"/>
                 </tree>
             </field>
