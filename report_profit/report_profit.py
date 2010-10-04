@@ -110,7 +110,12 @@ class report_profit(osv.osv):
                 p.name as partner,
                 i.type as type,
                 c.p_uom_c_id as p_uom_c_id,
-                (l.quantity*c.factor_consol) as qty_consol,
+                case when i.type='out_refund'     
+                    then                           
+                        (l.quantity*c.factor_consol)*(-1)
+                    else
+                        (l.quantity*c.factor_consol)
+                end as qty_consol,
                 t.categ_id as cat_id
             from account_invoice i
                 inner join res_partner p on (p.id=i.partner_id)
