@@ -100,6 +100,7 @@ class fiscal_reports_purchase(osv.osv):
                 FROM
                      "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
                      LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
+                     LEFT JOIN "account_retention" ar ON ar_line."retention_id" = ar."id"                                                     
                 WHERE
                      (ai.type = 'in_refund'
                   OR ai.type = 'in_invoice')
@@ -108,7 +109,7 @@ class fiscal_reports_purchase(osv.osv):
                   OR ai.state = 'done')
                 ORDER BY
                      ai_date_invoice ASC,
-                     ai."nro_ctrl" ASC 
+                     ar."number" ASC
                  )
         """)
 fiscal_reports_purchase()  
