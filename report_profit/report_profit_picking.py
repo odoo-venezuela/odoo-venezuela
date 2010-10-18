@@ -119,6 +119,30 @@ class report_profit_picking(osv.osv):
                     res[rpp.id] = price_unit
         return res
 
+    def _get_prod_stock(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        prod_obj = self.pool.get('product.product')
+
+        loc_ids = 11
+        for line in self.browse(cr, uid, ids, context=context):
+            print 'fechaxxx: ',line.name
+            startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(line.name,"%Y-%m-%d:%H:%M:%S")))
+            print 'ffff: ',startf
+            start = DateTime(int(startf.year),1,1)
+            #end = DateTime(int(startf.year),int(startf.month),int(startf.day))
+            end = startf - datetime.timedelta(seconds=1)
+            d1 = start.strftime('%Y-%m-%d %H:%M:%S')
+            d2 = end.strftime('%Y-%m-%d %H:%M:%S')
+            print 'd1xxxxxxx: ',d1
+            print 'd2yyyyyyy: ',d2
+            c = context.copy()
+            c.update({'location': loc_ids,'from_date':d1,'to_date':d2})
+            res.setdefault(line.id, 0.0)
+            if line.product_id and line.product_id.id:
+                prd = prod_obj.browse(cr, uid, line.product_id.id,context=c)
+                res[line.id] = prd.qty_available
+        return res    
+
     def _get_invoice(self, cr, uid, ids, name, arg, context={}):
         res = {}
         for rpp in self.browse(cr, uid, ids, context):
@@ -174,7 +198,8 @@ class report_profit_picking(osv.osv):
         'aml_cost_qty': fields.function(_get_aml_cost_qty, method=True, type='float', string='Cost entry quantity', digits=(16, int(config['price_accuracy']))),
         'invoice_price_unit': fields.function(_get_invoice_price, method=True, type='float', string='Invoice price unit', digits=(16, int(config['price_accuracy']))),
         'aml_cost_price_unit': fields.function(_get_aml_cost_price, method=True, type='float', string='Cost entry price unit', digits=(16, int(config['price_accuracy']))), 
-        'invoice_id': fields.function(_get_invoice, method=True, type='many2one', relation='account.invoice', string='Invoice'),               
+        'invoice_id': fields.function(_get_invoice, method=True, type='many2one', relation='account.invoice', string='Invoice'),
+        'stock': fields.function(_get_prod_stock, method=True, type='float', string='Existencia', digits=(16, int(config['price_accuracy']))),        
     }
 
     def init(self, cr):

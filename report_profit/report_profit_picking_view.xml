@@ -16,7 +16,8 @@
                     <field name="sale_line_id"/>
                     <field name="product_id"/>
                     <field name="location_id"/>
-                    <field name="location_dest_id"/>                                        
+                    <field name="location_dest_id"/>
+                    <field name="stock"/>
                     <field name="stk_mov_id"/>
                     <field name="picking_qty"/>
                     <field name="invoice_qty"/>
@@ -46,7 +47,8 @@
                     <field name="sale_line_id"/>
                     <field name="product_id"/>
                     <field name="location_id"/>
-                    <field name="location_dest_id"/>                    
+                    <field name="location_dest_id"/>
+                    <field name="stock"/>
                     <field name="stk_mov_id"/>
                     <field name="picking_qty"/>
                     <field name="invoice_qty"/>
