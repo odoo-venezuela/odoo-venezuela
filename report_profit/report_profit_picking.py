@@ -94,6 +94,38 @@ class report_profit_picking(osv.osv):
             if rpp.aml_cost_id and rpp.aml_cost_id.id:
                 res[rpp.id] = rpp.aml_cost_id.quantity
         return res        
+
+
+    def _get_invoice_price(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        for rpp in self.browse(cr, uid, ids, context):
+            res[rpp.id] = 0.0
+            if rpp.invoice_line_id and rpp.invoice_line_id.id:
+                res[rpp.id] = rpp.invoice_line_id.price_unit
+        return res
+
+    def _get_aml_cost_price(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        for rpp in self.browse(cr, uid, ids, context):
+            res[rpp.id] = 0.0
+            if rpp.aml_cost_id and rpp.aml_cost_id.id:
+                if rpp.aml_cost_id.quantity and rpp.aml_cost_id.quantity>0:
+                    price_unit = 0.0
+                    if rpp.aml_cost_id.debit:
+                        amount = rpp.aml_cost_id.debit
+                    else:
+                        amount = rpp.aml_cost_id.credit
+                    price_unit = amount/rpp.aml_cost_id.quantity
+                    res[rpp.id] = price_unit
+        return res
+
+    def _get_invoice(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        for rpp in self.browse(cr, uid, ids, context):
+            res[rpp.id] = False
+            if rpp.invoice_line_id and rpp.invoice_line_id.id:
+                res[rpp.id] = rpp.invoice_line_id.invoice_id.id
+        return res    
     
 #    def _get_moveline():
     def aml_cost_get(self, cr, uid, il_id):    
@@ -139,7 +171,10 @@ class report_profit_picking(osv.osv):
         'aml_cost_id': fields.function(_get_aml_cost, method=True, type='many2one', relation='account.move.line', string='Cost entry'),
         'invoice_line_id': fields.function(_get_invoice_line, method=True, type='many2one', relation='account.invoice.line', string='Invoice line'),
         'invoice_qty': fields.function(_get_invoice_qty, method=True, type='float', string='Invoice quantity', digits=(16, int(config['price_accuracy']))),
-        'aml_cost_qty': fields.function(_get_aml_cost_qty, method=True, type='float', string='Cost entry quantity', digits=(16, int(config['price_accuracy']))),                
+        'aml_cost_qty': fields.function(_get_aml_cost_qty, method=True, type='float', string='Cost entry quantity', digits=(16, int(config['price_accuracy']))),
+        'invoice_price_unit': fields.function(_get_invoice_price, method=True, type='float', string='Invoice price unit', digits=(16, int(config['price_accuracy']))),
+        'aml_cost_price_unit': fields.function(_get_aml_cost_price, method=True, type='float', string='Cost entry price unit', digits=(16, int(config['price_accuracy']))), 
+        'invoice_id': fields.function(_get_invoice, method=True, type='many2one', relation='account.invoice', string='Invoice'),               
     }
 
     def init(self, cr):

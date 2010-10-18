@@ -21,9 +21,12 @@
                     <field name="picking_qty"/>
                     <field name="invoice_qty"/>
                     <field name="aml_cost_qty"/>
+                    <field name="invoice_price_unit"/>
+                    <field name="aml_cost_price_unit"/>
                     <field name="state"/>
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
+                    <field name="invoice_id"/>
                 </tree>
             </field>
         </record>
@@ -48,9 +51,12 @@
                     <field name="picking_qty"/>
                     <field name="invoice_qty"/>
                     <field name="aml_cost_qty"/>
+                    <field name="invoice_price_unit"/>
+                    <field name="aml_cost_price_unit"/>
                     <field name="state"/>
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
+                    <field name="invoice_id"/>
                 </form>
             </field>
         </record>
