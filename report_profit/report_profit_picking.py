@@ -69,7 +69,7 @@ class report_profit_picking(osv.osv):
         for rpp in self.browse(cr, uid, ids, context):
             result[rpp.id] = ()
             if rpp.invoice_line_id and rpp.invoice_line_id.id:
-                print 'lf: ',rpp.invoice_line_id.id
+                #print 'lf: ',rpp.invoice_line_id.id
                 moves = self.aml_cost_get(cr, uid, [rpp.invoice_line_id.id])
             #677= llamo get_move_line
             #aml_query = aml_obj.find(cr, uid, mov_id=677)
@@ -119,22 +119,41 @@ class report_profit_picking(osv.osv):
                     res[rpp.id] = price_unit
         return res
 
-    def _get_prod_stock(self, cr, uid, ids, name, arg, context={}):
+    def _get_prod_stock_before(self, cr, uid, ids, name, arg, context={}):
         res = {}
         prod_obj = self.pool.get('product.product')
 
         loc_ids = 11
         for line in self.browse(cr, uid, ids, context=context):
-            print 'fechaxxx: ',line.name
+            #print 'fechaxxx: ',line.name
             startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(line.name,"%Y-%m-%d:%H:%M:%S")))
-            print 'ffff: ',startf
+            #print 'ffff: ',startf
             start = DateTime(int(startf.year),1,1)
             #end = DateTime(int(startf.year),int(startf.month),int(startf.day))
             end = startf - datetime.timedelta(seconds=1)
             d1 = start.strftime('%Y-%m-%d %H:%M:%S')
             d2 = end.strftime('%Y-%m-%d %H:%M:%S')
-            print 'd1xxxxxxx: ',d1
-            print 'd2yyyyyyy: ',d2
+            #print 'd1xxxxxxx: ',d1
+            #print 'd2yyyyyyy: ',d2
+            c = context.copy()
+            c.update({'location': loc_ids,'from_date':d1,'to_date':d2})
+            res.setdefault(line.id, 0.0)
+            if line.product_id and line.product_id.id:
+                prd = prod_obj.browse(cr, uid, line.product_id.id,context=c)
+                res[line.id] = prd.qty_available
+        return res
+
+    def _get_prod_stock_after(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        prod_obj = self.pool.get('product.product')
+
+        loc_ids = 11
+        for line in self.browse(cr, uid, ids, context=context):
+            startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(line.name,"%Y-%m-%d:%H:%M:%S")))
+            start = DateTime(int(startf.year),1,1)
+            end = startf + datetime.timedelta(seconds=1)
+            d1 = start.strftime('%Y-%m-%d %H:%M:%S')
+            d2 = end.strftime('%Y-%m-%d %H:%M:%S')
             c = context.copy()
             c.update({'location': loc_ids,'from_date':d1,'to_date':d2})
             res.setdefault(line.id, 0.0)
@@ -150,7 +169,59 @@ class report_profit_picking(osv.osv):
             if rpp.invoice_line_id and rpp.invoice_line_id.id:
                 res[rpp.id] = rpp.invoice_line_id.invoice_id.id
         return res    
-    
+
+    def _get_date_invoice(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        for rpp in self.browse(cr, uid, ids, context):
+            res[rpp.id] = False
+            if rpp.invoice_line_id and rpp.invoice_line_id.id:
+                date = rpp.invoice_line_id.invoice_id.date_invoice
+                startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(date,"%Y-%m-%d")))                
+                res[rpp.id] = startf.strftime('%Y-%m-%d:16:00:%S')
+        return res
+
+    def _get_stock_invoice(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        prod_obj = self.pool.get('product.product')
+
+        loc_ids = 11
+        for line in self.browse(cr, uid, ids, context=context):
+            res.setdefault(line.id, 0.0)
+            if line.date_inv:
+                startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(line.date_inv,"%Y-%m-%d:%H:%M:%S")))             
+                start = DateTime(int(startf.year),1,1)
+                end = startf - datetime.timedelta(seconds=1)
+                d1 = start.strftime('%Y-%m-%d %H:%M:%S')
+                d2 = end.strftime('%Y-%m-%d %H:%M:%S')
+                c = context.copy()
+                c.update({'location': loc_ids,'from_date':d1,'to_date':d2})
+                if line.product_id and line.product_id.id:
+                    prd = prod_obj.browse(cr, uid, line.product_id.id,context=c)
+                    res[line.id] = prd.qty_available
+        return res
+
+
+    def _compute_subtotal(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+#        prod_obj = self.pool.get('product.product')
+
+        loc_ids = 11
+        avg=1430.96
+        q=5.0
+        #total=7154,8
+        total=avg*q
+        for line in self.browse(cr, uid, ids, context=context):
+            res.setdefault(line.id, 0.0)
+            
+            if line.location_dest_id.id == loc_ids:
+                subtot = line.picking_qty*line.invoice_price_unit
+
+            if line.location_id.id == loc_ids:
+                subtot = line.picking_qty*avg
+
+            res[line.id] = subtot
+        return res    
+            
 #    def _get_moveline():
     def aml_cost_get(self, cr, uid, il_id):    
         res = []
@@ -199,7 +270,12 @@ class report_profit_picking(osv.osv):
         'invoice_price_unit': fields.function(_get_invoice_price, method=True, type='float', string='Invoice price unit', digits=(16, int(config['price_accuracy']))),
         'aml_cost_price_unit': fields.function(_get_aml_cost_price, method=True, type='float', string='Cost entry price unit', digits=(16, int(config['price_accuracy']))), 
         'invoice_id': fields.function(_get_invoice, method=True, type='many2one', relation='account.invoice', string='Invoice'),
-        'stock': fields.function(_get_prod_stock, method=True, type='float', string='Existencia', digits=(16, int(config['price_accuracy']))),        
+        'stock_before': fields.function(_get_prod_stock_before, method=True, type='float', string='Stock before', digits=(16, int(config['price_accuracy']))),
+        'stock_after': fields.function(_get_prod_stock_after, method=True, type='float', string='Stock after', digits=(16, int(config['price_accuracy']))),
+        'date_inv': fields.function(_get_date_invoice, method=True, type='char', string='Date invoice', size=20),
+        'stock_invoice': fields.function(_get_stock_invoice, method=True, type='float', string='Stock invoice', digits=(16, int(config['price_accuracy']))),
+        'subtotal': fields.function(_compute_subtotal, method=True, type='float', string='Subtotal', digits=(16, int(config['price_accuracy']))),        
+        
     }
 
     def init(self, cr):
@@ -208,7 +284,7 @@ class report_profit_picking(osv.osv):
             create or replace view report_profit_picking as (
             select
                 sm.id as id,                
-                to_char(sm.date, 'YYYY-MM-DD:HH24:MI:SS') as name,
+                to_char(sm.date_planned, 'YYYY-MM-DD:HH24:MI:SS') as name,
                 sm.picking_id as picking_id,
                 sp.type as type,                
                 sm.purchase_line_id as purchase_line_id,

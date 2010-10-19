@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <tree string="Move by Picking">
                     <field name="name"/>
+                    <field name="date_inv"/>
                     <field name="type"/>                    
                     <field name="picking_id"/>
                     <field name="purchase_line_id"/>
@@ -17,13 +18,16 @@
                     <field name="product_id"/>
                     <field name="location_id"/>
                     <field name="location_dest_id"/>
-                    <field name="stock"/>
+                    <field name="stock_invoice"/>
+                    <field name="stock_before"/>
                     <field name="stk_mov_id"/>
                     <field name="picking_qty"/>
+                    <field name="stock_after"/>
                     <field name="invoice_qty"/>
                     <field name="aml_cost_qty"/>
                     <field name="invoice_price_unit"/>
                     <field name="aml_cost_price_unit"/>
+                    <field name="subtotal"/>
                     <field name="state"/>
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
@@ -41,6 +45,7 @@
             <field name="arch" type="xml">
                 <form string="Move by Picking">
                     <field name="name"/>
+                    <field name="date_inv"/>
                     <field name="type"/>                    
                     <field name="picking_id"/>
                     <field name="purchase_line_id"/>
@@ -48,13 +53,16 @@
                     <field name="product_id"/>
                     <field name="location_id"/>
                     <field name="location_dest_id"/>
-                    <field name="stock"/>
+                    <field name="stock_invoice"/>
+                    <field name="stock_before"/>
                     <field name="stk_mov_id"/>
                     <field name="picking_qty"/>
+                    <field name="stock_after"/>
                     <field name="invoice_qty"/>
                     <field name="aml_cost_qty"/>
                     <field name="invoice_price_unit"/>
                     <field name="aml_cost_price_unit"/>
+                    <field name="subtotal"/>
                     <field name="state"/>
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
