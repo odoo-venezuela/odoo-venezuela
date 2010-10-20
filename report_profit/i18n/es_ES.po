@@ -68,7 +68,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,stock_invoice:0
 msgid "Stock invoice"
-msgstr ""
+msgstr "Exis. Fact."
 
 #. module: report_profit
 #: selection:profit.trial.cost,init,c_sel:0
@@ -126,7 +126,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,subtotal:0
 msgid "Subtotal"
-msgstr ""
+msgstr "Subtotal"
 
 #. module: report_profit
 #: model:ir.ui.menu,name:report_profit.menu_product_uom_a_m
@@ -172,7 +172,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,stock_after:0
 msgid "Stock after"
-msgstr ""
+msgstr "Existencia Previa"
 
 #. module: report_profit
 #: model:ir.model,name:report_profit.model_report_profit
@@ -248,12 +248,12 @@ msgstr "Cliente"
 #. module: report_profit
 #: field:report.profit.picking,stock_before:0
 msgid "Stock before"
-msgstr ""
+msgstr "Exist. Ant."
 
 #. module: report_profit
 #: field:report.profit.picking,date_inv:0
 msgid "Date invoice"
-msgstr ""
+msgstr "Fecha de Factura"
 
 #. module: report_profit
 #: selection:report.profit.picking,state:0
@@ -268,7 +268,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,invoice_qty:0
 msgid "Invoice quantity"
-msgstr ""
+msgstr "Cantidad Facturada"
 
 #. module: report_profit
 #: wizard_field:profit.trial.cost,init,period_length:0
@@ -283,7 +283,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,invoice_line_id:0
 msgid "Invoice line"
-msgstr ""
+msgstr "Linea de Factura"
 
 #. module: report_profit
 #: field:report.profit.picking,state:0
@@ -336,7 +336,7 @@ msgstr ""
 #: field:report.profit,type:0
 #: field:report.profit.picking,type:0
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: report_profit
 #: field:product.product,last_cost:0
@@ -471,7 +471,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,invoice_price_unit:0
 msgid "Invoice price unit"
-msgstr ""
+msgstr "Prec. unit. fact."
 
 #. module: report_profit
 #: wizard_field:account.update.cost,init,date_start:0
@@ -565,7 +565,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,stk_mov_id:0
 msgid "Picking line"
-msgstr ""
+msgstr "Orden de Linea"
 
 #. module: report_profit
 #: field:product.uom.consol.line,factor_inv_consol:0
@@ -657,7 +657,7 @@ msgstr "Reporte de rentabilidad para economías de alto riesgo"
 #. module: report_profit
 #: field:report.profit.picking,picking_qty:0
 msgid "Picking quantity"
-msgstr ""
+msgstr "Cantidad Env./Rec."
 
 #. module: report_profit
 #: help:account.update.cost,init,invoice_id:0
@@ -667,7 +667,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,name:0
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #. module: report_profit
 #: model:ir.model,name:report_profit.model_report_profit_category
@@ -713,7 +713,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,location_id:0
 msgid "Source Location"
-msgstr ""
+msgstr "Ubicacion de Origen}"
 
 #. module: report_profit
 #: wizard_field:account.update.cost,init,state:0
@@ -723,7 +723,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,aml_cost_qty:0
 msgid "Cost entry quantity"
-msgstr ""
+msgstr "Cant. Cost. Cont."
 
 #. module: report_profit
 #: field:report.profit,qty_consol:0
@@ -750,7 +750,7 @@ msgstr ""
 #: field:report.profit.invoice,invoice_id:0
 #: field:report.profit.picking,invoice_id:0
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: report_profit
 #: wizard_button:account.update.cost,init,end:0
@@ -774,7 +774,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,location_dest_id:0
 msgid "Dest. Location"
-msgstr ""
+msgstr "Local. Destino"
 
 #. module: report_profit
 #: rml:profit.trial.cost:0
@@ -865,7 +865,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,picking_id:0
 msgid "Picking"
-msgstr ""
+msgstr "Documento de recep/envio"
 
 #. module: report_profit
 #: rml:profit.trial.cost:0
@@ -891,7 +891,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,aml_cost_id:0
 msgid "Cost entry"
-msgstr ""
+msgstr "Costo de Entrada"
 
 #. module: report_profit
 #: field:account.invoice.line,acc_cost:0
@@ -930,7 +930,7 @@ msgstr "Valor Costos"
 #. module: report_profit
 #: field:report.profit.picking,aml_cost_price_unit:0
 msgid "Cost entry price unit"
-msgstr ""
+msgstr "Costo promedio"
 
 #. module: report_profit
 #: wizard_field:profit.trial.cost,init,c_sel:0
@@ -958,7 +958,7 @@ msgstr "Actualiza Costos de Reposicion"
 #. module: report_profit
 #: field:report.profit.picking,sale_line_id:0
 msgid "Sale Line"
-msgstr ""
+msgstr "Linea de Venta"
 
 #. module: report_profit
 #: field:product.uom.consol.line,factor_consol:0
@@ -973,7 +973,7 @@ msgstr ""
 #. module: report_profit
 #: field:report.profit.picking,purchase_line_id:0
 msgid "Purchase Line"
-msgstr ""
+msgstr "Linea de Compra"
 
 #. module: report_profit
 #: field:product.supplierinfo,last_inv_date:0
