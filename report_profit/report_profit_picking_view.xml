@@ -28,6 +28,7 @@
                     <field name="invoice_price_unit"/>
                     <field name="aml_cost_price_unit"/>
                     <field name="subtotal"/>
+                    <field name="total"/>
                     <field name="state"/>
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
@@ -63,6 +64,7 @@
                     <field name="invoice_price_unit"/>
                     <field name="aml_cost_price_unit"/>
                     <field name="subtotal"/>
+                    <field name="total"/>
                     <field name="state"/>
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>

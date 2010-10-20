@@ -203,7 +203,6 @@ class report_profit_picking(osv.osv):
 
     def _compute_subtotal(self, cr, uid, ids, name, arg, context={}):
         res = {}
-#        prod_obj = self.pool.get('product.product')
 
         loc_ids = 11
         avg=1430.96
@@ -211,16 +210,64 @@ class report_profit_picking(osv.osv):
         #total=7154,8
         total=avg*q
         for line in self.browse(cr, uid, ids, context=context):
+            subtot = 0.0
             res.setdefault(line.id, 0.0)
             
-            if line.location_dest_id.id == loc_ids:
-                subtot = line.picking_qty*line.invoice_price_unit
+            if line.invoice_id and line.invoice_id.id:
+                if line.location_dest_id.id == loc_ids and line.invoice_id.type == 'in_invoice':
+                    subtot = line.picking_qty*line.invoice_price_unit
 
-            if line.location_id.id == loc_ids:
-                subtot = line.picking_qty*avg
+                if line.location_id.id == loc_ids and line.invoice_id.type == 'out_invoice':
+                    subtot = line.picking_qty*avg
+
+                if line.location_dest_id.id == loc_ids and line.invoice_id.type == 'in_refund':
+                    if line.invoice_id.parent_id and line.invoice_id.parent_id.id:
+                        for il in line.invoice_id.parent_id.invoice_line:
+                            if il.product_id.id == line.product_id.id:
+                                subtot = line.picking_qty*il.price_unit
+
+#                if line.location_id.id == loc_ids and line.invoice_id.type == 'out_refund':
+#                    subtot = line.picking_qty*avg
 
             res[line.id] = subtot
         return res    
+
+    def _compute_total(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+
+        loc_ids = 11
+        avg=1430.96
+        q=5.0
+        #total=7154,8
+#        total=avg*q
+        tot = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            tot.setdefault(line.product_id.id, 'xxx')
+            res.setdefault(line.id, 0.0)
+            
+            if tot[line.product_id.id] == 'xxx':
+                tot[line.product_id.id] = avg*q
+            
+            if line.invoice_id and line.invoice_id.id:
+                if line.location_dest_id.id == loc_ids and line.invoice_id.type == 'in_invoice':
+                    tot[line.product_id.id]+= line.subtotal
+
+                if line.location_id.id == loc_ids and line.invoice_id.type == 'out_invoice':
+                    tot[line.product_id.id]-= line.subtotal
+
+                if line.location_dest_id.id == loc_ids and line.invoice_id.type == 'in_refund':
+                    tot[line.product_id.id]-= line.subtotal
+#                    if line.invoice_id.parent_id and line.invoice_id.parent_id.id:
+#                        for il in line.invoice_id.parent_id.invoice_line:
+#                            if il.product_id.id == line.product_id.id:
+#                                subtot = line.picking_qty*il.price_unit
+
+#                if line.location_id.id == loc_ids and line.invoice_id.type == 'out_refund':
+#                    subtot = line.picking_qty*avg
+
+            print 'total: ',tot
+            res[line.id] = tot[line.product_id.id]
+        return res
             
 #    def _get_moveline():
     def aml_cost_get(self, cr, uid, il_id):    
@@ -274,7 +321,8 @@ class report_profit_picking(osv.osv):
         'stock_after': fields.function(_get_prod_stock_after, method=True, type='float', string='Stock after', digits=(16, int(config['price_accuracy']))),
         'date_inv': fields.function(_get_date_invoice, method=True, type='char', string='Date invoice', size=20),
         'stock_invoice': fields.function(_get_stock_invoice, method=True, type='float', string='Stock invoice', digits=(16, int(config['price_accuracy']))),
-        'subtotal': fields.function(_compute_subtotal, method=True, type='float', string='Subtotal', digits=(16, int(config['price_accuracy']))),        
+        'subtotal': fields.function(_compute_subtotal, method=True, type='float', string='Subtotal', digits=(16, int(config['price_accuracy']))),
+        'total': fields.function(_compute_total, method=True, type='float', string='Total', digits=(16, int(config['price_accuracy']))),                
         
     }
 
