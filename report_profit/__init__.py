@@ -40,6 +40,7 @@ import report_profit_category
 import report_profit_var
 import report_profit_invoice
 import report_profit_picking
+import stock_card
 import report
 import wizard
 

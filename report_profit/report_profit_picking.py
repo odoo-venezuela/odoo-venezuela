@@ -43,6 +43,7 @@ class report_profit_picking(osv.osv):
         purchase_obj = self.pool.get('purchase.order')
         sale_obj = self.pool.get('sale.order')
         il_obj = self.pool.get('account.invoice.line')
+        loc_obj = self.pool.get('stock.location')
         
         for rpp in self.browse(cr, uid, ids, context):
             result[rpp.id] = ()
@@ -53,8 +54,37 @@ class report_profit_picking(osv.osv):
                     inv_id = rpp.purchase_line_id.order_id.invoice_id.id
                     il_ids = il_obj.search(cr, uid, [('invoice_id', '=', inv_id), ('product_id', '=', rpp.product_id.id), ('quantity', '=', rpp.picking_qty)])
             if rpp.sale_line_id and rpp.sale_line_id.id:
-                for il in rpp.sale_line_id.invoice_lines:
-                    il_ids.append(il.id)                    
+                cust_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Customers')])
+                #cust_loc_ids = [8]
+                lst_inv = []
+                str_inv = ''
+                inv_type ='out_invoice'
+                if not cust_loc_ids:
+                    raise osv.except_osv('Error', 'No hay una ubicacion cliente definida')
+                               
+                if rpp.sale_line_id.order_id.invoice_ids:
+                    for inv in rpp.sale_line_id.order_id.invoice_ids:
+                        if inv.id not in lst_inv:
+                            lst_inv.append(inv.id)
+                        if inv.child_ids:
+                            for inv_nc in inv.child_ids:
+                                if inv_nc.id not in lst_inv:
+                                    lst_inv.append(inv_nc.id)
+                                    
+                    if lst_inv:
+                        str_inv = ','.join(map(str, lst_inv))
+                        #NC VENTA 
+                        if rpp.location_id.id == cust_loc_ids[0]:
+                            inv_type ='out_refund'
+                        sql = '''
+                            select
+                                l.id as id
+                            from account_invoice_line l
+                                inner join account_invoice i on (i.id=l.invoice_id)
+                            where i.id in (%s)  and i.type='%s' and l.product_id=%s and l.quantity=%s
+''' % (str_inv,inv_type,rpp.product_id.id,rpp.picking_qty)
+                        cr.execute(sql)
+                        il_ids = [x[0] for x in cr.fetchall()]
 
             if il_ids:
                 il = il_obj.browse(cr, uid, il_ids[0], context)
@@ -75,8 +105,9 @@ class report_profit_picking(osv.osv):
             #aml_query = aml_obj.find(cr, uid, mov_id=677)
             #print 'consultaxxx: ',aml_query
             #aml = aml_obj.browse(cr, uid, aml_query[0], context)
-                aml = aml_obj.browse(cr, uid, moves[0], context)
-                result[rpp.id] = (aml.id,aml.name)
+                if moves:
+                    aml = aml_obj.browse(cr, uid, moves[0], context)
+                    result[rpp.id] = (aml.id,aml.name)
         return result
 
     def _get_invoice_qty(self, cr, uid, ids, name, arg, context={}):
@@ -175,9 +206,10 @@ class report_profit_picking(osv.osv):
         for rpp in self.browse(cr, uid, ids, context):
             res[rpp.id] = False
             if rpp.invoice_line_id and rpp.invoice_line_id.id:
-                date = rpp.invoice_line_id.invoice_id.date_invoice
-                startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(date,"%Y-%m-%d")))                
-                res[rpp.id] = startf.strftime('%Y-%m-%d:16:00:%S')
+                if rpp.invoice_line_id.invoice_id.date_invoice:
+                    date = rpp.invoice_line_id.invoice_id.date_invoice
+                    startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(date,"%Y-%m-%d")))
+                    res[rpp.id] = startf.strftime('%Y-%m-%d:16:00:%S')
         return res
 
     def _get_stock_invoice(self, cr, uid, ids, name, arg, context={}):
@@ -265,9 +297,10 @@ class report_profit_picking(osv.osv):
 #                if line.location_id.id == loc_ids and line.invoice_id.type == 'out_refund':
 #                    subtot = line.picking_qty*avg
 
-            print 'total: ',tot
+#            print 'total: ',tot
             res[line.id] = tot[line.product_id.id]
         return res
+
             
 #    def _get_moveline():
     def aml_cost_get(self, cr, uid, il_id):    
@@ -322,7 +355,7 @@ class report_profit_picking(osv.osv):
         'date_inv': fields.function(_get_date_invoice, method=True, type='char', string='Date invoice', size=20),
         'stock_invoice': fields.function(_get_stock_invoice, method=True, type='float', string='Stock invoice', digits=(16, int(config['price_accuracy']))),
         'subtotal': fields.function(_compute_subtotal, method=True, type='float', string='Subtotal', digits=(16, int(config['price_accuracy']))),
-        'total': fields.function(_compute_total, method=True, type='float', string='Total', digits=(16, int(config['price_accuracy']))),                
+        'total': fields.function(_compute_total, method=True, type='float', string='Total', digits=(16, int(config['price_accuracy']))),        
         
     }
 

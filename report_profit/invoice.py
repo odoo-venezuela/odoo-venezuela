@@ -97,9 +97,10 @@ class account_invoice_line(osv.osv):
 #                raise osv.except_osv('Accion Invalida !', "Producto sin cuenta de costo o inventario asignada!: '%s'" % (l.product_id.name,))
                 continue
             # FIXME - que pasa si la factura no tiene movimiento(draft) o esta cancelada
-            for aml in l.invoice_id.move_id.line_id:
-                if aml.account_id.id==src_account_id and aml.product_id.id==l.product_id.id and aml.quantity==l.quantity:
-                    res.append(aml.id)
+            if l.invoice_id.move_id:
+                for aml in l.invoice_id.move_id.line_id:
+                    if aml.account_id.id==src_account_id and aml.product_id.id==l.product_id.id and aml.quantity==l.quantity:
+                        res.append(aml.id)
 
 
         return res
