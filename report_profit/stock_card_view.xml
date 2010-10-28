@@ -35,6 +35,7 @@
                     <field name="invoice_line_id"/>
                     <field name="invoice_id"/>
                     <field name="parent_id"/>
+                    <field name="sequence"/>
                 </tree>
             </field>
         </record>
@@ -73,6 +74,7 @@
                     <field name="invoice_line_id"/>
                     <field name="invoice_id"/>
                     <field name="parent_id"/>
+                    <field name="sequence"/>
                 </form>
             </field>
         </record>
