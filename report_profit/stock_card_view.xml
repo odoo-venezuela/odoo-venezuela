@@ -36,6 +36,8 @@
                     <field name="invoice_id"/>
                     <field name="parent_id"/>
                     <field name="sequence"/>
+                    <field name="stk_bef_cor"/>
+                    <field name="stk_aft_cor"/>                    
                 </tree>
             </field>
         </record>
@@ -75,6 +77,8 @@
                     <field name="invoice_id"/>
                     <field name="parent_id"/>
                     <field name="sequence"/>
+                    <field name="stk_bef_cor"/>
+                    <field name="stk_aft_cor"/>                                        
                 </form>
             </field>
         </record>

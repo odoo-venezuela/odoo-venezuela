@@ -210,8 +210,8 @@ class stock_card(osv.osv):
                     'subtotal':subtot,
                     'total':tot,
                     'avg':prom,
-                    'stock_before':q_mov,
-                    'stock_after':q_des
+                    'stk_bef_cor':q_mov,
+                    'stk_aft_cor':q_des
                 }            
                 s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                                    
         else:                               
@@ -222,8 +222,8 @@ class stock_card(osv.osv):
                 'subtotal':subtot,
                 'total':tot,
                 'avg':prom,
-                'stock_before':q_mov,
-                'stock_after':q_des
+                'stk_bef_cor':q_mov,
+                'stk_aft_cor':q_des
             }            
             s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                    
 
@@ -262,8 +262,8 @@ class stock_card(osv.osv):
                 'subtotal':subtot,
                 'total':tot,
                 'avg':prom,
-                'stock_before':q_mov,
-                'stock_after':q_des
+                'stk_bef_cor':q_mov,
+                'stk_aft_cor':q_des
             }            
             s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)            
         else:
@@ -321,8 +321,8 @@ class stock_card(osv.osv):
                         'subtotal':subtot,
                         'total':tot,
                         'avg':prom,
-                        'stock_before':q_mov,
-                        'stock_after':q_des
+                        'stk_bef_cor':q_mov,
+                        'stk_aft_cor':q_des
                     }            
                     s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                    
             else:
@@ -333,8 +333,8 @@ class stock_card(osv.osv):
                     'subtotal':subtot,
                     'total':tot,
                     'avg':prom,
-                    'stock_before':q_mov,
-                    'stock_after':q_des
+                    'stk_bef_cor':q_mov,
+                    'stk_aft_cor':q_des
                 }            
                 s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                
         else:
@@ -378,18 +378,22 @@ class stock_card(osv.osv):
                     cr.execute('SELECT standard_price,product_qty FROM lst_cost ' \
                     'WHERE default_code=%s', (def_code,))
                     res = cr.fetchall()
-                    if res:
+                    if res and res[0][1]:
+                        print 'encontre costo inicccc'
                         avg,q = res[0]
                     else:
                         rpp = rpp_obj.browse(cr,uid,sml_id)
                         if rpp.location_dest_id.id == loc_ids and rpp.invoice_id.type == 'in_invoice':
                             q = rpp.picking_qty
-                            avg = rpp.invoice_price_unit
+                            print 'cantidad inicialxxxxx: ',q
+                            avg = rpp.invoice_price_unit 
                         else:
                             no_cump.append(sml_id)
                             continue
                     #avg = 1430.96
                     #q = 5.0
+                    print 'cantidad inicial: ',q
+                    print 'costo inicial: ',avg
                     total = avg*q
                     subtotal = avg*q
                     qda = q
@@ -398,8 +402,8 @@ class stock_card(osv.osv):
                         'subtotal':subtotal,
                         'total':total,
                         'avg':avg,
-                        'stock_before':q,
-                        'stock_after':qda,
+                        'stk_bef_cor':q,
+                        'stk_aft_cor':qda,
                         'sequence':seq
                     }
                     scl_id = sc_line_obj.search(cr, uid, [('stk_mov_id','=',sml_id)])
@@ -435,8 +439,8 @@ class stock_card(osv.osv):
                             'subtotal':subtotal,
                             'total':total,
                             'avg':avg,
-                            'stock_before':q,
-                            'stock_after':qda
+                            'stk_bef_cor':q,
+                            'stk_aft_cor':qda
                         }            
                         seq=self.write_data(cr, uid, ids, scl.id, value, seq)                        
                         if no_cump:
@@ -566,6 +570,9 @@ class stock_card_line(osv.osv):
         'avg': fields.float(string='Price Avg', digits=(16, int(config['price_accuracy'])), readonly=True),
         'parent_id':fields.many2one('stock.card.line', 'Parent', readonly=True, select=True),
         'sequence': fields.integer('Sequence', readonly=True),
+        'stk_bef_cor': fields.float(string='Stock before', digits=(16, int(config['price_accuracy'])), readonly=True),
+        'stk_aft_cor': fields.float(string='Stock after', digits=(16, int(config['price_accuracy'])), readonly=True),
+        
         
     }
 
