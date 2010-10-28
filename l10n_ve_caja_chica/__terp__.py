@@ -40,10 +40,11 @@
 	"demo_xml" : [], 
 	"update_xml" : [
             "l10n_ve_caja_chica_view.xml",
+            "l10n_ve_caja_chica_wizard.xml",
             "voucher_view.xml",
             "account_invoice_view.xml",
-            "caja_chica_property_view.xml",
-            "l10n_ve_caja_chica_wizard.xml"
+            "caja_chica_property_view.xml"
+            
     ],
 	"active": False,
 	"installable": True
