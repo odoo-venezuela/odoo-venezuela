@@ -74,6 +74,7 @@ class stock_card(osv.osv):
 
     def action_confirm(self, cr, uid, ids, context={}):
         drop_view_if_exists(cr, 'report_profit_picking')
+        cr.execute("DELETE FROM stock_card_line")
         cr.execute("""
             create or replace view report_profit_picking as (
             select
@@ -141,6 +142,13 @@ class stock_card(osv.osv):
     def action_sm_x_pd(self, cr, uid, ids, prd_id):        
         cr.execute('SELECT id FROM report_profit_picking ' \
                     'WHERE product_id=%s ORDER BY name', (prd_id,))
+                    
+        res = [x[0] for x in cr.fetchall()]
+        return res
+
+    def action_sm_produccion(self, cr, uid, ids, from_loc, to_loc):        
+        cr.execute('SELECT id FROM report_profit_picking ' \
+                    'WHERE location_id=%s AND location_dest_id=%s ORDER BY name', (from_loc, to_loc))
                     
         res = [x[0] for x in cr.fetchall()]
         return res
@@ -354,8 +362,12 @@ class stock_card(osv.osv):
     def action_done(self, cr, uid, ids, context={}):
         sc_line_obj = self.pool.get('stock.card.line')
         rpp_obj = self.pool.get('report.profit.picking')
-        prod_unic = self.action_unico(cr, uid, ids)
-        loc_ids = 11
+        loc_obj = self.pool.get('stock.location')
+        prod_unic = self.action_unico(cr, uid, ids)        
+        #loc_ids = 11
+        loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Stock')])[0]
+        inter_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Uso_interno')])[0]
+        prod_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Procesamiento')])[0]
         for prod_id in prod_unic:
             def_code = self.pool.get('product.product').browse(cr,uid,prod_id).default_code.strip()
             print 'def_code: ',def_code
@@ -411,6 +423,7 @@ class stock_card(osv.osv):
                     print 'q inicial: ',q
                     print 'avg: ',avg
                     print 'qda inicial: ',qda
+                    print 'seq inicial: ',seq
                     
                     
                 else:
@@ -420,16 +433,19 @@ class stock_card(osv.osv):
                     scl = sc_line_obj.browse(cr,uid,scl_id)[0]                    
                     print 'viene operac: ',sml_id
                     print 'packing: ',rpp.picking_id.name
+                    print 'seq antes operac: ',seq
                     #VENTA
                     if rpp.location_id.id == loc_ids and rpp.invoice_id.type == 'out_invoice':
                         print 'validando VENTA:'        
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
+                        print 'seq despues operac: ',seq
                     #NC COMPRA
                     if rpp.location_id.id == loc_ids and (rpp.invoice_id.type == 'in_refund' or rpp.invoice_id.type == 'in_invoice'):
                         print 'validando NC compra:'        
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_nc_compra(cr,uid,ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
+                        print 'seq despues operac: ',seq
                     #COMPRA
                     if rpp.location_dest_id.id == loc_ids and rpp.invoice_id.type == 'in_invoice':
                         print 'procesooo compra:'        
@@ -442,7 +458,8 @@ class stock_card(osv.osv):
                             'stk_bef_cor':q,
                             'stk_aft_cor':qda
                         }            
-                        seq=self.write_data(cr, uid, ids, scl.id, value, seq)                        
+                        seq=self.write_data(cr, uid, ids, scl.id, value, seq)
+                        print 'seq despues operac: ',seq
                         if no_cump:
                             print 'agregando nuevamente las vta:'
                             #no_cump.append(sml_id)
@@ -456,6 +473,7 @@ class stock_card(osv.osv):
                         print 'validando NC VENTA:'        
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_nc_vta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
+                        print 'seq despues operac: ',seq
                             
                         if no_cump and not scl.parent_id:
                             print 'agregando nuevamente los movimientos:'
@@ -466,6 +484,20 @@ class stock_card(osv.osv):
                             print 'nueva listaaa: ',sml_x_pd_id
                             no_cump = []                            
                                                      
+                    #DESTINO USO INTERNO
+                    if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == inter_loc_ids:
+                        print 'validando USO INTERNO:'        
+                        qda,subtotal,total,avg,no_cump,seq= \
+                        self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
+                        print 'seq despues operac: ',seq
+
+                    #DESTINO USO PROCESAMIENTO
+                    if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == prod_loc_ids:
+                        print 'validando PROCESAMIENTO:'        
+                        qda,subtotal,total,avg,no_cump,seq= \
+                        self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
+                        print 'seq despues operac: ',seq
+
 
                     #NO HAY MAS COMPRAS O NC VENTAS Y QUEDAN MOVIMIENTOS
                     if no_cump and not sml_x_pd_id:
@@ -473,7 +505,10 @@ class stock_card(osv.osv):
                             sml_id = no_cump.pop(0)
                             print 'procesando vtas y la NC COMPRAS faltantes:'
 
-
+        print 'ubic produccion: ',prod_loc_ids
+        print 'ubic. stock: ',loc_ids
+        sml_produccion = self.action_sm_produccion(cr, uid, ids, prod_loc_ids, loc_ids)
+        print 'movimientos produccion: ',sml_produccion
 #        self.action_move_create(cr, uid, ids)
 #        self.write(cr, uid, ids, {'state':'done'})
         return True
@@ -570,8 +605,8 @@ class stock_card_line(osv.osv):
         'avg': fields.float(string='Price Avg', digits=(16, int(config['price_accuracy'])), readonly=True),
         'parent_id':fields.many2one('stock.card.line', 'Parent', readonly=True, select=True),
         'sequence': fields.integer('Sequence', readonly=True),
-        'stk_bef_cor': fields.float(string='Stock before', digits=(16, int(config['price_accuracy'])), readonly=True),
-        'stk_aft_cor': fields.float(string='Stock after', digits=(16, int(config['price_accuracy'])), readonly=True),
+        'stk_bef_cor': fields.float(string='Stock before cal', digits=(16, int(config['price_accuracy'])), readonly=True),
+        'stk_aft_cor': fields.float(string='Stock after cal', digits=(16, int(config['price_accuracy'])), readonly=True),
         
         
     }
