@@ -37,7 +37,9 @@
                     <field name="parent_id"/>
                     <field name="sequence"/>
                     <field name="stk_bef_cor"/>
-                    <field name="stk_aft_cor"/>                    
+                    <field name="stk_aft_cor"/>
+                    <field name="sml_source_id"/>
+                    <field name="out_sml_ids"/>                    
                 </tree>
             </field>
         </record>
@@ -50,6 +52,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Move by Picking Line">
+                <group col="2" colspan="6">
                     <field name="name"/>
                     <field name="date_inv"/>
                     <field name="type"/>                    
@@ -78,7 +81,12 @@
                     <field name="parent_id"/>
                     <field name="sequence"/>
                     <field name="stk_bef_cor"/>
-                    <field name="stk_aft_cor"/>                                        
+                    <field name="stk_aft_cor"/>
+                    <field name="sml_source_id"/>
+                </group>    
+                <group col="1" colspan="6">
+                    <field name="out_sml_ids"  nolabel="1" widget='many2many'/>
+                </group>
                 </form>
             </field>
         </record>

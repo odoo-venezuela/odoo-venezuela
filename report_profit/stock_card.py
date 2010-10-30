@@ -607,7 +607,8 @@ class stock_card_line(osv.osv):
         'sequence': fields.integer('Sequence', readonly=True),
         'stk_bef_cor': fields.float(string='Stock before cal', digits=(16, int(config['price_accuracy'])), readonly=True),
         'stk_aft_cor': fields.float(string='Stock after cal', digits=(16, int(config['price_accuracy'])), readonly=True),
-        
+        'sml_source_id':fields.many2one('stock.card.line', 'Source sml', select=True),
+        'out_sml_ids':fields.one2many('stock.card.line', 'sml_source_id', 'Output sml'),        
         
     }
 
