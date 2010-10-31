@@ -41,7 +41,8 @@
                     <field name="sml_source_id"/>
                     <field name="aml_inv_id"/>
                     <field name="aml_inv_price_unit"/>
-                    <field name="aml_inv_qty"/>                    
+                    <field name="aml_inv_qty"/>
+                    <field name="aml_cost_cor"/>
                 </tree>
             </field>
         </record>
@@ -87,7 +88,8 @@
                     <field name="sml_source_id"/>
                     <field name="aml_inv_id"/>
                     <field name="aml_inv_price_unit"/>
-                    <field name="aml_inv_qty"/>                    
+                    <field name="aml_inv_qty"/>
+                    <field name="aml_cost_cor"/>
                 </group>    
                 <group col="1" colspan="6">
                     <field name="out_sml_ids"  nolabel="1" widget='many2many'/>

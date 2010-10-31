@@ -72,6 +72,18 @@ class stock_card(osv.osv):
 
         return True    
 
+
+    def compute_new_cost(self, cr, uid, ids):
+        sc_line_obj = self.pool.get('stock.card.line')
+        for sc in self.browse(cr,uid,ids):
+            for scl in sc.sc_line:
+                if scl.invoice_id.type not in ['in_invoice', 'in_refund']:
+                    cost = scl.picking_qty*scl.avg
+                    sc_line_obj.write(cr,uid,[scl.id],{'aml_cost_cor':cost})
+
+        return True 
+    
+    
     def action_confirm(self, cr, uid, ids, context={}):
         drop_view_if_exists(cr, 'report_profit_picking')
         cr.execute("DELETE FROM stock_card_line")
@@ -514,6 +526,7 @@ class stock_card(osv.osv):
         print 'movimientos produccion: ',sml_produccion
 #        self.action_move_create(cr, uid, ids)
 #        self.write(cr, uid, ids, {'state':'done'})
+        self.compute_new_cost(cr, uid, ids)
         return True
     
 #    def action_move_create(self, cr, uid, ids, *args):
@@ -614,7 +627,8 @@ class stock_card_line(osv.osv):
         'out_sml_ids':fields.one2many('stock.card.line', 'sml_source_id', 'Output sml'),
         'aml_inv_id': fields.many2one('account.move.line', string='Inv entry', readonly=True, select=True),
         'aml_inv_price_unit': fields.float(string='Inv entry price unit', digits=(16, int(config['price_accuracy'])), readonly=True),
-        'aml_inv_qty': fields.float(string='Inv entry quantity', digits=(16, int(config['price_accuracy'])), readonly=True),        
+        'aml_inv_qty': fields.float(string='Inv entry quantity', digits=(16, int(config['price_accuracy'])), readonly=True),
+        'aml_cost_cor': fields.float(string='Cost entry cal', digits=(16, int(config['price_accuracy'])), readonly=True),        
         
     }
 
