@@ -40,6 +40,8 @@
                     <field name="stk_aft_cor"/>
                     <field name="sml_source_id"/>
                     <field name="aml_inv_id"/>
+                    <field name="aml_inv_price_unit"/>
+                    <field name="aml_inv_qty"/>                    
                 </tree>
             </field>
         </record>
@@ -84,6 +86,8 @@
                     <field name="stk_aft_cor"/>
                     <field name="sml_source_id"/>
                     <field name="aml_inv_id"/>
+                    <field name="aml_inv_price_unit"/>
+                    <field name="aml_inv_qty"/>                    
                 </group>    
                 <group col="1" colspan="6">
                     <field name="out_sml_ids"  nolabel="1" widget='many2many'/>

@@ -124,7 +124,15 @@ class report_profit_picking(osv.osv):
             res[rpp.id] = 0.0
             if rpp.aml_cost_id and rpp.aml_cost_id.id:
                 res[rpp.id] = rpp.aml_cost_id.quantity
-        return res        
+        return res
+
+    def _get_aml_inv_qty(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        for rpp in self.browse(cr, uid, ids, context):
+            res[rpp.id] = 0.0
+            if rpp.aml_inv_id and rpp.aml_inv_id.id:
+                res[rpp.id] = rpp.aml_inv_id.quantity
+        return res      
 
 
     def _get_invoice_price(self, cr, uid, ids, name, arg, context={}):
@@ -149,6 +157,23 @@ class report_profit_picking(osv.osv):
                     price_unit = amount/rpp.aml_cost_id.quantity
                     res[rpp.id] = price_unit
         return res
+
+
+    def _get_aml_inv_price(self, cr, uid, ids, name, arg, context={}):
+        res = {}
+        for rpp in self.browse(cr, uid, ids, context):
+            res[rpp.id] = 0.0
+            if rpp.aml_inv_id and rpp.aml_inv_id.id:
+                if rpp.aml_inv_id.quantity and rpp.aml_inv_id.quantity>0:
+                    price_unit = 0.0
+                    if rpp.aml_inv_id.debit:
+                        amount = rpp.aml_inv_id.debit
+                    else:
+                        amount = rpp.aml_inv_id.credit
+                    price_unit = amount/rpp.aml_inv_id.quantity
+                    res[rpp.id] = price_unit
+        return res
+
 
     def _get_prod_stock_before(self, cr, uid, ids, name, arg, context={}):
         res = {}
@@ -302,13 +327,6 @@ class report_profit_picking(osv.osv):
         return res
 
 
-    def aml_cost_get(self, cr, uid, il_id):    
-        res = []
-        il_obj = self.pool.get('account.invoice.line')
-        res = il_obj.move_line_id_cost_get(cr, uid, il_id)    
-        return res
-
-
     def _get_aml_inv(self, cr, uid, ids, field_name, arg, context={}):
         result = {}
         aml_obj = self.pool.get('account.move.line')
@@ -320,6 +338,14 @@ class report_profit_picking(osv.osv):
                     aml = aml_obj.browse(cr, uid, moves[0], context)
                     result[rpp.id] = (aml.id,aml.name)
         return result
+    
+
+    def aml_cost_get(self, cr, uid, il_id):    
+        res = []
+        il_obj = self.pool.get('account.invoice.line')
+        res = il_obj.move_line_id_cost_get(cr, uid, il_id)    
+        return res
+
     
     def aml_inv_get(self, cr, uid, il_id):
         res = []
@@ -368,8 +394,9 @@ class report_profit_picking(osv.osv):
         'stock_invoice': fields.function(_get_stock_invoice, method=True, type='float', string='Stock invoice', digits=(16, int(config['price_accuracy']))),
         'subtotal': fields.function(_compute_subtotal, method=True, type='float', string='Subtotal', digits=(16, int(config['price_accuracy']))),
         'total': fields.function(_compute_total, method=True, type='float', string='Total', digits=(16, int(config['price_accuracy']))),
-        'aml_inv_id': fields.function(_get_aml_inv, method=True, type='many2one', relation='account.move.line', string='Inv entry'),        
-        
+        'aml_inv_id': fields.function(_get_aml_inv, method=True, type='many2one', relation='account.move.line', string='Inv entry'),
+        'aml_inv_price_unit': fields.function(_get_aml_inv_price, method=True, type='float', string='Inv entry price unit', digits=(16, int(config['price_accuracy']))),        
+        'aml_inv_qty': fields.function(_get_aml_inv_qty, method=True, type='float', string='Inv entry quantity', digits=(16, int(config['price_accuracy']))),        
     }
 
     def init(self, cr):

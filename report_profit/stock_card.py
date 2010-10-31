@@ -126,7 +126,9 @@ class stock_card(osv.osv):
             'stock_after': rpp.stock_after or False,
             'date_inv':rpp.date_inv or False,
             'stock_invoice':rpp.stock_invoice or 0.0,
-            'aml_inv_id': rpp.aml_inv_id and rpp.aml_inv_id.id or False,            
+            'aml_inv_id': rpp.aml_inv_id and rpp.aml_inv_id.id or False,
+            'aml_inv_price_unit':rpp.aml_inv_price_unit or 0.0,    
+            'aml_inv_qty':rpp.aml_inv_qty or 0.0,
             
             }
             sc_line_obj.create(cr,uid,vals)
@@ -610,7 +612,9 @@ class stock_card_line(osv.osv):
         'stk_aft_cor': fields.float(string='Stock after cal', digits=(16, int(config['price_accuracy'])), readonly=True),
         'sml_source_id':fields.many2one('stock.card.line', 'Source sml', select=True),
         'out_sml_ids':fields.one2many('stock.card.line', 'sml_source_id', 'Output sml'),
-        'aml_inv_id': fields.many2one('account.move.line', string='Inv entry', readonly=True, select=True),        
+        'aml_inv_id': fields.many2one('account.move.line', string='Inv entry', readonly=True, select=True),
+        'aml_inv_price_unit': fields.float(string='Inv entry price unit', digits=(16, int(config['price_accuracy'])), readonly=True),
+        'aml_inv_qty': fields.float(string='Inv entry quantity', digits=(16, int(config['price_accuracy'])), readonly=True),        
         
     }
 
