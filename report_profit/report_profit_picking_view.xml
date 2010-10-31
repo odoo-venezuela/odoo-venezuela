@@ -33,6 +33,7 @@
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
                     <field name="invoice_id"/>
+                    <field name="aml_inv_id"/>
                 </tree>
             </field>
         </record>
@@ -69,6 +70,7 @@
                     <field name="aml_cost_id"/>
                     <field name="invoice_line_id"/>
                     <field name="invoice_id"/>
+                    <field name="aml_inv_id"/>
                 </form>
             </field>
         </record>

@@ -301,20 +301,32 @@ class report_profit_picking(osv.osv):
             res[line.id] = tot[line.product_id.id]
         return res
 
-            
-#    def _get_moveline():
+
     def aml_cost_get(self, cr, uid, il_id):    
         res = []
         il_obj = self.pool.get('account.invoice.line')
         res = il_obj.move_line_id_cost_get(cr, uid, il_id)    
         return res
-    
-    def _logistical_process():
-          '''
-          Aqui va la logica para los casos de conversiones de product
-          '''
 
-          return algo
+
+    def _get_aml_inv(self, cr, uid, ids, field_name, arg, context={}):
+        result = {}
+        aml_obj = self.pool.get('account.move.line')
+        for rpp in self.browse(cr, uid, ids, context):
+            result[rpp.id] = ()
+            if rpp.invoice_line_id and rpp.invoice_line_id.id:
+                moves = self.aml_inv_get(cr, uid, [rpp.invoice_line_id.id])
+                if moves:
+                    aml = aml_obj.browse(cr, uid, moves[0], context)
+                    result[rpp.id] = (aml.id,aml.name)
+        return result
+    
+    def aml_inv_get(self, cr, uid, il_id):
+        res = []
+        il_obj = self.pool.get('account.invoice.line')
+        res = il_obj.move_line_id_inv_get(cr, uid, il_id)
+        return res
+    
         
     _name = "report.profit.picking"
     _description = "Move by Picking"
@@ -355,7 +367,8 @@ class report_profit_picking(osv.osv):
         'date_inv': fields.function(_get_date_invoice, method=True, type='char', string='Date invoice', size=20),
         'stock_invoice': fields.function(_get_stock_invoice, method=True, type='float', string='Stock invoice', digits=(16, int(config['price_accuracy']))),
         'subtotal': fields.function(_compute_subtotal, method=True, type='float', string='Subtotal', digits=(16, int(config['price_accuracy']))),
-        'total': fields.function(_compute_total, method=True, type='float', string='Total', digits=(16, int(config['price_accuracy']))),        
+        'total': fields.function(_compute_total, method=True, type='float', string='Total', digits=(16, int(config['price_accuracy']))),
+        'aml_inv_id': fields.function(_get_aml_inv, method=True, type='many2one', relation='account.move.line', string='Inv entry'),        
         
     }
 

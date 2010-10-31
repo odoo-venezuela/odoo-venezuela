@@ -90,20 +90,44 @@ class account_invoice_line(osv.osv):
         for l in self.browse(cr, uid, ids):
             if l.invoice_id.type in ('out_invoice','out_refund'):
                 src_account_id =  l.product_id.property_account_expense and l.product_id.property_account_expense.id or False
+
+                if not src_account_id:
+    #                raise osv.except_osv('Accion Invalida !', "Producto sin cuenta de costo o inventario asignada!: '%s'" % (l.product_id.name,))
+                    continue
+                # FIXME - que pasa si la factura no tiene movimiento(draft) o esta cancelada
+                if l.invoice_id.move_id:
+                    for aml in l.invoice_id.move_id.line_id:
+                        if aml.account_id.id==src_account_id and aml.product_id.id==l.product_id.id and aml.quantity==l.quantity:
+                            res.append(aml.id)
+
+
+        return res
+
+
+    def move_line_id_inv_get(self, cr, uid, ids, *args):
+        res = []
+        aml_obj = self.pool.get('account.move.line')
+        aml_ids = []
+        for l in self.browse(cr, uid, ids):
+            if l.invoice_id.type in ('out_invoice','out_refund'):
+                src_account_id =  l.product_id.property_stock_account_output and l.product_id.property_stock_account_output.id or False
             else:
                 src_account_id =  l.product_id.property_stock_account_input and l.product_id.property_stock_account_input.id or False
 
             if not src_account_id:
 #                raise osv.except_osv('Accion Invalida !', "Producto sin cuenta de costo o inventario asignada!: '%s'" % (l.product_id.name,))
                 continue
-            # FIXME - que pasa si la factura no tiene movimiento(draft) o esta cancelada
+            
             if l.invoice_id.move_id:
-                for aml in l.invoice_id.move_id.line_id:
-                    if aml.account_id.id==src_account_id and aml.product_id.id==l.product_id.id and aml.quantity==l.quantity:
-                        res.append(aml.id)
-
+                aml_ids = aml_obj.find(cr, uid, mov_id=l.invoice_id.move_id.id, \
+                                        acc_id=src_account_id,prd_id=l.product_id.id, \
+                                        qty=l.quantity)
+                
+                if aml_ids:
+                    res.append(aml_ids[0])
 
         return res
+
 
 account_invoice_line()
 
