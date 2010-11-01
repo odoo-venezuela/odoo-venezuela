@@ -663,10 +663,13 @@ class stock_card(osv.osv):
         print 'ubic. stock: ',loc_ids
         sml_produccion = self.action_sm_produccion(cr, uid, ids, prod_loc_ids, loc_ids)
         print 'movimientos produccion: ',sml_produccion
-#        self.action_move_create(cr, uid, ids)
-#        self.write(cr, uid, ids, {'state':'done'})
+        #filtrar productos unicos de sml_produccion
+        #ciclar y calcular avg, subtotal, total y generar aml de mov de produc si no existen        
+        #compute_new_cost para movimientos internos
         self.compute_new_cost(cr, uid, ids)
         lst_scl_refac = self.lst_scl_new_cost(cr, uid, ids)
+        #lista a refactorizar de mov internos(asiento inv y costo y de tipo interno)
+        #unir las dos lista a refactorizar
         self.write_new_cost(cr, uid, lst_scl_refac)
         return True
     
