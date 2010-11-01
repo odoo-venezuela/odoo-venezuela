@@ -168,6 +168,43 @@ class stock_card(osv.osv):
         res = [x[0] for x in cr.fetchall()]
         return res
 
+    def lst_scl_new_cost(self, cr, uid, ids, *args):        
+        cr.execute("SELECT scl.id FROM stock_card_line scl  " \
+                    "LEFT JOIN account_invoice ai on ai.id=scl.invoice_id " \
+                    "WHERE ai.type NOT IN ('in_invoice', 'in_refund') " \
+                    "AND scl.aml_cost_id>0 AND scl.aml_inv_id>0 ")
+                    
+        res = [x[0] for x in cr.fetchall()]
+        return res
+
+
+    def write_new_cost(self, cr, uid, ids):
+        sc_line_obj = self.pool.get('stock.card.line')
+        aml_obj = self.pool.get('account.move.line')
+        for scl in sc_line_obj.browse(cr,uid,ids):
+            types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
+            direction = types[scl.invoice_id.type]
+            pay_amount = scl.aml_cost_cor
+            l1 = {
+                'debit': direction * pay_amount>0 and direction * pay_amount or 0.0,
+                'credit': direction * pay_amount<0 and - direction * pay_amount or 0.0,
+            }
+            l2 = {
+                'debit': direction * pay_amount<0 and - direction * pay_amount or 0.0,
+                'credit': direction * pay_amount>0 and direction * pay_amount or 0.0,
+            }
+            print 'l11111: ',l1
+            print 'l22222: ',l2
+            print 'scl id: ',scl.id
+            cr.execute('UPDATE account_move_line SET debit=%s, credit=%s ' \
+                        'WHERE id=%s', (l2['debit'],l2['credit'], scl.aml_cost_id.id))
+            cr.execute('UPDATE account_move_line SET debit=%s, credit=%s ' \
+                        'WHERE id=%s', (l1['debit'],l1['credit'], scl.aml_inv_id.id))                        
+#            aml_obj.write(cr,uid,[scl.aml_cost_id],l2)
+#            aml_obj.write(cr,uid,[scl.aml_inv_id],l1)
+
+        return True 
+
     def compute_compra(self, cr, uid, ids, scl_obj, q_mov,subtot,tot,prom,q_des):
         print 'q mov: ',q_mov
         print 'qda antes: ',q_des
@@ -297,6 +334,50 @@ class stock_card(osv.osv):
         
         return res
 
+    def write_aml(self, cr, uid, ids, scl_obj, q_mov, prom, acc_src, acc_dest):       
+        move = scl_obj.stk_mov_id 
+        journal_id = move.product_id.categ_id.property_stock_journal.id
+        ref = move.picking_id and move.picking_id.name or False
+        amount = q_mov * prom
+        startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(move.date_planned,"%Y-%m-%d %H:%M:%S")))
+        date = "%s-%s-%s"%(startf.year,startf.month,startf.day)
+        print 'fechaaaa: ',date
+        if move.picking_id:
+            partner_id = move.picking_id.address_id and (move.picking_id.address_id.partner_id and move.picking_id.address_id.partner_id.id or False) or False
+        lines = [
+                (0, 0, {
+                    'name': move.name,
+                    'quantity': move.product_qty,
+                    'product_id': move.product_id and move.product_id.id or False,
+                    'credit': amount,
+                    'account_id': acc_src,
+                    'ref': ref,
+                    'date': date,
+                    'partner_id': partner_id}),
+                (0, 0, {
+                    'name': move.name,
+                    'product_id': move.product_id and move.product_id.id or False,
+                    'quantity': move.product_qty,
+                    'debit': amount,
+                    'account_id': acc_dest,
+                    'ref': ref,
+                    'date': date,
+                    'partner_id': partner_id})
+        ]
+        per = self.pool.get('account.period').find(cr, uid, dt=date)
+        mi_per = self.pool.get('account.period').browse(cr, uid, per[0]).name
+        print 'mi_per: ', mi_per
+        am_id = self.pool.get('account.move').create(cr, uid, {
+            'name': move.name,
+            'journal_id': journal_id,
+            'line_id': lines,
+            'ref': ref,
+            'period_id':self.pool.get('account.period').find(cr, uid, dt=date)[0],
+            'date': date,
+        })        
+        
+        return am_id
+
 
     def compute_nc_compra(self, cr, uid, ids, scl_obj, q_mov,subtot,tot,prom,q_des):        
         print 'q mov: ',q_mov
@@ -381,7 +462,7 @@ class stock_card(osv.osv):
         prod_unic = self.action_unico(cr, uid, ids)        
         #loc_ids = 11
         loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Stock')])[0]
-        inter_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Uso_interno')])[0]
+        inter_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Uso_Interno')])[0]
         prod_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Procesamiento')])[0]
         for prod_id in prod_unic:
             def_code = self.pool.get('product.product').browse(cr,uid,prod_id).default_code.strip()
@@ -502,17 +583,53 @@ class stock_card(osv.osv):
                     #DESTINO USO INTERNO
                     if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == inter_loc_ids:
                         print 'validando USO INTERNO:'        
+                        #fixme blanquear la variables de cuenta
+                        #acc_src = None
+                        #acc_dest = None
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
                         print 'seq despues operac: ',seq
-
-                    #DESTINO USO PROCESAMIENTO
+                        move = scl.stk_mov_id 
+                        acc_src = move.product_id.product_tmpl_id.\
+                                property_stock_account_output.id
+                        if move.location_dest_id.account_id:
+                            acc_dest = move.location_dest_id.account_id.id                        
+                        
+                        acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
+                        acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
+                        valores = {}
+                        for aml in acc_mov_obj.line_id:                       
+                            if aml.credit: 
+                                valores.update({'aml_cost_id':aml.id})
+                            if aml.debit: 
+                                valores.update({'aml_inv_id':aml.id})                             
+                                
+                        sc_line_obj.write(cr, uid, scl.id, valores)
+                    #DESTINO PROCESAMIENTO
                     if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == prod_loc_ids:
                         print 'validando PROCESAMIENTO:'        
+                        #fixme blanquear la variables de cuenta
+                        #acc_src = None
+                        #acc_dest = None                        
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
                         print 'seq despues operac: ',seq
+                        move = scl.stk_mov_id 
+                        acc_src = move.product_id.product_tmpl_id.\
+                                property_stock_account_output.id
+                        if move.location_dest_id.account_id:
+                            acc_dest = move.location_dest_id.account_id.id                        
 
+                        acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
+                        acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
+                        valores = {}
+                        for aml in acc_mov_obj.line_id:                       
+                            if aml.credit: 
+                                valores.update({'aml_cost_id':aml.id})
+                            if aml.debit: 
+                                valores.update({'aml_inv_id':aml.id})                             
+                                
+                        sc_line_obj.write(cr, uid, scl.id, valores)
 
                     #NO HAY MAS COMPRAS O NC VENTAS Y QUEDAN MOVIMIENTOS
                     if no_cump and not sml_x_pd_id:
@@ -527,6 +644,8 @@ class stock_card(osv.osv):
 #        self.action_move_create(cr, uid, ids)
 #        self.write(cr, uid, ids, {'state':'done'})
         self.compute_new_cost(cr, uid, ids)
+        lst_scl_refac = self.lst_scl_new_cost(cr, uid, ids)
+        self.write_new_cost(cr, uid, lst_scl_refac)
         return True
     
 #    def action_move_create(self, cr, uid, ids, *args):
