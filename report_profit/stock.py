@@ -31,7 +31,7 @@ class stock_move(osv.osv):
         aml_obj = self.pool.get('account.move.line')
         for l in self.browse(cr, uid, ids):
             if l.picking_id.type =='internal':
-                aml_ids = aml_obj.find(cr, uid, ref="'%s'"%l.picking_id.name)
+                aml_ids = aml_obj.find(cr, uid, ref="'%s'"%l.picking_id.name, prd_id=l.product_id.id)
         return aml_ids
     
 stock_move()

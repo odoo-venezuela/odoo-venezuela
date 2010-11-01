@@ -341,7 +341,6 @@ class stock_card(osv.osv):
         amount = q_mov * prom
         startf = datetime.datetime.fromtimestamp(time.mktime(time.strptime(move.date_planned,"%Y-%m-%d %H:%M:%S")))
         date = "%s-%s-%s"%(startf.year,startf.month,startf.day)
-        print 'fechaaaa: ',date
         if move.picking_id:
             partner_id = move.picking_id.address_id and (move.picking_id.address_id.partner_id and move.picking_id.address_id.partner_id.id or False) or False
         lines = [
@@ -364,9 +363,6 @@ class stock_card(osv.osv):
                     'date': date,
                     'partner_id': partner_id})
         ]
-        per = self.pool.get('account.period').find(cr, uid, dt=date)
-        mi_per = self.pool.get('account.period').browse(cr, uid, per[0]).name
-        print 'mi_per: ', mi_per
         am_id = self.pool.get('account.move').create(cr, uid, {
             'journal_id': journal_id,
             'line_id': lines,
@@ -588,22 +584,37 @@ class stock_card(osv.osv):
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
                         print 'seq despues operac: ',seq
-                        move = scl.stk_mov_id 
-                        acc_src = move.product_id.product_tmpl_id.\
-                                property_stock_account_output.id
-                        if move.location_dest_id.account_id:
-                            acc_dest = move.location_dest_id.account_id.id                        
-                        
-                        acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
-                        acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
                         valores = {}
-                        for aml in acc_mov_obj.line_id:                       
-                            if aml.credit: 
-                                valores.update({'aml_cost_id':aml.id})
-                            if aml.debit: 
-                                valores.update({'aml_inv_id':aml.id})                             
-                                
-                        sc_line_obj.write(cr, uid, scl.id, valores)
+                        if not (rpp.aml_cost_id or rpp.aml_inv_id):
+                            move = scl.stk_mov_id 
+                            acc_src = move.product_id.product_tmpl_id.\
+                                    property_stock_account_output.id
+                            if move.location_dest_id.account_id:
+                                acc_dest = move.location_dest_id.account_id.id                        
+                            
+                            acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
+                            acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
+                            for aml in acc_mov_obj.line_id:
+                                valores.update({
+                                                'aml_cost_qty':aml.quantity or 0.0,
+                                                'aml_cost_price_unit':avg,
+                                                'aml_inv_qty':aml.quantity or 0.0,
+                                                'aml_inv_price_unit':avg})                              
+                                if aml.credit: 
+                                    valores.update({'aml_cost_id':aml.id})
+                                if aml.debit: 
+                                    valores.update({'aml_inv_id':aml.id})                             
+                                                                    
+                                    
+                            sc_line_obj.write(cr, uid, scl.id, valores)       
+                        else:
+                            id1=scl.aml_cost_id.id
+                            id2=scl.aml_inv_id.id
+                            if not scl.aml_cost_id.credit:
+                                valores.update({'aml_cost_id':id2, 'aml_inv_id':id1})                             
+                                sc_line_obj.write(cr, uid, scl.id, valores)
+                            
+                        
                     #DESTINO PROCESAMIENTO
                     if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == prod_loc_ids:
                         print 'validando PROCESAMIENTO:'        
@@ -613,23 +624,35 @@ class stock_card(osv.osv):
                         qda,subtotal,total,avg,no_cump,seq= \
                         self.validate_venta(cr, uid, ids,scl,q,subtotal,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
                         print 'seq despues operac: ',seq
-                        move = scl.stk_mov_id 
-                        acc_src = move.product_id.product_tmpl_id.\
-                                property_stock_account_output.id
-                        if move.location_dest_id.account_id:
-                            acc_dest = move.location_dest_id.account_id.id                        
-
-                        acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
-                        acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
                         valores = {}
-                        for aml in acc_mov_obj.line_id:                       
-                            if aml.credit: 
-                                valores.update({'aml_cost_id':aml.id})
-                            if aml.debit: 
-                                valores.update({'aml_inv_id':aml.id})                             
-                                
-                        sc_line_obj.write(cr, uid, scl.id, valores)
+                        if not (rpp.aml_cost_id or rpp.aml_inv_id):
+                            move = scl.stk_mov_id 
+                            acc_src = move.product_id.product_tmpl_id.\
+                                    property_stock_account_output.id
+                            if move.location_dest_id.account_id:
+                                acc_dest = move.location_dest_id.account_id.id                        
 
+                            print 'nomb ubic: ',move.location_dest_id.name
+                            acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
+                            acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
+                            for aml in acc_mov_obj.line_id:
+                                valores.update({
+                                                'aml_cost_qty':aml.quantity or 0.0,
+                                                'aml_cost_price_unit':avg,
+                                                'aml_inv_qty':aml.quantity or 0.0,
+                                                'aml_inv_price_unit':avg})                                
+                                if aml.credit: 
+                                    valores.update({'aml_cost_id':aml.id})
+                                if aml.debit: 
+                                    valores.update({'aml_inv_id':aml.id})
+                            
+                            sc_line_obj.write(cr, uid, scl.id, valores)       
+                        else:
+                            id1=scl.aml_cost_id.id
+                            id2=scl.aml_inv_id.id
+                            if not scl.aml_cost_id.credit:
+                                valores.update({'aml_cost_id':id2, 'aml_inv_id':id1})                             
+                                sc_line_obj.write(cr, uid, scl.id, valores)
                     #NO HAY MAS COMPRAS O NC VENTAS Y QUEDAN MOVIMIENTOS
                     if no_cump and not sml_x_pd_id:
                         while no_cump:

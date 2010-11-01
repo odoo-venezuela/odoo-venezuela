@@ -106,7 +106,7 @@ class report_profit_picking(osv.osv):
             else:
                 moves = self.aml_internal_get(cr, uid, [rpp.stk_mov_id.id])
                 if moves:
-                    aml = aml_obj.browse(cr, uid, moves[0], context)
+                    aml = aml_obj.browse(cr, uid, moves[1], context)
                     result[rpp.id] = (aml.id,aml.name)
                 
         return result
@@ -142,6 +142,8 @@ class report_profit_picking(osv.osv):
             res[rpp.id] = 0.0
             if rpp.invoice_line_id and rpp.invoice_line_id.id:
                 res[rpp.id] = rpp.invoice_line_id.price_unit
+                if rpp.invoice_line_id.invoice_id.type in ['in_invoice','in_refund']:
+                    res[rpp.id] = rpp.invoice_line_id.price_subtotal/rpp.invoice_line_id.quantity or rpp.invoice_line_id.price_unit
         return res
 
     def _get_aml_cost_price(self, cr, uid, ids, name, arg, context={}):
@@ -341,7 +343,7 @@ class report_profit_picking(osv.osv):
             else:
                 moves = self.aml_internal_get(cr, uid, [rpp.stk_mov_id.id])
                 if moves:
-                    aml = aml_obj.browse(cr, uid, moves[1], context)
+                    aml = aml_obj.browse(cr, uid, moves[0], context)
                     result[rpp.id] = (aml.id,aml.name)
                     
         return result
