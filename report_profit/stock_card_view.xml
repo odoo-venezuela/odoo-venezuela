@@ -38,7 +38,7 @@
                     <field name="sequence"/>
                     <field name="stk_bef_cor"/>
                     <field name="stk_aft_cor"/>
-                    <field name="sml_source_id"/>
+                    <field name="sml_out_id"/>
                     <field name="aml_inv_id"/>
                     <field name="aml_inv_price_unit"/>
                     <field name="aml_inv_qty"/>
@@ -85,14 +85,14 @@
                     <field name="sequence"/>
                     <field name="stk_bef_cor"/>
                     <field name="stk_aft_cor"/>
-                    <field name="sml_source_id"/>
+                    <field name="sml_out_id"/>
                     <field name="aml_inv_id"/>
                     <field name="aml_inv_price_unit"/>
                     <field name="aml_inv_qty"/>
                     <field name="aml_cost_cor"/>
                 </group>    
                 <group col="1" colspan="6">
-                    <field name="out_sml_ids"  nolabel="1" widget='many2many'/>
+                    <field name="in_sml_ids"  nolabel="1" widget='many2many'/>
                 </group>
                 </form>
             </field>
