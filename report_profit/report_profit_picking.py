@@ -99,15 +99,16 @@ class report_profit_picking(osv.osv):
         for rpp in self.browse(cr, uid, ids, context):
             result[rpp.id] = ()
             if rpp.invoice_line_id and rpp.invoice_line_id.id:
-                #print 'lf: ',rpp.invoice_line_id.id
                 moves = self.aml_cost_get(cr, uid, [rpp.invoice_line_id.id])
-            #677= llamo get_move_line
-            #aml_query = aml_obj.find(cr, uid, mov_id=677)
-            #print 'consultaxxx: ',aml_query
-            #aml = aml_obj.browse(cr, uid, aml_query[0], context)
                 if moves:
                     aml = aml_obj.browse(cr, uid, moves[0], context)
                     result[rpp.id] = (aml.id,aml.name)
+            else:
+                moves = self.aml_internal_get(cr, uid, [rpp.stk_mov_id.id])
+                if moves:
+                    aml = aml_obj.browse(cr, uid, moves[0], context)
+                    result[rpp.id] = (aml.id,aml.name)
+                
         return result
 
     def _get_invoice_qty(self, cr, uid, ids, name, arg, context={}):
@@ -337,6 +338,12 @@ class report_profit_picking(osv.osv):
                 if moves:
                     aml = aml_obj.browse(cr, uid, moves[0], context)
                     result[rpp.id] = (aml.id,aml.name)
+            else:
+                moves = self.aml_internal_get(cr, uid, [rpp.stk_mov_id.id])
+                if moves:
+                    aml = aml_obj.browse(cr, uid, moves[1], context)
+                    result[rpp.id] = (aml.id,aml.name)
+                    
         return result
     
 
@@ -344,6 +351,13 @@ class report_profit_picking(osv.osv):
         res = []
         il_obj = self.pool.get('account.invoice.line')
         res = il_obj.move_line_id_cost_get(cr, uid, il_id)    
+        return res
+
+
+    def aml_internal_get(self, cr, uid, sm_id):    
+        res = []
+        sm_obj = self.pool.get('stock.move')
+        res = sm_obj.move_line_get(cr, uid, sm_id)    
         return res
 
     

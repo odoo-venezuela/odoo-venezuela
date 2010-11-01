@@ -368,7 +368,6 @@ class stock_card(osv.osv):
         mi_per = self.pool.get('account.period').browse(cr, uid, per[0]).name
         print 'mi_per: ', mi_per
         am_id = self.pool.get('account.move').create(cr, uid, {
-            'name': move.name,
             'journal_id': journal_id,
             'line_id': lines,
             'ref': ref,

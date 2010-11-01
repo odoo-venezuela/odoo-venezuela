@@ -31,6 +31,7 @@
 
 import account
 import invoice
+import stock
 import product
 import unit_analisys
 import report_profit
