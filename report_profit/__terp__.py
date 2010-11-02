@@ -41,6 +41,7 @@
 	"demo_xml" : [], 
 	"update_xml" : [
             "product_view.xml",
+            "stock_view.xml",
             "report_profit_view.xml",
             "report_profit_user_view.xml",
             "report_profit_partner_view.xml",

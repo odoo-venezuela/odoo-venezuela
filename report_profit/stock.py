@@ -24,6 +24,11 @@ from osv import osv, fields
 
 class stock_move(osv.osv):
     _inherit = 'stock.move'
+    _columns = {
+        'sml_out_id':fields.many2one('stock.move', 'Out sml', select=True),
+        'in_sml_ids':fields.one2many('stock.move', 'sml_out_id', 'Input sml'),
+        
+    }
 
     
     def move_line_get(self, cr, uid, ids, *args):
