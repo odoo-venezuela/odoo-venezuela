@@ -106,7 +106,7 @@ class report_profit_picking(osv.osv):
             else:
                 moves = self.aml_internal_get(cr, uid, [rpp.stk_mov_id.id])
                 if moves:
-                    aml = aml_obj.browse(cr, uid, moves[1], context)
+                    aml = aml_obj.browse(cr, uid, moves[0], context)
                     result[rpp.id] = (aml.id,aml.name)
                 
         return result
@@ -343,7 +343,7 @@ class report_profit_picking(osv.osv):
             else:
                 moves = self.aml_internal_get(cr, uid, [rpp.stk_mov_id.id])
                 if moves:
-                    aml = aml_obj.browse(cr, uid, moves[0], context)
+                    aml = aml_obj.browse(cr, uid, moves[1], context)
                     result[rpp.id] = (aml.id,aml.name)
                     
         return result
