@@ -32,7 +32,7 @@ class stock_move(osv.osv):
 
     
     def move_line_get(self, cr, uid, ids, *args):
-        aml_ids = []
+        res = ()
         aml_obj = self.pool.get('account.move.line')
         for l in self.browse(cr, uid, ids):            
             if l.picking_id.type =='internal':
@@ -45,7 +45,9 @@ class stock_move(osv.osv):
 
                 aml_cos_ids = aml_obj.find(cr, uid, ref="'%s'"%l.picking_id.name, prd_id=l.product_id.id, acc_id=acc_cost)
                 aml_inv_ids = aml_obj.find(cr, uid, ref="'%s'"%l.picking_id.name, prd_id=l.product_id.id, acc_id=acc_inv)
-        return (aml_cos_ids[0],aml_inv_ids[0])
+                if aml_cos_ids and aml_inv_ids:
+                    res = (aml_cos_ids[0],aml_inv_ids[0])
+        return res
     
 stock_move()
 
