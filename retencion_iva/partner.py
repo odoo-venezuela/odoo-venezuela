@@ -44,7 +44,7 @@ class res_partner(osv.osv):
             string="Cuenta Retencion Compra IVA",
             method=True,
             view_load=True,
-            domain="[('type', '=', 'payable')]",
+            domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.V.A.  en vez de la cuenta de reserva predeterminda para el actual partner"),
         'property_retention_receivable': fields.property(
             'account.account',
@@ -53,7 +53,7 @@ class res_partner(osv.osv):
             string="Cuenta Retencion Venta IVA",
             method=True,
             view_load=True,
-            domain="[('type', '=', 'receivable')]",
+            domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.V.A. por el Agente de Retencion  en vez de la cuenta de reserva predeterminda para el actual partner"),
 
     }

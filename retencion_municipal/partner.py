@@ -42,7 +42,7 @@ class res_partner(osv.osv):
             string="Cuenta Retencion Compra munici",
             method=True,
             view_load=True,
-            domain="[('type', '=', 'payable')]",
+            domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos por concepto de Impuestos Municipales en vez de la cuenta de reserva predeterminda para el actual partner"),
         'property_retencion_munici_receivable': fields.property(
             'account.account',
@@ -51,7 +51,7 @@ class res_partner(osv.osv):
             string="Cuenta Retencion Venta munici",
             method=True,
             view_load=True,
-            domain="[('type', '=', 'receivable')]",
+            domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos por concepto de Impuestos Municipales en vez de la cuenta de reserva predeterminda para el actual partner"),
 
    }

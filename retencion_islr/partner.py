@@ -42,7 +42,7 @@ class res_partner(osv.osv):
             string="Cuenta Retencion Compra ISLR",
             method=True,
             view_load=True,
-            domain="[('type', '=', 'payable')]",
+            domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.V.A.  en vez de la cuenta de reserva predeterminda para el actual partner"),
         'property_retencion_islr_receivable': fields.property(
             'account.account',
@@ -51,7 +51,7 @@ class res_partner(osv.osv):
             string="Cuenta Retencion Venta ISLR",
             method=True,
             view_load=True,
-            domain="[('type', '=', 'receivable')]",
+            domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos de I.S.L.R. en vez de la cuenta de reserva predeterminda para el actual partner"),
 
    }
