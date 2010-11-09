@@ -822,7 +822,7 @@ class stock_card(osv.osv):
                             print '&'*25
                             subtotal+=sc_line_obj.browse(cr,uid,i.id).subtotal
                     total+=subtotal
-                    avg = qda and total/qda or 0.0,
+                    avg = qda and total/qda or 0.0
                     value = {
                         'subtotal':subtotal,
                         'total':total,
