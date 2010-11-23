@@ -161,13 +161,6 @@ class account_retention(osv.osv):
         return False
 
 
-    def create(self, cr, uid, vals, context=None):
-        code = self.pool.get('ir.sequence').get(cr, uid, 'account.retention')
-        vals['code'] = code
-        return super(account_retention,self).create(cr, uid, vals, context)
-
-
-
     def action_number(self, cr, uid, ids, *args):
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
@@ -369,7 +362,9 @@ class account_retention(osv.osv):
             context={}
         if check:
             self._new_check(cr, uid, vals, context)
-
+            
+        code = self.pool.get('ir.sequence').get(cr, uid, 'account.retention')
+        vals['code'] = code
         return super(account_retention, self).create(cr, uid, vals, context)
 
 account_retention()

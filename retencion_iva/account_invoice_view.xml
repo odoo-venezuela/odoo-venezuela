@@ -25,6 +25,7 @@
                             <field name="p_ret"/>
                             <field name="num_ret"/>
                             <field name="sin_cred"/>
+                            <button name="action_ret_iva_create" states="open" string="Retener IVA" type="object" colspan='1'/>
                         </group>
                         <separator string="Retenciones I.S.L.R." colspan="4"/>
                     </page>
@@ -49,6 +50,7 @@
                             <field name="p_ret"/>
                             <field name="num_ret"/>
                             <field name="sin_cred"/>
+                            <button name="action_ret_iva_create" states="open" string="Retener IVA" type="object" colspan='1'/>
                         </group>
                         <separator string="Retenciones I.S.L.R." colspan="4"/>
                     </page>
