@@ -71,6 +71,19 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
 
+    def _get_ret_iva(self, cr, uid, ids, field_name, arg, context):
+        '''
+        funcion para obtener el documento de retencion de IVA de la factura
+        '''
+        res={}
+        for i in self.browse(cr,uid,ids):
+            res[i.id] = ()
+            cr.execute('SELECT retention_id FROM account_retention_line WHERE invoice_id=%s', (i.id,))
+            ret_ids = cr.fetchone()
+            if ret_ids:
+                ret = self.pool.get('account.retention').browse(cr, uid, ret_ids[0], context)            
+                res[i.id] = (ret.id,ret.name)
+        return res
 
     _description = "Retencion de Impuesto"
     _columns = {
@@ -85,6 +98,7 @@ class account_invoice(osv.osv):
         'num_ret': fields.char('Numero de Retencion', size=32, readonly=True, help="Numero del comprobante de retencion donde se declaro la factura"),
         'nro_ctrl': fields.char('Nro. de Control', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Numero de control de la factura"),
         'sin_cred': fields.boolean('Sin derecho a credito fiscal?', readonly=False, help="Determina si la factura esta sujeta o no a credito fiscal"),
+        'ret_iva_id': fields.function(_get_ret_iva, method=True, type='many2one',relation='account.retention', string='Ret. IVA'),        
     }
     
 
