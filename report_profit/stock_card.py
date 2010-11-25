@@ -43,7 +43,8 @@ class stock_card(osv.osv):
     _description = "Move by Picking Line"
     _columns = {
         'name': fields.char('Name', size=64, select=True),
-        'sc_line': fields.one2many('stock.card.line', 'stock_card_id', 'Stock Lines', readonly=True),        
+        'sc_line': fields.one2many('stock.card.line', 'stock_card_id', 'Stock Lines', readonly=True),
+        'sc_prod': fields.one2many('stock.card.product', 'stock_card_id', 'Stock Products', readonly=True),        
     }
 
 
@@ -154,6 +155,15 @@ class stock_card(osv.osv):
         cr.execute('SELECT DISTINCT product_id FROM report_profit_picking')            
         res = [x[0] for x in cr.fetchall()]
         return res
+
+
+    def action_scl_x_pd(self, cr, uid, ids, prd_id):        
+        cr.execute('SELECT id FROM stock_card_line ' \
+                    'WHERE product_id=%s ORDER BY sequence', (prd_id,))
+
+        res = [x[0] for x in cr.fetchall()]
+        return res
+
 
     def action_sm_x_pd(self, cr, uid, ids, prd_id):        
         cr.execute('SELECT id FROM report_profit_picking ' \
@@ -548,7 +558,19 @@ class stock_card(osv.osv):
         res = (q_des,subtot,tot,prom)
         
         return res
+    def action_print(self, cr, uid, ids, context={}):
+        product_ids = self.action_unico(cr, uid, ids)
+        for id in ids:
+            self.pool.get('stock.card.product').unlink(cr, uid, [line.id for line in self.browse(cr,uid,id).sc_prod])
+            for prod_id in product_ids:
+                print 'PRODUCT_ID in action_print: ', prod_id
+                self.pool.get('stock.card.product').create(cr, uid,{
+                                                                    'stock_card_id': id,
+                                                                    'product_id':prod_id,
+                                                                    'scl_ids':[(6,0,self.action_scl_x_pd(cr, uid, ids,prod_id))]
+                                                                    })
 
+        
     def action_done(self, cr, uid, ids, context={}):
         loc_obj = self.pool.get('stock.location')
         product_ids = self.action_unico(cr, uid, ids)       #productos unicos de todos los items de la vista
@@ -637,7 +659,7 @@ class stock_card(osv.osv):
                         'subtotal':subtotal,
                         'total':total,
                         'avg':avg,
-                        'stk_bef_cor':q,
+                        'stk_bef_cor':0.0,
                         'stk_aft_cor':qda,
                         'sequence':seq
                     }
@@ -952,6 +974,7 @@ stock_card()
 class stock_card_line(osv.osv):        
     _name = "stock.card.line"
     _description = "Move by Picking Line"
+    _order ='sequence'
     
     def _get_scl_out(self, cr, uid, ids, field_name, arg, context={}):
         result = {}
@@ -1042,6 +1065,23 @@ class stock_card_line(osv.osv):
 
 stock_card_line()
 
+class stock_card_product(osv.osv):
+    _name = 'stock.card.product'
+    _description = 'Products in Stock Card'
+    _columns = {
+            'stock_card_id':fields.many2one('stock.card', 'Stock card', readonly=True, select=True),
+            'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
+            'scl_ids':fields.one2many('stock.card.line', 'scp_id', 'Stock Card Lines'),
+    }
+    _rec_name = 'product_id'
 
+stock_card_product()
+
+class stock_card_lines(osv.osv):
+    _inherit = 'stock.card.line'
+    _columns = {
+            'scp_id':fields.many2one('stock.card.product', 'Product Group'),
+    }
+stock_card_lines()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
