@@ -10,6 +10,16 @@
             auto="False" 
             menu="False"/>
 
+        <report             
+            id="kardex" 
+            model="stock.card" 
+            name="kardex" 
+            rml="addons/report_profit/report/kardex.rml" 
+            string="Kardex"
+            auto="True"  
+            header="False" 
+            menu="True"/>
+
 
     </data>
 </openerp>

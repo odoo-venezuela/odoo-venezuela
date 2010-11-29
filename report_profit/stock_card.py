@@ -45,6 +45,7 @@ class stock_card(osv.osv):
         'name': fields.char('Name', size=64, select=True),
         'sc_line': fields.one2many('stock.card.line', 'stock_card_id', 'Stock Lines', readonly=True),
         'sc_prod': fields.one2many('stock.card.product', 'stock_card_id', 'Stock Products', readonly=True),        
+        'sc_acc': fields.one2many('stock.card.account', 'stock_card_id', 'Accounts', readonly=True),        
     }
 
 
@@ -558,17 +559,123 @@ class stock_card(osv.osv):
         res = (q_des,subtot,tot,prom)
         
         return res
-    def action_print(self, cr, uid, ids, context={}):
+    def action_get_ready(self, cr, uid, ids, context={}):
         product_ids = self.action_unico(cr, uid, ids)
+        aml_obj = self.pool.get('account.move.line')
+        scpm_cost_obj = self.pool.get('stock.card.product.move.cost')
+        scpm_inv_obj = self.pool.get('stock.card.product.move.inv')
+        scal_obj = self.pool.get('stock.card.account.lines')
         for id in ids:
-            self.pool.get('stock.card.product').unlink(cr, uid, [line.id for line in self.browse(cr,uid,id).sc_prod])
+            scp_obj = self.pool.get('stock.card.product')
+            scp_obj.unlink(cr, uid, [line.id for line in self.browse(cr,uid,id).sc_prod])
+            sca_obj = self.pool.get('stock.card.account')
+            sca_obj.unlink(cr, uid, [line.id for line in self.browse(cr,uid,id).sc_acc])
+            dict_inv = {}
+            dict_cst = {}
+            
+            dict_prod = {}
+            dict_inv_prod = {}
+            dict_cst_prod = {}
+            
             for prod_id in product_ids:
-                print 'PRODUCT_ID in action_print: ', prod_id
-                self.pool.get('stock.card.product').create(cr, uid,{
+                dict_prod[prod_id]=scp_obj.create(cr, uid,{
                                                                     'stock_card_id': id,
                                                                     'product_id':prod_id,
                                                                     'scl_ids':[(6,0,self.action_scl_x_pd(cr, uid, ids,prod_id))]
                                                                     })
+                prod_brw = self.pool.get('product.product').browse(cr,uid,prod_id,context)
+                
+                ##################################################
+                # ACUMULANDO LOS ASIENTOS CONTABLES POR CUENTAS  #
+                ##################################################
+                
+                if not dict_inv.get(prod_brw.product_tmpl_id.property_stock_account_input.id,False):
+                    dict_inv[prod_brw.product_tmpl_id.property_stock_account_input.id] = aml_obj.search(cr, uid,
+                            [('account_id','=',prod_brw.product_tmpl_id.property_stock_account_input.id)])
+                    
+                if not dict_cst.get(prod_brw.product_tmpl_id.property_account_expense.id,False):
+                    dict_cst[prod_brw.product_tmpl_id.property_account_expense.id] = aml_obj.search(cr, uid,
+                            [('account_id','=',prod_brw.product_tmpl_id.property_account_expense.id)])
+                            
+                dict_inv_prod[prod_id]=[]
+                dict_cst_prod[prod_id]=[]
+
+            #Eliminando aquellos asientos contables que ya estan asignados en una scl
+
+            
+            for scl in self.browse(cr,uid,id).sc_line:
+                if scl.aml_inv_id and dict_inv.get(scl.aml_inv_id.account_id.id,False):
+                    if scl.aml_inv_id.id in dict_inv[scl.aml_inv_id.account_id.id]:
+                        dict_inv[scl.aml_inv_id.account_id.id].remove(scl.aml_inv_id.id)
+                        
+                if scl.aml_cost_id and dict_cst.get(scl.aml_cost_id.account_id.id,False):
+                    if scl.aml_cost_id.id in dict_cst[scl.aml_cost_id.account_id.id]:
+                        dict_cst[scl.aml_cost_id.account_id.id].remove(scl.aml_cost_id.id)
+            
+            #~ Asignar a los productos los asientos que estan sin linea pero que pertenezcan al producto
+            
+            print 'OTROS 5 SEG. MAS'
+            time.sleep(5)
+            
+            for key in dict_inv:
+                for elem in dict_inv[key]:
+                    aml_brw = aml_obj.browse(cr,uid,elem,context)
+                    if aml_brw.product_id and aml_brw.product_id.id in product_ids:
+                        dict_inv_prod[aml_brw.product_id.id].append(elem)
+                        dict_inv[key].remove(elem)
+
+            for key in dict_cst:
+                for elem in dict_cst[key]:
+                    aml_brw = aml_obj.browse(cr,uid,elem,context)
+                    if aml_brw.product_id and aml_brw.product_id.id in product_ids:
+                        dict_cst_prod[aml_brw.product_id.id].append(elem)
+                        dict_cst[key].remove(elem)
+
+            for key in dict_prod:
+                #~ key is product_id
+                #~ dict_prod[key] is scp_id
+                dict_inv_prod[key].sort()
+                for i in dict_inv_prod[key]:
+                    scpm_inv_obj.create(cr,uid,{'scp_id':dict_prod[key], 'aml_id': i})
+            
+                dict_cst_prod[key].sort()
+                for i in dict_cst_prod[key]:
+                    scpm_cost_obj.create(cr,uid,{'scp_id':dict_prod[key], 'aml_id': i})
+            
+            #~ # Crear los asientos que queden 
+            
+            for key in dict_inv:
+                #~ key is an accounting account
+                #~ dict_inv[key] is an accounting entry
+                #~ preguntamos si hay asientos contables para esta cuenta
+                if dict_inv.get(key,False):
+                    #~ si hay se crea la cuenta en stock_card
+                    pass
+                    sca_id = sca_obj.create(cr, uid,{
+                                            'stock_card_id': id,
+                                            'account_id': key,
+                                            })
+                    for elem in dict_inv[key]:
+                        #~ y en consecuencia se asocian los asientos a esta cuenta en stock_card
+                        scal_obj.create(cr, uid,{
+                                                'sca_id': sca_id,
+                                                'aml_id': elem,
+                                                })
+                        #~ crear los elementos que queden
+            
+            for key in dict_cst:
+                if dict_cst.get(key,False):
+                    sca_id = sca_obj.create(cr, uid,{
+                                            'stock_card_id': id,
+                                            'account_id': key,
+                                            })
+                    for elem in dict_cst[key]:
+                        #~ y en consecuencia se asocian los asientos a esta cuenta en stock_card
+                        scal_obj.create(cr, uid,{
+                                                'sca_id': sca_id,
+                                                'aml_id': elem,
+                                                })                    
+
 
         
     def action_done(self, cr, uid, ids, context={}):
@@ -1072,10 +1179,36 @@ class stock_card_product(osv.osv):
             'stock_card_id':fields.many2one('stock.card', 'Stock card', readonly=True, select=True),
             'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
             'scl_ids':fields.one2many('stock.card.line', 'scp_id', 'Stock Card Lines'),
+            'scpm_cost_ids':fields.one2many('stock.card.product.move.cost', 'scp_id', 'Cost Moves'),
+            'scpm_inv_ids':fields.one2many('stock.card.product.move.inv', 'scp_id', 'Inventory Moves'),
     }
     _rec_name = 'product_id'
 
 stock_card_product()
+
+class stock_card_account(osv.osv):
+    _name = 'stock.card.account'
+    _description = 'Accounts in Stock Card'
+    _columns = {
+            'stock_card_id':fields.many2one('stock.card', 'Stock card', readonly=True, select=True, ondelete='cascade'),
+            'account_id':fields.many2one('account.account', 'Account', readonly=True, select=True),
+            'aml_ids':fields.one2many('stock.card.account.lines', 'sca_id', 'Accounting Entries'),
+    }
+    _rec_name = 'stock_card_id'
+
+stock_card_account()
+
+
+
+class stock_card_account_lines(osv.osv):
+    _name = 'stock.card.account.lines'
+    _columns = {
+            'sca_id':fields.many2one('stock.card.account', 'Product Group', ondelete='cascade'),
+            'aml_id': fields.many2one('account.move.line', string='Account Entry', readonly=True, select=True),
+    }
+    _rec_name= 'sca_id'
+stock_card_account_lines()
+
 
 class stock_card_lines(osv.osv):
     _inherit = 'stock.card.line'
@@ -1083,5 +1216,25 @@ class stock_card_lines(osv.osv):
             'scp_id':fields.many2one('stock.card.product', 'Product Group'),
     }
 stock_card_lines()
+
+class stock_card_product_move_cost(osv.osv):
+    _name = 'stock.card.product.move.cost'
+    _columns = {
+            'scp_id':fields.many2one('stock.card.product', 'Product Group', ondelete='cascade'),
+            'aml_id': fields.many2one('account.move.line', string='Account Entry', readonly=True, select=True),
+    }
+    _rec_name='scp_id'
+stock_card_product_move_cost()
+
+class stock_card_product_move_inv(osv.osv):
+    _name = 'stock.card.product.move.inv'
+    _columns = {
+            'scp_id':fields.many2one('stock.card.product', 'Product Group', ondelete='cascade'),
+            'aml_id': fields.many2one('account.move.line', string='Account Entry', readonly=True, select=True),
+    }
+    _rec_name='scp_id'
+stock_card_product_move_inv()
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

@@ -115,6 +115,19 @@
     <paraStyle name="ITEMSLEFT" alignment="LEFT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
     <paraStyle name="ITEMSCENTER" alignment="CENTER" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
     <paraStyle name="ITEMSRIGHT" alignment="RIGHT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
+    
+    <paraStyle name="ITEMSLEFT-c" alignment="LEFT" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="grey"/>    
+    <paraStyle name="ITEMSCENTER-c" alignment="CENTER" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="grey"/>    
+    <paraStyle name="ITEMSRIGHT-c" alignment="RIGHT" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="grey"/>    
+    
+    
+    <paraStyle name="ITEMSLEFT-B" alignment="LEFT" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSCENTER-B" alignment="CENTER" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSRIGHT-B" alignment="RIGHT" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="black"/>    
+    
+    <paraStyle name="ITEMSLEFT-T" alignment="LEFT" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSCENTER-T" alignment="CENTER" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSRIGHT-T" alignment="RIGHT" fontName="Courier-Bold" fontSize="7.0" leading="9" spaceBefore="3.0" textColor="black"/>    
 
     <paraStyle name="ITEMSLEFTSMALL" alignment="LEFT" fontName="Helvetica-Bold" fontSize="6.0" leading="7" spaceBefore="1.0" textColor="darkslategray"/>    
     <paraStyle name="ITEMSCENTERSMALL" alignment="CENTER" fontName="Helvetica-Bold" fontSize="6.0" leading="7" spaceBefore="1.0" textColor="darkslategray"/>    
@@ -186,8 +199,12 @@
                 </td>
             </tr>
         </blockTable>
+
+<!--
+        LINEAS QUE TIENEN SECUENCIA Y POR LO TANTO TIENEN AL MENOS UN ASIENTO CONTABLE RELACIONADO
+-->
         <section>
-        
+
         <para>[[repeatIn([line for line in product_id.scl_ids if (line.sequence != False)],'line')]]</para>   
         <blockTable colWidths="10mm,30mm,30mm,30mm,30mm,20mm,25mm,25mm,20mm,20mm,20mm" style="ITEMS">
             <tr>
@@ -226,6 +243,75 @@
                 </td>
             </tr>
         </blockTable>
+
+
+<!--
+        ASIENTOS DE COSTO DEL PRODUCTO
+-->
+            <section>
+
+                <blockTable colWidths="10mm,30mm,20mm,20mm,140mm,20mm,20mm" style="ITEMS">
+                    <tr>
+                        <td>
+                            <para style="ITEMSLEFT-c"></para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ line.aml_cost_id.move_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ (line.aml_cost_id and line.aml_cost_id.account_id.code or removeParentNode('blockTable'))]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ line.aml_cost_id.date ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ line.aml_cost_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-c">[[ line.aml_cost_id.debit or '0.00']]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-c">[[ line.aml_cost_id.credit or '0.00' ]]</para>
+                        </td>
+                    </tr>
+                </blockTable>
+            </section>
+
+<!--
+        ASIENTOS DE INVENTARIO DEL PRODUCTO
+-->
+            <section>
+
+                <blockTable colWidths="10mm,30mm,20mm,20mm,140mm,20mm,20mm" style="ITEMS">
+                    <tr>
+                        <td>
+                            <para style="ITEMSLEFT-c"></para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ line.aml_inv_id.move_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ (line.aml_inv_id and line.aml_inv_id.account_id.code or removeParentNode('blockTable'))]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ line.aml_inv_id.date ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-c">[[ line.aml_inv_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-c">[[ line.aml_inv_id.debit or '0.00']]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-c">[[ line.aml_inv_id.credit or '0.00' ]]</para>
+                        </td>
+                    </tr>
+                </blockTable>
+            </section>
+
+<!--
+        LINEAS DE LAS QUE ESTA CONSTITUIDO UN PRODUCTO CUANDO VIENE DE PRODUCCION
+-->
             <section>
                 <para>[[repeatIn(line.in_sml_ids,'ins')]]</para>
                 <blockTable colWidths="90mm,10mm,30mm,20mm,25mm,25mm,20mm,20mm,20mm" style="ITEMS">
@@ -260,7 +346,12 @@
                     </tr>
                 </blockTable>
             </section>
+
         </section>
+        
+<!--
+        LINEAS QUE __NO__ TIENEN SECUENCIA Y POR LO TANTO __NO__TIENEN ASIENTOS CONTABLES RELACIONADOS
+--> 
         <section>
         <para>[[repeatIn([line for line in product_id.scl_ids if (line.sequence == False)],'line')]]</para>   
         <blockTable colWidths="10mm,30mm,30mm,30mm,30mm,20mm,25mm,25mm,20mm,20mm,20mm" style="GREYITEMS">
@@ -301,19 +392,129 @@
             </tr>
         </blockTable>
 
-        
         </section>
         
+<!--
+        LINEAS DE ASIENTOS DE INVENTARIO QUE TIENEN UN PRODUCTO REALCIONADO PERO NO ESTAN EN UN PACK
+-->
+        <section>
+        <para>[[repeatIn(product_id.scpm_inv_ids,'line')]]</para>   
+                <blockTable colWidths="10mm,30mm,20mm,20mm,140mm,20mm,20mm" style="ITEMS">
+                    <tr>
+                        <td>
+                            <para style="ITEMSLEFT-B"></para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.move_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.account_id.code ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.date ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-B">[[ line.aml_id.debit or '0.00']]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-B">[[ line.aml_id.credit or '0.00' ]]</para>
+                        </td>
+                </tr>
+            </blockTable>
+        </section>
+        
+<!--
+        LINEAS DE ASIENTOS DE COSTO QUE TIENEN UN PRODUCTO REALCIONADO PERO NO ESTAN EN UN PACK
+-->
+        <section>
+        <para>[[repeatIn(product_id.scpm_cost_ids,'line')]]</para>   
+                <blockTable colWidths="10mm,30mm,20mm,20mm,140mm,20mm,20mm" style="ITEMS">
+                    <tr>
+                        <td>
+                            <para style="ITEMSLEFT-B"></para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.move_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.account_id.code ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.date ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-B">[[ line.aml_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-B">[[ line.aml_id.debit or '0.00']]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-B">[[ line.aml_id.credit or '0.00' ]]</para>
+                        </td>
+                </tr>
+            </blockTable>
+        </section>
 
          
 <spacer length='5mm'/>
 
+    </section>
 
 <!--
-        <nextFrame/>
+        IMPRESION DE LOS ASIENTOS CONTABLES QUE NO ESTAN RELACIONADOS A NINGUN PRODUCTO
 -->
-    </section>
+    <section>
+
+        <para>[[repeatIn(o.sc_acc,'sc_acc')]]</para>
+        <blockTable colWidths="20mm,240mm" style="BLACKITEMS">
+            <tr>
+                <td>
+                    <para style="BLACKLEFT">[[ sc_acc.account_id.code ]]</para>
+                </td>
+                <td>
+                    <para style="BLACKLEFT">[[ sc_acc.account_id.name ]]</para>
+                </td>
+            </tr>
+		</blockTable>
+        <section>
+        
+            <para>[[repeatIn(sc_acc.aml_ids,'line')]]</para>
+                <blockTable colWidths="10mm,30mm,20mm,20mm,140mm,20mm,20mm" style="ITEMS">
+                    <tr>
+                        <td>
+                            <para style="ITEMSLEFT-T"></para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-T">[[ line.aml_id.move_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-T">[[ (line.aml_id and line.aml_id.account_id.code or removeParentNode('blockTable'))]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-T">[[ line.aml_id.date ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSLEFT-T">[[ line.aml_id.name ]]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-T">[[ line.aml_id.debit or '0.00']]</para>
+                        </td>
+                        <td>
+                            <para style="ITEMSRIGHT-T">[[ line.aml_id.credit or '0.00' ]]</para>
+                        </td>
+                    </tr>
+                </blockTable>
+        </section>
     
+<spacer length='5mm'/>
+
+    </section>
+
+
+
 
   </story>
 </document>
