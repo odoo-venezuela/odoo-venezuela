@@ -61,15 +61,15 @@ class stock_card(osv.osv):
         sc_line_obj = self.pool.get('stock.card.line')
         sp_obj = self.pool.get('stock.picking')
         scl_ids = self.find_return(cr, uid, ids)
-        print 'devoluciones: ',scl_ids
+        #~ print 'devoluciones: ',scl_ids
         for scl in sc_line_obj.browse(cr,uid,scl_ids):
             nb =scl.picking_id.name[:scl.picking_id.name.lower().find('return')-1].strip()
-            print 'a buscar: ',nb
+            #~ print 'a buscar: ',nb
             sp_ids = sp_obj.search(cr, uid, [('name','=',nb)])
-            print 'posible picking padre: ',sp_ids
+            #~ print 'posible picking padre: ',sp_ids
             if sp_ids:
                 scl_ids = sc_line_obj.search(cr, uid, [('picking_id','=',sp_ids[0]),('product_id','=',scl.product_id.id)])
-                print 'linea padre: ',scl_ids
+                #~ print 'linea padre: ',scl_ids
                 if scl_ids:
                     sc_line_obj.write(cr,uid,[scl.id],{'parent_id':scl_ids[0]})
 
@@ -257,44 +257,46 @@ class stock_card(osv.osv):
 
     def compute_compra(self, cr, uid, ids, scl_obj, q_mov,tot,prom,q_des):
         subtot = 0.0
-        print 'q mov: ',q_mov
-        print 'qda antes: ',q_des
-        print 'subtotal antes: ',subtot
-        print 'total antes: ',tot
-        print 'avg antes: ',prom
+        #~ print 'q mov: ',q_mov
+        #~ print 'qda antes: ',q_des
+        #~ print 'subtotal antes: ',subtot
+        #~ print 'total antes: ',tot
+        #~ print 'avg antes: ',prom
         q_des+=q_mov                        
-        print 'realizando calculo compra:'        
-        subtot = scl_obj.invoice_price_unit*q_mov
+        #~ print 'realizando calculo compra:'        
+        subtot = scl_obj.invoice_line_id.price_subtotal
+        #~ subtot = scl_obj.invoice_price_unit*q_mov
         tot += subtot
         if q_des > 0:
             prom = tot/q_des
         else:
             prom = 0
         
-        print 'subtotal despues: ',subtot
-        print 'total despues: ',tot
-        print 'avg despues: ',prom      
-        print 'qda despues:',q_des
+        #~ print 'subtotal despues: ',subtot
+        #~ print 'total despues: ',tot
+        #~ print 'avg despues: ',prom      
+        #~ print 'qda despues:',q_des
         res = (q_des,subtot,tot,prom)
         return res
     
     def compute_nc_vta(self, cr, uid, ids, scl_obj, q_mov,tot,prom,q_des):
         subtot = 0.0
-        print 'q mov: ',q_mov
-        print 'qda antes: ',q_des
-        print 'subtotal antes: ',subtot
-        print 'total antes: ',tot
-        print 'avg antes: ',prom
+        #~ print 'q mov: ',q_mov
+        #~ print 'qda antes: ',q_des
+        #~ print 'subtotal antes: ',subtot
+        #~ print 'total antes: ',tot
+        #~ print 'avg antes: ',prom
         if scl_obj.parent_id and scl_obj.parent_id.avg:
             prom_pad = scl_obj.parent_id.avg
         else:
-            print 'PADRE SIN PRECIO PROMEDIOOOOOO'
-            prom_pad = 0.0
+            #~ print 'PADRE SIN PRECIO PROMEDIOOOOOO'
+            #~ prom_pad = 0.0
+            prom_pad = prom
         
         
-        print 'precio avg del padre:',prom_pad
+        #~ print 'precio avg del padre:',prom_pad
         q_des+=q_mov
-        print 'realizando calculo nc venta:'        
+        #~ print 'realizando calculo nc venta:'        
         subtot = prom_pad*q_mov
         tot += subtot
         if q_des > 0:
@@ -302,20 +304,20 @@ class stock_card(osv.osv):
         else:
             prom = 0
         
-        print 'subtotal despues: ',subtot
-        print 'total despues: ',tot
-        print 'avg despues: ',prom      
-        print 'qda despues:',q_des
+        #~ print 'subtotal despues: ',subtot
+        #~ print 'total despues: ',tot
+        #~ print 'avg despues: ',prom      
+        #~ print 'qda despues:',q_des
         res = (q_des,subtot,tot,prom)
         return res
 
     def validate_nc_vta(self, cr, uid, ids, scl_obj,q_mov,tot,prom,q_des,no_cp,lst_org,act_sml_id,s_ord):        
         if scl_obj.parent_id:
-            print 'validando padre NC VENTA: ',scl_obj.parent_id        
+            #~ print 'validando padre NC VENTA: ',scl_obj.parent_id        
             if scl_obj.parent_id.id in lst_org or scl_obj.parent_id.id in no_cp:
                 no_cp.append(act_sml_id)
             else:
-                print 'procesoooo NC VTA padre procesado:'
+                #~ print 'procesoooo NC VTA padre procesado:'
                 q_bef = q_des
                 q_des,subtot,tot,prom = self.compute_nc_vta(cr, uid, ids, scl_obj, q_mov,tot,prom,q_des)
                 #REALIZAR EL WRITE DE LA LINEA
@@ -328,7 +330,7 @@ class stock_card(osv.osv):
                 }            
                 s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                                    
         else:                               
-            print 'procesoooo NC VTA:'
+            #~ print 'procesoooo NC VTA:'
             q_bef = q_des
             q_des,subtot,tot,prom = self.compute_nc_vta(cr, uid, ids, scl_obj, q_mov,tot,prom,q_des)
             #REALIZAR EL WRITE DE LA LINEA 
@@ -347,13 +349,13 @@ class stock_card(osv.osv):
     
     def compute_venta(self, cr, uid, ids, scl_obj, q_mov,tot,prom,q_des):
         subtot = 0.0
-        print 'q mov: ',q_mov
-        print 'qda antes: ',q_des
-        print 'subtotal antes: ',subtot
-        print 'total antes: ',tot
-        print 'avg antes: ',prom        
+        #~ print 'q mov: ',q_mov
+        #~ print 'qda antes: ',q_des
+        #~ print 'subtotal antes: ',subtot
+        #~ print 'total antes: ',tot
+        #~ print 'avg antes: ',prom        
         q_des-=q_mov                        
-        print 'realizando calculo venta:'        
+        #~ print 'realizando calculo venta:'        
         subtot = prom*q_mov
         tot -= subtot
 #        if q_des > 0:
@@ -361,16 +363,16 @@ class stock_card(osv.osv):
 #        else:
 #            prom = 0
         
-        print 'subtotal despues: ',subtot
-        print 'total despues: ',tot
-        print 'avg despues: ',prom      
-        print 'qda despues:',q_des
+        #~ print 'subtotal despues: ',subtot
+        #~ print 'total despues: ',tot
+        #~ print 'avg despues: ',prom      
+        #~ print 'qda despues:',q_des
         res = (q_des,subtot,tot,prom)
         return res
 
     def validate_venta(self, cr, uid, ids, scl_obj, q_mov,tot,prom,q_des,no_cp,lst_org,act_sml_id,s_ord):
         if not no_cp and q_des >= q_mov:
-            print 'procesooo venta:'
+            #~ print 'procesooo venta:'
             q_bef = q_des
             q_des,subtot,tot,prom = self.compute_venta(cr, uid, ids, scl_obj, q_mov,tot,prom,q_des)
             #REALIZAR EL WRITE DE LA LINEA
@@ -383,7 +385,7 @@ class stock_card(osv.osv):
             }            
             s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)            
         else:
-            print 'no procesoooo vta:'
+            #~ print 'no procesoooo vta:'
             no_cp.append(act_sml_id)
 
         res = (q_des,tot,prom,no_cp,s_ord)
@@ -460,23 +462,25 @@ class stock_card(osv.osv):
 
 
     def compute_nc_compra(self, cr, uid, ids, scl_obj, q_mov,tot,prom,q_des):
-        subtot = 0.0     
-        print 'q mov: ',q_mov
-        print 'qda antes: ',q_des
-        print 'subtotal antes: ',subtot
-        print 'total antes: ',tot
-        print 'avg antes: ',prom        
+        print "scl_obj", scl_obj
+        subtot = 0.0
+        #~ print 'q mov: ',q_mov
+        #~ print 'qda antes: ',q_des
+        #~ print 'subtotal antes: ',subtot
+        #~ print 'total antes: ',tot
+        #~ print 'avg antes: ',prom        
         if scl_obj.parent_id and scl_obj.parent_id.invoice_price_unit:
-            cost_pad = scl_obj.parent_id.invoice_price_unit
+            cost_pad = scl_obj.parent_id.invoice_line_id.price_subtotal / q_mov
         else:
-            print 'PADRE SIN PRECIO UNITARIOOOO'
-            cost_pad = 0.0
-            
-        
-        print 'precio unitario del padre:',cost_pad
-        
+            #~ print 'PADRE SIN PRECIO UNITARIOOOO'
+            #~ hbto estuvo aqui
+            #~ cost_pad = 0.0
+            cost_pad = scl_obj.invoice_line_id.price_subtotal / q_mov
+
+        #~ print 'precio unitario del padre:',cost_pad
+
         q_des-=q_mov  
-        print 'realizando calculo nc compra:'        
+        #~ print 'realizando calculo nc compra:'        
         subtot = cost_pad*q_mov
         tot -= subtot
         if q_des > 0:
@@ -484,10 +488,10 @@ class stock_card(osv.osv):
         else:
             prom = 0
         
-        print 'subtotal despues: ',subtot
-        print 'total despues: ',tot
-        print 'avg despues: ',prom      
-        print 'qda despues:',q_des
+        #~ print 'subtotal despues: ',subtot
+        #~ print 'total despues: ',tot
+        #~ print 'avg despues: ',prom      
+        #~ print 'qda despues:',q_des
         res = (q_des,subtot,tot,prom)
         return res
 
@@ -495,11 +499,11 @@ class stock_card(osv.osv):
     def validate_nc_compra(self,cr,uid, ids,scl_obj,q_mov,tot,prom,q_des,no_cp,lst_org,act_sml_id,s_ord):        
         if not no_cp and q_des >= q_mov:                           
             if scl_obj.parent_id:
-                print 'validando padre NC compra: ',scl_obj.parent_id
+                #~ print 'validando padre NC compra: ',scl_obj.parent_id
                 if scl_obj.parent_id.id in lst_org or scl_obj.parent_id.id in no_cp:
                     no_cp.append(act_sml_id)
                 else:
-                    print 'procesoooo NC COMPRA padre procesado:'
+                    #~ print 'procesoooo NC COMPRA padre procesado:'
                     q_bef = q_des
                     q_des,subtot,tot,prom = self.compute_nc_compra(cr, uid, ids, scl_obj, q_mov,tot,prom,q_des)
                     #REALIZAR EL WRITE DE LA LINEA
@@ -512,7 +516,7 @@ class stock_card(osv.osv):
                     }            
                     s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                    
             else:
-                print 'procesoooo  NC COMPRA:'
+                #~ print 'procesoooo  NC COMPRA:'
                 q_bef = q_des
                 q_des,subtot,tot,prom = self.compute_nc_compra(cr, uid, ids, scl_obj, q_mov,tot,prom,q_des)
                 #REALIZAR EL WRITE DE LA LINEA
@@ -525,7 +529,7 @@ class stock_card(osv.osv):
                 }            
                 s_ord=self.write_data(cr, uid, ids, scl_obj.id, value,s_ord)                
         else:
-            print 'no procesoooo NC COMPRA:'
+            #~ print 'no procesoooo NC COMPRA:'
             no_cp.append(act_sml_id)
 
         res = (q_des,tot,prom,no_cp,s_ord)
@@ -535,14 +539,11 @@ class stock_card(osv.osv):
         sc_line_obj = self.pool.get('stock.card.line')        
         seq += 1
         vals.update({'sequence':seq})
-        print 'vals: ',vals
-        print 'sc_line_obj.read ANTES', sc_line_obj.read(cr, uid, scl_id)
+        #~ print 'vals: ',vals
+        #~ print 'sc_line_obj.read ANTES', sc_line_obj.read(cr, uid, scl_id)
         sc_line_obj.write(cr, uid, scl_id, vals)
-        print 'sc_line_obj.read DESPUES', sc_line_obj.read(cr, uid, scl_id)
+        #~ print 'sc_line_obj.read DESPUES', sc_line_obj.read(cr, uid, scl_id)
         return seq
-
-
-
 
     def validate_procesamiento(self, cr, uid, ids, scl_obj, q_mov,subtot,tot,prom,q_des,lst_org,act_sml_id):
         
@@ -553,8 +554,6 @@ class stock_card(osv.osv):
         tot += subtot
         prom = tot/q_des
         #price_unit = subtot/q_mov       
-        
-
 
         res = (q_des,subtot,tot,prom)
         
@@ -596,7 +595,11 @@ class stock_card(osv.osv):
                 if not dict_cst.get(prod_brw.product_tmpl_id.property_account_expense.id,False):
                     dict_cst[prod_brw.product_tmpl_id.property_account_expense.id] = aml_obj.search(cr, uid,
                             [('account_id','=',prod_brw.product_tmpl_id.property_account_expense.id)])
-                            
+                
+                ##########################################
+                # no todos los asientos se estan cargando#
+                ##########################################
+                
                 dict_inv_prod[prod_id]=[]
                 dict_cst_prod[prod_id]=[]
 
@@ -614,8 +617,8 @@ class stock_card(osv.osv):
             
             #~ Asignar a los productos los asientos que estan sin linea pero que pertenezcan al producto
             
-            print 'OTROS 5 SEG. MAS'
-            time.sleep(5)
+            #~ print 'OTROS 5 SEG. MAS'
+            #~ time.sleep(5)
             
             for key in dict_inv:
                 for elem in dict_inv[key]:
@@ -725,9 +728,9 @@ class stock_card(osv.osv):
         seq = product['seq']
         def_code = self.pool.get('product.product').browse(cr,uid,prod_id).default_code.strip() 
         
-        if pending:
-            print '@'*10
-            print 'procesando: ',self.pool.get('product.product').browse(cr,uid,prod_id).name
+        #~ if pending:
+            #~ print '@'*10
+            #~ print 'procesando: ',self.pool.get('product.product').browse(cr,uid,prod_id).name
             #~ time.sleep(10)
      
         while sml_x_pd_id:
@@ -743,21 +746,25 @@ class stock_card(osv.osv):
                     'WHERE default_code=%s', (def_code,))
                     res = cr.fetchall()
                     if res and res[0][1]:
-                        print 'encontre costo inicccc'
+                        #~ print 'encontre costo inicccc'
                         avg,q = res[0]
                     else:
                         rpp = rpp_obj.browse(cr,uid,sml_id)
                         if rpp.location_dest_id.id == loc_ids and rpp.invoice_id.type == 'in_invoice':
                             q = rpp.picking_qty
-                            print 'cantidad inicialxxxxx: ',q
-                            avg = rpp.invoice_price_unit 
+                            #~ print 'cantidad inicialxxxxx: ',q
+                            
+                            #~ NOTA DE HBTO PARA SOLUCIONAR
+                            #~ AQUI EL VALOR NO DEBE SER EL UNITARIO DEBE SER EL TOTAL ENTRE EL NUMERO DE
+                            #~ UNIDADES DE LAS QUE ESTA COMPUESTA LA LINEA
+                            avg = rpp.invoice_line_id.price_subtotal / q
                         else:
                             no_cump.append(sml_id)
                             continue
                     #avg = 1430.96
                     #q = 5.0
-                    print 'cantidad inicial: ',q
-                    print 'costo inicial: ',avg
+                    #~ print 'cantidad inicial: ',q
+                    #~ print 'costo inicial: ',avg
                     total = avg*q
                     subtotal = avg*q
                     qda = q
@@ -772,33 +779,33 @@ class stock_card(osv.osv):
                     }
                     scl_id = sc_line_obj.search(cr, uid, [('stk_mov_id','=',sml_id)])
                     sc_line_obj.write(cr, uid, scl_id, value)                    
-                    print 'q inicial: ',q
-                    print 'avg: ',avg
-                    print 'qda inicial: ',qda
-                    print 'seq inicial: ',seq
+                    #~ print 'q inicial: ',q
+                    #~ print 'avg: ',avg
+                    #~ print 'qda inicial: ',qda
+                    #~ print 'seq inicial: ',seq
             else:
                 rpp = rpp_obj.browse(cr,uid,sml_id)
                 q = rpp.picking_qty
                 scl_id = sc_line_obj.search(cr, uid, [('stk_mov_id','=',sml_id)])
                 scl = sc_line_obj.browse(cr,uid,scl_id)[0]                    
-                print 'viene operac: ',sml_id
-                print 'packing: ',rpp.picking_id.name
-                print 'seq antes operac: ',seq
+                #~ print 'viene operac: ',sml_id
+                #~ print 'packing: ',rpp.picking_id.name
+                #~ print 'seq antes operac: ',seq
                 #VENTA
                 if rpp.location_id.id == loc_ids and rpp.invoice_id.type == 'out_invoice':
-                    print 'validando VENTA:'        
+                    #~ print 'validando VENTA:'        
                     qda,total,avg,no_cump,seq= \
                     self.validate_venta(cr, uid, ids,scl,q,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
                 #NC COMPRA
                 if rpp.location_id.id == loc_ids and (rpp.invoice_id.type == 'in_refund' or rpp.invoice_id.type == 'in_invoice'):
-                    print 'validando NC compra:'        
+                    #~ print 'validando NC compra:'
                     qda,total,avg,no_cump,seq= \
                     self.validate_nc_compra(cr,uid,ids,scl,q,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
                 #COMPRA
                 if rpp.location_dest_id.id == loc_ids and rpp.invoice_id.type == 'in_invoice':
-                    print 'procesooo compra:'
+                    #~ print 'procesooo compra:'
                     q_bef = qda        
                     qda,subtotal,total,avg = self.compute_compra(cr, uid, ids,scl,q,total,avg,qda)
                     #REALIZAR EL WRITE DE LA LINEA
@@ -810,40 +817,40 @@ class stock_card(osv.osv):
                         'stk_aft_cor':qda
                     }            
                     seq=self.write_data(cr, uid, ids, scl.id, value, seq)
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
                     if no_cump:
-                        print 'agregando nuevamente las vta:'
+                        #~ print 'agregando nuevamente las vta:'
                         #no_cump.append(sml_id)
                         no_cump.extend(sml_x_pd_id)
-                        print 'no cumplioooo: ',no_cump
+                        #~ print 'no cumplioooo: ',no_cump
                         sml_x_pd_id = no_cump
-                        print 'nueva listaaa: ',sml_x_pd_id
+                        #~ print 'nueva listaaa: ',sml_x_pd_id
                         no_cump = []   
                 #NC VENTA
                 if rpp.location_dest_id.id == loc_ids and rpp.invoice_id.type == 'out_refund':
-                    print 'validando NC VENTA:'        
+                    #~ print 'validando NC VENTA:'        
                     qda,total,avg,no_cump,seq= \
                     self.validate_nc_vta(cr, uid, ids,scl,q,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
                         
                     if no_cump and not scl.parent_id:
-                        print 'agregando nuevamente los movimientos:'
+                        #~ print 'agregando nuevamente los movimientos:'
                         #no_cump.append(sml_id)
                         no_cump.extend(sml_x_pd_id)
-                        print 'no cumplioooo: ',no_cump
+                        #~ print 'no cumplioooo: ',no_cump
                         sml_x_pd_id = no_cump
-                        print 'nueva listaaa: ',sml_x_pd_id
+                        #~ print 'nueva listaaa: ',sml_x_pd_id
                         no_cump = []                            
                                                  
                 #DESTINO USO INTERNO
                 if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == inter_loc_ids:
-                    print 'validando USO INTERNO:'        
+                    #~ print 'validando USO INTERNO:'        
                     #fixme blanquear la variables de cuenta
                     #acc_src = None
                     #acc_dest = None
                     qda,total,avg,no_cump,seq= \
                     self.validate_venta(cr, uid, ids,scl,q,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
                     valores = {}
                     if not (rpp.aml_cost_id or rpp.aml_inv_id):
                         move = scl.stk_mov_id 
@@ -877,13 +884,13 @@ class stock_card(osv.osv):
                     
                 #DESTINO PROCESAMIENTO
                 if rpp.location_id.id == loc_ids and rpp.location_dest_id.id == prod_loc_ids:
-                    print 'validando PROCESAMIENTO:'        
+                    #~ print 'validando PROCESAMIENTO:'        
                     #fixme blanquear la variables de cuenta
                     #acc_src = None
                     #acc_dest = None                        
                     qda,total,avg,no_cump,seq= \
                     self.validate_venta(cr, uid, ids,scl,q,total,avg,qda,no_cump,sml_x_pd_id,sml_id,seq)
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
                     valores = {}
                     if not (rpp.aml_cost_id or rpp.aml_inv_id):
                         move = scl.stk_mov_id 
@@ -892,7 +899,7 @@ class stock_card(osv.osv):
                         if move.location_dest_id.account_id:
                             acc_dest = move.location_dest_id.account_id.id                        
 
-                        print 'nomb ubic: ',move.location_dest_id.name
+                        #~ print 'nomb ubic: ',move.location_dest_id.name
                         acc_mov_id = self.write_aml(cr, uid, ids, scl, q, avg, acc_src, acc_dest)
                         acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
                         for aml in acc_mov_obj.line_id:
@@ -907,8 +914,8 @@ class stock_card(osv.osv):
                                 valores.update({'aml_inv_id':aml.id})
                         
                         sc_line_obj.write(cr, uid, scl.id, valores)  
-                        if pending:
-                            print 'EN RECURRENTE SLC.ID %s Y SML_ID  %s'%(scl.id,sml_id)                    
+                        #~ if pending:
+                            #~ print 'EN RECURRENTE SLC.ID %s Y SML_ID  %s'%(scl.id,sml_id)                    
                     #~ else:
                         #~ id1=scl.aml_cost_id.id
                         #~ id2=scl.aml_inv_id.id
@@ -918,7 +925,7 @@ class stock_card(osv.osv):
                 #~ 
                 #DESDE PROCESAMIENTO  PARA STOCK
                 if rpp.location_id.id == prod_loc_ids and rpp.location_dest_id.id == loc_ids:
-                    print 'validando PRODUCTO MANUFACTURADO:'        
+                    #~ print 'validando PRODUCTO MANUFACTURADO:'        
                     #fixme blanquear la variables de cuenta
                     #acc_src = None
                     #acc_dest = None
@@ -928,27 +935,27 @@ class stock_card(osv.osv):
                     #~ qda,subtotal,total,avg= \
                     #~ self.validate_procesamiento(cr, uid, ids,scl,q,subtotal,total,avg,qda,sml_x_pd_id,sml_id)
                     for i in scl.in_sml_ids:
-                        print 'identificador de scl: ', i.id
+                        #~ print 'identificador de scl: ', i.id
                         i_id = rpp_obj.search(cr, uid, [('stk_mov_id','=',i.stk_mov_id.id)])[0]
                         #~ scl = sc_line_obj.browse(cr,uid,i_id)[0]                    
 
-                        print 'id de sml: ',i_id
-                        print 'producto destino: ',rpp.product_id.name
-                        print 'producto origen: ',i.product_id.name
-                        print 'lista se sml: ',Dict[i.product_id.id]['sml']
+                        #~ print 'id de sml: ',i_id
+                        #~ print 'producto destino: ',rpp.product_id.name
+                        #~ print 'producto origen: ',i.product_id.name
+                        #~ print 'lista se sml: ',Dict[i.product_id.id]['sml']
                         #~ time.sleep(10)
                         if i_id in Dict[i.product_id.id]['sml']:
-                            print '#'*9
+                            #~ print '#'*9
                             self.procesar_producto(cr, uid, ids, i.product_id.id, Dict, loc_ids, inter_loc_ids, prod_loc_ids, i_id)
-                            print '%'*9
+                            #~ print '%'*9
                             #~ time.sleep(2)
                             
-                            print 'sc_line_obj.read(cr,uid,i.id): ',sc_line_obj.browse(cr,uid,i.id).subtotal
-                            print 'subtotal: ',subtotal
-                            print 'i.subtotal: ',i.subtotal
+                            #~ print 'sc_line_obj.read(cr,uid,i.id): ',sc_line_obj.browse(cr,uid,i.id).subtotal
+                            #~ print 'subtotal: ',subtotal
+                            #~ print 'i.subtotal: ',i.subtotal
                             subtotal+=sc_line_obj.browse(cr,uid,i.id).subtotal
                         else:
-                            print '&'*25
+                            #~ print '&'*25
                             subtotal+=sc_line_obj.browse(cr,uid,i.id).subtotal
                     total+=subtotal
                     avg = qda and total/qda or 0.0
@@ -960,18 +967,18 @@ class stock_card(osv.osv):
                         'stk_aft_cor':qda,
                         'aml_cost_price_unit': subtotal/q
                     }
-                    print 'value ANTES DE self.write_data: ',value
+                    #~ print 'value ANTES DE self.write_data: ',value
                     seq=self.write_data(cr, uid, ids, scl.id, value, seq)
                     
-                    print 'seq despues operac: ',seq
+                    #~ print 'seq despues operac: ',seq
 
                     if no_cump:
-                        print 'agregando nuevamente las vta:'
+                        #~ print 'agregando nuevamente las vta:'
                         #no_cump.append(sml_id)
                         no_cump.extend(sml_x_pd_id)
-                        print 'no cumplioooo: ',no_cump
+                        #~ print 'no cumplioooo: ',no_cump
                         sml_x_pd_id = no_cump
-                        print 'nueva listaaa: ',sml_x_pd_id
+                        #~ print 'nueva listaaa: ',sml_x_pd_id
                         no_cump = []   
 
                     
@@ -985,17 +992,17 @@ class stock_card(osv.osv):
                                 property_stock_account_input.id
                                               
 
-                        print 'nomb ubic: ',move.location_dest_id.name
-                        print 'scl.aml_cost_price_unit: ',scl.aml_cost_price_unit
+                        #~ print 'nomb ubic: ',move.location_dest_id.name
+                        #~ print 'scl.aml_cost_price_unit: ',scl.aml_cost_price_unit
                         
                         acc_mov_id = self.write_aml(cr, uid, ids, scl, q, subtotal/q, acc_src, acc_dest)
-                        print 'compr. contable: ',self.pool.get('account.move').read(cr,uid,acc_mov_id)
+                        #~ print 'compr. contable: ',self.pool.get('account.move').read(cr,uid,acc_mov_id)
                         acc_mov_obj = self.pool.get('account.move').browse(cr,uid,acc_mov_id)
-                        print 'cont: ',acc_mov_obj.ref
+                        #~ print 'cont: ',acc_mov_obj.ref
                         for aml in acc_mov_obj.line_id:
-                            print 'asietttt: ',aml.ref
-                            print 'credit: ',aml.credit
-                            print 'debit: ',aml.debit
+                            #~ print 'asietttt: ',aml.ref
+                            #~ print 'credit: ',aml.credit
+                            #~ print 'debit: ',aml.debit
                             valores.update({
                                             'aml_cost_qty':aml.quantity or 0.0,
                                             'aml_cost_price_unit':avg,
@@ -1006,11 +1013,11 @@ class stock_card(osv.osv):
                             if aml.debit: 
                                 valores.update({'aml_inv_id':aml.id})
                         
-                        print 'asientoooo: ',valores
+                        #~ print 'asientoooo: ',valores
                         sc_line_obj.write(cr, uid, scl.id, valores) 
                         kkk=      sc_line_obj.read(cr, uid, scl.id)
-                        if not kkk['aml_cost_id'] or not kkk['aml_inv_id']:
-                            print 'objeto: ',sc_line_obj.read(cr, uid, scl.id)
+                        #~ if not kkk['aml_cost_id'] or not kkk['aml_inv_id']:
+                            #~ print 'objeto: ',sc_line_obj.read(cr, uid, scl.id)
                             #~ time.sleep(5)
 #                        else:
 #                            id1=scl.aml_cost_id.id
@@ -1023,12 +1030,12 @@ class stock_card(osv.osv):
                 if no_cump and not sml_x_pd_id:
                     while no_cump:
                         sml_id = no_cump.pop(0)
-                        print 'procesando vtas y la NC COMPRAS faltantes:'
+                        #~ print 'procesando vtas y la NC COMPRAS faltantes:'
 
             if sml_id == pending and pending not in no_cump:
                 #Actualizar el Dict con los valores que quedan remanentes
                 #Dict[prod_id].update({'sml':sml_x_prod_id,'no_cump':no_cump,'total':total, 'qda': qda, 'cont':cont})
-                print 'saliendo de procesar:',rpp.product_id.name
+                #~ print 'saliendo de procesar:',rpp.product_id.name
                 break
         Dict[prod_id].update({'sml':sml_x_pd_id,'no_cump':no_cump,'total':total,'avg': avg, 'qda': qda, 'cont':cont})    
         return True
@@ -1085,7 +1092,7 @@ class stock_card_line(osv.osv):
     
     def _get_scl_out(self, cr, uid, ids, field_name, arg, context={}):
         result = {}
-        print '_get_scl_out:',ids
+        #~ print '_get_scl_out:',ids
         for scl in self.browse(cr, uid, ids, context):
             result[scl.id] = False
             if scl.stk_mov_id.sml_out_id:
@@ -1097,18 +1104,18 @@ class stock_card_line(osv.osv):
 
 
     def _get_scl_from_sm(self, cr, uid, ids, context={}):
-        print '_get_scl_from_sm:',ids
+        #~ print '_get_scl_from_sm:',ids
         scl_ids = []
         scl_ids = self.pool.get('stock.card.line').search(cr, uid, [('stk_mov_id','in',ids)], context=context)
         return scl_ids
 
     def _get_scl_from_scl(self, cr, uid, ids, context={}):
         scl_ids = []
-        print '_get_scl_from_scl:',ids
+        #~ print '_get_scl_from_scl:',ids
         for scl in self.browse(cr, uid, ids, context):
             if scl.stk_mov_id.in_sml_ids:                
                 scl_ids = self._get_scl_from_sm(cr, uid, [x.id for x in scl.stk_mov_id.in_sml_ids], context)
-                print 'scl_entradas:',ids
+                #~ print 'scl_entradas:',ids
         return scl_ids
     
     
@@ -1237,4 +1244,3 @@ stock_card_product_move_inv()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

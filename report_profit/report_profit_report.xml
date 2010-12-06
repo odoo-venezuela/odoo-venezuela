@@ -21,5 +21,16 @@
             menu="True"/>
 
 
+        <report             
+            id="kardex_grey_lines" 
+            model="stock.card" 
+            name="kardex.grey.lines" 
+            rml="addons/report_profit/report/kardex_grey_lines.rml" 
+            string="Kardex - Prod. con Problema"
+            auto="True"
+            header="False" 
+            menu="True"/>
+
+
     </data>
 </openerp>
