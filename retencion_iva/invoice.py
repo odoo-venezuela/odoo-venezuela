@@ -173,7 +173,7 @@ class account_invoice(osv.osv):
             
             ret_line.append(self.ret_iva_line_create(cr, uid, inv))
             ret_iva = {
-                'name':'SIN NOMBRE'
+                'name':'SIN NOMBRE',
                 'type': inv.type,
                 'period_id': inv.period_id.id,
                 'account_id': acc_id,
