@@ -92,6 +92,9 @@ _transaction_fields = {
 }
 
 def _data_save(self, cr, uid, data, context):
+    form = data['form']
+    if not form['u_check']  and not form['p_check'] and not form['c_check']:
+        raise wizard.except_wizard(_('User Error'), _('You have to check one box !'))    
     res = {}
     period_length = data['form']['period_length']
     if period_length<=0:

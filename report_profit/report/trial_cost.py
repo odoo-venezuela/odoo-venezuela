@@ -85,8 +85,6 @@ class trial_c(report_sxw.rml_parse):
 
 
     def _get_data(self, form):
-        if not form['u_check']  and not form['p_check'] and not form['c_check']:
-            raise wizard.except_wizard(_('User Error'), _('You have to check one box !'))
         pool = pooler.get_pool(self.cr.dbname)
         line_ids = []
         cond=''
