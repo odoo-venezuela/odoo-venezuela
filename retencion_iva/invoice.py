@@ -164,6 +164,7 @@ class account_invoice(osv.osv):
     
 
     def action_ret_iva_create(self, cr, uid, ids, *args):
+        ret_iva_obj = self.pool.get('account.retention')
         for inv in self.browse(cr, uid, ids):
             ret_line = []
             if inv.type in ('out_invoice', 'out_refund'):
@@ -173,14 +174,14 @@ class account_invoice(osv.osv):
             
             ret_line.append(self.ret_iva_line_create(cr, uid, inv))
             ret_iva = {
-                'name':'SIN NOMBRE',
+                'name':ret_iva_obj.retencion_seq_get(cr, uid),
                 'type': inv.type,
                 'period_id': inv.period_id.id,
                 'account_id': acc_id,
                 'partner_id': inv.partner_id.id,
                 'retention_line':ret_line
             }
-            ret_id = self.pool.get('account.retention').create(cr, uid, ret_iva)
+            ret_id = ret_iva_obj.create(cr, uid, ret_iva)
 
 account_invoice()
 
