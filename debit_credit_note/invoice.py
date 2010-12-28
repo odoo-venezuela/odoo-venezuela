@@ -40,7 +40,7 @@ class account_invoice(osv.osv):
 
     _description = "Debit and Credit Notes"
     _columns = {
-        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', select=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', select=True, readonly=True, states={'draft':[('readonly',False)]}, help='Al seleccionar este campo, la factura se convertira en una nota de debito'),
         'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
     }
     
