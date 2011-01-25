@@ -39,6 +39,7 @@
     "demo_xml" : [
     ]                                                                                                       ,
     "update_xml" : [
+        'security/ir.model.access.csv',    
         "sale_uom_group_view.xml"                                                                           ,
     ]                                                                                                       ,
     "active": False                                                                                         ,
