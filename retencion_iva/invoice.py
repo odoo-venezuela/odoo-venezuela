@@ -166,6 +166,8 @@ class account_invoice(osv.osv):
     def action_ret_iva_create(self, cr, uid, ids, *args):
         ret_iva_obj = self.pool.get('account.retention')
         for inv in self.browse(cr, uid, ids):
+            if inv.ret_iva_id:
+                raise osv.except_osv('Accion Invalida !', 'Factura retenida !')
             ret_line = []
             if inv.type in ('out_invoice', 'out_refund'):
                 acc_id = inv.partner_id.property_retention_receivable.id
