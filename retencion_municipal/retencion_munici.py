@@ -211,6 +211,7 @@ class account_retencion_munici(osv.osv):
             'partner_id': invoice.partner_id.id,
             'ref':invoice.number,
             'date': date,
+            'currency_id': False,            
         }
         l2 = {
             'debit': direction * pay_amount<0 and - direction * pay_amount,
@@ -219,6 +220,7 @@ class account_retencion_munici(osv.osv):
             'partner_id': invoice.partner_id.id,
             'ref':invoice.number,
             'date': date,
+            'currency_id': False,            
         }
         if not name:
             if invoice.type in ['in_invoice','in_refund']:
