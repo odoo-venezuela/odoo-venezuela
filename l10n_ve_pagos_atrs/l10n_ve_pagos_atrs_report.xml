@@ -7,7 +7,8 @@
             name="account.pagos_ve" 
             rml="l10n_ve_pagos_atrs/report/pagos_atr.rml" 
             string="Pagos atrasados"
-            auto="False" />
+            auto="False"
+            header="False" />
 
 
     </data>
