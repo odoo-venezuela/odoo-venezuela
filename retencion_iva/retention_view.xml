@@ -100,7 +100,7 @@
                         <field name="journal_id" select="2" domain="[('type','=','retiva')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('supplier','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
@@ -130,18 +130,46 @@
         </record>
 
 
+
         <record id="view_retention_form_customer" model="ir.ui.view">
             <field name="name">account.retention.form.customer</field>
             <field name="model">account.retention</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="view_retention_form"/>
             <field name="arch" type="xml">
-				<field name="partner_id" position="replace">
-						<field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('special','=',True)]"/>
-				</field>
+                <form string="Retention">
+                    <group colspan="4" col="6">
+                        <field name="journal_id" select="2" domain="[('type','=','retiva')]"/>
+                        <field name="type" select="2"/>
+                        <field name="code" select="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('special','=',True), ('customer','=',True)]"/>
+                        <field name="currency_id" />
+                        <field name="date_ret" />
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="name" select="2"/>
+                        <field name="period_id"/>
+                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
+                        <field name="date" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Retencion">
+                            <field colspan="4" name="retention_line" nolabel="1" widget="one2many_list"/>
+                            <group col="4" colspan="2">
+                                <field name="state" select="2"/>
+                                <button name="retention_done" states="draft" string="Realizar" icon="gtk-execute"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="amount_base_ret"/>                                
+                                <field name="total_tax_ret"/>
+                            </group>
+                        </page>
+                        <page string="Otra Informacion">
+                            <field name="company_id"/>
+                        </page>
+                    </notebook>
+                </form>
             </field>
         </record>
-
+        
 
     	<record model="ir.actions.act_window" id="action_account_retention">
 	    	<field name="name">Retenciones</field>
