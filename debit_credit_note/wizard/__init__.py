@@ -31,4 +31,5 @@
 
 import wizard_refund
 import wizard_debit_note
+import wizard_parent_invoice
 

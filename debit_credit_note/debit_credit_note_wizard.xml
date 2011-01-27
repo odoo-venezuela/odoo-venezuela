@@ -15,6 +15,14 @@
             name="account.invoice.debit_note" 
             string="Debit Note" 
             groups="base.group_user"/>
+            
+        <wizard 
+            id="wizard_parent_inv" 
+            model="account.invoice" 
+            name="account.parent_invoice" 
+            string="Asignar factura padre" 
+            groups="base.group_user"/>
+            
 
 
     </data>
