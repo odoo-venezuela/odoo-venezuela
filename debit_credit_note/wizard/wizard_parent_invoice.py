@@ -85,10 +85,10 @@ def _set_domain(self, cr, uid, data, context):
         invis= True
     FORM.string = '''<?xml version="1.0"?>
 <form string="Factura">
-    <field name="parent_id"  domain="[('partner_id', '=', %s)]" required="%s" invisible="%s"/>
+    <field name="parent_id"  domain="[('partner_id', '=', %s),('id', '!=', %s)]" required="%s" invisible="%s"/>
     <separator string="Esta seguro?" colspan="4"/>
     <field name="sure"/>
-</form>''' % (form['partner_id'],obli,invis)
+</form>''' % (form['partner_id'],data['id'],obli,invis)
 
     return {}
 
