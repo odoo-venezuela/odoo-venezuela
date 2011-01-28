@@ -95,6 +95,8 @@ def _set_domain(self, cr, uid, data, context):
 def _set_parent(self, cr, uid, data, context):
     if not data['form']['sure']:
         raise wizard.except_wizard(_('Error Usuario'), _('Asignar factura original, !Por Favor confirme seleccionando la opcion!'))
+    if data['id'] == data['form']['parent_id']:
+        raise wizard.except_wizard(_('Error Usuario'), _('Factura actual igual a la original, !La nota de credito o debito no pude ser la misma factura orginal, Por Favor seleccione otra factura original!'))        
     pool = pooler.get_pool(cr.dbname)
     inv_obj = pool.get('account.invoice')
     parent_id = data['form']['parent_id']
