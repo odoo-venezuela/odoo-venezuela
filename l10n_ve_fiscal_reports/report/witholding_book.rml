@@ -180,7 +180,7 @@
                         <para style="SUBTABLE">[[ formatLang(t.base_ret) ]]</para>
                     </td>
                     <td>
-                        <para style="SUBTABLE">[[ formatLang(t.tax_amount/t.base_ret*100) ]]</para>
+                        <para style="SUBTABLE">[[ formatLang(t.base_ret and (t.tax_amount/t.base_ret*100) or 0.0) ]]</para>
                     </td>
                     </tr>
                 </blockTable>
