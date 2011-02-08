@@ -48,11 +48,48 @@ class report_profit_picking(osv.osv):
         for rpp in self.browse(cr, uid, ids, context):
             result[rpp.id] = ()
             il_ids = []
-            if rpp.purchase_line_id and rpp.purchase_line_id.id:                
+            if rpp.purchase_line_id and rpp.purchase_line_id.id:
+                loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Stock')])
+                supp_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Suppliers')])
+                lst_inv = []
+                str_inv = ''
+                inv_type ='in_invoice'
+                if not loc_ids:
+                    raise osv.except_osv('Error', 'No hay una ubicacion stock definida')
+                
+                if not supp_loc_ids:
+                    raise osv.except_osv('Error', 'No hay una ubicacion proveedor definida')
+
+                
                 if rpp.purchase_line_id.order_id.invoice_id and \
                     rpp.purchase_line_id.order_id.invoice_id.id:
                     inv_id = rpp.purchase_line_id.order_id.invoice_id.id
-                    il_ids = il_obj.search(cr, uid, [('invoice_id', '=', inv_id), ('product_id', '=', rpp.product_id.id), ('quantity', '=', rpp.picking_qty)])
+
+                    if inv.id not in lst_inv:
+                        lst_inv.append(inv.id)
+                    if inv.child_ids:
+                        for inv_nc in inv.child_ids:
+                            if inv_nc.id not in lst_inv:
+                                lst_inv.append(inv_nc.id)
+
+                    if lst_inv:
+                        str_inv = ','.join(map(str, lst_inv))
+                        #NC COMPRA 
+                        if rpp.location_id.id == loc_ids[0] and \
+                            rpp.location_dest_id == supp_loc_ids[0]:
+                            inv_type ='in_refund'
+
+                        sql = '''
+                            select
+                                l.id as id
+                            from account_invoice_line l
+                                inner join account_invoice i on (i.id=l.invoice_id)
+                            where i.id in (%s)  and i.type='%s' and l.product_id=%s and l.quantity=%s
+''' % (str_inv,inv_type,rpp.product_id.id,rpp.picking_qty)
+                        cr.execute(sql)
+                        il_ids = [x[0] for x in cr.fetchall()]
+
+
             if rpp.sale_line_id and rpp.sale_line_id.id:
                 cust_loc_ids = loc_obj.search(cr, uid, [('name', '=', 'Customers')])
                 #cust_loc_ids = [8]
