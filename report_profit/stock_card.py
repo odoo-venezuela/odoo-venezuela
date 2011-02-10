@@ -149,6 +149,9 @@ class stock_card(osv.osv):
             sc_line_obj.create(cr,uid,vals)
 
         self.find_parent(cr, uid, ids)
+        self.action_done(cr, uid, ids, context)
+        self.action_get_ready(cr, uid, ids, context)
+        print 'LISTO MAN'
         return True
 
 
