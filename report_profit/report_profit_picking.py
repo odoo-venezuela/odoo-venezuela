@@ -63,7 +63,7 @@ class report_profit_picking(osv.osv):
                 
                 if rpp.purchase_line_id.order_id.invoice_id and \
                     rpp.purchase_line_id.order_id.invoice_id.id:
-                    inv_id = rpp.purchase_line_id.order_id.invoice_id.id
+                    inv = rpp.purchase_line_id.order_id.invoice_id
 
                     if inv.id not in lst_inv:
                         lst_inv.append(inv.id)
@@ -76,7 +76,7 @@ class report_profit_picking(osv.osv):
                         str_inv = ','.join(map(str, lst_inv))
                         #NC COMPRA 
                         if rpp.location_id.id == loc_ids[0] and \
-                            rpp.location_dest_id == supp_loc_ids[0]:
+                            rpp.location_dest_id.id == supp_loc_ids[0]:
                             inv_type ='in_refund'
 
                         sql = '''
