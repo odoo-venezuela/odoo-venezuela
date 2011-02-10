@@ -469,19 +469,21 @@ class stock_card(osv.osv):
         #~ print 'subtotal antes: ',subtot
         #~ print 'total antes: ',tot
         #~ print 'avg antes: ',prom        
-        if scl_obj.parent_id and scl_obj.parent_id.invoice_price_unit:
-            cost_pad = scl_obj.parent_id.invoice_line_id.price_subtotal / q_mov
-        else:
+        
+#######################################################################        
+#        if scl_obj.parent_id and scl_obj.parent_id.invoice_price_unit:
+#            cost_pad = scl_obj.parent_id.invoice_line_id.price_subtotal / q_mov
+#        else:
             #~ print 'PADRE SIN PRECIO UNITARIOOOO'
             #~ hbto estuvo aqui
             #~ cost_pad = 0.0
-            cost_pad = scl_obj.invoice_line_id.price_subtotal / q_mov
-
+#            cost_pad = scl_obj.invoice_line_id.price_subtotal / q_mov
+#######################################################################
         #~ print 'precio unitario del padre:',cost_pad
 
         q_des-=q_mov  
         #~ print 'realizando calculo nc compra:'        
-        subtot = cost_pad*q_mov
+        subtot = scl_obj.invoice_line_id and scl_obj.invoice_line_id.price_subtotal or 0.0
         tot -= subtot
         if q_des > 0:
             prom = tot/q_des

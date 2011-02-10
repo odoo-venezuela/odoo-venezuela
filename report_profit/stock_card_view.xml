@@ -141,8 +141,8 @@
                 <group col="4" colspan="2">
                     <field name="name"/>
                     <button name="action_confirm" string="Cargar" type="object" icon="gtk-open"/>
-                    <button name="action_done" string="Calcular" type="object" icon="gtk-go-forward"/>
-                    <button name="action_get_ready" string="Preparar" type="object" icon="gtk-go-forward"/>
+<!--                    <button name="action_done" string="Calcular" type="object" icon="gtk-go-forward"/>-->
+<!--                    <button name="action_get_ready" string="Preparar" type="object" icon="gtk-go-forward"/>-->
                 </group>
                     <newline/>
                     <field name="sc_line" nolabel="1"/>
