@@ -31,8 +31,8 @@
 
 {
     "name" : "Fiscal Report For Venezuela",
-    "version" : "0.1",
-    "depends" : ["account","retencion_iva","retencion_municipal","retencion_islr",],
+    "version" : "0.2",
+    "depends" : ["account","retencion_iva",],
     "author" : "Netquatro",
     "description" : """
     What this module does:
