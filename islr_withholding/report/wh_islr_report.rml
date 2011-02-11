@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(210.0mm,280.0mm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary='0'>
+    <pageTemplate id="first">
+        <pageGraphics>
+            <setFont name="Courier-Bold" size="12.0"/>
+
+            <place x="3.50mm"  y="235.0mm"  width="203.0mm"  height="40.0mm">
+                
+                <blockTable colWidths="90.0mm,56.0mm,56.0mm" style="TABLATITULO">
+                    <tr>
+                        <td>
+                            <para style="TITULOLEFT">[[ company and company.name.upper() or '']]</para>
+                            <para style="RIFLEFT">[[(o.company_id.partner_id.vat and ('RIF:%s-%s-%s'%(o.company_id.partner_id.vat[2:3],o.company_id.partner_id.vat[3:11],o.company_id.partner_id.vat[11:12])) or removeParentNode('para'))]]</para>
+                        </td>
+                        <td>
+                            <para style="TITULOCENTER">COMPROBANTE DE RETENCION DE IMPUESTO SOBRE LA RENTA</para>
+                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
+                    </tr>
+                    <tr>
+                        <td><para style="TITULOCENTER"></para></td>
+                        <td>
+                            <para style="TITULOCENTER"></para>
+                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
+                    </tr>
+                    <tr>
+                        <td><para style="TITULOCENTER"></para></td>
+                        <td>
+                            <para style="TITULOCENTER"></para>
+                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
+                    </tr>
+                    <tr>
+                        <td><para style="TCENTER"> </para>
+                        </td>
+                        <td>
+                            <para style="TCENTER"><b>Fecha de Retención</b></para>
+                        </td>
+                        <td>
+                            <para style="TCENTER"><b>No. de Comprobante</b></para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><para style="TCENTER"> </para>
+                        </td>
+                        <td>
+                            <para style="TCENTER"><b>[[ o.date_ret ]]</b></para>
+                        </td>
+                        <td>
+                            <para style="TCENTER"><b>[[ o.number ]]</b></para>
+                        </td>
+                    </tr>
+                </blockTable>
+                <blockTable colWidths="202.0mm">
+                    <tr>
+                        <td><para style="RIFLEFT">[[ get_company_addr() or '' ]]</para></td>
+                    </tr>
+                </blockTable>
+<!--
+[[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s,'%(o.invoice_id.address_invoice_id.city_id.name)) or '') or '') or '']]
+-->
+            </place>
+                <place x="3.50mm"  y="225.0mm"  width="203.0mm"  height="25.0mm">>
+                    <blockTable colWidths="202.0mm">
+                        <tr>
+                            <td>
+                                <para style="RIFLEFT">[[ o.partner_id and ('CONTRIBUYENTE: %s,'%(o.partner_id.name)) or 'SIN CONTRI' ]][[ o.partner_id.vat and (' RIF.:%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or 'SIN RIF' ]]</para>
+                                <para style="RIFLEFT">DIRECCION: [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.street and  ('%s,'%(o.invoice_id.address_invoice_id.street)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.zip and ('Codigo Postal: %s,'%(o.invoice_id.address_invoice_id.zip)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.city and ('%s,'%(o.invoice_id.address_invoice_id.city)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s,'%(o.invoice_id.address_invoice_id.country_id.name)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.phone and ('Telf: %s,'%(o.invoice_id.address_invoice_id.phone)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.fax and ('Fax: %s'%(o.invoice_id.address_invoice_id.fax)) or '') or '') or '']] </para>
+                            </td>
+                        </tr>
+                    </blockTable>
+                </place>
+
+            <place x="3.50mm"  y="130.0mm"  width="150.0mm"  height="30.0mm">
+                <blockTable colWidths="150.0mm" rowHeights="6mm"  style="TARTICULO">
+                    <tr>
+                        <td>
+                            <para style="TCENTER">Según Artículo No. 24 de la Gaceta Oficial de la República de Venezuela No. 36203 del 125997</para>
+                        </td>
+                    </tr>
+                </blockTable>
+            </place>
+
+            <place x="157.0mm"  y="135.0mm"  width="50.0mm"  height="30.0mm">
+                <blockTable colWidths="50.0mm" rowHeights="13mm"  style="Tabla3">
+                    <tr>
+                        <td><para></para></td>
+                    </tr>
+                </blockTable>
+                <blockTable colWidths="50.0mm" rowHeights="6mm"  style="Tabla3">
+                    <tr>
+                        <td>
+                            <para style="TCENTER">AGENTE DE RETENCION</para>
+                            <para style="TCENTER">FIRMA Y SELLO</para>
+                        </td>
+                    </tr>
+                </blockTable>
+            </place>
+      </pageGraphics>
+      
+    <frame id="first" x1="3.50mm" y1="165.0mm" width="203.0mm" height="75.0mm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+  
+  
+    <blockTableStyle id="TABLATITULO">
+        <blockSpan start="0,0" stop="0,-1"/>
+        <blockSpan start="1,0" stop="2,1"/>
+        <blockAlignment value="LEFT"/>
+        <blockValign value="TOP"/>
+        <blockValign value="MIDDLE"/>
+    </blockTableStyle>
+  
+    <blockTableStyle id="Tabla3">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.1"/>
+      <blockValign value="MIDDLE"/>
+      <blockLeading start="0,0" stop="-1,-1" length="5"/>
+    </blockTableStyle>
+    <blockTableStyle id="TARTICULO">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <blockValign value="MIDDLE"/>
+      <blockLeading start="0,0" stop="-1,-1" length="5"/>
+    </blockTableStyle>
+
+    <blockTableStyle id="Tablatotalgeneral">
+      <blockAlignment value="RIGHT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.1"/>
+      <blockValign value="MIDDLE"/>
+    </blockTableStyle>  
+
+      <paraStyle name="TCENTER" fontName="Courier" fontSize="8.0" leading="8" spaceBefore="1.0" spaceAfter="-3.0" rigthIdent="-4.0" leftIndent="-4.0" alignment="CENTER"/>
+      <paraStyle name="TLEFT" fontName="Courier" fontSize="8.0" leading="8" spaceBefore="-3.0" spaceAfter="-3.0" rigthIdent="-4.0" leftIndent="-4.0" alignment="LEFT"/>
+      <paraStyle name="RIFLEFT" fontName="Courier" fontSize="8.0" leading="8" spaceBefore="1.0" spaceAfter="1.0" rigthIdent="-4.0" leftIndent="-4.0" alignment="LEFT"/>
+      <paraStyle name="TRIGHT" fontName="Courier" fontSize="8.0" leading="8" spaceBefore="1.0" spaceAfter="-3.0" rigthIdent="-4.0" leftIndent="-4.0"  alignment="RIGHT"/>
+      <paraStyle name="TOTALRIGHT" fontName="Courier-Bold" fontSize="9.0" leading="9" spaceBefore="0.0" spaceAfter="6.0" alignment="RIGHT"/>
+      <paraStyle name="TITULOLEFT" fontName="Courier-Bold" fontSize="16.0" leading="16.0" spaceBefore="1.0" spaceAfter="1.0" rigthIdent="-4.0" leftIndent="-4.0" alignment="LEFT"/>
+      <paraStyle name="TITULOCENTER" fontName="Courier-Bold" fontSize="10.0" leading="10.0" spaceBefore="0.0" spaceAfter="0.0" rigthIdent="-4.0" leftIndent="-4.0" alignment="CENTER"/>
+  </stylesheet>
+  <images/>
+
+
+
+  <story>
+    <para>[[repeatIn(objects,'o')]]</para>
+    <para>[[ setLang(company.partner_id.lang) ]]</para> 
+    <blockTable colWidths="20.0mm,25.0mm,25.0mm,10.0mm,63.0mm,25.0mm,15.0mm,20.0mm" style="Tabla3" >
+      <tr>
+        <td><para style="TCENTER">Fecha de Doc.</para></td>   
+        <td><para style="TCENTER">No. Doc.</para></td>  
+        <td><para style="TCENTER">No. Control</para></td>
+        <td><para style="TCENTER">Tipo Doc.</para></td>
+        <td><para style="TCENTER">Concepto</para></td>
+        <td><para style="TCENTER">Base Imponible</para></td>
+        <td><para style="TCENTER">% Rete.</para></td>
+        <td><para style="TCENTER">I.S.L.R. Retenido</para></td>
+      </tr>
+    </blockTable>
+    <section>
+        <para>[[ repeatIn(list(set([l for l in  o.invoice_ids])),'l')]]</para>
+        <section>
+            <para>[[ repeatIn(o.concept_ids,'c')]]</para>
+            <section>
+                    <para>[[repeatIn([x for x in c.xml_ids if (x.account_invoice_line_id.invoice_id.id == l.invoice_id.id)],'x')]]</para>
+
+                    <blockTable colWidths="20.0mm,25.0mm,25.0mm,10.0mm,63.0mm,25.0mm,15.0mm,20.0mm" style="Tabla3">
+                      <tr>
+                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.date_invoice ]]</para></td>   
+                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.reference ]]</para></td>  
+                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.nro_ctrl ]]</para></td>
+                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.type and x.account_invoice_line_id.invoice_id.type=='in_refund' and 'N.C.' or removeParentNode('para') ]]</para>
+                            <para style="TCENTER"> 
+[[ (x.account_invoice_line_id.invoice_id.type=='in_invoice' and (x.account_invoice_line_id.invoice_id.parent_id and ('N.D.') or removeParentNode('para')) or removeParentNode('para'))]]</para>
+                            <para style="TCENTER">
+[[(x.account_invoice_line_id.invoice_id.type=='in_invoice' and ((not x.account_invoice_line_id.invoice_id.parent_id) and ('F') or removeParentNode('para'))  or removeParentNode('para')) ]]</para>
+                        </td>
+                        <td><para style="TLEFT">[[ x.rate_id.concept_id.name ]]</para></td>
+                        <td><para style="TRIGHT">[[ formatLang(x.base) ]]</para></td>
+                        <td><para style="TRIGHT">[[x.porcent_rete]]%</para></td>
+                        <td><para style="TRIGHT">[[ formatLang(x.wh) ]]</para></td>
+                      </tr>
+                    </blockTable>
+            </section>
+        </section>
+    </section>
+        <blockTable colWidths="80.0mm,103.0mm,20.0mm" style="Tablatotalgeneral">
+        <tr>
+            <td><para style="TOTALRIGHT"></para></td>
+            <td><para style="TOTALRIGHT">TOTAL IMPUESTO RETENIDO</para></td>
+            <td><para style="TOTALRIGHT">[[ o.amount_total_ret and o.amount_total_ret or '']]</para></td>
+        </tr>
+    </blockTable>
+
+  </story>
+</document>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
