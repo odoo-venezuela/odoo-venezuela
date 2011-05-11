@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+<!--
+    Menu Generico para todos los modulos de iva, islr y municipales
+-->
+        <menuitem id="menu_finance_withholding" name="Withholdings" parent="account.menu_finance"/>
+        <menuitem id="menu_wh_configuration" name="Withholdings" parent="account.menu_finance_configuration"/>
+        
+<!--
+        Vista Generica de Facturas de Compra para iva, islr y municipales
+-->
+        
+        <record id="wh_inv_supplier" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.wh.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                   <page string="Withholdings" >
+
+                    </page> 
+                </notebook>
+            </field>
+        </record>
+        
+<!--
+        Vista Generica de Facturas de Venta para iva, islr y municipales
+-->
+        
+        <record id="wh_inv_customer" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.wh.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                   <page string="Withholdings" >
+
+                    </page> 
+                </notebook>
+            </field>
+        </record>
+        
+<!--
+        Vista Generica de Parnets para iva, islr y municipales
+-->
+
+        <record id="wh_partner" model="ir.ui.view">
+            <field name="name">res.partner.form.wh</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook>
+                   <page string="Withholdings" >
+
+                    </page> 
+                </notebook>
+            </field>
+        </record>        
+
+
+        <!--
+          =======================
+          Withholdings Document
+          =======================
+        -->
+        <record id="view_account_wh_doc_tree" model="ir.ui.view">
+            <field name="name">account.wh.doc.tree</field>
+            <field name="model">account.wh.doc</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Documents">
+                    <field name="model_parent" select="1"/>
+                    <field name="model_child" select="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_account_wh_doc_form" model="ir.ui.view">
+            <field name="name">account.wh.doc.form</field>
+            <field name="model">account.wh.doc</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Documents">
+                    <field name="model_parent" select="1"/>
+                    <field name="model_child" select="1"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="wh_doc_action" model="ir.actions.act_window">
+            <field name="name">Withholdings Document</field>
+            <field name="type">ir.actions.act_window</field>            
+            <field name="res_model">account.wh.doc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Create and manage the withholding documents in account move line.</field>            
+        </record>
+
+
+        <record id="action_wh_doc_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_account_wh_doc_tree"/>            
+            <field name="act_window_id" ref="wh_doc_action"/>
+        </record>
+
+        <record id="action_wh_doc_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_wh_doc_form"/>
+            <field name="act_window_id" ref="wh_doc_action"/>
+        </record>
+
+        <menuitem id="menu_wh_doc" action="wh_doc_action" parent="menu_wh_configuration"/>
+                
+    </data>
+</openerp>
+    
