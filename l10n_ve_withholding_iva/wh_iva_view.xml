@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- 
+    =====================================================
+    Withholding vat line
+    =====================================================
+    -->  
+
+        <record id="view_wh_iva_line_tree" model="ir.ui.view">
+            <field name="name">account.wh.iva.line.tree</field>
+            <field name="model">account.wh.iva.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Withholding Lines">
+                    <field name="name"/>
+                    <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+<!--                    <field name="retention_rate" />-->
+                    <field name="amount_tax_ret"/>
+                    <field name="base_ret"/>
+                    <field name="move_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wh_iva_line_form" model="ir.ui.view">
+            <field name="name">account.wh.iva.line.form</field>
+            <field name="model">account.wh.iva.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Withholding Lines">
+                    <notebook>
+                        <page string="Line">
+                            <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+<!--                            <field name="retention_rate" />-->
+                            <field colspan="4" name="name" select="1"/>
+                            <group col="1" colspan="4">
+                                <field name="tax_line" nolabel="1">
+                                    <tree string="Taxes">
+                                        <field name="name"/>
+                                        <field name="base" />
+                                        <field name="amount" />
+                                        <field name="base_ret" />
+                                        <field name="amount_ret" />
+                                        <field invisible="True" name="base_amount"/>
+                                        <field invisible="True" name="tax_amount"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <field name="move_id"/>
+                            <group col="2" colspan="2">
+                                <field name="amount_tax_ret"/>
+                                <field name="base_ret"/>
+                                <field name="amount_base_wh"/>
+                                <field name="amount_tax_wh"/>                                
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+    <!-- 
+    =====================================================
+    Withholding vat
+    =====================================================
+    -->  
+
+
+        <record id="view_wh_iva_tree" model="ir.ui.view">
+            <field name="name">account.wh.iva.tree</field>
+            <field name="model">account.wh.iva</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='draft'" string="Withholding Vat">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="code"/>
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="amount_base_ret"/>
+                    <field name="total_tax_ret"/>
+                    <field name="date_ret"/>
+                    <field name="currency_id"/>
+                    <field name="period_id"/>
+                    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_wh_iva_form" model="ir.ui.view">
+            <field name="name">account.wh.iva.form</field>
+            <field name="model">account.wh.iva</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Withholding Vat">
+                    <group colspan="4" col="6">
+                        <field name="journal_id" select="2" domain="[('type','=','iva_purchase')]"/>
+                        <field name="type" select="2"/>
+                        <field name="code" select="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('supplier','=',True)]"/>
+                        <field name="currency_id" />
+                        <field name="date_ret" />
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="name" select="2"/>
+                        <field name="period_id"/>
+                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
+                        <field name="date" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Withholding">
+                            <field colspan="4" name="retention_line" nolabel="1" widget="one2many_list"/>
+                            <group col="4" colspan="2">
+                                <field name="state" select="2"/>
+                                <button name="wh_iva_done" states="draft" string="Realizar" icon="gtk-execute"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="amount_base_ret"/>                                
+                                <field name="total_tax_ret"/>
+                                <field name="tot_amount_base_wh"/>
+                                <field name="tot_amount_tax_wh"/>
+                            </group>
+                        </page>
+                        <page string="Other Information">
+                            <field name="company_id"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="view_wh_iva_form_customer" model="ir.ui.view">
+            <field name="name">account.wh.iva.form.customer</field>
+            <field name="model">account.wh.iva</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Withholding Vat">
+                    <group colspan="4" col="6">
+                        <field name="journal_id" select="2" domain="[('type','=','iva_sale')]"/>
+                        <field name="type" select="2"/>
+                        <field name="code" select="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('special','=',True), ('customer','=',True)]"/>
+                        <field name="currency_id" />
+                        <field name="date_ret" />
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="name" select="2"/>
+                        <field name="period_id"/>
+                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
+                        <field name="date" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Withholding">
+                            <field colspan="4" name="retention_line" nolabel="1" widget="one2many_list"/>
+                            <group col="4" colspan="2">
+                                <field name="state" select="2"/>
+                                <button name="wh_iva_done" states="draft" string="Realizar" icon="gtk-execute"/>
+                            </group>
+                            <group col="2" colspan="2">
+<!--                                <field name="amount_base_ret"/>                           -->
+<!--                                <field name="total_tax_ret"/>-->
+                                <field name="tot_amount_base_wh"/>
+                                <field name="tot_amount_tax_wh"/>
+                            </group>
+                        </page>
+                        <page string="Other Information">
+                            <field name="company_id"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        
+
+        <record model="ir.actions.act_window" id="action_account_wh_iva">
+            <field name="name">Withholding Vat</field>
+            <field name="res_model">account.wh.iva</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="act_window_id" ref="action_account_wh_iva"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wh_iva_form"/>
+            <field name="act_window_id" ref="action_account_wh_iva"/>
+        </record>
+
+        <menuitem
+            id="menu_action_account_wh_iva"
+            name="Withholding vat"        
+            parent="l10n_ve_withholding.menu_finance_withholding"
+            action="action_account_wh_iva"/>
+
+
+
+        <record model="ir.actions.act_window" id="action_account_wh_iva_customer">
+            <field name="name">Withholding vat customer</field>
+            <field name="res_model">account.wh.iva</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">{'type':'out_invoice'}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="act_window_id" ref="action_account_wh_iva_customer"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wh_iva_form_customer"/>
+            <field name="act_window_id" ref="action_account_wh_iva_customer"/>
+        </record>
+
+        <menuitem
+            id="menu_action_account_wh_iva_customer"
+            name="Withholding vat customer"       
+            parent="menu_action_account_wh_iva"
+            action="action_account_wh_iva_customer"/>
+
+
+
+        <record model="ir.actions.act_window" id="action_account_wh_iva_supplier">
+            <field name="name">Withholding vat supplier</field>
+            <field name="res_model">account.wh.iva</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','in_invoice')]</field>
+            <field name="context">{'type':'in_invoice'}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wh_iva_form"/>
+            <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
+        </record>
+
+        <menuitem
+            id="menu_action_account_wh_iva_supplier"
+            name="Withholding vat supplier"        
+            parent="menu_action_account_wh_iva"
+            action="action_account_wh_iva_supplier"/>
+
+    </data>
+</openerp>
