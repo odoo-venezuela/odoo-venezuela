@@ -19,6 +19,8 @@
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
                     <field name="base_ret"/>
+                    <field name="amount_base_wh"/>
+                    <field name="amount_tax_wh"/>                    
                     <field name="move_id"/>
                 </tree>
             </field>
@@ -119,6 +121,7 @@
                                 <button name="wh_iva_done" states="draft" string="Realizar" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
+                                <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>                                
                                 <field name="amount_base_ret"/>                                
                                 <field name="total_tax_ret"/>
                                 <field name="tot_amount_base_wh"/>

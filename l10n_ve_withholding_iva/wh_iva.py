@@ -273,6 +273,22 @@ class account_wh_iva(osv.osv):
         code = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva')
         vals['code'] = code
         return super(account_wh_iva, self).create(cr, uid, vals, context)
+
+
+    def compute_amount_wh(self, cr, uid, ids, context=None):
+        res = {}
+        if context is None:
+            context = {}        
+        for retention in self.browse(cr, uid, ids, context):
+            res[retention.id] = {
+                'tot_amount_base_wh': 0.0,
+                'tot_amount_tax_wh': 0.0
+            }            
+            for line in retention.retention_line:
+                res[retention.id]['tot_amount_base_wh'] += line.amount_base_wh
+                res[retention.id]['tot_amount_tax_wh'] += line.amount_tax_wh
+        self.write(cr, uid, [retention.id], res[retention.id])        
+        return True
     
 account_wh_iva()
 
