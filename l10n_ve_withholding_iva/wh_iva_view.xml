@@ -17,8 +17,8 @@
                     <field name="name"/>
                     <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
 <!--                    <field name="retention_rate" />-->
-                    <field name="amount_tax_ret"/>
                     <field name="base_ret"/>
+                    <field name="amount_tax_ret"/>                    
                     <field name="amount_base_wh"/>
                     <field name="amount_tax_wh"/>                    
                     <field name="move_id"/>

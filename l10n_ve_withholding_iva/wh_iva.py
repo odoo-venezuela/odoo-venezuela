@@ -178,12 +178,11 @@ class account_wh_iva(osv.osv):
                 for line in ret.retention_line:                    
                     writeoff_account_id = False
                     writeoff_journal_id = False
-                    #cambiar por campo no calculado
-                    amount = line.amount_tax_ret
+                    amount = line.amount_tax_wh
                     if line.invoice_id.type in ['in_invoice','in_refund']:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (invoice.reference or '')
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
                     else:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(invoice.number)) or '')
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(line.invoice_id.number)) or '')
                     
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
