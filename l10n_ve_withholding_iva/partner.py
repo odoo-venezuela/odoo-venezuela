@@ -19,13 +19,14 @@
 #
 ##############################################################################
 from osv import fields, osv
+import decimal_precision as dp
 
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     _columns = {
         'wh_iva_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
-        'wh_iva_rate': fields.float(string='Rate', help="Withholding vat rate"),
+        'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
         'property_wh_iva_payable': fields.property(
             'account.account',
             type='many2one',

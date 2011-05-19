@@ -21,6 +21,7 @@
 
 import time
 from osv import fields, osv
+import decimal_precision as dp
 
 
 
@@ -70,7 +71,7 @@ class account_invoice(osv.osv):
                 'account.move.line': (_get_inv_from_line, None, 50),
                 'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
             }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
-        'wh_iva_rate': fields.float('Wh rate', digits=(14,4), readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat rate"),
+        'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat rate"),
         'wh_iva_id': fields.many2one('account.wh.iva', 'Wh. Vat', readonly=True, help="Withholding vat."),        
     }
 
@@ -226,7 +227,7 @@ class account_invoice(osv.osv):
             if l.account_id.id==src_account_id:
                 line_ids.append(l.id)
                 total += (l.debit or 0.0) - (l.credit or 0.0)
-        if (not round(total,self.pool.get('decimal.precision').precision_get(cr, uid, 'Account'))) or writeoff_acc_id:
+        if (not round(total,self.pool.get('decimal.precision').precision_get(cr, uid, 'Withhold'))) or writeoff_acc_id:
             self.pool.get('account.move.line').reconcile(cr, uid, line_ids, 'manual', writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context)
         else:
             self.pool.get('account.move.line').reconcile_partial(cr, uid, line_ids, 'manual', context)
@@ -272,8 +273,8 @@ account_invoice()
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
-        'amount_ret': fields.float('Withholding amount', digits=(16,4), help="Withholding vat amount"),
-        'base_ret': fields.float('Amount', digits=(16,4), help="Amount without tax"),    
+        'amount_ret': fields.float('Withholding amount', digits_compute= dp.get_precision('Withhold'), help="Withholding vat amount"),
+        'base_ret': fields.float('Amount', digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),    
         'tax_id': fields.many2one('account.tax', 'Tax', required=True, ondelete='set null', help="Tax"),        
     }
     
