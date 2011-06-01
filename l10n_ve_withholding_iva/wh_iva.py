@@ -21,7 +21,7 @@
 
 from osv import osv, fields
 import time
-from tools import config
+import decimal_precision as dp
 
 
 class account_wh_iva(osv.osv):
@@ -88,10 +88,10 @@ class account_wh_iva(osv.osv):
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'retention_line': fields.one2many('account.wh.iva.line', 'retention_id', 'Withholding vat lines', readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat lines"),
-        'tot_amount_base_wh': fields.float('Amount', required=False, digits=(16,4), help="Amount without tax"),        
-        'tot_amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits=(16,4), help="Amount withholding tax vat"),
-        'amount_base_ret': fields.function(_amount_ret_all, method=True, digits=(16,4), string='Compute amount', multi='all', help="Compute amount without tax"),
-        'total_tax_ret': fields.function(_amount_ret_all, method=True, digits=(16,4), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
+        'tot_amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),        
+        'tot_amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withholding tax vat"),
+        'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
+        'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
         
     } 
     _defaults = {
@@ -178,12 +178,11 @@ class account_wh_iva(osv.osv):
                 for line in ret.retention_line:                    
                     writeoff_account_id = False
                     writeoff_journal_id = False
-                    #cambiar por campo no calculado
-                    amount = line.amount_tax_ret
+                    amount = line.amount_tax_wh
                     if line.invoice_id.type in ['in_invoice','in_refund']:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (invoice.reference or '')
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
                     else:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(invoice.number)) or '')
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(line.invoice_id.number)) or '')
                     
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
@@ -273,6 +272,22 @@ class account_wh_iva(osv.osv):
         code = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva')
         vals['code'] = code
         return super(account_wh_iva, self).create(cr, uid, vals, context)
+
+
+    def compute_amount_wh(self, cr, uid, ids, context=None):
+        res = {}
+        if context is None:
+            context = {}        
+        for retention in self.browse(cr, uid, ids, context):
+            res[retention.id] = {
+                'tot_amount_base_wh': 0.0,
+                'tot_amount_tax_wh': 0.0
+            }            
+            for line in retention.retention_line:
+                res[retention.id]['tot_amount_base_wh'] += line.amount_base_wh
+                res[retention.id]['tot_amount_tax_wh'] += line.amount_tax_wh
+        self.write(cr, uid, [retention.id], res[retention.id])        
+        return True
     
 account_wh_iva()
 
@@ -323,8 +338,8 @@ class account_wh_iva_line(osv.osv):
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
 #        'retention_rate': fields.function(_retention_rate, method=True, string='Wh. rate', type='float', help="Withholding rate"),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
-        'amount_base_wh': fields.float('Amount', required=False, digits=(16,4), help="Amount without tax"),        
-        'amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits=(16,4), help="Amount withholding tax vat"),        
+        'amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),        
+        'amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withholding tax vat"),        
 
     }
 

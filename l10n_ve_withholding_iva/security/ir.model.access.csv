@@ -1,0 +1,8 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_account_wh_iva_user","account.wh.iva.user","model_account_wh_iva","l10n_ve_withholding_iva.group_account_wh_iva_user",1,0,0,0
+"access_account_wh_iva_line_user","account.wh.iva.line.user","model_account_wh_iva_line","l10n_ve_withholding_iva.group_account_wh_iva_user",1,0,0,0
+"access_account_wh_iva_manager","account.wh.iva.manager","model_account_wh_iva","l10n_ve_withholding_iva.group_account_wh_iva_manager",1,1,1,1
+"access_account_wh_iva_line_manager","account.wh.iva.line.manager","model_account_wh_iva_line","l10n_ve_withholding_iva.group_account_wh_iva_manager",1,1,1,1
+
+
+
