@@ -30,10 +30,14 @@ msgstr "Sin derecho a credito fiscal?"
 msgid "Requirements Venezuelan tax laws:\n"
 "    - Invoice reference\n"
 "    - Tax-exempt\n"
+"    - Required address invoice\n"
+"    - Unique address invoice.\n"
 "    "
 msgstr "Requisitos fiscales de las leyes venezolanas:\n"
 "    - Nro. de control\n"
 "    - excepto de credito fiscal\n"
+"    - Obligatoriedad de la dirección fiscal\n"
+"    - Singularidad de la dirección fiscal.\n"
 "    "
 
 #. module: l10n_ve_fiscal_requirements
@@ -72,4 +76,16 @@ msgstr "Nro. Control"
 #: help:account.invoice,sin_cred:0
 msgid "setting to true if the invoice is exempt from V.A.T"
 msgstr "Seleccione esta casilla si la factura no tiene derecho a credito fiscal "
+
+#. module: l10n_ve_fiscal_requirements
+#: constraint:res.partner.address:0
+msgid "Error ! The partner already have an invoice address. "
+msgstr "Error ! El cliente/proveedor ya posee una dirección fiscal. "
+
+#. module: l10n_ve_fiscal_requirements
+#: constraint:res.partner:0
+msgid "Error ! The partner does not have an invoice address. "
+msgstr "Error ! No ha definido una direccion fiscal. "
+
+
 
