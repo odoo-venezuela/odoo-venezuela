@@ -28,7 +28,10 @@
     "category": 'Generic Modules/Accounting',
     "description": """Requirements Venezuelan tax laws:
     - Invoice reference
-    - Tax-excempt
+    - Tax-except
+    - Required address invoice
+    - Unique address invoice.
+    
     """,
     'init_xml': [],
     "depends" : ["base", "purchase", "stock", "account"],
