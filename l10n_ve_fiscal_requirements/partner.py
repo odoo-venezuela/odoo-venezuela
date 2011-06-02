@@ -67,7 +67,19 @@ class res_partner(osv.osv):
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
 
-
+    '''
+    Registro de Identificacion Fiscal Venezolana RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
+    '''
+    def check_vat_ve(self, vat):
+        '''
+        Check Venezuela VAT number.
+        '''
+        if len(vat) != 10:
+            return False
+        if vat[0] not in ('J', 'V', 'E', 'G'):
+            return False
+        return True
+    
 res_partner()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

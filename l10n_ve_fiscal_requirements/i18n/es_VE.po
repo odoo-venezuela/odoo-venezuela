@@ -88,4 +88,70 @@ msgid "Error ! The partner does not have an invoice address. "
 msgstr "Error ! No ha definido una direccion fiscal. "
 
 
+#. module: base_vat
+#: code:addons/base_vat/base_vat.py:87
+#, python-format
+msgid ""
+"The Vat does not seems to be correct. You should have entered something like "
+"this %s"
+msgstr ""
+"El RIF parece que no es correcto. Debería haber introducido algo como "
+"esto %s"
 
+#. module: base_vat
+#: model:ir.module.module,description:base_vat.module_meta_information
+msgid ""
+"\n"
+"    Enable the VAT Number for the partner. Check the validity of that VAT "
+"Number.\n"
+"\n"
+"    This module follows the methods stated at http://sima-pc.com/nif.php "
+"for\n"
+"    checking the validity of VAT Number assigned to partners in European "
+"countries.\n"
+"    "
+msgstr ""
+"\n"
+"    Permite la validación del RIF/NIT de las empresas. Comprueba si el "
+"RIF es un número válido.\n"
+"\n"
+"    Este módulo usa los métodos especificados en http://sima-pc.com/nif.php "
+"para\n"
+"    la validación del RIF/NIT asignado a las empresas de los países "
+"europeos.\n"
+"    "
+
+#. module: base_vat
+#: model:ir.module.module,shortdesc:base_vat.module_meta_information
+msgid "Base VAT - To check VAT number validity"
+msgstr "Base RIF/NIT - Para comprobar la validez de los RIT/NIT"
+
+#. module: base_vat
+#: constraint:res.partner:0
+msgid "Error ! You can not create recursive associated members."
+msgstr "¡Error! No puede crear miembros asociados recursivos."
+
+#. module: base_vat
+#: code:addons/base_vat/base_vat.py:88
+#, python-format
+msgid "The VAT is invalid, It should begin with the country code"
+msgstr "El RIF no es válido, debería empezar con el código del país"
+
+#. module: base_vat
+#: help:res.partner,vat_subjected:0
+msgid ""
+"Check this box if the partner is subjected to the VAT. It will be used for "
+"the VAT legal statement."
+msgstr ""
+"Marque esta opción si la empresa está sujeta al IVA. Será utilizado para la "
+"declaración legal del IVA."
+
+#. module: base_vat
+#: model:ir.model,name:base_vat.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: base_vat
+#: field:res.partner,vat_subjected:0
+msgid "VAT Legal Statement"
+msgstr "Sujeto a IVA"
