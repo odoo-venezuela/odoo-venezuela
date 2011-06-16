@@ -37,8 +37,8 @@ class account_invoice_line(osv.osv):
     '''
     _inherit = "account.invoice.line"
     _columns = {
-        'apply_wh': fields.boolean('Retenido',help="Indica si una linea ha sido retenida o no, para ir acumulando el monto a retener el proximo mes, de acuerdo a las lineas que no han sido retenidas."),
-        'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion asociado a esta Tasa",required=False),
+        'apply_wh': fields.boolean('Withholded',help="Indica si una linea ha sido retenida o no, para ir acumulando el monto a retener el proximo mes, de acuerdo a las lineas que no han sido retenidas."),
+        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion asociado a esta Tasa",required=False),
     }
     _defaults = {
         'apply_wh': lambda *a: False,
@@ -67,7 +67,7 @@ class account_invoice(osv.osv):
             ('pro','Retencion Procesada, Linea xml generada'),
             ('no_pro','Retencion no Procesada'),
             ('tasa','No supera la tasa, Linea xml generada'),
-            ],'Estatus',readonly=True )
+            ],'Status',readonly=True )
     }
     _defaults = {
         'status': lambda *a: "no_pro",

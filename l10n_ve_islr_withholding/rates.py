@@ -59,15 +59,15 @@ class islr_rates(osv.osv):
         return res
 
     _columns={
-    'name': fields.function(_get_name, method=True, type='char', string='Tasa del Concepto de Pago', size=256),
-    'code':fields.char('Cod. Concepto de Rete', size=3,required=True),
-    'base': fields.float('Base Imponible para Calculo de Rete',required=True, help="Porcentaje del monto sobre el cual se va a aplicar la retencion"),
-    'minimum': fields.float('Monto Min. en Und. Trib.',required=True, help="Monto minimo, a partir del cual se determina si se va a a retener"),
-    'wh_perc': fields.float('Monto Porcentual de Rete',required=True,help="Porcentaje que se aplica a la Base Imponible de Retencion, para arrojar el monto total a retener"),
+    'name': fields.function(_get_name, method=True, type='char', string='Concept Rate', size=256),
+    'code':fields.char('Concept Code', size=3,required=True),
+    'base': fields.float('Without Tax Amount',required=True, help="Porcentaje del monto sobre el cual se va a aplicar la retencion"),
+    'minimum': fields.float('Min. Amount',required=True, help="Monto minimo, a partir del cual se determina si se va a a retener"),
+    'wh_perc': fields.float('percent Amount',required=True,help="Porcentaje que se aplica a la Base Imponible de Retencion, para arrojar el monto total a retener"),
     'subtract': fields.float('Sustraendo en Unid. Trib.',required=True,help="Cantidad a restar del monto total a retener,..Monto Porcentual de Retencion... Este sustraendo solo se aplicara la primera vez que se realiza la retencion"),
-    'residence': fields.boolean('Residenciado',help="Indica si una persona es Residencia o no Residenciada, comparado con la direccion de la Compania"),
-    'nature': fields.boolean('Natural',help="Indica si una persona es Natural o Juridica"),
-    'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion asociado a esta Tasa",required=False, ondelete='cascade'),
+    'residence': fields.boolean('Residence',help="Indica si una persona es Residencia o no Residenciada, comparado con la direccion de la Compania"),
+    'nature': fields.boolean('Nature',help="Indica si una persona es Natural o Juridica"),
+    'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion asociado a esta Tasa",required=False, ondelete='cascade'),
     }
 islr_rates()
 

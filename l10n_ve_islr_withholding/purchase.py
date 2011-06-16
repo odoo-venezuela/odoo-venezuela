@@ -38,7 +38,7 @@ class purchase_order_line(osv.osv):
     _inherit ="purchase.order.line"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion asociado a esta Tasa",required=False),
+        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion asociado a esta Tasa",required=False),
     }
     
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order=False, fiscal_position=False):

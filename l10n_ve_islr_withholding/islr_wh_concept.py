@@ -40,13 +40,13 @@ class islr_wh_concept(osv.osv):
     _name='islr.wh.concept'
 
     _columns={
-        'name':fields.char('Concepto de Retencion de  ISLR', size=256,required=True,help="Nombre del Concepto de Pago, ej: Honorarios Profesionales, Comisiones a..."),
-        'withholdable': fields.boolean('Retenible',help="Determina si el Concepto es Retenible o No es retenible"),
+        'name':fields.char('Withhold Concept', size=256,required=True,help="Nombre del Concepto de Pago, ej: Honorarios Profesionales, Comisiones a..."),
+        'withholdable': fields.boolean('Withhold',help="Determina si el Concepto es Retenible o No es retenible"),
         'property_retencion_islr_payable': fields.property(
             'account.account',
             type='many2one',
             relation='account.account',
-            string="Cuenta Retencion Compra ISLR",
+            string="Purchase account withhold income",
             method=True,
             view_load=True,
             required = False,
@@ -56,13 +56,13 @@ class islr_wh_concept(osv.osv):
             'account.account',
             type='many2one',
             relation='account.account',
-            string="Cuenta Retencion Venta ISLR",
+            string="Sale account withhold income",
             method=True,
             view_load=True,
             required = False,
             domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos de retencion(Venta) de I.S.L.R."),
-        'rate_ids': fields.one2many('islr.rates','concept_id','Tasa',help="Tasa del Concepto de Retencion",required=False),
+        'rate_ids': fields.one2many('islr.rates','concept_id','Rate',help="Tasa del Concepto de Retencion",required=False),
     }
     _defaults = {
         'withholdable': lambda *a: True,
