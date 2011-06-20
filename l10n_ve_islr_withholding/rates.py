@@ -59,15 +59,15 @@ class islr_rates(osv.osv):
         return res
 
     _columns={
-    'name': fields.function(_get_name, method=True, type='char', string='Concept Rate', size=256),
-    'code':fields.char('Concept Code', size=3,required=True),
-    'base': fields.float('Without Tax Amount',required=True, help="Porcentaje del monto sobre el cual se va a aplicar la retencion"),
-    'minimum': fields.float('Min. Amount',required=True, help="Monto minimo, a partir del cual se determina si se va a a retener"),
-    'wh_perc': fields.float('percent Amount',required=True,help="Porcentaje que se aplica a la Base Imponible de Retencion, para arrojar el monto total a retener"),
-    'subtract': fields.float('Sustraendo en Unid. Trib.',required=True,help="Cantidad a restar del monto total a retener,..Monto Porcentual de Retencion... Este sustraendo solo se aplicara la primera vez que se realiza la retencion"),
-    'residence': fields.boolean('Residence',help="Indica si una persona es Residencia o no Residenciada, comparado con la direccion de la Compania"),
-    'nature': fields.boolean('Nature',help="Indica si una persona es Natural o Juridica"),
-    'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion asociado a esta Tasa",required=False, ondelete='cascade'),
+    'name': fields.function(_get_name, method=True, type='char', string='Concept Rate', size=256, help="name retention rate of withhold concept"),
+    'code':fields.char('Concept Code', size=3,required=True, help="Concept code"),
+    'base': fields.float('Without Tax Amount',required=True, help="Percentage of the amount on which to apply the withholding"),
+    'minimum': fields.float('Min. Amount',required=True, help="Minimum amount, from which it will determine whether you withholded"),
+    'wh_perc': fields.float('percent Amount',required=True,help="The percentage to apply to taxable withold income  throw the amount to withhold"),
+    'subtract': fields.float('Sustraendo en Unid. Trib.',required=True,help="Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold "),
+    'residence': fields.boolean('Residence',help="Indicates whether a person is resident or residencies, compared with the direction of the Company"),
+    'nature': fields.boolean('Nature',help="Indicates whether a person is nature or legal"),
+    'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False, ondelete='cascade'),
     }
 islr_rates()
 

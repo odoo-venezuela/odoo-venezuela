@@ -82,33 +82,33 @@ class islr_wh_doc(osv.osv):
 
     _name = "islr.wh.doc"
     _columns= {
-        'name': fields.char('Description', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Descripcion del Comprobante"),
-        'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Referencia del Comprobante"),
-        'number': fields.char('Withhold Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Nro. del Comprobante"),
+        'name': fields.char('Description', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Voucher description"),
+        'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Voucher reference"),
+        'number': fields.char('Withhold Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Voucher number"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
             ('out_refund','Customer Refund'),
             ('in_refund','Supplier Refund'),
-            ],'Type', readonly=True, select=True, help="Tipo del Comprobante"),
+            ],'Type', readonly=True, select=True, help="Voucher type"),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'State', select=True, readonly=True, help="Estado del Comprobante"),
-        'date_ret': fields.date('Accounting Date', help="Fecha tomada para seleccionar el periodo fiscal, dejar en blanco en caso de utilizar la actual"),
-        'date_uid': fields.date('Withhold Date', readonly=True, help="Fecha de realizacion del comprobante de retencion"),
-        'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Period', help="Periodo donde se realizaran los asientos contables."),
-        'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.S.L.R."),
+            ],'State', select=True, readonly=True, help="Voucher state"),
+        'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
+        'date_uid': fields.date('Withhold Date', readonly=True, help="Voucher date"),
+        'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Period', help="Period when the accounts entries were done"),
+        'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Account which are loaded from the income tax withheld amounts"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Proveedor o Cliente al cual se retiene o te retiene"),
-        'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Moneda enla cual se realiza la operacion"),
-        'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Diario donde se registran los asientos"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, help="Compania"),
-        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, int(config['price_accuracy'])), string='Amount Total', help="Monto Total Retenido"),
+        'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency in which the transaction takes place"),
+        'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal where accounting entries are recorded"),
+        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
+        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, int(config['price_accuracy'])), string='Amount Total', help="Total withhold amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Withhold concept document line', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withhold Invoices'),
-        'invoice_id':fields.many2one('account.invoice','Invoice',readonly=True,help="Factura afectada, para realizar el asiento contable"),
+        'invoice_id':fields.many2one('account.invoice','Invoice',readonly=True,help="Invoice to make the accounting entry"),
     }
 
     _defaults = {
@@ -334,7 +334,7 @@ islr_wh_doc()
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Documento de Retencion de ISLR, generado a partir de esta factura"),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Retention income tax generated from this bill"),
     }
     _defaults = {
         'islr_wh_doc_id': lambda *a: 0,
@@ -354,8 +354,8 @@ account_invoice()
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
     _columns= {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade'),
-        'invoice_id':fields.many2one('account.invoice','Invoice'),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
+        'invoice_id':fields.many2one('account.invoice','Invoice', help="Withholded invoice"),
     }
     _rec_rame = 'invoice_id'
 islr_wh_doc_invoices()
@@ -374,15 +374,15 @@ class islr_wh_doc_line(osv.osv):
         return res
 
     _columns= {
-        'name': fields.char('Description', size=64, help="Descripcion de la linea del comprobante"),
+        'name': fields.char('Description', size=64, help="Description of the voucher line"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', select=True, help="Factura a retener"),
-        'amount':fields.float('Amount'),
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade'),
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept'),
-        'retencion_islr':fields.float('Percent'),
-        'retention_rate': fields.function(_retention_rate, method=True, string='Withhold Rate', type='float', help="Porcentaje de Retencion ha aplicar a la factura"),
-        'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Asiento Contable"),
-        'islr_rates_id': fields.many2one('islr.rates','Rates'),
+        'amount':fields.float('Amount', help="Withold amount"),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
+        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept', help="Withhold concept associated with this rate"),
+        'retencion_islr':fields.float('Percent', help="Withhold percent"),
+        'retention_rate': fields.function(_retention_rate, method=True, string='Withhold Rate', type='float', help="Withhold rate has been applied to the invoice"),
+        'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
+        'islr_rates_id': fields.many2one('islr.rates','Rates', help="Withhold rates"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_wh_doc_line_id','XML Lines'),        
     }
 

@@ -37,7 +37,7 @@ class account_invoice_line(osv.osv):
     '''
     _inherit = "account.invoice.line"
     _columns = {
-        'apply_wh': fields.boolean('Withholded',help="Indica si una linea ha sido retenida o no, para ir acumulando el monto a retener el proximo mes, de acuerdo a las lineas que no han sido retenidas."),
+        'apply_wh': fields.boolean('Withholded',help="Indicates whether a line has been retained or not, to accumulate the amount to withhold next month, according to the lines that have not been retained."),
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion asociado a esta Tasa",required=False),
     }
     _defaults = {

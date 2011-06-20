@@ -55,17 +55,17 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'State', select=True, readonly=True, help="Estado del Comprobante"),
-        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', required=True),
-        'period_id':fields.many2one('account.period','Period',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
-        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withhold Income Amount Total', help="Monto Total Retenido"),
-        'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total de la Base Imponible"),
+            ],'State', select=True, readonly=True, help="Voucher state"),
+        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', required=True, help="Fiscal year"),
+        'period_id':fields.many2one('account.period','Period',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]", help="Period when the accounts entries were done"),
+        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withhold Income Amount Total', help="Total amount withhold"),
+        'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total taxable"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]",states={'draft':[('readonly',False)]}),
     }
     _rec_rame = 'company_id'
@@ -152,21 +152,21 @@ class islr_xml_wh_line(osv.osv):
     _name = "islr.xml.wh.line"
     
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion asociado a esta Tasa",required=True, ondelete='cascade'),
-        'period_id':fields.many2one('account.period','Period',required=True),
-        'partner_vat': fields.char('VAT', size=10, required=True),
-        'invoice_number': fields.char('Invoice Number',size=10,required=True),
-        'control_number': fields.char('Control Number',size=8,required=True),
-        'concept_code': fields.char('Concept Code', size=10, required=True),
-        'base': fields.float('Without Tax Amount', required=True),
-        'porcent_rete': fields.float('% Withhold', required=True),
-        'wh':fields.float('Withhold Amount',required=True),
-        'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True),
-        'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withhold Income Document'),
-        'account_invoice_line_id':fields.many2one('account.invoice.line','Invoice Line'),
-        'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document'),
-        'partner_id': fields.many2one('res.partner','Partner',required=True),
-        'sustract': fields.float('Sustraendo'),
+        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=True, ondelete='cascade'),
+        'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
+        'partner_vat': fields.char('VAT', size=10, required=True, help="Partner VAT"),
+        'invoice_number': fields.char('Invoice Number',size=10,required=True, help="Number of invoice"),
+        'control_number': fields.char('Control Number',size=8,required=True, help="Reference"),
+        'concept_code': fields.char('Concept Code', size=10, required=True, help="Concept code"),
+        'base': fields.float('Without Tax Amount', required=True, help="Taxable"),
+        'porcent_rete': fields.float('% Withhold', required=True, help="Withhold percent"),
+        'wh':fields.float('Withhold Amount',required=True, help="Withhold amount"),
+        'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True, help="Person type"),
+        'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withhold Income Document', help="Withhold income document"),
+        'account_invoice_line_id':fields.many2one('account.invoice.line','Invoice Line', help="invoice line to hold"),
+        'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
+        'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner hold"),
+        'sustract': fields.float('Subtrahend', help="Subtrahend"),
     }
     _rec_name = 'partner_id'
     
@@ -191,7 +191,7 @@ class account_invoice_line(osv.osv):
     _inherit = "account.invoice.line"
 
     _columns = {
-        'wh_xml_id':fields.many2one('islr.xml.wh.line','XML Id'),
+        'wh_xml_id':fields.many2one('islr.xml.wh.line','XML Id', help="XML withhold line id"),
     }
     _defaults = {
         'wh_xml_id': lambda *a: 0,

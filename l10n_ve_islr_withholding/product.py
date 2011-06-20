@@ -37,7 +37,8 @@ class product_template(osv.osv):
     _inherit = "product.template"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concepto de Retencion a aplicar para el servicio", required=False),
+        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept to apply to the service
+", required=False),
     }
 
 product_template()
