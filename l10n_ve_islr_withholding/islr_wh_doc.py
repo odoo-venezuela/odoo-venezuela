@@ -89,8 +89,6 @@ class islr_wh_doc(osv.osv):
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
-            ('out_refund','Customer Refund'),
-            ('in_refund','Supplier Refund'),
             ],'Type', readonly=True, select=True, help="Voucher type"),
         'state': fields.selection([
             ('draft','Draft'),

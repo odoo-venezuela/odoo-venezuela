@@ -51,7 +51,7 @@ class islr_wh_concept(osv.osv):
             view_load=True,
             required = False,
             domain="[('type', '=', 'other')]",
-            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos por enterar(Compra) de I.S.L.R para este concepto"),
+            help="This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"),
         'property_retencion_islr_receivable': fields.property(
             'account.account',
             type='many2one',
@@ -61,7 +61,7 @@ class islr_wh_concept(osv.osv):
             view_load=True,
             required = False,
             domain="[('type', '=', 'other')]",
-            help="Esta cuenta sera usada como la cuenta donde se cargaran los montos de retencion(Venta) de I.S.L.R."),
+            help="This account will be used as the account where the withheld amounts shall be charged in (Sale) of income tax"),
         'rate_ids': fields.one2many('islr.rates','concept_id','Rate',help="Withhold concept rate",required=False),
     }
     _defaults = {

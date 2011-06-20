@@ -64,10 +64,13 @@ class account_invoice(osv.osv):
 
     _columns = {
         'status': fields.selection([
-            ('pro','Retencion Procesada, Linea xml generada'),
-            ('no_pro','Retencion no Procesada'),
-            ('tasa','No supera la tasa, Linea xml generada'),
-            ],'Status',readonly=True )
+            ('pro','Processed withhold, xml Line generated'),
+            ('no_pro','No processed withhold'),
+            ('tasa','Not exceed the rate,xml Line generated'),
+            ],'Status',readonly=True,
+            help=' * The \'Processed withhold, xml Line generated\' state is used when a user is a withhold income is processed. \
+            \n* The \'No processed withhold\' state is when user create a invoice and withhold income is no processed. \
+            \n* The \'Not exceed the rate,xml Line generated\' state is used when user create invoice,a invoice no exceed the minimun rate.')
     }
     _defaults = {
         'status': lambda *a: "no_pro",
