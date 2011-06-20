@@ -31,6 +31,7 @@ from tools.translate import _
 from tools import config
 import time
 import datetime
+import decimal_precision as dp
 
 class islr_rates(osv.osv):
     '''
@@ -61,10 +62,10 @@ class islr_rates(osv.osv):
     _columns={
     'name': fields.function(_get_name, method=True, type='char', string='Concept Rate', size=256, help="name retention rate of withhold concept"),
     'code':fields.char('Concept Code', size=3,required=True, help="Concept code"),
-    'base': fields.float('Without Tax Amount',required=True, help="Percentage of the amount on which to apply the withholding"),
-    'minimum': fields.float('Min. Amount',required=True, help="Minimum amount, from which it will determine whether you withholded"),
-    'wh_perc': fields.float('percent Amount',required=True,help="The percentage to apply to taxable withold income  throw the amount to withhold"),
-    'subtract': fields.float('Sustraendo en Unid. Trib.',required=True,help="Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold "),
+    'base': fields.float('Without Tax Amount',required=True, help="Percentage of the amount on which to apply the withholding", digits_compute= dp.get_precision('Withhold ISLR')),
+    'minimum': fields.float('Min. Amount',required=True, help="Minimum amount, from which it will determine whether you withholded", digits_compute= dp.get_precision('Withhold ISLR')),
+    'wh_perc': fields.float('percent Amount',required=True,help="The percentage to apply to taxable withold income  throw the amount to withhold", digits_compute= dp.get_precision('Withhold ISLR')),
+    'subtract': fields.float('Sustraendo en Unid. Trib.',required=True,help="Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold ", digits_compute= dp.get_precision('Withhold ISLR')),
     'residence': fields.boolean('Residence',help="Indicates whether a person is resident or residencies, compared with the direction of the Company"),
     'nature': fields.boolean('Nature',help="Indicates whether a person is nature or legal"),
     'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False, ondelete='cascade'),

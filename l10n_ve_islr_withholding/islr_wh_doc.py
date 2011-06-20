@@ -31,6 +31,7 @@ from tools.translate import _
 from tools import config
 import time
 import datetime
+import decimal_precision as dp
 
 
 class islr_wh_doc(osv.osv):
@@ -376,11 +377,11 @@ class islr_wh_doc_line(osv.osv):
     _columns= {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', select=True, help="Factura a retener"),
-        'amount':fields.float('Amount', help="Withold amount"),
+        'amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold ISLR'), help="Withold amount"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept', help="Withhold concept associated with this rate"),
-        'retencion_islr':fields.float('Percent', help="Withhold percent"),
-        'retention_rate': fields.function(_retention_rate, method=True, string='Withhold Rate', type='float', help="Withhold rate has been applied to the invoice"),
+        'retencion_islr':fields.float('Percent', digits_compute= dp.get_precision('Withhold ISLR'), help="Withhold percent"),
+        'retention_rate': fields.function(_retention_rate, method=True, string='Withhold Rate', type='float', help="Withhold rate has been applied to the invoice", digits_compute= dp.get_precision('Withhold ISLR')),
         'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
         'islr_rates_id': fields.many2one('islr.rates','Rates', help="Withhold rates"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_wh_doc_line_id','XML Lines'),        

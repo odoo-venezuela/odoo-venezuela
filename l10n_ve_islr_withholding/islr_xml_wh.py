@@ -34,6 +34,7 @@ import datetime
 from xml.etree.ElementTree import Element, SubElement, ElementTree, tostring
 import sys
 import base64
+import decimal_precision as dp
 
 class islr_xml_wh_doc(osv.osv):
     _name = "islr.xml.wh.doc"
@@ -158,15 +159,15 @@ class islr_xml_wh_line(osv.osv):
         'invoice_number': fields.char('Invoice Number',size=10,required=True, help="Number of invoice"),
         'control_number': fields.char('Control Number',size=8,required=True, help="Reference"),
         'concept_code': fields.char('Concept Code', size=10, required=True, help="Concept code"),
-        'base': fields.float('Without Tax Amount', required=True, help="Taxable"),
-        'porcent_rete': fields.float('% Withhold', required=True, help="Withhold percent"),
-        'wh':fields.float('Withhold Amount',required=True, help="Withhold amount"),
+        'base': fields.float('Without Tax Amount', required=True, help="Taxable", digits_compute= dp.get_precision('Withhold ISLR')),
+        'porcent_rete': fields.float('% Withhold', required=True, help="Withhold percent", digits_compute= dp.get_precision('Withhold ISLR')),
+        'wh':fields.float('Withhold Amount',required=True, help="Withhold amount", digits_compute= dp.get_precision('Withhold ISLR')),
         'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True, help="Person type"),
         'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withhold Income Document', help="Withhold income document"),
         'account_invoice_line_id':fields.many2one('account.invoice.line','Invoice Line', help="invoice line to hold"),
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
         'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner hold"),
-        'sustract': fields.float('Subtrahend', help="Subtrahend"),
+        'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute= dp.get_precision('Withhold ISLR')),
     }
     _rec_name = 'partner_id'
     
