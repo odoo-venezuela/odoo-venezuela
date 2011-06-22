@@ -7,7 +7,9 @@
 -->
         <menuitem id="menu_finance_withholding" name="Withholdings" parent="account.menu_finance"/>
         <menuitem id="menu_wh_configuration" name="Withholdings" parent="account.menu_finance_configuration"/>
-        
+
+        <menuitem id="menu_wh_customer" name="Customer Withholding" parent="account.menu_finance_receivables" sequence="300"/>
+        <menuitem id="menu_wh_suppiler" name="Supplier Withholding" parent="account.menu_finance_payables" sequence="300"/>
 <!--
         Vista Generica de Facturas de Compra para iva, islr y municipales
 -->

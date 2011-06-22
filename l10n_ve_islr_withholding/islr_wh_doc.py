@@ -104,7 +104,7 @@ class islr_wh_doc(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency in which the transaction takes place"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal where accounting entries are recorded"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
-        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, int(config['price_accuracy'])), string='Amount Total', help="Total withhold amount"),
+        'amount_total_ret':fields.function(_get_amount_total,method=True, string='Amount Total', type='float', digits_compute= dp.get_precision('Withhold ISLR'),  help="Total withhold amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Withhold concept document line', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withhold Invoices'),
         'invoice_id':fields.many2one('account.invoice','Invoice',readonly=True,help="Invoice to make the accounting entry"),
