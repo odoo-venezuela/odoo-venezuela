@@ -40,6 +40,7 @@
     'update_xml': [
         'bank/banesco_data.xml',
         'bank/bicentenario_data.xml',
+        'bank/caribe_bank_data.xml',
     ],
     'demo_xml': [],
     'test': [],

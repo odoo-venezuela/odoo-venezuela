@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<openerp>
+
+<!--
+                                            res_bank_entity
+-->    
+    
+    <data noupdate="0">
+        <record id="res_bank_entity_caribe" model="res.bank.entity">
+            <field eval="&quot;&quot;&quot;Caribe&quot;&quot;&quot;" name="name"/>
+            <field eval="500.0" name="max_lim"/>
+            
+            <field eval="&quot;&quot;&quot;&lt;header&gt;
+    &lt;pageTemplate&gt;
+    &lt;frame id=&quot;first&quot; x1=&quot;0.0mm&quot; y1=&quot;0.0mm&quot; width=&quot;178.0mm&quot; height=&quot;80.0mm&quot;/&gt;
+        &lt;pageGraphics&gt;
+            &lt;setFont name=&quot;Courier&quot; size=&quot;8&quot;/&gt;
+            &lt;!--cantidad--&gt;
+            &lt;place x=&quot;135.0mm&quot; y=&quot;74.0mm&quot; width=&quot;80.0mm&quot; height=&quot;5.0mm&quot;&gt;
+            &lt;para&gt;***[[ formatLang(get_monto() ) ]]***&lt;/para&gt;
+            &lt;/place&gt;
+            &lt;!--beneficiario--&gt;
+            &lt;place x=&quot;35.0mm&quot; y=&quot;57.0mm&quot; width=&quot;140.0mm&quot; height=&quot;10.0mm&quot;&gt;
+            &lt;para&gt;[[get_beneficiario(o.id)]]&lt;/para&gt;
+            &lt;/place&gt;
+            &lt;!--cantidad en letras--&gt;
+&lt;!--        &lt;place x=&quot;36.0mm&quot; y=&quot;50.0mm&quot; width=&quot;135.0mm&quot; height=&quot;10.0mm&quot;&gt;
+            &lt;para&gt;[[ obt_texto() ]]&lt;/para&gt;
+            &lt;/place&gt;--&gt;
+            &lt;!--fecha--&gt;
+            &lt;place x=&quot;30.0mm&quot; y=&quot;41.0mm&quot; width=&quot;60.0mm&quot; height=&quot;10.0mm&quot;&gt;
+            &lt;para&gt;[[ get_fecha()[0] ]]&lt;/para&gt;
+            &lt;/place&gt;
+            &lt;!--ano de endose--&gt;
+            &lt;place x=&quot;80.0mm&quot; y=&quot;41.0mm&quot; width=&quot;40.0mm&quot; height=&quot;10.0mm&quot;&gt;
+            &lt;para&gt;[[ get_fecha()[1] ]]&lt;/para&gt;
+            &lt;/place&gt;
+            &lt;!--tiempo de endose--&gt;
+            &lt;place x=&quot;89.0mm&quot; y=&quot;24.0mm&quot; width=&quot;80.0mm&quot; height=&quot;10.0mm&quot;&gt;
+            &lt;para&gt;CADUCA A LOS [[ company.expiry]] DÍAS / NO ENDOSABLE&lt;/para&gt;
+            &lt;/place&gt;
+        &lt;/pageGraphics&gt;
+    &lt;/pageTemplate&gt;
+&lt;/header&gt; &quot;&quot;&quot;" name="format_h"/>
+                            
+            <field eval="100.0" name="min_lim"/>
+        </record>
+    </data>
+
+    
+    
+    
+</openerp>
+
+
