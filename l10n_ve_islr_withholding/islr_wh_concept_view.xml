@@ -12,7 +12,7 @@
             <field name="model">islr.rates</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Tasas">
+                <form string="Rates">
                     <field name="name" colspan="4"/>
                     <newline/>
                     <field name="code"/>
@@ -32,7 +32,7 @@
             <field name="model">islr.rates</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Tasas">
+                <tree string="Rates">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="base"/>
@@ -50,7 +50,7 @@
             <field name="model">islr.wh.concept</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Concepto de Retencion de ISLR ">
+                <tree string="Concept of Withholding Income">
                     <field name="name"/>
                     <field name="withholdable"/>
                 </tree>
@@ -62,7 +62,7 @@
             <field name="model">islr.wh.concept</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Concepto de Retencion ISLR FORM">
+                <form string="Concept of Withholding Income">
                     <group colspan="4" col="4">
                         <field name="name"/>
                         <field name="withholdable"/>
@@ -79,7 +79,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_account_retention_concept">
-            <field name="name">Concepto de Retencion ISLR</field>
+            <field name="name">Concept of Withholding Income</field>
             <field name="res_model">islr.wh.concept</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -99,9 +99,9 @@
             <field name="act_window_id" ref="action_account_retention_concept"/>
         </record>
         
-        <menuitem name="Concepto de Retencion ISLR" 
+        <menuitem name="Concept of Withholding Income" 
             id="menu_action_concept_retention" 
-            parent="menu_wh_action_account_retencion_islr_1"
+            parent="menu_wh_configuration_islr"
             action="action_account_retention_concept"/>
 
 

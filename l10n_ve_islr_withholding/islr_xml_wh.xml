@@ -107,7 +107,7 @@
 
 
         <record model="ir.actions.act_window" id="action_xml_islr">
-            <field name="name">Generar XML</field>
+            <field name="name">Generate file XML</field>
             <field name="res_model">islr.xml.wh.doc</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -127,9 +127,9 @@
             <field name="act_window_id" ref="action_xml_islr"/>
         </record>
         
-        <menuitem name="Generar XML" 
+        <menuitem name="Generate file XML" 
             id="menu_action_xml_islr" 
-            parent="menu_wh_action_account_retencion_islr_1"
+            parent="l10n_ve_withholding.menu_wh_suppiler"
             action="action_xml_islr"/>
 
     </data>

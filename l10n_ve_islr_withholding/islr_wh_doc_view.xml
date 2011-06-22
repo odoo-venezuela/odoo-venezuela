@@ -240,35 +240,8 @@
             </field>
         </record>
 
-
-        <record model="ir.actions.act_window" id="action_account_retencion_islr_1">
-            <field name="name">Retenciones ISLR</field>
-            <field name="res_model">islr.wh.doc</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        <record model="ir.actions.act_window.view" id="act_wh_account_retencion_islr_tree_1">
-            <field name="sequence" eval="10"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_retention_islr_tree_customers"/> 
-            <field name="act_window_id" ref="action_account_retencion_islr_1"/>
-        </record>
-        <record model="ir.actions.act_window.view" id="act_wh_account_retencion_islr_form_1">
-            <field name="sequence" eval="20"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_retention_islr_form_customers"/>
-            <field name="act_window_id" ref="action_account_retencion_islr_1"/>
-        </record>
-
-        <menuitem
-            id="menu_wh_action_account_retencion_islr_1"
-            name="Retencion ISLR"
-            parent="account.menu_finance"
-            action="action_account_retencion_islr_1"/>
-
         <record model="ir.actions.act_window" id="action_account_retencion_islr_customer_1">
-            <field name="name">Retenciones ISLR Clientes</field>
+            <field name="name">Customer Withholding Income</field>
             <field name="res_model">islr.wh.doc</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -291,12 +264,12 @@
 
         <menuitem
             id="menu_action_account_retencion_islr_customer_1"
-            name="Retencion ISLR Clientes"      
-            parent="menu_wh_action_account_retencion_islr_1"
+            name="Customer Withholding Income"
+            parent="l10n_ve_withholding.menu_wh_customer"
             action="action_account_retencion_islr_customer_1"/>
 
         <record model="ir.actions.act_window" id="action_account_retention_islr_supplier_2">
-            <field name="name">Retenciones ISLR Proveedores</field>
+            <field name="name">Supplier Withholding Income</field>
             <field name="res_model">islr.wh.doc</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -319,8 +292,8 @@
 
         <menuitem
             id="menu_action_retention_islr_2"
-            name="Retencion ISLR Proveedores"       
-            parent="menu_wh_action_account_retencion_islr_1"
+            name="Supplier Withholding Income" 
+            parent="l10n_ve_withholding.menu_wh_suppiler"
             action="action_account_retention_islr_supplier_2"/>
 
 

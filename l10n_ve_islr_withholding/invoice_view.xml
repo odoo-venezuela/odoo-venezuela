@@ -9,42 +9,46 @@
     =====================================================
     -->  
 
-        <record id="account_invoice_ext_view_islr_concept_1" model="ir.ui.view">
-            <field name="name">invoice_extended.account_invoice_ext_view_islr_concept_1</field>
+        <record id="account_invoice_wh_islr_customer" model="ir.ui.view">
+            <field name="name">account.invoice.wh.islr.customer</field>
             <field name="model">account.invoice</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="retencion_iva.account_invoice_ext_view_form_loc_ve"/>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
-                <field name="ret_iva_id" position= "after">
-                        <group col="8" colspan="6">
-                            <separator string="Retenciones I.S.L.R." colspan="8"/>
-                            <field name="status" colspan='4'/>
-                            <newline/>
-                            <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
-                            <newline/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <newline/>
-                            <field name="islr_wh_doc_id" colspan='8'/>
-                        </group>
-                </field>
+                <page string="Withholdings" position="inside">
+                    <notebook>
+                        <page string="Withholdings Income">
+                            <group col="6" colspan="4">
+                                <field name="status" colspan='4'/>
+                                <newline/>
+                                <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
+                                <newline/>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                                <newline/>
+                                <field name="islr_wh_doc_id" colspan='8'/>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
             </field>
         </record>
 
-        <record id="account_invoice_ext_view_islr_concept_2" model="ir.ui.view">
-            <field name="name">invoice_extended.account_invoice_ext_view_islr_concept_2</field>
+        <record id="account_invoice_wh_islr_supplier" model="ir.ui.view">
+            <field name="name">account.invoice.wh.islr.supplier</field>
             <field name="model">account.invoice</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="retencion_iva.account_invoice_ext_view_supp_form_loc_ve"/>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
             <field name="arch" type="xml">
-                <field name="ret_iva_id" position= "after">
-                        <group col="8" colspan="6">
-                            <separator string="Retenciones I.S.L.R." colspan="8"/>
+                <page string="Withholdings" position="inside">
+                    <notebook>
+                        <page string="Withholdings Income">
+                            <group col="6" colspan="4">
                             <field name="status" colspan='4'/>
                             <newline/>
                             <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
@@ -58,8 +62,10 @@
                             <hpaned/>
                             <newline/>
                             <field name="islr_wh_doc_id" colspan='8'/>
-                    </group>
-                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
             </field>
         </record>
 
