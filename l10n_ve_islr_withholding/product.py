@@ -40,20 +40,6 @@ class product_template(osv.osv):
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept to apply to the service", required=False),
     }
 
-
-    '''
-    Funcion que agrega un concepto por defecto para los productos que no son de servicios
-    '''
-    def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
-        concept_id = False
-        if prd_type != 'service':
-            concept_obj = self.pool.get('islr.wh.concept')
-            concept_id = concept_obj.search(cr, uid, [('name','ilike','NO APLICA RETENCION')])[0]
-            
-
-        return {'value' : {'concept_id':concept_id or False}} 
-
-
 product_template()
 
 
@@ -67,8 +53,7 @@ class product_product(osv.osv):
         concept_id = False
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
-            concept_id = concept_obj.search(cr, uid, [('name','ilike','NO APLICA RETENCION')])[0]
-            
+            concept_id = concept_obj.search(cr, uid, [('name','ilike','RETENTION DOES NOT APPLY')])[0]
         return {'value' : {'concept_id':concept_id or False}} 
 
 product_product()

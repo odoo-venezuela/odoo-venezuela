@@ -6,8 +6,8 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier.duran@netquatro.com>             
+#              María Gabriela Quilarque  <gabriela@vauxoo.com>
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -27,24 +27,37 @@
 ##############################################################################
 
 {
-    "name" : "islr withholding concept",
+    "name" : "Automatically Calculated Withholding Income",
     "version" : "0.4",
-    "author" : "OpenERP Venezuela",
+    "author" : "Vauxoo",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
     "description": '''
-                    ISLR withholding automatically
+                    ----------Automatically Calculated Withholding Income------------
+
+                    Steps to the firts installation:
+                    1.- Create the Concept of Withholding whith their rates.
+                    2.- Assigned to services associated with the concept of retention.
+                    3.- Check that the company withheld an agent retention. (if and so).
+                    4.- Create the Concept of Withholding for when retention does not apply: RETENTION DOES NOT APPLY.
                     
+                    For correct functioning:
+                    1.- The periods must be defined with the format: 09/2011 (MM/YYYY).
+                    2.- Create the accounts of Withholding Income and assing to the partner.
+                    3.- Create the journal of type: islr.
+                    
+                    
+                    ----------Calculo Automatico del Impuesto Sobre La Renta (I.S.L.R.)------------
                     Pasos para la primera vez:
                     1.- Crear Conceptos de Retencion con sus tasas.
                     2.- Asignar a los servicios el concepto de retencion asociado.
-                    3.- Asignar a la compania que retiene, si es Agente de Retencion o no. En la pestana ISLR dentro de partners.
-                    4.- Crear el concepto de retencion para cuando no aplica retencion.
+                    3.- Chequear que la compania que retiene es agente de retencion. (En caso e serlo).
+                    4.- Crear el concepto de retencion para cuando no aplica retencion: NO APLICA RETENCION
                     
                     Para el correcto funcionamiento:
-                     1.- Los periodos deben estar definidos con el formato: 09/2011 (MM/YYYY)
-                     2.- Crear las cuentas contables de islr y asignarselas al partner proveedor
-                     3.- Crear el journal de tipo islr
+                    1.- Los periodos deben estar definidos con el formato: 09/2011 (MM/YYYY)
+                    2.- Crear las cuentas contables de islr y asignarlas al cliente y proveedor.
+                    3.- Crear el diario de tipo islr
                    ''',
     "depends" : [   "base",
                     "account",

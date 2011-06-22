@@ -7,7 +7,7 @@
             <field name="model">islr.wh.doc.invoices</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Facturas">
+                <form string="Invoices">
                     <field name="invoice_id" domain="[('partner_id','=',parent.partner_id)]"/>
                 </form>
             </field>
@@ -23,7 +23,7 @@
             <field name="model">islr.wh.doc</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state=='draft'" string="Retencion ISLR Customer">
+                <tree colors="blue:state=='draft'" string="Customer Withholding Income">
                     <field name="name"/>
                     <field name="type"/>
                     <field name="code"/>
@@ -43,11 +43,8 @@
             <field name="model">islr.wh.doc.line</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Lineas de Retencion ISLR" editable="bottom" >
+                <tree string="Lines Withholding Income" editable="bottom" >
                     <field name="name"/>
-<!--
-                    <field name="invoice_id"/>
--->
                     <field name="concept_id"/>
                     <field name="retencion_islr"/>
                     <field name="amount"/>
@@ -61,12 +58,12 @@
             <field name="model">islr.wh.doc.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Lineas de Retencion ISLR" editable="bottom">
+                <form string="Lines Withholding Income" editable="bottom">
                     <field name="concept_id"  colspan='6'/>
                     <field name="move_id"  colspan='6'/>
                     <newline/>
                     <field name="xml_ids" nolabel="1"  colspan='4'>
-                        <tree string="Detalle del Concepto de Retencion">
+                        <tree string="Detail of the Concept of Withholding Income">
                             <field name="rate_id"/>
                             <field name="wh"/>
                             <field name="porcent_rete"/>
@@ -82,7 +79,7 @@
             <field name="model">islr.wh.doc</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Retencion ISLR">
+                <form string="Customer Withholding Income">
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','retisrlPurchase')]"/>
                         <field name="type" select="2"/>
@@ -98,27 +95,27 @@
                         <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
-                                <page string="Concepto de Retencion">
+                                <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                         <group col="4" colspan="2">
                                             <field name="state" select="2"/>
                                             <field name="amount_total_ret"/>
                                         </group>
                                         <group col="4" colspan="2">
-                                            <button name="action_confirm1" string="Confirmar" states="draft" type="object" icon="gtk-go-forward"/>
-                                            <button name="action_done1" string="Realizar" states="confirmed" type="object"  icon="gtk-execute"/>
-                                            <button name="action_cancel1" string="Cancelar" states="done,confirmed" type="object"  icon="gtk-cancel"/>
-                                            <button name="action_cancel_draft" string="Convertir a Borrador" states="cancel" type="object"  icon="gtk-convert"/>
+                                            <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward"/>
+                                            <button name="action_done1" string="Validate" states="confirmed" type="object"  icon="gtk-execute"/>
+                                            <button name="action_cancel1" string="Cancel" states="done,confirmed" type="object"  icon="gtk-cancel"/>
+                                            <button name="action_cancel_draft" string="Set to Draft" states="cancel" type="object"  icon="gtk-convert"/>
                                          </group>
                                 </page>
-                                <page string="Facturas">
+                                <page string="Invoices">
                                     <field name="invoice_ids" nolabel="1">
-                                        <tree string="Facturas a Retener">
+                                        <tree string="Invoices Withhelds">
                                             <field name="invoice_id"/>
                                         </tree>
                                     </field>
                                 </page>
-                               <page string="Otra Informacion">
+                               <page string="Other Information">
                                     <field name="company_id"/>
                                 </page>
                             </notebook>
@@ -136,7 +133,7 @@
             <field name="model">islr.wh.doc</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state=='draft'" string="Retencion ISLR Supplier">
+                <tree colors="blue:state=='draft'" string="Supplier Withholding Income">
                     <field name="name"/>
                     <field name="type"/>
                     <field name="code"/>
@@ -156,11 +153,8 @@
             <field name="model">islr.wh.doc.line</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Lineas de Retencion ISLR" editable="bottom" >
+                <tree string="Lines Withholding Income" editable="bottom" >
                     <field name="name"/>
-<!--
-                    <field name="invoice_id"/>
--->
                     <field name="concept_id"/>
                     <field name="retencion_islr"/>
                     <field name="amount"/>
@@ -174,12 +168,12 @@
             <field name="model">islr.wh.doc.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Lineas de Retencion ISLR" editable="bottom">
+                <form string="Lines Withholding Income" editable="bottom">
                     <field name="concept_id"  colspan='6'/>
                     <field name="move_id"  colspan='6'/>
                     <newline/>
                     <field name="xml_ids" nolabel="1"  colspan='4'>
-                        <tree string="Detalle del Concepto de Retencion">
+                        <tree string="Detail of the Concept of Withholding Income">
                             <field name="rate_id"/>
                             <field name="wh"/>
                             <field name="porcent_rete"/>
@@ -196,7 +190,7 @@
             <field name="model">islr.wh.doc</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Retencion ISLR">
+                <form string="Supplier Withholding Income">
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','retislrSale')]"/>
                         <field name="type" select="2"/>
@@ -212,7 +206,7 @@
                         <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
-                                <page string="Concepto de Retencion">
+                                <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                         <group col="4" colspan="2">
                                             <field name="state" select="2"/>
@@ -225,14 +219,14 @@
                                             <button name="action_cancel_draft" string="Convertir a Borrador" states="cancel" type="object"  icon="gtk-convert"/>
                                          </group>
                                 </page>
-                                <page string="Facturas">
+                                <page string="Invoices">
                                     <field name="invoice_ids" nolabel="1">
-                                        <tree string="Facturas Retenidas">
+                                        <tree string="Invoices Withhelds">
                                             <field name="invoice_id"/>
                                         </tree>
                                     </field>
                                 </page>
-                               <page string="Otra Informacion">
+                               <page string="Other Information">
                                     <field name="company_id"/>
                                 </page>
                             </notebook>

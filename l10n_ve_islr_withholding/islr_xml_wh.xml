@@ -13,16 +13,16 @@
             <field name="model">islr.xml.wh.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Datos a Exportar en el XML">
+                <form string="Export in XML data">
                     <newline/>
-                        <separator string="Proveedor a Retener" colspan="6"/>
+                        <separator string="Supplier to Withholding" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="partner_id" colspan="4" on_change="onchange_partner_vat(partner_id)" />
                         <field name="partner_vat"/>
                     </group>
                     <newline/>
-                    <separator string="Concepto de Retencion" colspan="6"/>
+                    <separator string="Concept of Withholding Income" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="concept_id" colspan="4" />
@@ -31,7 +31,7 @@
                         <field name="concept_code" />
                     </group>
                     <newline/>
-                    <separator string="Factura" colspan="6"/>
+                    <separator string="Invoice" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="account_invoice_line_id" colspan="4"/>
@@ -56,7 +56,7 @@
             <field name="model">islr.xml.wh.doc</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Lineas de Retencion para XML" >
+                <tree string="Lines Withholding for XML" >
                     <field name="company_id"/>
                     <field name="fiscalyear_id"/>
                     <field name="period_id"/>
@@ -69,7 +69,7 @@
             <field name="model">islr.xml.wh.doc</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Lineas de Retencion para XML">
+                <form string="Lines Withholding for XML">
                     <field name="company_id"/>
                     <newline/>
                     <group col="4" colspan="2">
@@ -77,9 +77,9 @@
                         <field name="period_id" />
                     </group>
                     <notebook colspan="4">
-                        <page string="Lineas de Retencion">
+                        <page string="Lines Withholding">
                             <field name="xml_ids" nolabel="1"  colspan='4' widget="many2many">
-                                <tree string="Detalle del XML">
+                                <tree string="Detail of the XML">
                                     <field name="partner_vat"/>
                                     <field name="partner_id"/>
                                     <field name="invoice_number"/>
@@ -91,9 +91,9 @@
                             </field>
                             <group col="4" colspan="2">
                                 <field name="state" select="2" colspan="4"/>
-                                <button name="action_confirm1" string="Confirmar" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
-                                <button name="action_done1" string="Realizar XML" states="confirmed" type="object"  icon="gtk-ok"/>
-                                <button name="action_anular1" string="Anular" states="confirmed,done" type="object"  icon="gtk-cancel"/>
+                                <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
+                                <button name="action_done1" string="Validate XML" states="confirmed" type="object"  icon="gtk-ok"/>
+                                <button name="action_anular1" string="Invalidate" states="confirmed,done" type="object"  icon="gtk-cancel"/>
                             </group>
                             <group col="2" colspan="2">
                                 <field name="amount_total_ret"/>

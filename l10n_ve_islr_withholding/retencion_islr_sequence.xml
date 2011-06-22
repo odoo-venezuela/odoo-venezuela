@@ -4,12 +4,12 @@
 
         <!-- Sequences type for account.retention --> 
         <record id="seq_type_islr_retention" model="ir.sequence.type">
-            <field name="name">Retenciones ISLR</field>
+            <field name="name">Withholding Income</field>
             <field name="code">islr.wh.doc</field>
         </record>
 
         <record id="seq_account_retention_islr" model="ir.sequence">
-            <field name="name">Retenciones ISLR</field>
+            <field name="name">Withholding Income</field>
             <field name="code">islr.wh.doc</field>
             <field name="prefix">RE:</field>
             <field name="padding">8</field>
@@ -17,12 +17,12 @@
         </record>
 
         <record id="seq_type_retention_islr_compras" model="ir.sequence.type">
-            <field name="name">Retenciones islr Compras</field>
+            <field name="name">Purchase Withholding Income</field>
             <field name="code">islr.wh.doc.in_invoice</field>
         </record>
 
         <record id="seq_retention_islr_compras" model="ir.sequence">
-            <field name="name">Retenciones islr Compras</field>
+            <field name="name">Purchase Withholding Income</field>
             <field name="code">islr.wh.doc.in_invoice</field>
             <field name="prefix">%(year)s-%(month)s-</field>
             <field name="padding">8</field>
@@ -30,12 +30,12 @@
         </record>
 
         <record id="seq_type_retention_islr_sales" model="ir.sequence.type">
-            <field name="name">Retenciones islr Ventas</field>
+            <field name="name">Sale Withholding Income</field>
             <field name="code">islr.wh.doc.out_invoice</field>
         </record>
 
         <record id="seq_retention_islr_sales" model="ir.sequence">
-            <field name="name">Retenciones islr Ventas</field>
+            <field name="name">Sale Withholding Income</field>
             <field name="code">islr.wh.doc.out_invoice</field>
             <field name="prefix">%(year)s-%(month)s-</field>
             <field name="padding">8</field>

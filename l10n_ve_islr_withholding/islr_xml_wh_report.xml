@@ -7,7 +7,7 @@
             model="islr.xml.wh.doc" 
             name="list.wh.islr" 
             rml="addons/l10n_ve_islr_withholding/report/list_wh_islr_report.rml" 
-            string="Retenciones ISLR"
+            string="Withholding Income"
             auto = "False"
             header="False"/>
     </data>
