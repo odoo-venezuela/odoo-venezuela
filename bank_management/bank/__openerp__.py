@@ -42,6 +42,7 @@
         'bank/bicentenario_data.xml',
         'bank/caribe_bank_data.xml',
         'bank/exterior_bank_data.xml',
+        'bank/fondo_comun_bank_data.xml',
     ],
     'demo_xml': [],
     'test': [],
