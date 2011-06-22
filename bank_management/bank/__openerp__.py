@@ -38,7 +38,8 @@
     'init_xml': [],
     "depends" : [],
     'update_xml': [
-        'bank/banesco_data.xml',        
+        'bank/banesco_data.xml',
+        'bank/bicentenario_data.xml',
     ],
     'demo_xml': [],
     'test': [],
