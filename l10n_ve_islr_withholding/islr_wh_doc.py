@@ -218,7 +218,7 @@ class islr_wh_doc(osv.osv):
                 if len(period_ids):
                     period_id = period_ids[0]
                 else:
-                    raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
+                    raise osv.except_osv(_('Warning !'), _("Not found a fiscal period to date: '%s' please check!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
 
             if ret.concept_ids:
                 for line in ret.concept_ids:
@@ -226,12 +226,12 @@ class islr_wh_doc(osv.osv):
                         if line.concept_id.property_retencion_islr_payable:
                             acc_id = line.concept_id.property_retencion_islr_payable.id
                         else:
-                            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Retencion ISLR, debido a que la cuenta contable para retencion de venta no esta asignada al Concepto '%s' !")% (line.concept_id.name))
+                            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
                     else:
                         if  line.concept_id.property_retencion_islr_receivable:
                             acc_id = line.concept_id.property_retencion_islr_receivable.id
                         else:
-                            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Retencion ISLR, debido a que la cuenta contable para retencion de compra no esta asignada al Concepto '%s' !") % (line.concept_id.name))
+                            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
 
                     writeoff_account_id = False
                     writeoff_journal_id = False
@@ -255,7 +255,7 @@ class islr_wh_doc(osv.osv):
                                 if xml.period_id.id != period_id:
                                     self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id, 'islr_xml_wh_doc':None})
                             else:
-                                raise osv.except_osv(_('Invalid action !'),_(" Imposible cambiar el periodo contable a una retencion que ya ha sido declarada"))
+                                raise osv.except_osv(_('Invalid action !'),_("Impossible change the period accountig to a withholding that has already been declared."))
                             
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
         return True

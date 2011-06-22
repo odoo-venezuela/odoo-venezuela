@@ -6,7 +6,7 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
+#              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -161,12 +161,12 @@ class account_invoice(osv.osv):
         for i in partner_id.address:
             if i.type=='invoice':
                 if not i.country_id:
-                    raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el partner '%s' no tiene pais en su facturacion fiscal!") % (partner_id.name))
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' country has not defined direction in fiscal!") % (partner_id.name))
                     return False
                 else:
                     return i.country_id.id
             else:
-                raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el partner '%s' no tiene direccion fiscal asociada!") % (partner_id.name))
+                raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
                 return False
         return False
 
@@ -190,7 +190,7 @@ class account_invoice(osv.osv):
         Se obtiene la naturaleza del vendedor a partir del RIF, retorna True si es persona de tipo natural, y False si es juridica.
         '''
         if not partner_id.vat:
-            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el partner, '%s' no tiene RIF asociado!") % (partner_id.name))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat asociate!") % (partner_id.name))
             return False
         else:
             if partner_id.vat[2:3] in 'VvEe':
@@ -225,7 +225,7 @@ class account_invoice(osv.osv):
             if dict[concept_id]:
                 cont += 1
         if not cont:
-            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que  el Concepto de Retencion asociado a la linea no es de tipo Retenible!"))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the Concept of Withholding associated with type line is not withheld!"))
         return dict
 
 
@@ -268,7 +268,7 @@ class account_invoice(osv.osv):
         if inv_brw.type == 'in_invoice' or inv_brw.type == 'in_refund':
             #~ number = inv_brw.reference.strip() 
             if not inv_brw.reference:
-                raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura numero: '%s' no tiene Numero de Referencia Libre!") % (inv_brw.number))
+                raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income,because the invoice number: '%s' has not number reference free!") % (inv_brw.number))
                 number = 0
             else:
                 number = self._get_number(cr,uid,inv_brw.reference.strip(),10)
@@ -279,7 +279,7 @@ class account_invoice(osv.osv):
                 number = self._get_number(cr,uid,inv_brw.number.strip(),10)
 
         if not inv_brw.nro_ctrl:
-            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura numero: '%s' no tiene Numero de Control Asociado!") % (inv_brw.number))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the invoice number: '%s' has not control number associated!") % (inv_brw.number))
         else:
             control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
         return (vat, number, control)
@@ -445,7 +445,7 @@ class account_invoice(osv.osv):
             tipo = 'Compra'
             tipo2 = 'retislrPurchase'
         if not journal_id:
-            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el diario de ISLR para la '%s' no ha sido creado con el tipo 's%'") % (tipo,tipo2))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
         
         return journal_id[0] or None
         
@@ -572,7 +572,7 @@ class account_invoice(osv.osv):
         for invoice in invoices_brw:
             wh_doc_list = self.pool.get('islr.wh.doc.invoices').search(cr,uid,[('invoice_id','=',invoice.id)])  
             if wh_doc_list: #Chequear que la factura no haya sido retenida.
-                raise osv.except_osv(_('Invalid action !'),_("La Retencion a la factura '%s' ya fue realizada!") % (invoice.number))
+                raise osv.except_osv(_('Invalid action !'),_("The Withholding invoice '%s' has already been done!") % (invoice.number))
             else: # 1.- Si la factura no ha sido retenida
                 wh_dict={}
                 dict_rate={}
@@ -589,9 +589,9 @@ class account_invoice(osv.osv):
                         dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
                         self._logic_create(cr,uid,dict_completo)# Se escribe y crea en todos los modelos asociados al islr.
                     else:
-                        raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el comprador '%s' no es agente de Retencion!") % (buyer.name))
+                        raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:
-                    raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que las lineas de la factura no tienen Concepto de Retencion!"))
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
 account_invoice()
 
 
