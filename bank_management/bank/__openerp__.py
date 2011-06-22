@@ -43,7 +43,8 @@
         'bank/caribe_bank_data.xml',
         'bank/exterior_bank_data.xml',
         'bank/fondo_comun_bank_data.xml',
-        'bank/industrial_data.xml'
+        'bank/industrial_data.xml',
+        'mercantil_bank_data.xml',
     ],
     'demo_xml': [],
     'test': [],
