@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!--
+    ==================================
+    Cheques
+    ==================================
+    -->
+        <record id="view_check_note_form" model="ir.ui.view">
+            <field name="name">check.note.form</field>
+            <field name="model">check.note</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cheques">
+                    <notebook colspan="4">
+                        <page string="Cheques">
+                            <field name="check_book_id"/>
+                            <field name="bank_id"/>
+                            <field name="accounting_bank_id"/>
+                            <field name="number"/>
+                            <field name="account_voucher_id"/>
+                            <field name="date_done"/>
+                        </page>
+                        <page string="Otra Informacion">
+                            <field name="cancel_check_note"/>
+                           <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="5" col='6'>                        
+                                <field name="notes"/>
+                           </group>
+                        </page>
+                    </notebook>
+                   <group colspan="2" col='6'>
+                        <hpaned/>
+                        <hpaned/>
+                        <hpaned/>
+                       <field  name="state" />
+                        <newline/>
+                        <button name="anular" states="active, assigned" string="Cancelar" type="object" icon="gtk-cancel"/>
+                  </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_check_note_tree" model="ir.ui.view">
+            <field name="name">check.note.tree</field>
+            <field name="model">check.note</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+            <tree string="Cheques">
+                    <field name="check_book_id" select="1" />
+                    <field name="bank_id" select="1" />
+                    <field name="accounting_bank_id" select="1" />
+                    <field name="number" select="1" />
+                    <field name="account_voucher_id"/>
+                    <field name="date_done" select="1" />
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_check_note" model="ir.actions.act_window">
+            <field name="name">Cheques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">check.note</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            action="action_check_note"
+            id="menu_check_note"
+            parent="id_check_book"/>
+    </data>
+</openerp>

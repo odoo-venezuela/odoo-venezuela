@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!--
+    ==================================
+    Chequeras
+    ==================================
+    -->
+        <record id="view_check_book_form" model="ir.ui.view">
+            <field name="name">check.book.form</field>
+            <field name="model">check.book</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Chequeras">
+                    <group colspan="4" col="6">
+                        <field name="name"/>
+                        <field name="accounting_bank_id"/>
+                        <field name="bank_id"/>
+                        <field name="from_suffix"/>
+                        <field name="to_suffix"/>
+                        <field name="date_draft"/>
+                        <field name="date_active"/>
+                        <field name="date_done"/>
+                        <field name="qty_check_selection"/>
+                        <field name="fixed_prefix"/>
+                    </group>
+                    <group attrs="{'invisible':[('fixed_prefix','=',False)]}" colspan="2" col='6'>                        
+                        <field name="prefix"/>
+                        <hpaned/>
+                        <hpaned/>
+                        <hpaned/>
+                        <hpaned/>
+                     </group>
+                    <notebook colspan="4">
+                        <page string="Cheques">
+                            <field name="check_note_ids" nolabel="1">
+                                <tree string="Cheques" editable='top' >
+                                    <field name="number" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="suffix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="prefix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="state"/>
+                                </tree>
+                                 
+                                 <form>
+                                    <field name="number" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="suffix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="prefix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="state"/>
+                                 </form>
+
+                            </field>
+                        </page>
+                        <page string="Otra Informacion">
+                           <group colspan="4" col="6">
+                                <field name="check_book_request_id"/>
+                                <field name="cancel_check"/>
+                           </group>
+                           <group attrs="{'invisible':[('cancel_check','!=','otros')]}" colspan="5" col='6'>                        
+                                <field name="notes"/>
+                           </group>
+                        <group colspan="2" col='6'>
+                            <hpaned/><hpaned/>
+                            <hpaned/><hpaned/>
+                            <hpaned/>
+                            <button name="%(report_check_book)d" states="active" string='Ver Reporte' type="action" icon='gtk-print' />  
+                            <button name="%(report_check_book)d" states="done" string='Ver Reporte' type="action" icon='gtk-print' />   
+                        </group>
+
+                        </page>
+                    </notebook>
+                   <group colspan="2" col='6'>
+                        <hpaned/>
+                        <hpaned/>
+                        <hpaned/>
+                       <field  name="state" />
+                        <newline/>
+                        <button name="anular" states="active, hibernate" string="Cancelar" type="object" icon="gtk-cancel"/>
+                        <button name="review" states="draft" string="Cargar Cheques" type="object" icon="gtk-convert"/>
+                        <button name="active" states="review" string="Active" type="object" icon="gtk-execute"/>
+                        <button name="hibernate" states="active" string="Hibernar" type="object" icon="gtk-execute"/>
+                        <button name="active_hibernate" states="hibernate" string="Reactivar" type="object" icon="gtk-execute"/>
+                  </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_check_book_tree" model="ir.ui.view">
+            <field name="name">check.book.tree</field>
+            <field name="model">check.book</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+            <tree string="Chequeras" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel'">
+<!--            <tree string="Chequeras" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel' ;purple:state=='active' and qty_active&gt;9 ">-->
+                    <field name="name" select="1" />                 
+                    <field name="accounting_bank_id" select="1" />
+                    <field name="bank_id" select="1" />
+                    <field name="from_suffix"/>                    
+                    <field name="to_suffix"/>
+                    <field name="fixed_prefix"/>
+                    <field name="prefix"/>
+                    <field name="state"/>
+                    <field name="date_draft"/>
+                    <field name="date_active"/>
+                    <field name="date_done"/>
+                    <field name="qty_check"/>
+                    <field name="qty_active"/>
+                    <field name="rate_user" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_check_book" model="ir.actions.act_window">
+            <field name="name">Chequeras</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">check.book</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem 
+            name="Gestion de Chequeras" 
+            id="id_check_book" 
+            parent="account.menu_finance"
+            sequence="99"/>
+        <menuitem 
+            action="action_check_book" 
+            id="menu_check_book" 
+            parent="id_check_book"/>
+    </data>
+</openerp>

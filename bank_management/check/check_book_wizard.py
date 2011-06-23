@@ -6,10 +6,10 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Angelica Barrios          <angélicaisabelb@gmail.com>
+#              Angelica Barrios          <angelicaisabelb@gmail.com>
 #              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #              Javier Duran              <javier.duran@netquatro.com>             
-#    Planified by: Nhomar Hernande
+#    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
@@ -25,40 +25,29 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
-{
-    "name" : "Bank Management",
-    "version" : "0.1",
-    "author" : "Vauxoo",
-    "website" : "http://vauxoo.com",
-    "category": 'Generic Modules/Accounting',
-    "description": """
-    Proporciona los formatos para los cheques venezolanos
-    """,
-    'init_xml': [],
-    "depends" : ["base", "account", "account_voucher"],
-    'update_xml': [
-        'bank/bank_view.xml',
-        'bank/res_bank_entity_view.xml',
-        'check/check_book_report.xml',
-        'check/check_book_view.xml',
-        'check/check_note_view.xml',
-        'check/wizard/check_report_general.xml'
-        'security/ir.model.access.csv',
-        'bank/data/banesco_data.xml',
-        'bank/data/bicentenario_data.xml',
-        'bank/data/caribe_bank_data.xml',
-        'bank/data/exterior_bank_data.xml',
-        'bank/data/fondo_comun_bank_data.xml',
-        'bank/data/industrial_data.xml',
-        'bank/data/mercantil_bank_data.xml',
-        'bank/data/venezuela_bank_data.xml',
-    ],
-    'demo_xml': [],
-    'test': [],
-    'installable': True,
-    'active': False,
-}
+##############################################################################
+from osv import osv, fields
+import time
+from tools import config
 
+class check_book_wizard(osv.osv):
+    _name = "check.book.wizard"
+    _columns = {                                                                     
+    'check_book_id': fields.many2one('check.book', 'Chequeras', required=False)     ,   
+    'state_check_note': fields.selection([
+            ('sin_filtro','Sin Filtro')                             ,
+            ('cobrado','Cobrado')                                   ,
+            ('emitido','Emitido')                                   ,
+            ],'Estado del Cheque', select=True, required=False)                     ,
+    'tiempo': fields.selection([
+            ('mes','Periodo Fiscal')                                ,
+            ('fecha','Fecha')                                       ,
+            ],'Tiempo', select=True)                                ,
+    'desde': fields.date('Desde', required=False)                                   ,
+    'hasta': fields.date('Hasta', required=False)                                   ,
+    'mes': fields.many2one('account.period', 'Mes Fiscal', required=False)          ,
+    }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    _rec_name='check_book_id' # esto es para no crear un atributo name
+
+check_book_wizard()

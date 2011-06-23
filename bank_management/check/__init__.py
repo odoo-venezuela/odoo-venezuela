@@ -27,8 +27,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import bank
-import check
-
+import check_book
+import check_note
+import check_book_wizard
+import report
+import wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report             
+            id="report_check_book" 
+            model="check.book" 
+            name="reporte.check.book" 
+            rml="check_book/report/reporte_check_book.rml" 
+            string="Repore de Chequera"
+            auto="True" 
+            menu="False"
+            groups="account.group_account_manager" 
+            header="False" />
+         <report             
+            id="report_check" 
+            model="check.book.wizard" 
+            name="informe.detallado.check.book" 
+            rml="check_book/report/reporte_wizard_general.rml" 
+            string="Reporte de Chequeras"
+            auto="False" 
+            menu="False"
+            groups="account.group_account_manager" 
+            header="False" />
+    </data>
+</openerp>
