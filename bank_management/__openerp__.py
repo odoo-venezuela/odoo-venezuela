@@ -40,7 +40,7 @@
     'update_xml': [
         'bank/bank_view.xml',
         'bank/res_bank_entity_view.xml',
-        'bank/security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'bank/data/banesco_data.xml',
         'bank/data/bicentenario_data.xml',
         'bank/data/caribe_bank_data.xml',
