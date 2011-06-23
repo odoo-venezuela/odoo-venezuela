@@ -22,6 +22,7 @@
 from osv import osv
 from osv import fields
 from tools.translate import _
+from tools import config
 
 class res_partner_bank(osv.osv):
     """
@@ -32,3 +33,51 @@ class res_partner_bank(osv.osv):
         'checkbook_ids':fields.one2many('res.partner.bank.checkbook', 'account_id', 'Bank Account', required=False),
     }
 res_partner_bank()
+
+
+class res_bank(osv.osv):
+    '''
+    Calculo de Saldo Virtual
+    '''
+    _name='res.bank'
+    _inherit = 'res.bank'
+    
+    def _get_transitory_money(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        for i in self.browse(cr,uid,ids):
+            mont=0
+            pay_support = self.pool.get('voucher.pay.support')   
+            pay_support_ids = pay_support.search(cr, uid, [('accounting_bank_id','=',i.id)])      
+            pay_support_brow = pay_support.browse(cr, uid, pay_support_ids, context=None) 
+            for pay in pay_support_brow:# "por cada soporte de pago"
+                if pay.state =="open" or pay.state =="draft":
+                    mont=mont + pay.amount
+            res[i.id]=mont
+        return  res 
+ 
+    
+    def _get_virtual_balance(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        mont_virtual_balance=0
+        for i in self.browse(cr,uid,ids):    
+            mont_virtual_balance=i.transitory_money+ i.bank_account_id.balance         
+            res[i.id]=mont_virtual_balance
+        return  res 
+
+
+    def _get_balance(self, cr, uid, ids, field_name, arg, context):
+        res={}
+        balance=0
+        for i in self.browse(cr,uid,ids):    
+            balance=i.bank_account_id.balance         
+            res[i.id]=balance
+        return  res       
+    
+    _columns={ 
+        'transitory_money':fields.function(_get_transitory_money, method=True, type='float', string='Dinero en Transito'),
+        'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', string='Saldo Virtual', help="Saldo Propuesto=Suma del dinero transitorio mas el saldo del cierre o saldo contable"),  
+        'balance':fields.function(_get_balance, method=True, type='float', string='Saldo Contable'),
+    }
+    
+res_bank()
+
