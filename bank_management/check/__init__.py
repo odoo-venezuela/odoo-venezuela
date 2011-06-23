@@ -30,6 +30,7 @@
 import check_book
 import check_note
 import check_book_wizard
+import check_book_request
 import report
 import wizard
 

@@ -11,7 +11,7 @@
             menu="False"
             groups="account.group_account_manager" 
             header="False" />
-         <report             
+        <report             
             id="report_check" 
             model="check.book.wizard" 
             name="informe.detallado.check.book" 
@@ -21,5 +21,16 @@
             menu="False"
             groups="account.group_account_manager" 
             header="False" />
+        <report             
+            id="report_check_book" 
+            model="check.book.request" 
+            name="reporte.check.book.request" 
+            rml="check_book_request/report/report_request_check_book.rml" 
+            string="Carta Solicitud de Chequera"
+            auto="True" 
+            menu="False"
+            groups="account.group_account_manager"
+            header="False" /> 
+            
     </data>
 </openerp>

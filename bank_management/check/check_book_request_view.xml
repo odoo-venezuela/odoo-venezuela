@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!--==================================
+            Solicitud de Chequeras
+        ==================================-->
+        <record id="view_check_book_request_form" model="ir.ui.view">
+            <field name="name">check.book.request.form</field>
+            <field name="model">check.book.request</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud de Chequeras">
+                        <notebook colspan="4">
+                            <page string="Solicitud">
+                                <field name="code"/>
+                                <field name="accounting_bank_id" on_change="onchange_accounting_bank_id(accounting_bank_id)"/>
+                                <field name="bank_id"/>
+                                <field name="agen_id"/>
+                                <field name="partner_id"/>
+                            </page>
+                            <page string="Chequeras">
+                                    <field name="check_book_ids" nolabel="1" required="1" widget="many2many" domain="[('state', '=', 'request'), ('check_book_request_id', '=', False),('accounting_bank_id','=',accounting_bank_id)]">
+                                    <tree string="Chequeras" editable='top'>
+                                        <field name="accounting_bank_id" />
+                                        <field name="qty_check" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Carta-Solicitud">
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                               <!--generar solicitud de chequera -->
+                                <button name="%(report_check_book)d" string='Imprimir' icon='gtk-print' type="action" states="send,received"/> 
+                                <newline/> 
+                            </page>
+                        </notebook>
+                           <group colspan="2" col='6'>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                               <field  name="state" />
+                                <newline/>
+                                <button name="get_enviar" states="draft" string="Enviar" type="object" icon="gtk-execute"/>
+                                <button name="get_received" states="send" string="Recibida" type="object" icon="gtk-execute"/>
+                                <button name="get_anular" states="send" string="Anular" type="object" icon="gtk-cancel"/>
+                            </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_check_book_request_tree" model="ir.ui.view">
+            <field name="name">check.book.request.tree</field>
+            <field name="model">check.book.request</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string=" Solicitud de Chequeras">
+                    <field name="code"/>
+                    <field name="accounting_bank_id"/>
+                    <field name="bank_id"/>
+                    <field name="agen_id"/>
+                    <field name="partner_id"/>
+                    <field  name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_sol_check_book" model="ir.actions.act_window">
+            <field name="name"> Solicitud de Chequeras</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">check.book.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            action="action_sol_check_book"
+            id="menu_check_book_solicitud"
+            parent="check_book.id_check_book"/>
+
+
+
+    </data>
+</openerp>

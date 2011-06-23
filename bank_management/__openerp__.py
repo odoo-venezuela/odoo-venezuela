@@ -43,7 +43,9 @@
         'check/check_book_report.xml',
         'check/check_book_view.xml',
         'check/check_note_view.xml',
-        'check/wizard/check_report_general.xml'
+        'check/check_book_request_sequence.xml',        
+        'check/wizard/check_report_general.xml',
+        'check/check_book_request_view.xml',
         'security/ir.model.access.csv',
         'bank/data/banesco_data.xml',
         'bank/data/bicentenario_data.xml',
