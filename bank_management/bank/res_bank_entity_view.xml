@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+    ==================================
+    Entidades Bancarias
+    ==================================
+    -->
+        <record id="view_res_bank_entity_form" model="ir.ui.view">
+            <field name="name">res.bank.entity.form</field>
+            <field name="model">res.bank.entity</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Entidades Bancarias">
+                    <notebook colspan="4">
+                        <page string="Entidades Bancarias">
+                            <field name="name"/>
+                            <field name="min_lim"/>
+                            <field name="max_lim"/>
+                        </page>
+                        <page string="Formato Cheque">
+                             <field name="format_h" colspan="6" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record id="view_res_bank_entity_tree" model="ir.ui.view">
+            <field name="name">res.bank.entity.tree</field>
+            <field name="model">res.bank.entity</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Entidades Bancarias">
+                    <field name="name"/>
+                    <field name="min_lim"/>
+                    <field name="max_lim"/>
+                </tree>
+            </field>
+        </record>
+        <menuitem
+            id="menu_res_bank_entity"
+            name="Bancos"
+            parent="account.menu_finance"
+            sequence="99"/>
+
+        <record id="action_res_bank_entity" model="ir.actions.act_window">
+            <field name="name">Entidades Bancarias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.bank.entity</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem
+            action="action_res_bank_entity"
+            id="menu_action_res_bank_entity"
+            parent="menu_res_bank_entity"/>
+        
+        <menuitem 
+            action="base.action_res_bank_form" 
+            groups="account.group_account_manager" 
+            id="base.menu_action_res_bank_form" 
+            parent="menu_res_bank_entity" 
+            sequence="12"
+            />
+
+		<!--
+		===========================================
+		CAMBIO LA ETIQUETA DEL MENU CUENTA BANCARIA
+		===========================================
+		-->
+
+		<menuitem name="Cuenta Bancaria"
+		action="base.action_res_bank_form" 
+		id="base.menu_action_res_bank_form" 
+		parent="menu_res_bank_entity" 
+		sequence="12"/>
+
+
+		<!--
+		===========================================================
+		AGREGA CAMPO ENTIDAD BANCARIA A CUENTA BANCARIA DEL PARTNER
+		===========================================================	
+		-->
+
+       <record model="ir.ui.view" id="view_partner_bank_form_entity">
+            <field name="name">res.partner.bank.form.entity</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/form/notebook/page/field[@name='bank_ids']/form/field[@name='bank']" position="before">
+                        <field name="bank_id" required='1'/>
+                </xpath>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="view_partner_bank_tree_entity">
+	        <field name="name">res.partner.bank.tree.entity</field>
+	        <field name="model">res.partner</field>
+	        <field name="type">form</field>
+	        <field name="inherit_id" ref="account.view_partner_property_form"/>
+	        <field name="arch" type="xml">
+	        	<xpath expr="/form/notebook/page/field[@name='bank_ids']/tree/field[@name='bank']" position="before">
+	                    <field name="bank_id"/>
+	            </xpath>
+	        </field>
+	    </record>
+
+    </data>
+</openerp>

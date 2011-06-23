@@ -28,5 +28,6 @@
 ################################################################################
 
 import bank
+import res_bank_entity
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
