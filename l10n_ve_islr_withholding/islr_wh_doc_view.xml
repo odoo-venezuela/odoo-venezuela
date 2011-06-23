@@ -81,20 +81,29 @@
             <field name="arch" type="xml">
                 <form string="Customer Withholding Income">
                     <group colspan="4" col="6">
-                        <field name="journal_id" select="2" domain="[('type','=','retisrlPurchase')]"/>
+                        <field name="journal_id" select="2" domain="[('type','=','islr_sale')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('customer','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
                         <field name="number"/>
-                        <field name="date_uid" />
-                        <field name="invoice_id" />
+                        <field name="date_uid"/>
                     </group>
                             <notebook colspan="6">
+                                <page string="Invoices">
+                                    <field domain="[('partner_id','=',partner_id)]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
+                                    <group col="4" colspan="2">
+                                        <hpaned/>
+                                        <hpaned/>
+                                        <hpaned/>
+                                        <hpaned/>
+                                        <button name="action_ret_islr" string="Process" states="draft" type="object"  icon="gtk-go-forward"/>
+                                    </group>
+                                </page>
                                 <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                         <group col="4" colspan="2">
@@ -107,13 +116,6 @@
                                             <button name="action_cancel1" string="Cancel" states="done,confirmed" type="object"  icon="gtk-cancel"/>
                                             <button name="action_cancel_draft" string="Set to Draft" states="cancel" type="object"  icon="gtk-convert"/>
                                          </group>
-                                </page>
-                                <page string="Invoices">
-                                    <field name="invoice_ids" nolabel="1">
-                                        <tree string="Invoices Withhelds">
-                                            <field name="invoice_id"/>
-                                        </tree>
-                                    </field>
                                 </page>
                                <page string="Other Information">
                                     <field name="company_id"/>
@@ -192,10 +194,10 @@
             <field name="arch" type="xml">
                 <form string="Supplier Withholding Income">
                     <group colspan="4" col="6">
-                        <field name="journal_id" select="2" domain="[('type','=','retislrSale')]"/>
+                        <field name="journal_id" select="2" domain="[('type','=','islr_purchase')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('islr_withholding_agent','=',True), ('supplier','=',True)]"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('supplier','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>

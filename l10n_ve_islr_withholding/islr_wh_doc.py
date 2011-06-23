@@ -107,7 +107,8 @@ class islr_wh_doc(osv.osv):
         'amount_total_ret':fields.function(_get_amount_total,method=True, string='Amount Total', type='float', digits_compute= dp.get_precision('Withhold ISLR'),  help="Total withhold amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Withhold concept document line', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withhold Invoices'),
-        'invoice_id':fields.many2one('account.invoice','Invoice',readonly=True,help="Invoice to make the accounting entry"),
+        'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
+        'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices'),
     }
 
     _defaults = {
@@ -121,6 +122,25 @@ class islr_wh_doc(osv.osv):
                     context=context).company_id.id,
     }
 
+    def action_ret_islr(self,cr,uid,ids, *args):
+        print 'ARG', args
+        print 'IDS', ids
+        inv_obj=self.pool.get('account.invoice')
+        
+        wh_doc_brw = self.browse(cr, uid, ids, context=None)
+        
+        inv_ids = []
+        for wh_doc in wh_doc_brw:
+            print 'WH_DOC', wh_doc.islr_wh_doc_id
+            for wh_doc_line in wh_doc.islr_wh_doc_id: 
+                print 'wh_doc_line',wh_doc_line.id
+                inv_ids.append(wh_doc_line.id)
+                print 'wh_doc_line', wh_doc_line
+                
+        inv_obj.action_ret_islr(cr, uid, inv_ids,args[0])
+                
+                
+        return True
 
     def retencion_seq_get(self, cr, uid, context=None):
         pool_seq=self.pool.get('ir.sequence')
@@ -197,6 +217,7 @@ class islr_wh_doc(osv.osv):
         
     def action_cancel_draft(self,cr,uid,ids, *args):
         self.write(cr, uid, ids, {'state':'draft'})
+        return True
 
     def action_move_create(self, cr, uid, ids, *args):
 

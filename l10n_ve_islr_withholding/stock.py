@@ -38,14 +38,24 @@ class stock_picking(osv.osv):
     con metodo de facturacion a partir de albaran
     '''
     def action_invoice_create(self, cursor, user, ids, journal_id=False,group=False, type='out_invoice', context=None):
+        print 'TYPE     111', type
+        if context is None:
+            context = {}
+        print 'ENTRE AQUI'
         data = super(stock_picking, self).action_invoice_create(cursor, user, ids, journal_id, group, type, context)
         picking_id=data.keys()[0]
+        print 'PICKING ID', picking_id
         invoice_id=data[picking_id]
+        print 'INVOICE_ID', invoice_id
         invoice_brw = self.pool.get('account.invoice').browse(cursor, user, invoice_id)
         picking_brw=self.browse(cursor, user, picking_id)
-        
+        print 'pase por aqui'
+        print 'TYPE', type
+        print 'DATAAAA', data
         if type == 'in_invoice' or type == 'in_refund': #ORDENES DE COMPRA
+            print 'ENTRE AQUI 2'
             for line_invoice in invoice_brw.invoice_line: #lineas de la factura
+                print 'ENTRE AQUI 3'
                 for line_orden in picking_brw.purchase_id.order_line: #lineas de la orden de compra
                     if line_invoice.product_id==line_orden.product_id: #si es la misma linea
                         self.pool.get('account.invoice.line').write(cursor, user, line_invoice.id, {'concept_id':line_orden.concept_id.id})       

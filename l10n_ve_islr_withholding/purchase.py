@@ -41,7 +41,7 @@ class purchase_order_line(osv.osv):
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False),
     }
     
-    def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order=False, fiscal_position=False):
+    def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order=False, fiscal_position=False, date_planned=False, name=False, price_unit=False, notes=False):
         '''
         Funcion para entrar en el onchange del producto de la orden de compra y 
         hacer que se cargue el campo de Concepto de Retencion automaticamente al seleccionar el producto.

@@ -560,22 +560,30 @@ class account_invoice(osv.osv):
                 for key2 in dictc:
                     inv_line_id = dictc[key2][0].keys()[0]
                     islr_wh_doc_line_id = self._create_doc_line(cr,uid,inv_brw,key2,islr_wh_doc_id,dict,dictc)
-                    for line in dictc[key2]:
-                        inv_line_id2 = dictc[key2][0].keys()[0]
-                        for key in line:
-                            key_lst.append(inv_obj.browse(cr,uid,key).invoice_id.id)
-                            self._write_wh_xml(cr,uid,key,islr_wh_doc_line_id)
-                for key in set(key_lst):
-                    self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
-                        
-                self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
+                    #~ for line in dictc[key2]:
+                        #~ inv_line_id2 = dictc[key2][0].keys()[0]
+                        #~ for key in line:
+                            #~ key_lst.append(inv_obj.browse(cr,uid,key).invoice_id.id)
+                            #~ self._write_wh_xml(cr,uid,key,islr_wh_doc_line_id)
+                #~ for key in set(key_lst):
+                    #~ self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
+                        #~ 
+                #~ self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
             else:
                 pass
         else:
             pass
 
 
+
+
+
     def action_ret_islr(self, cr, uid, ids, context={}):
+        print 'HOLAAAAAA ENFERMERA!!'
+        print 'CONTEXT', context
+        print 'IDS', ids
+        
+        
         invoices_brw = self.browse(cr, uid, ids, context=None)
         wh_doc_list = []
         for invoice in invoices_brw:
