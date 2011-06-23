@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_pay_order_contrapartida_1_tree">
+            <field name="name">pay_order.contrapartida.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Pay Order">
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="account_id" />
+                    <field name="amount"/>
+                    <field name="date"/>
+                    <field name="period_id"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_pay_order_contrapartida_1_form">
+            <field name="name">pay.order.contrapartida.form</field>
+            <field name="model">account.voucher</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Pay Order">
+                    <group col="6" colspan="4">
+                        <group colspan="6" col="2">
+				        <field name="name"/>
+                        </group>
+                        <field name="type" select="2"/>
+                        <field name="number"/>
+                        <field name="partner_id"  required='1'/>
+                        <field name="payee_id"  required='0' domain="[('partner_id','=',partner_id) ]"/> 
+                        <field name="amount"/> 
+<!--                        <group col="6" colspan="4">-->
+<!--				        <field name="journal_id" select="1" states="posted" on_change="onchange_journal(journal_id,type)"/>-->
+<!--					    <field name="account_id" select="2" states="posted" on_change="onchange_account(account_id)"/>-->
+<!--                        </group>   -->
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Entry Lines">
+                        
+                            <field name="payment_ids" colspan="4" nolabel="1" height="275" widget="many2many" domain="[('voucher_id','=',False)]">
+                                <tree string="Voucher Lines" editable="top">
+                                    <field name="account_analytic_id"/>
+                                    <field name="partner_id"  />
+                                    <field name="account_id"/>
+                                    <field name="name"/>
+                                    <field name="type" required='1'/>
+                                    <field name="amount"/>
+                                    <field name="invoice_id"/>
+                                    <field name="ref"/>
+                                </tree>
+                            </field>   
+                            <separator string="Descripcion" colspan="4"/>
+                            <field name="narration" colspan="4" nolabel="1"/>
+                            <group col="6" colspan="6">
+                                <field name="state"/>
+                                    <button name="open_voucher" string="Pro-forma" states="draft" type="object" icon="gtk-open"/>
+                                    <button name="cancel_voucher" string="Cancel" states="draft,proforma,posted" type="object" icon="gtk-cancel"/>
+                                    <!-- boton del wizard -->                             
+                                    <button name="%(wiz_pay_support)d" type='action' string='Generar Pago' icon="gtk-execute" states="proforma"/>
+                            </group>
+                        </page>
+                        <page string="Other Info">
+                            <field name="company_id" select="1"/>
+                            <field name="currency_id" select="1" />
+                            <field name="period_id"/>
+                            <field name="date" select="1"/>
+                            <separator string="General Entries" colspan="4"/>
+                            <field name="move_ids" colspan="4" nolabel="1" readonly="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+	<!-- 
+	=====================================================
+	Menu Principal Orden de Pago Contrapartida
+	=====================================================
+	-->
+
+        <record id="action_pay_order_contrapartida" model="ir.actions.act_window">
+            <field name="name">Orden de Pago Contrapartida</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_pay_order_contrapartida_1_tree"/>
+			<field name="domain">[('type', 'like','bank_pay_voucher')]</field>
+			<field name="context">{'type':'bank_pay_voucher'}</field>
+         </record>
+        <record id="act_wv_pay_order_tree2" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pay_order_contrapartida_1_tree"/>
+            <field name="act_window_id" ref="action_pay_order_contrapartida"/>
+        </record>
+        <record id="act_wv_pay_order_form2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pay_order_contrapartida_1_form"/>
+            <field name="act_window_id" ref="action_pay_order_contrapartida"/>
+        </record>
+
+		<menuitem 
+        name="Orden de Pago Contrapartida" 
+		id="menu_contrapartida" 
+        parent='menu_pay_order_general' 
+        action="action_pay_order_contrapartida"/>
+
+        </data>
+</openerp>
+

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_voucher_line_form">
+			<field name="name">account.voucher.line.form</field>
+			<field name="model">account.voucher.line</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pay Order Line">
+				    <group col="6" colspan="4">
+                        <group colspan="6" col="2">
+				        <field name="name"/>
+                        </group>
+					    <field name="partner_id"/>
+                        <field name="account_id" on_change="onchange_line_account(account_id, type, parent.type)"/>
+					    <field name="type" required='1'/>
+                        <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('partner_id','=',partner_id),('state','=','open'),('residual','&gt;',0.0)]"/>
+					    <field name="amount"/>
+					    <field name="ref"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_voucher_line_tree">
+			<field name="name">account.voucher.line.tree</field>
+			<field name="model">account.voucher.line</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Pay Order Line">
+				        <field name="name"/>
+					    <field name="partner_id"/>
+					    <field name="account_id"/>
+					    <field name="type" required='1'/>
+                        <field name="invoice_id"/>
+                        <field name="amount" sum="Total"/>
+					    <field name="ref"/>
+				</tree>
+			</field>
+		</record>
+
+	<!-- 
+	=====================================================
+	Menu Principal de lineas de Orden de Pago
+	=====================================================
+	-->
+    	<record model="ir.actions.act_window" id="action_voucher_line">
+	    	<field name="name">Lineas de Orden de Pago Asignadas</field>
+	    	<field name="res_model">account.voucher.line</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+    	</record>
+        <menuitem 
+            name="Lineas de Orden de Pago" 
+            id="menu_line_pay_oder" 
+            action="action_voucher_line"
+            parent="menu_general_pago_bancarioo"/>
+
+	<!-- 
+	=====================================================
+	lineas de Orden de Pago Asignado
+	=====================================================
+	-->
+
+    	<record model="ir.actions.act_window" id="action_voucher_line_2">
+	    	<field name="name">Lineas de Orden de Pago Asignadas</field>
+	    	<field name="res_model">account.voucher.line</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('voucher_id','!=',None)]</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="action_voucher_line_asignada_tree">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_line_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_line_2"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="action_voucher_line_asignada_form">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_line_form"/>
+	    	<field name="act_window_id" ref="action_voucher_line_2"/>
+	    </record>
+
+	    <menuitem
+	    	id="menu_voucher_pay_order_1"
+	    	name="Lineas de Orden de Pago Asignadas" 		
+	    	parent="menu_line_pay_oder"
+	    	action="action_voucher_line_2"/>
+
+	<!-- 
+	=====================================================
+	lineas de Orden de Pago No Asignado
+	=====================================================
+	-->
+
+    	<record model="ir.actions.act_window" id="action_voucher_line_3">
+	    	<field name="name">Lineas de Orden de Pago No Asignadas</field>
+	    	<field name="res_model">account.voucher.line</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('voucher_id','=',None)]</field>
+            <field name="context">{'voucher_id':None}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="action_voucher_line_no_asig_tree">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_line_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_line_3"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="action_voucher_line_asignada_form">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_line_form"/>
+	    	<field name="act_window_id" ref="action_voucher_line_3"/>
+	    </record>
+
+	    <menuitem
+	    	id="menu_voucher_pay_order_2"
+	    	name="Lineas de Orden de Pago No Asignadas" 		
+	    	parent="menu_line_pay_oder"
+	    	action="action_voucher_line_3"/>
+
+		</data>
+</openerp>
+

@@ -30,3 +30,4 @@
 import c_b_wizard
 import voucher_pay_support_wizard
 import cancel_voucher_pay_support
+import voucher_pay_support_wizard_pay_order

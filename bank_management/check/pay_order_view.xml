@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_pay_order_1_tree">
+            <field name="name">pay_order.tree1</field>
+            <field name="model">account.voucher</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Pay Order">
+                    <field name="name" select="1"/>
+                    <field name="journal_id"/>
+                    <field name="account_id" />
+                    <field name="amount"/>
+                    <field name="date"/>
+                    <field name="period_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_pay_order_1_form">
+            <field name="name">pay.order.form1</field>
+            <field name="model">account.voucher</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Pay Order">
+                    <group col="6" colspan="4">
+                        <group colspan="6" col="2">
+				        <field name="name"/>
+                        </group>
+                        <field name="type"/>
+                        <field name="number"/>
+                        <field name="partner_id"  required='1'/> 
+                        <field name="payee_id"  required='0' domain="[('partner_id','=',partner_id) ]"/>
+                        <field name="amount"/> 
+<!--                        <group col="6" colspan="4">-->
+                                <!--esto no lo maneja el cliente gtk estados en los campos-->
+<!--				        <field name="journal_id" select="1" states="posted" on_change="onchange_journal(journal_id,type)"/>-->
+<!--					    <field name="account_id" select="2" states="posted" on_change="onchange_account(account_id)"/>-->
+<!--                        </group>   -->
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Entry Lines">
+                            <field name="payment_ids" colspan="4" nolabel="1" height="275" widget="many2many" domain="[('voucher_id','=',False), ('partner_id','=',partner_id) ]">
+                                <tree string="Voucher Lines" editable="top">
+                                    <field name="account_analytic_id"/>
+                                    <field name="partner_id"  />
+                                    <field name="account_id"/>
+                                    <field name="name"/>
+                                    <field name="type" required='1'/>
+                                    <field name="amount"/>
+                                    <field name="invoice_id"/>
+                                    <field name="ref"/>
+                                </tree>
+                            </field>   
+                            <separator string="Descripcion" colspan="4"/>
+                            <field name="narration" colspan="4" nolabel="1"/>
+                            <group col="6" colspan="6">
+                                <field name="state"/>
+                                    <button name="open_voucher" string="Pro-forma" states="draft" type="object" icon="gtk-open"/>
+                                    <button name="cancel_voucher" string="Cancel" states="draft,proforma,posted" type="object" icon="gtk-cancel"/>
+                                    <!-- boton del wizard -->                             
+                                    <button name="%(wiz_pay_support)d" type='action' string='Generar Pago' icon="gtk-execute" states="proforma"/>
+                            </group>
+                        </page>
+                        <page string="Other Info">
+                            <field name="company_id" select="1"/>
+                            <field name="currency_id" select="1" />
+                            <field name="period_id"/>
+                            <field name="date" select="1"/>
+                            <separator string="General Entries" colspan="4"/>
+                            <field name="move_ids" colspan="4" nolabel="1" readonly="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+	<!-- 
+	=====================================================
+	Menu Principal Orden de Pago
+	=====================================================
+	-->
+
+        <record id="action_pay_order" model="ir.actions.act_window">
+            <field name="name">Orden de Pago</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_pay_order_1_tree"/>
+			<field name="domain">[('type', 'like','bank_pay_voucher')]</field>
+			<field name="context">{'type':'bank_pay_voucher'}</field>
+        </record>
+
+        <record id="act_wv_pay_order_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pay_order_1_tree"/>
+            <field name="act_window_id" ref="action_pay_order"/>
+        </record>
+        <record id="act_wv_pay_order_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pay_order_1_form"/>
+            <field name="act_window_id" ref="action_pay_order"/>
+        </record> 
+
+
+		<menuitem 
+            name="Orden de Pago" 
+		    id="menu_pay_order_general" 
+            parent='menu_general_pago_bancarioo'/>
+
+		<menuitem 
+            name="Orden de Pago" 
+		    id="menu_pay_order" 
+            parent='menu_pay_order_general'
+            action="action_pay_order"/>
+
+
+	<!-- 
+	=====================================================
+	Orden de Pago en Draft
+	=====================================================
+	-->
+
+    	<record model="ir.actions.act_window" id="action_pay_order_draft">
+	    	<field name="name">Ordenes de Pago en Borrador</field>
+	    	<field name="res_model">account.voucher</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','draft')]</field>
+    	</record>
+        <record id="act_wv_pay_order_tree_draft" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pay_order_1_tree"/>
+            <field name="act_window_id" ref="action_pay_order_draft"/>
+        </record>
+        <record id="act_wv_pay_order_form_draft" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pay_order_1_form"/>
+            <field name="act_window_id" ref="action_pay_order_draft"/>
+        </record> 
+
+	    <menuitem
+	    	id="menu_pay_order_draft"
+	    	name="Ordenes de Pago en Borrador" 		
+	    	parent="menu_pay_order_general"
+	    	action="action_pay_order_draft"/>
+
+	<!-- 
+	=====================================================
+	Orden de Pago en Proforma
+	=====================================================
+	-->
+
+    	<record model="ir.actions.act_window" id="action_pay_order_proforma">
+	    	<field name="name">Ordenes de Pago en Proforma</field>
+	    	<field name="res_model">account.voucher</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','proforma')]</field>
+    	</record>
+        <record id="act_wv_pay_order_tree_proforma" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pay_order_1_tree"/>
+            <field name="act_window_id" ref="action_pay_order_proforma"/>
+        </record>
+        <record id="act_wv_pay_order_form_proforma" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pay_order_1_form"/>
+            <field name="act_window_id" ref="action_pay_order_proforma"/>
+        </record> 
+
+	    <menuitem
+	    	id="menu_pay_order_proforma"
+	    	name="Ordenes de Pago en Proforma" 		
+	    	parent="menu_pay_order_general"
+	    	action="action_pay_order_proforma"/>
+
+	<!-- 
+	=====================================================
+	Orden de Pago en Contabilizado
+	=====================================================
+	-->
+
+    	<record model="ir.actions.act_window" id="action_pay_order_posted">
+	    	<field name="name">Ordenes de Pago en Contabilizado</field>
+	    	<field name="res_model">account.voucher</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','posted')]</field>
+    	</record>
+        <record id="act_wv_pay_order_tree_posted" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pay_order_1_tree"/>
+            <field name="act_window_id" ref="action_pay_order_posted"/>
+        </record>
+        <record id="act_wv_pay_order_form_posted" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pay_order_1_form"/>
+            <field name="act_window_id" ref="action_pay_order_posted"/>
+        </record> 
+
+	    <menuitem
+	    	id="menu_pay_order_posted"
+	    	name="Ordenes de Pago Contabilizadas" 		
+	    	parent="menu_pay_order_general"
+	    	action="action_pay_order_posted"/>
+
+        </data>
+</openerp>
+

@@ -49,6 +49,16 @@
 			header = "False"
             attachment="('DET %s %s' %(object.bank_id.name ,object.check_note_id.number))"
 			menu="False"/>
+        <report             
+            id="voucher_pay_support_report"
+            menu="False"  
+            model="voucher.pay.support.wizard" 
+            name="check_print" 
+            rml="addons/account_voucher_pay_order/report/check.rml" 
+            string="Print Check"
+            auto="False" 
+            header="False" 
+            />
             
     </data>
 </openerp>

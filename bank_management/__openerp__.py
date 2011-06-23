@@ -29,7 +29,7 @@
 
 ###  
 ### res_company --> account_management ver si se puede eliminar esta dependencia ####
-###
+### retencion_iva, base_vat_ve  ver si se puede eliminar esta dependencia
 
 {
     "name" : "Bank Management",
@@ -51,11 +51,17 @@
         'check/check_book_request_sequence.xml',        
         'check/wizard/check_report_general.xml',
         'check/wizard/cancel_wizard.xml',
+        'check/wizard/voucher_pay_support_wizard_pay_order.xml',        
 #        'check/generate_lines_payment_wizard.xml',
         'check/check_book_request_view.xml',
         'check/data/res.bank.xml',
         'check/res_bank_balance.xml',
         'check/voucher_pay_support_view.xml'
+        'check/menu_vouche_view.xml'
+        'check/pay_order_view.xml'
+        'check/pay_order_contrapartida.xml'
+        'check/pay_order_line_view.xml'
+        'check/account_voucher_journal_view.xml'
         'security/ir.model.access.csv',
         'bank/data/banesco_data.xml',
         'bank/data/bicentenario_data.xml',

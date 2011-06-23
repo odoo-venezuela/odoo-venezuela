@@ -206,3 +206,109 @@ class voucher_pay_support(osv.osv):
         return super(voucher_pay_support, self).write(cr, uid, ids, vals, context=context)
           
 voucher_pay_support()
+
+
+
+class account_voucher(osv.osv):
+    _inherit="account.voucher"
+    _columns={
+        'check_note_ids': fields.one2many('check.note', 'account_voucher_id', 'Cheques',readonly=False, required=False),     
+        'payee_id':fields.many2one('res.partner.address','Beneficiario',required=False, readonly=False),
+        'journal_id':fields.many2one('account.journal', 'Journal', required=False, readonly=True, states={'draft':[('readonly',False)]}),
+        'account_id':fields.many2one('account.account', 'Account', required=False, readonly=True, states={'draft':[('readonly',False)]}, domain=[('type','<>','view')]),
+        'voucher_pay_support_id':fields.many2one('voucher.pay.support', 'Orden de Pago', required=False, readonly=True),  
+    } 
+account_voucher()
+    
+class VoucherLine(osv.osv):
+    _inherit = 'account.voucher.line'
+    _defaults = {
+        'type': lambda *a: 'dr'
+    }  
+    
+    def onchange_invoice_id(self, cr, uid, ids, invoice_id, context={}):
+        res = {}
+        lines = []
+        if 'lines' in self.voucher_context:
+            lines = [x[2] for x in self.voucher_context['lines'] if x[2]]
+        
+        if not invoice_id:
+            res = {
+                'value':{ }
+            }
+        else:
+            invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
+            residual = invoice_obj.residual
+            same_invoice_amounts = [x['amount'] for x in lines if x['invoice_id']==invoice_id]
+            residual -= sum(same_invoice_amounts)
+            res = {
+                'value' : {'amount':residual}
+            }
+        return res    
+      
+#    def onchange_line_account(self, cr, uid, ids, account_id, type, type1):
+#        if not account_id:
+#            return {'value' : {'account_id' : False, 'type' : False ,'amount':False}}
+#        obj = self.pool.get('account.account')
+#        acc_id = False
+#        balance=0
+#        print "lo que tiene type1 essssssssssssssssss",type1
+#        if type1 in ('rec_voucher','bank_rec_voucher', 'journal_voucher'):
+#            print "paso1"
+#            acc_id = obj.browse(cr, uid, account_id)
+#            balance = acc_id.credit
+#            type = 'cr'
+#        elif type1 in ('pay_voucher','bank_pay_voucher','cont_voucher') : 
+#            print "paso2"
+#            acc_id = obj.browse(cr, uid, account_id)
+#            balance = acc_id.debit
+#            type = 'dr'
+#        elif type1 in ('journal_sale_vou') : 
+#            print "paso3"
+#            acc_id = obj.browse(cr, uid, account_id)
+#            balance = acc_id.credit
+#            type = 'dr'
+#        elif type1 in ('journal_pur_voucher') : 
+#            print "paso4"
+#            acc_id = obj.browse(cr, uid, account_id)
+#            balance = acc_id.debit
+#            type = 'cr'
+#        return {
+#            'value' : {'type' : type, 'amount':balance}
+#        } 
+   
+    def onchange_line_account(self, cr, uid, ids, account_id, type, type1):
+        if not account_id:
+            return {'value' : {'account_id' : False, 'type' : False ,'amount':False}}
+        obj = self.pool.get('account.account')
+        acc_id = False
+        balance=0
+        print "lo que tiene type1 essssssssssssssssss",type1
+        if type in ('rec_voucher','bank_rec_voucher', 'journal_voucher'):
+            print "paso1"
+            acc_id = obj.browse(cr, uid, account_id)
+            balance = acc_id.credit
+            type = 'cr'
+        elif type in ('pay_voucher','bank_pay_voucher','cont_voucher') : 
+            print "paso2"
+            acc_id = obj.browse(cr, uid, account_id)
+            balance = acc_id.debit
+            type = 'dr'
+        elif type in ('journal_sale_vou') : 
+            print "paso3"
+            acc_id = obj.browse(cr, uid, account_id)
+            balance = acc_id.credit
+            type = 'dr'
+        elif type in ('journal_pur_voucher') : 
+            print "paso4"
+            acc_id = obj.browse(cr, uid, account_id)
+            balance = acc_id.debit
+            type = 'cr'
+        return {
+            'value' : {'type' : type, 'amount':balance}
+        }
+        
+        
+             
+VoucherLine()
+
