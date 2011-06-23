@@ -30,4 +30,5 @@
 import reporte_check_book
 import reporte_wizard_general
 import reporte_check_book_request
-
+import report_voucher
+import report_voucher_amount

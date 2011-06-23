@@ -26,3 +26,8 @@
 "access_account_check_book_request2","check.book.request","model_check_book_request","account.group_account_user",1,1,1,0
 "access_account_check_book_request3","check.book.request","model_check_book_request","account.group_account_manager",1,1,1,1
 
+
+"access_account_voucher_pay_support1","voucher.pay.support","model_voucher_pay_support","account.group_account_invoice",1,0,0,0
+"access_account_voucher_pay_support2","voucher.pay.support","model_voucher_pay_support","account.group_account_user",1,1,1,0
+"access_account_voucher_pay_support3","voucher.pay.support","model_voucher_pay_support","account.group_account_manager",1,1,1,1
+

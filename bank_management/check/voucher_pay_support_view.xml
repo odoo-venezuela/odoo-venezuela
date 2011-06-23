@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+    ==================================
+   Soporte de Pago
+    ==================================
+    -->
+        <record id="view_voucher_pay_support_form" model="ir.ui.view">
+            <field name="name">voucher.pay.support.form</field>
+            <field name="model">voucher.pay.support</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Orden de Pago">
+                    <group colspan="4" col="6" >
+                        <field name="expiry"/>
+                        <field name="type" select="2" on_change="onchange_type(type)"/>
+                        <field name="partner_id"/> 
+                        <field name="payee_id"/> 
+                        <field name="company_id"/>
+                        <field name="bank_id"/>
+                        <field name="accounting_bank_id"/>
+                        <field name="amount"/>
+                        <field name="date"/>
+                        <field name="account_voucher_id"/>
+                        <field name="return_voucher_id"/>
+                        <field name="account_voucher_transitory_id"/>
+                        <newline/> 
+                    </group>
+                        <group colspan="2" col='6' string="Cheque" >
+                            <group colspan="6" col='1'>
+                                <field name="check_note_id" attrs="{'readonly':[('type','=','wire'),('state'),'!=','draft'],'domain':[('accounting_bank_id','=', accounting_bank_id)]}"/>
+                                <field name="name"/>
+<!--                                <field name="cancel_check_note"/>-->
+                            </group>
+<!--                            <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="6" col='1'>                        -->
+<!--                                 <field name="notes" string="Motivo de Anulacion"/> -->
+<!--                            </group>-->
+                            <newline/>
+                            <newline/>
+                            <newline/>
+                            <group colspan="1" col='1'>
+                                <button name="get_retirado" states="draft" string="Cheque Retirado" type="object" icon="gtk-execute"/>
+                                <button name="get_realizado" states="open" string="Pago Realizado" type="object" icon="gtk-execute"/>
+                                <button name="%(wiz_pay_support_cancel)d" type='action' string='Anular Cheque' icon="gtk-cancel" states="open,draft" />
+                            </group>
+                            <hpaned/>
+                        </group>
+                    <group colspan="2" col='6' string="Transferencia" >
+                        <group colspan="6" col='1'>
+                            <field name="wire" attrs="{'readonly':[('type','=','check')]}"/>
+<label string=""/><newline/><label string=""/><newline/><label string=""/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <newline/>
+                    <group colspan="1" col='1'>
+                        <button name="%(report_account_voucher3)d" string='Ver Comprobate de Pago Resumido' type="action" icon='gtk-print' /> 
+                        <button name="%(report_account_voucher_amt3)d" string='Ver Comprobate de Pago Detallado' type="action" icon='gtk-print' /> 
+                    </group>
+                    <hpaned/>
+                    <hpaned/>
+                    <group colspan="1" col='1'>
+                    <field  name="state" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_voucher_pay_support_tree" model="ir.ui.view">
+            <field name="name">voucher.pay.support.tree</field>
+            <field name="model">voucher.pay.support</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Orden de Pago">
+                    <field name="type" select="1"/>
+                    <field name="partner_id" select="1"/> 
+                    <field name="payee_id" select="1"/> 
+                    <field name="check_note_id" select="1"/>
+                    <field name="accounting_bank_id" select="1"/>      
+                    <field name="company_id"/>
+                    <field name="bank_id" select="1"/>
+                    <field name="amount"/>
+                    <field name="date"/>
+                    <field  name="state" />
+                </tree>
+            </field>
+        </record>
+	<!-- 
+	=====================================================
+	Menu Principal
+	=====================================================
+	-->   
+    	<record model="ir.actions.act_window" id="action_voucher_pay_support">
+	    	<field name="name">Todos los Soportes de Pago</field>
+	    	<field name="res_model">voucher.pay.support</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_tree">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_pay_support"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_form">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_form"/>
+	    	<field name="act_window_id" ref="action_voucher_pay_support"/>
+	    </record>
+        <menuitem 
+            name="Soporte de Pago" 
+            id="menu_generador_voucher_pay_support" 
+            parent="account.menu_finance"
+            sequence="99"/>
+        <menuitem 
+            name="Otros Soportes" 
+            id="menu_sub_voucher_pay_support" 
+            parent="menu_generador_voucher_pay_support"
+            sequence="99"/>
+        <menuitem 
+            action="action_voucher_pay_support" 
+            id="menu_voucher_pay_support" 
+            parent="menu_generador_voucher_pay_support"/>
+	<!-- 
+	=====================================================
+	Menu de los soportes de pago en borrador draft
+	=====================================================
+	-->
+    	<record model="ir.actions.act_window" id="action_voucher_pay_support_draft">
+	    	<field name="name">Soportes en Borrador</field>
+	    	<field name="res_model">voucher.pay.support</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','draft')]</field>
+            <field name="context">{'state':'draft'}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_tree_draft">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_pay_support_draft"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_form_draft">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_form"/>
+	    	<field name="act_window_id" ref="action_voucher_pay_support_draft"/>
+	    </record>
+	    <menuitem
+	    	id="menu_generador_voucher_pay_support_draft"
+	    	name="Soportes en Borrador" 		
+	    	parent="menu_sub_voucher_pay_support"
+	    	action="action_voucher_pay_support_draft"/>
+
+	<!-- 
+	=====================================================
+	Menu de los soportes de pago retirados estado open
+	=====================================================
+	-->
+    	<record model="ir.actions.act_window" id="action_voucher_pay_support_open">
+	    	<field name="name">Soportes Retirados</field>
+	    	<field name="res_model">voucher.pay.support</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','open')]</field>
+            <field name="context">{'state':'open'}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_tree_open">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_pay_support_open"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_form_open">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_form"/>
+	    	<field name="act_window_id" ref="action_voucher_pay_support_open"/>
+	    </record>
+	    <menuitem
+	    	id="menu_generador_voucher_pay_support_open"
+	    	name="Soportes Retirados" 		
+	    	parent="menu_sub_voucher_pay_support"
+	    	action="action_voucher_pay_support_open"/>
+
+	<!-- 
+	=====================================================
+	Menu de los soportes de pago Cancelado estado cancel
+	=====================================================
+	-->
+    	<record model="ir.actions.act_window" id="action_voucher_pay_support_cancel">
+	    	<field name="name">Soportes Cancelados</field>
+	    	<field name="res_model">voucher.pay.support</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','cancel')]</field>
+            <field name="context">{'state':'cancel'}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_tree_cancel">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_pay_support_cancel"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_form_cancel">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_form"/>
+	    	<field name="act_window_id" ref="action_voucher_pay_support_cancel"/>
+	    </record>
+	    <menuitem
+	    	id="menu_generador_voucher_pay_support_cancel"
+	    	name="Soportes Cancelados" 		
+	    	parent="menu_sub_voucher_pay_support"
+	    	action="action_voucher_pay_support_cancel"/>
+
+	<!-- 
+	=====================================================
+	Menu de los soportes de pago Cancelado estado done
+	=====================================================
+	-->
+    	<record model="ir.actions.act_window" id="action_voucher_pay_support_done">
+	    	<field name="name">Soportes Pagados</field>
+	    	<field name="res_model">voucher.pay.support</field>
+	    	<field name="type">ir.actions.act_window</field>
+	    	<field name="view_type">form</field>
+	    	<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','done')]</field>
+            <field name="context">{'state':'done'}</field>
+    	</record>
+    	<record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_tree_done">
+	    	<field name="sequence" eval="10"/>
+	    	<field name="view_mode">tree</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_tree"/> 
+	    	<field name="act_window_id" ref="action_voucher_pay_support_done"/>
+	    </record>
+	    <record model="ir.actions.act_window.view" id="act_wv_voucher_pay_support_form_done">
+	    	<field name="sequence" eval="20"/>
+	    	<field name="view_mode">form</field>
+	    	<field name="view_id" ref="view_voucher_pay_support_form"/>
+	    	<field name="act_window_id" ref="action_voucher_pay_support_done"/>
+	    </record>
+	    <menuitem
+	    	id="menu_generador_voucher_pay_support_done"
+	    	name="Soportes Pagados" 		
+	    	parent="menu_sub_voucher_pay_support"
+	    	action="action_voucher_pay_support_done"/>
+
+<!--        vista utilizada para finalizar el wizard de ordenes de pago-->
+
+        <record id="action_pay_order_wizard_soporte" model="ir.actions.act_window">
+            <field name="name">Soporte de Pago</field>
+            <field name="res_model">voucher.pay.support</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_voucher_pay_support_form"/>
+            <field name="domain">[('state','=','draft')]</field>
+            <field name="context">{'state':'draft'}</field>
+        </record> 
+
+
+
+
+    </data>
+</openerp>

@@ -31,6 +31,24 @@
             menu="False"
             groups="account.group_account_manager"
             header="False" /> 
+		<report id="report_account_voucher3"
+			string="Comprobate de Pago Resumido."
+			model="voucher.pay.support"
+			name="cash_receipt.drcr.3"
+			rml="voucher_pay_support/report/report_voucher.rml"
+			auto="False"
+			header = "False"
+            attachment="('RES %s %s' %(object.bank_id.name ,object.check_note_id.number))"
+			menu="False"/>	
+		<report id="report_account_voucher_amt3"
+			string="Comprobate de Pago Detallado."
+			model="voucher.pay.support"
+			name="cash_amount.3"
+			rml="voucher_pay_support/report/report_voucher_amount.rml"
+			auto="False"
+			header = "False"
+            attachment="('DET %s %s' %(object.bank_id.name ,object.check_note_id.number))"
+			menu="False"/>
             
     </data>
 </openerp>

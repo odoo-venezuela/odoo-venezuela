@@ -26,6 +26,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
+
+###  
+### res_company --> account_management ver si se puede eliminar esta dependencia ####
+###
+
 {
     "name" : "Bank Management",
     "version" : "0.1",
@@ -45,9 +50,12 @@
         'check/check_note_view.xml',
         'check/check_book_request_sequence.xml',        
         'check/wizard/check_report_general.xml',
+        'check/wizard/cancel_wizard.xml',
+#        'check/generate_lines_payment_wizard.xml',
         'check/check_book_request_view.xml',
         'check/data/res.bank.xml',
         'check/res_bank_balance.xml',
+        'check/voucher_pay_support_view.xml'
         'security/ir.model.access.csv',
         'bank/data/banesco_data.xml',
         'bank/data/bicentenario_data.xml',
