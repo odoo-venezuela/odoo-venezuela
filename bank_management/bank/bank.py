@@ -8,7 +8,7 @@
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Angelica Barrios          <angélicaisabelb@gmail.com>
 #              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javieredm@gmail.com>             
+#              Javier Duran              <javier.duran@netquatro.com>             
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -25,8 +25,30 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+##############################################################################
+from osv import osv
+from osv import fields
+from tools.translate import _
+from tools import config
 
-import bank
+class res_bank(osv.osv):
+    '''
+    Modulo que crea las cuentas bancarias de las entidades asociadas
+    '''
+    _name='res.bank'
+    _inherit = 'res.bank'
+    _columns={
+        'trans_account_id':fields.many2one('account.account','Cuenta Transitoria',required=False, readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
+        'bank_account_id':fields.many2one('account.account','Cuenta del Banco',required=True,readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
+        'journal_id': fields.many2one('account.journal', 'Journal',required=True),
+        'bank_id': fields.many2one('res.bank.entity','Banco',required=True),
+        'agencia':fields.char('Agencia Bancaria', size=30,required=True),
+    }
+res_bank()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class res_bank_entity(osv.osv):
+    _inherit='res.bank.entity'
+    _columns={
+        'accounting_bank_ids':fields.one2many('res.bank','bank_id','Cuenta'),
+    }
+res_bank_entity()

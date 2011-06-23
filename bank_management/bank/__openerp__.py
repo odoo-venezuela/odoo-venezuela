@@ -36,8 +36,9 @@
     Proporciona los formatos para los cheques venezolanos
     """,
     'init_xml': [],
-    "depends" : [],
+    "depends" : ["base", "account"],
     'update_xml': [
+        'bank_view.xml',
         'bank/data/banesco_data.xml',
         'bank/data/bicentenario_data.xml',
         'bank/data/caribe_bank_data.xml',
