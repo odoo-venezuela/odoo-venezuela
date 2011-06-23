@@ -36,7 +36,7 @@
     Proporciona los formatos para los cheques venezolanos
     """,
     'init_xml': [],
-    "depends" : ["base", "account", "account_voucher"],
+    "depends" : ["base", "account", "account_voucher", "account_voucher_payment"],
     'update_xml': [
         'bank/bank_view.xml',
         'bank/res_bank_entity_view.xml',
@@ -46,6 +46,7 @@
         'check/check_book_request_sequence.xml',        
         'check/wizard/check_report_general.xml',
         'check/check_book_request_view.xml',
+        'check/data/res.bank.xml'
         'security/ir.model.access.csv',
         'bank/data/banesco_data.xml',
         'bank/data/bicentenario_data.xml',

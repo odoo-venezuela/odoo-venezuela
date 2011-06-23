@@ -31,6 +31,8 @@ import check_book
 import check_note
 import check_book_wizard
 import check_book_request
+import bank
+import l10n_ve_bank
 import report
 import wizard
 
