@@ -30,6 +30,7 @@ from osv import fields
 from tools import config
 from tools.translate import _
 import time
+import decimal_precision as dp
 
 class l10n_ut(osv.osv):
     """
@@ -42,7 +43,7 @@ class l10n_ut(osv.osv):
     _columns = {
         'name':fields.char('Law Number Reference', size=64, required=True, readonly=False),
         'date': fields.date('Date', required=True),
-        'amount': fields.float('Amount', digits=(16, int(config['price_accuracy'])), help="Amount Bs per UT.", required=True),
+        'amount': fields.float('Amount',digits_compute= dp.get_precision('Amount Bs per UT'), help="Amount Bs per UT.", required=True),
     }
     _defaults = {
         'name': lambda *a: None,
