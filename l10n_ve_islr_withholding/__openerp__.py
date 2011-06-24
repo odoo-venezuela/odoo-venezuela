@@ -82,6 +82,8 @@
             "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
+            "l10n_ut_view.xml",
+            "l10n_ut_data.xml",
     ],
     "active": False,
     "installable": True

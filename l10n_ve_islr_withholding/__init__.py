@@ -5,10 +5,10 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier.duran@netquatro.com>             
-#    Planified by: Nhomar Hernande
+#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
+#              María Gabriela Quilarque  <gabriela@vauxoo.com>
+#              Javier Duran              <javier@vauxoo.com>
+#    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
@@ -37,5 +37,5 @@ import purchase
 import sale
 import stock
 import report
-
+import l10n_ut
 

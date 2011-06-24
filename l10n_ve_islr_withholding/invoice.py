@@ -117,6 +117,8 @@ class account_invoice(osv.osv):
         else:
             buyer = invoice.partner_id
             vendor = invoice.company_id.partner_id
+        print 'VENDOR', vendor
+        print 'BUYER', buyer
         return (vendor, buyer, buyer.islr_withholding_agent)
 
     def _get_concepts(self, cr, uid, invoice):
@@ -168,7 +170,7 @@ class account_invoice(osv.osv):
         Se obtiene el pais de el vendedor o comprador, depende del parametro. A partir de de la direccion fiscal.
         '''
         for i in partner_id.address:
-            if i.type=='invoice':
+            if i.type == 'invoice':
                 if not i.country_id:
                     raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' country has not defined direction in fiscal!") % (partner_id.name))
                     return False
@@ -178,7 +180,6 @@ class account_invoice(osv.osv):
                 raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
                 return False
         return False
-
 
     def _get_residence(self, cr, uid, vendor, buyer):
         '''
@@ -206,7 +207,8 @@ class account_invoice(osv.osv):
                 return True
             else:
                 return False
-
+        return False
+        
     def _get_rate(self, cr, uid, concept_id, residence, nature,context):
         '''
         Se obtiene la tasa del concepto de retencion, siempre y cuando exista uno asociado a las especificaciones:
@@ -214,9 +216,15 @@ class account_invoice(osv.osv):
            La residencia del vendedor coindica con una tasa.
         '''
         ut_obj = self.pool.get('l10n.ut')
+        print 'UT_OBJ', ut_obj
         rate_brw_lst = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id).rate_ids
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
+                print 'NATURALEZA ORIGIN::', rate_brw.nature
+                print 'NATURALEZA::', nature
+                
+                print 'RESIDENCIA ORIGIN::', rate_brw.residence
+                print 'RESIDENCIA', residence
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
                 rate_brw_minimum = ut_obj.compute_ut_to_money(cr, uid, rate_brw.minimum, False, context)#metodo que transforma los UVT en pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(cr, uid, rate_brw.subtract, False, context)#metodo que transforma los UVT en pesos
