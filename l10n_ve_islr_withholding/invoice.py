@@ -163,6 +163,7 @@ class account_invoice(osv.osv):
                     else:  # Si ya se le aplico retencion, no se guarda el id porque no hace falta pero se indica que ya se le aplico retencion.
                         dict[line.concept_id.id]['wh']=True
         #~ dict[key]={'lines':[],'wh':False,'base':0.0}
+        print 'DICT 1', dict
         return dict
 
     def _get_country_fiscal(self,cr, uid, partner_id):
@@ -207,8 +208,7 @@ class account_invoice(osv.osv):
                 return True
             else:
                 return False
-        return False
-        
+
     def _get_rate(self, cr, uid, concept_id, residence, nature,context):
         '''
         Se obtiene la tasa del concepto de retencion, siempre y cuando exista uno asociado a las especificaciones:
@@ -282,6 +282,7 @@ class account_invoice(osv.osv):
         '''
         inv_brw = self.pool.get('account.invoice.line').browse(cr, uid, line).invoice_id
         vat = inv_brw.partner_id.vat[2:]
+        control = '1234567'
         if inv_brw.type == 'in_invoice' or inv_brw.type == 'in_refund':
             #~ number = inv_brw.reference.strip() 
             if not inv_brw.reference:
@@ -294,11 +295,12 @@ class account_invoice(osv.osv):
                 number = 0
             else:
                 number = self._get_number(cr,uid,inv_brw.number.strip(),10)
+#~ AGREGAR MODULO DE NUMERO DE CONTROL.**************************
+        #~ if not inv_brw.nro_ctrl:
+            #~ raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the invoice number: '%s' has not control number associated!") % (inv_brw.number))
+        #~ else:
+            #~ control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
 
-        if not inv_brw.nro_ctrl:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the invoice number: '%s' has not control number associated!") % (inv_brw.number))
-        else:
-            control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
         return (vat, number, control)
 
 
@@ -394,6 +396,7 @@ class account_invoice(osv.osv):
         Retorna el diccionario completo con todos los datos para realizar la retencion, cada elemento es una linea de la factura.
         '''
         res = {}
+        print 'ENTRE WH APLLY'
         for concept in wh_dict:
             if not wh_dict[concept]['wh']:  #Si nunca se ha aplicado retencion con este concepto.
                 if wh_dict[concept]['base'] >= dict_rate[concept][1]: # Si el monto base que suman todas las lineas de la factura es mayor o igual al monto minimo de la tasa.
@@ -405,6 +408,7 @@ class account_invoice(osv.osv):
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
                 subtract = 0.0
                 res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
+        print 'RESSS', res
         return res
 
 
@@ -451,16 +455,16 @@ class account_invoice(osv.osv):
         Funcion para asignar el diario correspondiente de acuerdo a cada tipo de retencion(compra, venta)
         los tipos de diario son creados en retencion_iva
         '''
+        tipo='Sale'
+        tipo2='islr_sale'
         journal_id = None
         journal_obj = self.pool.get('account.journal')
         if inv_brw.type == 'out_invoice' or inv_brw.type =='out_refund':
-            journal_id = journal_obj.search(cr, uid, [('type', '=', 'retislrSale')], limit=1)
-            tipo1 = 'Venta'
-            tipo2 = 'retislrSale'
+            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_sale')], limit=1)
         else:
-            journal_id = journal_obj.search(cr, uid, [('type', '=', 'retislrPurchase')], limit=1)
-            tipo = 'Compra'
-            tipo2 = 'retislrPurchase'
+            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_purchase')], limit=1)
+            tipo = 'Purchase'
+            tipo2 = 'islr_purchase'
         if not journal_id:
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
         
@@ -475,18 +479,18 @@ class account_invoice(osv.osv):
         inv_obj =self.pool.get('account.invoice.line')
         inv_brw = inv_brw.invoice_id
     
-        islr_wh_doc_id = wh_doc_obj.create(cr,uid,{'name': wh_doc_obj.retencion_seq_get(cr, uid),
-                                                   'partner_id': inv_brw.partner_id.id,
-                                                   'invoice_id': inv_brw.id,
-                                                   'period_id': inv_brw.period_id.id,
-                                                   'account_id': inv_brw.account_id.id,
-                                                   'type': inv_brw.type,
-                                                   'journal_id': self.get_journal(cr,uid,inv_brw)
-                                                   })
+        islr_wh_doc_id = wh_doc_obj.create(cr,uid,
+        {'name': wh_doc_obj.retencion_seq_get(cr, uid),
+        'partner_id': inv_brw.partner_id.id,
+        'invoice_id': inv_brw.id,
+        'period_id': inv_brw.period_id.id,
+        'account_id': inv_brw.account_id.id,
+        'type': inv_brw.type,
+        'journal_id': self.get_journal(cr,uid,inv_brw),})
         return islr_wh_doc_id
 
 
-    def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dict,dictc):
+    def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dict,dictc,wh_doc_id):
         '''
         Funcion para crear en el modelo islr_wh_doc_line
         '''
@@ -495,21 +499,14 @@ class account_invoice(osv.osv):
         dict_concept = self._get_amount(cr,uid,dict)
         inv_line_id = dictc[key2][0].keys()[0]
         rate_id = dictc[key2][0][inv_line_id]['rate_id']
-        
-        #~ line_idd = dictc[key2][0].keys()
-        #~ print 'LINEEEE IDD22222', line_idd[0]
-        #~ inv_idd= self.pool.get('account.invoice.line').browse(cr, uid,line_idd[0]).invoice_id.id
-        #~ print 'IDDDD INVOICEEEE', inv_idd        
-        
-        
-        islr_wh_doc_line_id = doc_line_obj.create(cr,uid,{'islr_wh_doc_id':islr_wh_doc_id,
-                                                'concept_id':key2,
-                                                'islr_rates_id':rate_id,
-                                                'invoice_id': inv_brw.invoice_id.id,
-                                                'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc,
-                                                'amount':dict_concept[key2],
-                                                #~ 'invoice_id':inv_idd,
-                                                })
+
+        islr_wh_doc_line_id = doc_line_obj.create(cr,uid,
+            {'islr_wh_doc_id':islr_wh_doc_id,
+            'concept_id':key2,
+            'islr_rates_id':rate_id,
+            'invoice_id': inv_brw.invoice_id.id,
+            'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc,
+            'amount':dict_concept[key2],})
         return islr_wh_doc_line_id
 
 
@@ -550,46 +547,58 @@ class account_invoice(osv.osv):
         return inv_brw
 
 
-    def _logic_create(self,cr,uid,dict):
+    def _logic_create(self,cr,uid,dict,wh_doc_id):
         '''
         Manejo de toda la logica para la generarion de lineas en los modelos.
         '''
+        print 'ENTRE|'
         dictc = self._get_dict_concepts(cr,uid,dict)
         inv_brw = self._get_inv_id(cr,uid,dict)
         inv_obj =self.pool.get('account.invoice.line')
         
+        print 'INV BRW', inv_brw
+        print 'INV OBJ', inv_obj
+        print 'dictc', dictc
+        
+        
         if inv_brw:
-            if dictc:
+            print 'AQUI TOY'
+            if dictc and not wh_doc_id:
+                print 'SUPPLIER WH'
                 islr_wh_doc_id = self._create_islr_wh_doc(cr,uid,inv_brw,dict)
             else:
-                pass
+                print 'CUSTOMER WH'
+                islr_wh_doc_id = wh_doc_id
             key_lst = []
             if islr_wh_doc_id:
                 for key2 in dictc:
                     inv_line_id = dictc[key2][0].keys()[0]
                     islr_wh_doc_line_id = self._create_doc_line(cr,uid,inv_brw,key2,islr_wh_doc_id,dict,dictc)
-                    #~ for line in dictc[key2]:
-                        #~ inv_line_id2 = dictc[key2][0].keys()[0]
-                        #~ for key in line:
-                            #~ key_lst.append(inv_obj.browse(cr,uid,key).invoice_id.id)
-                            #~ self._write_wh_xml(cr,uid,key,islr_wh_doc_line_id)
-                #~ for key in set(key_lst):
-                    #~ self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
-                        #~ 
-                #~ self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
+                    for line in dictc[key2]:
+                        inv_line_id2 = dictc[key2][0].keys()[0]
+                        for key in line:
+                            key_lst.append(inv_obj.browse(cr,uid,key).invoice_id.id)
+                            if not wh_doc_id:
+                                self._write_wh_xml(cr,uid,key,islr_wh_doc_line_id)
+                for key in set(key_lst):
+                    self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
+                        
+                self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
             else:
                 pass
         else:
             pass
+        return True
 
 
 
 
 
-    def action_ret_islr(self, cr, uid, ids, context={}):
+    def action_ret_islr(self, cr, uid, ids, wh_doc_id=None,context={}):
         print 'HOLAAAAAA ENFERMERA!!'
         print 'CONTEXT', context
         print 'IDS', ids
+        print 'wh_doc_id', wh_doc_id
         
         
         invoices_brw = self.browse(cr, uid, ids, context=None)
@@ -610,9 +619,13 @@ class account_invoice(osv.osv):
                         residence = self._get_residence(cr, uid, vendor, buyer) # Retorna el tipo de residencia del vendedor
                         nature = self._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
                         dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
+                        print 'WH DICT', wh_dict
+                        print 'DICT RATE', dict_rate
+                        print 'CONCEPT LIST', concept_list
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
                         dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
-                        self._logic_create(cr,uid,dict_completo)# Se escribe y crea en todos los modelos asociados al islr.
+                        print 'DICT COMPLETO', dict_completo
+                        self._logic_create(cr,uid,dict_completo,wh_doc_id)# Se escribe y crea en todos los modelos asociados al islr.
                     else:
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:

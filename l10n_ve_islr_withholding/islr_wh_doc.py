@@ -128,7 +128,7 @@ class islr_wh_doc(osv.osv):
         inv_obj=self.pool.get('account.invoice')
         
         wh_doc_brw = self.browse(cr, uid, ids, context=None)
-        
+        print 'ID DOCCCCCCCCCCCCC', ids
         inv_ids = []
         for wh_doc in wh_doc_brw:
             print 'WH_DOC', wh_doc.islr_wh_doc_id
@@ -137,7 +137,7 @@ class islr_wh_doc(osv.osv):
                 inv_ids.append(wh_doc_line.id)
                 print 'wh_doc_line', wh_doc_line
                 
-        inv_obj.action_ret_islr(cr, uid, inv_ids,args[0])
+        inv_obj.action_ret_islr(cr, uid, inv_ids,ids[0],args[0])
                 
                 
         return True
