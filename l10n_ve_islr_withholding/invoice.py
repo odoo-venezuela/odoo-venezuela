@@ -117,8 +117,6 @@ class account_invoice(osv.osv):
         else:
             buyer = invoice.partner_id
             vendor = invoice.company_id.partner_id
-        print 'VENDOR', vendor
-        print 'BUYER', buyer
         return (vendor, buyer, buyer.islr_withholding_agent)
 
     def _get_concepts(self, cr, uid, invoice):
@@ -133,7 +131,6 @@ class account_invoice(osv.osv):
                 pass
         return list(set(service_list))
         
-
     def _get_service_wh(self, cr, uid, invoice, concept_list):
         '''
         Obtiene todas las lineas de factura del vendedor, filtrando por el periodo de la factura actual y el estado de la factura = done, open.
@@ -163,7 +160,6 @@ class account_invoice(osv.osv):
                     else:  # Si ya se le aplico retencion, no se guarda el id porque no hace falta pero se indica que ya se le aplico retencion.
                         dict[line.concept_id.id]['wh']=True
         #~ dict[key]={'lines':[],'wh':False,'base':0.0}
-        print 'DICT 1', dict
         return dict
 
     def _get_country_fiscal(self,cr, uid, partner_id):
@@ -220,11 +216,6 @@ class account_invoice(osv.osv):
         rate_brw_lst = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id).rate_ids
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
-                print 'NATURALEZA ORIGIN::', rate_brw.nature
-                print 'NATURALEZA::', nature
-                
-                print 'RESIDENCIA ORIGIN::', rate_brw.residence
-                print 'RESIDENCIA', residence
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
                 rate_brw_minimum = ut_obj.compute_ut_to_money(cr, uid, rate_brw.minimum, False, context)#metodo que transforma los UVT en pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(cr, uid, rate_brw.subtract, False, context)#metodo que transforma los UVT en pesos
@@ -260,7 +251,6 @@ class account_invoice(osv.osv):
     def _get_wh_calc(self,cr,uid,line,dict_rate_concept):
         base = self.pool.get('account.invoice.line').browse(cr,uid,line).price_subtotal
         return (base * (dict_rate_concept[0]/100) * (dict_rate_concept[2]/100), base)
-
 
     def _get_number(self,cr,uid,number,long):
         num1 = number[::-1]
@@ -304,7 +294,7 @@ class account_invoice(osv.osv):
         return (vat, number, control)
 
 
-    def _write_wh_apply(self,cr, uid,line,dict,apply):
+    def _write_wh_apply(self,cr, uid,line,dict,apply,type):
         '''
         Si el campo wh_xml_id en la linea de la factura tiene un id de xml asociado:
             Se escribe sobre el campo booleano de la linea de la factura True o False, dependiendo si se retiene o no.
@@ -319,8 +309,11 @@ class account_invoice(osv.osv):
             self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply})
             self.pool.get('islr.xml.wh.line').write(cr,uid,il_ids.wh_xml_id.id,{'wh':dict['wh']})
         else:
-            self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply,'wh_xml_id':self._create_islr_xml_wh_line(cr, uid,line,dict)})
-
+            if type in ('out_invoice', 'out_refund'):
+                self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply})
+            else:
+                self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply,'wh_xml_id':self._create_islr_xml_wh_line(cr, uid,line,dict)})
+                
     def _create_islr_xml_wh_line(self,cr, uid, line, dict):
         '''
         Se crea una linea de xml
@@ -346,6 +339,7 @@ class account_invoice(osv.osv):
         Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
         '''
         res= {}
+        inv_obj= self.pool.get('account.invoice')
         if apply: # Si se va a aplicar retencion.
             for line in wh_dict[concept]['lines']:
                 wh_calc, subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept]) # Obtengo el monto de retencion y el monto base sobre el cual se retiene
@@ -356,6 +350,8 @@ class account_invoice(osv.osv):
                     wh = wh_calc - subtract
                     subtract_write= subtract
                     subtract=0.0
+                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
+                type = inv_obj.browse(cr,uid,inv_id).type
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
                             'control': self._get_inv_data(cr, uid, line)[2],
@@ -367,13 +363,13 @@ class account_invoice(osv.osv):
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
                             'name_rate': dict_rate[concept][6]}
-                self._write_wh_apply(cr,uid,line,res[line],apply)
-                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
-                self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'pro'})
-            return res
+                self._write_wh_apply(cr,uid,line,res[line],apply,type)
+                inv_obj.write(cr, uid, inv_id, {'status': 'pro'})
         else: # Si no aplica retencion
             for line in wh_dict[concept]['lines']:
                 subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
+                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
+                type = inv_obj.browse(cr,uid,inv_id).type
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
                             'control': self._get_inv_data(cr, uid, line)[2],
@@ -385,10 +381,9 @@ class account_invoice(osv.osv):
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
                             'name_rate': dict_rate[concept][6]}
-                self._write_wh_apply(cr,uid,line,res[line],apply)
-                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
-                self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'tasa'})
-            return res
+                self._write_wh_apply(cr,uid,line,res[line],apply,type)
+                inv_obj.write(cr, uid, inv_id, {'status': 'tasa'})
+        return res
 
 
     def _get_wh_apply(self,cr,uid,dict_rate,wh_dict):
@@ -396,19 +391,21 @@ class account_invoice(osv.osv):
         Retorna el diccionario completo con todos los datos para realizar la retencion, cada elemento es una linea de la factura.
         '''
         res = {}
-        print 'ENTRE WH APLLY'
         for concept in wh_dict:
             if not wh_dict[concept]['wh']:  #Si nunca se ha aplicado retencion con este concepto.
+                print 'AQUI TOY 1'
                 if wh_dict[concept]['base'] >= dict_rate[concept][1]: # Si el monto base que suman todas las lineas de la factura es mayor o igual al monto minimo de la tasa.
+                    print 'AQUI TOY 2'
                     subtract = dict_rate[concept][3]  # Obtengo el sustraendo a aplicar. Existe sustraendo porque es la primera vez.
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para asignar al campo booleano de la linea de la factura True, para asi marcar de una vez que ya fue retenida, para una posterior busqueda.
                 else: # Si el monto base no supera el monto minimo de la tasa(de igual forma se deb declarar asi no supere.)
+                    print 'AQUI TOY 3'
                     subtract = 0.0
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
+                print 'AQUI TOY 4'
                 subtract = 0.0
                 res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
-        print 'RESSS', res
         return res
 
 
@@ -490,7 +487,7 @@ class account_invoice(osv.osv):
         return islr_wh_doc_id
 
 
-    def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dict,dictc,wh_doc_id):
+    def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dict,dictc):
         '''
         Funcion para crear en el modelo islr_wh_doc_line
         '''

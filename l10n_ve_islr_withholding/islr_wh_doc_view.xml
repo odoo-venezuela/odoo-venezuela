@@ -95,13 +95,11 @@
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices">
-                                    <field domain="[('partner_id','=',partner_id)]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
+                                    <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                     <group col="4" colspan="2">
                                         <hpaned/>
-                                        <hpaned/>
-                                        <hpaned/>
-                                        <hpaned/>
-                                        <button name="action_ret_islr" string="Process" states="draft" type="object"  icon="gtk-go-forward"/>
+                                        <button name="action_process" string="Process" states="to_process" type="object"  icon="gtk-go-forward"/>
+                                        <button name="action_cancel_process" string="Cancel" states="draft" type="object"  icon="gtk-go-forward"/>
                                     </group>
                                 </page>
                                 <page string="Concept of Withholding Income">
