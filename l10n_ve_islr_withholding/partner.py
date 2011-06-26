@@ -37,7 +37,7 @@ class res_partner(osv.osv):
     _inherit = 'res.partner'
 
     _columns = {
-        'islr_withholding_agent': fields.boolean('Withholding Income Agent?','rate_ids',help="Indicates whether the partner's income tax withholding agent"),
+        'islr_withholding_agent': fields.boolean('Withholding Income Agent?','rate_ids',help="Check if the partner is an agent for withholding income"),
     }
     
 res_partner()

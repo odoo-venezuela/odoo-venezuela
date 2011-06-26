@@ -4,24 +4,25 @@
 
     <!-- 
     =====================================================
-    Partners Extension
+    Partners Extension Income
     =====================================================
     -->  
 
-        <record id="partner_ext_view_form_loc_ve" model="ir.ui.view">
-            <field name="name">partner_extended.res.partner.form.view.loc_ve</field>
+        <record id="res_partner_wh_islr" model="ir.ui.view">
+            <field name="name">res.partner.wh.islr</field>
             <field name="model">res.partner</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
-                <notebook>
-                    <page string="I.S.L.R." position="inside">
-                        <group col="2" colspan="2">
-                            <separator string="Retenciones I.S.L.R." colspan="2"/>
-                            <field name="islr_withholding_agent"/>
-                        </group>
-                    </page>
-                </notebook>
+                <page string="Withholdings" position="inside">
+                    <notebook>
+                        <page string="Withholdings Vat">
+                            <group col="4" colspan="2">
+                                <field name="islr_withholding_agent"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
             </field>
         </record>
 
