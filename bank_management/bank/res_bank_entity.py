@@ -30,6 +30,7 @@ from osv import osv
 from osv import fields
 from tools.translate import _
 from tools import config
+import decimal_precision as dp
 
 class res_bank_entity(osv.osv):
     '''
@@ -37,10 +38,10 @@ class res_bank_entity(osv.osv):
     '''
     _name='res.bank.entity'
     _columns={
-        'name': fields.char('Bank Name',size=64, required=True, readonly=False)                  ,
-        'min_lim':fields.float('Min. Limit',digits=(16,2), readonly=False, required=True )     ,
-        'max_lim':fields.float('Max. Limit',digits=(16,2), readonly=False, required=True )     ,
-        'format_h':fields.text('Format Check', required=True)                                      ,
+        'name': fields.char('Bank Name',size=64, required=True, readonly=False),
+        'min_lim':fields.float('Min. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True ),
+        'max_lim':fields.float('Max. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True ),
+        'format_h':fields.text('Format Check', required=True),
     }
     
     def _check_bank(self,cr,uid,ids,context={}):

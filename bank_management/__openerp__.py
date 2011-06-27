@@ -43,7 +43,8 @@
     'init_xml': [],
     "depends" : ["base", "account", "account_voucher", "account_voucher_payment"],
     'update_xml': [
-        'bank/bank_view.xml',
+        'bank_management_data.xml',
+        'bank/bank_view.xml',        
         'bank/res_bank_entity_view.xml',
         'check/check_book_report.xml',
         'check/check_book_view.xml',

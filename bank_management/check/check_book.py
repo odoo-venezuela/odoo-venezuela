@@ -32,6 +32,7 @@ from tools.translate import _
 from tools import config
 import time
 import datetime
+import decimal_precision as dp
 
 class check_book(osv.osv):
     '''
@@ -194,7 +195,7 @@ class check_book(osv.osv):
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix'], 20),
                 'check.note': (_get_chek_note, ['state'], 20),}),
                 
-    'rate_user': fields.function(_get_rate_user, method=True, type='float', string='Use Rate',
+    'rate_user': fields.function(_get_rate_user, method=True, type='float', digits_compute= dp.get_precision('Bank'), string='Use Rate',
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix', 'qty_active'], 20),
                 'check.note': (_get_chek_note, ['state'], 20),}),

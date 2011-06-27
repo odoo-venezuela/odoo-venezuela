@@ -29,7 +29,7 @@
 from osv import osv
 from osv import fields
 from tools.translate import _
-from tools import config
+import decimal_precision as dp
 import time
 ######################Soporte de Pago##########################
 
@@ -81,7 +81,7 @@ class voucher_pay_support(osv.osv):
             ('check','Cheque'),
             ('wire','Transferencia'),
             ],'Type', required=True, select=True , readonly=True),
-        'amount':fields.float('Amount', readonly=True),
+        'amount':fields.float('Amount', readonly=True, digits_compute= dp.get_precision('Bank')),
         'date':fields.date('Issued Date', readonly=True),
         'cancel_check_note': fields.selection([
             ('print','Error de Impresion')      ,
