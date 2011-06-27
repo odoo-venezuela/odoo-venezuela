@@ -5,9 +5,9 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier.duran@netquatro.com>             
+#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
+#              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -122,26 +122,20 @@ class islr_wh_doc(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
+        'user_id': lambda s, cr, u, c: u,
     }
 
     def action_process(self,cr,uid,ids, *args):
-        print 'ARG', args
-        print 'IDS', ids
         inv_obj=self.pool.get('account.invoice')
         
         wh_doc_brw = self.browse(cr, uid, ids, context=None)
-        print 'ID DOCCCCCCCCCCCCC', ids
         inv_ids = []
         for wh_doc in wh_doc_brw:
-            print 'WH_DOC', wh_doc.islr_wh_doc_id
             for wh_doc_line in wh_doc.islr_wh_doc_id: 
-                print 'wh_doc_line',wh_doc_line.id
                 inv_ids.append(wh_doc_line.id)
-                print 'wh_doc_line', wh_doc_line
-                
+
         inv_obj.action_ret_islr(cr, uid, inv_ids,ids[0],args[0])
         self.write(cr, uid, ids, {'state':'draft'})
-                
         return True
 
     def action_cancel_process(self,cr,uid,ids,*args):
@@ -248,7 +242,8 @@ class islr_wh_doc(osv.osv):
 
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = {}
-
+        inv_id = None
+        
         for ret in self.browse(cr, uid, ids):
             if not ret.date_uid:
                 self.write(cr, uid, [ret.id], {'date_uid':time.strftime('%Y-%m-%d')})
@@ -271,11 +266,13 @@ class islr_wh_doc(osv.osv):
                     if ret.type in ('in_invoice', 'in_refund'):
                         if line.concept_id.property_retencion_islr_payable:
                             acc_id = line.concept_id.property_retencion_islr_payable.id
+                            inv_id = ret.invoice_id.id
                         else:
                             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
                     else:
                         if  line.concept_id.property_retencion_islr_receivable:
                             acc_id = line.concept_id.property_retencion_islr_receivable.id
+                            inv_id = line.invoice_id.id
                         else:
                             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
 
@@ -283,7 +280,7 @@ class islr_wh_doc(osv.osv):
                     writeoff_journal_id = False
                     amount = line.amount
 
-                    ret_move = self.wh_and_reconcile(cr, uid, [ret.id], ret.invoice_id.id,
+                    ret_move = self.wh_and_reconcile(cr, uid, [ret.id], inv_id,
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, context)
 
@@ -308,6 +305,8 @@ class islr_wh_doc(osv.osv):
 
 
     def wh_and_reconcile(self, cr, uid, ids, invoice_id, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id,context=None, name=''):
+        
+        print 'INVOICE ID', invoice_id
         inv_obj = self.pool.get('account.invoice')
         ret = self.browse(cr, uid, ids)[0]
         if context is None:
@@ -315,7 +314,9 @@ class islr_wh_doc(osv.osv):
         #TODO check if we can use different period for payment and the writeoff line
         #~ assert len(invoice_ids)==1, "Can only pay one invoice at a time"
         invoice = inv_obj.browse(cr, uid, invoice_id)
+        print 'INVOICE', invoice
         src_account_id = invoice.account_id.id
+        print 'ACCOUNT', src_account_id
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
         direction = types[invoice.type]
@@ -344,7 +345,7 @@ class islr_wh_doc(osv.osv):
             if invoice.type in ['in_invoice','in_refund']:
                 name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (invoice.reference or '')
             else:
-                name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (str(int(invoice.number)) or '')
+                name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (invoice.number or '')
 
         l1['name'] = name
         l2['name'] = name
@@ -364,7 +365,7 @@ class islr_wh_doc(osv.osv):
             if l.account_id.id==src_account_id:
                 line_ids.append(l.id)
                 total += (l.debit or 0.0) - (l.credit or 0.0)
-        if (not round(total,int(config['price_accuracy']))) or writeoff_acc_id:
+        if (not round(total,self.pool.get('decimal.precision').precision_get(cr, uid, 'Withhold ISLR'))) or writeoff_acc_id:
             self.pool.get('account.move.line').reconcile(cr, uid, line_ids, 'manual', writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context)
         else:
             self.pool.get('account.move.line').reconcile_partial(cr, uid, line_ids, 'manual', context)
@@ -420,7 +421,7 @@ class islr_wh_doc_line(osv.osv):
 
     _columns= {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', select=True, help="Factura a retener"),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', select=True, help="Invoice to withhold"),
         'amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold ISLR'), help="Withold amount"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept', help="Withhold concept associated with this rate"),

@@ -67,6 +67,7 @@ class islr_wh_concept(osv.osv):
     }
     _defaults = {
         'withholdable': lambda *a: True,
+        'user_id': lambda s, cr, u, c: u,
     }
 islr_wh_concept()
 
