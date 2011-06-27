@@ -2,12 +2,11 @@
 <openerp>
     <data>
 
-    
     <!-- 
     =====================================================
     Concepto de Retention ISLR
     =====================================================
-    -->  
+    -->
 
         <record id="account_invoice_wh_islr_customer" model="ir.ui.view">
             <field name="name">account.invoice.wh.islr.customer</field>
@@ -21,16 +20,12 @@
                             <group col="6" colspan="4">
                                 <field name="status" colspan='4'/>
                                 <newline/>
-                                <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
+                                <button name="action_ret_islr" attrs="{'readonly':[('state','in',['draft','open','paid'])]}" string="Retener ISLR" type="object" colspan='1'/>
                                 <newline/>
                                 <hpaned/>
                                 <hpaned/>
                                 <hpaned/>
                                 <hpaned/>
-                                <hpaned/>
-                                <hpaned/>
-                                <hpaned/>
-                                <newline/>
                                 <field name="islr_wh_doc_id" colspan='8'/>
                             </group>
                         </page>
@@ -57,10 +52,6 @@
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <newline/>
                             <field name="islr_wh_doc_id" colspan='8'/>
                             </group>
                         </page>

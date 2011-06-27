@@ -13,8 +13,8 @@
             <field name="arch" type="xml">
                 <search string="Search Concept of Withholding Income">
                    <group col="10" colspan="4">
-                        <filter name="withholdable" icon="terp-camera_test" string="No Withhold" domain="[('withholdable','=','False')]" help="Concept withholding withheld"/>
-                        <filter name="withholdable" icon="terp-dialog-close" string="No Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
+                        <filter name="withholdable" icon="terp-camera_test" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
+                        <filter name="withholdable" icon="terp-dialog-close" string="No Withhold" domain="[('withholdable','=','False')]" help="Concept withholding withheld"/>
                         <separator orientation="vertical"/>
                         <field name="name"/>
                         <field name="user_id" select="1" widget="selection" string="Salesman">
