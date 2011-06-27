@@ -85,7 +85,7 @@ class islr_wh_doc(osv.osv):
     _columns= {
         'name': fields.char('Description', size=64, select=True,readonly=True, states={'to_process':[('readonly',False)]}, required=True, help="Voucher description"),
         'code': fields.char('Code', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
-        'number': fields.char('Withhold Number', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher number"),
+        'number': fields.char('Withhold Number', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
@@ -110,6 +110,7 @@ class islr_wh_doc(osv.osv):
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withhold Invoices'),
         'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
         'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'to_process':[('readonly',False)]}),
+        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
     }
 
     _defaults = {
