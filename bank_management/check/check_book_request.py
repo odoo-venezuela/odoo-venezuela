@@ -40,22 +40,22 @@ class check_book_request(osv.osv):
     _name='check.book.request'
     
     def copy(self, cr, uid, id, default=None, context=None):
-        raise osv.except_osv(_('Atencion !'), _('No se puede duplicar este documento!!!'))
+        raise osv.except_osv(_('Warning !'), _('you can not duplicate this document!!!'))
         return super(check_book_request, self).copy(cr, uid, id, {}, context)
     
     _columns={
-    'code': fields.char('Num de Solicitud', size=60, readonly=True)                                                          , 
-    'accounting_bank_id':fields.many2one('res.bank','Cuenta Bancaria',required=True                                          ,
+    'code': fields.char('Request Number, size=60, readonly=True)                                                          , 
+    'accounting_bank_id':fields.many2one('res.bank','Account Bank',required=True                                          ,
                           states={'draft':[('readonly',False)]    , 
                                   'received':[('readonly',True)]  ,        
                                   'send':[('readonly',True)]})    ,
-    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank.entity',string='Banco',store=True,readonly=True,help='El nombre de la Entidad Bancaria se carga automaticamente al guardar')                                                          ,
-    'agen_id':fields.related('accounting_bank_id', 'agencia',type='char', size=30, string='Agecia Bancaria', store=True, readonly=True, help='El nombre de la Agencia Bancaria se carga automaticamente al guardar')  ,
-    'partner_id': fields.many2one('res.partner', 'Autorizado',required=True,
+    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it')                                                          ,
+    'agen_id':fields.related('accounting_bank_id', 'agencia',type='char', size=30, string='Bank Agency', store=True, readonly=True, help='The Bank Agency name must be load when saved it')  ,
+    'partner_id': fields.many2one('res.partner', 'Authorized',required=True,
                    states={'draft':[('readonly',False)]    , 
                            'received':[('readonly',True)]  ,       
                            'send':[('readonly',True)]})    ,
-    'check_book_ids': fields.one2many('check.book', 'check_book_request_id', 'Chequeras',required=True,
+    'check_book_ids': fields.one2many('check.book', 'check_book_request_id', 'Check Books',required=True,
                       states={'draft':[('readonly',False)]    , 
                               'received':[('readonly',True)]  ,       
                               'send':[('readonly',True)]})    , 
@@ -64,7 +64,7 @@ class check_book_request(osv.osv):
             ('send','Enviar')         ,
             ('received','Recibido')   ,   
             ('cancel','Cancel')       ,
-            ],'Estado', select=True, readonly=True, help="Estado de la Solicitud de la Chequera")                            ,
+            ],'State', select=True, readonly=True, help="Request check book state")                            ,
     }
     _rec_name='code' # esto es para no crear un atributo name
     _defaults = {
@@ -111,6 +111,6 @@ check_book_request()
 class check_book(osv.osv):
     _inherit="check.book"
     _columns={
-    'check_book_request_id':fields.many2one('check.book.request','Solicitud de Chequera', readonly=True, required=False), # OJOOOO despues se cambia a required=True para que la persona no elimine solicitudes asignadas a chequeras...
+    'check_book_request_id':fields.many2one('check.book.request','Check Book Request', readonly=True, required=False), # OJOOOO despues se cambia a required=True para que la persona no elimine solicitudes asignadas a chequeras...
     }
 check_book()

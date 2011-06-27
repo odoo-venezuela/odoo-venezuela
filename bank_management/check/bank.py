@@ -74,9 +74,9 @@ class res_bank(osv.osv):
         return  res       
     
     _columns={ 
-        'transitory_money':fields.function(_get_transitory_money, method=True, type='float', string='Dinero en Transito'),
-        'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', string='Saldo Virtual', help="Saldo Propuesto=Suma del dinero transitorio mas el saldo del cierre o saldo contable"),  
-        'balance':fields.function(_get_balance, method=True, type='float', string='Saldo Contable'),
+        'transitory_money':fields.function(_get_transitory_money, method=True, type='float', string='Transitory Money'),
+        'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', string='Virtual Balance', help="Proposed Balance=Sum transitory money more balance closed or balance account"),  
+        'balance':fields.function(_get_balance, method=True, type='float', string='Account Balance'),
     }
     
 res_bank()

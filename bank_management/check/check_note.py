@@ -47,20 +47,20 @@ class check_note(osv.osv):
         return res
  
     def copy(self, cr, uid, id, default=None, context=None):
-        raise osv.except_osv(_('Atencion !'), _('No se puede duplicar este documento!!!'))
+        raise osv.except_osv(_('Warning !'), _('You can not duplicate this document!!!'))
         return super(check_note, self).copy(cr, uid, id, {}, context)
 
     _columns={
-    'check_book_id':fields.many2one('check.book','Chequera',required=False, readonly=True),
-    'bank_id':fields.related('check_book_id','bank_id',type='many2one',relation='res.bank.entity',string='Banco',store=True, readonly=True),
-    'accounting_bank_id':fields.related('check_book_id','accounting_bank_id', type='many2one',relation='res.bank',string='Cuenta Bancaria',store=True, readonly=True),
-    'number': fields.function(_get_number, method=True, type='char', string='Numero de Cheque', size=8,
+    'check_book_id':fields.many2one('check.book','Check Book',required=False, readonly=True),
+    'bank_id':fields.related('check_book_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank',store=True, readonly=True),
+    'accounting_bank_id':fields.related('check_book_id','accounting_bank_id', type='many2one',relation='res.bank',string='Bank Account',store=True, readonly=True),
+    'number': fields.function(_get_number, method=True, type='char', string='Check Number', size=8,
         store={
             'check.note': (lambda self, cr, uid, ids, c={}: ids, ['suffix','prefix'], 20),
         },),
-    'suffix':fields.char('Sufijo', size=4,required=True),
-    'prefix':fields.char('Prefijo', size=4,required=True),
-    'notes':fields.char('Motivo',size=256, required=False, readonly=False ,
+    'suffix':fields.char('Suffix', size=4,required=True),
+    'prefix':fields.char('Prefix', size=4,required=True),
+    'notes':fields.char('Note',size=256, required=False, readonly=False ,
                     states={'draft':[('readonly',True)],
                     'review':[('readonly',True)]       ,
                     'assigned':[('readonly',False)]    ,
@@ -69,7 +69,7 @@ class check_note(osv.osv):
                     'cancel':[('readonly',True)]       ,
                     'active':[('readonly',False)]})    ,  
     'account_voucher_id':fields.many2one('account.voucher','Account Voucher',required=False, readonly=True),
-    'date_done':fields.date('Fecha de Cobro', readonly=True ),
+    'date_done':fields.date('collection date', readonly=True ),
     'cancel_check_note': fields.selection([
         ('print','Error de Impresion')      ,
         ('perdida','Perdida o extravio')    ,
@@ -78,7 +78,7 @@ class check_note(osv.osv):
         ('devuelto','Cheque Devuelto')      ,
         ('caduco','Caduco')                 ,
         ('otros','Otros')                   ,
-        ],'Motivo de Cancelacion', select=True, readonly=True,
+        ],'Reason for Cancellation', select=True, readonly=True,
                     states={'draft':[('readonly',True)],
                     'review':[('readonly',True)]       ,
                     'assigned':[('readonly',False)]    ,
@@ -94,7 +94,7 @@ class check_note(osv.osv):
             ('hibernate','Hibernate')       ,
             ('done','Done')                 ,
             ('cancel','Cancel')             ,
-            ],'Estado', select=True, readonly=True, help="Estado del Check Note"),
+            ],'State', select=True, readonly=True, help="Check Note State"),
     }
     _defaults = {
         'state': lambda *a: 'draft',
@@ -105,9 +105,9 @@ class check_note(osv.osv):
         note_books = self.browse(cr,uid,ids)
         for note in note_books:
             if note.cancel_check_note=='otros' and note.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Debe de ingresar el motivo de Cancelacion del Cheque en Otra Informacion')) 
+                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field')) 
             if note.cancel_check_note==False and note.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Debe de ingresar el motivo de Cancelacion del Cheque en Otra Informacion')) 
+                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field')) 
             else:
                 self.write(cr,uid,note.id,{'state' : 'cancel'})
 check_note()

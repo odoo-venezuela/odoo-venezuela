@@ -55,34 +55,34 @@ class voucher_pay_support(osv.osv):
         return True
     
     _columns={
-        'name':fields.char('Acuse de Recibido',size=256, required=False, readonly=False ,
+        'name':fields.char('Acknowledgment of receipt',size=256, required=False, readonly=False ,
                     states={
                     'draft':[('readonly',False)]          ,
                     'open':[('readonly',True)]            ,
                     'done':[('readonly',True)]            ,
                     'cancel':[('readonly',True)]})        , 
-        'accounting_bank_id':fields.many2one('res.bank','Cuenta Bancaria', readonly=True), 
-        'check_note_id': fields.many2one('check.note', 'Cheque', readonly=True ,required=True, domain="[('accounting_bank_id','=',accounting_bank_id)]"),
-        'bank_id':fields.related('check_note_id','bank_id',type='many2one',relation='res.bank.entity',string='Banco', store=True, readonly=True),
-        'min_lim':fields.related('bank_id','min_lim',type='integer',relation='res.bank.entity',string='Limite minimo (Bs.)',readonly=True,store=False),
-        'max_lim':fields.related('bank_id','max_lim',type='integer',relation='res.bank.entity',string='Limite maximo (Bs.)',readonly=True,store=False),
+        'accounting_bank_id':fields.many2one('res.bank','Bank Account', readonly=True), 
+        'check_note_id': fields.many2one('check.note', 'Check Note', readonly=True ,required=True, domain="[('accounting_bank_id','=',accounting_bank_id)]"),
+        'bank_id':fields.related('check_note_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank', store=True, readonly=True),
+        'min_lim':fields.related('bank_id','min_lim',type='integer',relation='res.bank.entity',string='Min. Limit',readonly=True,store=False),
+        'max_lim':fields.related('bank_id','max_lim',type='integer',relation='res.bank.entity',string='Max Limit',readonly=True,store=False),
         'company_id': fields.many2one('res.company', 'Company', required=True , readonly=True),
-        'expiry':fields.related('company_id','expiry', type='integer',relation='res.company',string='Dias de Caducidad',readonly=True,store=True),
-        'payee_id':fields.many2one('res.partner.address','Beneficiario',required=False, readonly=True),
+        'expiry':fields.related('company_id','expiry', type='integer',relation='res.company',string='Expiry Days',readonly=True,store=True),
+        'payee_id':fields.many2one('res.partner.address','Beneficiary',required=False, readonly=True),
         'partner_id':fields.many2one('res.partner','Contrapartida',required=True, readonly=True),
         'state': fields.selection([
             ('draft','Draft'), 
             ('open','Open'),
             ('done','Done'),
             ('cancel','Cancel'),
-            ],'Estado', select=True, readonly=True, help="Estado del Cheque Voucher"),
-        'wire':fields.char('Transferencia',size=26),
+            ],'State', select=True, readonly=True, help="State Voucher Check Note"),
+        'wire':fields.char('Transfer',size=26),
         'type': fields.selection([
             ('check','Cheque'),
             ('wire','Transferencia'),
             ],'Type', required=True, select=True , readonly=True),
         'amount':fields.float('Amount', readonly=True),
-        'date':fields.date('Fecha de Emision', readonly=True),
+        'date':fields.date('Issued Date', readonly=True),
         'cancel_check_note': fields.selection([
             ('print','Error de Impresion')      ,
             ('perdida','Perdida o extravio')    ,
@@ -91,25 +91,25 @@ class voucher_pay_support(osv.osv):
             ('devuelto','Cheque Devuelto')      ,
             ('caduco','Caduco')                 ,
             ('otros','Otros')                   ,
-            ],'Motivo de Cancelacion', select=True, readonly=True,
+            ],'Reason for Cancellation', select=True, readonly=True,
                         states={'draft':[('readonly',False)],
                         'open':[('readonly',False)]         ,
                         'cancel':[('readonly',True)]        ,
                         'done':[('readonly',True)]})        , 
-        'notes':fields.char('Motivo',size=256, required=False, readonly=False ,
+        'notes':fields.char('Note',size=256, required=False, readonly=False ,
                         states={'draft':[('readonly',False)],
                         'open':[('readonly',False)]         ,
                         'cancel':[('readonly',True)]        ,
                         'done':[('readonly',True)]})        ,
-        'return_voucher_id':fields.many2one('account.voucher','Comprobante de Anulación', readonly=True), 
-        'account_voucher_id':fields.related('check_note_id','account_voucher_id',type='many2one',relation='account.voucher',string='Comprobante Origen',store=True,readonly=True), 
-        'account_voucher_transitory_id':fields.many2one('account.voucher','Comprobante Transitorio', readonly=True), 
+        'return_voucher_id':fields.many2one('account.voucher','Cancellation Voucher', readonly=True), 
+        'account_voucher_id':fields.related('check_note_id','account_voucher_id',type='many2one',relation='account.voucher',string='Origin Voucher',store=True,readonly=True), 
+        'account_voucher_transitory_id':fields.many2one('account.voucher','Transitory Voucher', readonly=True), 
     
      }
      
      
     _constraints = [
-        (_check_duplicar, 'Error ! Este Documento no se puede Duplicar', ['check_note_id']),
+        (_check_duplicar, 'Warning ! You can not duplicate this document', ['check_note_id']),
     ]
      
      
@@ -212,11 +212,11 @@ voucher_pay_support()
 class account_voucher(osv.osv):
     _inherit="account.voucher"
     _columns={
-        'check_note_ids': fields.one2many('check.note', 'account_voucher_id', 'Cheques',readonly=False, required=False),     
-        'payee_id':fields.many2one('res.partner.address','Beneficiario',required=False, readonly=False),
+        'check_note_ids': fields.one2many('check.note', 'account_voucher_id', 'Checks',readonly=False, required=False),     
+        'payee_id':fields.many2one('res.partner.address','Beneficiary',required=False, readonly=False),
         'journal_id':fields.many2one('account.journal', 'Journal', required=False, readonly=True, states={'draft':[('readonly',False)]}),
         'account_id':fields.many2one('account.account', 'Account', required=False, readonly=True, states={'draft':[('readonly',False)]}, domain=[('type','<>','view')]),
-        'voucher_pay_support_id':fields.many2one('voucher.pay.support', 'Orden de Pago', required=False, readonly=True),  
+        'voucher_pay_support_id':fields.many2one('voucher.pay.support', 'Payment Order', required=False, readonly=True),  
     } 
 account_voucher()
     

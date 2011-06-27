@@ -33,19 +33,19 @@ from tools import config
 class check_book_wizard(osv.osv):
     _name = "check.book.wizard"
     _columns = {                                                                     
-    'check_book_id': fields.many2one('check.book', 'Chequeras', required=False)     ,   
+    'check_book_id': fields.many2one('check.book', 'Check Book', required=False)     ,   
     'state_check_note': fields.selection([
             ('sin_filtro','Sin Filtro')                             ,
             ('cobrado','Cobrado')                                   ,
             ('emitido','Emitido')                                   ,
-            ],'Estado del Cheque', select=True, required=False)                     ,
+            ],'Check Note State', select=True, required=False)                     ,
     'tiempo': fields.selection([
             ('mes','Periodo Fiscal')                                ,
             ('fecha','Fecha')                                       ,
-            ],'Tiempo', select=True)                                ,
-    'desde': fields.date('Desde', required=False)                                   ,
-    'hasta': fields.date('Hasta', required=False)                                   ,
-    'mes': fields.many2one('account.period', 'Mes Fiscal', required=False)          ,
+            ],'Time', select=True)                                ,
+    'desde': fields.date('From', required=False)                                   ,
+    'hasta': fields.date('To', required=False)                                   ,
+    'mes': fields.many2one('account.period', 'Period', required=False)          ,
     }
 
     _rec_name='check_book_id' # esto es para no crear un atributo name

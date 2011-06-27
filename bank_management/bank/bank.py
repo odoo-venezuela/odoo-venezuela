@@ -38,17 +38,17 @@ class res_bank(osv.osv):
     _name='res.bank'
     _inherit = 'res.bank'
     _columns={
-        'trans_account_id':fields.many2one('account.account','Cuenta Transitoria',required=False, readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
-        'bank_account_id':fields.many2one('account.account','Cuenta del Banco',required=True,readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
+        'trans_account_id':fields.many2one('account.account','Transitory Account',required=False, readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
+        'bank_account_id':fields.many2one('account.account','Bank Account',required=True,readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
         'journal_id': fields.many2one('account.journal', 'Journal',required=True),
-        'bank_id': fields.many2one('res.bank.entity','Banco',required=True),
-        'agencia':fields.char('Agencia Bancaria', size=30,required=True),
+        'bank_id': fields.many2one('res.bank.entity','Bank',required=True),
+        'agencia':fields.char('Bank Agency', size=30,required=True),
     }
 res_bank()
 
 class res_bank_entity(osv.osv):
     _inherit='res.bank.entity'
     _columns={
-        'accounting_bank_ids':fields.one2many('res.bank','bank_id','Cuenta'),
+        'accounting_bank_ids':fields.one2many('res.bank','bank_id','Account'),
     }
 res_bank_entity()

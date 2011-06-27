@@ -37,10 +37,10 @@ class res_bank_entity(osv.osv):
     '''
     _name='res.bank.entity'
     _columns={
-        'name': fields.char('Nombre del Banco',size=64, required=True, readonly=False)                  ,
-        'min_lim':fields.float('Limite minimo (Bs.)',digits=(16,2), readonly=False, required=True )     ,
-        'max_lim':fields.float('Limite maximo (Bs.)',digits=(16,2), readonly=False, required=True )     ,
-        'format_h':fields.text('Formato de Cheque', required=True)                                      ,
+        'name': fields.char('Bank Name',size=64, required=True, readonly=False)                  ,
+        'min_lim':fields.float('Min. Limit',digits=(16,2), readonly=False, required=True )     ,
+        'max_lim':fields.float('Max. Limit',digits=(16,2), readonly=False, required=True )     ,
+        'format_h':fields.text('Format Check', required=True)                                      ,
     }
     
     def _check_bank(self,cr,uid,ids,context={}):
@@ -64,8 +64,8 @@ class res_bank_entity(osv.osv):
             return True
     
     _constraints = [
-        (_check_bank, 'Error ! Ese banco ya esta registrado. ', ['name'])                 ,
-        (_check_lim, 'Error ! El limite inferior debe ser menor que el menor', ['name'])
+        (_check_bank, 'Error ! Specified bank name already exists for any other registered bank. ', ['name'])                 ,
+        (_check_lim, 'Error ! Minimum limit must be less than maximun limit', ['name'])
     ]
         
 res_bank_entity()
@@ -74,6 +74,6 @@ class res_partner_bank(osv.osv):
     '''Bank Accounts'''
     _inherit = "res.partner.bank"
     _columns = {
-        'bank_id': fields.many2one('res.bank.entity', 'Entidad Bancaria'),
+        'bank_id': fields.many2one('res.bank.entity', 'Bank Entity'),
     }
 res_partner_bank()

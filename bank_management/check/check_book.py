@@ -108,18 +108,18 @@ class check_book(osv.osv):
         return result.keys()
 
     _columns={
-    'name':fields.char('Chequera', size=256,readonly=True),
-    'accounting_bank_id':fields.many2one('res.bank','Cuenta Bancaria',required=True, readonly=True,
+    'name':fields.char('Check Book', size=256,readonly=True),
+    'accounting_bank_id':fields.many2one('res.bank','Bank Account',required=True, readonly=True,
                         states={'request':[('readonly',False)]   ,
                         'draft':[('readonly',True)]              ,
                         'review':[('readonly',True)]})           , 
-    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank.entity',string='Banco',store=True,readonly=True,help='El nombre de la Entidad Bancaria se carga automaticamente al guardar'),
-    'from_suffix':fields.integer('Desde Sufijo',  readonly=True,
+    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
+    'from_suffix':fields.integer('From Suffix',  readonly=True,
                   states={'request':[('readonly',True)]  ,
                           'draft':[('readonly',False), ('required',True)]   ,
                           'review':[('readonly',False), ('required',True)]  ,
                           'active':[('readonly',True)]}) ,    
-    'to_suffix':fields.integer('Hasta Sufijo',readonly=True),
+    'to_suffix':fields.integer('To Suffix',readonly=True),
     'state': fields.selection([
             ('request','Request')           ,
             ('draft','Draft')               ,
@@ -128,13 +128,13 @@ class check_book(osv.osv):
             ('done','Done')                 ,
             ('hibernate','Hibernate')       ,
             ('cancel','Cancel')     ,
-            ],'Estado', select=True, readonly=True, help="Estado de la Chequera"),
+            ],'State', select=True, readonly=True, help="Check book state"),
     'qty_check_selection': fields.selection([
             ('25','25')    ,
             ('50','50')    ,
             ('75','75')    ,
             ('100','100')  ,
-            ],'Numero de Cheques', select=True, readonly=True, required=True,
+            ],'Check Number', select=True, readonly=True, required=True,
             states={'request':[('readonly',False)]        ,
                  'draft':[('readonly',True)]              ,
                  'review':[('readonly',True)]             ,
@@ -142,8 +142,8 @@ class check_book(osv.osv):
                  'done':[('readonly',True)]               ,
                  'cancel':[('readonly',True)]             ,
                  'active':[('readonly',True)]})           , 
-    'qty_check':fields.function(_get_qty_check_selection, method=True, type='integer', string='Cheques'),                           
-    'fixed_prefix': fields.boolean('Prefijo Constante?', help="Si el prefijo del numero de los cheques es constante marque esta opcion", 
+    'qty_check':fields.function(_get_qty_check_selection, method=True, type='integer', string='Check'),                           
+    'fixed_prefix': fields.boolean('Fixed Prefix?', help="If the prefix of the number of checks is constant check this option", 
                     states={'request':[('readonly',True)]   ,
                     'draft':[('readonly',False)]            ,
                     'review':[('readonly',False)]           ,
@@ -151,7 +151,7 @@ class check_book(osv.osv):
                     'cancel':[('readonly',True)]            ,
                     'done':[('readonly',True)]              ,
                     'active':[('readonly',True)]})          ,                         
-    'prefix':fields.integer('Prefijo', required=False,
+    'prefix':fields.integer('Prefix', required=False,
                     states={'request':[('readonly',True)]   ,
                     'draft':[('readonly',False)]            ,
                     'review':[('readonly',False)]           ,
@@ -159,10 +159,10 @@ class check_book(osv.osv):
                     'cancel':[('readonly',True)]            ,
                     'done':[('readonly',True)]              ,
                     'active':[('readonly',True)]})          ,  
-    'date_draft': fields.date('Fecha de Recepcion', readonly=True),
-    'date_active': fields.date('Fecha de Activacion', required=False, readonly=True ),
-    'date_done': fields.date('Fecha de Cierre', required=False, readonly=True ),
-    'notes':fields.char('Motivo',size=256, required=False, readonly=False ,
+    'date_draft': fields.date('Date Received', readonly=True),
+    'date_active': fields.date('Activation Date', required=False, readonly=True ),
+    'date_done': fields.date('Closing Date', required=False, readonly=True ),
+    'notes':fields.char('Note',size=256, required=False, readonly=False ,
                     states={'request':[('readonly',True)]   ,
                     'draft':[('readonly',False)]            ,
                     'review':[('readonly',False)]           ,
@@ -173,7 +173,7 @@ class check_book(osv.osv):
             ('perdida','Perdida o extravio')                ,
             ('dan_fis','Dano fisico')                       ,
             ('otros','Otros')                               ,
-            ],'Motivo de Cancelacion', select=True,
+            ],'Reason for Cancellation', select=True,
                     states={'request':[('readonly',True)]   ,
                     'draft':[('readonly',False)]            ,
                     'review':[('readonly',False)]           ,
@@ -181,7 +181,7 @@ class check_book(osv.osv):
                     'cancel':[('readonly',True)]            ,
                     'done':[('readonly',True)]              ,
                     'active':[('readonly',False)]})         ,                           
-    'check_note_ids': fields.one2many('check.note', 'check_book_id', 'Cheques',readonly=True,required=True,
+    'check_note_ids': fields.one2many('check.note', 'check_book_id', 'Checks',readonly=True,required=True,
                       states={'request':[('readonly',True)]   ,
                               'draft':[('readonly',False)]    ,
                               'review':[('readonly',False)]   ,
@@ -189,12 +189,12 @@ class check_book(osv.osv):
                               'active':[('readonly',True)]})  ,
                   
                               
-    'qty_active':fields.function(_get_qty_active, method=True, type='integer', string='Cheques Disponibles',             
+    'qty_active':fields.function(_get_qty_active, method=True, type='integer', string='Available Checks',             
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix'], 20),
                 'check.note': (_get_chek_note, ['state'], 20),}),
                 
-    'rate_user': fields.function(_get_rate_user, method=True, type='float', string='Estado de Uso',
+    'rate_user': fields.function(_get_rate_user, method=True, type='float', string='Use Rate',
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix', 'qty_active'], 20),
                 'check.note': (_get_chek_note, ['state'], 20),}),
@@ -222,13 +222,13 @@ class check_book(osv.osv):
         return False
     
     def copy(self, cr, uid, id, default=None, context=None):
-        raise osv.except_osv(_('Atencion !'), _('No se puede duplicar este documento!!!'))
+        raise osv.except_osv(_('Atencion !'), _('you can not duplicate this document!!!'))
         return super(check_book, self).copy(cr, uid, id, {}, context)
     
     _constraints = [
-        (_check_from_suffix, 'Error ! El campo "Desde Sufijo" debe ser un valor entre 0000-9999.', ['from_suffix'])     ,
-        (_check_prefix, 'Error ! El campo "Prefijo" debe ser debe ser un valor entre 0000-9999".', ['prefix'])          ,
-        (_check_qty_check, 'Error ! El numero de Cheques debe ser mayor a cero".', ['qty_check'])                       ,
+        (_check_from_suffix, 'Error ! The field "Desde Sufijo" must be between 0000-9999.', ['from_suffix'])     ,
+        (_check_prefix, 'Error ! The field "Prefijo" must be between 0000-9999".', ['prefix'])          ,
+        (_check_qty_check, 'Error ! Check number must be greater than zero".', ['qty_check'])                       ,
     ]
     def load_check(self, cr, uid, ids, context={}):
         res={}
@@ -301,9 +301,9 @@ class check_book(osv.osv):
         books = self.browse(cr,uid,ids)
         for book in books:
             if book.cancel_check=='otros' and book.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Ingrese el motivo de Cancelacion en el apartado Otra Informacion')) 
+                raise osv.except_osv(_('Warning !'), _('Enter the Reason for Cancellation in other information field')) 
             if book.cancel_check==False and book.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Ingrese el motivo de Cancelacion en el apartado Otra Informacion')) 
+                raise osv.except_osv(_('warning !'), _('Enter the Reason for Cancellation in other information field')) 
             else:
                 self.write(cr,uid,book.id,{'state' : 'cancel'})
                 self.write(cr,uid,book.id,{'date_done' : time.strftime('%Y-%m-%d')})
