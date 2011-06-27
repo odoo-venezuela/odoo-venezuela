@@ -14,18 +14,11 @@
                 <search string="Search Concept of Withholding Income">
                    <group col="10" colspan="4">
                         <filter name="withholdable" icon="terp-camera_test" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
-                        <filter name="withholdable" icon="terp-dialog-close" string="No Withhold" domain="[('withholdable','=','False')]" help="Concept withholding withheld"/>
                         <separator orientation="vertical"/>
                         <field name="name"/>
                         <field name="user_id" select="1" widget="selection" string="Salesman">
                         <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
                         </field>
-                    </group>
-                    <newline/>
-                    <group expand="1" string="Group By...">
-                        <filter string="Purchase account withhold income" icon="terp-partner" domain="[]" context="{'group_by':'property_retencion_islr_payable'}"/>
-                        <filter string="Sale account withhold income" icon="terp-partner" domain="[]" context="{'group_by':'property_retencion_islr_receivable'}"/>
-                        <filter string="Responsible" icon="terp-personal" domain="[]"  context="{'group_by':'user_id'}"/>
                     </group>
                </search>
             </field>
@@ -94,7 +87,7 @@
                         <field name="property_retencion_islr_receivable" attrs="{'readonly':[('withholdable','=',False)],'required':[('withholdable','=',True)]}"/>
                     </group>
                     <notebook colspan="4">
-                        <page string="Tasas" attrs="{'readonly':[('withholdable','=',False)]}">
+                        <page string="Rates" attrs="{'readonly':[('withholdable','=',False)]}">
                             <field name="rate_ids" nolabel="1" />
                         </page>
                     </notebook>
