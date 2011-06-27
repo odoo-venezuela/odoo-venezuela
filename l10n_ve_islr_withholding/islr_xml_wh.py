@@ -68,6 +68,7 @@ class islr_xml_wh_doc(osv.osv):
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withhold Income Amount Total', help="Total amount withhold"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total taxable"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]",states={'draft':[('readonly',False)]}),
+        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
     }
     _rec_rame = 'company_id'
 
@@ -76,6 +77,7 @@ class islr_xml_wh_doc(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
+        'user_id': lambda s, cr, u, c: u,
     }
 
     def action_anular1(self, cr, uid, ids, context={}):
