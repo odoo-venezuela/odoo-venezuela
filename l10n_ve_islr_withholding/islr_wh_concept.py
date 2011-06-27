@@ -41,7 +41,7 @@ class islr_wh_concept(osv.osv):
 
     _columns={
         'name':fields.char('Withhold Concept', size=256,required=True,help="Payment concept name,  e.g. Honorarios Profesionales, Comisiones a..."),
-        'withholdable': fields.boolean('Withhold',help="Whether the concept is retained or is not retained"),
+        'withholdable': fields.boolean('Withhold',help="Check if  the concept  withholding is withheld or not."),
         'property_retencion_islr_payable': fields.property(
             'account.account',
             type='many2one',
@@ -63,6 +63,7 @@ class islr_wh_concept(osv.osv):
             domain="[('type', '=', 'other')]",
             help="This account will be used as the account where the withheld amounts shall be charged in (Sale) of income tax"),
         'rate_ids': fields.one2many('islr.rates','concept_id','Rate',help="Withhold concept rate",required=False),
+        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
     }
     _defaults = {
         'withholdable': lambda *a: True,
