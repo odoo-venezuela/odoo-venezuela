@@ -13,7 +13,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_res_bank_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/field[@name='email']" position="after">
+                <xpath expr="/form/group/field[@name='email']" position="after">
                     <separator string="Accounting Settings"/>
                     <field name="bank_id" string="Banco"/>  
                     <field name="bank_account_id" string="Cuenta Contable Bancaria"/>
