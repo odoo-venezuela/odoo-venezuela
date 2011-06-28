@@ -41,7 +41,7 @@
     Proporciona los formatos para los cheques venezolanos
     """,
     'init_xml': [],
-    "depends" : ["base", "account", "account_voucher", "account_voucher_payment"],
+    "depends" : ["base", "account", "account_voucher"],
     'update_xml': [
         'bank_management_data.xml',
         'bank/bank_view.xml',        
