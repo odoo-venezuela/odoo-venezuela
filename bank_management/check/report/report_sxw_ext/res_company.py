@@ -5,10 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Angelica Barrios          <angélicaisabelb@gmail.com>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javieredm@gmail.com>             
+#    Coded by: Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -25,10 +22,19 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+##############################################################################
+from osv import osv
+from osv import fields
+from tools.translate import _
+from tools import config
 
-import res_bank_entity
-import bank
+class res_company(osv.osv):
+    _name = 'res.company'
+    _inherit = 'res.company'
 
+    _columns = {
+        'header_report':fields.text('Report Header', size=1024, help='Set the header to place the report when it is not suitable for print',),
+    }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+res_company()
+

@@ -44,7 +44,7 @@ class check_book_request(osv.osv):
         return super(check_book_request, self).copy(cr, uid, id, {}, context)
     
     _columns={
-    'code': fields.char('Request Number, size=60, readonly=True)                                                          , 
+    'code': fields.char('Request Number', size=60, readonly=True)                                                          , 
     'accounting_bank_id':fields.many2one('res.bank','Account Bank',required=True                                          ,
                           states={'draft':[('readonly',False)]    , 
                                   'received':[('readonly',True)]  ,        

@@ -5,10 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Angelica Barrios          <angélicaisabelb@gmail.com>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javieredm@gmail.com>             
+#    Coded by: Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -25,10 +22,8 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+##############################################################################
 
-import res_bank_entity
-import bank
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+import print_model
+import res_company
+import report_sxw_ext
