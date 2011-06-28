@@ -23,16 +23,16 @@
          parent="menu_general_comprobante_pago" />
 
 <!--		<menuitem name="Cobro en efectivo" -->
-<!--		id="account_voucher.menu_action_receipt_cashreceipt_voucher_list" parent="menu_comprobante_cobro" action="account_voucher.action_receipt_cashreceipt_voucher_list"/>-->
+<!--		id="menu_action_receipt_cashreceipt_voucher_list" parent="menu_comprobante_cobro" action="action_receipt_cashreceipt_voucher_list"/>-->
 
 <!--		<menuitem name="Cobro Bancario" -->
-<!--		id="account_voucher.menu_action_receipt_bakreceipt_voucher_list" parent='menu_comprobante_cobro' action="account_voucher.action_receipt_bakreceipt_voucher_list"/>-->
+<!--		id="menu_action_receipt_bakreceipt_voucher_list" parent='menu_comprobante_cobro' action="action_receipt_bakreceipt_voucher_list"/>-->
 
 		<menuitem name="Nuevo Cobro Bancario" 
-        id="account_voucher.menu_action_view_bank_rec_voucher_form" parent='menu_comprobante_cobro' action="account_voucher.action_view_bank_rec_voucher_form"/>
+        id="menu_action_view_bank_rec_voucher_form" parent='menu_comprobante_cobro'/><!---action="action_view_bank_rec_voucher_form"-->
 
 		<menuitem name="Nuevo Cobro en Efectivo" 
-        id="account_voucher.menu_action_view_cash_rec_voucher_form" parent='menu_comprobante_cobro' action="account_voucher.action_view_cash_rec_voucher_form"/>
+        id="menu_action_view_cash_rec_voucher_form" parent='menu_comprobante_cobro' /><!---action="action_view_cash_rec_voucher_form"-->
 
 <!-- ................... -->
 
@@ -43,7 +43,7 @@
             parent="menu_general_comprobante_pago"/>
 
 		<menuitem name="Pago en Efectivo" 
-		id="account_voucher.menu_action_payments_cashpay_voucher_list" parent='menu_comprobante_pago' action="account_voucher.action_payments_cashpay_voucher_list"/>
+		id="menu_action_payments_cashpay_voucher_list" parent='menu_comprobante_pago' /><!---action="action_payments_cashpay_voucher_list"-->
 
 <!--Pagos Bancarios-->
 
@@ -53,40 +53,40 @@
             parent="menu_comprobante_pago"/>
 
 		<menuitem name="Nuevo Pago Bancario" 
-        id="account_voucher.menu_action_view_bank_pay_voucher_form" parent='menu_general_pago_bancarioo' action="account_voucher.action_view_bank_pay_voucher_form"/>
+        id="menu_action_view_bank_pay_voucher_form" parent='menu_general_pago_bancarioo' /><!---action="action_view_bank_pay_voucher_form"-->
 <!-- ................... -->
 
 		<menuitem name="Nuevo Pago en Efectivo" 
-        id="account_voucher.menu_action_view_cash_pay_voucher_form" parent='account_voucher.menu_action_payments_cashpay_voucher_list' action="account_voucher.action_view_cash_pay_voucher_form"/>
+        id="menu_action_view_cash_pay_voucher_form" parent='menu_action_payments_cashpay_voucher_list' /><!---action="action_view_cash_pay_voucher_form"-->
 
 		<menuitem name="Otros Pagos" 
-		id="account_voucher.menu_action_other_voucher_list" parent='menu_general_comprobante_pago' action="account_voucher.action_other_voucher_list"/>
+		id="menu_action_other_voucher_list" parent='menu_general_comprobante_pago' /><!---action="action_other_voucher_list"-->
 
 		<menuitem name="Contra Voucher"
-         id="account_voucher.menu_action_view_cont_voucher_form" parent='account_voucher.menu_action_other_voucher_list' action="account_voucher.action_view_cont_voucher_form"/>
+         id="menu_action_view_cont_voucher_form" parent='menu_action_other_voucher_list' /><!---action="action_view_cont_voucher_form"-->
 
 		<menuitem name="Journal Sale Voucher" 
-        id="account_voucher.menu_action_view_jour_sale_voucher_form" parent='account_voucher.menu_action_other_voucher_list' action="account_voucher.action_view_jour_sale_voucher_form"/>
+        id="menu_action_view_jour_sale_voucher_form" parent='menu_action_other_voucher_list' /><!---action="action_view_jour_sale_voucher_form"-->
 
 		<menuitem name="Journal Purchase Voucher"           
-        id="account_voucher.menu_action_view_jour_pur_voucher_form" parent='account_voucher.menu_action_other_voucher_list' action="account_voucher.action_view_jour_pur_voucher_form"/>
+        id="menu_action_view_jour_pur_voucher_form" parent='menu_action_other_voucher_list' /><!---action="action_view_jour_pur_voucher_form"-->
 
 <menuitem 
         name="Journal Voucher" 
-		id="account_voucher.menu_action_view_jour_voucher_form" 
-        parent='account_voucher.menu_action_other_voucher_list' 
-        action="account_voucher.action_view_jour_voucher_form"/>
+		id="menu_action_view_jour_voucher_form" 
+        parent='menu_action_other_voucher_list' 
+        /><!---action="action_view_jour_voucher_form"-->
 
 
 <!--wizard de voucher, el que trae original-->
 
-	    <menuitem 
-	     	action="account_voucher.wizard_account_voucher_open" 
-	     	id="account_voucher.menu_wizard_account_voucher_open" 
+<!--	    <menuitem 
+	     	action="wizard_account_voucher_open" 
+	     	id="menu_wizard_account_voucher_open" 
 	     	name="Open Vouchers"
             parent='menu_general_comprobante_pago'
 	     	sequence="0" 
-	     	type="wizard"/>
+	     	type="wizard"/>-->
 
 <!--.............wizar de generacion de lineas.......................-->
 
