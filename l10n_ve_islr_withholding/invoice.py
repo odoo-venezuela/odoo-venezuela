@@ -80,17 +80,10 @@ class account_invoice(osv.osv):
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
-        print 'DEFAULT 11', default
         default = default.copy()
-        
-        print 'IDDDD', id
-        print 'CONTEXT', context
-        print 'DEFAULT 22', default
-        
         default.update({'islr_wh_doc':0,
                         'status': 'no_pro',
         })
-        print 'SUPERR', super(account_invoice, self).copy(cr, uid, id, default, context)
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
 
@@ -247,7 +240,6 @@ class account_invoice(osv.osv):
                 dict_rate.pop(concept)
                 wh_dict.pop(concept)
 
-
     def _get_wh_calc(self,cr,uid,line,dict_rate_concept):
         base = self.pool.get('account.invoice.line').browse(cr,uid,line).price_subtotal
         return (base * (dict_rate_concept[0]/100) * (dict_rate_concept[2]/100), base)
@@ -393,17 +385,13 @@ class account_invoice(osv.osv):
         res = {}
         for concept in wh_dict:
             if not wh_dict[concept]['wh']:  #Si nunca se ha aplicado retencion con este concepto.
-                print 'AQUI TOY 1'
                 if wh_dict[concept]['base'] >= dict_rate[concept][1]: # Si el monto base que suman todas las lineas de la factura es mayor o igual al monto minimo de la tasa.
-                    print 'AQUI TOY 2'
                     subtract = dict_rate[concept][3]  # Obtengo el sustraendo a aplicar. Existe sustraendo porque es la primera vez.
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para asignar al campo booleano de la linea de la factura True, para asi marcar de una vez que ya fue retenida, para una posterior busqueda.
                 else: # Si el monto base no supera el monto minimo de la tasa(de igual forma se deb declarar asi no supere.)
-                    print 'AQUI TOY 3'
                     subtract = 0.0
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
-                print 'AQUI TOY 4'
                 subtract = 0.0
                 res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
         return res
@@ -483,7 +471,8 @@ class account_invoice(osv.osv):
         'period_id': inv_brw.period_id.id,
         'account_id': inv_brw.account_id.id,
         'type': inv_brw.type,
-        'journal_id': self.get_journal(cr,uid,inv_brw),})
+        'journal_id': self.get_journal(cr,uid,inv_brw),
+        'state': 'draft',})
         return islr_wh_doc_id
 
 
@@ -497,15 +486,13 @@ class account_invoice(osv.osv):
         inv_line_id = dictc[key2][0].keys()[0]
         rate_id = dictc[key2][0][inv_line_id]['rate_id']
 
-        print 'INV IDD', inv_brw.invoice_id.id
-
-        islr_wh_doc_line_id = doc_line_obj.create(cr,uid,{'islr_wh_doc_id':islr_wh_doc_id,
-                                                'concept_id':key2,
-                                                'islr_rates_id':rate_id,
-                                                'invoice_id': inv_brw.invoice_id.id,
-                                                'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc,
-                                                'amount':dict_concept[key2],})
-        print 'DICCIONARIO', islr_wh_doc_line_id
+        islr_wh_doc_line_id = doc_line_obj.create(cr,uid,
+        {'islr_wh_doc_id':islr_wh_doc_id,
+        'concept_id':key2,
+        'islr_rates_id':rate_id,
+        'invoice_id': inv_brw.invoice_id.id,
+        'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc,
+        'amount':dict_concept[key2],})
 
         return islr_wh_doc_line_id
 
@@ -550,31 +537,19 @@ class account_invoice(osv.osv):
         '''
         Manejo de toda la logica para la generarion de lineas en los modelos.
         '''
-        print 'ENTRE|'
         dictc = self._get_dict_concepts(cr,uid,dict)
         inv_brw = self._get_inv_id(cr,uid,dict)
         inv_obj =self.pool.get('account.invoice.line')
-        
-        print 'INV BRW', inv_brw
-        print 'INV OBJ', inv_obj
-        print 'dictc', dictc
-        
-        
+
         if inv_brw:
-            print 'AQUI TOY'
-            print 'DICTCCCCCCCCCCCCCCCCCC', dictc
-            print 'WH_DOC_ID',wh_doc_id
             if dictc and not wh_doc_id:
-                print 'SUPPLIER WH'
                 islr_wh_doc_id = self._create_islr_wh_doc(cr,uid,inv_brw,dict)
             else:
-                print 'CUSTOMER WH'
                 islr_wh_doc_id = wh_doc_id
             key_lst = []
             if islr_wh_doc_id:
                 for key2 in dictc:
                     inv_line_id = dictc[key2][0].keys()[0]
-                    print 'DICCCT', dict
                     islr_wh_doc_line_id = self._create_doc_line(cr,uid,inv_brw,key2,islr_wh_doc_id,dict,dictc)
                     for line in dictc[key2]:
                         inv_line_id2 = dictc[key2][0].keys()[0]
@@ -594,11 +569,6 @@ class account_invoice(osv.osv):
 
 
     def action_ret_islr(self, cr, uid, ids, context={}):
-        print 'HOLAAAAAA ENFERMERA!!'
-        print 'CONTEXT', context
-        print 'IDS', ids
-        
-        wh_doc_id = context.get('wh_doc_id',False)
         invoices_brw = self.browse(cr, uid, ids, context=None)
         wh_doc_list = []
         for invoice in invoices_brw:
@@ -617,13 +587,9 @@ class account_invoice(osv.osv):
                         residence = self._get_residence(cr, uid, vendor, buyer) # Retorna el tipo de residencia del vendedor
                         nature = self._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
                         dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
-                        print 'WH DICT', wh_dict
-                        print 'DICT RATE', dict_rate
-                        print 'CONCEPT LIST', concept_list
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
                         dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
-                        print 'DICT COMPLETO', dict_completo
-                        self._logic_create(cr,uid,dict_completo,wh_doc_id)# Se escribe y crea en todos los modelos asociados al islr.
+                        self._logic_create(cr,uid,dict_completo,context.get('wh_doc_id',False))# Se escribe y crea en todos los modelos asociados al islr.
                     else:
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:
