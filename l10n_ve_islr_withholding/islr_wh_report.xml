@@ -4,8 +4,8 @@
         <report
             id="voucher_report_withholding_islr" 
             menu="True"
-            model="islr.wh.doc" 
-            name="voucher.wh.islr11" 
+            model="islr.wh.doc"
+            name="voucher.wh.islr"
             rml="addons/l10n_ve_islr_withholding/report/wh_islr_report.rml" 
             string="Voucher Withholding Income"
             auto = "False"

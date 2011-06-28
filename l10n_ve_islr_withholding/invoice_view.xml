@@ -60,8 +60,8 @@
             </field>
         </record>
 
-            <record model="ir.ui.view" id="view_account_invoice_form_concept_islr_2">
-                <field name="name">account_invoice_concept_islr2</field>
+            <record model="ir.ui.view" id="view_account_invoice_form_concept_islr">
+                <field name="name">account_invoice_concept_islr</field>
                 <field name="model">account.invoice</field>
                 <field name="type">form</field>
                 <field name="inherit_id" ref="account.invoice_supplier_form"/>
@@ -72,8 +72,8 @@
                 </field>
             </record>
 
-        <record model="ir.ui.view" id="view_invoice_line_form_islr_2">
-            <field name="name">invoice_line_form_concept_islr2</field>
+        <record model="ir.ui.view" id="view_invoice_line_form_islr">
+            <field name="name">account_invoice_line_concept_islr</field>
             <field name="model">account.invoice.line</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_invoice_line_form"/>
@@ -84,17 +84,17 @@
             </field>
         </record>
 
-            <record model="ir.ui.view" id="view_invoice_line_tree_islr_3">
-                <field name="name">invoice_line_tree_concept_islr3</field>
-                <field name="model">account.invoice.line</field>
-                <field name="type">tree</field>
-                <field name="inherit_id" ref="account.view_invoice_line_tree"/>
-                <field name="arch" type="xml">
-                    <field name="name" position="after">
-                        <field name="concept_id"  required="1"/>
-                    </field>
+        <record model="ir.ui.view" id="view_invoice_line_tree_islr">
+            <field name="name">account_invoice_line_tree_concept_islr</field>
+            <field name="model">account.invoice.line</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.view_invoice_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="concept_id"  required="1"/>
                 </field>
-            </record>
+            </field>
+        </record>
     
     </data>
 </openerp>

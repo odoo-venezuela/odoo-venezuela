@@ -4,8 +4,8 @@
     
     
     
-            <record model="ir.ui.view" id="view_sale_order_line_tree_islr1">
-                <field name="name">sale_order_line_tree_islr1</field>
+            <record model="ir.ui.view" id="view_sale_order_line_tree_islr">
+                <field name="name">sale_order_line_tree_islr</field>
                 <field name="model">sale.order.line</field>
                 <field name="type">tree</field>
                 <field name="inherit_id" ref="sale.view_order_line_tree"/>
@@ -16,8 +16,8 @@
                 </field>
             </record>
 
-            <record model="ir.ui.view" id="view_sale_order_line_form_islr1">
-                <field name="name">sale_order_line_form_islr1</field>
+            <record model="ir.ui.view" id="view_sale_order_line_form_islr">
+                <field name="name">sale_order_line_form_islr</field>
                 <field name="model">sale.order.line</field>
                 <field name="type">form</field>
                 <field name="inherit_id" ref="sale.view_order_line_form2"/>
@@ -28,8 +28,8 @@
                 </field>
             </record>
 
-            <record model="ir.ui.view" id="view_sale_order_form_concept1">
-                <field name="name">sale_order_form_concept1</field>
+            <record model="ir.ui.view" id="view_sale_order_form_concept">
+                <field name="name">sale_order_form_concept</field>
                 <field name="model">sale.order</field>
                 <field name="type">form</field>
                 <field name="inherit_id" ref="sale.view_order_form"/>
