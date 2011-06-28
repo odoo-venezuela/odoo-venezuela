@@ -487,25 +487,27 @@ class account_invoice(osv.osv):
         return islr_wh_doc_id
 
 
-    def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dict,dictc):
+    def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dictt,dictc):
         '''
         Funcion para crear en el modelo islr_wh_doc_line
         '''
         doc_line_obj = self.pool.get('islr.wh.doc.line')
         rate_obj = self.pool.get('islr.rates')
-        dict_concept = self._get_amount(cr,uid,dict)
+        dict_concept = self._get_amount(cr,uid,dictt)
         inv_line_id = dictc[key2][0].keys()[0]
         rate_id = dictc[key2][0][inv_line_id]['rate_id']
 
-        islr_wh_doc_line_id = doc_line_obj.create(cr,uid,
-            {'islr_wh_doc_id':islr_wh_doc_id,
-            'concept_id':key2,
-            'islr_rates_id':rate_id,
-            'invoice_id': inv_brw.invoice_id.id,
-            'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc,
-            'amount':dict_concept[key2],})
-        return islr_wh_doc_line_id
+        print 'INV IDD', inv_brw.invoice_id.id
 
+        islr_wh_doc_line_id = doc_line_obj.create(cr,uid,{'islr_wh_doc_id':islr_wh_doc_id,
+                                                'concept_id':key2,
+                                                'islr_rates_id':rate_id,
+                                                'invoice_id': inv_brw.invoice_id.id,
+                                                'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc,
+                                                'amount':dict_concept[key2],})
+        print 'DICCIONARIO', islr_wh_doc_line_id
+
+        return islr_wh_doc_line_id
 
     def _create_doc_invoices(self,cr,uid,key,islr_wh_doc_id):
         '''
@@ -560,6 +562,8 @@ class account_invoice(osv.osv):
         
         if inv_brw:
             print 'AQUI TOY'
+            print 'DICTCCCCCCCCCCCCCCCCCC', dictc
+            print 'WH_DOC_ID',wh_doc_id
             if dictc and not wh_doc_id:
                 print 'SUPPLIER WH'
                 islr_wh_doc_id = self._create_islr_wh_doc(cr,uid,inv_brw,dict)
@@ -570,6 +574,7 @@ class account_invoice(osv.osv):
             if islr_wh_doc_id:
                 for key2 in dictc:
                     inv_line_id = dictc[key2][0].keys()[0]
+                    print 'DICCCT', dict
                     islr_wh_doc_line_id = self._create_doc_line(cr,uid,inv_brw,key2,islr_wh_doc_id,dict,dictc)
                     for line in dictc[key2]:
                         inv_line_id2 = dictc[key2][0].keys()[0]
@@ -588,16 +593,12 @@ class account_invoice(osv.osv):
         return True
 
 
-
-
-
-    def action_ret_islr(self, cr, uid, ids, wh_doc_id=None,context={}):
+    def action_ret_islr(self, cr, uid, ids, context={}):
         print 'HOLAAAAAA ENFERMERA!!'
         print 'CONTEXT', context
         print 'IDS', ids
-        print 'wh_doc_id', wh_doc_id
         
-        
+        wh_doc_id = context.get('wh_doc_id',False)
         invoices_brw = self.browse(cr, uid, ids, context=None)
         wh_doc_list = []
         for invoice in invoices_brw:
@@ -627,6 +628,7 @@ class account_invoice(osv.osv):
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:
                     raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
+        return True
 account_invoice()
 
 

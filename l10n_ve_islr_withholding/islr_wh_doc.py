@@ -127,14 +127,18 @@ class islr_wh_doc(osv.osv):
 
     def action_process(self,cr,uid,ids, *args):
         inv_obj=self.pool.get('account.invoice')
-        
+        print 'ARGGG', args
+        context = {}
         wh_doc_brw = self.browse(cr, uid, ids, context=None)
         inv_ids = []
         for wh_doc in wh_doc_brw:
             for wh_doc_line in wh_doc.islr_wh_doc_id: 
                 inv_ids.append(wh_doc_line.id)
 
-        inv_obj.action_ret_islr(cr, uid, inv_ids,ids[0],args[0])
+        context = args[0]
+        context ["wh_doc_id"]=ids[0]
+
+        inv_obj.action_ret_islr(cr, uid, inv_ids,context)
         self.write(cr, uid, ids, {'state':'draft'})
         return True
 
