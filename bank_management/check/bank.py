@@ -60,7 +60,7 @@ class res_bank(osv.osv):
         res={}
         mont_virtual_balance=0
         for i in self.browse(cr,uid,ids):    
-            mont_virtual_balance=i.transitory_money+ i.bank_account_id.balance         
+            mont_virtual_balance=i.transitory_money + (i.bank_account_id and i.bank_account_id.balance or 0.0)
             res[i.id]=mont_virtual_balance
         return  res 
 
@@ -74,9 +74,9 @@ class res_bank(osv.osv):
         return  res       
     
     _columns={ 
-        'transitory_money':fields.function(_get_transitory_money, method=True, type='float', digits_compute= dp.get_precision('Bank'), string='Transitory Money'),
-        'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', digits_compute= dp.get_precision('Bank'), string='Virtual Balance', help="Proposed Balance=Sum transitory money more balance closed or balance account"),  
-        'balance':fields.function(_get_balance, method=True, type='float', digits_compute= dp.get_precision('Bank'), string='Account Balance'),
+        'transitory_money':fields.function(_get_transitory_money, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Transitory Money'),
+        'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Virtual Balance', help="Proposed Balance=Sum transitory money more balance closed or balance account"),  
+        'balance':fields.function(_get_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Account Balance'),
     }
     
 res_bank()
