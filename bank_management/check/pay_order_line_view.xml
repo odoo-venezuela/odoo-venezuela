@@ -15,9 +15,9 @@
 					    <field name="partner_id"/>
                         <field name="account_id" on_change="onchange_line_account(account_id, type, parent.type)"/>
 					    <field name="type" required='1'/>
-                        <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('partner_id','=',partner_id),('state','=','open'),('residual','&gt;',0.0)]"/>
+<!--                        <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('partner_id','=',partner_id),('state','=','open'),('residual','&gt;',0.0)]"/>-->
 					    <field name="amount"/>
-					    <field name="ref"/>
+<!--					    <field name="ref"/>-->
 					</group>
 				</form>
 			</field>
@@ -33,9 +33,9 @@
 					    <field name="partner_id"/>
 					    <field name="account_id"/>
 					    <field name="type" required='1'/>
-                        <field name="invoice_id"/>
+<!--                        <field name="invoice_id"/>-->
                         <field name="amount" sum="Total"/>
-					    <field name="ref"/>
+<!--					    <field name="ref"/>-->
 				</tree>
 			</field>
 		</record>
