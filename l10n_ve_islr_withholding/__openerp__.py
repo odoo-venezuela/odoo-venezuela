@@ -65,11 +65,12 @@
                     "purchase",
                     "sale",
                     "l10n_ve_withholding",
+                    "l10n_ve_ut",
                 ],
     "init_xml" : [],
     "update_xml" : [
             "security/ir.model.access.csv",
-            "l10n_ve_islr_withholding_data.xml",                
+            "l10n_ve_islr_withholding_data.xml",
             "retencion_islr_sequence.xml",
             "wh_islr_view.xml",
             "product_view.xml",
@@ -82,8 +83,6 @@
             "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
-            "l10n_ut_view.xml",
-            "l10n_ut_data.xml",
     ],
     "active": False,
     "installable": True

@@ -5,9 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
+#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              María Gabriela Quilarque  <gabriela@vauxoo.com>
-#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -26,14 +25,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import islr_wh_concept
-import rates
-import invoice
-import islr_wh_doc
-import islr_xml_wh
-import partner
-import product
-import purchase
-import sale
-import stock
-import report
+{
+    "name" : "Tax Unit for Venezuela",
+    "version" : "0.1",
+    "author" : "Vauxoo",
+    "category" : "General",
+    "website": "http://wiki.openerp.org.ve/",
+    "description": '''
+                    What do this module:
+                    Record the value for the Tax Unit
+                   ''',
+    "depends" : ["account"],
+    "init_xml" : [],
+    "update_xml" : [
+            "l10n_ut_view.xml",
+            "l10n_ut_data.xml",
+    ],
+    "active": False,
+    "installable": True
+}

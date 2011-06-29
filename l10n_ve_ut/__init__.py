@@ -7,7 +7,6 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@vauxoo.com>
 #              María Gabriela Quilarque  <gabriela@vauxoo.com>
-#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -26,14 +25,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import islr_wh_concept
-import rates
-import invoice
-import islr_wh_doc
-import islr_xml_wh
-import partner
-import product
-import purchase
-import sale
-import stock
-import report
+import l10n_ut
+
