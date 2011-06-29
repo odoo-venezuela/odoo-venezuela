@@ -37,8 +37,8 @@ class account_invoice_line(osv.osv):
     '''
     _inherit = "account.invoice.line"
     _columns = {
-        'apply_wh': fields.boolean('Withholded',help="Indicates whether a line has been retained or not, to accumulate the amount to withhold next month, according to the lines that have not been retained."),
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concept of Withholding Income asociate this rate",required=False),
+        'apply_wh': fields.boolean('Withheld',help="Indicates whether a line has been retained or not, to accumulate the amount to withhold next month, according to the lines that have not been retained."),
+        'concept_id': fields.many2one('islr.wh.concept','Withholding  Concept',help="Concept of Withholding Income asociate this rate",required=False),
     }
     _defaults = {
         'apply_wh': lambda *a: False,
@@ -65,12 +65,12 @@ class account_invoice(osv.osv):
 
     _columns = {
         'status': fields.selection([
-            ('pro','Processed withhold, xml Line generated'),
-            ('no_pro','No processed withhold'),
+            ('pro','Processed withholding, xml Line generated'),
+            ('no_pro','Withholding no processed'),
             ('tasa','Not exceed the rate,xml Line generated'),
             ],'Status',readonly=True,
-            help=' * The \'Processed withhold, xml Line generated\' state is used when a user is a withhold income is processed. \
-            \n* The \'No processed withhold\' state is when user create a invoice and withhold income is no processed. \
+            help=' * The \'Processed withholding, xml Line generated\' state is used when a user is a withhold income is processed. \
+            \n* The \'Withholding no processed\' state is when user create a invoice and withhold income is no processed. \
             \n* The \'Not exceed the rate,xml Line generated\' state is used when user create invoice,a invoice no exceed the minimun rate.')
     }
     _defaults = {

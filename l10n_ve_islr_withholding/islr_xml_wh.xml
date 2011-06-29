@@ -15,7 +15,7 @@
             <field name="arch" type="xml">
                 <form string="Export in XML data">
                     <newline/>
-                        <separator string="Supplier to Withholding" colspan="6"/>
+                        <separator string="Supplier to Withhold" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="partner_id" colspan="4" on_change="onchange_partner_vat(partner_id)" />
@@ -40,7 +40,7 @@
                         <field name="control_number" />
                     </group>
                     <newline/>
-                    <separator string="Bases" colspan="6"/>
+                    <separator string="Rates" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="base" />
@@ -132,7 +132,6 @@
             </field>
         </record>
 
-
         <record model="ir.actions.act_window" id="action_xml_islr">
             <field name="name">Generate file XML</field>
             <field name="res_model">islr.xml.wh.doc</field>
@@ -140,7 +139,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="search_view_id" ref="view_generate_xml_filter"/>
-            <field name="help">With "Generate file XML" you can create and manage the generation of file xml, required monthly for the SENIAT for special agent.</field>
+            <field name="help">With this option you can create and manage the generation of file xml, required monthly for the SENIAT for special agent of withhold income</field>
         </record>
         
         <record model="ir.actions.act_window.view" id="action_xml_islr_tree_1">

@@ -16,7 +16,7 @@
             <field name="arch" type="xml">
                 <page string="Withholdings" position="inside">
                     <notebook>
-                        <page string="Withholdings Vat">
+                        <page string="Withholding Income">
                             <group col="4" colspan="2">
                                 <field name="islr_withholding_agent"/>
                             </group>

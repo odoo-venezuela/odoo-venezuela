@@ -276,10 +276,10 @@
                                             <field name="amount_total_ret"/>
                                         </group>
                                         <group col="4" colspan="2">
-                                            <button name="action_confirm1" string="Confirmar" states="draft" type="object" icon="gtk-go-forward"/>
-                                            <button name="action_done1" string="Realizar" states="confirmed" type="object"  icon="gtk-execute"/>
-                                            <button name="action_cancel1" string="Cancelar" states="done,confirmed" type="object"  icon="gtk-cancel"/>
-                                            <button name="action_cancel_draft" string="Convertir a Borrador" states="cancel" type="object"  icon="gtk-convert"/>
+                                            <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward"/>
+                                            <button name="action_done1" string="Validate" states="confirmed" type="object"  icon="gtk-execute"/>
+                                            <button name="action_cancel1" string="Cancel" states="done,confirmed" type="object"  icon="gtk-cancel"/>
+                                            <button name="action_cancel_draft" string="Set to Draft" states="cancel" type="object"  icon="gtk-convert"/>
                                          </group>
                                 </page>
                                 <page string="Invoices">
