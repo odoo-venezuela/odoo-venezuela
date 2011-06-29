@@ -41,7 +41,7 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Entry Lines">
-                            <field name="payment_ids" colspan="4" nolabel="1" height="275" widget="many2many" domain="[('voucher_id','=',False), ('partner_id','=',partner_id) ]">
+                            <field name="line_ids" colspan="4" nolabel="1" height="275" widget="many2many" domain="[('voucher_id','=',False), ('partner_id','=',partner_id) ]">
                                 <tree string="Voucher Lines" editable="top">
                                     <field name="account_analytic_id"/>
                                     <field name="partner_id"  />
@@ -49,8 +49,8 @@
                                     <field name="name"/>
                                     <field name="type" required='1'/>
                                     <field name="amount"/>
-                                    <field name="invoice_id"/>
-                                    <field name="ref"/>
+<!---                                    <field name="invoice_id"/>
+                                    <field name="ref"/>-->
                                 </tree>
                             </field>   
                             <separator string="Descripcion" colspan="4"/>
