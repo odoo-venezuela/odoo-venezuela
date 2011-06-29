@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_bank_management" name="Bank Management" sequence="99" parent="account.menu_finance"/>
+        <menuitem id="menu_bank" name="Bank" sequence="99" parent="menu_bank_management"/>
+        <menuitem id="menu_check" name="Check" sequence="99" parent="menu_bank_management"/>        
+
+
+    </data>
+</openerp>
