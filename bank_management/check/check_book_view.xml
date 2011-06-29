@@ -117,7 +117,7 @@
         <menuitem 
             name="Gestion de Chequeras" 
             id="id_check_book" 
-            parent="account.menu_finance"
+            parent="menu_check"
             sequence="99"/>
         <menuitem 
             action="action_check_book" 

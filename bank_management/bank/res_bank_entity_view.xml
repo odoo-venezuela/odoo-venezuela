@@ -41,7 +41,7 @@
         <menuitem
             id="menu_res_bank_entity"
             name="Bancos"
-            parent="account.menu_finance"
+            parent="menu_bank"
             sequence="99"/>
 
         <record id="action_res_bank_entity" model="ir.actions.act_window">

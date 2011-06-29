@@ -6,7 +6,7 @@
             name="Comprobantes" 
             id="menu_general_comprobante_pago" 
             groups="account.group_account_user"
-            parent="account.menu_finance"/>
+            parent="menu_bank_management"/>
 
 
 

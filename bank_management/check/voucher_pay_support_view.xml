@@ -112,7 +112,7 @@
         <menuitem 
             name="Soporte de Pago" 
             id="menu_generador_voucher_pay_support" 
-            parent="account.menu_finance"
+            parent="menu_check"
             sequence="99"/>
         <menuitem 
             name="Otros Soportes" 
