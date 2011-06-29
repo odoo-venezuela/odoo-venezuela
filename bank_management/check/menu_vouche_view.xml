@@ -127,9 +127,9 @@
 				        <group colspan="6" col="2">
 				        <field name="name" select="1"/>
                         </group>
-				        <field name="journal_id" select="1" on_change="onchange_journal(journal_id,type)"/>
-					    <field name="account_id" select="2" on_change="onchange_account(account_id)"/>
-					    <field name="type" select="2" on_change="onchange_journal(journal_id,type)"/>
+				        <field name="journal_id" select="1" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)"/>
+					    <field name="account_id" select="2"/>
+					    <field name="type" select="2" />
 					    <field name="number"/>
 					</group>
 					<notebook colspan="4">
