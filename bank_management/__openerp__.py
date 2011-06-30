@@ -61,8 +61,6 @@
         'check/voucher_pay_support_view.xml',
         'check/menu_vouche_view.xml',
         'check/pay_order_view.xml',
-        'check/pay_order_contrapartida.xml',
-        'check/pay_order_line_view.xml',
         'check/account_voucher_journal_view.xml',
         'security/ir.model.access.csv',
         'bank/data/banesco_data.xml',
