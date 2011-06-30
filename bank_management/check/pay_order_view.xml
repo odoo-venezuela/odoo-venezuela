@@ -138,6 +138,49 @@
 	-->
     
 
+
+        <record id="view_bank_voucher_filter" model="ir.ui.view">
+            <field name="name">account.voucher.bank.select</field>
+            <field name="model">account.voucher</field>
+            <field name="type">search</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Search Vouchers">
+                    <group col='8' colspan='4'>
+                        <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft Vouchers"/>
+                        <filter icon="terp-camera_test" string="Posted" domain="[('state','=','posted')]" help="Posted Vouchers"/>
+                        <filter icon="terp-gtk-media-pause" name="proforma" string="Proforma" domain="[('state','=','proforma')]" help="Proforma Vouchers"/>
+                        <separator orientation="vertical"/>
+                        <filter icon="terp-gtk-jump-to-ltr" string="To Review" domain="[('state','=','posted')]" groups="base.group_extended" help="To Review"/>
+                        <separator orientation="vertical"/>
+                        <field name="date"/>
+                        <field name="number"/>
+                        <field name="partner_id"/>
+                    </group>
+                    <newline/>
+                    <group col='8' colspan='4'>
+                        <field name="journal_id" widget="selection" context="{'journal_id': self, 'set_visible':False}" />
+                        <field name="period_id" groups="base.group_extended"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Extended Filters..." col='8' colspan='4'>
+                        <field name="reference"/>
+                        <field name="name"/>
+                        <field name="narration"/>
+                        <field name="amount"/>
+                   </group>
+                   <newline/>
+                    <group expand="0" string="Group By..." colspan="4" col="10">
+                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Period" icon="terp-go-month" domain="[]" context="{'group_by':'period_id','visible':True}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
         <record model="ir.ui.view" id="view_pay_order_1_tree">
             <field name="name">pay_order.tree1</field>
             <field name="model">account.voucher</field>
@@ -227,6 +270,7 @@
             <field name="view_id" ref="view_pay_order_1_tree"/>
 			<field name="domain">[('type', 'like','bank_pay_voucher')]</field>
 			<field name="context">{'type':'bank_pay_voucher'}</field>
+			<field name="search_view_id" ref="view_bank_voucher_filter"/>
         </record>
 
         <record id="act_wv_pay_order_tree" model="ir.actions.act_window.view">
@@ -254,105 +298,6 @@
             parent='menu_pay_order_general'
             action="action_pay_order"/>
 
-
-	<!-- 
-	=====================================================
-	Orden de Pago en Draft
-	=====================================================
-	-->
-
-    	<record model="ir.actions.act_window" id="action_pay_order_draft">
-	    	<field name="name">Ordenes de Pago en Borrador</field>
-	    	<field name="res_model">account.voucher</field>
-	    	<field name="type">ir.actions.act_window</field>
-	    	<field name="view_type">form</field>
-	    	<field name="view_mode">tree,form</field>
-            <field name="domain">[('state','=','draft')]</field>
-    	</record>
-        <record id="act_wv_pay_order_tree_draft" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_pay_order_1_tree"/>
-            <field name="act_window_id" ref="action_pay_order_draft"/>
-        </record>
-        <record id="act_wv_pay_order_form_draft" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_pay_order_1_form"/>
-            <field name="act_window_id" ref="action_pay_order_draft"/>
-        </record> 
-
-	    <menuitem
-	    	id="menu_pay_order_draft"
-	    	name="Ordenes de Pago en Borrador" 		
-	    	parent="menu_pay_order_general"
-	    	action="action_pay_order_draft"/>
-
-	<!-- 
-	=====================================================
-	Orden de Pago en Proforma
-	=====================================================
-	-->
-
-    	<record model="ir.actions.act_window" id="action_pay_order_proforma">
-	    	<field name="name">Ordenes de Pago en Proforma</field>
-	    	<field name="res_model">account.voucher</field>
-	    	<field name="type">ir.actions.act_window</field>
-	    	<field name="view_type">form</field>
-	    	<field name="view_mode">tree,form</field>
-            <field name="domain">[('state','=','proforma')]</field>
-    	</record>
-        <record id="act_wv_pay_order_tree_proforma" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_pay_order_1_tree"/>
-            <field name="act_window_id" ref="action_pay_order_proforma"/>
-        </record>
-        <record id="act_wv_pay_order_form_proforma" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_pay_order_1_form"/>
-            <field name="act_window_id" ref="action_pay_order_proforma"/>
-        </record> 
-
-	    <menuitem
-	    	id="menu_pay_order_proforma"
-	    	name="Ordenes de Pago en Proforma" 		
-	    	parent="menu_pay_order_general"
-	    	action="action_pay_order_proforma"/>
-
-	<!-- 
-	=====================================================
-	Orden de Pago en Contabilizado
-	=====================================================
-	-->
-
-    	<record model="ir.actions.act_window" id="action_pay_order_posted">
-	    	<field name="name">Ordenes de Pago en Contabilizado</field>
-	    	<field name="res_model">account.voucher</field>
-	    	<field name="type">ir.actions.act_window</field>
-	    	<field name="view_type">form</field>
-	    	<field name="view_mode">tree,form</field>
-            <field name="domain">[('state','=','posted')]</field>
-    	</record>
-        <record id="act_wv_pay_order_tree_posted" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_pay_order_1_tree"/>
-            <field name="act_window_id" ref="action_pay_order_posted"/>
-        </record>
-        <record id="act_wv_pay_order_form_posted" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_pay_order_1_form"/>
-            <field name="act_window_id" ref="action_pay_order_posted"/>
-        </record> 
-
-	    <menuitem
-	    	id="menu_pay_order_posted"
-	    	name="Ordenes de Pago Contabilizadas" 		
-	    	parent="menu_pay_order_general"
-	    	action="action_pay_order_posted"/>
 
 
 	<!-- 
