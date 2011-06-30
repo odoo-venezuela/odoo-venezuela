@@ -40,7 +40,7 @@ class islr_wh_concept(osv.osv):
     _name='islr.wh.concept'
 
     _columns={
-        'name':fields.char('Withholding Concept', size=256,required=True,help="Payment concept name,  Example: Honorarios Profesionales, Comisiones a..."),
+        'name':fields.char('Withholding Concept', size=256,required=True,help="Name of Withholding Concept,  Example: Honorarios Profesionales, Comisiones a..."),
         'withholdable': fields.boolean('Withhold',help="Check if  the concept  withholding is withheld or not."),
         'property_retencion_islr_payable': fields.property(
             'account.account',

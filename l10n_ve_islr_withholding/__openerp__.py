@@ -28,7 +28,7 @@
 
 {
     "name" : "Automatically Calculated Withholding Income",
-    "version" : "0.4",
+    "version" : "0.5",
     "author" : "Vauxoo",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
@@ -45,19 +45,6 @@
                     1.- The periods must be defined with the format: 09/2011 (MM/YYYY).
                     2.- Create the accounts of Withholding Income and assing to the partner.
                     3.- Create the journal of type: islr.
-                    
-                    
-                    ----------Calculo Automatico del Impuesto Sobre La Renta (I.S.L.R.)------------
-                    Pasos para la primera vez:
-                    1.- Crear Conceptos de Retencion con sus tasas.
-                    2.- Asignar a los servicios el concepto de retencion asociado.
-                    3.- Chequear que la compania que retiene es agente de retencion. (En caso e serlo).
-                    4.- Crear el concepto de retencion para cuando no aplica retencion: NO APLICA RETENCION
-                    
-                    Para el correcto funcionamiento:
-                    1.- Los periodos deben estar definidos con el formato: 09/2011 (MM/YYYY)
-                    2.- Crear las cuentas contables de islr y asignarlas al cliente y proveedor.
-                    3.- Crear el diario de tipo islr
                    ''',
     "depends" : [   "base",
                     "account",

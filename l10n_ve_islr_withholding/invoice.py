@@ -190,7 +190,7 @@ class account_invoice(osv.osv):
         Se obtiene la naturaleza del vendedor a partir del RIF, retorna True si es persona de tipo natural, y False si es juridica.
         '''
         if not partner_id.vat:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat asociate!") % (partner_id.name))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat associated!") % (partner_id.name))
             return False
         else:
             if partner_id.vat[2:3] in 'VvEe':
