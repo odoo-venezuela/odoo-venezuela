@@ -8,9 +8,10 @@
             <field name="arch" type="xml">
                 <form string="Tax Unit">
                     <group col="6" colspan="4">
+                        <field name="name" select="1" colspan="4"/>
+                        <newline/>
                         <field name="date" select="1"/>
                         <field name="amount" select="1"/>
-                        <field name="name" select="1"/>
                     </group>
                 </form>
             </field>
@@ -21,9 +22,10 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Tax Unit per date" editable="top/bottom">
+                    <field name="name" select="1"/>
+                    <newline/>
                     <field name="date" select="1"/>
                     <field name="amount" select="1"/>
-                    <field name="name" select="1"/>
                 </tree>
             </field>
         </record>
