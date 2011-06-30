@@ -40,9 +40,9 @@ class l10n_ut(osv.osv):
     _description = __doc__
     _order = 'date desc'
     _columns = {
-        'name':fields.char('Law Number Reference', size=64, required=True, readonly=False),
-        'date': fields.date('Date', required=True),
-        'amount': fields.float('Amount',digits_compute= dp.get_precision('Amount Bs per UT'), help="Amount Bs per UT.", required=True),
+        'name':fields.char('Reference number established by the law', size=64, required=True, readonly=False,help="Reference number under the law"),
+        'date': fields.date('Date', required=True,help="Date on which goes into effect the new Unit Tax Unit"),
+        'amount': fields.float('Amount',digits_compute= dp.get_precision('Amount Bs per UT'), help="Amount of the tax unit in bs", required=True),
     }
     _defaults = {
         'name': lambda *a: None,
