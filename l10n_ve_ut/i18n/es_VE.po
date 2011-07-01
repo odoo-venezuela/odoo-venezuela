@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.2\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-07-01 15:13+0000\n"
-"PO-Revision-Date: 2011-07-01 15:13+0000\n"
+"POT-Creation-Date: 2011-07-01 19:08+0000\n"
+"PO-Revision-Date: 2011-07-01 19:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Unidad Tributaria por fecha"
 #. module: l10n_ve_ut
 #: help:l10n.ut,name:0
 msgid "Reference number under the law"
-msgstr "Número de referencia según la ley"
+msgstr "Número de Referencia según la ley"
 
 #. module: l10n_ve_ut
 #: model:ir.model,name:l10n_ve_ut.model_l10n_ut
@@ -93,7 +93,6 @@ msgid "Tax Unit"
 msgstr "Unidad Tributaria"
 
 #. module: l10n_ve_ut
-#: view:l10n.ut:0
 #: field:l10n.ut,user_id:0
 msgid "Salesman"
 msgstr "Salesman"
@@ -105,6 +104,6 @@ msgstr "Fecha en la que entra en vigencia la nueva unidad tributaria"
 
 #. module: l10n_ve_ut
 #: help:l10n.ut,amount:0
-msgid "Amount of the tax unit in bs"
-msgstr "Monto de la unidad tributaria en Bs."
+msgid "Amount of the tax unit in Bs"
+msgstr "Monto de la Unidad Tributaria en Bs."
 
