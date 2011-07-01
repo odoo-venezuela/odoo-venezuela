@@ -309,7 +309,6 @@ class islr_wh_doc(osv.osv):
 
     def wh_and_reconcile(self, cr, uid, ids, invoice_id, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id,context=None, name=''):
         
-        print 'INVOICE ID', invoice_id
         inv_obj = self.pool.get('account.invoice')
         ret = self.browse(cr, uid, ids)[0]
         if context is None:
@@ -317,9 +316,7 @@ class islr_wh_doc(osv.osv):
         #TODO check if we can use different period for payment and the writeoff line
         #~ assert len(invoice_ids)==1, "Can only pay one invoice at a time"
         invoice = inv_obj.browse(cr, uid, invoice_id)
-        print 'INVOICE', invoice
         src_account_id = invoice.account_id.id
-        print 'ACCOUNT', src_account_id
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
         direction = types[invoice.type]

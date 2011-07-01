@@ -205,7 +205,6 @@ class account_invoice(osv.osv):
            La residencia del vendedor coindica con una tasa.
         '''
         ut_obj = self.pool.get('l10n.ut')
-        print 'UT_OBJ', ut_obj
         rate_brw_lst = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id).rate_ids
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
@@ -277,11 +276,10 @@ class account_invoice(osv.osv):
                 number = 0
             else:
                 number = self._get_number(cr,uid,inv_brw.number.strip(),10)
-#~ AGREGAR MODULO DE NUMERO DE CONTROL.**************************
-        #~ if not inv_brw.nro_ctrl:
-            #~ raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the invoice number: '%s' has not control number associated!") % (inv_brw.number))
-        #~ else:
-            #~ control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
+        if not inv_brw.nro_ctrl:
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the invoice number: '%s' has not control number associated!") % (inv_brw.number))
+        else:
+            control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
 
         return (vat, number, control)
 
