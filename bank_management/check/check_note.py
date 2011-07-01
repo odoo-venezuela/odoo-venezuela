@@ -69,7 +69,7 @@ class check_note(osv.osv):
                     'cancel':[('readonly',True)]       ,
                     'active':[('readonly',False)]})    ,  
     'account_voucher_id':fields.many2one('account.voucher','Account Voucher',required=False, readonly=True),
-    'date_done':fields.date('collection date', readonly=True ),
+    'date_done':fields.date('Collection Date', readonly=True ),
     'cancel_check_note': fields.selection([
         ('print','Error de Impresion')      ,
         ('perdida','Perdida o extravio')    ,
