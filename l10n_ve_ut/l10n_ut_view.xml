@@ -1,6 +1,26 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+
+        <record id="view_l10n_ut_filter" model="ir.ui.view">
+            <field name="name">l10n.ut.search</field>
+            <field name="model">l10n.ut</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Tax Unit">
+                   <group col="10" colspan="4">
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="amount"/>
+                    </group>
+                    <newline/>
+                    <group expand="1" string="Group By...">
+                        <filter string="date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="view_l10n_ut_form">
             <field name="name">l10n.ut.form</field>
             <field name="model">l10n.ut</field>
@@ -33,7 +53,9 @@
             <field name="name">Tax Unit</field>
             <field name="res_model">l10n.ut</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="view_l10n_ut_filter"/>
+            <field name="help">With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat.</field>
         </record>
         <menuitem 
             parent="account.next_id_27" 

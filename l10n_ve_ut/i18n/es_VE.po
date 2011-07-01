@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.2\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-06-30 22:08+0000\n"
-"PO-Revision-Date: 2011-06-30 22:08+0000\n"
+"POT-Creation-Date: 2011-07-01 15:13+0000\n"
+"PO-Revision-Date: 2011-07-01 15:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,16 @@ msgid "Tax Unit for Venezuela"
 msgstr "Unidad Tributaria para Venezuela"
 
 #. module: l10n_ve_ut
+#: field:l10n.ut,name:0
+msgid "Reference number"
+msgstr "Número de Referencia"
+
+#. module: l10n_ve_ut
+#: model:ir.actions.act_window,help:l10n_ve_ut.act_l10n_ut_tree
+msgid "With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat."
+msgstr "A través de la presente opción usted podrá crear y gestionar la Unitad Tributaria, la misma es establecida según la ley de cada país y es usada para las retenciones de ISLR y retenciones de IVA."
+
+#. module: l10n_ve_ut
 #: model:ir.module.module,description:l10n_ve_ut.module_meta_information
 msgid "\n"
 "                    What do this module:\n"
@@ -28,18 +38,18 @@ msgid "\n"
 "                   "
 msgstr "\n"
 "                    What do this module:\n"
-"                    Registra el valor dela Unidad Tributaria\n"
+"                    Registra el valor de la Unidad Tributaria\n"
 "                   "
+
+#. module: l10n_ve_ut
+#: view:l10n.ut:0
+msgid "Search Tax Unit"
+msgstr "Búsqueda - Unidad Tributaria"
 
 #. module: l10n_ve_ut
 #: view:l10n.ut:0
 msgid "Tax Unit per date"
 msgstr "Unidad Tributaria por fecha"
-
-#. module: l10n_ve_ut
-#: field:l10n.ut,name:0
-msgid "Reference number established by the law"
-msgstr "Número de referencia establecido por la ley"
 
 #. module: l10n_ve_ut
 #: help:l10n.ut,name:0
@@ -56,9 +66,19 @@ msgstr "\n"
 "    "
 
 #. module: l10n_ve_ut
+#: view:l10n.ut:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: l10n_ve_ut
 #: field:l10n.ut,amount:0
 msgid "Amount"
 msgstr "Monto"
+
+#. module: l10n_ve_ut
+#: view:l10n.ut:0
+msgid "date"
+msgstr "Fecha"
 
 #. module: l10n_ve_ut
 #: field:l10n.ut,date:0
@@ -71,6 +91,12 @@ msgstr "Fecha"
 #: view:l10n.ut:0
 msgid "Tax Unit"
 msgstr "Unidad Tributaria"
+
+#. module: l10n_ve_ut
+#: view:l10n.ut:0
+#: field:l10n.ut,user_id:0
+msgid "Salesman"
+msgstr "Salesman"
 
 #. module: l10n_ve_ut
 #: help:l10n.ut,date:0
