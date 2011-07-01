@@ -82,6 +82,7 @@ class islr_wh_doc(osv.osv):
 
 
     _name = "islr.wh.doc"
+    _description = 'Document Withholding Income'
     _columns= {
         'name': fields.char('Description', size=64, select=True,readonly=True, states={'to_process':[('readonly',False)]}, required=True, help="Voucher description"),
         'code': fields.char('Code', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
@@ -399,6 +400,7 @@ account_invoice()
         
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
+    _description = 'Document and Invoice Withheld Income'
     _columns= {
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'invoice_id':fields.many2one('account.invoice','Invoice', help="Withheld invoice"),
@@ -409,6 +411,7 @@ islr_wh_doc_invoices()
 
 class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
+    _description = 'Lines of Document Withholding Income'
 
     def _retention_rate(self, cr, uid, ids, name, args, context=None):
         res = {}

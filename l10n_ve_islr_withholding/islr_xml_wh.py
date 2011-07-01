@@ -38,6 +38,7 @@ import decimal_precision as dp
 
 class islr_xml_wh_doc(osv.osv):
     _name = "islr.xml.wh.doc"
+    _description = 'Generate XML'
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
         res = {}
@@ -153,6 +154,7 @@ islr_xml_wh_doc()
 
 class islr_xml_wh_line(osv.osv):
     _name = "islr.xml.wh.line"
+    _description = 'Generate XML Lines'
     
     _columns = {
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=True, ondelete='cascade'),

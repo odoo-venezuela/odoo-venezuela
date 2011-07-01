@@ -38,6 +38,7 @@ class islr_rates(osv.osv):
     Modulo para crear las tasas de los Conceptos de Retencion
     '''
     _name='islr.rates'
+    _description = 'Rates'
 
 
     def _get_name(self,cr,uid,ids, field_name, arg, context):

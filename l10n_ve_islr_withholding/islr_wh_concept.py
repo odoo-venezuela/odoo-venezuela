@@ -38,6 +38,7 @@ class islr_wh_concept(osv.osv):
     Modulo para crear los Conceptos de Retencion
     '''
     _name='islr.wh.concept'
+    _description = 'Withholding Income Concept'
 
     _columns={
         'name':fields.char('Withholding Concept', translate=True,size=256,required=True,help="Name of Withholding Concept,  Example: Honorarios Profesionales, Comisiones a..."),

@@ -32,12 +32,9 @@ import time
 import decimal_precision as dp
 
 class l10n_ut(osv.osv):
-    """
-    OpenERP Model : l10n_ut
-    """
-    
+
     _name = 'l10n.ut'
-    _description = __doc__
+    _description = 'Tax Unit'
     _order = 'date desc'
     _columns = {
         'name':fields.char('Reference number', size=64, required=True, readonly=False,help="Reference number under the law"),

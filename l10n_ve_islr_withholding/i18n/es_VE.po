@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.2\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-06-30 17:56+0000\n"
-"PO-Revision-Date: 2011-06-30 17:56+0000\n"
+"POT-Creation-Date: 2011-07-01 21:18+0000\n"
+"PO-Revision-Date: 2011-07-01 21:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgid "Name retention rate of withhold concept"
 msgstr "Tasa asociada al Concepto de Retención"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:454
+#: code:addons/l10n_ve_islr_withholding/invoice.py:452
 #, python-format
 msgid "Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'"
 msgstr "Imposible realizar Comprobante de Retención ISLR, debido a que el diario de ISLR para la '%s' no ha sido creado con el tipo '%s'"
@@ -81,6 +81,11 @@ msgstr "Agente de Retención de ISLR?"
 #: sql_constraint:purchase.order:0
 msgid "Order Reference must be unique !"
 msgstr "¡La referencia del pedido debe ser única!"
+
+#. module: l10n_ve_islr_withholding
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_xml_wh_doc
+msgid "Generate XML"
+msgstr "Generar XML"
 
 #. module: l10n_ve_islr_withholding
 #: help:account.invoice,islr_wh_doc_id:0
@@ -141,7 +146,7 @@ msgstr "Líneas de Retención de ISLR"
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.doc.line,name:0
 msgid "Description of the voucher line"
-msgstr "Descripcion de la línea del comprobante"
+msgstr "Descripción de la línea del comprobante"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.wh.doc:0
@@ -323,10 +328,9 @@ msgid "Confirm"
 msgstr "Confirmado"
 
 #. module: l10n_ve_islr_withholding
-#: field:islr.rates,code:0
-#: field:islr.xml.wh.line,concept_code:0
-msgid "Concept Code"
-msgstr "Código del Concepto"
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc_invoices
+msgid "Document and Invoice Withheld Income"
+msgstr "Documentos y Facturas Retenidas de ISLR"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.wh.doc:0
@@ -334,7 +338,7 @@ msgid "Accounting Date of Withhold"
 msgstr "Fecha Contable de la Retención"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:271
+#: code:addons/l10n_ve_islr_withholding/invoice.py:270
 #, python-format
 msgid "Impossible withholding income,because the invoice number: '%s' has not number reference free!"
 msgstr "Imposible realizar Comprobante de Retención ISLR, debido a que la factura número: '%s' no tiene Número de Referencia Libre!"
@@ -347,7 +351,7 @@ msgid "Withhold Document"
 msgstr "Documento de Retención"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:265
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:266
 #, python-format
 msgid "Warning !"
 msgstr "Advertencia !"
@@ -391,7 +395,7 @@ msgid "Percentage"
 msgstr "Porcentaje"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:274
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:275
 #, python-format
 msgid "Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!"
 msgstr "Imposible realizar Retención ISLR, debido a que la cuenta contable para retención de venta no esta asignada al Concepto '%s' !!"
@@ -402,15 +406,15 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_xml_wh_line
-msgid "islr.xml.wh.line"
-msgstr "islr.xml.wh.line"
-
-#. module: l10n_ve_islr_withholding
 #: code:addons/l10n_ve_islr_withholding/invoice.py:193
 #, python-format
 msgid "Impossible withholding income, because the partner '%s' has not vat associated!"
 msgstr "Imposible realizar Comprobante de Retencion ISLR, debido a que el partner, '%s' no tiene RIF asociado!"
+
+#. module: l10n_ve_islr_withholding
+#: help:islr.wh.concept,property_retencion_islr_payable:0
+msgid "This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"
+msgstr "This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"
 
 #. module: l10n_ve_islr_withholding
 #: help:account.invoice.line,wh_xml_id:0
@@ -433,12 +437,7 @@ msgid "Supplier to Withhold"
 msgstr "Proveedor a Retener"
 
 #. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc_line
-msgid "islr.wh.doc.line"
-msgstr "islr.wh.doc.line"
-
-#. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:304
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:305
 #, python-format
 msgid "Impossible change the period accountig to a withholding that has already been declared."
 msgstr "Imposible cambiar el periodo contable a una retención que ya ha sido declarada."
@@ -447,16 +446,17 @@ msgstr "Imposible cambiar el periodo contable a una retención que ya ha sido de
 #: code:addons/l10n_ve_islr_withholding/invoice.py:165
 #: code:addons/l10n_ve_islr_withholding/invoice.py:170
 #: code:addons/l10n_ve_islr_withholding/invoice.py:193
-#: code:addons/l10n_ve_islr_withholding/invoice.py:229
-#: code:addons/l10n_ve_islr_withholding/invoice.py:271
-#: code:addons/l10n_ve_islr_withholding/invoice.py:282
-#: code:addons/l10n_ve_islr_withholding/invoice.py:454
-#: code:addons/l10n_ve_islr_withholding/invoice.py:577
+#: code:addons/l10n_ve_islr_withholding/invoice.py:228
+#: code:addons/l10n_ve_islr_withholding/invoice.py:270
+#: code:addons/l10n_ve_islr_withholding/invoice.py:280
+#: code:addons/l10n_ve_islr_withholding/invoice.py:452
+#: code:addons/l10n_ve_islr_withholding/invoice.py:575
+#: code:addons/l10n_ve_islr_withholding/invoice.py:592
 #: code:addons/l10n_ve_islr_withholding/invoice.py:594
-#: code:addons/l10n_ve_islr_withholding/invoice.py:596
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:274
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:280
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:304
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:275
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:281
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:305
+#: code:addons/l10n_ve_islr_withholding/product.py:62
 #, python-format
 msgid "Invalid action !"
 msgstr "Acción Inválida !"
@@ -470,11 +470,6 @@ msgstr "Otra Informacion"
 #: view:account.invoice:0
 msgid "Withholdings Income"
 msgstr "Retención de ISLR"
-
-#. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_xml_wh_doc
-msgid "islr.xml.wh.doc"
-msgstr "islr.xml.wh.doc"
 
 #. module: l10n_ve_islr_withholding
 #: report:list.wh.islr:0
@@ -492,7 +487,7 @@ msgid "Withholding Income Document"
 msgstr "Documento de Retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:280
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:281
 #, python-format
 msgid "Impossible withholding income, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!"
 msgstr "Imposible realizar Retención ISLR, debido a que la cuenta contable para retención de compra no esta asignada al Concepto '%s' !"
@@ -513,11 +508,9 @@ msgid "Withholding percentage"
 msgstr "Porcentaje de Retención"
 
 #. module: l10n_ve_islr_withholding
-#: view:islr.wh.doc:0
-#: field:islr.wh.doc,islr_wh_doc_id:0
-#: view:islr.wh.doc.invoices:0
-msgid "Invoices"
-msgstr "Facturas"
+#: help:islr.rates,subtract:0
+msgid "Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold "
+msgstr "Cantidad a restar del monto total a retener,..Monto Porcentual de Retención... Este sustraendo solo se aplicará la primera vez que se realiza la retención"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.wh.concept,property_retencion_islr_payable:0
@@ -617,6 +610,11 @@ msgid "With \"Concept of Withholding Income\" you can create and manage the conc
 msgstr "A través de \"Concepto de Retención de ISLR\"  usted podrá crear y gestionar los conceptos de retención de ISLR. Por cada concepto se puede crear y gestionar las tasas asociadas."
 
 #. module: l10n_ve_islr_withholding
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc_line
+msgid "Lines of Document Withholding Income"
+msgstr "Líneas del Documento de Retención de ISLR"
+
+#. module: l10n_ve_islr_withholding
 #: view:islr.wh.doc:0
 #: selection:islr.wh.doc,state:0
 #: view:islr.xml.wh.doc:0
@@ -630,9 +628,10 @@ msgid "This account will be used as the account where the withheld amounts shall
 msgstr "This account will be used as the account where the withheld amounts shall be charged in (Sale) of income tax"
 
 #. module: l10n_ve_islr_withholding
-#: report:voucher.wh.islr:0
-msgid "Fecha de Retención"
-msgstr "Fecha de Retención"
+#: field:islr.rates,code:0
+#: field:islr.xml.wh.line,concept_code:0
+msgid "Concept Code"
+msgstr "Código del Concepto"
 
 #. module: l10n_ve_islr_withholding
 #: selection:account.invoice,status:0
@@ -677,11 +676,6 @@ msgid "Withholding Income"
 msgstr "Retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_rates
-msgid "islr.rates"
-msgstr "islr.rates"
-
-#. module: l10n_ve_islr_withholding
 #: help:islr.rates,residence:0
 msgid "Indicates whether a person is resident, compared with the direction of the Company"
 msgstr "Seleccionar si la empresa es residenciada, de acuerdo a la dirección de la compañía"
@@ -690,6 +684,11 @@ msgstr "Seleccionar si la empresa es residenciada, de acuerdo a la dirección de
 #: help:islr.wh.doc,date_ret:0
 msgid "Keep empty to use the current date"
 msgstr "Dejar en blanco para usar la fecha actual"
+
+#. module: l10n_ve_islr_withholding
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc
+msgid "Document Withholding Income"
+msgstr "Documento de Retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
 #: help:product.template,concept_id:0
@@ -737,6 +736,11 @@ msgid ">"
 msgstr ">"
 
 #. module: l10n_ve_islr_withholding
+#: report:voucher.wh.islr:0
+msgid "Fecha de Retención"
+msgstr "Fecha de Retención"
+
+#. module: l10n_ve_islr_withholding
 #: view:islr.xml.wh.doc:0
 msgid "Lines Withholding"
 msgstr "Lineas de Retención"
@@ -755,6 +759,11 @@ msgstr "RIF de la Empresa"
 #: help:islr.xml.wh.line,islr_xml_wh_doc:0
 msgid "Income tax XML Doc"
 msgstr "Documento de ISLR"
+
+#. module: l10n_ve_islr_withholding
+#: model:islr.wh.concept,name:l10n_ve_islr_withholding.islr_concept_data
+msgid "RETENTION DOES NOT APPLY"
+msgstr "RETENTION DOES NOT APPLY"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.rates,concept_id:0
@@ -778,7 +787,7 @@ msgid "Voucher state"
 msgstr "Estado del Comprobante"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:577
+#: code:addons/l10n_ve_islr_withholding/invoice.py:575
 #, python-format
 msgid "The Withholding invoice '%s' has already been done!"
 msgstr "La Retención a la factura '%s' ya fue realizada!"
@@ -810,11 +819,6 @@ msgid "Invalidate"
 msgstr "Anular"
 
 #. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc
-msgid "islr.wh.doc"
-msgstr "islr.wh.doc"
-
-#. module: l10n_ve_islr_withholding
 #: field:islr.wh.doc,code:0
 msgid "Code"
 msgstr "Código"
@@ -843,9 +847,11 @@ msgid "Period"
 msgstr "Periodo"
 
 #. module: l10n_ve_islr_withholding
-#: help:islr.rates,subtract:0
-msgid "Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold "
-msgstr "Cantidad a restar del monto total a retener,..Monto Porcentual de Retención... Este sustraendo solo se aplicará la primera vez que se realiza la retención"
+#: view:islr.wh.doc:0
+#: field:islr.wh.doc,islr_wh_doc_id:0
+#: view:islr.wh.doc.invoices:0
+msgid "Invoices"
+msgstr "Facturas"
 
 #. module: l10n_ve_islr_withholding
 #: help:islr.xml.wh.doc,fiscalyear_id:0
@@ -886,9 +892,9 @@ msgid "Detail of the Concept of Withholding Income"
 msgstr "Detalle del Concepto de Retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
-#: help:islr.wh.concept,property_retencion_islr_payable:0
-msgid "This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"
-msgstr "This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"
+#: report:voucher.wh.islr:0
+msgid "Según Artículo No. 24 de la Gaceta Oficial de la República de Venezuela No. 36203 del 125997"
+msgstr "Según Artículo No. 24 de la Gaceta Oficial de la República de Venezuela No. 36203 del 125997"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.xml.wh.line:0
@@ -896,7 +902,7 @@ msgid "Export in XML data"
 msgstr "Exportar datos XML"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:229
+#: code:addons/l10n_ve_islr_withholding/invoice.py:228
 #, python-format
 msgid "Impossible withholding income, because the Concept of Withholding associated with type line is not withheld!"
 msgstr "Imposible realizar Comprobante de Retención ISLR, debido a que  el Concepto de Retención asociado a la línea no es de tipo Retenible!"
@@ -921,8 +927,7 @@ msgstr "\n"
 "                    ----------Cálculo Automático del Impuesto Sobre La Renta (I.S.L.R.)------------\n"
 "\n"
 "                    Pasos para la primera instalación:\n"
-"                    1.- Crear las cuentas contables de islr y asignarlas al concepto de retención.
-"                    2.- Crear los Conceptos de Retención con las tasas asociadas.\n"
+"                    1.- Crear las cuentas contables de islr y asignarlas al concepto de retención                    2.- Crear los Conceptos de Retención con las tasas asociadas.\n"
 "                    3.- Asignar a los servicios el concepto de retención.\n"
 "                    4.- Crear el concepto de retención para cuando no aplica retención: NO APLICA RETENCION\n"
 "                    5.- Chequear que la compañía que retiene es agente de retención. (En caso de serlo).\n"
@@ -945,9 +950,10 @@ msgid "Period when the accounts entries were done"
 msgstr "Periodo donde se ralizaron los asientos contables"
 
 #. module: l10n_ve_islr_withholding
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_concept
 #: field:islr.wh.doc,concept_ids:0
 msgid "Withholding Income Concept"
-msgstr "Concepto de Retención del ISLR"
+msgstr "Concepto de Retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
 #: selection:islr.wh.doc,type:0
@@ -958,11 +964,6 @@ msgstr "Factura de Cliente"
 #: help:islr.xml.wh.line,invoice_number:0
 msgid "Number of invoice"
 msgstr "Número de Factura"
-
-#. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_concept
-msgid "islr.wh.concept"
-msgstr "islr.wh.concept"
 
 #. module: l10n_ve_islr_withholding
 #: report:voucher.wh.islr:0
@@ -1033,7 +1034,7 @@ msgid "Voucher Withholding Income"
 msgstr "Comprobante de ISLR"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:265
+#: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:266
 #, python-format
 msgid "Not found a fiscal period to date: '%s' please check!"
 msgstr "No se encontró un periodo fiscal para la fecha: '%s' por favor verificar.!"
@@ -1067,12 +1068,13 @@ msgid "Impossible withholding income, because the partner '%s' country has not d
 msgstr "Imposible realizar Comprobante de Retención de ISLR, debido a que el partner '%s' no tiene país en su facturación fiscal!"
 
 #. module: l10n_ve_islr_withholding
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_rates
 #: view:islr.rates:0
 #: view:islr.wh.concept:0
 #: field:islr.wh.doc.line,islr_rates_id:0
 #: view:islr.xml.wh.line:0
 msgid "Rates"
-msgstr "Tasas"
+msgstr "Rates"
 
 #. module: l10n_ve_islr_withholding
 #: report:list.wh.islr:0
@@ -1152,7 +1154,7 @@ msgstr "Factura Retenida"
 #. module: l10n_ve_islr_withholding
 #: model:ir.model,name:l10n_ve_islr_withholding.model_product_template
 msgid "Product Template"
-msgstr "Plantilla de producto"
+msgstr "Plantilla producto"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.xml.wh.doc,fiscalyear_id:0
@@ -1170,6 +1172,11 @@ msgid "Automatically Calculated Withholding Income"
 msgstr "Cálculo Automático del ISLR"
 
 #. module: l10n_ve_islr_withholding
+#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_xml_wh_line
+msgid "Generate XML Lines"
+msgstr "Generar Líneas XML"
+
+#. module: l10n_ve_islr_withholding
 #: view:islr.wh.concept:0
 #: field:islr.wh.concept,withholdable:0
 msgid "Withhold"
@@ -1182,7 +1189,7 @@ msgid "Voucher reference"
 msgstr "Referencia del Comprobante"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:594
+#: code:addons/l10n_ve_islr_withholding/invoice.py:592
 #, python-format
 msgid "Impossible withholding income, because the supplier '%s' withholding agent is not!"
 msgstr "Imposible realizar Comprobante de Retención de ISLR, debido a que el comprador '%s' no es agente de Retención!"
@@ -1203,9 +1210,10 @@ msgid "Detail of the XML"
 msgstr "Detalle del XML"
 
 #. module: l10n_ve_islr_withholding
-#: report:voucher.wh.islr:0
-msgid "Según Artículo No. 24 de la Gaceta Oficial de la República de Venezuela No. 36203 del 125997"
-msgstr "Según Artículo No. 24 de la Gaceta Oficial de la República de Venezuela No. 36203 del 125997"
+#: code:addons/l10n_ve_islr_withholding/product.py:62
+#, python-format
+msgid "Must create the concept of withholding income"
+msgstr "Debe crear el concepto de retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
 #: model:ir.actions.act_window,name:l10n_ve_islr_withholding.action_wh_islr_concept
@@ -1224,7 +1232,7 @@ msgid "Search Concept of Withholding Income"
 msgstr "Búsqueda - Concepto de Retención de ISLR"
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:282
+#: code:addons/l10n_ve_islr_withholding/invoice.py:280
 #, python-format
 msgid "Impossible withholding income, because the invoice number: '%s' has not control number associated!"
 msgstr "Imposible realizar Comprobante de Retención ISLR, debido a que la factura número: '%s' no tiene Número de Control Asociado!"
@@ -1233,11 +1241,6 @@ msgstr "Imposible realizar Comprobante de Retención ISLR, debido a que la factu
 #: constraint:product.product:0
 msgid "Error: Invalid ean code"
 msgstr "Error: Código EAN erróneo"
-
-#. module: l10n_ve_islr_withholding
-#: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc_invoices
-msgid "islr.wh.doc.invoices"
-msgstr "islr.wh.doc.invoices"
 
 #. module: l10n_ve_islr_withholding
 #: report:voucher.wh.islr:0
@@ -1255,7 +1258,7 @@ msgid "Subtrahend in Tax Units"
 msgstr "Sustraendo en Unid. Trib."
 
 #. module: l10n_ve_islr_withholding
-#: code:addons/l10n_ve_islr_withholding/invoice.py:596
+#: code:addons/l10n_ve_islr_withholding/invoice.py:594
 #, python-format
 msgid "Impossible withholding income, because the lines of the invoice has not concept withholding!"
 msgstr "Imposible realizar Comprobante de Retención ISLR, debido a que las lineas de la factura no tienen Concepto de Retención!"

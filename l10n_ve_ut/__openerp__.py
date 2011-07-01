@@ -27,7 +27,7 @@
 
 {
     "name" : "Tax Unit for Venezuela",
-    "version" : "0.1",
+    "version" : "0.2",
     "author" : "Vauxoo",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
@@ -38,6 +38,7 @@
     "depends" : ["account"],
     "init_xml" : [],
     "update_xml" : [
+            "security/ir.model.access.csv",
             "l10n_ut_view.xml",
             "l10n_ut_data.xml",
     ],
