@@ -64,7 +64,7 @@ class check_book_request(osv.osv):
             ('send','Enviar')         ,
             ('received','Recibido')   ,   
             ('cancel','Cancel')       ,
-            ],'State', select=True, readonly=True, help="Request check book state")                            ,
+            ],'State', readonly=True, help="Request check book state")                            ,
     }
     _rec_name='code' # esto es para no crear un atributo name
     _defaults = {

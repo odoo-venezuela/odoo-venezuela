@@ -4,6 +4,42 @@
     <!--==================================
             Solicitud de Chequeras
         ==================================-->
+        
+        <record id="view_check_book_request_filter" model="ir.ui.view">
+            <field name="name">check.book.request.select</field>
+            <field name="model">check.book.request</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Check Book Request">
+                    <group col="10" colspan="4">
+                        <filter name="draft" icon="terp-gtk-media-pause" string="Draft" domain="[('state','=','draft')]" help="Draft check book request"/>
+                        <filter name="send" icon="terp-camera_test" string="Send" domain="[('state','=','send')]" help="Send check book request"/>
+                        <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel check book request"/>
+                        <filter name="received" icon="terp-check" string="Received" domain="[('state','=','received')]" help="Received check book request"/>                                                
+                        <separator orientation="vertical"/>
+                        <field name="code"/>
+                        <field name="accounting_bank_id"/>
+                        <field name="bank_id"/>
+                        <field name="agen_id"/>
+                        <field name="partner_id"/>
+                        <field  name="state"/>
+                        
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Authorized" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Bank Agency" icon="terp-personal" domain="[]" context="{'group_by':'agen_id'}"/>
+                        <filter string="Bank" icon="terp-folder-green" domain="[]" context="{'group_by':'bank_id'}"/>
+                        <filter string="Bank Account" icon="terp-folder-orange" domain="[]" context="{'group_by':'accounting_bank_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        
         <record id="view_check_book_request_form" model="ir.ui.view">
             <field name="name">check.book.request.form</field>
             <field name="model">check.book.request</field>
@@ -69,6 +105,8 @@
             <field name="res_model">check.book.request</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+	    	<field name="search_view_id" ref="view_check_book_request_filter"/>
+            <field name="help">With Check Book Request you can create and manage  Check Book.</field>            
         </record>
         <menuitem
             action="action_sol_check_book"
