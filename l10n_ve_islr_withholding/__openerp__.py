@@ -56,6 +56,7 @@
                 ],
     "init_xml" : [],
     "update_xml" : [
+            "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
             "l10n_ve_islr_withholding_data.xml",
             "retencion_islr_sequence.xml",
