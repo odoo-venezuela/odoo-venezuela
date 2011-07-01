@@ -84,20 +84,20 @@ class islr_wh_doc(osv.osv):
     _name = "islr.wh.doc"
     _description = 'Document Withholding Income'
     _columns= {
-        'name': fields.char('Description', size=64, select=True,readonly=True, states={'to_process':[('readonly',False)]}, required=True, help="Voucher description"),
+        'name': fields.char('Description', size=64,readonly=True, states={'to_process':[('readonly',False)]}, required=True, help="Voucher description"),
         'code': fields.char('Code', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
         'number': fields.char('Withhold Number', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
-            ],'Type', readonly=True, select=True, help="Voucher type"),
+            ],'Type', readonly=True, help="Voucher type"),
         'state': fields.selection([
             ('to_process','To Process'),
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'State', select=True, readonly=True, help="Voucher state"),
+            ],'State', readonly=True, help="Voucher state"),
         'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
         'date_uid': fields.date('Withhold Date', readonly=True, help="Voucher date"),
         'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Period', help="Period when the accounts entries were done"),
@@ -424,7 +424,7 @@ class islr_wh_doc_line(osv.osv):
 
     _columns= {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', select=True, help="Invoice to withhold"),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', help="Invoice to withhold"),
         'amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold ISLR'), help="Withheld amount"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept', help="Withhold concept associated with this rate"),

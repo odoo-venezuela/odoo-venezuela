@@ -90,7 +90,7 @@
                                 </tree>
                             </field>
                             <group col="4" colspan="2">
-                                <field name="state" select="2" colspan="4"/>
+                                <field name="state" colspan="4"/>
                                 <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
                                 <button name="action_done1" string="Validate XML" states="confirmed" type="object"  icon="gtk-ok"/>
                                 <button name="action_anular1" string="Invalidate" states="confirmed,done" type="object"  icon="gtk-cancel"/>

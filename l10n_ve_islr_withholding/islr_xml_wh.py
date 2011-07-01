@@ -63,7 +63,7 @@ class islr_xml_wh_doc(osv.osv):
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'State', select=True, readonly=True, help="Voucher state"),
+            ],'State', readonly=True, help="Voucher state"),
         'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', required=True, help="Fiscal year"),
         'period_id':fields.many2one('account.period','Period',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]", help="Period when the accounts entries were done"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding Income Amount Total', help="Amount Total of withholding"),
