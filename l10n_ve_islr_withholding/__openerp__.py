@@ -70,6 +70,7 @@
             "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
+            "islr_concept_data.xml",
     ],
     "active": False,
     "installable": True
