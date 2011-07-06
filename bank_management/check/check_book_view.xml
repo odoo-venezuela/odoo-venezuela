@@ -21,10 +21,10 @@
                         <filter name="active" icon="terp-check" string="Active" domain="[('state','=','active')]" help="Active check book"/>                                                
                         <separator orientation="vertical"/>
                         <field name="name"/>                        
-                        <field name="cancel_check" widget="selection"/>                        
+                        <field name="cancel_check"/>                        
                         <field name="accounting_bank_id"/>
                         <field name="bank_id"/>
-                        <field name="qty_check_selection" widget="selection"/>
+                        <field name="qty_check_selection"/>
                         <field  name="state"/>
                         
                     </group>

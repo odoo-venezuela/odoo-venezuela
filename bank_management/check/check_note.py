@@ -110,4 +110,25 @@ class check_note(osv.osv):
                 raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field')) 
             else:
                 self.write(cr,uid,note.id,{'state' : 'cancel'})
+
+
+    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
+        if not args:
+            args = []
+        if context is None:
+            context = {}
+        ids = self.search(cr, user, [('number',operator,name)] + args, limit=limit, context=context)
+        return self.name_get(cr, user, ids, context)
+
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+        if not ids:
+            return []
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['number'], context)
+        return [(x['number']) for x in reads]
+
+
 check_note()

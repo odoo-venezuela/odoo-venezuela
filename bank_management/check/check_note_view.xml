@@ -25,7 +25,7 @@
                         <field name="accounting_bank_id"/>
                         <field name="bank_id"/>
                         <field name="state"/>
-                        <field name="cancel_check_note" widget="selection"/>                     
+                        <field name="cancel_check_note"/>                     
                         <field name="check_book_id"/>                    
                         <field name="account_voucher_id"/>  
                                                 
