@@ -223,7 +223,7 @@ account_voucher()
 class VoucherLine(osv.osv):
     _inherit = 'account.voucher.line'
     _columns={
-        'invoice_id':fields.many2one('account.journal', 'Invoice', required=False, readonly=False),
+        'invoice_id':fields.many2one('account.invoice', 'Invoice', required=False, readonly=False),
     }    
     _defaults = {
         'type': lambda *a: 'dr'
