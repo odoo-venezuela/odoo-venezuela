@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- 
+    =====================================================
+    Partners Extension Income
+    =====================================================
+    -->  
+
+        <record id="res_partner_wh_islr" model="ir.ui.view">
+            <field name="name">res.partner.wh.islr</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
+            <field name="arch" type="xml">
+                <page string="Withholdings" position="inside">
+                    <notebook>
+                        <page string="Withholding Income">
+                            <group col="4" colspan="2">
+                                <field name="islr_withholding_agent"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

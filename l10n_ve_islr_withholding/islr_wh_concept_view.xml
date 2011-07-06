@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- 
+    =====================================================
+    CONCEPT OF RETENTION, TASAS
+    =====================================================
+    --> 
+        <record id="view_wh_concept_filter" model="ir.ui.view">
+            <field name="name">islr.wh.concept.search</field>
+            <field name="model">islr.wh.concept</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Concept of Withholding Income">
+                   <group col="10" colspan="4">
+                        <filter name="withholdable" icon="terp-camera_test" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
+                        <separator orientation="vertical"/>
+                        <field name="name"/>
+                        <field name="user_id" select="1" widget="selection" string="Salesman">
+                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
+                        </field>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="view_wh_islr_rate_form" model="ir.ui.view">
+            <field name="name">tasas_form</field>
+            <field name="model">islr.rates</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Rates">
+                    <field name="name" colspan="4"/>
+                    <newline/>
+                    <field name="code"/>
+                    <field name="base"/>
+                    <field name="minimum"/>
+                    <field name="residence"/>
+                    <field name="wh_perc"/>
+                    <field name="nature"/>
+                    <field name="subtract"/>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_wh_islr_rate_tree" model="ir.ui.view">
+            <field name="name">tasas_tree</field>
+            <field name="model">islr.rates</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Rates">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="base"/>
+                    <field name="minimum"/>
+                    <field name="wh_perc"/>
+                    <field name="subtract"/>
+                    <field name="residence"/>
+                    <field name="nature"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wh_concept_islr_tree" model="ir.ui.view">
+            <field name="name">islr.wh.concept_tree</field>
+            <field name="model">islr.wh.concept</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Concept of Withholding Income">
+                    <field name="name"/>
+                    <field name="withholdable"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wh_concept_islr_form" model="ir.ui.view">
+            <field name="name">islr.wh.concept_form</field>
+            <field name="model">islr.wh.concept</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Concept of Withholding Income">
+                    <group colspan="4" col="4">
+                        <field name="name"/>
+                        <field name="withholdable"/>
+                        <field name="property_retencion_islr_payable" attrs="{'readonly':[('withholdable','=',False)],'required':[('withholdable','=',True)]}"/>
+                        <field name="property_retencion_islr_receivable" attrs="{'readonly':[('withholdable','=',False)],'required':[('withholdable','=',True)]}"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Rates" attrs="{'readonly':[('withholdable','=',False)]}">
+                            <field name="rate_ids" nolabel="1" />
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_wh_islr_concept">
+            <field name="name">Concept of Withholding Income</field>
+            <field name="res_model">islr.wh.concept</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="view_wh_concept_filter"/>
+            <field name="help">With "Concept of Withholding Income" you can create and manage the concept of wittholding income. For each concept is to create and manage rates associated.</field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="action_wh_islr_concept_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_wh_concept_islr_tree"/> 
+            <field name="act_window_id" ref="action_wh_islr_concept"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_wh_islr_concept_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wh_concept_islr_form"/>
+            <field name="act_window_id" ref="action_wh_islr_concept"/>
+        </record>
+        
+        <menuitem name="Concept of Withholding Income" 
+            id="menu_action_concept_retention" 
+            parent="menu_wh_configuration_islr"
+            action="action_wh_islr_concept"/>
+    </data>
+</openerp>
+
+
+
+
+

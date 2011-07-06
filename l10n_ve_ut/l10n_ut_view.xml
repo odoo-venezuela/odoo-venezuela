@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_ut_filter" model="ir.ui.view">
+            <field name="name">l10n.ut.search</field>
+            <field name="model">l10n.ut</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Tax Unit">
+                   <group col="10" colspan="4">
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="amount"/>
+                    </group>
+                    <newline/>
+                    <group expand="1" string="Group By...">
+                        <filter string="date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_l10n_ut_form">
+            <field name="name">l10n.ut.form</field>
+            <field name="model">l10n.ut</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tax Unit">
+                    <group col="6" colspan="4">
+                        <field name="name" select="1" colspan="4"/>
+                        <newline/>
+                        <field name="date" select="1"/>
+                        <field name="amount" select="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_l10n_ut_tree">
+            <field name="name">l10n.ut.tree</field>
+            <field name="model">l10n.ut</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tax Unit per date" editable="top/bottom">
+                    <field name="name" select="1"/>
+                    <newline/>
+                    <field name="date" select="1"/>
+                    <field name="amount" select="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="act_l10n_ut_tree" model="ir.actions.act_window">
+            <field name="name">Tax Unit</field>
+            <field name="res_model">l10n.ut</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="search_view_id" ref="view_l10n_ut_filter"/>
+            <field name="help">With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat.</field>
+        </record>
+        <menuitem 
+            parent="account.next_id_27" 
+            id="menu_action_l10n_ut_tree" 
+            action="act_l10n_ut_tree"/>      
+    </data>
+</openerp>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences type for account.retention --> 
+        <record id="seq_type_islr_wh" model="ir.sequence.type">
+            <field name="name">Withholding Income</field>
+            <field name="code">islr.wh.doc</field>
+        </record>
+
+        <record id="seq_account_wh_islr" model="ir.sequence">
+            <field name="name">Withholding Income</field>
+            <field name="code">islr.wh.doc</field>
+            <field name="prefix">RE:</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_type_wh_islr_purchase" model="ir.sequence.type">
+            <field name="name">Purchase Withholding Income</field>
+            <field name="code">islr.wh.doc.in_invoice</field>
+        </record>
+
+        <record id="seq_wh_islr_purchase" model="ir.sequence">
+            <field name="name">Purchase Withholding Income</field>
+            <field name="code">islr.wh.doc.in_invoice</field>
+            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_type_wh_islr_sales" model="ir.sequence.type">
+            <field name="name">Sale Withholding Income</field>
+            <field name="code">islr.wh.doc.out_invoice</field>
+        </record>
+
+        <record id="seq_wh_islr_sales" model="ir.sequence">
+            <field name="name">Sale Withholding Income</field>
+            <field name="code">islr.wh.doc.out_invoice</field>
+            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</openerp>
