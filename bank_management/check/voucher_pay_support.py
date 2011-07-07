@@ -224,6 +224,7 @@ class VoucherLine(osv.osv):
     _inherit = 'account.voucher.line'
     _columns={
         'invoice_id':fields.many2one('account.invoice', 'Invoice', required=False, readonly=False),
+        'voucher_id':fields.many2one('account.voucher', 'Voucher', required=0, ondelete='set null'),        
     }    
     _defaults = {
         'type': lambda *a: 'dr'
@@ -232,8 +233,8 @@ class VoucherLine(osv.osv):
     def onchange_invoice_id(self, cr, uid, ids, invoice_id, context={}):
         res = {}
         lines = []
-        if 'lines' in self.voucher_context:
-            lines = [x[2] for x in self.voucher_context['lines'] if x[2]]
+#        if 'lines' in self.voucher_context:
+#            lines = [x[2] for x in self.voucher_context['lines'] if x[2]]
         
         if not invoice_id:
             res = {
@@ -242,8 +243,8 @@ class VoucherLine(osv.osv):
         else:
             invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
             residual = invoice_obj.residual
-            same_invoice_amounts = [x['amount'] for x in lines if x['invoice_id']==invoice_id]
-            residual -= sum(same_invoice_amounts)
+#            same_invoice_amounts = [x['amount'] for x in lines if x['invoice_id']==invoice_id]
+#            residual -= sum(same_invoice_amounts)
             res = {
                 'value' : {'amount':residual}
             }
