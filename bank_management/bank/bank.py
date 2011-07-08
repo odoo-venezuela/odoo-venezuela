@@ -32,13 +32,12 @@ from tools.translate import _
 from tools import config
 import decimal_precision as dp
 
-class res_bank_entity(osv.osv):
+class Bank(osv.osv):
     '''
-    Modulo que crea las entidades bancarias
+    Modulo que agrega limites las entidades bancarias
     '''
-    _name='res.bank.entity'
+    _inherit = 'res.bank'
     _columns={
-        'name': fields.char('Bank Name',size=64, required=True, readonly=False),
         'min_lim':fields.float('Min. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True ),
         'max_lim':fields.float('Max. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True ),
         'format_h':fields.text('Format Check', required=True),
@@ -47,7 +46,7 @@ class res_bank_entity(osv.osv):
     def _check_bank(self,cr,uid,ids,context={}):
 
         obj_bank = self.browse(cr,uid,ids[0])
-        cr.execute('select a.name  from res_bank_entity a')
+        cr.execute('select a.name from res_bank a')
         lista=cr.fetchall()
         #comprension de lista
         bandera=([x[0] for x in lista if x[0] == obj_bank.name])
@@ -69,12 +68,6 @@ class res_bank_entity(osv.osv):
         (_check_lim, 'Error ! Minimum limit must be less than maximun limit', ['name'])
     ]
         
-res_bank_entity()
+Bank()
 
-class res_partner_bank(osv.osv):
-    '''Bank Accounts'''
-    _inherit = "res.partner.bank"
-    _columns = {
-        'bank_id': fields.many2one('res.bank.entity', 'Bank Entity'),
-    }
-res_partner_bank()
+
