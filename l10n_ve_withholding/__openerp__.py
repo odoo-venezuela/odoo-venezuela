@@ -34,6 +34,8 @@
     'init_xml': [],
     "depends" : ["l10n_ve_fiscal_requirements", "account"],
     'update_xml': [
+        'security/withholding_security.xml',
+        'security/ir.model.access.csv',    
         'l10n_ve_withholding_data.xml',    
         'l10n_ve_withholding_view.xml',
         'account_view.xml'
