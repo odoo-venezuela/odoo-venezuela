@@ -47,6 +47,7 @@
     "update_xml" : [
             "security/account_voucher_group.xml",
             "account_voucher_payment_view.xml",
+            "account_view.xml",
     ],
     "active": False,
     "installable": True

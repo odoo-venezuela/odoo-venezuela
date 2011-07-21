@@ -6,10 +6,10 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@vauxoo.com>
-#              María Gabriela Quilarque  <gabriela@vauxoo.com>
+#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
+#    Audited by: Humberto Arocha humberto@vauxoo.com
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+from osv import osv
+from osv import fields
+from tools.translate import _
+from tools import config
+import time
+import datetime
+import decimal_precision as dp
 
-import account_voucher_payment
-import account
+
+class account_journal(osv.osv):
+    
+    _inherit= "account.journal"
+    
+    _columns={
+        'default_payment_credit_account_id' : fields.many2one('account.account','Write-Off Credit Account'),
+        'default_payment_debit_account_id' : fields.many2one('account.account','Write-Off Debit account'),
+    }
+account_journal()
