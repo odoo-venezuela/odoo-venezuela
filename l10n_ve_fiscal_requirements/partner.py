@@ -56,8 +56,11 @@ class res_partner(osv.osv):
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         partner_obj = self.browse(cr,uid,ids[0])
-        res = [addr for addr in partner_obj.address if addr.type == 'invoice']
-        if res:
+        if hasattr(partner_obj, 'address') and partner_obj.address:
+            res = [addr for addr in partner_obj.address if addr.type == 'invoice']
+            if res:
+                return True
+        else:
             return True
 
         return False
