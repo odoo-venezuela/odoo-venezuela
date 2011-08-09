@@ -32,7 +32,7 @@ import check_note
 import check_book_wizard
 import check_book_request
 import bank
-import l10n_ve_bank
+#import l10n_ve_bank
 import voucher_pay_support
 import report
 import wizard
