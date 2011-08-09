@@ -46,7 +46,7 @@
         'bank_management_data.xml',
         'bank_management_menu.xml',        
         'bank/bank_view.xml',        
-        'bank/res_bank_entity_view.xml',
+#        'bank/res_bank_entity_view.xml',
         'check/check_book_report.xml',
         'check/check_book_view.xml',
         'check/check_note_view.xml',

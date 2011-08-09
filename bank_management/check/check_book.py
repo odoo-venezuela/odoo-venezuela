@@ -110,11 +110,11 @@ class check_book(osv.osv):
 
     _columns={
     'name':fields.char('Check Book', size=256,readonly=True),
-    'accounting_bank_id':fields.many2one('res.bank','Bank Account',required=True, readonly=True,
+    'accounting_bank_id':fields.many2one('res.partner.bank','Bank Account',required=True, readonly=True,
                         states={'request':[('readonly',False)]   ,
                         'draft':[('readonly',True)]              ,
                         'review':[('readonly',True)]})           , 
-    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
+    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
     'from_suffix':fields.integer('From Suffix',  readonly=True,
                   states={'request':[('readonly',True)]  ,
                           'draft':[('readonly',False), ('required',True)]   ,

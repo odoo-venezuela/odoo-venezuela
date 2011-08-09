@@ -52,8 +52,8 @@ class check_note(osv.osv):
 
     _columns={
     'check_book_id':fields.many2one('check.book','Check Book',required=False, readonly=True),
-    'bank_id':fields.related('check_book_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank',store=True, readonly=True),
-    'accounting_bank_id':fields.related('check_book_id','accounting_bank_id', type='many2one',relation='res.bank',string='Bank Account',store=True, readonly=True),
+    'bank_id':fields.related('check_book_id','bank_id',type='many2one',relation='res.bank',string='Bank',store=True, readonly=True),
+    'accounting_bank_id':fields.related('check_book_id','accounting_bank_id', type='many2one',relation='res.partner.bank',string='Bank Account',store=True, readonly=True),
     'number': fields.function(_get_number, method=True, type='char', string='Check Number', size=8,
         store={
             'check.note': (lambda self, cr, uid, ids, c={}: ids, ['suffix','prefix'], 20),

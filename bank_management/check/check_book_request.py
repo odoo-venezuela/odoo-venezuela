@@ -45,11 +45,11 @@ class check_book_request(osv.osv):
     
     _columns={
     'code': fields.char('Request Number', size=60, readonly=True)                                                          , 
-    'accounting_bank_id':fields.many2one('res.bank','Account Bank',required=True                                          ,
+    'accounting_bank_id':fields.many2one('res.partner.bank','Account Bank',required=True                                          ,
                           states={'draft':[('readonly',False)]    , 
                                   'received':[('readonly',True)]  ,        
                                   'send':[('readonly',True)]})    ,
-    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank.entity',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it')                                                          ,
+    'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it')                                                          ,
     'agen_id':fields.related('accounting_bank_id', 'agencia',type='char', size=30, string='Bank Agency', store=True, readonly=True, help='The Bank Agency name must be load when saved it')  ,
     'partner_id': fields.many2one('res.partner', 'Authorized',required=True,
                    states={'draft':[('readonly',False)]    , 
