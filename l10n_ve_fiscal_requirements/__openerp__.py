@@ -31,7 +31,7 @@
     - Tax-except
     - Required address invoice
     - Unique address invoice.
-    
+    - VAT verification for Venezuela rules.
     """,
     'init_xml': [],
     "depends" : ["base", "purchase", "stock", "account"],
