@@ -50,6 +50,37 @@
         </record>
 
 
+	<!-- 
+	=====================================================
+	Filter invoice address
+	=====================================================
+	-->  
+
+
+        <record id="account_invoice_addr_form_loc_ve" model="ir.ui.view">
+            <field name="name">invoice.address.account.invoice.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/field[@name='address_invoice_id']" position="replace">
+                    <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="account_invoice_addr_supp_form_loc_ve" model="ir.ui.view">
+            <field name="name">account.invoice.address.supplier.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/field[@name='address_invoice_id']" position="replace">
+                    <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
+                </xpath>
+            </field>
+        </record>
 
     </data>
 </openerp>
