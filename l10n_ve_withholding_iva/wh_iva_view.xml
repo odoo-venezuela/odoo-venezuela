@@ -180,34 +180,6 @@
         </record>
         
 
-        <record model="ir.actions.act_window" id="action_account_wh_iva">
-            <field name="name">Withholding Vat</field>
-            <field name="res_model">account.wh.iva</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_tree">
-            <field name="sequence" eval="10"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_iva_tree"/> 
-            <field name="act_window_id" ref="action_account_wh_iva"/>
-        </record>
-        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_form">
-            <field name="sequence" eval="20"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_wh_iva_form"/>
-            <field name="act_window_id" ref="action_account_wh_iva"/>
-        </record>
-
-        <menuitem
-            id="menu_action_account_wh_iva"
-            name="Withholding vat"        
-            parent="l10n_ve_withholding.menu_finance_withholding"
-            action="action_account_wh_iva"/>
-
-
-
         <record model="ir.actions.act_window" id="action_account_wh_iva_customer">
             <field name="name">Withholding vat customer</field>
             <field name="res_model">account.wh.iva</field>
@@ -233,7 +205,7 @@
         <menuitem
             id="menu_action_account_wh_iva_customer"
             name="Withholding vat customer"       
-            parent="menu_action_account_wh_iva"
+            parent="l10n_ve_withholding.menu_wh_customer"
             action="action_account_wh_iva_customer"/>
 
 
@@ -263,7 +235,7 @@
         <menuitem
             id="menu_action_account_wh_iva_supplier"
             name="Withholding vat supplier"        
-            parent="menu_action_account_wh_iva"
+            parent="l10n_ve_withholding.menu_wh_suppiler"
             action="action_account_wh_iva_supplier"/>
 
     </data>
