@@ -11,7 +11,7 @@
 
         <menuitem
             name="Reporte de Chequeras"
-            parent="id_check_book"
+            parent="id_check_management"
             action="transaction_report_xml"
             type="wizard"
             icon="STOCK_PRINT"

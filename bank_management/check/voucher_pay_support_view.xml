@@ -130,7 +130,7 @@
 	=====================================================
 	-->   
     	<record model="ir.actions.act_window" id="action_voucher_pay_support">
-	    	<field name="name">Todos los Soportes de Pago</field>
+	    	<field name="name">Soportes de Pago</field>
 	    	<field name="res_model">voucher.pay.support</field>
 	    	<field name="type">ir.actions.act_window</field>
 	    	<field name="view_type">form</field>
@@ -151,15 +151,9 @@
 	    	<field name="act_window_id" ref="action_voucher_pay_support"/>
 	    </record>
         <menuitem 
-            name="Soporte de Pago" 
-            id="menu_generador_voucher_pay_support" 
-            parent="menu_check"
-            sequence="99"/>
-
-        <menuitem 
             action="action_voucher_pay_support" 
             id="menu_voucher_pay_support" 
-            parent="menu_generador_voucher_pay_support"/>
+            parent="id_check_management"/>
 
 <!--        vista utilizada para finalizar el wizard de ordenes de pago-->
 

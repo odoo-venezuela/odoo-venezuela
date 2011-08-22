@@ -107,6 +107,6 @@
         <menuitem
             action="action_check_note"
             id="menu_check_note"
-            parent="id_check_book"/>
+            parent="id_check_management"/>
     </data>
 </openerp>

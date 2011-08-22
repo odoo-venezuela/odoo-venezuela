@@ -151,13 +151,8 @@
             <field name="help">With Check Book you can create and manage Check Book.</field>            
         </record>
         <menuitem 
-            name="Gestion de Chequeras" 
-            id="id_check_book" 
-            parent="menu_check"
-            sequence="99"/>
-        <menuitem 
             action="action_check_book" 
             id="menu_check_book" 
-            parent="id_check_book"/>
+            parent="id_check_management"/>
     </data>
 </openerp>
