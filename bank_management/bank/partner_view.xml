@@ -8,7 +8,7 @@
     ==================================
     -->
         <record id="view_partner_bank_account_form" model="ir.ui.view">
-            <field name="name">res.partner.bank.account.form</field>
+            <field name="name">res.partner.bank.inhe.account.form</field>
             <field name="model">res.partner.bank</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_bank_form"/>
@@ -18,8 +18,110 @@
                     <field name="bank_account_id"/>
                     <field name="journal_id"/>
                     <field name="trans_account_id"/>
+                    <field name="transitory_money"/>                      
+                    <field name="virtual_balance"/>
+                    <field name="balance"/>                    
                 </xpath>
             </field>
         </record>
+        
+        <record id="view_partner_bank_account_tree" model="ir.ui.view">
+            <field name="name">res.partner.bank.inhe.account.tree</field>
+            <field name="model">res.partner.bank</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/field[@name='owner_name']" position="after">
+                    <field name="bank_account_id"/>
+                    <field name="journal_id"/>
+                    <field name="trans_account_id"/>
+                    <field name="transitory_money"/>                      
+                    <field name="virtual_balance"/>
+                    <field name="balance"/>                    
+                </xpath>
+            </field>
+        </record>
+
+        
+        
+        <record id="view_res_partner_bank_form" model="ir.ui.view">
+            <field name="name">res.partner.bank.account.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Bank account">
+                    <field name="state"/>
+                    <field name="partner_id" select="1"/>
+                    <newline/>
+                    <field name="acc_number" select="1"/>
+                    <newline/>
+                    <field name="bank"/>
+                    <newline/>
+                    <field name="sequence"/>
+                    <field colspan="4" name="name"/>
+                    <separator colspan="4" string="Bank Account Owner"/>
+                    <field colspan="4" name="owner_name"/>
+                    <field name="bank_account_id"/>
+                    <field name="journal_id"/>
+                    <field name="trans_account_id"/>
+                    <field name="transitory_money"/>                      
+                    <field name="virtual_balance"/>
+                    <field name="balance"/>                    
+                    <field colspan="4" name="street"/>
+                    <field name="city"/>
+                    <field name="zip"/>
+                    <field completion="1" name="country_id"/>
+                    <field name="state_id"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_res_partner_bank_tree" model="ir.ui.view">
+            <field name="name">res.partner.bank.account.tree</field>
+            <field name="model">res.partner.bank</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Accounts">
+                    <field name="state"/>
+                    <field name="acc_number"/>
+                    <field name="partner_id"/>
+                    <field name="owner_name"/>
+                    <field name="bank_account_id"/>
+                    <field name="journal_id"/>
+                    <field name="trans_account_id"/>
+                    <field name="transitory_money"/>                      
+                    <field name="virtual_balance"/>
+                    <field name="balance"/>                    
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_res_partner_bank">
+            <field name="name">Bank Account</field>
+            <field name="res_model">res.partner.bank</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_partner_bank_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_res_partner_bank_tree"/> 
+            <field name="act_window_id" ref="action_res_partner_bank"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_partner_bank_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_res_partner_bank_form"/>
+            <field name="act_window_id" ref="action_res_partner_bank"/>
+        </record>
+
+        <menuitem
+            id="menu_action_res_partner_bank"
+            parent="base.menu_config_address_book"
+            action="action_res_partner_bank"
+            sequence="5"/>
+
+        
     </data>
 </openerp>

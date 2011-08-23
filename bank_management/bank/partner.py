@@ -29,7 +29,7 @@
 from osv import osv
 from osv import fields
 from tools.translate import _
-from tools import config
+import decimal_precision as dp
 
 class res_partner_bank(osv.osv):
     '''
@@ -70,7 +70,7 @@ class res_partner_bank(osv.osv):
     
     _columns={
         'trans_account_id':fields.many2one('account.account','Transitory Account',required=False, readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
-        'bank_account_id':fields.many2one('account.account','Bank Account',required=True,readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
+        'bank_account_id':fields.many2one('account.account','Accounting Account',required=True,readonly=False,domain="[('type', '<>', 'view'),('type', '<>', 'consolidation')]"), 
         'journal_id': fields.many2one('account.journal', 'Journal',required=True),
         'transitory_money':fields.function(_get_transitory_money, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Transitory Money'),
         'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Virtual Balance', help="Proposed Balance=Sum transitory money more balance closed or balance account"),  
