@@ -57,7 +57,7 @@
 #        'check/generate_lines_payment_wizard.xml',
         'check/check_book_request_view.xml',
         'check/data/res.bank.xml',
-        'check/res_bank_balance.xml',
+        'bank/res_bank_balance.xml',
         'check/voucher_pay_support_view.xml',
 #        'check/menu_vouche_view.xml',
 #        'check/pay_order_view.xml',

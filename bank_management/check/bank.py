@@ -29,42 +29,8 @@ class res_partner_bank(osv.osv):
     res_partner_bank
     """
     _inherit = 'res.partner.bank'
-
-    def _get_transitory_money(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        for i in self.browse(cr,uid,ids):
-            mont=0
-            pay_support = self.pool.get('voucher.pay.support')   
-            pay_support_ids = pay_support.search(cr, uid, [('accounting_bank_id','=',i.id)])      
-            pay_support_brow = pay_support.browse(cr, uid, pay_support_ids, context=None) 
-            for pay in pay_support_brow:# "por cada soporte de pago"
-                if pay.state =="open" or pay.state =="draft":
-                    mont=mont + pay.amount
-            res[i.id]=mont
-        return  res 
- 
-    
-    def _get_virtual_balance(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        mont_virtual_balance=0
-        for i in self.browse(cr,uid,ids):    
-            mont_virtual_balance=i.transitory_money + (i.bank_account_id and i.bank_account_id.balance or 0.0)
-            res[i.id]=mont_virtual_balance
-        return  res 
-
-
-    def _get_balance(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        balance=0
-        for i in self.browse(cr,uid,ids):    
-            balance=i.bank_account_id.balance         
-            res[i.id]=balance
-        return  res    
     _columns = {
-        'checkbook_ids':fields.one2many('res.partner.bank.checkbook', 'account_id', 'Bank Account', required=False),
-        'transitory_money':fields.function(_get_transitory_money, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Transitory Money'),
-        'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Virtual Balance', help="Proposed Balance=Sum transitory money more balance closed or balance account"),  
-        'balance':fields.function(_get_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Account Balance'),        
+        'checkbook_ids':fields.one2many('res.partner.bank.checkbook', 'account_id', 'Bank Account', required=False),        
     }
 
     
