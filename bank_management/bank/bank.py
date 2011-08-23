@@ -58,7 +58,7 @@ class Bank(osv.osv):
     def _check_lim(self,cr,uid,ids,context={}):
 
         obj_bank = self.browse(cr,uid,ids[0])
-        if obj_bank.min_lim >= obj_bank.max_lim:
+        if obj_bank.min_lim > obj_bank.max_lim:
             return False
         else:
             return True

@@ -20,13 +20,13 @@
 <!--                </xpath>-->
 <!--            </field>-->
 <!--        </record>-->
-        <record id="view_res_accounting_bank_tree2" model="ir.ui.view">
+        <record id="view_partner_bank_balance_tree" model="ir.ui.view">
             <field name="name">res.accounting.bank.tree2</field>
-            <field name="model">res.bank</field>
+            <field name="model">res.partner.bank</field>
             <field name="type">tree</field>
-            <field name="inherit_id" ref="base.view_res_bank_tree"/>
+            <field name="inherit_id" ref="base.view_partner_bank_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="/tree/field[@name='country']" position="after">
+                <xpath expr="/tree/field[@name='owner_name']" position="after">
                     <field name="transitory_money"/>                      
                     <field name="virtual_balance"/>
                     <field name="balance"/>

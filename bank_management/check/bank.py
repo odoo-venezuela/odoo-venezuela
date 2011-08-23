@@ -29,19 +29,7 @@ class res_partner_bank(osv.osv):
     res_partner_bank
     """
     _inherit = 'res.partner.bank'
-    _columns = {
-        'checkbook_ids':fields.one2many('res.partner.bank.checkbook', 'account_id', 'Bank Account', required=False),
-    }
-res_partner_bank()
 
-
-class res_bank(osv.osv):
-    '''
-    Calculo de Saldo Virtual
-    '''
-    _name='res.bank'
-    _inherit = 'res.bank'
-    
     def _get_transitory_money(self, cr, uid, ids, field_name, arg, context):
         res={}
         for i in self.browse(cr,uid,ids):
@@ -71,13 +59,14 @@ class res_bank(osv.osv):
         for i in self.browse(cr,uid,ids):    
             balance=i.bank_account_id.balance         
             res[i.id]=balance
-        return  res       
-    
-    _columns={ 
+        return  res    
+    _columns = {
+        'checkbook_ids':fields.one2many('res.partner.bank.checkbook', 'account_id', 'Bank Account', required=False),
         'transitory_money':fields.function(_get_transitory_money, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Transitory Money'),
         'virtual_balance':fields.function(_get_virtual_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Virtual Balance', help="Proposed Balance=Sum transitory money more balance closed or balance account"),  
-        'balance':fields.function(_get_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Account Balance'),
+        'balance':fields.function(_get_balance, method=True, type='float', digits_compute=dp.get_precision('Bank'), string='Account Balance'),        
     }
+
     
-res_bank()
+res_partner_bank()
 
