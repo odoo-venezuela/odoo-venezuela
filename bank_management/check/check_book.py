@@ -114,7 +114,7 @@ class check_book(osv.osv):
                         states={'request':[('readonly',False)]   ,
                         'draft':[('readonly',True)]              ,
                         'review':[('readonly',True)]})           , 
-    'bank_id':fields.related('accounting_bank_id','bank_id',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
+    'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
     'from_suffix':fields.integer('From Suffix',  readonly=True,
                   states={'request':[('readonly',True)]  ,
                           'draft':[('readonly',False), ('required',True)]   ,

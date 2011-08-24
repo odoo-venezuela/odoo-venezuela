@@ -79,9 +79,9 @@ class rep_check_book_request(report_sxw.rml_parse):
         return res
 
     def get_banco(self, cuenta):
-        banco=cuenta.bank_id.name
-        agencia=cuenta.agencia
-        cuenta=cuenta.code
+        banco=cuenta.bank.name
+        agencia=cuenta.name
+        cuenta=cuenta.acc_number
         res=[banco,agencia,cuenta]
         return res
     

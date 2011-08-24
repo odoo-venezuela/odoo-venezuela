@@ -3,6 +3,17 @@
     <data>
         <report             
             id="report_check_book" 
+            model="check.book.request" 
+            name="reporte.check.book.request" 
+            rml="bank_management/check/report/report_request_check_book.rml" 
+            string="Carta Solicitud de Chequera"
+            auto="True" 
+            menu="False"
+            groups="account.group_account_manager"
+            header="False" />
+        <!--   cambiar ID         -->    
+        <report             
+            id="report_check_book_l" 
             model="check.book" 
             name="reporte.check.book" 
             rml="check_book/report/reporte_check_book.rml" 
@@ -21,16 +32,6 @@
             menu="False"
             groups="account.group_account_manager" 
             header="False" />
-        <report             
-            id="report_check_book" 
-            model="check.book.request" 
-            name="reporte.check.book.request" 
-            rml="check_book_request/report/report_request_check_book.rml" 
-            string="Carta Solicitud de Chequera"
-            auto="True" 
-            menu="False"
-            groups="account.group_account_manager"
-            header="False" /> 
 		<report id="report_account_voucher3"
 			string="Comprobate de Pago Resumido."
 			model="voucher.pay.support"
@@ -59,6 +60,6 @@
             auto="False" 
             header="False" 
             />
-            
+
     </data>
 </openerp>
