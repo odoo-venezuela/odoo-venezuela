@@ -46,10 +46,6 @@ class check_note(osv.osv):
 
         return res
  
-    def copy(self, cr, uid, id, default=None, context=None):
-        raise osv.except_osv(_('Warning !'), _('You can not duplicate this document!!!'))
-        return super(check_note, self).copy(cr, uid, id, {}, context)
-
     _columns={
     'check_book_id':fields.many2one('check.book','Check Book',required=False, readonly=True),
     'bank_id':fields.related('check_book_id','bank_id',type='many2one',relation='res.bank',string='Bank',store=True, readonly=True),
@@ -129,6 +125,10 @@ class check_note(osv.osv):
             ids = [ids]
         reads = self.read(cr, uid, ids, ['number'], context)
         return [(x['number']) for x in reads]
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        raise osv.except_osv(_('Warning !'), _('You can not duplicate this document!!!'))
+        return super(check_note, self).copy(cr, uid, id, {}, context)
 
 
 check_note()

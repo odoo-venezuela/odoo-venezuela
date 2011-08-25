@@ -40,17 +40,6 @@ class check_book(osv.osv):
     '''
     _name='check.book'
     
-    def _get_name_check(self, cr, uid, ids, context):
-        '''
-        funcion para obtener el nombre de la chequera concatenado. El campo va a ser la concatenacion de lo siguiente:
-        Banco(nombre) + Cuenta(numero de la cuenta) + Fecha de recepcion(date_draft) + from + to.
-        '''
-        res={}
-        for i in self.browse(cr,uid,ids):
-            number = str(i.from_suffix).rjust(4,'0') + str(i.to_suffix).rjust(4,'0')
-            name_check= i.bank_id.name +' '+i.accounting_bank_id.name+' '+i.date_draft +' '+number
-            res[i.id] = name_check
-        return name_check
     
     def _get_qty_active(self, cr, uid, ids, field_name, arg, context):
         '''
@@ -69,16 +58,15 @@ class check_book(osv.osv):
         '''
         numero de cheques segun seleccion
         '''
+        qty_chk = {
+            '25': 25,
+            '50': 50,
+            '75': 75,
+            '100': 100,        
+        }
         res={}
         for i in self.browse(cr,uid,ids):
-            if i.qty_check_selection=="25":
-                res[i.id]=25
-            if i.qty_check_selection=="50":
-                res[i.id]=50
-            if i.qty_check_selection=="75":
-                res[i.id]=75
-            if i.qty_check_selection=="100":
-                res[i.id]=100
+            res[i.id] = qty_chk[i.qty_check_selection]
         return  res
    
     def _get_rate_user(self, cr, uid, ids, field_name, arg, context):
@@ -248,11 +236,25 @@ class check_book(osv.osv):
                     })
                     self.pool.get('check.note').create(cr, uid, values)               
 
+        return True
+
+    def _get_name_check(self, cr, uid, ids, context):
+        '''
+        funcion para obtener el nombre de la chequera concatenado. El campo va a ser la concatenacion de lo siguiente:
+        Banco(nombre) + Cuenta(numero de la cuenta) + Fecha de recepcion(date_draft) + from + to.
+        '''
+        res={}
+        for i in self.browse(cr,uid,ids):
+            number = str(i.from_suffix).rjust(4,'0') + str(i.to_suffix).rjust(4,'0')
+            name_check= i.bank_id.name +' '+i.accounting_bank_id.acc_number+' '+i.date_draft +' '+number
+            res[i.id] = name_check
+        return name_check
+    
     def review(self, cr, uid, ids, context={}):
         #se calcula el to_suffix hasta
         books = self.browse(cr,uid,ids)
         for book in books:
-            de_sufijo=book.from_suffix+book.qty_check-1   
+            de_sufijo=book.from_suffix+int(book.qty_check)-1   
             self.write(cr,uid,book.id,{'to_suffix' : de_sufijo}) 
         #se cargan los cheques
         self.load_check(cr, uid, ids, context)
@@ -270,6 +272,8 @@ class check_book(osv.osv):
                 self.write(cr,uid,book.id,{'state' : 'review'})
                 for k in book.check_note_ids:
                     self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'review'})
+
+        return True                    
                     
     #activar, la primera vez                
     def active(self, cr, uid, ids, context={}):
@@ -280,6 +284,8 @@ class check_book(osv.osv):
             for k in book.check_note_ids:
                 self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'active'})
 
+        return True                
+
     def hibernate(self, cr, uid, ids, context={}):
         books = self.browse(cr,uid,ids)
         for book in books:
@@ -287,6 +293,8 @@ class check_book(osv.osv):
             for k in book.check_note_ids:
                 if k.state=="active":#solo para los cheques activos
                     self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'hibernate'})
+
+        return True                    
                     
     #para reactivar despues de hibernar                
     def active_hibernate(self, cr, uid, ids, context={}):
@@ -296,7 +304,8 @@ class check_book(osv.osv):
             for k in book.check_note_ids:
                 if k.state=="hibernate":#solo para los cheques activos
                     self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'active'})
-                    
+
+        return True                    
                     
     def anular(self, cr, uid, ids, context={}):
         books = self.browse(cr,uid,ids)
@@ -310,5 +319,8 @@ class check_book(osv.osv):
                 self.write(cr,uid,book.id,{'date_done' : time.strftime('%Y-%m-%d')})
                 for k in book.check_note_ids:
                     if k.state=="active":#solo para los cheques activos
-                        self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'cancel'})                
+                        self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'cancel'})
+                        
+        return True
+                            
 check_book()

@@ -13,11 +13,11 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_bank_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/field[@name='owner_name']" position="after">
-                    <separator string="Accounting Settings"/>
+                <xpath expr="/form/field[@name='name']" position="after">
+                    <separator string="Account Properties" colspan="4"/>
                     <field name="bank_account_id"/>
-                    <field name="journal_id"/>
                     <field name="trans_account_id"/>
+                    <field name="journal_id"/>                    
                     <field name="transitory_money"/>                      
                     <field name="virtual_balance"/>
                     <field name="balance"/>                    
@@ -32,6 +32,7 @@
             <field name="inherit_id" ref="base.view_partner_bank_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="/tree/field[@name='owner_name']" position="after">
+                    <field name="bank"/>
                     <field name="bank_account_id"/>
                     <field name="journal_id"/>
                     <field name="trans_account_id"/>
@@ -59,14 +60,15 @@
                     <newline/>
                     <field name="sequence"/>
                     <field colspan="4" name="name"/>
-                    <separator colspan="4" string="Bank Account Owner"/>
-                    <field colspan="4" name="owner_name"/>
+                    <separator colspan="4" string="Account Properties"/>
                     <field name="bank_account_id"/>
-                    <field name="journal_id"/>
                     <field name="trans_account_id"/>
+                    <field name="journal_id"/>                    
                     <field name="transitory_money"/>                      
                     <field name="virtual_balance"/>
                     <field name="balance"/>                    
+                    <separator colspan="4" string="Bank Account Owner"/>
+                    <field colspan="4" name="owner_name"/>                    
                     <field colspan="4" name="street"/>
                     <field name="city"/>
                     <field name="zip"/>
@@ -82,6 +84,7 @@
             <field name="arch" type="xml">
                 <tree string="Bank Accounts">
                     <field name="state"/>
+                    <field name="bank"/>
                     <field name="acc_number"/>
                     <field name="partner_id"/>
                     <field name="owner_name"/>

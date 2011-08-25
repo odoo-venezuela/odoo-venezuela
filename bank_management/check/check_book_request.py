@@ -37,12 +37,7 @@ class check_book_request(osv.osv):
     '''
     Modulo de Solicitud de Chequera
     '''
-    _name='check.book.request'
-    
-    def copy(self, cr, uid, id, default=None, context=None):
-        raise osv.except_osv(_('Warning !'), _('you can not duplicate this document!!!'))
-        return super(check_book_request, self).copy(cr, uid, id, {}, context)
-    
+    _name='check.book.request'    
     _columns={
     'code': fields.char('Request Number', size=60, readonly=True)                                                          , 
     'accounting_bank_id':fields.many2one('res.partner.bank','Account Bank',required=True                                          ,
@@ -78,6 +73,8 @@ class check_book_request(osv.osv):
         book_request = self.browse(cr,uid,ids)
         for request in book_request:
             self.write(cr,uid,request.id,{'state' : 'send'})
+        
+        return True
             
     #se cancelan las chequeras asociadas a la solicitud
     def get_anular(self, cr, uid, ids, context={}):
@@ -87,7 +84,8 @@ class check_book_request(osv.osv):
             for book in request.check_book_ids: #por cada chequera
                 self.pool.get('check.book').write(cr,uid,book.id,{ 'state' : 'cancel',
                                                                    'date_done' : time.strftime('%Y-%m-%d'),
-                                                                   'notes' : 'Cancelacion de Chequera por Solicitud' })      
+                                                                   'notes' : 'Cancelacion de Chequera por Solicitud' })
+        return True                                                                   
 
     #cambia el estado del documento a received, el estado draft en chequera y fecha de recepcion
     def get_received(self, cr, uid, ids, context={}):
@@ -97,6 +95,8 @@ class check_book_request(osv.osv):
             for c in request.check_book_ids: #para las chequeras
                 self.pool.get('check.book').write(cr,uid,c.id,{'state' : 'draft', 'date_draft':time.strftime('%Y-%m-%d') }) 
 
+        return True                
+
     def onchange_accounting_bank_id(self, cr, uid, ids, accounting_bank_id): 
         #result={}   
         boock = self.pool.get('check.book').search(cr, uid, [('accounting_bank_id','=',accounting_bank_id) , 
@@ -104,7 +104,11 @@ class check_book_request(osv.osv):
                                                               ('check_book_request_id', '=', False)]) 
         result = {'value': {'check_book_ids': boock} }
         return result 
-    
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        raise osv.except_osv(_('Warning !'), _('you can not duplicate this document!!!'))
+        return super(check_book_request, self).copy(cr, uid, id, {}, context)
+        
 check_book_request()
 
 
