@@ -2,9 +2,9 @@
 <openerp>
     <data>
         <report             
-            id="report_check_book" 
+            id="report_chk_book_request" 
             model="check.book.request" 
-            name="reporte.check.book.request" 
+            name="chk.book.request" 
             rml="bank_management/check/report/report_request_check_book.rml" 
             string="Carta Solicitud de Chequera"
             auto="True" 
@@ -13,25 +13,25 @@
             header="False" />
         <!--   cambiar ID         -->    
         <report             
-            id="report_check_book_l" 
+            id="report_check_book" 
             model="check.book" 
             name="reporte.check.book" 
-            rml="check_book/report/reporte_check_book.rml" 
-            string="Repore de Chequera"
+            rml="bank_management/check/report/reporte_check_book.rml" 
+            string="Reporte de Chequera"
             auto="True" 
             menu="False"
             groups="account.group_account_manager" 
             header="False" />
-        <report             
-            id="report_check" 
-            model="check.book.wizard" 
-            name="informe.detallado.check.book" 
-            rml="check_book/report/reporte_wizard_general.rml" 
-            string="Reporte de Chequeras"
-            auto="False" 
-            menu="False"
-            groups="account.group_account_manager" 
-            header="False" />
+<!--        <report             -->
+<!--            id="report_check" -->
+<!--            model="check.book.wizard" -->
+<!--            name="informe.detallado.check.book" -->
+<!--            rml="bank_management/check/report/reporte_wizard_general.rml" -->
+<!--            string="Reporte de Chequeras"-->
+<!--            auto="False" -->
+<!--            menu="False"-->
+<!--            groups="account.group_account_manager" -->
+<!--            header="False" />-->
 		<report id="report_account_voucher3"
 			string="Comprobate de Pago Resumido."
 			model="voucher.pay.support"

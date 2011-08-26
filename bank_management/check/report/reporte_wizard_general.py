@@ -294,9 +294,9 @@ class rep_check_general(report_sxw.rml_parse):
         return res
 
 report_sxw.report_sxw(
-    'report.reporte.wizard.general.book'                        ,  
-    'check.book.wizard'                                         ,
-    'addons/check_book/report/reporte_wizard_general.rml'       , 
-    parser=rep_check_general                                    ,
+    'report.reporte.wizard.general.book',  
+    'check.book.wizard',
+    'addons/bank_management/check/report/reporte_wizard_general.rml', 
+    parser=rep_check_general,
     header = False
 )      

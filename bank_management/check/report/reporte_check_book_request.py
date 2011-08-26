@@ -51,31 +51,21 @@ class rep_check_book_request(report_sxw.rml_parse):
         dia=fecha[8:10]
         mes=fecha[5:7]
         ano=fecha[0:4]
-        if mes=="01":
-            m="Enero"
-        if mes=="02":
-            m="Febrero"
-        if mes=="03":
-            m="Marzo"
-        if mes=="04":
-            m="Abril"
-        if mes=="05":
-            m="Mayo"
-        if mes=="06":
-            m="Junio"
-        if mes=="07":
-            m="Julio"
-        if mes=="08":
-            m="Agosto"
-        if mes=="09":
-            m="Septiembre"
-        if mes=="10":
-            m="Octubre"
-        if mes=="11":
-            m="Noviembre"
-        if mes=="12":
-            m="Diciembre"
-        res="Caracas, %s de %s de %s "%(dia, m , ano)
+        meses = {
+            '01': 'Enero',
+            '02': 'Febrero',
+            '03': 'Marzo',
+            '04': 'Abril',
+            '05': 'Mayo',
+            '06': 'Junio',
+            '07': 'Julio',
+            '08': 'Agosto',
+            '09': 'Septiembre',
+            '10': 'Octubre',
+            '11': 'Noviembre',
+            '12': 'Diciembre'        
+        }
+        res="Caracas, %s de %s de %s "%(dia, meses[mes] , ano)
         return res
 
     def get_banco(self, cuenta):
@@ -130,8 +120,8 @@ class rep_check_book_request(report_sxw.rml_parse):
         return res
 
 report_sxw.report_sxw(
-    'report.reporte.check.book.request'                                ,
-    'check.book.request'                                               ,
-    'addons/check_book_request/report/report_request_check_book.rml'   ,
-    parser=rep_check_book_request                                      ,
+    'report.chk.book.request',
+    'check.book.request',
+    'addons/bank_management/check/report/report_request_check_book.rml',
+    parser=rep_check_book_request,
 )      

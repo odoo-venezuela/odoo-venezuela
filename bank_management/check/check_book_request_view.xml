@@ -67,7 +67,7 @@
                                 <hpaned/>
                                 <hpaned/>
                                <!--generar solicitud de chequera -->
-                                <button name="%(report_check_book)d" string='Imprimir' icon='gtk-print' type="action" states="send,received"/> 
+                                <button name="%(report_chk_book_request)d" string='Imprimir' icon='gtk-print' type="action" states="send,received"/> 
                                 <newline/> 
                             </page>
                         </notebook>
