@@ -43,7 +43,30 @@
             </field>
         </record>
 
-        
+
+        <record id="view_res_partner_bank_filter" model="ir.ui.view">
+            <field name="name">res.partner.bank.search</field>
+            <field name="model">res.partner.bank</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Account Bank">
+                    <group col="5" colspan="4">
+                    <field name="bank"/>
+                    <field name="acc_number"/>
+                    <field name="partner_id"/>
+                    <field name="owner_name"/>
+                    <field name="journal_id"/>                                                
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Bank" icon="terp-folder-blue" domain="[]" context="{'group_by':'bank'}"/>
+                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Journal Entries" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>        
         
         <record id="view_res_partner_bank_form" model="ir.ui.view">
             <field name="name">res.partner.bank.account.form</field>
@@ -105,6 +128,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+	    	<field name="search_view_id" ref="view_res_partner_bank_filter"/>
+            <field name="help">With Bank Account you can create and manage Bank Account.</field>            
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_partner_bank_tree">
             <field name="sequence" eval="10"/>
