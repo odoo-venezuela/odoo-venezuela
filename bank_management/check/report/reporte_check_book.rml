@@ -217,20 +217,17 @@
     <blockTable colWidths="145.0,  87.0,  80.0,  170.0" style="Table2">
       <tr>
         <td>
-          <para style="P15">HELADOS GILDA, C.A.</para>
-          <para style="P5">J-00074823-3</para>
+          <para style="P15">[[ get_company()]]</para>
+          <para style="P5">[[ get_rif() ]]</para>
         </td>
         <td>
-          <para style="P13">ESTE DOCUMENTO NO ESTA DESTINADO A SER UTILIZADO COMO DOCUMENTO FINAL</para>
+          <para style="P13">THIS DOCUMENT IS NOT INTENDED TO BE USED AS FINAL DOCUMENT</para>
         </td>
         <td>
-          <para style="P13">ESTE DOCUMENTO TODAVÍA PUEDE TENER INFORMACIÓN FALTANTE</para>
+          <para style="P13">THIS DOCUMENT MAY HAVE STILL MISSING INFORMATION</para>
         </td>
         <td>
-          <para style="P14">REPORTE DE CHEQUERAS</para>
-<!--
-          <para style="P6">PERIODO FISCAL 2010</para>
--->
+          <para style="P14">CHECK BOOK REPORT</para>
         </td>
       </tr>
     </blockTable>
@@ -248,7 +245,7 @@
       <blockTable colWidths="480.0" style="Table1">
         <tr>
           <td>
-            <para style="P1">CHEQUERA: <font>[[ o.name.upper() ]]</font></para>
+            <para style="P1">CHECK BOOK: <font>[[ o.name.upper() ]]</font></para>
           </td>
         </tr>
       </blockTable>
@@ -257,13 +254,13 @@
       <blockTable colWidths="161.0,161.0,158.0" style="Table3">
         <tr>
           <td>
-            <para style="P3">ENTIDAD BANCARIA: <font >[[ o.bank_id.name.upper()]]</font></para>
+            <para style="P3">BANKING ENTITY: <font >[[ o.bank_id.name.upper()]]</font></para>
           </td>
           <td>
-            <para style="P3">CUENTA BANCARIA: <font >[[ o.accounting_bank_id.name.upper()]]</font></para>
+            <para style="P3">BANK ACCOUNT: <font >[[ o.accounting_bank_id.name.upper()]]</font></para>
           </td>
           <td>
-            <para style="P3">FECHA DE ACTIVACIÓN: <font>[[ o.date_active or "-"]]</font></para>
+            <para style="P3">ACTIVATION DATE: <font>[[ o.date_active or "-"]]</font></para>
           </td>
         </tr>
       </blockTable>
@@ -273,16 +270,16 @@
     <blockTable colWidths="121.0,121.0,121.0,117.0" style="Table31">
       <tr>
         <td>
-          <para style="P3">FECHA DE CIERRE: <font> [[ get_close_date (o.date_done, o.state) ]] </font></para>
+          <para style="P3">CLOSING DATE: <font> [[ get_close_date (o.date_done, o.state) ]] </font></para>
         </td>
         <td>
-          <para style="P3">NÚMERO DE CHEQUES: <font>[[ o.qty_check ]]</font></para>
+          <para style="P3">CHECKS NUMBER: <font>[[ o.qty_check ]]</font></para>
         </td>
         <td>
-          <para style="P3">CHEQUES DISPONIBLES: <font>[[ o.qty_active or '0']]</font></para>
+          <para style="P3">CHECKS AVAILABLE: <font>[[ o.qty_active or '0']]</font></para>
         </td>
         <td>
-          <para style="P3">CHEQUES ANULADOS: <font>[[ get_anulados(o.id)]]</font></para>
+          <para style="P3">VOIDED CHECK: <font>[[ get_anulados(o.id)]]</font></para>
         </td>
       </tr>
     </blockTable>
@@ -291,19 +288,19 @@
          <blockTable colWidths="96.0,96.0,96.0,96.0,96.0" style="Table4">
       <tr>
         <td>
-          <para style="P131">NUM. CHEQUES</para>
+          <para style="P131">CHECK NOTE NRO.</para>
         </td>
         <td>
-          <para style="P131">FECHA</para>
+          <para style="P131">DATE</para>
         </td>
         <td>
-          <para style="P131">ESTADO</para>
+          <para style="P131">STATE</para>
         </td>
         <td>
-          <para style="P131">BENEFICIARIO</para>
+          <para style="P131">BENEFICIARY</para>
         </td>
         <td>
-          <para style="P131">MONTO</para>
+          <para style="P131">AMOUNT</para>
         </td>
       </tr>
     </blockTable> 
@@ -346,7 +343,7 @@
       <blockTable colWidths="384.0  , 96.0  " style="Table7">
         <tr>
           <td>
-            <para style="P19">MONTO COMPROMETIDO</para>
+            <para style="P19">AMOUNT COMMITTED</para>
           </td>
           <td>
             <para style="P18">[[get_amount_asignado()]]</para>
@@ -357,7 +354,7 @@
         
         <tr>
           <td>
-            <para style="P19">MONTO PAGADO</para>
+            <para style="P19">AMOUNT PAID</para>
           </td>
           <td>
             <para style="P18">[[get_amount_done()]]</para>

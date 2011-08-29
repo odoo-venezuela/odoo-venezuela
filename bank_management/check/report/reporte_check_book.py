@@ -40,18 +40,20 @@ class rep_check_book(report_sxw.rml_parse):
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
-            'get_beneficiario':self.get_beneficiario,
-            'get_close_date':self.get_close_date,
-            'get_date_check':self.get_date_check,
-            'get_amount_check':self.get_amount_check,
-            'get_amount_asignado': self.get_amount_asignado ,
-            'get_amount_done':self.get_amount_done,
-            'get_anulados':self.get_anulados,
-            'get_estado':self.get_estado,
-            'get_cancel':self.get_cancel,
+            'get_beneficiario':self._get_beneficiario,
+            'get_close_date':self._get_close_date,
+            'get_date_check':self._get_date_check,
+            'get_amount_check':self._get_amount_check,
+            'get_amount_asignado': self._get_amount_asignado,
+            'get_amount_done':self._get_amount_done,
+            'get_anulados':self._get_anulados,
+            'get_estado':self._get_estado,
+            'get_cancel':self._get_cancel,
+            'get_company':self._get_company,
+            'get_rif':self._get_rif,            
         })
              
-    def get_estado(self,state):
+    def _get_estado(self,state):
         estado = {
             'draft': _('Draft'),
             'review': _('Review'),
@@ -64,28 +66,24 @@ class rep_check_book(report_sxw.rml_parse):
         }
         return estado[state]
 
-    def get_cancel(self, cheque):
+    def _get_cancel(self, cheque):
         res=""
+        can = {
+            'print': _('Print Error'),
+            'perdida':_('Loss or misplacement'),
+            'dan_fis': _('physical damage'),
+            'pago':_('Payment is not made'),
+            'caduco':_('Expired'),
+            'devuelto':_('Returned check')            
+        }
         self_check_book=self.pool.get('check.note')
         data=self_check_book.browse(self.cr,self.uid, cheque)
         if data.cancel_check_note:
             if data.cancel_check_note=='otros':
                 res=data.notes
                 return res
-            else: #fue otra de las razones
-                if data.cancel_check_note=="print":
-                    res= _('Print Error')
-                if data.cancel_check_note=="perdida":
-                    res= _('Loss or misplacement')
-                if data.cancel_check_note=="dan_fis":
-                    res= _('physical damage')
-                if data.cancel_check_note=="pago":
-                    res= _('Payment is not made')
-                if data.cancel_check_note=="caduco":
-                    res= _('Expired')
-                if data.cancel_check_note=="devuelto":
-                    res= _('Returned check')
-                return res
+            #fue otra de las razones
+            res = can[data.cancel_check_note]
         return res
     
     def _get_partner_addr(self, idp=None):
@@ -100,7 +98,7 @@ class rep_check_book(report_sxw.rml_parse):
             addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '---')
         return addr_inv 
 
-    def get_beneficiario(self, idp):
+    def _get_beneficiario(self, idp):
         res=" - "
         check = self.pool.get('check.note') 
         check_note = check.browse(self.cr,self.uid, idp)
@@ -112,7 +110,7 @@ class rep_check_book(report_sxw.rml_parse):
         
         return res
 
-    def get_close_date(self, fecha,state):
+    def _get_close_date(self, fecha,state):
         if len(fecha)==10:
             return fecha 
                 
@@ -128,7 +126,7 @@ class rep_check_book(report_sxw.rml_parse):
         return chk_state[state]
         
 
-    def get_date_check(self, idp):
+    def _get_date_check(self, idp):
         res=" - "
         check = self.pool.get('check.note') 
         voucher_pay_support = self.pool.get('voucher.pay.support') 
@@ -136,19 +134,18 @@ class rep_check_book(report_sxw.rml_parse):
         if voucher_ids:
             obj_v_p_s = voucher_pay_support.browse(self.cr,self.uid, voucher_ids[0])
             res=obj_v_p_s.date 
-            return res
-        else:
-            return res
+
+        return res
         
         
-    def get_anulados(self, idp):
+    def _get_anulados(self, idp):
         check = self.pool.get('check.note') 
         voucher_ids = check.search(self.cr,self.uid,[('check_book_id','=',idp), ('state','=','cancel')])
         
         return len(voucher_ids)
 
 
-    def get_amount_check(self, idp):
+    def _get_amount_check(self, idp):
         res=" - "
         check = self.pool.get('check.note') 
         obj_check = check.browse(self.cr,self.uid, idp)
@@ -166,11 +163,23 @@ class rep_check_book(report_sxw.rml_parse):
         else:
             return res
         
-    def get_amount_asignado(self):
+    def _get_amount_asignado(self):
         return self.suma_asigner
      
-    def get_amount_done(self):
+    def _get_amount_done(self):
         return self.suma_done
+
+
+    def _get_company(self):
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
+        return user.company_id.partner_id.name
+
+    def _get_rif(self):
+        r = _('Without Vat')
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
+        rif=user.company_id.partner_id.vat or '' 
+        r='%s-%s'%(rif[2:3],rif[3:-1])
+        return r
 
 report_sxw.report_sxw(
     'report.chk.book',
