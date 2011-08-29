@@ -39,17 +39,17 @@ class rep_check_book(report_sxw.rml_parse):
         self.suma_done = 0.00   
         self.localcontext.update({
             'time': time,
-            'get_partner_addr': self._get_partner_addr      ,
-            'get_beneficiario':self.get_beneficiario        ,
-            'get_close_date':self.get_close_date            ,
-            'get_date_check':self.get_date_check            ,
-            'get_amount_check':self.get_amount_check        ,
+            'get_partner_addr': self._get_partner_addr,
+            'get_beneficiario':self.get_beneficiario,
+            'get_close_date':self.get_close_date,
+            'get_date_check':self.get_date_check,
+            'get_amount_check':self.get_amount_check,
             'get_amount_asignado': self.get_amount_asignado ,
-            'get_amount_done':self.get_amount_done          ,
-            'get_state':self.get_state                      ,
-            'get_anulados':self.get_anulados                ,
-            'get_estado':self.get_estado                    ,
-            'get_cancel':self.get_cancel                    ,
+            'get_amount_done':self.get_amount_done,
+            'get_state':self.get_state,
+            'get_anulados':self.get_anulados,
+            'get_estado':self.get_estado,
+            'get_cancel':self.get_cancel,
         })
              
     def get_estado(self,state):
@@ -201,8 +201,8 @@ class rep_check_book(report_sxw.rml_parse):
         return self.suma_done
 
 report_sxw.report_sxw(
-    'report.reporte.check.book'                         ,
-    'check.book'                                        ,
-    'addons/check_book/report/reporte_check_book.rml'   ,
-    parser=rep_check_book                               ,
-)      
+    'report.chk.book',
+    'check.book',
+    'addons/check_book/report/reporte_check_book.rml',
+    parser=rep_check_book,
+)
