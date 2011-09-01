@@ -62,7 +62,7 @@ class voucher_pay_support(osv.osv):
                     'done':[('readonly',True)]            ,
                     'cancel':[('readonly',True)]})        , 
         'accounting_bank_id':fields.many2one('res.partner.bank','Bank Account', readonly=True), 
-        'check_note_id': fields.many2one('check.note', 'Check Note', readonly=True ,required=True, domain="[('accounting_bank_id','=',accounting_bank_id)]"),
+        'check_note_id': fields.many2one('check.note', 'Check Note', readonly=True, states={'draft':[('readonly',False)]} ,required=True, domain="[('accounting_bank_id','=',accounting_bank_id)]"),
         'bank_id':fields.related('check_note_id','bank_id',type='many2one',relation='res.bank',string='Bank', store=True, readonly=True),
         'min_lim':fields.related('bank_id','min_lim',type='integer',relation='res.bank',string='Min. Limit',readonly=True,store=False),
         'max_lim':fields.related('bank_id','max_lim',type='integer',relation='res.bank',string='Max Limit',readonly=True,store=False),

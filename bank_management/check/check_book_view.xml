@@ -85,21 +85,19 @@
                             </field>
                         </page>
                         <page string="Otra Informacion">
-                           <group colspan="4" col="6">
+                            <group colspan="4" col="6">
                                 <field name="check_book_request_id"/>
                                 <field name="cancel_check"/>
-                           </group>
-                           <group attrs="{'invisible':[('cancel_check','!=','otros')]}" colspan="5" col='6'>                        
+                            </group>
+                            <group attrs="{'invisible':[('cancel_check','!=','otros')]}" colspan="5" col='6'>                        
                                 <field name="notes"/>
-                           </group>
-                        <group colspan="2" col='6'>
-                            <hpaned/><hpaned/>
-                            <hpaned/><hpaned/>
-                            <hpaned/>
-                            <button name="%(report_check_book)d" states="active" string='Ver Reporte' type="action" icon='gtk-print' />  
-                            <button name="%(report_check_book)d" states="done" string='Ver Reporte' type="action" icon='gtk-print' />   
-                        </group>
-
+                            </group>
+                            <group colspan="2" col='6'>
+                                <hpaned/><hpaned/>
+                                <hpaned/><hpaned/>
+                                <hpaned/>
+                                <button name="%(report_check_book)d" states="active, done" string='Ver Reporte' type="action" icon='gtk-print' />
+                            </group>
                         </page>
                     </notebook>
                    <group colspan="2" col='6'>

@@ -66,29 +66,25 @@
                         <field name="account_voucher_transitory_id"/>
                         <newline/> 
                     </group>
-                        <group colspan="2" col='6' string="Cheque" >
-                            <group colspan="6" col='1'>
-                                <field name="check_note_id" attrs="{'readonly':[('type','=','wire'),('state'),'!=','draft'],'domain':[('accounting_bank_id','=', accounting_bank_id)]}"/>
-                                <field name="name"/>
-<!--                                <field name="cancel_check_note"/>-->
-                            </group>
-<!--                            <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="6" col='1'>                        -->
-<!--                                 <field name="notes" string="Motivo de Anulacion"/> -->
-<!--                            </group>-->
-                            <newline/>
-                            <newline/>
-                            <newline/>
-                            <group colspan="1" col='1'>
-                                <button name="get_retirado" states="draft" string="Cheque Retirado" type="object" icon="gtk-execute"/>
-                                <button name="get_realizado" states="open" string="Pago Realizado" type="object" icon="gtk-execute"/>
-                                <button name="%(wiz_pay_support_cancel)d" type='action' string='Anular Cheque' icon="gtk-cancel" states="open,draft" />
-                            </group>
-                            <hpaned/>
+                    <group colspan="2" col='6' string="Cheque" >
+                        <group colspan="6" col='1'>
+                            <field name="check_note_id" attrs="{'readonly':[('type','=','wire')]}"/>
+                            <field name="name"/>
                         </group>
+                        <newline/>
+                        <newline/>
+                        <newline/>
+                        <group colspan="1" col='1'>
+                            <button name="get_retirado" states="draft" string="Cheque Retirado" type="object" icon="gtk-execute"/>
+                            <button name="get_realizado" states="open" string="Pago Realizado" type="object" icon="gtk-execute"/>
+                            <button name="%(wiz_pay_support_cancel)d" type='action' string='Anular Cheque' icon="gtk-cancel" states="open,draft" />
+                        </group>
+                        <hpaned/>
+                    </group>
                     <group colspan="2" col='6' string="Transferencia" >
                         <group colspan="6" col='1'>
                             <field name="wire" attrs="{'readonly':[('type','=','check')]}"/>
-<label string=""/><newline/><label string=""/><newline/><label string=""/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/>
+<label string=""/><newline/><label string=""/><newline/><label string=""/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/>
                         </group>
                     </group>
                     <newline/>
@@ -99,9 +95,9 @@
                     </group>
                     <hpaned/>
                     <hpaned/>
-                    <group colspan="1" col='1'>
-                    <field  name="state" />
-                    </group>
+                    <group colspan="2" col='1'>
+                        <field name="state"/>
+                    </group>                                        
                 </form>
             </field>
         </record>

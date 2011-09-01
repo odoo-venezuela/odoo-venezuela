@@ -109,6 +109,6 @@ class report_voucher(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.cash_receipt.drcr.3',
     'voucher.pay.support',
-    'addons/voucher_pay_support/report/report_voucher.rml',
+    'addons/bank_management/check/report/report_voucher.rml',
     parser=report_voucher,header=False
 )
