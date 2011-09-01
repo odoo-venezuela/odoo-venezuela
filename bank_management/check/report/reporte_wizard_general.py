@@ -107,10 +107,12 @@ class rep_check_general(report_sxw.rml_parse):
         mes=form["mes"]
         hasta=form["hasta"]
         desde=form["desde"]
-        check=form['check_book_id']
-        check_book_id=check[0][2]
+#        check=form['check_book_id']
+#        check_book_id=check[0][2]
+        check_book_id=form.get('check_book_id',False) and [form['check_book_id']]
         self_check_book=self.pool.get('check.book')
-        if len(check_book_id)==0: #si no elije chequeras, se reportan todas...
+#        if len(check_book_id)==0: #si no elije chequeras, se reportan todas...
+        if not check_book_id:
             check_book_id=self_check_book.search(self.cr,self.uid,[])
         data=self_check_book.browse(self.cr,self.uid, check_book_id)
         return data
@@ -125,8 +127,8 @@ class rep_check_general(report_sxw.rml_parse):
         mes=form["mes"]
         hasta=form["hasta"]
         desde=form["desde"]
-        check=form['check_book_id']
-        check_book_id=check[0][2]
+#        check=form['check_book_id']
+#        check_book_id=check[0][2]
         self_check_note=self.pool.get('check.note')
         self_fiscal_per = self.pool.get('account.period')
         if state_check_note=="sin_filtro":
@@ -294,7 +296,7 @@ class rep_check_general(report_sxw.rml_parse):
         return res
 
 report_sxw.report_sxw(
-    'report.reporte.wizard.general.book',  
+    'report.wizard.general.book',
     'check.book.wizard',
     'addons/bank_management/check/report/reporte_wizard_general.rml', 
     parser=rep_check_general,

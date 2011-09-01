@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_gral_check_book_wizard" model="ir.ui.view">
+            <field name="name">gral.check.book.form</field>
+            <field name="model">gral.check.book</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reporte General de Chequeras" >
+                    <group colspan="4" col='4'>
+                        <field name="check_book_id"   nolabel="1"/>
+                    </group>
+                    <group colspan="4">
+                        <separator string="Periodo" colspan="4"/>                        
+                        <field name="state_check_note"/>
+                        <newline/>                        
+                        <group attrs="{'invisible':[('state_check_note','=','sin_filtro')]}" colspan="4">
+                            <field name="tiempo"/>
+                            <newline/>
+                            <group attrs="{'invisible':[('tiempo','=','sin_filtro')]}" colspan="4">
+                                <group attrs="{'invisible':[('tiempo','=','mes')]}" colspan="4">
+                                    <separator string=" Filtrado por Fecha" colspan="4"/>
+                                    <field name="desde"/>
+                                    <field name="hasta"/>
+                                </group>
+                                <group attrs="{'invisible':[('tiempo','=','fecha')]}" colspan="4">
+                                    <separator string="Filtrado por Periodos" colspan="4"/>
+                                    <field name="mes" colspan="4" nolabel="1"/>
+                                </group>
+                            </group>
+                        </group>
+                    </group>
+                    <group colspan="2" col="4">
+                        <button name="check_report"  string="Check Book Report" type="object" icon="gtk-print"/>
+                    </group>                        
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wiz_gral_check_book" model="ir.actions.act_window">
+            <field name="name">General Check Book Report</field>
+            <field name="res_model">gral.check.book</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_gral_check_book_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+            icon="STOCK_EXECUTE"
+            action="action_wiz_gral_check_book"
+            id="menu_action_wiz_gral_check_book"
+            parent="id_check_management"
+            sequence="50"/>
+
+
+
+    </data>
+</openerp>

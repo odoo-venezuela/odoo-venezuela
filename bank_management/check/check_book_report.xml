@@ -11,7 +11,6 @@
             menu="False"
             groups="account.group_account_manager"
             header="False" />
-        <!--   cambiar ID         -->    
         <report             
             id="report_check_book" 
             model="check.book" 
@@ -22,16 +21,16 @@
             menu="False"
             groups="account.group_account_manager" 
             header="False" />
-<!--        <report             -->
-<!--            id="report_check" -->
-<!--            model="check.book.wizard" -->
-<!--            name="informe.detallado.check.book" -->
-<!--            rml="bank_management/check/report/reporte_wizard_general.rml" -->
-<!--            string="Reporte de Chequeras"-->
-<!--            auto="False" -->
-<!--            menu="False"-->
-<!--            groups="account.group_account_manager" -->
-<!--            header="False" />-->
+        <report             
+            id="report_gral_chk_book" 
+            model="check.book.wizard" 
+            name="wizard.general.book" 
+            rml="bank_management/check/report/reporte_wizard_general.rml" 
+            string="Reporte Gral. de Chequeras"
+            auto="False" 
+            menu="False"
+            groups="account.group_account_manager" 
+            header="False" />
 		<report id="report_account_voucher3"
 			string="Comprobate de Pago Resumido."
 			model="voucher.pay.support"
