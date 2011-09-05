@@ -8,7 +8,7 @@
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Angelica Barrios          <angelicaisabelb@gmail.com>
 #              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier.duran@netquatro.com>             
+#              Javier Duran              <javieredm@gmail.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -32,4 +32,4 @@ import reporte_wizard_general
 import reporte_check_book_request
 import report_voucher
 import report_voucher_amount
-import check
+#import check

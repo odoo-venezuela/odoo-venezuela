@@ -52,7 +52,7 @@
         'check/check_note_view.xml',
         'check/check_book_request_sequence.xml',
         'check/wizard/cancel_wizard.xml',
-        'check/wizard/voucher_pay_support_wizard_pay_order.xml',
+#        'check/wizard/voucher_pay_support_wizard_pay_order.xml',
         'check/wizard/chk_book_gral.xml',
 #        'check/generate_lines_payment_wizard.xml',
         'check/check_book_request_view.xml',

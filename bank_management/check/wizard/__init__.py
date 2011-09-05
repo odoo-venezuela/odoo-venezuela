@@ -27,7 +27,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import voucher_pay_support_wizard
+#import voucher_pay_support_wizard
 import cancel_voucher_pay_support
-import voucher_pay_support_wizard_pay_order
+#import voucher_pay_support_wizard_pay_order
 import chk_book_gral
