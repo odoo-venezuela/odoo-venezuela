@@ -45,16 +45,16 @@
             <field name="model">check.book.request</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Solicitud de Chequeras">
+                <form string="Check Book Request">
                         <notebook colspan="4">
-                            <page string="Solicitud">
+                            <page string="Request">
                                 <field name="code"/>
                                 <field name="accounting_bank_id" on_change="onchange_accounting_bank_id(accounting_bank_id)"/>
                                 <field name="bank_id"/>
                                 <field name="agen_id"/>
                                 <field name="partner_id"/>
                             </page>
-                            <page string="Chequeras">
+                            <page string="Check Book">
                                     <field name="check_book_ids" nolabel="1" required="1" widget="many2many" domain="[('state', '=', 'request'), ('check_book_request_id', '=', False),('accounting_bank_id','=',accounting_bank_id)]">
                                     <tree string="Chequeras" editable='top'>
                                         <field name="accounting_bank_id" />
@@ -62,12 +62,12 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Carta-Solicitud">
+                            <page string="Request Letter">
                                 <hpaned/>
                                 <hpaned/>
                                 <hpaned/>
                                <!--generar solicitud de chequera -->
-                                <button name="%(report_chk_book_request)d" string='Imprimir' icon='gtk-print' type="action" states="send,received"/> 
+                                <button name="%(report_chk_book_request)d" string='Print' icon='gtk-print' type="action" states="send,received"/> 
                                 <newline/> 
                             </page>
                         </notebook>
@@ -75,11 +75,11 @@
                                 <hpaned/>
                                 <hpaned/>
                                 <hpaned/>
-                               <field  name="state" />
+                               <field name="state"/>
                                 <newline/>
-                                <button name="get_enviar" states="draft" string="Enviar" type="object" icon="gtk-execute"/>
-                                <button name="get_received" states="send" string="Recibida" type="object" icon="gtk-execute"/>
-                                <button name="get_anular" states="send" string="Anular" type="object" icon="gtk-cancel"/>
+                                <button name="get_enviar" states="draft" string="Send" type="object" icon="gtk-execute"/>
+                                <button name="get_received" states="send" string="Receive" type="object" icon="gtk-execute"/>
+                                <button name="get_anular" states="send" string="Cancel" type="object" icon="gtk-cancel"/>
                             </group>
                 </form>
             </field>
@@ -89,7 +89,7 @@
             <field name="model">check.book.request</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string=" Solicitud de Chequeras">
+                <tree string="Check Book Request">
                     <field name="code"/>
                     <field name="accounting_bank_id"/>
                     <field name="bank_id"/>
@@ -100,7 +100,7 @@
             </field>
         </record>
         <record id="action_sol_check_book" model="ir.actions.act_window">
-            <field name="name"> Solicitud de Chequeras</field>
+            <field name="name">Check Book Request</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">check.book.request</field>
             <field name="view_type">form</field>

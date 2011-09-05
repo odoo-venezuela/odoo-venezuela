@@ -33,6 +33,7 @@ from osv import osv
 import pooler
 import datetime
 from mx.DateTime import *
+from tools.translate import _
 
 
 class rep_check_general(report_sxw.rml_parse):
@@ -41,65 +42,58 @@ class rep_check_general(report_sxw.rml_parse):
         self.suma_asigner = 0.00 
         self.suma_done = 0.00     
         self.localcontext.update({
-            'time': time                                           ,
-            'get_data':self.get_data                               ,
-            'get_close_date':self.get_close_date                   ,
-            'get_anulados':self.get_anulados                       ,
-            'get_date_check':self.get_date_check                   ,
-            'get_beneficiario':self.get_beneficiario               ,
-            'get_amount_check':self.get_amount_check               ,
-            'get_amount_asignado': self.get_amount_asignado        ,
-            'get_amount_done':self.get_amount_done                 ,
-            'get_amount_asignado_par':self.get_amount_asignado_par ,
-            'get_check_note':self.get_check_note                   ,
-            'get_estado':self.get_estado                           ,
-            'get_cancel':self.get_cancel                           ,
+            'time': time,
+            'get_data':self._get_data,
+            'get_close_date':self._get_close_date,
+            'get_anulados':self._get_anulados,
+            'get_date_check':self._get_date_check,
+            'get_beneficiario':self._get_beneficiario,
+            'get_amount_check':self._get_amount_check,
+            'get_amount_asignado': self._get_amount_asignado,
+            'get_amount_done':self._get_amount_done,
+            'get_amount_asignado_par':self._get_amount_asignado_par,
+            'get_check_note':self._get_check_note,
+            'get_estado':self._get_estado,
+            'get_cancel':self._get_cancel,
+            'get_company':self._get_company,
+            'get_rif':self._get_rif,
         })
-        
-    def get_estado(self,state):
-        res=""
-        if state=="draft":
-            res="Borrador"
-        if state=="review":
-            res="Revicion"
-        if state=="active":
-            res="Activo"
-        if state=="hibernate":
-            res="Hibernacion"
-        if state=="cancel":
-            res="Cancelado"
-        if state=="assigned":
-            res="Asignado"
-        if state=="done":
-            res="Cobrado"
-        return res
 
-    def get_cancel(self, cheque):
+    def _get_estado(self,state):
+        estado = {
+            'draft': _('Draft'),
+            'review': _('Review'),
+            'active': _('Active'),
+            'hibernate': _('Hibernate'),
+            'cancel': _('Cancel'),
+            'assigned': _('Assigned'),
+            'done': _('Done')
+        
+        }
+        return estado[state]
+
+    def _get_cancel(self, cheque):
         res=""
+        can = {
+            'print': _('Print Error'),
+            'perdida':_('Loss or misplacement'),
+            'dan_fis': _('Physical damage'),
+            'pago':_('Payment is not made'),
+            'caduco':_('Expired'),
+            'devuelto':_('Returned check')
+        }
         self_check_book=self.pool.get('check.note')
         data=self_check_book.browse(self.cr,self.uid, cheque)
         if data.cancel_check_note:
             if data.cancel_check_note=='otros':
                 res=data.notes
                 return res
-            else: #fue otra de las razones
-                if data.cancel_check_note=="print":
-                    res="Error de Impresion"
-                if data.cancel_check_note=="perdida":
-                    res="Perdida o extravio"
-                if data.cancel_check_note=="dan_fis":
-                    res="Dano fisico"
-                if data.cancel_check_note=="pago":
-                    res="Pago no realizado"
-                if data.cancel_check_note=="caduco":
-                    res="Caduco"
-                if data.cancel_check_note=="devuelto":
-                    res="Cheque Devuelto"
-                return res
+            #fue otra de las razones
+            res = can[data.cancel_check_note]
         return res
-    
-    
-    def get_data (self,form):
+
+
+    def _get_data (self,form):
         data=[]
         #se toman los valores del wizard
         state_check_note=form["state_check_note"]
@@ -116,10 +110,10 @@ class rep_check_general(report_sxw.rml_parse):
             check_book_id=self_check_book.search(self.cr,self.uid,[])
         data=self_check_book.browse(self.cr,self.uid, check_book_id)
         return data
-    
-    
-    
-    def get_check_note (self,form,chequera):
+
+
+
+    def _get_check_note (self,form,chequera):
         cheques=[]
         #se toman los valores del wizard
         state_check_note=form["state_check_note"]
@@ -138,90 +132,84 @@ class rep_check_general(report_sxw.rml_parse):
                 if tiempo=="mes": #Periodo Fiscal
                     periodo=self_fiscal_per.browse(self.cr,self.uid, mes)
                     check_note_id = self_check_note.search(self.cr, self.uid, 
-                                                            [ ('state','=','done')                      , 
-                                                              ('check_book_id','=',chequera.id)         ,
-                                                              ('date_done' , '>=', periodo.date_start)  ,
-                                                              ('date_done', '<=',periodo.date_stop )    ,])
+                                                            [ ('state','=','done'),
+                                                              ('check_book_id','=',chequera.id),
+                                                              ('date_done' , '>=', periodo.date_start),
+                                                              ('date_done', '<=',periodo.date_stop ),])
                     cheques=self_check_note.browse(self.cr,self.uid, check_note_id)
-                
+
                 else: #si elijio fecha desde hasta
                     check_note_id = self_check_note.search(self.cr, self.uid, 
-                                                            [ ('state','=','done')               , 
-                                                              ('check_book_id','=',chequera.id)  ,
-                                                              ('date_done' , '>=', desde)        ,
-                                                              ('date_done', '<=',hasta )         ,])
-                    cheques=self_check_note.browse(self.cr,self.uid, check_note_id)  
-                
+                                                            [ ('state','=','done'),
+                                                              ('check_book_id','=',chequera.id),
+                                                              ('date_done' , '>=', desde),
+                                                              ('date_done', '<=',hasta ),])
+                    cheques=self_check_note.browse(self.cr,self.uid, check_note_id)
+
             else: #cheques con estado assigned "emitidos"
                 if tiempo=="mes": #Periodo Fiscal
                     periodo=self_fiscal_per.browse(self.cr,self.uid, mes)
-                    self_voucher_pay_support = self.pool.get('voucher.pay.support') 
-                    voucher_ids= self_voucher_pay_support.search(self.cr, self.uid, 
-                                                            [ ('date' , '>=', periodo.date_start)   ,
-                                                              ('date', '<=',periodo.date_stop )     ,])
+                    self_voucher_pay_support = self.pool.get('voucher.pay.support')
+                    voucher_ids= self_voucher_pay_support.search(self.cr, self.uid,
+                                                            [ ('date' , '>=', periodo.date_start),
+                                                              ('date', '<=',periodo.date_stop ),])
                     voucher_obj=self_voucher_pay_support.browse(self.cr,self.uid,voucher_ids)
                     check=[]
                     for vou in voucher_obj:
                         id_cheque=vou.check_note_id.id
                         check.append(id_cheque)
                     check_note_id=self_check_note.search(self.cr,self.uid,
-                                                            [ ('state','=','assigned')            ,
-                                                              ('check_book_id','=',chequera.id)  ,  ])
+                                                            [ ('state','=','assigned'),
+                                                              ('check_book_id','=',chequera.id),])
                     #saco los cheques en comun entre check_note_id y check (los de voucher_pay_support)
                     sin_repetir=list(set(check)&set(check_note_id))
-                    cheques=self_check_note.browse(self.cr,self.uid, sin_repetir) 
-                    
+                    cheques=self_check_note.browse(self.cr,self.uid, sin_repetir)
+
                 else: #si elijio fecha desde hasta
-                    self_voucher_pay_support = self.pool.get('voucher.pay.support') 
-                    voucher_ids= self_voucher_pay_support.search(self.cr, self.uid, 
-                                                            [ ('date' , '>=', desde)   ,
-                                                              ('date', '<=',hasta )     ,])
+                    self_voucher_pay_support = self.pool.get('voucher.pay.support')
+                    voucher_ids= self_voucher_pay_support.search(self.cr, self.uid,
+                                                            [ ('date' , '>=', desde),
+                                                              ('date', '<=',hasta ),])
                     voucher_obj=self_voucher_pay_support.browse(self.cr,self.uid,voucher_ids)
                     check=[]
                     for vou in voucher_obj:
                         id_cheque=vou.check_note_id.id
                         check.append(id_cheque)
                     check_note_id=self_check_note.search(self.cr,self.uid,
-                                                            [ ('state','=','assigned')            ,
-                                                              ('check_book_id','=',chequera.id)  ,  ])
+                                                            [ ('state','=','assigned'),
+                                                              ('check_book_id','=',chequera.id),])
                     #saco los cheques en comun entre check_note_id y check (los de voucher_pay_support)
                     sin_repetir=list(set(check)&set(check_note_id))
-                    cheques=self_check_note.browse(self.cr,self.uid, sin_repetir) 
+                    cheques=self_check_note.browse(self.cr,self.uid, sin_repetir)
         return cheques
 
 
 
-    def get_close_date(self, fecha,state):
-        if fecha==False:
-            if state=="draft":
-                res="Chequera en Borrador"
-            if state=="review":
-                res="Chequera en Revicion"
-            if state=="active":
-                res="Chequera Activa"
-            if state=="hibernate":
-                res="Chequera en Hibernacion"
-            if state=="cancel":
-                res="Chequera Cancelada"
-            if state=="done":
-                res="Chequera Terminada"
-            return res
-        else:
-            if len(fecha)==10:
-                res=fecha 
-                return res
-              
-        
-    def get_anulados(self, idp):
+    def _get_close_date(self, fecha,state):
+        if len(fecha)==10:
+            return fecha 
+                
+        chk_state = {
+            'draft': _('Draft Check book'),
+            'review': _('Review Check book'),
+            'active': _('Active Check book'),
+            'hibernate': _('Hibernate Check book'),
+            'cancel': _('Cancel Check book'),
+            'done': _('Done Check book')
+        }
+        return chk_state[state]
+
+
+    def _get_anulados(self, idp):
         res=" SIN ANULAR "
         check = self.pool.get('check.note') 
         voucher_ids = check.search(self.cr,self.uid,[('check_book_id','=',idp), ('state','=','cancel')])
         
         return len(voucher_ids)
-   
 
 
-    def get_date_check(self, idp):
+
+    def _get_date_check(self, idp):
         res=" - "
         check = self.pool.get('check.note') 
         voucher_pay_support = self.pool.get('voucher.pay.support') 
@@ -234,23 +222,20 @@ class rep_check_general(report_sxw.rml_parse):
             return res
         
         
-    def get_beneficiario(self, idp):
+    def _get_beneficiario(self, idp):
         res=" - "
         check = self.pool.get('check.note') 
         check_note = check.browse(self.cr,self.uid, idp)
         if check_note.state=="assigned" or check_note.state=="done":
             if check_note.account_voucher_id.payee_id: #si hay beneficiario
-                addr_obj = self.pool.get('res.partner.address') 
-                addr = addr_obj.browse(self.cr,self.uid, check_note.account_voucher_id.payee_id.id)
-                res=addr.name
+                res=check_note.account_voucher_id.payee_id.name
             else: #el partner
                 res=check_note.account_voucher_id.voucher_pay_support_id.partner_id.name
-            return res
-        else:
-            return res
+        
+        return res
 
 
-    def get_amount_check(self, idp):
+    def _get_amount_check(self, idp):
         res=" - "
         check = self.pool.get('check.note') 
         obj_check = check.browse(self.cr,self.uid, idp)
@@ -260,22 +245,22 @@ class rep_check_general(report_sxw.rml_parse):
             obj_v_p_s = voucher_pay_support.browse(self.cr,self.uid, voucher_ids[0])
             res=obj_v_p_s.amount
             if obj_check.state=="assigned":
-                self.suma_asigner=self.suma_asigner+obj_v_p_s.amount
+                self.suma_asigner+=obj_v_p_s.amount
             if obj_check.state=="done":
-                self.suma_done=self.suma_done+obj_v_p_s.amount
-            
+                self.suma_done+= obj_v_p_s.amount
+
             return res
         else:
             return res
 
-    def get_amount_asignado(self):
+    def _get_amount_asignado(self):
         return self.suma_asigner
      
-    def get_amount_done(self):
+    def _get_amount_done(self):
         return self.suma_done
    
     
-    def get_amount_asignado_par(self, id_chequera):
+    def _get_amount_asignado_par(self, id_chequera):
         amount=0.0
         amount2=0.0
         res=[]
@@ -295,10 +280,22 @@ class rep_check_general(report_sxw.rml_parse):
         res=[amount, amount2]
         return res
 
+    def _get_company(self):
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
+        return user.company_id.partner_id.name
+
+    def _get_rif(self):
+        r = _('Without Vat')
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
+        rif=user.company_id.partner_id.vat or ''
+        r='%s-%s'%(rif[2:3],rif[3:-1])
+        return r
+
+
 report_sxw.report_sxw(
     'report.wizard.general.book',
     'check.book.wizard',
-    'addons/bank_management/check/report/reporte_wizard_general.rml', 
+    'addons/bank_management/check/report/reporte_wizard_general.rml',
     parser=rep_check_general,
     header = False
 )      

@@ -45,7 +45,7 @@
             <field name="model">check.book</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Chequeras">
+                <form string="Check Book">
                     <group colspan="4" col="6">
                         <field name="name"/>
                         <field name="accounting_bank_id"/>
@@ -66,9 +66,9 @@
                         <hpaned/>
                      </group>
                     <notebook colspan="4">
-                        <page string="Cheques">
+                        <page string="Checks Note">
                             <field name="check_note_ids" nolabel="1">
-                                <tree string="Cheques" editable='top' >
+                                <tree string="Checks" editable='top' >
                                     <field name="number" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
                                     <field name="suffix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
                                     <field name="prefix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
@@ -84,7 +84,7 @@
 
                             </field>
                         </page>
-                        <page string="Otra Informacion">
+                        <page string="Other Information">
                             <group colspan="4" col="6">
                                 <field name="check_book_request_id"/>
                                 <field name="cancel_check"/>
@@ -96,7 +96,7 @@
                                 <hpaned/><hpaned/>
                                 <hpaned/><hpaned/>
                                 <hpaned/>
-                                <button name="%(report_check_book)d" states="active, done" string='Ver Reporte' type="action" icon='gtk-print' />
+                                <button name="%(report_check_book)d" states="active, done" string='See Report' type="action" icon='gtk-print' />
                             </group>
                         </page>
                     </notebook>
@@ -106,11 +106,11 @@
                         <hpaned/>
                        <field  name="state" />
                         <newline/>
-                        <button name="anular" states="active, hibernate" string="Cancelar" type="object" icon="gtk-cancel"/>
-                        <button name="review" states="draft" string="Cargar Cheques" type="object" icon="gtk-convert"/>
+                        <button name="anular" states="active, hibernate" string="Cancel" type="object" icon="gtk-cancel"/>
+                        <button name="review" states="draft" string="Load Checks" type="object" icon="gtk-convert"/>
                         <button name="active" states="review" string="Active" type="object" icon="gtk-execute"/>
-                        <button name="hibernate" states="active" string="Hibernar" type="object" icon="gtk-execute"/>
-                        <button name="active_hibernate" states="hibernate" string="Reactivar" type="object" icon="gtk-execute"/>
+                        <button name="hibernate" states="active" string="Hibernate" type="object" icon="gtk-execute"/>
+                        <button name="active_hibernate" states="hibernate" string="Reactive" type="object" icon="gtk-execute"/>
                   </group>
                 </form>
             </field>
@@ -122,9 +122,9 @@
             <field name="arch" type="xml">
             <tree string="Chequeras" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel'">
 <!--            <tree string="Chequeras" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel' ;purple:state=='active' and qty_active&gt;9 ">-->
-                    <field name="name" select="1" />                 
-                    <field name="accounting_bank_id" select="1" />
-                    <field name="bank_id" select="1" />
+                    <field name="name"/>                 
+                    <field name="accounting_bank_id"/>
+                    <field name="bank_id"/>
                     <field name="from_suffix"/>                    
                     <field name="to_suffix"/>
                     <field name="fixed_prefix"/>
@@ -140,7 +140,7 @@
             </field>
         </record>
         <record id="action_check_book" model="ir.actions.act_window">
-            <field name="name">Chequeras</field>
+            <field name="name">Check Book</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">check.book</field>
             <field name="view_type">form</field>

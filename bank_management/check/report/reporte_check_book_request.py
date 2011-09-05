@@ -38,12 +38,12 @@ class rep_check_book_request(report_sxw.rml_parse):
         super(rep_check_book_request, self).__init__(cr, uid, name, context)  
         self.localcontext.update({
             'time': time,
-            'get_fecha': self.get_fecha                         ,
-            'get_banco':self.get_banco                          ,
-            'get_total':self.get_total                          ,
-            'get_cantidad_chequera':self.get_cantidad_chequera  ,
-            'get_beneficiario':self.get_beneficiario            ,
-
+            'get_fecha': self.get_fecha,
+            'get_banco':self.get_banco,
+            'get_total':self.get_total,
+            'get_cantidad_chequera':self.get_cantidad_chequera,
+            'get_beneficiario':self.get_beneficiario,
+            'get_company':self._get_company,
         })
 
     def get_fecha(self):
@@ -63,7 +63,7 @@ class rep_check_book_request(report_sxw.rml_parse):
             '09': 'Septiembre',
             '10': 'Octubre',
             '11': 'Noviembre',
-            '12': 'Diciembre'        
+            '12': 'Diciembre'
         }
         res="Caracas, %s de %s de %s "%(dia, meses[mes] , ano)
         return res
@@ -74,7 +74,7 @@ class rep_check_book_request(report_sxw.rml_parse):
         cuenta=cuenta.acc_number
         res=[banco,agencia,cuenta]
         return res
-    
+
     def get_total(self, id_request):
         numero=0
         self.cr.execute("SELECT COUNT(a.id)  FROM check_book a   WHERE a.check_book_request_id=%s"%(id_request))
@@ -84,7 +84,7 @@ class rep_check_book_request(report_sxw.rml_parse):
             txt=Numero_a_Texto(numero)
             res=[numero,txt]
         return res
-    
+
     def get_cantidad_chequera(self, id_request):
         total=[]
         check = self.pool.get('check.book.request') 
@@ -106,11 +106,11 @@ class rep_check_book_request(report_sxw.rml_parse):
                 else: #no se coloca la (,)
                     res= res +'''%s (%s)'''%(txt,nun)
                     res=res.lower()
-            
+
             contador=contador+1
         return res
-    
-    
+
+
     def get_beneficiario(self, partner_id):
         bene=partner_id.name
         rif=partner_id.vat
@@ -119,9 +119,14 @@ class rep_check_book_request(report_sxw.rml_parse):
         res=[bene,r]
         return res
 
+    def _get_company(self):
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
+        return user.company_id.partner_id.name
+
+
 report_sxw.report_sxw(
     'report.chk.book.request',
     'check.book.request',
     'addons/bank_management/check/report/report_request_check_book.rml',
     parser=rep_check_book_request,
-)      
+)

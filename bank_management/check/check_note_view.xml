@@ -51,9 +51,9 @@
             <field name="model">check.note</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Cheques">
+                <form string="Check Note">
                     <notebook colspan="4">
-                        <page string="Cheques">
+                        <page string="Checks">
                             <field name="check_book_id"/>
                             <field name="bank_id"/>
                             <field name="accounting_bank_id"/>
@@ -61,7 +61,7 @@
                             <field name="account_voucher_id"/>
                             <field name="date_done"/>
                         </page>
-                        <page string="Otra Informacion">
+                        <page string="Other Information">
                             <field name="cancel_check_note"/>
                            <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="5" col='6'>                        
                                 <field name="notes"/>
@@ -72,9 +72,9 @@
                         <hpaned/>
                         <hpaned/>
                         <hpaned/>
-                       <field  name="state" />
+                       <field name="state"/>
                         <newline/>
-                        <button name="anular" states="active, assigned" string="Cancelar" type="object" icon="gtk-cancel"/>
+                        <button name="anular" states="active, assigned" string="Cancel" type="object" icon="gtk-cancel"/>
                   </group>
                 </form>
             </field>
@@ -84,19 +84,19 @@
             <field name="model">check.note</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-            <tree string="Cheques">
-                    <field name="check_book_id" select="1" />
-                    <field name="bank_id" select="1" />
-                    <field name="accounting_bank_id" select="1" />
-                    <field name="number" select="1" />
+            <tree string="Check Note">
+                    <field name="check_book_id"/>
+                    <field name="bank_id"/>
+                    <field name="accounting_bank_id"/>
+                    <field name="number"/>
                     <field name="account_voucher_id"/>
-                    <field name="date_done" select="1" />
+                    <field name="date_done"/>
                     <field name="state"/>
                 </tree>
             </field>
         </record>
         <record id="action_check_note" model="ir.actions.act_window">
-            <field name="name">Cheques</field>
+            <field name="name">Check Note</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">check.note</field>
             <field name="view_type">form</field>

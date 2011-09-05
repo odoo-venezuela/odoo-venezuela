@@ -39,43 +39,43 @@ class check_book_request(osv.osv):
     '''
     _name='check.book.request'    
     _columns={
-    'code': fields.char('Request Number', size=60, readonly=True)                                                          , 
-    'accounting_bank_id':fields.many2one('res.partner.bank','Account Bank',required=True                                          ,
-                          states={'draft':[('readonly',False)]    , 
-                                  'received':[('readonly',True)]  ,        
-                                  'send':[('readonly',True)]})    ,
-    'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it')                                                          ,
-    'agen_id':fields.related('accounting_bank_id', 'name',type='char', size=30, string='Bank Agency', store=True, readonly=True, help='The Bank Agency name must be load when saved it')  ,
+    'code': fields.char('Request Number', size=60, readonly=True),
+    'accounting_bank_id':fields.many2one('res.partner.bank','Account Bank',required=True,
+                          states={'draft':[('readonly',False)],
+                                  'received':[('readonly',True)],
+                                  'send':[('readonly',True)]}),
+    'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
+    'agen_id':fields.related('accounting_bank_id', 'name',type='char', size=30, string='Bank Agency', store=True, readonly=True, help='The Bank Agency name must be load when saved it'),
     'partner_id': fields.many2one('res.partner', 'Authorized',required=True,
-                   states={'draft':[('readonly',False)]    , 
-                           'received':[('readonly',True)]  ,       
-                           'send':[('readonly',True)]})    ,
+                   states={'draft':[('readonly',False)],
+                           'received':[('readonly',True)],
+                           'send':[('readonly',True)]}),
     'check_book_ids': fields.one2many('check.book', 'check_book_request_id', 'Check Books',required=True,
-                      states={'draft':[('readonly',False)]    , 
-                              'received':[('readonly',True)]  ,       
-                              'send':[('readonly',True)]})    , 
+                      states={'draft':[('readonly',False)],
+                              'received':[('readonly',True)],
+                              'send':[('readonly',True)]}),
     'state': fields.selection([
-            ('draft','Draft')         ,
-            ('send','Enviar')         ,
-            ('received','Recibido')   ,   
-            ('cancel','Cancel')       ,
-            ],'State', readonly=True, help="Request check book state")                            ,
+            ('draft','Draft'),
+            ('send','Send'),
+            ('received','Received'),
+            ('cancel','Cancel'),
+            ],'State', readonly=True, help="Request check book state"),
     }
     _rec_name='code' # esto es para no crear un atributo name
     _defaults = {
-        'state': lambda *a: 'draft'                                                                                          ,
-        'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'check.book.request')                 ,     
+        'state': lambda *a: 'draft',
+        'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'check.book.request'),
     }
-    
 
-    #cambia el estado del documento y se muestra el rml para impresion  
+
+    #cambia el estado del documento y se muestra el rml para impresion
     def get_enviar(self, cr, uid, ids, context={}):
         book_request = self.browse(cr,uid,ids)
         for request in book_request:
             self.write(cr,uid,request.id,{'state' : 'send'})
-        
+
         return True
-            
+
     #se cancelan las chequeras asociadas a la solicitud
     def get_anular(self, cr, uid, ids, context={}):
         book_request = self.browse(cr,uid,ids)
@@ -85,7 +85,7 @@ class check_book_request(osv.osv):
                 self.pool.get('check.book').write(cr,uid,book.id,{ 'state' : 'cancel',
                                                                    'date_done' : time.strftime('%Y-%m-%d'),
                                                                    'notes' : 'Cancelacion de Chequera por Solicitud' })
-        return True                                                                   
+        return True
 
     #cambia el estado del documento a received, el estado draft en chequera y fecha de recepcion
     def get_received(self, cr, uid, ids, context={}):
@@ -95,15 +95,14 @@ class check_book_request(osv.osv):
             for c in request.check_book_ids: #para las chequeras
                 self.pool.get('check.book').write(cr,uid,c.id,{'state' : 'draft', 'date_draft':time.strftime('%Y-%m-%d') }) 
 
-        return True                
+        return True
 
     def onchange_accounting_bank_id(self, cr, uid, ids, accounting_bank_id): 
-        #result={}   
-        boock = self.pool.get('check.book').search(cr, uid, [('accounting_bank_id','=',accounting_bank_id) , 
-                                                              ('state', '=', 'request')                    , 
-                                                              ('check_book_request_id', '=', False)]) 
+        boock = self.pool.get('check.book').search(cr, uid, [('accounting_bank_id','=',accounting_bank_id),
+                                                              ('state', '=', 'request'),
+                                                              ('check_book_request_id', '=', False)])
         result = {'value': {'check_book_ids': boock} }
-        return result 
+        return result
 
     def copy(self, cr, uid, id, default=None, context=None):
         raise osv.except_osv(_('Warning !'), _('you can not duplicate this document!!!'))

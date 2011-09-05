@@ -7800,34 +7800,34 @@ HimZtQAAAABJRU5ErkJggg==
     <para style="P2">
       <font color="white"> </font>
     </para>
-    <para style="P2">Señores:</para>
-    <para style="P8">BANCO [[ get_banco(o.accounting_bank_id)[0].upper()]]</para>
-    <para style="P4">Agencia: [[ get_banco(o.accounting_bank_id)[1]  ]]</para>
+    <para style="P2">Sirs:</para>
+    <para style="P8">BANK [[ get_banco(o.accounting_bank_id)[0].upper()]]</para>
+    <para style="P4">Agency: [[ get_banco(o.accounting_bank_id)[1]  ]]</para>
     <para style="P2">
       <font color="white"> </font>
     </para>
     <para style="P2">
       <font color="white"> </font>
     </para>
-    <para style="P2">Solicitud de Chequera <font face="Times-Roman">[[o.code]]</font></para>
-    <para style="P2">Ref.: Cuenta Corriente</para>
+    <para style="P2">Check Book Request<font face="Times-Roman">[[o.code]]</font></para>
+    <para style="P2">Ref.: Checking Account</para>
     <para style="P5">No.: <font face="Times-Roman">[[get_banco(o.accounting_bank_id)[2] ]]</font> </para>
     <para style="P2">
       <font color="white"> </font>
     </para>
-    <para style="P2">Estimados Señores:</para>
+    <para style="P2">Dear Sirs:</para>
     <para style="P2">
       <font color="white"> </font>
     </para>
-    <para style="P3">Sirvanse en hacer entrega de [[get_total(o.id)[1].title() ]] <font face="Times-Roman">([[get_total(o.id)[0] ]]) talonario(s) de chequera(s) de: [[ get_cantidad_chequera(o.id) ]]   </font> cheques correspondiente a la cuenta antes citada. </para>
+    <para style="P3">Please to make delivery of [[get_total(o.id)[1].title() ]] <font face="Times-Roman">([[get_total(o.id)[0] ]]) checkbook stubs of: [[ get_cantidad_chequera(o.id) ]]   </font> checks for the account cited above. </para>
     <para style="P3">
       <font color="white"> </font>
     </para>
-    <para style="P3">Se autoriza a <font face="Times-Roman">[[get_beneficiario(o.partner_id)[0].title() ]]</font>, portador de la Cédula de Identidad No. <font face="Times-Roman">[[get_beneficiario(o.partner_id)[1].upper() ]]</font> para que reciba en nuestro nombre los talonarios solicitados.</para>
+    <para style="P3">Authorizing <font face="Times-Roman">[[get_beneficiario(o.partner_id)[0].title() ]]</font>, bearer of Identity Card No. <font face="Times-Roman">[[get_beneficiario(o.partner_id)[1].upper() ]]</font> to receive on our behalf stubs requested.</para>
     <para style="P3">
       <font color="white"> </font>
     </para>
-    <para style="P3">Agradecemos de antemano y quedamos de Uds.</para>
+    <para style="P3">And we thank you in advance of you.</para>
     <para style="P3">
       <font color="white"> </font>
     </para>
@@ -7837,8 +7837,8 @@ HimZtQAAAABJRU5ErkJggg==
         <para style="P3">
       <font color="white"> </font>
     </para>
-    <para style="P3">Atentamente,</para>
-    <para style="P3">Por HELADOS GILDA, C.A.</para>
+    <para style="P3">Attentively,</para>
+    <para style="P3">By: [[ get_company()]]</para>
     <para style="P3">
       <font color="white"> </font>
     </para>
@@ -7852,7 +7852,7 @@ HimZtQAAAABJRU5ErkJggg==
       <font color="white"> </font>
     </para>
     <para style="P3">_______________________________________________</para>
-    <para style="P3">Firma(s) Autorizada(s)</para>
+    <para style="P3">Authorized Signature(s)</para>
     <para style="P3">
       <font color="white"> </font>
     </para>

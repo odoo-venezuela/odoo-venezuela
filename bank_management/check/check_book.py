@@ -62,7 +62,7 @@ class check_book(osv.osv):
             '25': 25,
             '50': 50,
             '75': 75,
-            '100': 100,        
+            '100': 100,
         }
         res={}
         for i in self.browse(cr,uid,ids):
@@ -88,7 +88,7 @@ class check_book(osv.osv):
                 #write date_done la fecha de cierre
                 i.write({'date_done':time.strftime('%Y-%m-%d')})
         return  res
-    
+
 
     def _get_chek_note(self, cr, uid, ids, context=None):
         result = {}
@@ -99,90 +99,87 @@ class check_book(osv.osv):
     _columns={
     'name':fields.char('Check Book', size=256,readonly=True),
     'accounting_bank_id':fields.many2one('res.partner.bank','Bank Account',required=True, readonly=True,
-                        states={'request':[('readonly',False)]   ,
-                        'draft':[('readonly',True)]              ,
-                        'review':[('readonly',True)]})           , 
+                        states={'request':[('readonly',False)],
+                        'draft':[('readonly',True)],
+                        'review':[('readonly',True)]}), 
     'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
     'from_suffix':fields.integer('From Suffix',  readonly=True,
                   states={'request':[('readonly',True)]  ,
-                          'draft':[('readonly',False), ('required',True)]   ,
-                          'review':[('readonly',False), ('required',True)]  ,
+                          'draft':[('readonly',False), ('required',True)],
+                          'review':[('readonly',False), ('required',True)],
                           'active':[('readonly',True)]}) ,    
     'to_suffix':fields.integer('To Suffix',readonly=True),
     'state': fields.selection([
-            ('request','Request')           ,
-            ('draft','Draft')               ,
-            ('review','Review')             ,
-            ('active','Active')             ,
-            ('done','Done')                 ,
-            ('hibernate','Hibernate')       ,
-            ('cancel','Cancel')     ,
+            ('request','Request'),
+            ('draft','Draft'),
+            ('review','Review'),
+            ('active','Active'),
+            ('done','Done'),
+            ('hibernate','Hibernate'),
+            ('cancel','Cancel'),
             ],'State', select=True, readonly=True, help="Check book state"),
     'qty_check_selection': fields.selection([
-            ('25','25')    ,
-            ('50','50')    ,
-            ('75','75')    ,
-            ('100','100')  ,
+            ('25','25'),
+            ('50','50'),
+            ('75','75'),
+            ('100','100'),
             ],'Check Number', select=True, readonly=True, required=True,
-            states={'request':[('readonly',False)]        ,
-                 'draft':[('readonly',True)]              ,
-                 'review':[('readonly',True)]             ,
-                 'hibernate':[('readonly',True)]          ,
-                 'done':[('readonly',True)]               ,
-                 'cancel':[('readonly',True)]             ,
-                 'active':[('readonly',True)]})           , 
-    'qty_check':fields.function(_get_qty_check_selection, method=True, type='integer', string='Check'),                           
-    'fixed_prefix': fields.boolean('Fixed Prefix?', help="If the prefix of the number of checks is constant check this option", 
-                    states={'request':[('readonly',True)]   ,
-                    'draft':[('readonly',False)]            ,
-                    'review':[('readonly',False)]           ,
-                    'hibernate':[('readonly',True)]         ,
-                    'cancel':[('readonly',True)]            ,
-                    'done':[('readonly',True)]              ,
-                    'active':[('readonly',True)]})          ,                         
+            states={'request':[('readonly',False)],
+                 'draft':[('readonly',True)],
+                 'review':[('readonly',True)],
+                 'hibernate':[('readonly',True)],
+                 'done':[('readonly',True)],
+                 'cancel':[('readonly',True)],
+                 'active':[('readonly',True)]}),
+    'qty_check':fields.function(_get_qty_check_selection, method=True, type='integer', string='Check'),
+    'fixed_prefix': fields.boolean('Fixed Prefix?', help="If the prefix of the number of checks is constant check this option",
+                    states={'request':[('readonly',True)],
+                    'draft':[('readonly',False)],
+                    'review':[('readonly',False)],
+                    'hibernate':[('readonly',True)],
+                    'cancel':[('readonly',True)],
+                    'done':[('readonly',True)],
+                    'active':[('readonly',True)]}),
     'prefix':fields.integer('Prefix', required=False,
-                    states={'request':[('readonly',True)]   ,
-                    'draft':[('readonly',False)]            ,
-                    'review':[('readonly',False)]           ,
-                    'hibernate':[('readonly',True)]         ,
-                    'cancel':[('readonly',True)]            ,
-                    'done':[('readonly',True)]              ,
-                    'active':[('readonly',True)]})          ,  
+                    states={'request':[('readonly',True)],
+                    'draft':[('readonly',False)],
+                    'review':[('readonly',False)],
+                    'hibernate':[('readonly',True)],
+                    'cancel':[('readonly',True)],
+                    'done':[('readonly',True)],
+                    'active':[('readonly',True)]}),
     'date_draft': fields.date('Date Received', readonly=True),
     'date_active': fields.date('Activation Date', required=False, readonly=True ),
     'date_done': fields.date('Closing Date', required=False, readonly=True ),
     'notes':fields.char('Note',size=256, required=False, readonly=False ,
-                    states={'request':[('readonly',True)]   ,
-                    'draft':[('readonly',False)]            ,
-                    'review':[('readonly',False)]           ,
-                    'hibernate':[('readonly',False)]        ,
-                    'cancel':[('readonly',True)]            ,
-                    'active':[('readonly',False)]})         , 
+                    states={'request':[('readonly',True)],
+                    'draft':[('readonly',False)],
+                    'review':[('readonly',False)],
+                    'hibernate':[('readonly',False)],
+                    'cancel':[('readonly',True)],
+                    'active':[('readonly',False)]}),
     'cancel_check': fields.selection([
-            ('perdida','Perdida o extravio')                ,
-            ('dan_fis','Dano fisico')                       ,
-            ('otros','Otros')                               ,
+            ('perdida','Lost or misplaced'),
+            ('dan_fis','Physical damage'),
+            ('otros','Other'),
             ],'Reason for Cancellation', select=True,
-                    states={'request':[('readonly',True)]   ,
-                    'draft':[('readonly',False)]            ,
-                    'review':[('readonly',False)]           ,
-                    'hibernate':[('readonly',False)]        ,
-                    'cancel':[('readonly',True)]            ,
-                    'done':[('readonly',True)]              ,
-                    'active':[('readonly',False)]})         ,                           
+                    states={'request':[('readonly',True)],
+                    'draft':[('readonly',False)],
+                    'review':[('readonly',False)],
+                    'hibernate':[('readonly',False)],
+                    'cancel':[('readonly',True)],
+                    'done':[('readonly',True)],
+                    'active':[('readonly',False)]}),
     'check_note_ids': fields.one2many('check.note', 'check_book_id', 'Checks',readonly=True,required=True,
-                      states={'request':[('readonly',True)]   ,
-                              'draft':[('readonly',False)]    ,
-                              'review':[('readonly',False)]   ,
-                              'cancel':[('readonly',True)]    ,
-                              'active':[('readonly',True)]})  ,
-                  
-                              
-    'qty_active':fields.function(_get_qty_active, method=True, type='integer', string='Available Checks',             
+                      states={'request':[('readonly',True)],
+                              'draft':[('readonly',False)],
+                              'review':[('readonly',False)],
+                              'cancel':[('readonly',True)],
+                              'active':[('readonly',True)]}),
+    'qty_active':fields.function(_get_qty_active, method=True, type='integer', string='Available Checks',
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix'], 20),
                 'check.note': (_get_chek_note, ['state'], 20),}),
-                
     'rate_user': fields.function(_get_rate_user, method=True, type='float', digits_compute= dp.get_precision('Bank'), string='Use Rate',
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix', 'qty_active'], 20),
@@ -203,21 +200,21 @@ class check_book(osv.osv):
 
     def _check_prefix(self,cr,uid,ids):
         return self._check_long(cr,uid,ids,'prefix')
-    
+
     def _check_qty_check(self,cr,uid,ids):
         obj = getattr(self.browse(cr,uid,ids[0]), 'qty_check')
         if obj>0:
             return True
         return False
-    
+
     def copy(self, cr, uid, id, default=None, context=None):
         raise osv.except_osv(_('Atencion !'), _('you can not duplicate this document!!!'))
         return super(check_book, self).copy(cr, uid, id, {}, context)
-    
+
     _constraints = [
-        (_check_from_suffix, 'Error ! The field "Desde Sufijo" must be between 0000-9999.', ['from_suffix'])     ,
-        (_check_prefix, 'Error ! The field "Prefijo" must be between 0000-9999".', ['prefix'])          ,
-        (_check_qty_check, 'Error ! Check number must be greater than zero".', ['qty_check'])                       ,
+        (_check_from_suffix, 'Error ! The field "Desde Sufijo" must be between 0000-9999.', ['from_suffix']),
+        (_check_prefix, 'Error ! The field "Prefijo" must be between 0000-9999".', ['prefix']),
+        (_check_qty_check, 'Error ! Check number must be greater than zero".', ['qty_check']),
     ]
     def load_check(self, cr, uid, ids, context={}):
         res={}
@@ -229,12 +226,12 @@ class check_book(osv.osv):
                     values['prefix'] = str(book.prefix).rjust(4,'0')
                 else:#si no es constante
                     values['prefix']=''
-                for suffix in range(book.from_suffix,book.to_suffix + 1): 
+                for suffix in range(book.from_suffix,book.to_suffix + 1):
                     values.update({
                     'suffix': str(suffix).rjust(4,'0'),
                     'check_book_id': book.id,
                     })
-                    self.pool.get('check.note').create(cr, uid, values)               
+                    self.pool.get('check.note').create(cr, uid, values)
 
         return True
 
@@ -273,9 +270,9 @@ class check_book(osv.osv):
                 for k in book.check_note_ids:
                     self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'review'})
 
-        return True                    
-                    
-    #activar, la primera vez                
+        return True
+
+    #activar, la primera vez
     def active(self, cr, uid, ids, context={}):
         books = self.browse(cr,uid,ids)
         for book in books:
@@ -284,7 +281,7 @@ class check_book(osv.osv):
             for k in book.check_note_ids:
                 self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'active'})
 
-        return True                
+        return True
 
     def hibernate(self, cr, uid, ids, context={}):
         books = self.browse(cr,uid,ids)
@@ -294,9 +291,9 @@ class check_book(osv.osv):
                 if k.state=="active":#solo para los cheques activos
                     self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'hibernate'})
 
-        return True                    
-                    
-    #para reactivar despues de hibernar                
+        return True
+
+    #para reactivar despues de hibernar
     def active_hibernate(self, cr, uid, ids, context={}):
         books = self.browse(cr,uid,ids)
         for book in books:
@@ -305,22 +302,22 @@ class check_book(osv.osv):
                 if k.state=="hibernate":#solo para los cheques activos
                     self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'active'})
 
-        return True                    
-                    
+        return True
+
     def anular(self, cr, uid, ids, context={}):
         books = self.browse(cr,uid,ids)
         for book in books:
             if book.cancel_check=='otros' and book.notes==False:
-                raise osv.except_osv(_('Warning !'), _('Enter the Reason for Cancellation in other information field')) 
+                raise osv.except_osv(_('Warning !'), _('Enter the Reason for Cancellation in other information field'))
             if book.cancel_check==False and book.notes==False:
-                raise osv.except_osv(_('warning !'), _('Enter the Reason for Cancellation in other information field')) 
+                raise osv.except_osv(_('warning !'), _('Enter the Reason for Cancellation in other information field'))
             else:
                 self.write(cr,uid,book.id,{'state' : 'cancel'})
                 self.write(cr,uid,book.id,{'date_done' : time.strftime('%Y-%m-%d')})
                 for k in book.check_note_ids:
                     if k.state=="active":#solo para los cheques activos
                         self.pool.get('check.note').write(cr,uid,k.id,{'state' : 'cancel'})
-                        
+
         return True
-                            
+
 check_book()

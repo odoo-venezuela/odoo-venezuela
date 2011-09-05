@@ -50,7 +50,7 @@
             <field name="model">voucher.pay.support</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Orden de Pago">
+                <form string="Paid Support">
                     <group colspan="4" col="6" >
                         <field name="expiry"/>
                         <field name="type" select="2" on_change="onchange_type(type)"/>
@@ -66,7 +66,7 @@
                         <field name="account_voucher_transitory_id"/>
                         <newline/> 
                     </group>
-                    <group colspan="2" col='6' string="Cheque" >
+                    <group colspan="2" col='6' string="Check">
                         <group colspan="6" col='1'>
                             <field name="check_note_id" attrs="{'readonly':[('type','=','wire')]}"/>
                             <field name="name"/>
@@ -75,13 +75,13 @@
                         <newline/>
                         <newline/>
                         <group colspan="1" col='1'>
-                            <button name="get_retirado" states="draft" string="Cheque Retirado" type="object" icon="gtk-execute"/>
-                            <button name="get_realizado" states="open" string="Pago Realizado" type="object" icon="gtk-execute"/>
-                            <button name="%(wiz_pay_support_cancel)d" type='action' string='Anular Cheque' icon="gtk-cancel" states="open,draft" />
+                            <button name="get_retirado" states="draft" string="Checks Drawn" type="object" icon="gtk-execute"/>
+                            <button name="get_realizado" states="open" string="Payment Made" type="object" icon="gtk-execute"/>
+                            <button name="%(wiz_pay_support_cancel)d" type='action' string='Cancel Checks' icon="gtk-cancel" states="open,draft"/>
                         </group>
                         <hpaned/>
                     </group>
-                    <group colspan="2" col='6' string="Transferencia" >
+                    <group colspan="2" col='6' string="Transfer" >
                         <group colspan="6" col='1'>
                             <field name="wire" attrs="{'readonly':[('type','=','check')]}"/>
 <label string=""/><newline/><label string=""/><newline/><label string=""/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/><newline/><label string=""/>
@@ -90,8 +90,8 @@
                     <newline/>
                     <newline/>
                     <group colspan="1" col='1'>
-                        <button name="%(report_account_voucher3)d" string='Ver Comprobate de Pago Resumido' type="action" icon='gtk-print' /> 
-                        <button name="%(report_account_voucher_amt3)d" string='Ver Comprobate de Pago Detallado' type="action" icon='gtk-print' /> 
+                        <button name="%(report_account_voucher3)d" string='See Voucher Payment Summary' type="action" icon='gtk-print' /> 
+                        <button name="%(report_account_voucher_amt3)d" string='See Voucher Payment' type="action" icon='gtk-print' /> 
                     </group>
                     <hpaned/>
                     <hpaned/>
@@ -106,7 +106,7 @@
             <field name="model">voucher.pay.support</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Orden de Pago">
+                <tree string="Paid Support">
                     <field name="type" select="1"/>
                     <field name="partner_id" select="1"/> 
                     <field name="payee_id" select="1"/> 
@@ -126,7 +126,7 @@
 	=====================================================
 	-->   
     	<record model="ir.actions.act_window" id="action_voucher_pay_support">
-	    	<field name="name">Soportes de Pago</field>
+	    	<field name="name">Paid Support</field>
 	    	<field name="res_model">voucher.pay.support</field>
 	    	<field name="type">ir.actions.act_window</field>
 	    	<field name="view_type">form</field>
@@ -154,7 +154,7 @@
 <!--        vista utilizada para finalizar el wizard de ordenes de pago-->
 
         <record id="action_pay_order_wizard_soporte" model="ir.actions.act_window">
-            <field name="name">Soporte de Pago</field>
+            <field name="name">Paid Support</field>
             <field name="res_model">voucher.pay.support</field>
             <field name="view_type">form</field>
             <field name="view_mode">form,tree</field>

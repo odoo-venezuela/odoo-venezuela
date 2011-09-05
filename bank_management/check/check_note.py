@@ -58,52 +58,52 @@ class check_note(osv.osv):
     'prefix':fields.char('Prefix', size=4,required=True),
     'notes':fields.char('Note',size=256, required=False, readonly=False ,
                     states={'draft':[('readonly',True)],
-                    'review':[('readonly',True)]       ,
-                    'assigned':[('readonly',False)]    ,
-                    'hibernate':[('readonly',True)]    ,
-                    'done':[('readonly',True)]         ,
-                    'cancel':[('readonly',True)]       ,
-                    'active':[('readonly',False)]})    ,  
+                    'review':[('readonly',True)],
+                    'assigned':[('readonly',False)],
+                    'hibernate':[('readonly',True)],
+                    'done':[('readonly',True)],
+                    'cancel':[('readonly',True)],
+                    'active':[('readonly',False)]}),
     'account_voucher_id':fields.many2one('account.voucher','Account Voucher',required=False, readonly=True),
     'date_done':fields.date('Collection Date', readonly=True ),
     'cancel_check_note': fields.selection([
-        ('print','Error de Impresion')      ,
-        ('perdida','Perdida o extravio')    ,
-        ('dan_fis','Dano fisico')           ,
-        ('pago','Pago no realizado')        ,
-        ('devuelto','Cheque Devuelto')      ,
-        ('caduco','Caduco')                 ,
-        ('otros','Otros')                   ,
+        ('print','Print Error'),
+        ('perdida','Loss or misplacement'),
+        ('dan_fis','Physical damage'),
+        ('pago','Payment is not made'),
+        ('devuelto','Returned check'),
+        ('caduco','Expired'),
+        ('otros','Other'),
         ],'Reason for Cancellation', select=True, readonly=True,
                     states={'draft':[('readonly',True)],
-                    'review':[('readonly',True)]       ,
-                    'assigned':[('readonly',False)]    ,
-                    'hibernate':[('readonly',True)]    ,
-                    'done':[('readonly',True)]         ,
-                    'cancel':[('readonly',True)]       ,
-                    'active':[('readonly',False)]})    , 
+                    'review':[('readonly',True)],
+                    'assigned':[('readonly',False)],
+                    'hibernate':[('readonly',True)],
+                    'done':[('readonly',True)],
+                    'cancel':[('readonly',True)],
+                    'active':[('readonly',False)]}),
     'state': fields.selection([
-            ('draft','Draft')               ,
-            ('review','Review')             ,
-            ('active','Active')             , 
-            ('assigned','Assigned')           ,
-            ('hibernate','Hibernate')       ,
-            ('done','Done')                 ,
-            ('cancel','Cancel')             ,
+            ('draft','Draft'),
+            ('review','Review'),
+            ('active','Active'),
+            ('assigned','Assigned'),
+            ('hibernate','Hibernate'),
+            ('done','Done'),
+            ('cancel','Cancel'),
             ],'State', select=True, readonly=True, help="Check Note State"),
     }
     _defaults = {
         'state': lambda *a: 'draft',
     }
-    _rec_name='number'  
+    _rec_name='number'
     
     def anular(self, cr, uid, ids, context={}):
         note_books = self.browse(cr,uid,ids)
         for note in note_books:
             if note.cancel_check_note=='otros' and note.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field')) 
+                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field'))
             if note.cancel_check_note==False and note.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field')) 
+                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field'))
             else:
                 self.write(cr,uid,note.id,{'state' : 'cancel'})
 

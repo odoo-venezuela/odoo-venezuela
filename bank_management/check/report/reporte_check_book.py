@@ -50,7 +50,7 @@ class rep_check_book(report_sxw.rml_parse):
             'get_estado':self._get_estado,
             'get_cancel':self._get_cancel,
             'get_company':self._get_company,
-            'get_rif':self._get_rif,            
+            'get_rif':self._get_rif,
         })
              
     def _get_estado(self,state):
@@ -71,10 +71,10 @@ class rep_check_book(report_sxw.rml_parse):
         can = {
             'print': _('Print Error'),
             'perdida':_('Loss or misplacement'),
-            'dan_fis': _('physical damage'),
+            'dan_fis': _('Physical damage'),
             'pago':_('Payment is not made'),
             'caduco':_('Expired'),
-            'devuelto':_('Returned check')            
+            'devuelto':_('Returned check')
         }
         self_check_book=self.pool.get('check.note')
         data=self_check_book.browse(self.cr,self.uid, cheque)
@@ -85,7 +85,7 @@ class rep_check_book(report_sxw.rml_parse):
             #fue otra de las razones
             res = can[data.cancel_check_note]
         return res
-    
+
     def _get_partner_addr(self, idp=None):
         if not idp:
             return []
@@ -120,11 +120,10 @@ class rep_check_book(report_sxw.rml_parse):
             'active': _('Active Check book'),
             'hibernate': _('Hibernate Check book'),
             'cancel': _('Cancel Check book'),
-            'done': _('Done Check book')            
-        
+            'done': _('Done Check book')
         }
         return chk_state[state]
-        
+
 
     def _get_date_check(self, idp):
         res=" - "
@@ -136,12 +135,12 @@ class rep_check_book(report_sxw.rml_parse):
             res=obj_v_p_s.date 
 
         return res
-        
-        
+
+
     def _get_anulados(self, idp):
         check = self.pool.get('check.note') 
         voucher_ids = check.search(self.cr,self.uid,[('check_book_id','=',idp), ('state','=','cancel')])
-        
+
         return len(voucher_ids)
 
 
@@ -158,11 +157,11 @@ class rep_check_book(report_sxw.rml_parse):
                 self.suma_asigner+=obj_v_p_s.amount
             if obj_check.state=="done":
                 self.suma_done+= obj_v_p_s.amount
-            
+
             return res
         else:
             return res
-        
+
     def _get_amount_asignado(self):
         return self.suma_asigner
      
