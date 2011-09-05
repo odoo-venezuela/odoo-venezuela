@@ -12,7 +12,7 @@
                             <field name="period_id"/>
                             <field name="cancel_check_note"/>
                       </group>
-                            <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="6" col='1'>                        
+                            <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="6" col='1'>
                                  <field name="notes" string="Motivo de Anulación"/> 
                             </group>
                             <newline/>
