@@ -32,9 +32,10 @@ from osv import osv, fields
 import time
 from tools import config
 from tools.translate import _
+import decimal_precision as dp
 
 
-class account_retencion_munici(osv.osv):
+class account_wh_munici(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
         if context is None:
@@ -46,9 +47,9 @@ class account_retencion_munici(osv.osv):
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'retmun', 'in_invoice': 'retmun', 'out_refund': 'retmun', 'in_refund': 'retmun'}
+        type2journal = {'out_invoice': 'mun_sale', 'in_invoice': 'mun_purchase'}
         journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retmun'))], limit=1)
+        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'mun_purchase'))], limit=1)
         if res:
             return res[0]
         else:
@@ -61,34 +62,32 @@ class account_retencion_munici(osv.osv):
         else:
             return self.pool.get('res.currency').search(cr, uid, [('rate','=',1.0)])[0]
 
-    _name = "account.retencion.munici"
-    _description = "Comprobante de Retencion de munici"
+    _name = "account.wh.munici"
+    _description = "Local Withholding"
     _columns = {
-        'name': fields.char('Descripcion', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, help="Descripcion del Comprobante"),
-        'code': fields.char('Codigo', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Referencia del Comprobante"),
-        'number': fields.char('Numero de Retencion', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Nro. del Comprobante"),
+        'name': fields.char('Description', size=64, readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Description of withholding"),
+        'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding reference"),
+        'number': fields.char('Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding number"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
-            ('out_refund','Customer Refund'),
-            ('in_refund','Supplier Refund'),
-            ],'Tipo', readonly=True, select=True, help="Tipo del Comprobante"),
+            ],'Type', readonly=True, help="Withholding type"),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
-        'date_ret': fields.date('Fecha Comprobante', readonly=True, help="Mantener en blanco para usar la fecha actual"),
-        'date': fields.date('Fecha', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de emision"),
-        'period_id': fields.many2one('account.period', 'Periodo', domain=[('state','<>','done')], readonly=True, help="Mantener en blanco para usar el periodo fiscal correspondiente a la fecha del comprobante"),
-        'account_id': fields.many2one('account.account', 'Cuenta', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.V.A."),
-        'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Proveedor o Cliente al cual se retiene o te retiene"),
-        'currency_id': fields.many2one('res.currency', 'Moneda', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Moneda enla cual se realiza la operacion"),
-        'journal_id': fields.many2one('account.journal', 'Diario', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Diario donde se registran los asientos"),
-        'company_id': fields.many2one('res.company', 'Compania', required=True, help="Compania"),
-        'munici_line_ids': fields.one2many('account.retencion.munici.line', 'retention_id', 'Lineas de Retencion', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
-        'amount':fields.float('Amount', readonly=True),
+            ],'Estado', readonly=True, help="Estado del Comprobante"),
+        'date_ret': fields.date('Withholding date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
+        'date': fields.date('Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
+        'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
+        'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="The pay account used for this withholding."),
+        'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Withholding customer/supplier"),
+        'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency"),
+        'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
+        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
+        'munici_line_ids': fields.one2many('account.wh.munici.line', 'retention_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
+        'amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
         'move_id':fields.many2one('account.move', 'Account Entry'),
 
 
@@ -105,13 +104,13 @@ class account_retencion_munici(osv.osv):
     }
 
     _sql_constraints = [
-
+      ('ret_num_uniq', 'unique (number)', 'number must be unique !')
     ] 
 
 
 
     def action_confirm(self, cr, uid, ids, context={}):
-        obj=self.pool.get('account.retencion.munici').browse(cr,uid,ids)
+        obj=self.pool.get('account.wh.munici').browse(cr,uid,ids)
         total=0
         for i in obj[0].munici_line_ids:
             if i.amount >= i.invoice_id.check_total*0.15:
@@ -126,13 +125,13 @@ class account_retencion_munici(osv.osv):
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
-                    'FROM account_retencion_munici ' \
+                    'FROM account_wh_munici ' \
                     'WHERE id IN ('+','.join(map(str,ids))+')')
 
             for (id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.ret_munici.%s' % obj_ret.type)
-                cr.execute('UPDATE account_retencion_munici SET number=%s ' \
+                cr.execute('UPDATE account_wh_munici SET number=%s ' \
                         'WHERE id=%s', (number, id))
 
 
@@ -211,7 +210,7 @@ class account_retencion_munici(osv.osv):
             'partner_id': invoice.partner_id.id,
             'ref':invoice.number,
             'date': date,
-            'currency_id': False,            
+            'currency_id': False,
         }
         l2 = {
             'debit': direction * pay_amount<0 and - direction * pay_amount,
@@ -220,7 +219,7 @@ class account_retencion_munici(osv.osv):
             'partner_id': invoice.partner_id.id,
             'ref':invoice.number,
             'date': date,
-            'currency_id': False,            
+            'currency_id': False,
         }
         if not name:
             if invoice.type in ['in_invoice','in_refund']:
@@ -282,7 +281,7 @@ class account_retencion_munici(osv.osv):
                     inv_str+= '%s'% '\n'+line.invoice_id.name
 
             if inv_str:
-                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -300,10 +299,10 @@ class account_retencion_munici(osv.osv):
             inv_str = ''
             for inv in invoices:
                 if inv.partner_id.id != values['partner_id']:
-                    inv_str+= '%s'% '\n'+inv.name        
+                    inv_str+= '%s'% '\n'+inv.name
 
             if inv_str:
-                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -319,7 +318,7 @@ class account_retencion_munici(osv.osv):
             else:
                 self._update_check(cr, uid, ids, ret.partner_id.id, context)
 
-        return super(account_retencion_munici, self).write(cr, uid, ids, vals, context=context)
+        return super(account_wh_munici, self).write(cr, uid, ids, vals, context=context)
 
 
     def create(self, cr, uid, vals, context=None, check=True):
@@ -328,16 +327,16 @@ class account_retencion_munici(osv.osv):
         if check:
             self._new_check(cr, uid, vals, context)
 
-        return super(account_retencion_munici, self).create(cr, uid, vals, context)
+        return super(account_wh_munici, self).create(cr, uid, vals, context)
 
-account_retencion_munici()
+account_wh_munici()
 
 
 
-class account_retencion_munici_line(osv.osv):
+class account_wh_munici_line(osv.osv):
 
     def default_get(self, cr, uid, fields, context={}):
-        data = super(account_retencion_munici_line, self).default_get(cr, uid, fields, context)
+        data = super(account_wh_munici_line, self).default_get(cr, uid, fields, context)
         self.munici_context = context
         return data
 #TODO
@@ -345,17 +344,16 @@ class account_retencion_munici_line(osv.osv):
 #munici retenido en la factura
 
 
-    _name = "account.retencion.munici.line"
-    _description = "Linea de Retencion"
+    _name = "account.wh.munici.line"
+    _description = "Local Withholding Line"
     _columns = {
-        'name': fields.char('Descripcion', size=64, required=True, help="Descripcion de la linea del comprobante"),
-        'retention_id': fields.many2one('account.retencion.munici', 'Comprobante', ondelete='cascade', select=True, help="Comprobante"),
-        'invoice_id': fields.many2one('account.invoice', 'Factura', required=True, ondelete='set null', select=True, help="Factura a retener"),
-        'amount':fields.float('Amount'),
-        'move_id': fields.many2one('account.move', 'Movimiento Contable', readonly=True, help="Asiento Contable"),
-        'retencion_munici':fields.float('Retencion por 100'),
-#        'monto_fijo':fields.float('Adedum'),
-        'concepto_id': fields.integer('Concepto de Retencion', size=3),
+        'name': fields.char('Description', size=64, required=True, help="Local Withholding line Description"),
+        'retention_id': fields.many2one('account.wh.munici', 'Local withholding', ondelete='cascade', help="Local withholding"),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
+        'amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold')),
+        'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account Entry"),
+        'retencion_munici':fields.float('Rate', help="Local withholding rate"),
+        'concepto_id': fields.integer('Concept', size=3, help="Local withholding concept"),
 
 
     }
@@ -364,7 +362,7 @@ class account_retencion_munici_line(osv.osv):
         
     }
     _sql_constraints = [
-        ('munici_fact_uniq', 'unique (invoice_id)', 'La factura ya fue asignada y debe ser retenida unicamente una vez !')
+        ('munici_fact_uniq', 'unique (invoice_id)', 'The invoice has already assigned in local withholding, you cannot assigned it twice!')
     ] 
 
 
@@ -378,15 +376,15 @@ class account_retencion_munici_line(osv.osv):
         else:
             ok = True
             res = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
-            cr.execute('select retention_id from account_retencion_munici_line where invoice_id=%s', (invoice_id,))
+            cr.execute('select retention_id from account_wh_munici_line where invoice_id=%s', (invoice_id,))
             ret_ids = cr.fetchone()
             ok = ok and bool(ret_ids)
             if ok:
-                ret = self.pool.get('account.retencion.munici').browse(cr, uid, ret_ids[0], context)
-                raise osv.except_osv('Factura Asignada !',"Esta factura esta asignada en el comprobante con codigo: '%s' !" % (ret.code,))
+                ret = self.pool.get('account.wh.munici').browse(cr, uid, ret_ids[0], context)
+                raise osv.except_osv('Assigned Invoice !',"The invoice has already assigned in local withholding code: '%s' !" % (ret.code,))
             
             total = res.amount_total
             return {'value' : {'amount':total}} 
 
 
-account_retencion_munici_line()
+account_wh_munici_line()
