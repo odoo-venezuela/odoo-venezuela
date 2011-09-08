@@ -72,14 +72,13 @@ class account_invoice(osv.osv):
         return invoice_ids
 
 
-    _description = "Retencion de Impuesto Municipales"
     _columns = {
-        'ret_munici': fields.function(_retenida_munici, method=True, string='Retencion Municipal', type='boolean',
+        'wh_local': fields.function(_retenida_munici, method=True, string='Local Withholding', type='boolean',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, None, 50),
                 'account.move.line': (_get_inv_munici_from_line, None, 50),
                 'account.move.reconcile': (_get_inv_munici_from_reconcile, None, 50),
-            }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),
+            }, help="The account moves of the invoice have been withheld with account moves of the payment(s)."),
 
     }
     

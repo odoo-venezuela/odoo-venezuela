@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
+#                    Javier Duran <javieredm@gmail.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -29,11 +29,9 @@
 ##############################################################################
 
 
-import retencion_munici
+import wh_muni
 import invoice
-#import account
 import partner
-#import stock
-import report
-import wizard
+#import report
+#import wizard
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences type for account.wh.munici --> 
+
+
+        <record id="seq_type_account_wh_muni_purchase" model="ir.sequence.type">
+            <field name="name">Withholding local.purchase</field>
+            <field name="code">account.wh.muni.in_invoice</field>
+        </record>
+
+        <!-- Sequences for account.wh.munici --> 
+
+
+        <record id="seq_account_retencion_munici_compras" model="ir.sequence">
+            <field name="name">Withholding local purchase</field>
+            <field name="code">account.wh.muni.in_invoice</field>
+            <field name="prefix">RET-MUNI</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+    </data>
+</openerp>

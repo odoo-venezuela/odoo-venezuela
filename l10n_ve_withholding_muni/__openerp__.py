@@ -22,7 +22,7 @@
 #
 ##############################################################################
 {
-    "name" : "Withholding vat Venezuelan laws",
+    "name" : "Local Withholding Venezuelan laws",
     "version" : "0.5",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
@@ -34,11 +34,10 @@
     'update_xml': [
 #        'security/wh_iva_security.xml',
 #        'security/ir.model.access.csv',
-#        'account_invoice_view.xml',
-#        'account_view.xml',
-#        'partner_view.xml',
-#        'wh_iva_view.xml',
-#        "wh_iva_sequence.xml",
+        'account_invoice_view.xml',
+        'partner_view.xml',
+        'wh_muni_view.xml',
+        "wh_muni_sequence.xml",
 #        "wh_iva_workflow.xml",
 #        "account_workflow.xml",
     ],

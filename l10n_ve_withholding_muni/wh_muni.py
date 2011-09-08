@@ -260,9 +260,9 @@ class account_wh_munici(osv.osv):
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_retencion_munici_receivable.id
+                acc_id = p.property_wh_munici_receivable.id
             else:
-                acc_id = p.property_retencion_munici_payable.id
+                acc_id = p.property_wh_munici_payable.id
 
         self._update_check(cr, uid, ids, partner_id)
         result = {'value': {
@@ -352,7 +352,7 @@ class account_wh_munici_line(osv.osv):
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
         'amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold')),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account Entry"),
-        'retencion_munici':fields.float('Rate', help="Local withholding rate"),
+        'wh_loc_rate':fields.float('Rate', help="Local withholding rate"),
         'concepto_id': fields.integer('Concept', size=3, help="Local withholding concept"),
 
 
