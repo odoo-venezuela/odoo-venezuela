@@ -33,9 +33,9 @@ from report import report_sxw
 from osv import osv
 import pooler
 
-class rep_comprobante_munici(report_sxw.rml_parse):
+class rep_wh_muni(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
-        super(rep_comprobante_munici, self).__init__(cr, uid, name, context)    
+        super(rep_wh_muni, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
@@ -63,9 +63,9 @@ class rep_comprobante_munici(report_sxw.rml_parse):
     
       
 report_sxw.report_sxw(
-    'report.comprobante.retencion.munici',
-    'account.retencion.munici',
-    'addons/retencion_munici/report/comprobante_munici.rml',
-    parser=rep_comprobante_munici,
+    'report.wh.muni_rep',
+    'account.wh.munici',
+    'addons/l10n_ve_withholding_muni/report/wh_muni_report.rml',
+    parser=rep_wh_muni,
     header=False
 )      

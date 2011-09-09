@@ -130,7 +130,7 @@ class account_wh_munici(osv.osv):
 
             for (id, number) in cr.fetchall():
                 if not number:
-                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.ret_munici.%s' % obj_ret.type)
+                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.muni.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_munici SET number=%s ' \
                         'WHERE id=%s', (number, id))
 

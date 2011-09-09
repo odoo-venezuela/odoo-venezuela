@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <report             
+        <report
             id="report_ret_munici_comprobante" 
-            model="account.retencion.munici" 
-            name="comprobante.retencion.munici" 
-            rml="retencion_municipal/report/comprobante_munici.rml" 
+            model="account.wh.munici" 
+            name="wh.muni_rep" 
+            rml="l10n_ve_withholding_muni/report/wh_muni_report.rml"
             string="Comprobante Retencion Municipal"
+            header="False"
             auto="False" />
 
 

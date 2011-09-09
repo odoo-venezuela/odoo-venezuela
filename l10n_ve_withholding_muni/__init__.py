@@ -32,6 +32,6 @@
 import wh_muni
 import invoice
 import partner
-#import report
+import report
 #import wizard
 
