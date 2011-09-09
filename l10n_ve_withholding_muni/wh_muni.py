@@ -114,7 +114,7 @@ class account_wh_munici(osv.osv):
         total=0
         for i in obj[0].munici_line_ids:
             if i.amount >= i.invoice_id.check_total*0.15:
-                raise osv.except_osv(_('Invalid action !'), _("La linea que contiene El documento '%s' luce como si el monto retenido estuviera incorrecto por favor verificar.!") % (i.invoice_id.reference))
+                raise osv.except_osv(_('Invalid action !'), _("The line containing the document '%s' looks as if the amount withheld was wrong please check.!") % (i.invoice_id.reference))
             total+=i.amount
         self.write(cr,uid,ids,{'amount':total})
         self.write(cr, uid, ids, {'state':'confirmed'})
@@ -150,6 +150,10 @@ class account_wh_munici(osv.osv):
         context = {}
 
         for ret in self.browse(cr, uid, ids):
+            for line in ret.munici_line_ids:
+                if line.move_id or line.invoice_id.wh_local:
+                    raise osv.except_osv(_('Invoice already withhold !'),_("You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
+                    return False
 
             acc_id = ret.account_id.id
             if not ret.date_ret:
@@ -169,9 +173,10 @@ class account_wh_munici(osv.osv):
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount
-                    ret_move = self.ret_and_reconcile(cr, uid, [ret.id], [line.invoice_id.id],
+                    name = 'COMP. RET. MUN ' + ret.number
+                    ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, context)
+                            period_id, writeoff_journal_id, ret.date_ret, name, context)
 
                     # make the retencion line point to that move
                     rl = {
@@ -179,84 +184,12 @@ class account_wh_munici(osv.osv):
                     }
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'munici_line_ids':lines, 'period_id':period_id})
-#                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
-    
 
         return True
 
 
-
-    def ret_and_reconcile(self, cr, uid, ids, invoice_ids, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context=None, name=''):
-        inv_obj = self.pool.get('account.invoice')
-        ret = self.browse(cr, uid, ids)[0]
-        if context is None:
-            context = {}
-        #TODO check if we can use different period for payment and the writeoff line
-        assert len(invoice_ids)==1, "Can only pay one invoice at a time"
-        invoice = inv_obj.browse(cr, uid, invoice_ids[0])
-        src_account_id = invoice.account_id.id
-        # Take the seq as name for move
-        types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
-        direction = types[invoice.type]
-        #take the choosen date
-        if 'date_p' in context and context['date_p']:
-            date=context['date_p']
-        else:
-            date=time.strftime('%Y-%m-%d')
-        l1 = {
-            'debit': direction * pay_amount>0 and direction * pay_amount,
-            'credit': direction * pay_amount<0 and - direction * pay_amount,
-            'account_id': src_account_id,
-            'partner_id': invoice.partner_id.id,
-            'ref':invoice.number,
-            'date': date,
-            'currency_id': False,
-        }
-        l2 = {
-            'debit': direction * pay_amount<0 and - direction * pay_amount,
-            'credit': direction * pay_amount>0 and direction * pay_amount,
-            'account_id': pay_account_id,
-            'partner_id': invoice.partner_id.id,
-            'ref':invoice.number,
-            'date': date,
-            'currency_id': False,
-        }
-        if not name:
-            if invoice.type in ['in_invoice','in_refund']:
-                name = 'COMP. RET. MUN ' + ret.number + ' Doc. '+ (invoice.reference or '')
-            else:
-                name = 'COMP. RET. MUN ' + ret.number + ' Doc. '+ (str(int(invoice.number)) or '')
-
-        l1['name'] = name
-        l2['name'] = name
-
-        lines = [(0, 0, l1), (0, 0, l2)]
-        move = {'ref': invoice.number, 'line_id': lines, 'journal_id': pay_journal_id, 'period_id': period_id, 'date': date}
-        move_id = self.pool.get('account.move').create(cr, uid, move, context=context)
-
-        self.pool.get('account.move').post(cr, uid, [move_id])
-
-        line_ids = []
-        total = 0.0
-        line = self.pool.get('account.move.line')
-        cr.execute('select id from account_move_line where move_id in ('+str(move_id)+','+str(invoice.move_id.id)+')')
-        lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()) )
-        for l in lines+invoice.payment_ids:
-            if l.account_id.id==src_account_id:
-                line_ids.append(l.id)
-                total += (l.debit or 0.0) - (l.credit or 0.0)
-        if (not round(total,int(config['price_accuracy']))) or writeoff_acc_id:
-            self.pool.get('account.move.line').reconcile(cr, uid, line_ids, 'manual', writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context)
-        else:
-            self.pool.get('account.move.line').reconcile_partial(cr, uid, line_ids, 'manual', context)
-
-        # Update the stored value (fields.function), so we write to trigger recompute
-        self.pool.get('account.invoice').write(cr, uid, invoice_ids, {}, context=context)
-        return {'move_id': move_id}
-
-
     def onchange_partner_id(self, cr, uid, ids, type, partner_id):
-        acc_id = False        
+        acc_id = False
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
