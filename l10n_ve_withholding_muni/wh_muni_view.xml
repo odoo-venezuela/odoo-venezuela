@@ -51,8 +51,8 @@
 
 
         <record id="view_wh_muni_filter" model="ir.ui.view">
-            <field name="name">account.wh.iva.search</field>
-            <field name="model">account.wh.iva</field>
+            <field name="name">account.wh.munici.search</field>
+            <field name="model">account.wh.munici</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Withholding Local">

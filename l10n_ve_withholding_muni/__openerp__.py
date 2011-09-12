@@ -32,8 +32,8 @@
     'init_xml': [],
     "depends" : ["l10n_ve_withholding"],
     'update_xml': [
-#        'security/wh_iva_security.xml',
-#        'security/ir.model.access.csv',
+        'security/wh_muni_security.xml',
+        'security/ir.model.access.csv',
         'account_invoice_view.xml',
         'partner_view.xml',
         'wh_muni_view.xml',

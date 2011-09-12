@@ -1,6 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_account_retencion_munici","account.retencion.munici","model_account_retencion_munici","account.group_account_user",1,1,1,1
-"access_account_retencion_munici_line","account.retencion.munici.line","model_account_retencion_munici_line","account.group_account_user",1,1,1,1
-"access_account_retencion_munici_manager","account.retencion.munici","model_account_retencion_munici","account.group_account_manager",1,1,1,1
-"access_account_retencion_munici_line_manager","account.retencion.munici.line","model_account_retencion_munici_line","account.group_account_manager",1,1,1,1
-
+"access_account_wh_muni_user","account.wh.muni.user","model_account_wh_munici","l10n_ve_withholding_muni.group_account_wh_muni_user",1,0,0,0
+"access_account_wh_muni_line_user","account.wh.muni.line.user","model_account_wh_munici_line","l10n_ve_withholding_muni.group_account_wh_muni_user",1,0,0,0
+"access_account_wh_muni_manager","account.wh.muni.manager","model_account_wh_munici","l10n_ve_withholding_muni.group_account_wh_muni_manager",1,1,1,1
+"access_account_wh_muni_line_manager","account.wh.muni.line.manager","model_account_wh_munici_line","l10n_ve_withholding_muni.group_account_wh_muni_manager",1,1,1,1

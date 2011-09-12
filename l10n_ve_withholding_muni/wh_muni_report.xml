@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <report
-            id="report_ret_munici_comprobante" 
+            id="report_wh_muni" 
             model="account.wh.munici" 
             name="wh.muni_rep" 
             rml="l10n_ve_withholding_muni/report/wh_muni_report.rml"
