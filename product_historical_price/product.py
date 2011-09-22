@@ -11,7 +11,6 @@ class product_historical(osv.osv):
     """
     product_historical
     """
-
     def _get_historical_price(self, cr, uid, ids, field_name, field_value, arg, context={}):
         res = {}
         product_hist = self.pool.get('product.historic')
@@ -23,7 +22,7 @@ class product_historical(osv.osv):
                     'name': time.strftime('%Y-%m-%d %H:%M:%S'),
                     'price': self.browse(cr, uid, id).list_price,
                },context)
-        return res    
+        return res
     
     def _get_historical_cost(self, cr, uid, ids, field_name, field_value, arg, context={}):
         res = {}

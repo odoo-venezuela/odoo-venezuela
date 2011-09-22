@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_parish_filter" model="ir.ui.view">
+        <field name="name">res.parish.search</field>
+        <field name="model">res.parish</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search Parish">
+                <group>
+                    <separator orientation="horizontal"/>
+                    <field name="municipalities_id" select="1"/>
+                    <field name="name" select="1"/>
+                    <field name="sector_ids" select="1"/>
+                </group>
+                <newline/>
+                <group expand="0" string="Group By.">
+                    <filter string="Municipality" context="{'group_by': 'municipalities_id'}" icon="terp-stock_effects-object-colorize"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+        <record id="view_parish_tree" model="ir.ui.view">
+            <field name="name">res.parish.tree</field>
+            <field name="model">res.parish</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Parish">
+                    <field name="municipalities_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_municipality_parish_tree" model="ir.ui.view">
+            <field name="name">res.municipality.parish.tree</field>
+            <field name="model">res.parish</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Parish">
+                    <field name="municipalities_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_parish_form" model="ir.ui.view">
+            <field name="name">res.parish.form</field>
+            <field name="model">res.parish</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Parish">
+                    <field name="name"/>
+                    <field name="municipalities_id"/>
+                    <newline/>
+                    <field name="sector_ids" colspan="4" nolabel="1" context="{'tree_view_ref':'view_sector_parish_tree'}"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_parish" model="ir.actions.act_window">
+            <field name="name">Parish</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.parish</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_parish_tree"/>
+            <field name="search_view_id" ref="view_parish_filter"/>
+            <field name="help">Parish is the name of some municipal entities</field>
+        </record>
+        
+        <menuitem action="action_parish" id="menu_parish" parent="base.menu_localisation"/>
+
+    </data>
+</openerp>
