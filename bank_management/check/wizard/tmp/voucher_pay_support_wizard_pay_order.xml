@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_voucher_pay_support_wizard" model="ir.ui.view">
+            <field name="name">voucher.pay.support.wizard.form</field>
+            <field name="model">voucher.pay.support.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generar Orden de Pago" >
+                      <group colspan="4" col="4">
+                            <separator string="Seleccionar el Tipo de Pago" colspan="4"/>
+                            <hpaned/>
+                            <field name="type"/>
+                            <hpaned/> 
+                      </group>
+                            <newline/>
+                            <newline/>
+                     <group colspan="2" col="5">
+                            <hpaned/> 
+                            <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
+                            <hpaned/>  
+                            <button icon="gtk-ok" name="accion_tipo" string="Siguiente" type="object"/>
+                            <hpaned/> 
+                     </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="wiz_pay_support" model="ir.actions.act_window">
+            <field name="name">Generar Orden de Pago</field>
+            <field name="res_model">voucher.pay.support.wizard</field>
+            <field name="src_model">voucher.pay.support.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_voucher_pay_support_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+
+<!--Cheque-->
+        <record id="view_voucher_pay_support_wizard_check" model="ir.ui.view">
+             <field name="name">view_voucher_pay_support_wizard_check_form</field>
+             <field name="model">voucher.pay.support.wizard</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                <form string="Cheque">
+                      <group colspan="4" col="4">
+                            <separator string="Seleccione la Cuenta Bancaria" colspan="4"/>
+                            <hpaned/>
+                            <field name="accounting_bank_id"/>
+                            <hpaned/> 
+                      </group>
+                            <newline/>
+                            <newline/>
+                     <group colspan="2" col="5">
+                            <hpaned/> 
+                            <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
+                            <hpaned/>  
+                            <button icon="gtk-ok" name="action_cheque" string="Siguiente" type="object"/>
+                            <hpaned/> 
+                     </group>
+                </form>
+             </field>
+         </record>
+
+<!--transferencia-->
+        <record id="view_voucher_pay_support_wizard_transf" model="ir.ui.view">
+             <field name="name">view_voucher_pay_support_wizard_transf_form</field>
+             <field name="model">voucher.pay.support.wizard</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                <form string="Transferencia">
+                      <group colspan="4" col="4">
+                            <separator string="Estamos tomando medidas..." colspan="4"/>
+                      </group>
+                      <group colspan="2" col="3">
+                            <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
+                      </group>
+                </form>
+             </field>
+         </record>
+
+<!--generar cheque-->
+        <record id="view_voucher_pay_support_wizard_generar_cheque" model="ir.ui.view">
+             <field name="name">view_voucher_pay_support_wizard_transf_form</field>
+             <field name="model">voucher.pay.support.wizard</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                <form string="Geneneracion de Cheque">
+                      <group colspan="4" col="4" string="Cheque">
+                            <field name="accounting_bank_id" readonly="1" required="0" />
+                            <field name="bank_id" required="0"/>
+                            <field name="partner_id" required="0"/>
+                            <field name="payee_id" required="0"/>
+                            <field name="check_note_id" required="0"/>    
+                            <field name="amount" required="0"/> 
+                            <field name="date" required="0"/> 
+                      </group>
+                      <hpaned/> 
+                      <group colspan="2" col="3">
+                            <hpaned/> 
+                            <button name="%(voucher_pay_support_report)d" string='Imprimir Cheque' type="action" icon='gtk-print' />
+                            <hpaned/> 
+                      </group>
+                      <hpaned/> 
+                      <hpaned/> 
+                      <group colspan="2" col="7">
+                            <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
+                            <hpaned/>  
+                            <button icon='gtk-ok' name="pop_check_printer" string="Confirmar Impresion" type="object"/> 
+                      </group>
+                </form>
+             </field>
+         </record>
+
+
+<!--preguntar si el cheque se imprimio bien-->
+        <record id="view_voucher_pay_support_wizard_preguntar" model="ir.ui.view">
+             <field name="name">view_voucher_pay_support_wizard_transf_form</field>
+             <field name="model">voucher.pay.support.wizard</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                <form string="¿El cheque se ha impreso correctamente?">
+                      <group colspan="4" col="4">
+                            <separator string="¿El cheque se ha impreso correctamente?" colspan="4"/>
+                             <group colspan="4" col="4">
+                                    <group colspan="3" col="3" attrs="{'invisible':[('bool_bad','=','True')]}" >
+                                        <group attrs="{'invisible':[('bool_good','=','False')]}" >
+                                            <field name="bool_good"/> 
+                                        </group>   
+                                    </group>
+                                    <group colspan="3" col="3" attrs="{'invisible':[('bool_good','=','True')]}" >
+                                        <group attrs="{'invisible':[('bool_bad','=','False')]}" >
+                                              <field name="bool_bad"/>
+                                        </group>
+                                    </group>
+                               </group>
+                                    <newline/>
+                               <field name="bool_sure"/>
+                               <newline/>
+                                <newline/>
+                                <newline/>
+                                <newline/>
+                               <group colspan="2" col="3">
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <button icon="gtk-ok" name="pop_check" string="Aceptar" type="object"/>
+                                    <newline/> 
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <hpaned/>
+                                    <hpaned/>     
+                                   <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
+                               </group>
+                      </group>
+                </form>
+             </field>
+         </record>
+
+<!--escribir la razon en la nota-->
+        <record id="view_voucher_pay_support_wizard_escribir_nota" model="ir.ui.view">
+             <field name="name">view_voucher_pay_support_wizard_transf_form</field>
+             <field name="model">voucher.pay.support.wizard</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                <form string="Nota">
+                      <group colspan="4" col="4">
+                            <separator string="Justificación de Anulacion" colspan="4"/> 
+                           <group colspan="4" col="6">
+                                <field name="cancel_check_note"/>
+                                <hpaned/> 
+                           </group>
+                           <group attrs="{'invisible':[('cancel_check_note','!=','otros')]}" colspan="5" col='6'>                        
+                                <field name="notes"/>
+                                <hpaned/> 
+                           </group> 
+                      </group>
+                      <group colspan="2" col="5">
+                            <hpaned/> 
+                            <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
+                            <hpaned/>  
+                            <button icon="gtk-ok" name="fin_check" string="Procesar" type="object"/>
+                            <hpaned/> 
+                      </group>
+                </form>
+             </field>
+         </record>
+    </data>
+</openerp>

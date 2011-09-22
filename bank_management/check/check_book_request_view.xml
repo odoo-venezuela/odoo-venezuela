@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!--==================================
+            Solicitud de Chequeras
+        ==================================-->
+        
+        <record id="view_check_book_request_filter" model="ir.ui.view">
+            <field name="name">check.book.request.select</field>
+            <field name="model">check.book.request</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Check Book Request">
+                    <group col="10" colspan="4">
+                        <filter name="draft" icon="terp-gtk-media-pause" string="Draft" domain="[('state','=','draft')]" help="Draft check book request"/>
+                        <filter name="send" icon="terp-camera_test" string="Send" domain="[('state','=','send')]" help="Send check book request"/>
+                        <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel check book request"/>
+                        <filter name="received" icon="terp-check" string="Received" domain="[('state','=','received')]" help="Received check book request"/>                                                
+                        <separator orientation="vertical"/>
+                        <field name="code"/>
+                        <field name="accounting_bank_id"/>
+                        <field name="bank_id"/>
+                        <field name="agen_id"/>
+                        <field name="partner_id"/>
+                        <field  name="state"/>
+                        
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Authorized" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Bank Agency" icon="terp-personal" domain="[]" context="{'group_by':'agen_id'}"/>
+                        <filter string="Bank" icon="terp-folder-green" domain="[]" context="{'group_by':'bank_id'}"/>
+                        <filter string="Bank Account" icon="terp-folder-orange" domain="[]" context="{'group_by':'accounting_bank_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        
+        <record id="view_check_book_request_form" model="ir.ui.view">
+            <field name="name">check.book.request.form</field>
+            <field name="model">check.book.request</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Check Book Request">
+                        <notebook colspan="4">
+                            <page string="Request">
+                                <field name="code"/>
+                                <field name="accounting_bank_id" on_change="onchange_accounting_bank_id(accounting_bank_id)"/>
+                                <field name="bank_id"/>
+                                <field name="agen_id"/>
+                                <field name="partner_id"/>
+                            </page>
+                            <page string="Check Book">
+                                    <field name="check_book_ids" nolabel="1" required="1" widget="many2many" domain="[('state', '=', 'request'), ('check_book_request_id', '=', False),('accounting_bank_id','=',accounting_bank_id)]">
+                                    <tree string="Chequeras" editable='top'>
+                                        <field name="accounting_bank_id" />
+                                        <field name="qty_check" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Request Letter">
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                               <!--generar solicitud de chequera -->
+                                <button name="%(report_chk_book_request)d" string='Print' icon='gtk-print' type="action" states="send,received"/> 
+                                <newline/> 
+                            </page>
+                        </notebook>
+                           <group colspan="2" col='6'>
+                                <hpaned/>
+                                <hpaned/>
+                                <hpaned/>
+                               <field name="state"/>
+                                <newline/>
+                                <button name="get_enviar" states="draft" string="Send" type="object" icon="gtk-execute"/>
+                                <button name="get_received" states="send" string="Receive" type="object" icon="gtk-execute"/>
+                                <button name="get_anular" states="send" string="Cancel" type="object" icon="gtk-cancel"/>
+                            </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_check_book_request_tree" model="ir.ui.view">
+            <field name="name">check.book.request.tree</field>
+            <field name="model">check.book.request</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Check Book Request">
+                    <field name="code"/>
+                    <field name="accounting_bank_id"/>
+                    <field name="bank_id"/>
+                    <field name="agen_id"/>
+                    <field name="partner_id"/>
+                    <field  name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_sol_check_book" model="ir.actions.act_window">
+            <field name="name">Check Book Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">check.book.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+	    	<field name="search_view_id" ref="view_check_book_request_filter"/>
+            <field name="help">With Check Book Request you can create and manage  Check Book.</field>            
+        </record>
+        <menuitem
+            action="action_sol_check_book"
+            id="menu_check_book_solicitud"
+            parent="id_check_management"/>
+
+
+
+    </data>
+</openerp>

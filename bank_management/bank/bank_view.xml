@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+    ==================================
+    Entidades Bancarias
+    ==================================
+    -->
+        <record id="view_res_bank_lim_form" model="ir.ui.view">
+            <field name="name">res.bank.lim.form</field>
+            <field name="model">res.bank</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/field[@name='bic']" position="after">
+                    <field name="min_lim"/>
+                    <field name="max_lim"/>
+                    <newline/>
+                    <separator string="Format Check" colspan="4"/>
+                    <field name="format_h" colspan="4" nolabel="1"/>
+                </xpath>                
+            </field>
+        </record>
+
+    </data>
+</openerp>

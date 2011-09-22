@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem 
+            name="Comprobantes" 
+            id="menu_general_comprobante_pago" 
+            groups="account.group_account_user"
+            parent="menu_bank_management"/>
+
+
+
+<!-- ........................................contenido de voucher............................................-->
+
+                                                    <!--comprobante de cobro-->
+
+
+<!--para eliminar el menu restante que quede de voucher ir a administracion>seguridad>gran acceso a menu-->
+
+		<menuitem 
+        name="Comprobantes de Cobro" 
+		id="menu_comprobante_cobro"  
+         parent="menu_general_comprobante_pago" />
+
+<!--		<menuitem name="Cobro en efectivo" -->
+<!--		id="menu_action_receipt_cashreceipt_voucher_list" parent="menu_comprobante_cobro" action="action_receipt_cashreceipt_voucher_list"/>-->
+
+<!--		<menuitem name="Cobro Bancario" -->
+<!--		id="menu_action_receipt_bakreceipt_voucher_list" parent='menu_comprobante_cobro' action="action_receipt_bakreceipt_voucher_list"/>-->
+
+		<menuitem name="Nuevo Cobro Bancario" 
+        id="menu_action_view_bank_rec_voucher_form" parent='menu_comprobante_cobro'/><!---action="action_view_bank_rec_voucher_form"-->
+
+		<menuitem name="Nuevo Cobro en Efectivo" 
+        id="menu_action_view_cash_rec_voucher_form" parent='menu_comprobante_cobro' /><!---action="action_view_cash_rec_voucher_form"-->
+
+<!-- ................... -->
+
+                                                    <!--comprobante de pago-->
+        <menuitem 
+            name="Comprobantes de Pago" 
+            id="menu_comprobante_pago" 
+            parent="menu_general_comprobante_pago"/>
+
+		<menuitem name="Pago en Efectivo" 
+		id="menu_action_payments_cashpay_voucher_list" parent='menu_comprobante_pago' /><!---action="action_payments_cashpay_voucher_list"-->
+
+<!--Pagos Bancarios-->
+
+        <menuitem 
+            name="Pago Bancario" 
+            id="menu_general_pago_bancarioo" 
+            parent="menu_comprobante_pago"/>
+
+		<menuitem name="Nuevo Pago Bancario" 
+        id="menu_action_view_bank_pay_voucher_form" parent='menu_general_pago_bancarioo' /><!---action="action_view_bank_pay_voucher_form"-->
+<!-- ................... -->
+
+		<menuitem name="Nuevo Pago en Efectivo" 
+        id="menu_action_view_cash_pay_voucher_form" parent='menu_action_payments_cashpay_voucher_list' /><!---action="action_view_cash_pay_voucher_form"-->
+
+		<menuitem name="Otros Pagos" 
+		id="menu_action_other_voucher_list" parent='menu_general_comprobante_pago' /><!---action="action_other_voucher_list"-->
+
+		<menuitem name="Contra Voucher"
+         id="menu_action_view_cont_voucher_form" parent='menu_action_other_voucher_list' /><!---action="action_view_cont_voucher_form"-->
+
+		<menuitem name="Journal Sale Voucher" 
+        id="menu_action_view_jour_sale_voucher_form" parent='menu_action_other_voucher_list' /><!---action="action_view_jour_sale_voucher_form"-->
+
+		<menuitem name="Journal Purchase Voucher"           
+        id="menu_action_view_jour_pur_voucher_form" parent='menu_action_other_voucher_list' /><!---action="action_view_jour_pur_voucher_form"-->
+
+<menuitem 
+        name="Journal Voucher" 
+		id="menu_action_view_jour_voucher_form" 
+        parent='menu_action_other_voucher_list' 
+        /><!---action="action_view_jour_voucher_form"-->
+
+
+<!--wizard de voucher, el que trae original-->
+
+<!--	    <menuitem 
+	     	action="wizard_account_voucher_open" 
+	     	id="menu_wizard_account_voucher_open" 
+	     	name="Open Vouchers"
+            parent='menu_general_comprobante_pago'
+	     	sequence="0" 
+	     	type="wizard"/>-->
+
+<!--.............wizar de generacion de lineas.......................-->
+
+<!--        <menuitem-->
+<!--            name="Generar Lineas de Pago"-->
+<!--            parent="menu_general_pago_bancarioo"-->
+<!--            action="voucher_pay_support.generate_lines_payment_wizard"-->
+<!--            type="wizard"-->
+<!--            id="voucher_pay_support.menu_generate_lines_payment_wizard"-->
+<!--            sequence="50"/>-->
+
+
+<!-- para los pagos bancarios-->
+
+		<record model="ir.ui.view" id="view_voucher_tree2">
+			<field name="name">account.voucher.tree.copy</field>
+			<field name="model">account.voucher</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Vouchers">
+					<field name="name"/>
+					<field name="journal_id"/>
+					<field name="account_id" />
+					<field name="amount"/>
+					<field name="date"/>
+					<field name="period_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_voucher_form2">
+			<field name="name">account.voucher.form.copy</field>
+			<field name="model">account.voucher</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Voucher">
+				    <group col="6" colspan="4">
+				        <group colspan="6" col="2">
+				        <field name="name" select="1"/>
+                        </group>
+				        <field name="journal_id" select="1" on_change="onchange_journal_voucher(line_ids, tax_id, amount, partner_id, journal_id, type)"/>
+					    <field name="account_id" select="2"/>
+					    <field name="type" select="2" />
+					    <field name="number"/>
+					</group>
+					<notebook colspan="4">
+						<page string="Entry Lines">
+							<field name="line_ids" colspan="4" nolabel="1" height="275">
+								<tree string="Voucher Lines" editable="top">
+									<field name="account_analytic_id"/>
+									<field name="partner_id" on_change="onchange_partner(partner_id,type,parent.type)"/>
+                                    <field name="account_id" on_change="onchange_line_account(account_id, type, parent.type)"/> 
+									<field name="name"/>
+									<field name="type" required='1'/>
+									<field name="amount"/>
+<!---                                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('partner_id','=',partner_id),('state','=','open'),('residual','&gt;',0.0)]"/>
+									<field name="ref"/>-->
+								</tree>
+							</field>
+							<separator string="Narration" colspan="4"/>
+							<field name="narration" colspan="4" nolabel="1"/>
+							<group col="6" colspan="6">
+								<field name="state"/>
+								<button name="open_voucher" string="Pro-forma" states="draft" type="object" icon="gtk-open"/>
+								<button name="proforma_voucher" string="Create" states="proforma" type="object"  icon="gtk-go-forward"/>
+								<button name="cancel_voucher" string="Cancel" states="draft,proforma,posted" type="object" icon="gtk-cancel"/>
+								<button name="action_cancel_draft" states="cancel" type="object" string="Set to Draft" icon="gtk-convert"/>
+							</group>
+						</page>
+						<page string="Other Info">
+							<field name="company_id" select="1"/>
+							<field name="currency_id" select="1" />
+							<field name="period_id"/>
+							<field name="date" select="1"/>
+							<separator string="General Entries" colspan="4"/>
+							<field name="move_ids" colspan="4" nolabel="1" readonly="1"/>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="action_view_bank_pay_voucher_form_copy">
+			<field name="name">Bank Payment Voucher</field>
+			<field name="res_model">account.voucher</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="view_id" eval="view_voucher_tree2"/>
+			<field name="domain">[('type','=','bank_pay_voucher')]</field>
+			<field name="context">{'type':'bank_pay_voucher'}</field>
+		</record>
+        <record id="act_wv_pay_order_tree3" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_voucher_tree2"/>
+            <field name="act_window_id" ref="action_view_bank_pay_voucher_form_copy"/>
+        </record>
+        <record id="act_wv_pay_order_form3" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_voucher_form2"/>
+            <field name="act_window_id" ref="action_view_bank_pay_voucher_form_copy"/>
+        </record>
+		<menuitem name="Pago Bancario" 
+        id="menu_action_payments_bankpay_voucher_list2" parent='menu_general_pago_bancarioo' action="action_view_bank_pay_voucher_form_copy"/>
+</data>
+</openerp>

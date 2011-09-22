@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1"> <!-- esto es para cargar las secuencias en el modulo, para inicializarlas con 0 se carga con 1 no lee --> 
+
+        <!-- Secuencias para el modelo check.book.request para el code -->
+        <record id="seq_check_book" model="ir.sequence.type">
+            <field name="name">Check book Request</field>
+            <field name="code">check.book.request</field>
+        </record>
+
+        <!-- Sequences forcheck.book.request para el code --> 
+        <record id="seq_check_book_code" model="ir.sequence">
+            <field name="name">Check book Request</field>
+            <field name="code">check.book.request</field>
+            <field name="prefix">SOL.CHQ.:</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</openerp>
+
+
+
