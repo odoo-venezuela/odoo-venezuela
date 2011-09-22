@@ -18,9 +18,9 @@
                     <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
 <!--                    <field name="retention_rate" />-->
                     <field name="base_ret"/>
-                    <field name="amount_tax_ret"/>                    
+                    <field name="amount_tax_ret"/>
                     <field name="amount_base_wh"/>
-                    <field name="amount_tax_wh"/>                    
+                    <field name="amount_tax_wh"/>
                     <field name="move_id"/>
                 </tree>
             </field>
@@ -55,7 +55,7 @@
                                 <field name="amount_tax_ret"/>
                                 <field name="base_ret"/>
                                 <field name="amount_base_wh"/>
-                                <field name="amount_tax_wh"/>                                
+                                <field name="amount_tax_wh"/>
                             </group>
                         </page>
                     </notebook>
@@ -64,11 +64,11 @@
         </record>
 
 
-    <!-- 
+    <!--
     =====================================================
     Withholding vat
     =====================================================
-    -->  
+    -->
 
 
         <record id="view_wh_iva_filter" model="ir.ui.view">
@@ -99,8 +99,8 @@
                </search>
             </field>
         </record>
-        
-        
+
+
         <record id="view_wh_iva_tree" model="ir.ui.view">
             <field name="name">account.wh.iva.tree</field>
             <field name="model">account.wh.iva</field>
@@ -132,27 +132,27 @@
                 <form string="Withholding Vat">
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','iva_purchase')]"/>
-                        <field name="type" select="2"/>
-                        <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('supplier','=',True)]"/>
-                        <field name="currency_id" />
-                        <field name="date_ret" />
+                        <field name="type"/>
+                        <field name="code"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('supplier','=',True)]"/>
+                        <field name="currency_id"/>
+                        <field name="date_ret"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
-                        <field name="name" select="2"/>
+                        <field name="name"/>
                         <field name="period_id"/>
-                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
+                        <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date" />
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
                             <field colspan="4" name="retention_line" nolabel="1" widget="one2many_list"/>
                             <group col="4" colspan="2">
-                                <field name="state" select="2"/>
-                                <button name="wh_iva_done" states="draft" string="Realizar" icon="gtk-execute"/>
+                                <field name="state"/>
+                                <button name="wh_iva_done" states="draft" string="Done" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
-                                <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>                                
-                                <field name="amount_base_ret"/>                                
+                                <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>
+                                <field name="amount_base_ret"/>
                                 <field name="total_tax_ret"/>
                                 <field name="tot_amount_base_wh"/>
                                 <field name="tot_amount_tax_wh"/>
@@ -219,7 +219,7 @@
             <field name="domain">[('type','=','out_invoice')]</field>
             <field name="context">{'type':'out_invoice'}</field>
             <field name="search_view_id" ref="view_wh_iva_filter"/>
-            <field name="help">With Customer Withholding Vat you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document.</field>            
+            <field name="help">With Customer Withholding Vat you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document.</field>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_tree">
             <field name="sequence" eval="10"/>
@@ -236,7 +236,7 @@
 
         <menuitem
             id="menu_action_account_wh_iva_customer"
-            name="Withholding vat customer"       
+            name="Withholding vat customer"
             parent="l10n_ve_withholding.menu_wh_customer"
             action="action_account_wh_iva_customer"/>
 

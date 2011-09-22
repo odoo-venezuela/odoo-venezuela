@@ -67,18 +67,18 @@ class account_wh_iva(osv.osv):
     _name = "account.wh.iva"
     _description = "Withholding Vat"
     _columns = {
-        'name': fields.char('Description', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Description of withholding"),
+        'name': fields.char('Description', size=64, readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Description of withholding"),
         'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding reference"),
         'number': fields.char('Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding number"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
-            ],'Type', readonly=True, select=True, help="Withholding type"),
+            ],'Type', readonly=True, help="Withholding type"),
         'state': fields.selection([
             ('draft','Draft'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'State', select=True, readonly=True, help="Withholding State"),
+            ],'State', readonly=True, help="Withholding State"),
         'date_ret': fields.date('Withholding date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
         'date': fields.date('Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
@@ -88,7 +88,7 @@ class account_wh_iva(osv.osv):
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'retention_line': fields.one2many('account.wh.iva.line', 'retention_id', 'Withholding vat lines', readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat lines"),
-        'tot_amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),        
+        'tot_amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),
         'tot_amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withholding tax vat"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
@@ -175,7 +175,7 @@ class account_wh_iva(osv.osv):
                     period_id = period_ids[0]
 
             if ret.retention_line:
-                for line in ret.retention_line:                    
+                for line in ret.retention_line:
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount_tax_wh
@@ -224,7 +224,7 @@ class account_wh_iva(osv.osv):
                     inv_str+= '%s'% '\n'+line.invoice_id.name
 
             if inv_str:
-                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -245,7 +245,7 @@ class account_wh_iva(osv.osv):
                     inv_str+= '%s'% '\n'+inv.name        
 
             if inv_str:
-                raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -331,8 +331,8 @@ class account_wh_iva_line(osv.osv):
     _description = "Withholding vat line"
     _columns = {
         'name': fields.char('Description', size=64, required=True, help="Withholding line Description"),
-        'retention_id': fields.many2one('account.wh.iva', 'Withholding vat', ondelete='cascade', select=True, help="Withholding vat"),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', select=True, help="Withholding invoice"),
+        'retention_id': fields.many2one('account.wh.iva', 'Withholding vat', ondelete='cascade', help="Withholding vat"),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
         'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.invoice.tax', type="one2many", string='Taxes', help="Invoice taxes"),
         'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="report_wh_muni" 
+            model="account.wh.munici" 
+            name="wh.muni_rep" 
+            rml="l10n_ve_withholding_muni/report/wh_muni_report.rml"
+            string="Comprobante Retencion Municipal"
+            header="False"
+            auto="False" />
+
+
+    </data>
+</openerp>
