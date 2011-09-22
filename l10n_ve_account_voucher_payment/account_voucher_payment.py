@@ -56,8 +56,8 @@ class account_voucher_line(osv.osv):
         invoice_obj = self.pool.get('account.invoice')
         invoice_brw = invoice_obj.browse(cr,uid,inv_id,context)
         inv_residual = invoice_brw.residual
-
-        res = {'value' : {'amount':inv_residual,}}
+        aml = self.move_line_id_payment_get(cr, uid, [inv_id])
+        res = {'value' : {'amount':inv_residual,'move_line_id':aml[0]}}
         return res
 
 account_voucher_line()
