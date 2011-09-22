@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_zipcode_tree" model="ir.ui.view">
+            <field name="name">res.zipcode.tree</field>
+            <field name="model">res.zipcode</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Zipcode">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_zipcode_form" model="ir.ui.view">
+            <field name="name">res.zipcode.form</field>
+            <field name="model">res.zipcode</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Zipcode">
+                    <group colspan="2" >
+                    <field name="name" select="1"/>
+                    <newline/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_zipcode" model="ir.actions.act_window">
+            <field name="name">Zipcode</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.zipcode</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_zipcode_tree"/>
+            <field name="help">Is a series of digits appended to a postal address for the purpose of sorting mail</field>
+        </record>
+        
+        <menuitem action="action_zipcode" id="menu_zipcode" parent="base.menu_localisation"/>
+
+    </data>
+</openerp>
