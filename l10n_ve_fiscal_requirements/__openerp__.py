@@ -36,6 +36,7 @@
     'init_xml': [],
     "depends" : ["base", "base_vat", "purchase", "stock", "account"],
     'update_xml': [
+        'demo/stock_data_demo.xml',
         'stock_view.xml',
         'account_invoice_view.xml'
     ],
