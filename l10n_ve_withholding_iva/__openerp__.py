@@ -23,7 +23,7 @@
 ##############################################################################
 {
     "name" : "Withholding vat Venezuelan laws",
-    "version" : "0.5",
+    "version" : "0.6",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
