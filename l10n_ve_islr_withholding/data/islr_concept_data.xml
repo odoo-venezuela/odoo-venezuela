@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
+    <!-- Begin of Concepts -->
     <data>
         <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
@@ -37,6 +38,118 @@
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Sueldos y Salarios&quot;&quot;&quot;" name="name"/>
         </record>
-
-    </data>
+        <!-- End of Concepts -->
+        <!-- Begin of WH Rates -->
+		<record id="islr_rates_0" model="islr.rates">
+			<field eval="&quot;&quot;&quot;002&quot;&quot;&quot;" name="code"/>
+			<field eval="1" name="nature"/>
+			<field eval="1" name="residence"/>
+			<field eval="83.33333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+			<field eval="3.0" name="wh_perc"/>
+			<field eval="2.5333" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+		</record>
+		<record id="islr_rates_1" model="islr.rates">
+			<field eval="&quot;&quot;&quot;004&quot;&quot;&quot;" name="code"/>
+			<field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum" />
+			<field eval="100.0" name="base"/>
+            <field eval="5.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+		</record>
+		<record id="islr_rates_2" model="islr.rates">
+			<field eval="&quot;&quot;&quot;018&quot;&quot;&quot;" name="code"/>
+			<field eval="1" name="nature"/>
+			<field eval="1" name="residence"/>
+			<field eval="83.33" name="minimum"/>
+			<field eval="100.0" name="base"/>
+			<field eval="3.0" name="wh_perc"/>
+			<field eval="2.5333" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos"/>
+		</record>
+		<record id="islr_rates_3" model="islr.rates">
+			<field eval="&quot;&quot;&quot;020&quot;&quot;&quot;" name="code"/>
+			<field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+			<field eval="100.0" name="base"/>
+            <field eval="5.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos"/>
+		</record>
+		<record id="islr_rates_4" model="islr.rates">
+			<field eval="&quot;&quot;&quot;053&quot;&quot;&quot;" name="code"/>
+			<field eval="1" name="nature"/>
+			<field eval="1" name="residence"/>
+			<field eval="83.3333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+			<field eval="1.0" name="wh_perc"/>
+			<field eval="0.83333" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_pago_contratistas"/>
+		</record>
+		<record id="islr_rates_5" model="islr.rates">
+			<field eval="&quot;&quot;&quot;055&quot;&quot;&quot;" name="code"/>
+			<field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.3333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+            <field eval="2.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_pago_contratistas"/>
+		</record>
+		<record id="islr_rates_6" model="islr.rates">
+			<field eval="&quot;&quot;&quot;072&quot;&quot;&quot;" name="code"/>
+			<field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.3333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+            <field eval="3.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_pagos_transportes_y_fletes"/>
+		</record>
+		<record id="islr_rates_7" model="islr.rates">
+			<field eval="&quot;&quot;&quot;084&quot;&quot;&quot;" name="code"/>
+			<field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.3333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+            <field eval="5.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_pagos_de_servicios_publicitarios"/>
+		</record>
+		<record id="islr_rates_8" model="islr.rates">
+			<field eval="&quot;&quot;&quot;059&quot;&quot;&quot;" name="code"/>
+			<field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.3333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+            <field eval="5.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_pagos_administradores_en_el_pais"/>
+		</record>
+		<record id="islr_rates_9" model="islr.rates">
+			<field eval="&quot;&quot;&quot;001&quot;&quot;&quot;" name="code"/>
+			<field eval="1" name="nature"/>
+			<field eval="1" name="residence"/>
+            <field eval="83.3333" name="minimum"/>
+            <field eval="0" name="subtract"/>
+            <field eval="0" name="wh_perc" />
+            <field eval="100" name="base" />
+			<field name="concept_id" ref="islr_wh_concept_sueldos_y_salarios"/>
+		</record>
+		<record id="islr_rates_10" model="islr.rates">
+			<field eval="&quot;&quot;&quot;071&quot;&quot;&quot;" name="code"/>
+			<field eval="1" name="nature"/>
+			<field eval="1" name="residence"/>
+			<field eval="83.33333" name="minimum"/>
+			<field eval="100.0" name="base"/>
+			<field eval="1.0" name="wh_perc"/>
+			<field eval="0.83333" name="subtract"/>
+			<field name="concept_id" ref="islr_wh_concept_pagos_transportes_y_fletes"/>
+        </record>
+        <!-- End of WH Rates -->
+	</data>
 </openerp>
