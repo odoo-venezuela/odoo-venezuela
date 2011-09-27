@@ -41,9 +41,9 @@ class res_partner_address(osv.osv):
         return True
 
 
-#    _constraints = [
-#        (_check_addr_invoice, 'Error ! The partner already have an invoice address. ', [])
-#    ]
+    _constraints = [
+        (_check_addr_invoice, 'Error ! The partner already have an invoice address. ', [])
+    ]
 
 res_partner_address()
 
