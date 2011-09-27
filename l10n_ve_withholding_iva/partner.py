@@ -70,6 +70,7 @@ class res_partner(osv.osv):
 
     def _buscar_porcentaje(self,rif):
         try:
+            print"esta pasando por aqui"
 #            s = urllib.urlopen("http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=%s" % rif)
 #            html_data = s.read()
             html_data = self.__load_url(3,"http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=%s" % rif)
@@ -90,13 +91,14 @@ class res_partner(osv.osv):
                 return 0.0
 
 
-    def _parse_dom(self, dom):
+    def _parse_dom(self, dom,rif):
         print 'entrando dom'
         name = dom.childNodes[0].childNodes[0].firstChild.data 
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
-        #wh_rate = self._buscar_porcentaje(rif)
-        wh_rate = 0.0
+        wh_rate = self._buscar_porcentaje(rif)
+        print "wh_rate",wh_rate
+#        wh_rate = 0.0
         print 'nombre: ',name
         return {'name':name, 'wh_iva_agent':wh_agent,'vat_subjected':vat_apply,'wh_iva_rate':wh_rate}
 
@@ -107,11 +109,16 @@ class res_partner(osv.osv):
             try:
                 xml_data = self._load_url(3,"http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=%s" % partner.vat[2:])
                 print 'xml_data: ',xml_data
+                search_str = 'numeroRif="'
+                pos = xml_data.find(search_str)
+                if pos > 0:
+                    pos += len(search_str)
+                    rif = xml_data[pos:pos+11].replace('"','')
                 try:
                     print 'antes ddel dom'
                     dom = parseString(xml_data)
                     print 'despues ddel dom'
-                    self.write(cr,uid,partner.id,self._parse_dom(dom))
+                    self.write(cr,uid,partner.id,self._parse_dom(dom,rif))
                     return True
                 except:
                     if xml_data.find('450')>=0:
