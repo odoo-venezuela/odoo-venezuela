@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+            <record model="ir.ui.view" id="view_account_journal_account_default_form">
+                <field name="name">account.journal.account.deafult.form</field>
+                <field name="model">account.journal</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="account.view_account_journal_form"/>
+                <field name="arch" type="xml">
+                    <group colspan="2" col="2">
+                        <separator string="Write-Of Default Account" colspan="4"/>
+                        <field name="default_payment_debit_account_id" attrs="{'required':[('type','=', 'cash')]}"/>
+                        <field name="default_payment_credit_account_id" attrs="{'required':[('type','=','cash')]}" />
+                    </group>
+                </field>
+            </record>
+    </data>
+</openerp>
