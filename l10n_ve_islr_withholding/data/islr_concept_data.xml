@@ -1,39 +1,39 @@
 <?xml version="1.0"?>
 <openerp>
-
-        <record id="islr_wh_concept_honorariosprofesionalesnomercantiles0" model="islr.wh.concept">
+    <data>
+        <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Honorarios Profesionales No Mercantiles&quot;&quot;&quot;" name="name"/>
         </record>
         
-        <record id="islr_wh_concept_cualquierotracomisindistintasaremuneracionesaccesoriasdelossueldossalariosydemsremuneracionessimilares0" model="islr.wh.concept">
+        <record id="islr_wh_concept_cualquie_cosa_menos_sueldos" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares&quot;&quot;&quot;" name="name"/>
         </record>
         
-        <record id="islr_wh_concept_pagosaempresascontratistasosubcontratistasdomiciliadasonoenelpasporlaejecucindeobrasodelaprestacindeserviciosenbaseavaluacionesyordenesdepago0" model="islr.wh.concept">
+        <record id="islr_wh_concept_pago_contratistas" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Pagos a Empresas Contratistas o Subcontratistas domiciliadas o no en el país, por la ejecución de obras o de la prestación de servicios en base a valuaciones y ordenes de pago&quot;&quot;&quot;" name="name"/>
         </record>
         
-        <record id="islr_wh_concept_pagosporgastosdetransporteconformadosporfletes0" model="islr.wh.concept">
+        <record id="islr_wh_concept_pagos_transportes_y_fletes" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Pagos por Gastos de Transporte conformados por Fletes&quot;&quot;&quot;" name="name"/>
         </record>
 
-        <record id="islr_wh_concept_pagosporserviciosdepublicidadypropagandaylacesindelaventadeespaciosparatalesfines0" model="islr.wh.concept">
+        <record id="islr_wh_concept_pagos_de_servicios_publicitarios" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Pagos por Servicios de Publicidad y Propaganda y la Cesión de la Venta de Espacios para tales fines&quot;&quot;&quot;" name="name"/>
         </record>
-        <record id="islr_wh_concept_noaplicaretencion0" model="islr.wh.concept">
+        <record id="islr_wh_concept_no_aplica" model="islr.wh.concept">
             <field eval="0" name="withholdable"/>
             <field eval="&quot;&quot;&quot;NO APLICA RETENCION&quot;&quot;&quot;" name="name"/>
         </record>
-        <record id="islr_wh_concept_pagosdelosadministradoresdebienesinmueblesalosarrendadoresdelosbienesinmueblessituadosenelpais0" model="islr.wh.concept">
+        <record id="islr_wh_concept_pagos_administradores_en_el_pais" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Pagos de los Administradores de bienes Inmuebles a los arrendadores de los bienes inmuebles situados en el pais&quot;&quot;&quot;" name="name"/>
         </record>
-        <record id="islr_wh_concept_sueldosysalarios0" model="islr.wh.concept">
+        <record id="islr_wh_concept_sueldos_y_salarios" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="&quot;&quot;&quot;Sueldos y Salarios&quot;&quot;&quot;" name="name"/>
         </record>
