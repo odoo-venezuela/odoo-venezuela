@@ -24,26 +24,25 @@
 ##############################################################################
 
 {
-    "name" : "il_configuration"            ,
-    "version" : "0.1"                               ,
-    "depends" : [   "base"                          ,
-                    "account"                       ,
-
-                    ]                               ,
-    "author" : "Openerp Venzuela"                   ,
+    "name" : "Split Invoices",
+    "version" : "0.2",
+    "depends" : ["account"],
+    "author" : "Vauxoo",
     "description" : """
-                    1.-Add module for establishing the number of lines per invoice
-                    2.-Split Invoice according number of lines per invoice
-                    """                             ,
-    "website" : "http://openerp.com.ve"             ,
-    "category" : "Generic Modules/MRP"              ,
+For legal reasons in Venezuela we need just ONE invoice per page, with this module depending on your company configuration you will stablish the number of lines per invoice, with this you will be able of:
+ 
+ 1.-Add module for establishing the number of lines per invoice
+ 2.-Split Invoice according number of lines per invoice once you confirm it.
+ """     ,
+    "website" : "http://vauxoo.com",
+    "category" : "Localization
     "init_xml" : [
-    ]                                               ,
+    ],
     "demo_xml" : [
-    ]                                               ,
+    ],
     "update_xml" : [
-        "view/company_view.xml"                     ,
-    ]                                               ,
-    "active": False                                 ,
-    "installable": True                             ,
+        "view/company_view.xml",
+    ],
+    "active": False,
+    "installable": True,
 }
