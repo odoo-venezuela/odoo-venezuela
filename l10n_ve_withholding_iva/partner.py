@@ -70,13 +70,14 @@ class res_partner(osv.osv):
         return str_error
 
     def _buscar_porcentaje(self,rif,url):
-
+        context={}
 #        try:
         print"esta pasando por aqui"
 #            s = urllib.urlopen("http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=%s" % rif)
 #            html_data = s.read()
-        html_data = self.__load_url(3,url %rif)
+        html_data = self._load_url(3,url %rif)
         html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
+        print "html_data",html_data
         self._eval_seniat_data(html_data,context)
         search_str='La condición de este contribuyente requiere la retención del '
         pos = html_data.find(search_str)
