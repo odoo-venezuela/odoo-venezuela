@@ -30,14 +30,14 @@ class res_partner_address(osv.osv):
     '''
     def _check_addr_invoice(self,cr,uid,ids,context={}):
         obj_addr = self.browse(cr,uid,ids[0])
-
-        if obj_addr.type == 'invoice':
-            cr.execute('select id,type from res_partner_address where partner_id=%s and type=%s', (obj_addr.partner_id.id, obj_addr.type))
-            res=dict(cr.fetchall())
-            if (len(res) == 1):
-                res.pop(ids[0],False)
-            if res:
-                return False
+        if obj_addr.partner_id.vat and obj_addr.partner_id.vat[:2].upper() == 'VE':
+            if obj_addr.type == 'invoice':
+                cr.execute('select id,type from res_partner_address where partner_id=%s and type=%s', (obj_addr.partner_id.id, obj_addr.type))
+                res=dict(cr.fetchall())
+                if (len(res) == 1):
+                    res.pop(ids[0],False)
+                if res:
+                    return False
         return True
 
 
@@ -56,26 +56,31 @@ class res_partner(osv.osv):
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         partner_obj = self.browse(cr,uid,ids[0])
-        if hasattr(partner_obj, 'address') and partner_obj.address:
-            res = [addr for addr in partner_obj.address if addr.type == 'invoice']
-            if res:
-                return True
-        else:
-            return True
+        if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE':
+            #~ if hasattr(partner_obj, 'address') and partner_obj.address:
+            if hasattr(partner_obj, 'address'):
+                res = [addr for addr in partner_obj.address if addr.type == 'invoice']
 
-        return False
+                if res:
+                    return True
+                else:
+                    return False
+            else:
+
+                return True
+        return True
 
 
     _constraints = [
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
 
-    '''
-    Registro de Identificacion Fiscal Venezolana RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
-    '''
+
+
     def check_vat_ve(self, vat):
         '''
         Check Venezuela VAT number.
+        Registro de Identificacion Fiscal Venezolana RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
         '''
         if len(vat) != 10:
             return False

@@ -23,7 +23,7 @@
 ##############################################################################
 {
     "name" : "Withholding vat Venezuelan laws",
-    "version" : "0.5",
+    "version" : "0.6",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
@@ -33,7 +33,8 @@
     "depends" : ["l10n_ve_withholding"],
     'update_xml': [
         'security/wh_iva_security.xml',
-        'security/ir.model.access.csv',    
+        'security/ir.model.access.csv',
+        'res_company_view.xml',    
         'account_invoice_view.xml',
         'account_view.xml',
         'partner_view.xml',        
