@@ -44,24 +44,45 @@
         </record>
         <!-- End of Concepts -->
         <!-- Begin of WH Rates -->
+        <record name="islr_rates_006" model="islr.rates">
+            <field eval="006" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="1" name="residence" />
+            <field eval="83.33" name="minimum" />
+            <field eval="100.00" name="base" />
+            <field eval="3.00" name="wh_perc" />
+            <field eval="2.53" name="substract" />
+            <field name="concept_id" ref="isrl_wh_concept_hprof_mancomunados_no_mercantiles" />
+        </record>
+        <record name="islr_rates_007" model="islr.rates">
+            <field eval="007" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="0" name="residence" />
+            <field eval="0.00" name="minimum" />
+            <field eval="90.00" name="base" />
+            <field eval="34.00" name="wh_perc" />
+            <field eval="0.00" name="substract" />
+            <field name="concept_id" ref="isrl_wh_concept_hprof_mancomunados_no_mercantiles" />
+        </record>
+
 		<record id="islr_rates_002" model="islr.rates">
 			<field eval="002" name="code"/>
 			<field eval="1" name="nature"/>
 			<field eval="1" name="residence"/>
-			<field eval="83.33333" name="minimum"/>
-			<field eval="100.0" name="base"/>
-			<field eval="3.0" name="wh_perc"/>
-			<field eval="2.5333" name="subtract"/>
+			<field eval="83.33" name="minimum"/>
+			<field eval="100.00" name="base"/>
+			<field eval="3.00" name="wh_perc"/>
+			<field eval="2.53" name="subtract"/>
 			<field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
         </record>
         <record id="islr_rates_003" model="islr.rates">
             <field eval="003" name="code" />
             <field eval="1" name="nature" />
             <field eval="0" name="residence" />
-            <field eval="0" name="minimum" />
-            <field eval="90" name="base" />
-            <field eval="34" name="wh_perc" />
-            <field eval="0" name="substract" />
+            <field eval="0.00" name="minimum" />
+            <field eval="90.00" name="base" />
+            <field eval="34.00" name="wh_perc" />
+            <field eval="0.00" name="substract" />
             <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles" />
         </rates>
 		<record id="islr_rates_004" model="islr.rates">
