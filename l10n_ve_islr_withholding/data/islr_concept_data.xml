@@ -84,7 +84,7 @@
         </record>
         <record id="islr_wh_concept_primas_seguros_reaseguros" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
-            <field eval="Enriquecimientos netos derivados de las primas de seguros y reaseguros" name="name" />
+            <field eval="'Enriquecimientos netos derivados de las primas de seguros y reaseguros'" name="name" />
         </record>
         <record id="islr_wh_concept_juegos_y_apuestas" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
