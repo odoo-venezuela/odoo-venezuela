@@ -98,8 +98,43 @@
             <field eval="1" name="withholdable" />
             <field eval="'Pagos a Propietarios de Animales de Carrera por concepto de Premios'" name="name" />
         </record>
+        <record id="islr_wh_concept_pago_arrendadores_en_el_pais" model="islr.wh.concept">
+            <field eval="1" name="withholdable" />
+            <field eval="'Pagos a los arrendadores de los bienes inmuebles situados en el país'" name="name" />
+        </record>
         <!-- End of Concepts -->
         <!-- Begin of WH Rates -->
+        <record id="islr_rates_057" model="islr.rates">
+            <field eval="'057'" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="1" name="residence" />  
+            <field eval="83.33" name="minimum" />                
+            <field eval="100.00" name="base" />                               
+            <field eval="3.00" name="wh_perc" />     
+            <field eval="2.50" name="subtract" />    
+            <field name="concept_id" ref="islr_wh_concept_pago_arrendadores_en_el_pais" />
+        </record>
+        <record id="islr_rates_058" model="islr.rates">
+            <field eval="'058'" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="0" name="residence" /> 
+            <field eval="0.00" name="minimum" />           
+            <field eval="100.00" name="base" />                         
+            <field eval="34.00" name="wh_perc" />                                    
+            <field eval="0.00" name="subtract" />                                               
+            <field name="concept_id" ref="islr_wh_concept_pago_arrendadores_en_el_pais" />
+        </record>
+        <record id="islr_rates_059" model="islr.rates">
+            <field eval="'059'" name="code" />
+            <field eval="0" name="nature" />
+            <field eval="1" name="residence" />  
+            <field eval="0.33" name="minimum" />                
+            <field eval="100.00" name="base" />                               
+            <field eval="5.00" name="wh_perc" />                                        
+            <field eval="0.00" name="subtract" />    
+            <field name="concept_id" ref="islr_wh_concept_pago_arrendadores_en_el_pais" />
+        </record>
+
         <record id="islr_rates_049" model="islr.rates">
             <field eval="'049'" name="code" />
             <field eval="1" name="nature" />
