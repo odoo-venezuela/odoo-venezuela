@@ -14,19 +14,20 @@
             <field name="arch" type="xml">
                 <search string="Search Check Book">
                     <group col="10" colspan="4">
-                        <filter name="request" icon="terp-gtk-media-pause" string="Request" domain="[('state','=','request')]" help="Request check book"/>                    
+                        <filter name="request" icon="terp-gtk-media-pause" string="Request" domain="[('state','=','request')]" help="Request check book"/>
                         <filter name="draft" icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft check book"/>
                         <filter name="review" icon="terp-camera_test" string="Review" domain="[('state','=','review')]" help="Review check book"/>
                         <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel check book"/>
-                        <filter name="active" icon="terp-check" string="Active" domain="[('state','=','active')]" help="Active check book"/>                                                
+                        <filter name="active" icon="terp-check" string="Active" domain="[('state','=','active')]" help="Active check book"/>
+                        <filter name="done" icon="terp-locked" string="Done" domain="[('state','=','done')]" help="Active check book"/>
+                        <filter name="hibernate" icon="terp-gtk-media-pause" string="Hibernate" domain="[('state','=','hibernate')]" help="Hibernate check book"/>
                         <separator orientation="vertical"/>
-                        <field name="name"/>                        
-                        <field name="cancel_check"/>                        
+                        <field name="name"/>
+                        <field name="cancel_check"/>
                         <field name="accounting_bank_id"/>
                         <field name="bank_id"/>
                         <field name="qty_check_selection"/>
                         <field  name="state"/>
-                        
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
@@ -39,7 +40,7 @@
             </field>
         </record>
 
-    
+
         <record id="view_check_book_form" model="ir.ui.view">
             <field name="name">check.book.form</field>
             <field name="model">check.book</field>
@@ -58,7 +59,7 @@
                         <field name="qty_check_selection"/>
                         <field name="fixed_prefix"/>
                     </group>
-                    <group attrs="{'invisible':[('fixed_prefix','=',False)]}" colspan="2" col='6'>                        
+                    <group attrs="{'invisible':[('fixed_prefix','=',False)]}" colspan="2" col='6'>
                         <field name="prefix"/>
                         <hpaned/>
                         <hpaned/>
@@ -70,8 +71,8 @@
                             <field name="check_note_ids" nolabel="1">
                                 <tree string="Checks" editable='top' >
                                     <field name="number" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
-                                    <field name="suffix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
                                     <field name="prefix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="suffix" attrs="{'required':[('state','!=','draft')],'readonly':[('state','!=','draft')]}"/>
                                     <field name="state"/>
                                 </tree>
                                  
@@ -89,7 +90,7 @@
                                 <field name="check_book_request_id"/>
                                 <field name="cancel_check"/>
                             </group>
-                            <group attrs="{'invisible':[('cancel_check','!=','otros')]}" colspan="5" col='6'>                        
+                            <group attrs="{'invisible':[('cancel_check','!=','otros')]}" colspan="5" col='6'>
                                 <field name="notes"/>
                             </group>
                             <group colspan="2" col='6'>
@@ -120,12 +121,11 @@
             <field name="model">check.book</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-            <tree string="Chequeras" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel'">
-<!--            <tree string="Chequeras" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel' ;purple:state=='active' and qty_active&gt;9 ">-->
-                    <field name="name"/>                 
+            <tree string="Check Books" colors="green:state=='draft';red:qty_active&lt;10 ;blue:state=='hibernate';gray:state=='done' or state=='cancel'">
+                    <field name="name"/>
                     <field name="accounting_bank_id"/>
                     <field name="bank_id"/>
-                    <field name="from_suffix"/>                    
+                    <field name="from_suffix"/>
                     <field name="to_suffix"/>
                     <field name="fixed_prefix"/>
                     <field name="prefix"/>
@@ -145,8 +145,8 @@
             <field name="res_model">check.book</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-	    	<field name="search_view_id" ref="view_check_book_filter"/>
-            <field name="help">With Check Book you can create and manage Check Book.</field>            
+            <field name="search_view_id" ref="view_check_book_filter"/>
+            <field name="help">With Check Book you can create and manage Check Book.</field>
         </record>
         <menuitem 
             action="action_check_book" 

@@ -29,7 +29,6 @@
 
 import bank
 import check
-import account_voucher_payment
-import account
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
