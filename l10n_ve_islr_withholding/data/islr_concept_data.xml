@@ -74,8 +74,24 @@
             <field eval="1" name="withholdable" />
             <field eval="'Enriquecimientos obtenidos por concepto de regalías y demás participaciones analogas'" name="name" />
         </record>
+        <record id="islr_wh_concept_asistencia_tecnica" model="islr.wh.concept">
+            <field eval="1" name="withholdable" />
+            <field eval="'Enriquecimientos obtenidos por las Remuneraciones, Honorarios y Pagos análogos por Asistencia Técnica'" name="name" />
+        </record>
+
         <!-- End of Concepts -->
         <!-- Begin of WH Rates -->
+        <record id="islr_rates_036" model="islr.rates">
+            <field eval="'036'" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="0" name="residence" />
+            <field eval="0.00" name="minimum" />
+            <field eval="30.00" name="base" />
+            <field eval="34.00" name="wh_perc" />
+            <field eval="0.00" name="subtract" />
+            <field name="concept_id" ref="islr_wh_concept_asistencia_tecnica" />
+        </record>
+        
         <record id="islr_rates_034" model="islr.rates">
             <field eval="'034'" name="code" />
             <field eval="1" name="nature" />
