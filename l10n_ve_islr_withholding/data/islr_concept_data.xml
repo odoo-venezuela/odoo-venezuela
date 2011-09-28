@@ -140,7 +140,6 @@
             <field eval="0.00" name="subtract" />    
             <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios" />
         </record>
-
         <record id="islr_rates_045" model="islr.rates">
             <field eval="'045'" name="code" />
             <field eval="1" name="nature" />
@@ -511,7 +510,17 @@
 			<field eval="1.0" name="wh_perc"/>
 			<field eval="0.83333" name="subtract"/>
 			<field name="concept_id" ref="islr_wh_concept_pago_contratistas"/>
-		</record>
+        </record>
+        <record id="islr_rates_054" model="islr.rates">
+            <field eval="'054'" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="0" name="residence" />  
+            <field eval="0.00" name="minimum" />                
+            <field eval="100.00" name="base" />                               
+            <field eval="34.00" name="wh_perc" />     
+            <field eval="0.00" name="subtract" />    
+            <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios" />
+        </record>
 		<record id="islr_rates_055" model="islr.rates">
 			<field eval="'055'" name="code"/>
 			<field eval="0" name="nature"/>
