@@ -38,6 +38,10 @@
             <field eval="1" name="withholdable"/>
             <field eval="Sueldos y Salarios" name="name"/>
         </record>
+        <record id="isrl_wh_concept_hprof_mancomunados_no_mercantiles" model="isrl.wh.concept">
+            <field eval="1" name="withholdable" />
+            <field eval="Honorarios Profesionales Mancomunados No Mercantiles" name="name" />
+        </record>
         <!-- End of Concepts -->
         <!-- Begin of WH Rates -->
 		<record id="islr_rates_002" model="islr.rates">
