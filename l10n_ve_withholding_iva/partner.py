@@ -55,7 +55,6 @@ class res_partner(osv.osv):
     }
 
     def _load_url(self,retries,url):
-        print 'load'
         str_error= '404 Not Found'
         while retries > 0:
             try:
