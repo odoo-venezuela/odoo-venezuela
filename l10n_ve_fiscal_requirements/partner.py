@@ -60,13 +60,13 @@ class res_partner(osv.osv):
             #~ if hasattr(partner_obj, 'address') and partner_obj.address:
             if hasattr(partner_obj, 'address'):
                 res = [addr for addr in partner_obj.address if addr.type == 'invoice']
-                print "esto es res", res
+
                 if res:
                     return True
                 else:
                     return False
             else:
-                print "else"
+
                 return True
         return True
 
@@ -75,12 +75,12 @@ class res_partner(osv.osv):
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
 
-    '''
-    Registro de Identificacion Fiscal Venezolana RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
-    '''
+
+
     def check_vat_ve(self, vat):
         '''
         Check Venezuela VAT number.
+        Registro de Identificacion Fiscal Venezolana RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
         '''
         if len(vat) != 10:
             return False
