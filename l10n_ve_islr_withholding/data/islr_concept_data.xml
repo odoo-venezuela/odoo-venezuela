@@ -64,7 +64,16 @@
             <field eval="0.00" name="substract" />
             <field name="concept_id" ref="isrl_wh_concept_hprof_mancomunados_no_mercantiles" />
         </record>
-
+        <record name="islr_rates_008" model="islr.rates">
+            <field eval="008" name="code" />
+            <field eval="0" name="nature" />
+            <field eval="1" name="residence" />
+            <field eval="0.32" name="minimum" />
+            <field eval="100.00" name="base" />
+            <field eval="5.00" name="wh_perc" />
+            <field eval="0.00" name="substract" />
+            <field name="concept_id" ref="isrl_wh_concept_hprof_mancomunados_no_mercantiles" />
+        </record>
 		<record id="islr_rates_002" model="islr.rates">
 			<field eval="002" name="code"/>
 			<field eval="1" name="nature"/>
@@ -89,7 +98,7 @@
 			<field eval="004" name="code"/>
 			<field eval="0" name="nature"/>
             <field eval="1" name="residence"/>
-            <field eval="83.33" name="minimum" />
+            <field eval="0.32" name="minimum" />
 			<field eval="100.0" name="base"/>
             <field eval="5.0" name="wh_perc"/>
             <field eval="0" name="subtract"/>
