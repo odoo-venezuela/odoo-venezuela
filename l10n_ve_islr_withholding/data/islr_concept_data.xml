@@ -88,6 +88,16 @@
             <field eval="0.00" name="substract" />
             <field name="concept_id" ref="islr_wh_concept_intereses_por_personas_juridicas_o_comunidades" />
         </record>
+        <record name="islr_rates_027" model="">
+            <field eval="027" name="code" />
+            <field eval="0" name="nature" />
+            <field eval="1" name="residence" />
+            <field eval="0.33" name="minimum" />
+            <field eval="100.00" name="base" />
+            <field eval="5.00" name="wh_perc" />
+            <field eval="0.00" name="substract" />
+            <field name="concept_id" ref="islr_wh_concept_intereses_por_personas_juridicas_o_comunidades" />
+        </record>
 
         <record name="islr_rates_023" model="islr.rates">
             <field eval="023" name="code" />
