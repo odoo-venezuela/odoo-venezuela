@@ -86,13 +86,13 @@ class res_partner(osv.osv):
             return 0.0
 
     def _parse_dom(self,dom,rif,url_seniat):
-        print 'entrando dom'
+        '''
+        Parsing data from SENIAT
+        '''
         name = dom.childNodes[0].childNodes[0].firstChild.data 
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         wh_rate = self._buscar_porcentaje(rif,url_seniat)
-        print "wh_rate",wh_rate
-        print 'nombre: ',name
         return {'name':name, 'wh_iva_agent':wh_agent,'vat_subjected':vat_apply,'wh_iva_rate':wh_rate}
 
     def _print_error(self, error, msg):
