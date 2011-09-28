@@ -70,11 +70,12 @@ class res_partner(osv.osv):
         return str_error
 
     def _buscar_porcentaje(self,rif,url):
+        '''
+        Search percent of withholding connecting to SENIAT
+        '''
         context={}
-        print"esta pasando por aqui"
         html_data = self._load_url(3,url %rif)
         html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
-        print "html_data",html_data
         self._eval_seniat_data(html_data,context)
         search_str='La condición de este contribuyente requiere la retención del '
         pos = html_data.find(search_str)
@@ -113,13 +114,11 @@ class res_partner(osv.osv):
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
     
     def update_rif(self, cr, uid, ids, context={}):
-        print 'entando update'
         for partner in self.browse(cr,uid,ids):
             url1=partner.company_id.url_seniat1_company+'%s'
             url2=partner.company_id.url_seniat2_company+'%s'
             xml_data = self._load_url(3,url1 %partner.vat[2:])
             self._eval_seniat_data(xml_data,context)
-            print 'xml_data',xml_data
             dom = parseString(xml_data)
             self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
         return True
