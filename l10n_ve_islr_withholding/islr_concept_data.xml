@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<openerp>
-        <data noupdate="1">
-            <record id="islr_concept_data" model="islr.wh.concept">
-            <field name="name">RETENTION DOES NOT APPLY</field>
-            <field name="withholdable" eval="False"/>
-            </record>
-        </data>
-</openerp>

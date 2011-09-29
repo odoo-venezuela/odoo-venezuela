@@ -32,7 +32,7 @@
     - Add 
     """,
     'init_xml': [],
-    "depends" : ["l10n_ve_fiscal_requirements", "account"],
+    "depends" : ["l10n_ve_fiscal_requirements", "account", "account_accountant"],
     'update_xml': [
         'security/withholding_security.xml',
         'security/ir.model.access.csv',    
