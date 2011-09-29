@@ -57,7 +57,7 @@
             <field name="code">ISLRC</field>
             <field name="type">islr_purchase</field>
             <field name="view_id" ref="account.account_journal_view"/>
-            <field name="sequence_id" ref="seq_account_wh_islr_journal"/>
+            <field name="sequence_id" ref="seq_wh_islr_purchase_journal"/>
         </record>
         
         <record id="withholding_sale_journal" model="account.journal">
@@ -65,7 +65,7 @@
             <field name="code">ISLRS</field>
             <field name="type">islr_sale</field>
             <field name="view_id" ref="account.account_journal_view"/>
-            <field name="sequence_id" ref="seq_account_wh_islr_journal"/>
+            <field name="sequence_id" ref="seq_wh_islr_sale_journal"/>
         </record>
 
     </data>
