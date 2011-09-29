@@ -276,6 +276,8 @@ class account_invoice(osv.osv):
                 number = 0
             else:
                 number = self._get_number(cr,uid,inv_brw.number.strip(),10)
+        print 'INCOICE',  inv_brw
+        print 'INVOICE', inv_brw.nro_ctrl
         if not inv_brw.nro_ctrl:
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the invoice number: '%s' has not control number associated!") % (inv_brw.number))
         else:
