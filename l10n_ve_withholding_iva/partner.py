@@ -55,7 +55,7 @@ class res_partner(osv.osv):
     }
 
     def _load_url(self,retries,url):
-        print 'load'
+        str_error= '404 Not Found'
         while retries > 0:
             try:
                 s = urllib.urlopen(url)
@@ -66,74 +66,60 @@ class res_partner(osv.osv):
             except:
                 pass
             retries -= 1
-        return None
+        return str_error
 
-    def _buscar_porcentaje(self,rif):
-        try:
-            print"esta pasando por aqui"
-#            s = urllib.urlopen("http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=%s" % rif)
-#            html_data = s.read()
-            html_data = self.__load_url(3,"http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=%s" % rif)
-            html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
-            search_str='La condición de este contribuyente requiere la retención del '
-            pos = html_data.find(search_str)
-            if pos > 0:
-                pos += len(search_str)
-                pct = html_data[pos:pos+4].replace('%','').replace(' ','')
-                return float(pct)
-            else:
-                return 0.0    
-        except Exception, e:
-            error = str(e)
-            if error.find("Name or service not known") >=0:
-                return "sin red"
-            else:
-                return 0.0
+    def _buscar_porcentaje(self,rif,url):
+        '''
+        Search percent of withholding connecting to SENIAT
+        '''
+        context={}
+        html_data = self._load_url(3,url %rif)
+        html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
+        self._eval_seniat_data(html_data,context)
+        search_str='La condición de este contribuyente requiere la retención del '
+        pos = html_data.find(search_str)
+        if pos > 0:
+            pos += len(search_str)
+            pct = html_data[pos:pos+4].replace('%','').replace(' ','')
+            return float(pct)
+        else:
+            return 0.0
 
-
-    def _parse_dom(self, dom,rif):
-        print 'entrando dom'
+    def _parse_dom(self,dom,rif,url_seniat):
+        '''
+        Parsing data from SENIAT
+        '''
         name = dom.childNodes[0].childNodes[0].firstChild.data 
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
-        wh_rate = self._buscar_porcentaje(rif)
-        print "wh_rate",wh_rate
-#        wh_rate = 0.0
-        print 'nombre: ',name
+        wh_rate = self._buscar_porcentaje(rif,url_seniat)
         return {'name':name, 'wh_iva_agent':wh_agent,'vat_subjected':vat_apply,'wh_iva_rate':wh_rate}
 
+    def _print_error(self, error, msg):
+        raise osv.except_osv(error,msg)
+    
+    def _eval_seniat_data(self,xml_data,context={}):
 
+        if xml_data.find('450')>=0:
+            if not 'all_rif' in context:
+                self._print_error(_('Vat Error !'),_('Invalid VAT!'))
+
+        if xml_data.find('452')>=0:
+            if not 'all_rif' in context:
+                self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+
+        if xml_data.find("404")>=0:
+            if not 'all_rif' in context:
+                self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
+    
     def update_rif(self, cr, uid, ids, context={}):
-        print 'entando update'
         for partner in self.browse(cr,uid,ids):
-            try:
-                xml_data = self._load_url(3,"http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=%s" % partner.vat[2:])
-                print 'xml_data: ',xml_data
-                search_str = 'numeroRif="'
-                pos = xml_data.find(search_str)
-                if pos > 0:
-                    pos += len(search_str)
-                    rif = xml_data[pos:pos+11].replace('"','')
-                try:
-                    print 'antes ddel dom'
-                    dom = parseString(xml_data)
-                    print 'despues ddel dom'
-                    self.write(cr,uid,partner.id,self._parse_dom(dom,rif))
-                    return True
-                except:
-                    if xml_data.find('450')>=0:
-                        if not 'all_rif' in context:
-                            print 'error en el rif',context
-                            raise osv.except_osv(_('Vat Error !'),_("Invalid VAT!"))
-                    if xml_data.find('452')>=0:
-                        if not 'all_rif' in context:
-                            raise osv.except_osv(_('Vat Error !'),_("Unregistered VAT!"))
-            except Exception, e:
-                error = str(e)
-                if error.find("Name or service not known") >=0:
-                    if not 'all_rif' in context:
-                        raise osv.except_osv(_('No Connection !'),_("Could not connect!"))
-
+            url1=partner.company_id.url_seniat1_company+'%s'
+            url2=partner.company_id.url_seniat2_company+'%s'
+            xml_data = self._load_url(3,url1 %partner.vat[2:])
+            self._eval_seniat_data(xml_data,context)
+            dom = parseString(xml_data)
+            self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
