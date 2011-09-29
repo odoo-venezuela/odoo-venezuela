@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_chart_template_form_l10n_ve" model="ir.ui.view">
+            <field name="name">account.chart.template.form.l10n_ve</field>
+            <field name="model">account.chart.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_chart_template_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='/form/group/field[@name="property_reserve_and_surplus_account"]' position='after'>
+                    <separator string='Income Withholding Accounts' colspan='4'/>
+                    <field name="property_retencion_islr_payable" domain="[('id', 'child_of', [account_root_id])]"/>
+                    <field name="property_retencion_islr_receivable" domain="[('id', 'child_of', [account_root_id])]"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_chart_template_seacrh_l10n_ve" model="ir.ui.view">
+            <field name="name">account.chart.template.search.l10n_ve</field>
+            <field name="model">account.chart.template</field>
+            <field name="inherit_id" ref="account.view_account_chart_template_seacrh"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <xpath expr='/search/group/filter[@string="Expense Account"]' position='after'><separator orientation="vertical"/>
+                        <filter string="Payable Income Withhold Account" icon="terp-sale" domain="[]" context="{'group_by':'property_retencion_islr_payable'}"/>
+                        <filter string="Receivable Income Withhold Account" icon="terp-purchase" domain="[]" context="{'group_by':'property_retencion_islr_receivable'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_chart_template_tree_l10n_ve" model="ir.ui.view">
+            <field name="name">account.chart.template.tree.l10n_ve</field>
+            <field name="model">account.chart.template</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.view_account_chart_template_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr='/tree/field[@name="property_account_income_categ"]' position='after'>
+                    <field name="property_retencion_islr_payable" invisible="1"/>
+                    <field name="property_retencion_islr_receivable" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+ 
