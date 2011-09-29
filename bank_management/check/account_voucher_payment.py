@@ -34,14 +34,33 @@ import decimal_precision as dp
 
 
 class account_voucher_line(osv.osv):
-    
     _inherit= "account.voucher.line"
-    
+
+
+    def _amount_residual(self, cr, uid, ids, name, args, context=None):
+        currency_pool = self.pool.get('res.currency')
+        for line in self.browse(cr, uid, ids, context=context):
+            ctx = context.copy()
+            ctx.update({'date': line.voucher_id.date})
+            res = {}
+            company_currency = line.voucher_id.journal_id.company_id.currency_id.id
+            voucher_currency = line.voucher_id.currency_id.id
+            move_line = line.move_line_id or False
+
+            if not move_line:
+                res[line.id] = 0.0
+
+            if move_line:
+                res[line.id] = currency_pool.compute(cr, uid, move_line.currency_id and move_line.currency_id.id or company_currency, voucher_currency, abs(move_line.amount_residual_currency), context=ctx) - line.amount
+
+        return res
+
     _columns={
         'invoice_id' : fields.many2one('account.invoice','Invoice'),
         'partner_id' : fields.many2one('res.partner','Partner'),
+        'amount_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Amount', type='float', store=True),
     }
-    
+
     def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         partner_obj = self.pool.get('res.partner')
         partner_brw = partner_obj.browse(cr,uid,partner_id,context)
@@ -64,9 +83,12 @@ account_voucher_line()
 
 
 class account_voucher(osv.osv):
-    
     _inherit='account.voucher'
-    
+
+    _columns={
+        'one_partner':fields.boolean('One Supplier or Customer ?', required=False, help="Check this box if there only one supplier or customer for this voucher"),
+    }
+
     def onchange_journal_id(self, cr, uid, ids, journal_id, type,context=None):
 
         account_journal_obj = self.pool.get('account.journal')
@@ -117,6 +139,47 @@ class account_voucher(osv.osv):
         #~ self.action_move_line_create(cr, uid, ids, context=context)
         self.validate_amount(cr,uid,ids,context=context)
         return True
+
+
+
+
+    def add_data(self, cr, uid, ids, parm, datas, context):
+        move_line_pool = self.pool.get('account.move.line')
+        aml_lst = []
+        aml_cr_lst = []
+        aml_dr_lst = []
+        data = datas.copy()
+        if data and data[data.keys()[0]].get('line_ids',False):
+            for aml in data[data.keys()[0]]['line_ids']:
+                if aml.get('move_line_id',False):
+                    aml_brw = move_line_pool.browse(cr, uid, aml['move_line_id'], context=context)
+                    aml.update({'invoice_id':aml_brw.invoice.id, 'partner_id':parm['partner_id']})
+                    aml_lst.append(aml)
+                    if aml['type'] == 'cr':
+                        aml_cr_lst.append(aml)
+                    else:
+                        aml_dr_lst.append(aml)
+
+            data[data.keys()[0]].update({'line_ids':aml_lst,'line_cr_ids':aml_cr_lst,'line_dr_ids':aml_dr_lst})
+        print 'data: despues: ',data
+        return data
+
+    def onchange_partner_id(self, cr, uid, ids, partner_id, journal_id, price, currency_id, ttype, date, context=None):
+        data = super(account_voucher, self).onchange_partner_id(cr, uid, ids, partner_id,
+            journal_id, price, currency_id, ttype, date, context)
+        param = {
+            'partner_id':partner_id,
+            'journal_id':journal_id,
+            'price':price,
+            'currency_id':currency_id,
+            'ttype':ttype,
+            'date':date
+        }
+        res = self.add_data(cr, uid, ids, param, data, context)
+
+        return res
+
+
 
 
 account_voucher()
