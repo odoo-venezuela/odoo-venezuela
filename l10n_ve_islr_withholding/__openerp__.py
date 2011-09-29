@@ -72,6 +72,7 @@
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
             "islr_concept_data.xml",
+            "demo/l10n_ve_islr_withholding_demo.xml",
     ],
     "active": False,
     "installable": True

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!--
+        Minimal Account
+        -->
+        <record id="islr_rec" model="account.account">
+            <field name="code">X11006</field>
+            <field name="name">Impuestos sobre la Renta por Cobrar(ISLR)</field>
+            <field ref="account.cas" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.account_type_asset"/>
+        </record>
+        
+        <record id="islr_pay" model="account.account">
+            <field name="code">X1114</field>
+            <field name="name">Impuestos sobre la Renta por Pagar(ISLR)</field>
+            <field ref="account.cli" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.account_type_liability"/>
+        </record>
+
+        <!--
+        Sequence
+        -->
+        <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
+            <field name="name">Retencion de ISLR Compra</field>
+            <field name="code">account.journal</field>
+        </record>
+
+        <record id="seq_wh_islr_purchase_journal" model="ir.sequence">
+            <field name="name">Retencion de ISLR Compra</field>
+            <field name="code">account.journal</field>
+            <field name="prefix">RE:</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_wh_islr_sale_type" model="ir.sequence.type">
+            <field name="name">Retencion de ISLR Venta</field>
+            <field name="code">account.journal</field>
+        </record>
+
+        <record id="seq_wh_islr_sale_journal" model="ir.sequence">
+            <field name="name">Retencion de ISLR Venta</field>
+            <field name="code">account.journal</field>
+            <field name="prefix">RE:</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+        </record>
+        
+        <!--
+        Journal
+        -->
+        <record id="withholding_purchase_journal" model="account.journal">
+            <field name="name">DIARIO DE ISLR COMPRA</field>
+            <field name="code">ISLRC</field>
+            <field name="type">islr_purchase</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_account_wh_islr_journal"/>
+        </record>
+        
+        <record id="withholding_sale_journal" model="account.journal">
+            <field name="name">DIARIO DE ISLR VENTA</field>
+            <field name="code">ISLRS</field>
+            <field name="type">islr_sale</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_account_wh_islr_journal"/>
+        </record>
+
+    </data>
+</openerp>
