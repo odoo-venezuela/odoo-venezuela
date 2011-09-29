@@ -59,6 +59,7 @@
             "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
             "data/l10n_ve_islr_withholding_data.xml",
+            "data/islr_concept_data.xml",
             "retencion_islr_sequence.xml",
             "view/wh_islr_view.xml",
             "view/product_view.xml",
@@ -71,7 +72,7 @@
             "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
-            "data/islr_concept_data.xml",
+            "demo/l10n_ve_islr_withholding_demo.xml"
     ],
     "active": False,
     "installable": True
