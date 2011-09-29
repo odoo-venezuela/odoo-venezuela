@@ -35,6 +35,32 @@
                 </xpath>
             </field>
         </record>
+        
+        
+        <record id="account_invoice_nro_control_supplier_form" model="ir.ui.view">
+            <field name="name">account.invoice.nro.control.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='date_due']" position="after">
+                    <field name="nro_ctrl" />
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <record id="account_invoice_nro_control_customer_form" model="ir.ui.view">
+            <field name="name">account.invoice.nro.control.customer.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='payment_term']" position="after">
+                    <field name="nro_ctrl" />
+                </xpath>
+            </field>
+        </record>
 
 
         <record id="account_invoice_ext_view_tree_loc_ve2" model="ir.ui.view">
