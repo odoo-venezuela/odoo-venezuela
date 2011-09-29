@@ -4,6 +4,14 @@
         <!--
         Minimal Account
         -->
+        <record id="a_islr" model="account.account">
+            <field name="code">X2002</field>
+            <field name="name">Servicios de analistas, programadores y soporte</field>
+            <field ref="account.rev" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.account_type_income"/>
+        </record>
+
         <record id="islr_rec" model="account.account">
             <field name="code">X11006</field>
             <field name="name">Impuestos sobre la Renta por Cobrar(ISLR)</field>
