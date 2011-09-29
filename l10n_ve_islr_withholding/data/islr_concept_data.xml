@@ -58,7 +58,7 @@
             <field eval="1" name="withholdable" />
             <field eval="'Intereses de Capitales tomados en préstamo e invertidos en la producción de renta'" name="name" />
         </record>
-        <record id="islr_wh_concept_intereses_prestamos_instituciones_financieras_exterior_nd" model="islr.wh.concept">
+        <record id="islr_wh_concept_int_prestamos_exterior" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Intereses provenientes de préstamos y otros créditos pagaderos a instituciones financieras constituidas en el exterior y no domiciliadas en el país'" name="name" />
         </record>
@@ -587,7 +587,7 @@
             <field eval="100.00" name="base" />
             <field eval="4.95" name="wh_perc" />
             <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_intereses_prestamos_instituciones_financieras_exterior_nd" />
+            <field name="concept_id" ref="islr_wh_concept_int_prestamos_exterior" />
         </record>
         <record id="islr_rates_022" model="islr.rates">
             <field eval="'022'" name="code" />
