@@ -6,9 +6,9 @@
             <field name="model">wizard.invoice.nro.ctrl</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Crear Factura para justificar alguna dañada">
+                <form string="Create an invoice to justify the damaged one">
                     <field name="nro_ctrl"/>
-                    <separator string="Esta seguro de cambiar el Nro Control y Generar una nueva Factura?" colspan="4"/>
+                    <separator string="Are you sure you want to do this?" colspan="4"/>
                     <field name="sure"/>
                      <group colspan="8" col="8">
                             <button icon="gtk-cancel" special="cancel" string="Cancel"/>
@@ -19,7 +19,7 @@
         </record>
 
         <act_window 
-            name="Generar Papel Anulado"  
+            name="Generate null paper"  
             res_model="wizard.invoice.nro.ctrl" 
             src_model="account.invoice"
             view_mode="form"
@@ -29,7 +29,7 @@
         />
 
         <record id="wizard_invoice_nro_control" model="ir.actions.act_window">
-            <field name="name">Crear Papel Anulado</field>
+            <field name="name">Create null paper</field>
             <field name="res_model">wizard.invoice.nro.ctrl</field>
             <field name="src_model">wizard.invoice.nro.ctrl</field>
             <field name="view_type">form</field>

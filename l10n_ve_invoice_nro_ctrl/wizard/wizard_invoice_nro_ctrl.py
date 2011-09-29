@@ -104,11 +104,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
 
         for wizard in wizard_brw:
             if not wizard.sure:
-                raise osv.except_osv(_('Error'), _('!Por Favor confirme seleccionando la opcion!'))
+                raise osv.except_osv(_("Error!"), _("Please confirm that you know what you're doing by checking the option bellow!"))
             if inv_brw.company_id.journal_id and inv_brw.company_id.account_id:
                 inv_id = self.action_invoice_create(cr,uid,ids,wizard,inv_id,context)
             else:
-                raise osv.except_osv(_('Error'), _('Debe especificar la cuenta contable y el diario por defecto a utilizar para crear una factura dañada en el formulario de la compañia'))
+                raise osv.except_osv(_('Error!'), _("You must go to the company form and configure a journal and an account for damaged invoices"))
         return self.new_open_window(cr,uid,ids,[inv_id],'action_invoice_tree1','account')
 
 wizard_invoice_nro_ctrl()
