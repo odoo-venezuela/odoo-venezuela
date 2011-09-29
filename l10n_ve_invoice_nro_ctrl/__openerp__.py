@@ -40,7 +40,7 @@
     "init_xml" : [],
     "update_xml" : [
         "wizard/wizard_invoice_nro_ctrl_view.xml",
-        "res_company_view.xml",
+        "view/res_company_view.xml",
     ],
     "active": False,
     "installable": True
