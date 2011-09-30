@@ -46,11 +46,9 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         invoice_line ={}
 
         address_invoice_id = self.pool.get('res.partner.address').search(cr,uid,[('partner_id','=',inv_brw.partner_id.id),('type','=','invoice')])
-
-        print address_invoice_id
-
         if address_invoice_id == []:
             raise osv.except_osv(_("ERROR !"), _("This partner does not have an invoice address"))
+
         invoice.update({
             'company_id': inv_brw.company_id.id,
             'date_invoice': inv_brw.date_invoice,
@@ -66,6 +64,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
             })
         inv_id = invoice_obj.create(cr, uid, invoice,{})
         tax_id=self.pool.get('account.invoice.tax').create(cr,uid,{'name':'SDCF',
+                         'tax_id': 1,
                          'amount':0.00,
                          'tax_amount':0.00,
                          'base':0.00,
