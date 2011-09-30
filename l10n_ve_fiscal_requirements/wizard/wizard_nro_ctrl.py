@@ -39,32 +39,26 @@ _transaction_form = '''<?xml version="1.0"?>
     <field name="sure"/>
 </form>'''
 
-_transaction_fields = {
-    'nro_ctrl': {'string':'Nro. Control', 'type':'char', 'size': 32, 'required':True},
-    'sure': {'string':'Esta Seguro?', 'type':'boolean'},
-   
-}
-
-def _set_nroctrl(self, cr, uid, data, context):
-    if not data['form']['sure']:
-        raise wizard.except_wizard(_('Error Usuario'), _('Actualizar Nro. Control, !Por Favor confirme seleccionando la opcion!'))
-    pool = pooler.get_pool(cr.dbname)
-    inv_obj = pool.get('account.invoice')
-    n_ctrl = data['form']['nro_ctrl']
-
-    invoice = inv_obj.browse(cr, uid, data['id'])
-    if invoice.state == 'draft':
-            raise wizard.except_wizard(_('Error Usuario'), _('Factura en estado Incorrecto, !Solo puede cambiar facturas en un estado diferente a borrador!'))            
-
-    inv_obj.write(cr, uid, data['id'], {'nro_ctrl':n_ctrl}, context=context)
-    return {}
-
 class wiz_nroctrl(osv.osv_memory):
     _name = 'wiz.nroctrl'
     _description = "Wizard that changes the invoice control number"
+
+    def _set_noctrl(self, cr, uid, data, context):
+        if not data['form']['sure']:
+            raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
+        inv_obj = self.pool.get('account.invoice')
+        n_ctrl = data['form']['name']
+        
+        invoice = inv_obj.browse(cr, uid, data['id'])
+        if invoice.state == 'draft':
+            raise osv.except_osv(_("Error!"), _("You cannot change the state of a Draft invoice"))
+
+        inv_obj.write(cr, uid, data['id'], {'name': n_ctrd}, context=context)
+        return {}
+
     _columns = {
         'name': fields.char('Control Number', 32, required=True),
-        'sure': fields.boolean('Are you sure?')
+        'sure': fields.boolean('Are you sure?'),
     }
 wiz_nroctrl()
 
