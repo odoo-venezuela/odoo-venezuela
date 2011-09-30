@@ -5,192 +5,130 @@
         <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Honorarios Profesionales No Mercantiles'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         
         <record id="islr_wh_concept_cualquie_cosa_menos_sueldos" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         
         <record id="islr_wh_concept_pago_contratistas" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Pagos a Empresas Contratistas o Subcontratistas domiciliadas o no en el país, por la ejecución de obras o de la prestación de servicios en base a valuaciones y ordenes de pago'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         
         <record id="islr_wh_concept_pagos_transportes_y_fletes" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Pagos por Gastos de Transporte conformados por Fletes'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
 
         <record id="islr_wh_concept_pagos_de_servicios_publicitarios" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Pagos por Servicios de Publicidad y Propaganda y la Cesión de la Venta de Espacios para tales fines'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_pagos_administradores_en_el_pais" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Pagos de los Administradores de bienes Inmuebles a los arrendadores de los bienes inmuebles situados en el pais'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_sueldos_y_salarios" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Sueldos y Salarios'" name="name"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_hprof_mancomunados_no_mercantiles" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Honorarios Profesionales Mancomunados No Mercantiles'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_hprof_jinetes_entrenadores_preparadores" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Honorarios Profesionales Pagados a Jinetes, Veterinarios, Preparadores o Entrenadores'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_hprof_sin_relacion_otras_instituciones" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Honorarios Profesionales pagados por Clínicas, Hospitales, Centros de Salud, Bufetes, Escritorios, Oficinas, Colegios Profesionales u otra Institución Profesionales No Mercantiles sin Relación de Dependencia'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_comisiones_venta_inmuebles" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Comisiones pagadas por la venta de bienes inmuebles'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_rh_concept_interes_capital_invertido_en_renta" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Intereses de Capitales tomados en préstamo e invertidos en la producción de renta'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_int_prestamos_exterior" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Intereses provenientes de préstamos y otros créditos pagaderos a instituciones financieras constituidas en el exterior y no domiciliadas en el país'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_intereses_por_personas_juridicas_o_comunidades" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Intereses pagados por las personas jurídicas o comunidades a cualquier otras persona natural, jurídica o comunidad'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_exhibicion_de_peliculas" model="islr.wh.concept">
             <field eval="1" name="whithholdable" />
             <field eval="'Enriquecimientos netos de exhibición de películas, cine o la televisión'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_regalias" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Enriquecimientos obtenidos por concepto de regalías y demás participaciones analogas'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_asistencia_tecnica" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Enriquecimientos obtenidos por las Remuneraciones, Honorarios y Pagos análogos por Asistencia Técnica'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_servicios_tecnologicos" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Enriquecimientos obtenidos por Servicios Tecnológicos utilizados en el país o cedidos a terceros'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_primas_seguros_reaseguros" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Enriquecimientos netos derivados de las primas de seguros y reaseguros'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_juegos_y_apuestas" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Ganancias obtenidas por juegos y apuestas'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_loterias_e_hipodromos" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Ganancias obtenidas por premios de Loterías y de Hipódromos'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_pagos_propietarios_animales_carrera_premios" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos a Propietarios de Animales de Carrera por concepto de Premios'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_pago_arrendadores_en_el_pais" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos a los arrendadores de los bienes inmuebles situados en el país'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Canones de arrendamiento de Bienes Inmuebles situados en el país'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_tarjetas_de_credito_cualquier_concepto" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos de las Empresas Emisoras de Tarjetas de Credito o Concumo por la venta de bienes y servicios o cualquier otro concepto'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_tarjetas_de_credito_gasolina" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos de las Empresas Emisoras de Tarjetas de Crédito por la venta de Gasolina en las Estaciones de Servicio'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_seguros_prestacion" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos de las Empresas de Seguro, las sociedades de corretaje de seguro y las empresas de reaseguros por la prestación de los servicios que le son propios'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_pago_seguros_reparacion_damage" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos de las Empresas de seguros a sus contratistas por la reparación de daños sufridos por los asegurados'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_pagos_seguros_a_clinicas" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos de las Empresas de Seguros a Clínicas, Hospitales y/o Centros de Salud por la Atención Médica a sus Asegurados'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_fondos_de_comercio_en_el_pais" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Cantidades que se paguen por la adquisición de fondos de comercio situados en el país'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_wh_concept_pub_emisoras" model="islr.wh.concept">
             <field eval="1" name="withholdable" />
             <field eval="'Pagos por Servicios de Publicidad Propaganda y la Cesión de la Venta de los Espacios para tales fines a Emisoras de Radio'" name="name" />
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
 
         <!-- End of Concepts -->
@@ -876,8 +814,6 @@
             <field eval="5.00" name="wh_perc"/>
             <field eval="0" name="subtract"/>
 			<field name="concept_id" ref="islr_wh_concept_pagos_transportes_y_fletes"/>
-            <field name="property_retencion_islr_payable" ref="islr_pay"/>
-            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         <record id="islr_rates_083" model="islr.rates">
             <field eval="'083'" name="code"/>
