@@ -263,7 +263,6 @@ class account_invoice(osv.osv):
         '''
         inv_brw = self.pool.get('account.invoice.line').browse(cr, uid, line).invoice_id
         vat = inv_brw.partner_id.vat[2:]
-        control = '1234567'
         if inv_brw.type == 'in_invoice' or inv_brw.type == 'in_refund':
             #~ number = inv_brw.reference.strip() 
             if not inv_brw.reference:
@@ -282,7 +281,6 @@ class account_invoice(osv.osv):
             control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
 
         return (vat, number, control)
-
 
     def _write_wh_apply(self,cr, uid,line,dict,apply,type):
         '''
@@ -390,8 +388,12 @@ class account_invoice(osv.osv):
                     subtract = 0.0
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
-                subtract = 0.0
-                res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
+                if nature:
+                    subtract = dict_rate[concept][3]
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))
+                else:
+                    subtract = 0.0
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
         return res
 
 
