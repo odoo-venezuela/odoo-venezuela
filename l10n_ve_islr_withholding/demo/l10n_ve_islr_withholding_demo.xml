@@ -54,16 +54,16 @@
         </record>
 
     <!--Concepts -->
-        <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
+        <record id="islr_wh_concept_demo1" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
-            <field eval="'Honorarios Profesionales No Mercantiles'" name="name"/>
+            <field eval="'DEMO Honorarios Profesionales No Mercantiles'" name="name"/>
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         
-        <record id="islr_wh_concept_cualquie_cosa_menos_sueldos" model="islr.wh.concept">
+        <record id="islr_wh_concept_demo2" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
-            <field eval="'Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares'" name="name"/>
+            <field eval="'DEMO Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares'" name="name"/>
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
@@ -76,7 +76,7 @@
             <field eval="100.00" name="base"/>
             <field eval="3.00" name="wh_perc"/>
             <field eval="2.53" name="subtract"/>
-            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+            <field name="concept_id" ref="islr_wh_concept_demo1"/>
         </record>
         <record id="islr_rates_003" model="islr.rates">
             <field eval="'003'" name="code" />
@@ -86,7 +86,7 @@
             <field eval="90.00" name="base" />
             <field eval="34.00" name="wh_perc" />
             <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles" />
+            <field name="concept_id" ref="islr_wh_concept_demo1" />
         </record>
         <record id="islr_rates_004" model="islr.rates">
             <field eval="'004'" name="code"/>
@@ -96,7 +96,7 @@
             <field eval="100.00" name="base"/>
             <field eval="5.00" name="wh_perc"/>
             <field eval="0.00" name="subtract"/>
-            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+            <field name="concept_id" ref="islr_wh_concept_demo1"/>
         </record>
         <record id="islr_rates_018" model="islr.rates">
             <field eval="'018'" name="code"/>
@@ -106,7 +106,7 @@
             <field eval="100.0" name="base"/>
             <field eval="3.0" name="wh_perc"/>
             <field eval="2.5333" name="subtract"/>
-            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos"/>
+            <field name="concept_id" ref="islr_wh_concept_demo2"/>
         </record>
         <record id="islr_rates_019" model="islr.rates">
             <field eval="'019'" name="code" />
@@ -116,7 +116,7 @@
             <field eval="100.00" name="base" />
             <field eval="34.00" name="wh_perc" />
             <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos" />
+            <field name="concept_id" ref="islr_wh_concept_demo2" />
         </record>
         <record id="islr_rates_020" model="islr.rates">
             <field eval="'020'" name="code"/>
@@ -126,7 +126,7 @@
             <field eval="100.0" name="base"/>
             <field eval="5.0" name="wh_perc"/>
             <field eval="0" name="subtract"/>
-            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos"/>
+            <field name="concept_id" ref="islr_wh_concept_demo2"/>
         </record>
         <record id="islr_021" model="islr.rates">
             <field eval="'021'" name="code" />
@@ -136,7 +136,7 @@
             <field eval="100.00" name="base" />
             <field eval="5.00" name="wh_perc" />
             <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos" />
+            <field name="concept_id" ref="islr_wh_concept_demo2" />
         </record>
 
        <!--
