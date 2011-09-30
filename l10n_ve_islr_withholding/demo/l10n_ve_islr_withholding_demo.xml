@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="0">
+
+        <record id="base.main_company" model="res.company">
+            <field name="property_reserve_and_surplus_account" ref="account.rsa"/>
+        </record>
+
+        <record id="base.main_address" model="res.partner.address">
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="name">Fabien Pinckaers</field>
+            <field name="street">Chaussee de Namur 40</field>
+            <field name="zip">1367</field>
+            <field name="phone">(+32).81.81.37.00</field>
+            <field name="type">invoice</field>
+            <field name="country_id" ref="base.ve"/>
+            <!-- Company ID will be set later -->
+            <field name="company_id" eval="None"/>
+        </record>
+
+        <record id="base.main_partner" model="res.partner">
+            <field eval="1" name="islr_withholding_agent"/>
+            <field eval="&quot;&quot;&quot;VEJ846123456&quot;&quot;&quot;" name="vat"/>
+            <field eval="1" name="customer"/>
+            <field eval="1" name="supplier"/>
+            <field name="currency_id" ref="base.VEB"/>
+        </record>
+
         <!--
         Minimal Account
         -->
@@ -28,7 +53,93 @@
             <field name="user_type" ref="account.account_type_liability"/>
         </record>
 
-        <!--
+    <!--Concepts -->
+        <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
+            <field eval="1" name="withholdable"/>
+            <field eval="'Honorarios Profesionales No Mercantiles'" name="name"/>
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+        
+        <record id="islr_wh_concept_cualquie_cosa_menos_sueldos" model="islr.wh.concept">
+            <field eval="1" name="withholdable"/>
+            <field eval="'Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares'" name="name"/>
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+    <!--Rates -->
+        <record id="islr_rates_002" model="islr.rates">
+            <field eval="'002'" name="code"/>
+            <field eval="1" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="3.00" name="wh_perc"/>
+            <field eval="2.53" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+        </record>
+        <record id="islr_rates_003" model="islr.rates">
+            <field eval="'003'" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="0" name="residence" />
+            <field eval="0.00" name="minimum" />
+            <field eval="90.00" name="base" />
+            <field eval="34.00" name="wh_perc" />
+            <field eval="0.00" name="subtract" />
+            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles" />
+        </record>
+        <record id="islr_rates_004" model="islr.rates">
+            <field eval="'004'" name="code"/>
+            <field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="0.32" name="minimum" />
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+        </record>
+        <record id="islr_rates_018" model="islr.rates">
+            <field eval="'018'" name="code"/>
+            <field eval="1" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+            <field eval="100.0" name="base"/>
+            <field eval="3.0" name="wh_perc"/>
+            <field eval="2.5333" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos"/>
+        </record>
+        <record id="islr_rates_019" model="islr.rates">
+            <field eval="'019'" name="code" />
+            <field eval="1" name="nature" />
+            <field eval="0" name="residence" />
+            <field eval="0.00" name="minimum" />
+            <field eval="100.00" name="base" />
+            <field eval="34.00" name="wh_perc" />
+            <field eval="0.00" name="subtract" />
+            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos" />
+        </record>
+        <record id="islr_rates_020" model="islr.rates">
+            <field eval="'020'" name="code"/>
+            <field eval="0" name="nature"/>
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+            <field eval="100.0" name="base"/>
+            <field eval="5.0" name="wh_perc"/>
+            <field eval="0" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos"/>
+        </record>
+        <record id="islr_021" model="islr.rates">
+            <field eval="'021'" name="code" />
+            <field eval="0" name="nature" />
+            <field eval="0" name="residence" />
+            <field eval="0.00" name="minimum" />
+            <field eval="100.00" name="base" />
+            <field eval="5.00" name="wh_perc" />
+            <field eval="0.00" name="subtract" />
+            <field name="concept_id" ref="islr_wh_concept_cualquie_cosa_menos_sueldos" />
+        </record>
+
+       <!--
         Sequence
         -->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
@@ -80,144 +191,154 @@
         Supplier Partners
          -->
 
-		<record id="res_partner_address_0" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.ve"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-299.09.01&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-268.18.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;elpapiruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+        <record id="res_partner_address_0" model="res.partner.address">
+            <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.ve"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-299.09.01&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-268.18.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;elpapiruqui@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
         <record id="res_partner_address_1" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV CUCHILLITO EDF SAN JUAN PISO 10. GUARENAS&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.ve"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-888.09.11&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-999.18.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;eli@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+            <field eval="&quot;&quot;&quot;AV CUCHILLITO EDF SAN JUAN PISO 10. GUARENAS&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.ve"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-888.09.11&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-999.18.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;eli@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
         <record id="res_partner_address_2" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.be"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-555.09.01&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-777.18.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+            <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.be"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-555.09.01&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-777.18.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
         <record id="res_partner_address_3" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.be"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+            <field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.be"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
 
-		<record id="res_partner_administradoramengimca0" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_administradoramengimca0" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_0'))]"/>
-			<field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="supplier"/>
-			<field eval="&quot;&quot;&quot;VEJ307514153&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="customer"/>
-			<field eval="&quot;&quot;&quot;Administradora Mamita, C.A.&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
+            <field eval="1" name="supplier"/>
+            <field eval="&quot;&quot;&quot;VEJ307514153&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="customer"/>
+            <field eval="&quot;&quot;&quot;ADMINISTRADORA MAMITA, C.A.&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
+        </record>
 
-		<record id="res_partner_gutierrezrrohgere0" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_gutierrezrrohgere0" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_1'))]"/>
-			<field eval="&quot;&quot;&quot;256&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="supplier"/>
-			<field eval="&quot;&quot;&quot;VEV029785053&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="customer"/>
-			<field eval="&quot;&quot;&quot;Gutierrez R. Rohger E.&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="&quot;&quot;&quot;256&quot;&quot;&quot;" name="ref"/>
+            <field eval="1" name="supplier"/>
+            <field eval="&quot;&quot;&quot;VEV029785053&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="customer"/>
+            <field eval="&quot;&quot;&quot;GUTIERREZ R. ROHGER E.&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
+        </record>
 
-		<record id="res_partner_nhomarhernandez0" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_nhomarhernandez0" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_2'))]"/>
             <field eval="&quot;&quot;&quot;J000004500&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="supplier"/>
-			<field eval="&quot;&quot;&quot;VEV147714443&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="customer"/>
-			<field eval="&quot;&quot;&quot;Nhomar Hernandez&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="1" name="supplier"/>
+            <field eval="&quot;&quot;&quot;VEV147714443&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="customer"/>
+            <field eval="&quot;&quot;&quot;NHOMAR HERNANDEZ&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
+        </record>
 
-		<record id="res_partner_viajesmirandaca0" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_viajesmirandaca0" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_3'))]"/>
-			<field eval="&quot;&quot;&quot;J000004960&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="supplier"/>
-			<field eval="&quot;&quot;&quot;VEJ044004960&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="customer"/>
-			<field eval="&quot;&quot;&quot;Viajes Miranda, C.A.&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="&quot;&quot;&quot;J000004960&quot;&quot;&quot;" name="ref"/>
+            <field eval="1" name="supplier"/>
+            <field eval="&quot;&quot;&quot;VEJ044004960&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="customer"/>
+            <field eval="&quot;&quot;&quot;VIAJES MIRANDA, C.A.&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
+        </record>
 
         <!--
         Customer Partner
         -->
 
-		<record id="res_partner_address_4" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV LECUNA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.ve"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-111.09.01&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-111.18.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;elpapiruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+        <record id="res_partner_address_4" model="res.partner.address">
+            <field eval="&quot;&quot;&quot;AV LECUNA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.ve"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-111.09.01&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-111.18.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;elpapiruqui@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
         <record id="res_partner_address_5" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV SAN JUAN EDF CUCHILLITO PISO 10. PETARES&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.ve"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-222.09.11&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-222.18.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;eli@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+            <field eval="&quot;&quot;&quot;AV SAN JUAN EDF CUCHILLITO PISO 10. PETARES&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.ve"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-222.09.11&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-222.18.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;eli@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
         <record id="res_partner_address_6" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV CARACAS EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.be"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-123.09.01&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-321.18.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+            <field eval="&quot;&quot;&quot;AV CARACAS EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.be"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-123.09.01&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-321.18.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
         <record id="res_partner_address_7" model="res.partner.address">
-			<field eval="&quot;&quot;&quot;AV MARIA QUIEN SABE EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-			<field name="country_id" ref="base.be"/>
-			<field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-			<field eval="&quot;&quot;&quot;0212-234.19.01&quot;&quot;&quot;" name="fax"/>
-			<field eval="&quot;&quot;&quot;0212-432.28.31&quot;&quot;&quot;" name="phone"/>
-			<field eval="1" name="active"/>
-			<field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-		</record>
+            <field eval="&quot;&quot;&quot;AV MARIA QUIEN SABE EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
+            <field name="country_id" ref="base.be"/>
+            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
+            <field eval="&quot;&quot;&quot;0212-234.19.01&quot;&quot;&quot;" name="fax"/>
+            <field eval="&quot;&quot;&quot;0212-432.28.31&quot;&quot;&quot;" name="phone"/>
+            <field eval="1" name="active"/>
+            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
+        </record>
         
-		<record id="res_partner_1" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_1" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_4'))]"/>
-			<field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="customer"/>
-			<field eval="&quot;&quot;&quot;VEJ307514153&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="supplier"/>
-			<field eval="&quot;&quot;&quot;PERCHO, C.A.&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
+            <field eval="1" name="customer"/>
+            <field eval="&quot;&quot;&quot;VEJ307514153&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="supplier"/>
+            <field eval="&quot;&quot;&quot;PERCHO, C.A.&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
+        </record>
 
         <record id="res_partner_2" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
@@ -228,6 +349,8 @@
             <field eval="&quot;&quot;&quot;VEV029785053&quot;&quot;&quot;" name="vat"/>
             <field eval="0" name="supplier"/>
             <field eval="&quot;&quot;&quot;MIGUEL P PEREZ L.&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
         </record>
 
         <record id="res_partner_3" model="res.partner">
@@ -238,8 +361,10 @@
             <field eval="1" name="customer"/>
             <field eval="&quot;&quot;&quot;VEJ124804443&quot;&quot;&quot;" name="vat"/>
             <field eval="1" name="supplier"/>
-            <field eval="&quot;&quot;&quot;JAVIER Hernandez&quot;&quot;&quot;" name="name"/>
+            <field eval="&quot;&quot;&quot;JAVIER HERNANDEZ&quot;&quot;&quot;" name="name"/>
             <field eval="1" name="islr_withholding_agent"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
         </record>
 
         <record id="res_partner_4" model="res.partner">
@@ -250,100 +375,16 @@
             <field eval="1" name="customer"/>
             <field eval="&quot;&quot;&quot;VEV056024160&quot;&quot;&quot;" name="vat"/>
             <field eval="0" name="supplier"/>
-            <field eval="&quot;&quot;&quot;MIRANDA Miranda, C.A.&quot;&quot;&quot;" name="name"/>
-        </record>
-
-        <record id="base.main_address" model="res.partner.address">
-            <field name="partner_id" ref="base.main_partner"/>
-            <field name="name">Fabien Pinckaers</field>
-            <field name="street">Chaussee de Namur 40</field>
-            <field name="zip">1367</field>
-            <field name="phone">(+32).81.81.37.00</field>
-            <field name="type">invoice</field>
-            <field name="country_id" ref="base.ve"/>
-            <!-- Company ID will be set later -->
-            <field name="company_id" eval="None"/>
-        </record>
-
-        <record id="base.main_partner" model="res.partner">
-            <field eval="1" name="islr_withholding_agent"/>
-            <field eval="&quot;&quot;&quot;VEJ846123456&quot;&quot;&quot;" name="vat"/>
-            <field eval="1" name="customer"/>
-            <field eval="1" name="supplier"/>
-            <field name="currency_id" ref="base.VEB"/>
+            <field eval="&quot;&quot;&quot;MIRANDA MIRANDA, C.A.&quot;&quot;&quot;" name="name"/>
+            <field name="property_account_receivable" ref="account.a_recv"/>
+            <field name="property_account_payable" ref="account.a_pay"/>
         </record>
 
         <!--
         Invoices
         -->
 
-<!--
-        <record id="account_invoice_0" model="account.invoice">
-            <field eval="450000.0" name="check_total"/>
-            <field name="currency_id" ref="base.VEB"/>
-            <field name="address_invoice_id" ref="res_partner_address_0"/>
-            <field name="nro_ctrl">00-0005678</field>
-            <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
-            <field name="reference">libre-345678</field>
-            <field name="address_contact_id" ref="res_partner_address_0"/>
-            <field name="reference_type">none</field>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="state">draft</field>
-            <field name="type">in_invoice</field>
-            <field name="status">no_pro</field>
-            <field eval="450000.0" name="residual"/>
-            <field eval="450000.0" name="amount_untaxed"/>
-            <field eval="450000.0" name="amount_total"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_administradoramengimca0"/>
-        </record>
-        <record id="account_invoice_line_personajuridicadomiciliada0" model="account.invoice.line">
-            <field eval="0" name="apply_wh"/>
-            <field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
-            <field name="invoice_id" ref="account_invoice_0"/>
-            <field eval="450000.0" name="price_unit"/>
-            <field eval="450000.0" name="price_subtotal"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field eval="1.0" name="quantity"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_administradoramengimca0"/>
-            <field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_pago_contratistas"/>
-            <field name="name">Persona Juridica Domiciliada</field>
-        </record>
--->
-<!--
-		<record id="account_invoice_0" model="account.invoice">
-			<field eval="564998.75" name="check_total"/>
-			<field name="currency_id" ref="base.VEB"/>
-			<field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_1"/>
-            <field name="account_id" ref=""/>
-			<field name="nro_ctrl">00-0008464</field>
-			<field eval="0" name="sin_cred"/>
-			<field name="user_id" ref="base.user_admin"/>
-			<field name="reference">libre-8973287</field>
-			<field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_1"/>
-			<field name="reference_type">none</field>
-			<field name="company_id" ref="base.main_company"/>
-			<field name="state">draft</field>
-			<field name="type">in_invoice</field>
-			<field name="status">no_pro</field>
-			<field eval="0" name="reconciled"/>
-			<field eval="564998.75" name="amount_untaxed"/>
-			<field eval="564998.75" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_gutierrezrrohgere0"/>
-		</record>
-		<record id="account_invoice_line_factura0" model="account.invoice.line">
-			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
-			<field name="invoice_id" ref="account_invoice_0"/>
-			<field eval="565000.0" name="price_unit"/>
-			<field eval="564998.75" name="price_subtotal"/>
-			<field name="company_id" ref="base.main_company"/>
-			<field eval="1.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_gutierrezrrohgere0"/>
-			<field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_pago_contratistas"/>
-			<field name="name">Factura2</field>
-		</record>
--->
+
 
     </data>
 </openerp>
