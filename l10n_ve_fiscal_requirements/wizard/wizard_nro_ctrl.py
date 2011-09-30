@@ -32,28 +32,22 @@ from osv import osv
 from osv import fields
 from tools.translate import _
 
-_transaction_form = '''<?xml version="1.0"?>
-<form string="Modificacion del nro. de control">
-    <field name="nro_ctrl"/>
-    <separator string="Esta seguro de cambiar el Nro Control ?" colspan="4"/>
-    <field name="sure"/>
-</form>'''
-
 class wiz_nroctrl(osv.osv_memory):
     _name = 'wiz.nroctrl'
     _description = "Wizard that changes the invoice control number"
 
-    def _set_noctrl(self, cr, uid, data, context):
-        if not data['form']['sure']:
+    def set_noctrl(self, cr, uid, ids, context):
+        data = self.pool.get('wiz.nroctrl').read(cr, uid, ids)[0]
+        if not data['sure']:
             raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
         inv_obj = self.pool.get('account.invoice')
-        n_ctrl = data['form']['name']
+        n_ctrl = data['name']
         
-        invoice = inv_obj.browse(cr, uid, data['id'])
+        invoice = inv_obj.browse(cr, uid, context['active_id'])
         if invoice.state == 'draft':
             raise osv.except_osv(_("Error!"), _("You cannot change the state of a Draft invoice"))
 
-        inv_obj.write(cr, uid, data['id'], {'name': n_ctrd}, context=context)
+        inv_obj.write(cr, uid, context['active_id'], {'nro_ctrl': n_ctrl}, context=context)
         return {}
 
     _columns = {

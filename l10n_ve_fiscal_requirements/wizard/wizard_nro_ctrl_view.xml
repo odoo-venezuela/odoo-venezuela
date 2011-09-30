@@ -11,7 +11,7 @@
                     <separator string="Are you sure you want to do this?" colspan="4" />
                     <field name="sure" />
                     <button special='cancel' string="Cancel" icon="terp-gtk-stop" />
-                    <button name="_set_noctrl" string="Confirm" type="object" icon="terp-check" />
+                    <button name="set_noctrl" string="Confirm" type="object" icon="terp-check" />
                 </form>
             </field>
         </record>
