@@ -46,7 +46,8 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         invoice_line ={}
 
         address_invoice_id = self.pool.get('res.partner.address').search(cr,uid,[('partner_id','=',inv_brw.company_id.partner_id.id),('type','=','invoice')])
-
+        # TODO: raise an error
+        print address_invoice_id
         invoice.update({
             'company_id': inv_brw.company_id.id,
             'date_invoice': inv_brw.date_invoice,
