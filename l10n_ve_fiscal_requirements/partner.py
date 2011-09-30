@@ -26,7 +26,7 @@ class res_partner_address(osv.osv):
     _inherit='res.partner.address'
 
     '''
-    Unique address invoice
+    Invoice Address uniqueness check
     '''
     def _check_addr_invoice(self,cr,uid,ids,context={}):
         obj_addr = self.browse(cr,uid,ids[0])
@@ -42,7 +42,7 @@ class res_partner_address(osv.osv):
 
 
     _constraints = [
-        (_check_addr_invoice, 'Error ! The partner already have an invoice address. ', [])
+        (_check_addr_invoice, 'Error ! The partner already has an invoice address. ', [])
     ]
 
 res_partner_address()
@@ -52,7 +52,7 @@ class res_partner(osv.osv):
     _inherit = 'res.partner'
 
     '''
-    Required address invoice
+    Required Invoice Address
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         partner_obj = self.browse(cr,uid,ids[0])
@@ -79,8 +79,8 @@ class res_partner(osv.osv):
 
     def check_vat_ve(self, vat):
         '''
-        Check Venezuela VAT number.
-        Registro de Identificacion Fiscal Venezolana RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
+        Check Venezuelan VAT number, locally caled RIF.
+        RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
         '''
         if len(vat) != 10:
             return False
