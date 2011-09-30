@@ -26,18 +26,36 @@
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
-    "description": """Requirements Venezuelan tax laws:
-    - Invoice reference
+    "description": """Venezuelan Tax Laws Requirements:
+    - Invoice Control Number
     - Tax-except
     - Required address invoice
     - Unique address invoice.
     - VAT verification for Venezuela rules.
+    - Damaged invoices justification.
+    ---------------------------------------------------------------------------
+    For damaged invoices, you must go to the company and, under the configuration section,
+    create the corresponding journal and account.
+
+    ------------------------TECH INFO-------------------------------------------
+    CHANGELOG:
+       - For the migration to the l10n_ve on OpenERP:
+         - Changed the Invoice Ref label to Control Number
+         - Integrated the l10n_ve_nro_ctrl module functionality on this one
+         - Since the concept_id field is added by the l10n_ve_islr_withholding, an
+           error es rised if it's not installed and it is necesary to withhold
+         - If you need to withhold ISLR, you must install the module mentioned abofe
+
+    FURTHER DEVELOPMENT:
+       - Find a way to decouple this module and l10n_ve_islr_withholding
     """,
     'init_xml': [],
     "depends" : ["base", "base_vat", "purchase", "stock", "account"],
     'update_xml': [
-        'stock_view.xml',
-        'account_invoice_view.xml'
+        'view/stock_view.xml',
+        'view/account_invoice_view.xml',
+        'view/res_company_view.xml',
+        'wizard/wizard_invoice_nro_ctrl_view.xml'
     ],
     'demo_xml': [],
     'test': [],
