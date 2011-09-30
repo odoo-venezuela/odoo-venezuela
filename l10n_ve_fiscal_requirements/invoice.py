@@ -25,8 +25,8 @@ from osv import fields, osv
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'    
     _columns = {
-        'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Invoice reference"),
-        'sin_cred': fields.boolean('Tax-exempt?', readonly=False, help="setting to true if the invoice is exempt from V.A.T"),
+        'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Code used for intern invoice control"),
+        'sin_cred': fields.boolean('Tax-exempt?', readonly=False, help="Set it true if the invoice is V.A.T. exempt"),
     }
 
 
