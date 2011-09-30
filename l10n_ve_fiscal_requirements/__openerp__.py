@@ -34,7 +34,7 @@
     - VAT verification for Venezuela rules.
     """,
     'init_xml': [],
-    "depends" : ["base", "base_vat", "purchase", "stock", "account", "l10n_ve_islr_withholding"],
+    "depends" : ["base", "base_vat", "purchase", "stock", "account"],
     'update_xml': [
         'view/stock_view.xml',
         'view/account_invoice_view.xml',
