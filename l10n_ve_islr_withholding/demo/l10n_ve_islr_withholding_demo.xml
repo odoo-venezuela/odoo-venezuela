@@ -219,39 +219,39 @@
 			<field eval="&quot;&quot;&quot;PERCHO, C.A.&quot;&quot;&quot;" name="name"/>
 		</record>
 
-		<record id="res_partner_2" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_2" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_5'))]"/>
-			<field eval="&quot;&quot;&quot;256&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="customer"/>
-			<field eval="&quot;&quot;&quot;VEV029785053&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="supplier"/>
-			<field eval="&quot;&quot;&quot;MIGUEL P PEREZ L.&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="&quot;&quot;&quot;256&quot;&quot;&quot;" name="ref"/>
+            <field eval="1" name="customer"/>
+            <field eval="&quot;&quot;&quot;VEV029785053&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="supplier"/>
+            <field eval="&quot;&quot;&quot;MIGUEL P PEREZ L.&quot;&quot;&quot;" name="name"/>
+        </record>
 
-		<record id="res_partner_3" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_3" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_6'))]"/>
             <field eval="&quot;&quot;&quot;J000004500&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="customer"/>
-			<field eval="&quot;&quot;&quot;VEJ124804443&quot;&quot;&quot;" name="vat"/>
-			<field eval="1" name="supplier"/>
-			<field eval="&quot;&quot;&quot;JAVIER Hernandez&quot;&quot;&quot;" name="name"/>
-			<field eval="1" name="islr_withholding_agent"/>
-		</record>
+            <field eval="1" name="customer"/>
+            <field eval="&quot;&quot;&quot;VEJ124804443&quot;&quot;&quot;" name="vat"/>
+            <field eval="1" name="supplier"/>
+            <field eval="&quot;&quot;&quot;JAVIER Hernandez&quot;&quot;&quot;" name="name"/>
+            <field eval="1" name="islr_withholding_agent"/>
+        </record>
 
-		<record id="res_partner_4" model="res.partner">
-			<field eval="0" name="islr_withholding_agent"/>
-			<field eval="1" name="active"/>
+        <record id="res_partner_4" model="res.partner">
+            <field eval="0" name="islr_withholding_agent"/>
+            <field eval="1" name="active"/>
             <field name="address" eval="[(4, ref('res_partner_address_7'))]"/>
-			<field eval="&quot;&quot;&quot;J000004960&quot;&quot;&quot;" name="ref"/>
-			<field eval="1" name="customer"/>
-			<field eval="&quot;&quot;&quot;VEV056024160&quot;&quot;&quot;" name="vat"/>
-			<field eval="0" name="supplier"/>
-			<field eval="&quot;&quot;&quot;MIRANDA Miranda, C.A.&quot;&quot;&quot;" name="name"/>
-		</record>
+            <field eval="&quot;&quot;&quot;J000004960&quot;&quot;&quot;" name="ref"/>
+            <field eval="1" name="customer"/>
+            <field eval="&quot;&quot;&quot;VEV056024160&quot;&quot;&quot;" name="vat"/>
+            <field eval="0" name="supplier"/>
+            <field eval="&quot;&quot;&quot;MIRANDA Miranda, C.A.&quot;&quot;&quot;" name="name"/>
+        </record>
 
         <record id="base.main_address" model="res.partner.address">
             <field name="partner_id" ref="base.main_partner"/>
@@ -270,22 +270,80 @@
             <field eval="&quot;&quot;&quot;VEJ846123456&quot;&quot;&quot;" name="vat"/>
             <field eval="1" name="customer"/>
             <field eval="1" name="supplier"/>
-        </record>
-
-        <!-- Basic Company  -->
-        <record id="main_company" model="res.company">
-            <field name="name">Vauxita C.A.</field>
-            <field name="partner_id" ref="res_partner_3"/>
-            <field name="rml_header1">Free Business Solutions</field>
-            <field name="rml_footer1">Web: http://www.openerp.com - Tel: (+32).81.81.37.00 - Bank: CPH 126-2013269-07</field>
-            <field name="rml_footer2">IBAN: BE74 1262 0132 6907 - SWIFT: CPHBBE75 - VAT: BE0477.472.701</field>
             <field name="currency_id" ref="base.VEB"/>
         </record>
 
-        <!--  Invoices -->
-        
-        
+        <!--
+        Invoices
+        -->
 
+<!--
+        <record id="account_invoice_0" model="account.invoice">
+            <field eval="450000.0" name="check_total"/>
+            <field name="currency_id" ref="base.VEB"/>
+            <field name="address_invoice_id" ref="res_partner_address_0"/>
+            <field name="nro_ctrl">00-0005678</field>
+            <field eval="0" name="sin_cred"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="reference">libre-345678</field>
+            <field name="address_contact_id" ref="res_partner_address_0"/>
+            <field name="reference_type">none</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="state">draft</field>
+            <field name="type">in_invoice</field>
+            <field name="status">no_pro</field>
+            <field eval="450000.0" name="residual"/>
+            <field eval="450000.0" name="amount_untaxed"/>
+            <field eval="450000.0" name="amount_total"/>
+            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_administradoramengimca0"/>
+        </record>
+        <record id="account_invoice_line_personajuridicadomiciliada0" model="account.invoice.line">
+            <field eval="0" name="apply_wh"/>
+            <field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+            <field name="invoice_id" ref="account_invoice_0"/>
+            <field eval="450000.0" name="price_unit"/>
+            <field eval="450000.0" name="price_subtotal"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="1.0" name="quantity"/>
+            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_administradoramengimca0"/>
+            <field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_pago_contratistas"/>
+            <field name="name">Persona Juridica Domiciliada</field>
+        </record>
+-->
+<!--
+		<record id="account_invoice_0" model="account.invoice">
+			<field eval="564998.75" name="check_total"/>
+			<field name="currency_id" ref="base.VEB"/>
+			<field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_1"/>
+            <field name="account_id" ref=""/>
+			<field name="nro_ctrl">00-0008464</field>
+			<field eval="0" name="sin_cred"/>
+			<field name="user_id" ref="base.user_admin"/>
+			<field name="reference">libre-8973287</field>
+			<field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_1"/>
+			<field name="reference_type">none</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="state">draft</field>
+			<field name="type">in_invoice</field>
+			<field name="status">no_pro</field>
+			<field eval="0" name="reconciled"/>
+			<field eval="564998.75" name="amount_untaxed"/>
+			<field eval="564998.75" name="amount_total"/>
+			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_gutierrezrrohgere0"/>
+		</record>
+		<record id="account_invoice_line_factura0" model="account.invoice.line">
+			<field eval="0" name="apply_wh"/>
+			<field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+			<field name="invoice_id" ref="account_invoice_0"/>
+			<field eval="565000.0" name="price_unit"/>
+			<field eval="564998.75" name="price_subtotal"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="quantity"/>
+			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_gutierrezrrohgere0"/>
+			<field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_pago_contratistas"/>
+			<field name="name">Factura2</field>
+		</record>
+-->
 
     </data>
 </openerp>
