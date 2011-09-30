@@ -77,12 +77,15 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
             'quantity': 0,
             'invoice_id': inv_id,
             })
-        for inv_line in inv_brw.invoice_line:
-            if inv_line.concept_id or False:
-                invoice_line.update({
-                'concept_id':inv_line.concept_id.id,
-                })
-            break
+        try:
+            for inv_line in inv_brw.invoice_line:
+                if inv_line.concept_id or False:
+                    invoice_line.update({
+                    'concept_id': inv_line.concept_id.id or 1,
+                    })
+                break
+        except:
+            raise osv.except_osv(_("ERROR !"), _("You have to install the ISLR Withholding"))
         invoice_line_id = invoice_line_obj.create(cr, uid, invoice_line, {})
         return inv_id
 
