@@ -34,9 +34,7 @@
                     Generate Invoice from customer invoice form, 
                     for justify invoice(paper) damaged.
                     ''',
-    "depends" : ["base",
-                 "account",
-                 ],
+    "depends" : ["account", "l10n_ve_islr_withholding"],
     "init_xml" : [],
     "update_xml" : [
         "wizard/wizard_invoice_nro_ctrl_view.xml",
