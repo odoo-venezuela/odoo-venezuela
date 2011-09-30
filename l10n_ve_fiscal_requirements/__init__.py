@@ -23,5 +23,5 @@ import stock
 import invoice
 import partner
 import res_company
-
+import wizard
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
