@@ -28,9 +28,8 @@
 #
 ##############################################################################
 
-import wizard
-import osv
-import pooler
+from osv import osv
+from osv import fields
 from tools.translate import _
 
 _transaction_form = '''<?xml version="1.0"?>
@@ -60,18 +59,14 @@ def _set_nroctrl(self, cr, uid, data, context):
     inv_obj.write(cr, uid, data['id'], {'nro_ctrl':n_ctrl}, context=context)
     return {}
 
-class wiz_nroctrl(wizard.interface):
-    states = {
-        'init': {
-            'actions': [],
-            'result': {'type': 'form', 'arch':_transaction_form, 'fields':_transaction_fields, 'state':[('end','Cancel'),('change','Modificar')]}
-        },
-        'change': {
-            'actions': [_set_nroctrl],
-            'result': {'type': 'state', 'state':'end'}
-        }
+class wiz_nroctrl(osv.osv_memory):
+    _name = 'wiz.nroctrl'
+    _description = "Wizard that changes the invoice control number"
+    _columns = {
+        'name': fields.char('Control Number', 32, required=True),
+        'sure': fields.boolean('Are you sure?')
     }
-wiz_nroctrl('account.retention.nroctrl')
+wiz_nroctrl()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
