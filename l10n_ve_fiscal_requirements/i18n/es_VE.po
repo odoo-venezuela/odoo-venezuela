@@ -29,7 +29,7 @@ msgstr "Debe instalar el módulo para realizar retención de ISLR"
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,sin_cred:0
 msgid "Tax-exempt?"
-msgstr "Libre de impuesto?"
+msgstr "¿Libre de impuesto?"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wiz.nroctrl:0
@@ -56,7 +56,7 @@ msgstr "Crear papel dañado"
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:42
 #, python-format
 msgid "Please confirm that you want to do this by checking the option"
-msgstr "Please confirm that you want to do this by checking the option"
+msgstr "Por favor, confirme que desea hacer esto marcando la opción"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
@@ -67,7 +67,7 @@ msgstr "Crear Factura"
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:48
 #, python-format
 msgid "You cannot change the state of a Draft invoice"
-msgstr "You cannot change the state of a Draft invoice"
+msgstr "No puede cambiar una factura en Borrador"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.module.module,shortdesc:l10n_ve_fiscal_requirements.module_meta_information
@@ -82,7 +82,7 @@ msgstr "Albarán"
 #. module: l10n_ve_fiscal_requirements
 #: field:wiz.nroctrl,sure:0
 msgid "Are you sure?"
-msgstr "Are you sure?"
+msgstr "¿Está seguro?"
 
 #. module: l10n_ve_fiscal_requirements
 #: constraint:res.partner.address:0
@@ -114,7 +114,7 @@ msgstr "ERROR !"
 #. module: l10n_ve_fiscal_requirements
 #: view:wiz.nroctrl:0
 msgid "Changing the Control Number"
-msgstr "Changing the Control Number"
+msgstr "Cambio de número de control"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:res.company,journal_id:0
@@ -136,12 +136,12 @@ msgstr "Número de control"
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_wiz_nroctrl
 msgid "Wizard that changes the invoice control number"
-msgstr "Wizard that changes the invoice control number"
+msgstr "Asistemte para cambiar el número de control"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.change_nro_ctrl_act
 msgid "Change Control Number"
-msgstr "Change Control Number"
+msgstr "Cambiar el número de control"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:res.company:0
@@ -202,7 +202,7 @@ msgstr "wizard.invoice.nro.ctrl"
 #: view:wiz.nroctrl:0
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Are you sure you want to do this?"
-msgstr "Are you sure you want to do this?"
+msgstr "¿Está seguro que desea hacer esto?"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
@@ -293,7 +293,7 @@ msgstr "Venezuelan Tax Laws Requirements:\n"
 #: view:wiz.nroctrl:0
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_partner
