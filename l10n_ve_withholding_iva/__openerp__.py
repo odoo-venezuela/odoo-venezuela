@@ -42,6 +42,7 @@
         "wh_iva_sequence.xml",
         "wh_iva_workflow.xml",
         "account_workflow.xml",        
+        "l10n_ve_withholding_iva_installer.xml",
     ],
     'demo_xml': [],
     'test': [],
