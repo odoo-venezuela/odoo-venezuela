@@ -44,7 +44,7 @@
         "account_workflow.xml",        
         "l10n_ve_withholding_iva_installer.xml",
     ],
-    'demo_xml': [],
+    'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
     'test': [],
     'installable': True,
     'active': False,
