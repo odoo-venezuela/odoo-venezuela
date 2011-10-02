@@ -9,31 +9,38 @@
 
 
         <!-- Added-->
-        <record id="account.act_withold_vat" model="workflow.activity">
+        <record id="act_withold_vat" model="workflow.activity">
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">Withholding Vat</field>
             <field name="kind">subflow</field>
-            <field name="subflow_id" search="[('osv','=','account.wh.iva')]"/>
+            <field name="subflow_id" ref="wh_iva_order"/>
             <field name="action">action_wh_iva_create()</field>
         </record>
 
         
         #----------------------------------------------
-        # Transition
+        # Transitions
         #----------------------------------------------
 
-        <record id="account.t8" model="workflow.transition">
+<!--        <record id="account.t8" model="workflow.transition">-->
             <!-- Modified -->
             <!--<field name="act_from" ref="act_open"/>-->
-            <field name="act_from" ref="account.act_withold_vat"/>
-        </record>
-
-        <!-- Added-->
-        <record id="account.trans_withhold_done" model="workflow.transition">
+<!--            <field name="act_from" ref="account.act_withold_vat"/>-->
+<!--        </record>-->
+<!--        From Open to Withholdings-->
+        <record id="trans_open_wh" model="workflow.transition">
             <field name="act_from" ref="account.act_open"/>
-            <field name="act_to" ref="account.act_withold_vat"/>
+            <field name="act_to" ref="act_withold_vat"/>
+            <field name="condition">True</field>
             <field name="signal"></field>
-            <field name="condition">wh_iva_id and wh_iva_id.state=='done'</field>
+        </record>
+<!--        From Withholdings to paid-->
+
+        <record id="trans_withhold_paid" model="workflow.transition">
+            <field name="act_from" ref="act_withold_vat"/>
+            <field name="act_to" ref="account.act_paid"/>
+            <field name="signal"></field>
+            <field name="condition">test_paid()</field>
         </record>
 
 

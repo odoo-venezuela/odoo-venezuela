@@ -160,7 +160,7 @@ class account_invoice(osv.osv):
             }
             ret_id = wh_iva_obj.create(cr, uid, ret_iva)
             self.write(cr, uid, [inv.id], {'wh_iva_id':ret_id})
-        return True
+        return ret_id
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
         if not context:
