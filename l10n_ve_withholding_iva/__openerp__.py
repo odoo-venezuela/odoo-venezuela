@@ -39,7 +39,6 @@
         'account_view.xml',
         'partner_view.xml',        
         'wh_iva_view.xml',
-        "wh_iva_sequence.xml",
         "data/l10n_ve_withholding_data.xml",
         "wh_iva_workflow.xml",
         "account_workflow.xml",        
