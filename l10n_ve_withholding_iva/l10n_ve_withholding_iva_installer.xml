@@ -32,10 +32,9 @@
                   <attribute name='rowspan'>15</attribute>
                 </xpath>
                 <group colspan="8" position="replace">
-              <group colspan="8" height="350" width="550">
+              <group colspan="8" height="550" width="550">
                   <field name="name" invisible="1"/>
                   <field name="gaceta"/>
-                  <field name="wh"/>
                   <separator string="Installation and Configuration Steps" colspan="4"/>
                   <field name="description" nolabel="1" colspan="8"/>
               </group>
@@ -56,7 +55,7 @@
 
     <record id="withholding_iva_installer_todo" model="ir.actions.todo">
         <field name="action_id" ref="action_withholding_iva_installer"/>
-        <field name="sequence">3</field>
+        <field name="sequence">30</field>
         <field name="restart">always</field>
     </record>
 
@@ -71,59 +70,65 @@
       <field name="context">{'menu':True}</field> 
     </record>
 
-    <menuitem parent="account.menu_finance_configuration" name="Withholding Vat Configurator"
+    <menuitem parent="account.menu_finance_accounting" 
+        name="Withholding Vat Configurator"
+        id="menu_withholding_iva" sequence="70" />
+    <menuitem parent="menu_withholding_iva" name="Vat Configurator"
         action="action_withholding_iva_wizard"
         id="menu_action_withholding_iva_wizard" sequence="70" />
-        <!-- configartion view -->
 
-        <record id="view_config_picking_policy" model="ir.ui.view">
-            <field name="name">Configure Picking Policy for Sales Order </field>
-            <field name="model">sale.config.picking_policy</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="base.res_config_view_base"/>
-            <field name="arch" type="xml">
-              <data>
-                <form position="attributes">
-                  <attribute name="string">Sales Application Configuration</attribute>
-                </form>
-                <separator string="title" position="attributes">
-                <attribute name="string">Configure Sales Order Logistics</attribute>
-                  </separator>
-                  <xpath expr="//label[@string='description']" position="attributes">
-                    <attribute name="string">Setup your sales workflow and default values.</attribute>
-                  </xpath>
-                <xpath expr='//separator[@string="vsep"]' position='attributes'>
-                      <attribute name='rowspan'>15</attribute>
-                      <attribute name='string'></attribute>
-                  </xpath>
-                <group string="res_config_contents" position="replace">
-                  <field name="picking_policy" groups="base.group_extended"/>
-                  <newline/>
-                  <field name="order_policy"/>
-                  <newline/>
-                  <field name="step"/>
-                </group>
-                <xpath expr='//button[@name="action_skip"]' position='replace'/>
-              </data>
-            </field>
-        </record>
+        <!-- configuration view -->
 
-        <record id="action_config_picking_policy" model="ir.actions.act_window">
-            <field name="name">Configure Picking Policy for Sales Order</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">sale.config.picking_policy</field>
-            <field name="view_id" ref="view_config_picking_policy"/>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
+    <record id="view_config_wh_vat" model="ir.ui.view">
+        <field name="name">Configure Picking Policy for Sales Order </field>
+        <field name="model">wh_iva.config</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.res_config_view_base"/>
+        <field name="arch" type="xml">
+          <data>
+            <form position="attributes">
+              <attribute name="string">Company and Accounting Withholding Configurator</attribute>
+            </form>
+            <separator string="title" position="attributes">
+            <attribute name="string">Configure How you will Manage your Vat Withholding</attribute>
+              </separator>
+              <xpath expr="//label[@string='description']" position="attributes">
+                <attribute name="string">Setup your Withholding Values.</attribute>
+              </xpath>
+            <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                  <attribute name='rowspan'>15</attribute>
+                  <attribute name='string'></attribute>
+              </xpath>
+            <group string="res_config_contents" position="replace">
+              <field name="name" invisible="1" groups="base.group_extended"/>
+              <field name="wh" groups="base.group_extended"/>
+              <newline/>
+              <field name="vat" groups="base.group_extended"/>
+              <newline/>
+              <field name="add" groups="base.group_extended"/>
+            </group>
+            <xpath expr='//button[@name="action_skip"]' position='replace'/>
+          </data>
+        </field>
+    </record>
 
-        <!-- register configuration wizard -->
-        <record id="config_wizard_step_sale_picking_policy" model="ir.actions.todo">
-            <field name="action_id" ref="action_config_picking_policy"/>
-            <field name="restart">always</field>
-            <field name="groups_id" eval="[(6,0,[ref('base.group_extended')])]"/>
-        </record>
+    <record id="action_config_wh_vat" model="ir.actions.act_window">
+        <field name="name">Configure Withholdings VAT for Venezuela</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wh_iva.config</field>
+        <field name="view_id" ref="view_config_wh_vat"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- register configuration wizard -->
+    <record id="config_wizard_step_wh_vat" model="ir.actions.todo">
+        <field name="action_id" ref="action_config_wh_vat"/>
+        <field name="restart">always</field>
+        <field name="sequence">31</field>
+        <field name="groups_id" eval="[(6,0,[ref('base.group_extended')])]"/>
+    </record>
   </data>
 </openerp>
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences type for account.wh.iva --> 
+
+        <record id="seq_type_account_wh_iva" model="ir.sequence.type">
+            <field name="name">Withholding vat</field>
+            <field name="code">account.wh.iva</field>
+        </record>
+
+        <record id="seq_type_account_wh_iva_purchase" model="ir.sequence.type">
+            <field name="name">Withholding vat purchase</field>
+            <field name="code">account.wh.iva.in_invoice</field>
+        </record>
+
+        <!-- Sequences for account.wh.iva --> 
+
+        <record id="seq_account_wh_iva" model="ir.sequence">
+            <field name="name">Withholding vat</field>
+            <field name="code">account.wh.iva</field>
+            <field name="prefix">RE:</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_account_wh_iva_purchase" model="ir.sequence">
+            <field name="name">Withholding vat purchase</field>
+            <field name="code">account.wh.iva.in_invoice</field>
+            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!--
+        Journal
+        -->
+        <record id="withholding_purchase_journal" model="account.journal">
+            <field name="name">DIARIO DE vat COMPRA</field>
+            <field name="code">vatC</field>
+            <field name="type">iva_purchase</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_account_wh_iva_purchase"/>
+        </record>
+        
+        <record id="withholding_sale_journal" model="account.journal">
+            <field name="name">DIARIO DE vat VENTA</field>
+            <field name="code">vatS</field>
+            <field name="type">iva_sale</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_account_wh_iva"/>
+        </record>
+        
+    </data>
+</openerp>
