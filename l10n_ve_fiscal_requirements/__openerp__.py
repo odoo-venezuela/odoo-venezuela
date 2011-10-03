@@ -51,7 +51,9 @@
          - If you need to withhold ISLR, you must install the module mentioned abofe
 
     """,
-    'init_xml': [],
+    'init_xml': [
+        'data/l10n_ut_data.xml',
+    ],
     "depends" : ["base", "base_vat", "purchase", "stock", "account"],
     'update_xml': [
         'view/stock_view.xml',
