@@ -338,6 +338,7 @@
             <field eval="&quot;&quot;&quot;PERCHO, C.A.&quot;&quot;&quot;" name="name"/>
             <field name="property_account_receivable" ref="account.a_recv"/>
             <field name="property_account_payable" ref="account.a_pay"/>
+            <field eval="1" name="islr_withholding_agent"/>
         </record>
 
         <record id="res_partner_2" model="res.partner">
@@ -351,6 +352,7 @@
             <field eval="&quot;&quot;&quot;MIGUEL P PEREZ L.&quot;&quot;&quot;" name="name"/>
             <field name="property_account_receivable" ref="account.a_recv"/>
             <field name="property_account_payable" ref="account.a_pay"/>
+            <field eval="1" name="islr_withholding_agent"/>
         </record>
 
         <record id="res_partner_3" model="res.partner">
@@ -365,6 +367,7 @@
             <field eval="1" name="islr_withholding_agent"/>
             <field name="property_account_receivable" ref="account.a_recv"/>
             <field name="property_account_payable" ref="account.a_pay"/>
+            <field eval="1" name="islr_withholding_agent"/>
         </record>
 
         <record id="res_partner_4" model="res.partner">
@@ -378,6 +381,7 @@
             <field eval="&quot;&quot;&quot;MIRANDA MIRANDA, C.A.&quot;&quot;&quot;" name="name"/>
             <field name="property_account_receivable" ref="account.a_recv"/>
             <field name="property_account_payable" ref="account.a_pay"/>
+            <field eval="1" name="islr_withholding_agent"/>
         </record>
 
         <!--
