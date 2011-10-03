@@ -96,7 +96,7 @@
 
         <menuitem name="Generar TXT" 
             id="menu_action_generate_txt_iva" 
-            parent="l10n_ve_withholding.menu_wh_suppiler"
+            parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting"
             action="action_generate_text_iva"/>
 
     </data>

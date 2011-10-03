@@ -237,8 +237,8 @@
 
         <menuitem
             id="menu_action_account_wh_iva_customer"
-            name="Withholding vat customer"
-            parent="l10n_ve_withholding.menu_wh_customer"
+            name="Customer Withholding VAT "
+            parent="account.menu_finance_receivables"
             action="action_account_wh_iva_customer"/>
 
 
@@ -269,8 +269,8 @@
 
         <menuitem
             id="menu_action_account_wh_iva_supplier"
-            name="Withholding vat supplier"        
-            parent="l10n_ve_withholding.menu_wh_suppiler"
+            name="Supplier Withholding VAT "        
+            parent="account.menu_finance_payables"
             action="action_account_wh_iva_supplier"/>
 
     </data>

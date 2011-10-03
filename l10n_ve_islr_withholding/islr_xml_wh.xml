@@ -157,13 +157,13 @@
         
         <menuitem name="Generate file XML" 
             id="menu_action_xml_islr" 
-            parent="l10n_ve_withholding.menu_wh_suppiler"
+            parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting"
             action="action_xml_islr"/>
 
     </data>
 </openerp>
 
-
+<!--            parent="l10n_ve_withholding.menu_wh_suppiler"-->
 
 
 
