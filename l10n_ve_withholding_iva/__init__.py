@@ -22,6 +22,8 @@ import wh_iva
 import account
 import invoice
 import partner
+import generate_txt
+import report
 import res_company
 import installer
 

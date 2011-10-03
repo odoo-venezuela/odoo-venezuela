@@ -55,6 +55,7 @@ class res_partner(osv.osv):
     }
 
     def _load_url(self,retries,url):
+        print 'load'
         str_error= '404 Not Found'
         while retries > 0:
             try:
@@ -69,12 +70,11 @@ class res_partner(osv.osv):
         return str_error
 
     def _buscar_porcentaje(self,rif,url):
-        '''
-        Search percent of withholding connecting to SENIAT
-        '''
         context={}
+        print"esta pasando por aqui"
         html_data = self._load_url(3,url %rif)
         html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
+        print "html_data",html_data
         self._eval_seniat_data(html_data,context)
         search_str='La condición de este contribuyente requiere la retención del '
         pos = html_data.find(search_str)
@@ -86,13 +86,13 @@ class res_partner(osv.osv):
             return 0.0
 
     def _parse_dom(self,dom,rif,url_seniat):
-        '''
-        Parsing data from SENIAT
-        '''
+        print 'entrando dom'
         name = dom.childNodes[0].childNodes[0].firstChild.data 
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         wh_rate = self._buscar_porcentaje(rif,url_seniat)
+        print "wh_rate",wh_rate
+        print 'nombre: ',name
         return {'name':name, 'wh_iva_agent':wh_agent,'vat_subjected':vat_apply,'wh_iva_rate':wh_rate}
 
     def _print_error(self, error, msg):
@@ -113,11 +113,13 @@ class res_partner(osv.osv):
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
     
     def update_rif(self, cr, uid, ids, context={}):
+        print 'entando update'
         for partner in self.browse(cr,uid,ids):
             url1=partner.company_id.url_seniat1_company+'%s'
             url2=partner.company_id.url_seniat2_company+'%s'
             xml_data = self._load_url(3,url1 %partner.vat[2:])
             self._eval_seniat_data(xml_data,context)
+            print 'xml_data',xml_data
             dom = parseString(xml_data)
             self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
         return True
