@@ -22,7 +22,7 @@
 import time
 from osv import fields, osv
 import decimal_precision as dp
-
+from tools.translate import _
 
 
 class account_invoice(osv.osv):
@@ -141,7 +141,7 @@ class account_invoice(osv.osv):
         wh_iva_obj = self.pool.get('account.wh.iva')
         for inv in self.browse(cr, uid, ids):
             if inv.wh_iva_id:
-                raise osv.except_osv('Invalid Action !', 'Withhold Invoice !')
+                raise osv.except_osv('Invalid Action !', _('This invoice is already withholded'))
             ret_line = []
             if inv.type in ('out_invoice', 'out_refund'):
                 acc_id = inv.partner_id.property_wh_iva_receivable.id
@@ -149,6 +149,9 @@ class account_invoice(osv.osv):
             else:
                 acc_id = inv.partner_id.property_wh_iva_payable.id
                 wh_type = 'in_invoice'
+                if not acc_id:
+                    raise osv.except_osv('Invalid Action !',\
+            _('You need to configure the partner with withholding accounts!'))
             
             ret_line.append(self.wh_iva_line_create(cr, uid, inv))
             ret_iva = {
@@ -156,7 +159,7 @@ class account_invoice(osv.osv):
                 'type': wh_type,
                 'account_id': acc_id,
                 'partner_id': inv.partner_id.id,
-                'retention_line':ret_line
+                'wh_lines':ret_line
             }
             ret_id = wh_iva_obj.create(cr, uid, ret_iva)
             self.write(cr, uid, [inv.id], {'wh_iva_id':ret_id})

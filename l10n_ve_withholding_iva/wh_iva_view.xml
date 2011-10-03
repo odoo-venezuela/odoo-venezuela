@@ -145,10 +145,11 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
-                            <field colspan="4" name="retention_line" nolabel="1" widget="one2many_list"/>
+                            <field colspan="4" name="wh_lines" nolabel="1" widget="one2many_list"/>
                             <group col="4" colspan="2">
                                 <field name="state"/>
-                                <button name="wh_iva_done" states="draft" string="Done" icon="gtk-execute"/>
+                                <button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/>
+                                <button name="wh_iva_confirmed" states="draft" string="Confirm" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
                                 <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>
@@ -189,7 +190,7 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
-                            <field colspan="4" name="retention_line" nolabel="1" widget="one2many_list"/>
+                            <field colspan="4" name="wh_lines" nolabel="1" widget="one2many_list"/>
                             <group col="4" colspan="2">
                                 <field name="state" select="2"/>
                                 <button name="wh_iva_done" states="draft" string="Realize" icon="gtk-execute"/>

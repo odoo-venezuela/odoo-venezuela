@@ -28,7 +28,10 @@ import decimal_precision as dp
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
-    def ret_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id, date, name, context=None):
+    def ret_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id, 
+                            period_id, pay_journal_id, writeoff_acc_id, 
+                            writeoff_period_id, writeoff_journal_id, date, 
+                            name, context=None):
         if context is None:
             context = {}
         #TODO check if we can use different period for payment and the writeoff line
