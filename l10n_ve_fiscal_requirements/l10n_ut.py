@@ -72,5 +72,3 @@ class l10n_ut(osv.osv):
         return money
 
 l10n_ut()
-
-
