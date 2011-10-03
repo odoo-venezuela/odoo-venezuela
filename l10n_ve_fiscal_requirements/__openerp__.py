@@ -56,7 +56,7 @@
     'init_xml': [
         'data/l10n_ut_data.xml',
     ],
-    "depends" : ["base", "base_vat", "purchase", "stock", "account"],
+    "depends" : ["base_vat", "purchase", "stock", "account", "account_accountant"],
     'update_xml': [
         'view/stock_view.xml',
         'view/account_invoice_view.xml',
