@@ -27,12 +27,13 @@
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
     "description": """Venezuelan Tax Laws Requirements:
-    - Invoice Control Number
-    - Tax-except
-    - Required address invoice
+    - Invoice Control Number.
+    - Tax-except concept
+    - Required address invoice.
     - Unique address invoice.
     - VAT verification for Venezuela rules.
     - Damaged "free forms" justification.
+    - Tax Units configuration.
     ---------------------------------------------------------------------------
     For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
     create the corresponding journal and account.
@@ -43,6 +44,7 @@
     ------------------------TECH INFO-------------------------------------------
     CHANGELOG:
        - For the migration to the l10n_ve on OpenERP:
+         - Added the functionality to configure Tax Units
          - Added the functionality to change the control number on an invoice (free form format)
          - Changed the Invoice Ref label to Control Number
          - Integrated the l10n_ve_nro_ctrl module functionality on this one
