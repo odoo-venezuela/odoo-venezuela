@@ -61,6 +61,7 @@
     ],
     "depends" : ["base_vat", "account", "account_accountant"],
     'update_xml': [
+        'security/ir.model.access.csv',
         'view/account_invoice_view.xml',
         'view/res_company_view.xml',
         'view/l10n_ut_view.xml',
