@@ -33,7 +33,7 @@ class account_wh_iva(osv.osv):
                 'total_tax_ret': 0.0
             }
             #cambiar por los campos no calculados
-            for line in retention.retention_line:
+            for line in retention.wh_lines:
                 res[retention.id]['total_tax_ret'] += line.amount_tax_ret
                 res[retention.id]['amount_base_ret'] += line.base_ret
 
@@ -76,6 +76,7 @@ class account_wh_iva(osv.osv):
             ],'Type', readonly=True, help="Withholding type"),
         'state': fields.selection([
             ('draft','Draft'),
+            ('confirmed','Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Withholding State"),
@@ -87,7 +88,7 @@ class account_wh_iva(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
-        'retention_line': fields.one2many('account.wh.iva.line', 'retention_id', 'Withholding vat lines', readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat lines"),
+        'wh_lines': fields.one2many('account.wh.iva.line', 'retention_id', 'Withholding vat lines', readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat lines"),
         'tot_amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),
         'tot_amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withholding tax vat"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
@@ -148,24 +149,27 @@ class account_wh_iva(osv.osv):
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_iva SET number=%s ' \
                         'WHERE id=%s', (number, id))
-
-
         return True
     
+    def action_date_ret(self,cr,uid,ids,context=None):
+        for wh in self.browse(cr, uid, ids, context):
+            wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
+        return True
 
-    def action_move_create(self, cr, uid, ids, *args):
+
+    def action_move_create(self, cr, uid, ids, context=None):
         inv_obj = self.pool.get('account.invoice')
         context = {}
 
-        for ret in self.browse(cr, uid, ids):
-            for line in ret.retention_line:
+        for ret in self.browse(cr, uid, ids, context):
+            for line in ret.wh_lines:
                 if line.move_id or line.invoice_id.wh_iva:
-                    raise osv.except_osv(_('Invoice already withhold !'),_("You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
+                    raise osv.except_osv(_('Invoice already withhold !'),\
+                    _("You must omit the follow invoice '%s' !") %\
+                    (line.invoice_id.name,))
                     return False
 
             acc_id = ret.account_id.id
-            if not ret.date_ret:
-                self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
 
             period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
@@ -174,30 +178,26 @@ class account_wh_iva(osv.osv):
                 if len(period_ids):
                     period_id = period_ids[0]
 
-            if ret.retention_line:
-                for line in ret.retention_line:
-                    writeoff_account_id = False
-                    writeoff_journal_id = False
+            if ret.wh_lines:
+                for line in ret.wh_lines:
+                    writeoff_account_id,writeoff_journal_id = False, False
                     amount = line.amount_tax_wh
                     if line.invoice_id.type in ['in_invoice','in_refund']:
                         name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
                     else:
                         name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(line.invoice_id.number)) or '')
-                    
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, ret.date_ret, name, context)
 
-                    # make the retencion line point to that move
+                    # make the withholding line point to that move
                     rl = {
                         'move_id': ret_move['move_id'],
                     }
                     lines = [(1, line.id, rl)]
-                    self.write(cr, uid, [ret.id], {'retention_line':lines, 'period_id':period_id})
-    
-
+                    self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
         return True
-    
+
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id):
         acc_id = False
@@ -219,7 +219,7 @@ class account_wh_iva(osv.osv):
         if ids:
             ret = self.browse(cr, uid, ids[0])
             inv_str = ''
-            for line in ret.retention_line:
+            for line in ret.wh_lines:
                 if line.invoice_id.partner_id.id != partner_id:
                     inv_str+= '%s'% '\n'+line.invoice_id.name
 
@@ -231,9 +231,9 @@ class account_wh_iva(osv.osv):
     def _new_check(self, cr, uid, values, context={}):
         lst_inv = []
 
-        if 'retention_line' in values and values['retention_line']:
+        if 'wh_lines' in values and values['wh_lines']:
             if 'partner_id' in values and values['partner_id']:
-                for l in values['retention_line']:
+                for l in values['wh_lines']:
                     if 'invoice_id' in l[2] and l[2]['invoice_id']:
                         lst_inv.append(l[2]['invoice_id'])
 
@@ -283,7 +283,7 @@ class account_wh_iva(osv.osv):
                 'tot_amount_base_wh': 0.0,
                 'tot_amount_tax_wh': 0.0
             }            
-            for line in retention.retention_line:
+            for line in retention.wh_lines:
                 res[retention.id]['tot_amount_base_wh'] += line.amount_base_wh
                 res[retention.id]['tot_amount_tax_wh'] += line.amount_tax_wh
         self.write(cr, uid, [retention.id], res[retention.id])        
