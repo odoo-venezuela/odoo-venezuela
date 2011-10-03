@@ -32,22 +32,24 @@
     - Required address invoice
     - Unique address invoice.
     - VAT verification for Venezuela rules.
-    - Damaged invoices justification.
+    - Damaged "free forms" justification.
     ---------------------------------------------------------------------------
-    For damaged invoices, you must go to the company and, under the configuration section,
+    For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
     create the corresponding journal and account.
 
+    If you install this module with invoice data on the database, the concept_id will be 
+    Empty for all those invoices, so, when you try to modify them you have to add a value on
+    that field
     ------------------------TECH INFO-------------------------------------------
     CHANGELOG:
        - For the migration to the l10n_ve on OpenERP:
+         - Added the functionality to change the control number on an invoice (free form format)
          - Changed the Invoice Ref label to Control Number
          - Integrated the l10n_ve_nro_ctrl module functionality on this one
          - Since the concept_id field is added by the l10n_ve_islr_withholding, an
            error es rised if it's not installed and it is necesary to withhold
          - If you need to withhold ISLR, you must install the module mentioned abofe
 
-    FURTHER DEVELOPMENT:
-       - Find a way to decouple this module and l10n_ve_islr_withholding
     """,
     'init_xml': [],
     "depends" : ["base", "base_vat", "purchase", "stock", "account"],
@@ -55,7 +57,8 @@
         'view/stock_view.xml',
         'view/account_invoice_view.xml',
         'view/res_company_view.xml',
-        'wizard/wizard_invoice_nro_ctrl_view.xml'
+        'wizard/wizard_invoice_nro_ctrl_view.xml',
+        'wizard/wizard_nro_ctrl_view.xml'
     ],
     'demo_xml': [],
     'test': [],
