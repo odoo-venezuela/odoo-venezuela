@@ -5,7 +5,9 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
+#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
+#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
+#              Javier Duran              <javier@nvauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -23,5 +25,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-import wizard_nro_ctrl
-import wizard_invoice_nro_ctrl
+
+import list_wh_iva
+

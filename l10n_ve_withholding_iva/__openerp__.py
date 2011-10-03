@@ -4,7 +4,7 @@
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    This module was developen by Vauxoo Team:
-#    Coded by: javier@vauxoo.com
+#    Coded by: javier@vauxoo.com and nhomar@vauxoo.com
 #
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -32,18 +32,23 @@
     'init_xml': [],
     "depends" : ["l10n_ve_withholding"],
     'update_xml': [
+
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
-        'res_company_view.xml',    
+        'generate_txt_view.xml',
+        'txt_wh_report.xml',
+        'res_company_view.xml',
         'account_invoice_view.xml',
         'account_view.xml',
-        'partner_view.xml',        
+        'partner_view.xml',
         'wh_iva_view.xml',
-        "wh_iva_sequence.xml",
+        "data/l10n_ve_withholding_data.xml",
         "wh_iva_workflow.xml",
         "account_workflow.xml",        
+        "l10n_ve_withholding_iva_installer.xml",
+        "account_workflow.xml",
     ],
-    'demo_xml': [],
+    'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
     'test': [],
     'installable': True,
     'active': False,

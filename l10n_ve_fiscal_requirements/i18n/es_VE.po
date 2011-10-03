@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-09-30 18:40+0000\n"
-"PO-Revision-Date: 2011-09-30 18:40+0000\n"
+"POT-Creation-Date: 2011-09-30 23:50+0000\n"
+"PO-Revision-Date: 2011-09-30 23:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,12 +29,12 @@ msgstr "Debe instalar el módulo para realizar retención de ISLR"
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,sin_cred:0
 msgid "Tax-exempt?"
-msgstr "Libre de impuesto?"
+msgstr "¿Libre de impuesto?"
 
 #. module: l10n_ve_fiscal_requirements
-#: view:wizard.invoice.nro.ctrl:0
-msgid "Create an invoice to justify the damaged one"
-msgstr "Crear una factura para justificar otra dañada"
+#: view:wiz.nroctrl:0
+msgid "Confirm"
+msgstr "Confirm"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:res.company:0
@@ -48,14 +48,26 @@ msgid "Please confirm that you know what you're doing by checking the option bel
 msgstr "Por favor, confirme que está seguro de que desea hacer esto!"
 
 #. module: l10n_ve_fiscal_requirements
-#: constraint:res.company:0
-msgid "Error! You can not create recursive companies."
-msgstr "Error! no puede crear compañías recursivas."
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.wizard_invoice_nro_control
+msgid "Create null paper"
+msgstr "Crear papel dañado"
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:42
+#, python-format
+msgid "Please confirm that you want to do this by checking the option"
+msgstr "Por favor, confirme que desea hacer esto marcando la opción"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Create Invoice"
 msgstr "Crear Factura"
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:48
+#, python-format
+msgid "You cannot change the state of a Draft invoice"
+msgstr "No puede cambiar una factura en Borrador"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.module.module,shortdesc:l10n_ve_fiscal_requirements.module_meta_information
@@ -65,7 +77,12 @@ msgstr "Requerimientos fiscales de las Leyes Venezolanas"
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_stock_picking
 msgid "Picking List"
-msgstr "Lista de picking"
+msgstr "Albarán"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:wiz.nroctrl,sure:0
+msgid "Are you sure?"
+msgstr "¿Está seguro?"
 
 #. module: l10n_ve_fiscal_requirements
 #: constraint:res.partner.address:0
@@ -95,6 +112,11 @@ msgid "ERROR !"
 msgstr "ERROR !"
 
 #. module: l10n_ve_fiscal_requirements
+#: view:wiz.nroctrl:0
+msgid "Changing the Control Number"
+msgstr "Cambio de número de control"
+
+#. module: l10n_ve_fiscal_requirements
 #: field:res.company,journal_id:0
 msgid "Journal"
 msgstr "Diario"
@@ -106,9 +128,20 @@ msgstr "Código para control interno de facturas"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,nro_ctrl:0
+#: field:wiz.nroctrl,name:0
 #: field:wizard.invoice.nro.ctrl,nro_ctrl:0
 msgid "Control Number"
 msgstr "Número de control"
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.model,name:l10n_ve_fiscal_requirements.model_wiz_nroctrl
+msgid "Wizard that changes the invoice control number"
+msgstr "Asistemte para cambiar el número de control"
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.change_nro_ctrl_act
+msgid "Change Control Number"
+msgstr "Cambiar el número de control"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:res.company:0
@@ -126,14 +159,14 @@ msgid "Account"
 msgstr "Cuenta"
 
 #. module: l10n_ve_fiscal_requirements
-#: constraint:res.partner:0
-msgid "Error ! The partner does not have an invoice address. "
-msgstr "Error ! Este cliente no posée una dirección fiscal. "
+#: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.wizard_invoice_nro_control
-msgid "Create null paper"
-msgstr "Crear papel dañado"
+#: constraint:res.company:0
+msgid "Error! You can not create recursive companies."
+msgstr "Error! no puede crear compañías recursivas."
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_company
@@ -149,11 +182,13 @@ msgstr "Este cliente no tiene una dirección fiscal"
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_purchase_order
 msgid "Purchase Order"
-msgstr "Orden de compra"
+msgstr "Pedido de compra"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:113
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:117
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:42
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:48
 #, python-format
 msgid "Error!"
 msgstr "Error!"
@@ -164,9 +199,15 @@ msgid "wizard.invoice.nro.ctrl"
 msgstr "wizard.invoice.nro.ctrl"
 
 #. module: l10n_ve_fiscal_requirements
+#: view:wiz.nroctrl:0
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Are you sure you want to do this?"
-msgstr "¿Está seguro de que desea hacer esto?"
+msgstr "¿Está seguro que desea hacer esto?"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:wizard.invoice.nro.ctrl:0
+msgid "Create an invoice to justify the damaged one"
+msgstr "Crear una factura para justificar otra dañada"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice,sin_cred:0
@@ -195,9 +236,9 @@ msgid "You must go to the company form and configure a journal and an account fo
 msgstr "Debe ir a la compañía y configurar un diario y una cuenta para facturas dañadas"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+#: constraint:res.partner:0
+msgid "Error ! The partner does not have an invoice address. "
+msgstr "Error ! Este cliente no posée una dirección fiscal. "
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.module.module,description:l10n_ve_fiscal_requirements.module_meta_information
@@ -224,31 +265,32 @@ msgid "Venezuelan Tax Laws Requirements:\n"
 "    FURTHER DEVELOPMENT:\n"
 "       - Find a way to decouple this module and l10n_ve_islr_withholding\n"
 "    "
-msgstr "Requerimientos fiscales de las Leyes Venezolanas:\n"
-"    - Número de control para facturas\n"
-"    - Excento de impuesto\n"
-"    - Se requiere de una dirección fiscal\n"
-"    - Dirección de facturación única.\n"
-"    - Verificación de RIF.\n"
-"    - Justificación de facturas dañadas.\n"
+msgstr "Venezuelan Tax Laws Requirements:\n"
+"    - Invoice Control Number\n"
+"    - Tax-except\n"
+"    - Required address invoice\n"
+"    - Unique address invoice.\n"
+"    - VAT verification for Venezuela rules.\n"
+"    - Damaged invoices justification.\n"
 "    ---------------------------------------------------------------------------\n"
-"    Para justificar facturas dañadas, debe ir a la compañía y, en la pestaña de Configuración,\n"
-"    crear el diario y la cuenta cosrrespondiente.\n"
+"    For damaged invoices, you must go to the company and, under the configuration section,\n"
+"    create the corresponding journal and account.\n"
 "\n"
-"    ------------------------Info Técnica-------------------------------------------\n"
+"    ------------------------TECH INFO-------------------------------------------\n"
 "    CHANGELOG:\n"
-"       - Para la migración de la localización a la versión 6:\n"
-"         - Se cambió la etiqueta de referencia de factura a Número de Control\n"
-"         - Se integró la funcionalidad del módulo l10n_invoice_nro_ctrl\n"
-"         - Debido a que el campo concept_id es agregado por el módulo l10n_ve_islr_withholding, se genera un\n"
-"           error si dicho módulo no está instalado, es decir, si el campo no existe\n"
-"         - Si necesita retener ISLR, debe instalar el módulo mencionado anteriormente\n"
+"       - For the migration to the l10n_ve on OpenERP:\n"
+"         - Changed the Invoice Ref label to Control Number\n"
+"         - Integrated the l10n_ve_nro_ctrl module functionality on this one\n"
+"         - Since the concept_id field is added by the l10n_ve_islr_withholding, an\n"
+"           error es rised if it's not installed and it is necesary to withhold\n"
+"         - If you need to withhold ISLR, you must install the module mentioned abofe\n"
 "\n"
-"    Desarrollos futuros:\n"
-"       - Desacoplar este módulo y el de retención de ISLR\n"
+"    FURTHER DEVELOPMENT:\n"
+"       - Find a way to decouple this module and l10n_ve_islr_withholding\n"
 "    "
 
 #. module: l10n_ve_fiscal_requirements
+#: view:wiz.nroctrl:0
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Cancel"
 msgstr "Cancelar"
@@ -256,10 +298,10 @@ msgstr "Cancelar"
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_partner
 msgid "Partner"
-msgstr "Cliente"
+msgstr "Empresa"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_partner_address
 msgid "Partner Addresses"
-msgstr "Direcciones de Clientes"
+msgstr "Direcciones de empresa"
 

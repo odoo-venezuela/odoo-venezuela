@@ -32,6 +32,24 @@
             <field name="number_increment">1</field>
         </record>
 
-
+        <!--
+        Journal
+        -->
+        <record id="withholding_purchase_journal" model="account.journal">
+            <field name="name">DIARIO DE vat COMPRA</field>
+            <field name="code">vatC</field>
+            <field name="type">iva_purchase</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_account_wh_iva_purchase"/>
+        </record>
+        
+        <record id="withholding_sale_journal" model="account.journal">
+            <field name="name">DIARIO DE vat VENTA</field>
+            <field name="code">vatS</field>
+            <field name="type">iva_sale</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_account_wh_iva"/>
+        </record>
+        
     </data>
 </openerp>
