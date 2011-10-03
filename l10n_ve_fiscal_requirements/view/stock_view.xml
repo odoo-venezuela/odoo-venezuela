@@ -12,8 +12,6 @@
                 </xpath>
             </field>
         </record>
-
-
         <record id="stock_picking_out_form_loc_ve" model="ir.ui.view">
             <field name="name">stock.picking.out.form.loc_ve</field>
             <field name="model">stock.picking</field>
@@ -25,9 +23,6 @@
                 </xpath>
             </field>
         </record>
-
-
-
         <record id="stock_picking_in_form_loc_ve" model="ir.ui.view">
             <field name="name">stock.picking.in.form.loc_ve</field>
             <field name="model">stock.picking</field>
@@ -39,7 +34,5 @@
                 </xpath>
             </field>
         </record>
-
-       
     </data>
 </openerp>
