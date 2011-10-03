@@ -5,7 +5,7 @@
                                             res_bank
 -->    
     
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="res_bank_mercantil" model="res.bank">
             <field eval="&quot;&quot;&quot;Mercantil&quot;&quot;&quot;" name="name"/>
             <field eval="500.0" name="max_lim"/>

@@ -88,7 +88,7 @@
              <field name="arch" type="xml">
                 <form string="Geneneracion de Cheque">
                       <group colspan="4" col="4" string="Cheque">
-                            <field name="accounting_bank_id" readonly="1" required="0" />
+                            <field name="accounting_bank_id" readonly="0" required="0" />
                             <field name="bank_id" required="0"/>
                             <field name="partner_id" required="0"/>
                             <field name="payee_id" required="0"/>
@@ -99,7 +99,7 @@
                       <hpaned/> 
                       <group colspan="2" col="3">
                             <hpaned/> 
-                            <button name="%(voucher_pay_support_report)d" string='Imprimir Cheque' type="action" icon='gtk-print' />
+                            <button name="%(check_fmt_report)d" string='Imprimir Cheque' type="action" icon='gtk-print' />
                             <hpaned/> 
                       </group>
                       <hpaned/> 

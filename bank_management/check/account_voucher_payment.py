@@ -71,13 +71,13 @@ class account_voucher_line(osv.osv):
         res = {'value' : {'account_id':account_id,'amount':abs(account_balance),}}
         return res
 
-    def onchange_invoice_id(self, cr, uid, ids, inv_id, context=None):
-        invoice_obj = self.pool.get('account.invoice')
-        invoice_brw = invoice_obj.browse(cr,uid,inv_id,context)
-        inv_residual = invoice_brw.residual
-        aml = self.move_line_id_payment_get(cr, uid, [inv_id])
-        res = {'value' : {'amount':inv_residual,'move_line_id':aml[0]}}
-        return res
+#    def onchange_invoice_id(self, cr, uid, ids, inv_id, context=None):
+#        invoice_obj = self.pool.get('account.invoice')
+#        invoice_brw = invoice_obj.browse(cr,uid,inv_id,context)
+#        inv_residual = invoice_brw.residual
+#        aml = self.move_line_id_payment_get(cr, uid, [inv_id])
+#        res = {'value' : {'amount':inv_residual,'move_line_id':aml[0]}}
+#        return res
 
 account_voucher_line()
 
@@ -135,10 +135,10 @@ class account_voucher(osv.osv):
         
         return True
 
-    def proforma_voucher(self, cr, uid, ids, context=None):
-        #~ self.action_move_line_create(cr, uid, ids, context=context)
-        self.validate_amount(cr,uid,ids,context=context)
-        return True
+#    def proforma_voucher(self, cr, uid, ids, context=None):
+#        #~ self.action_move_line_create(cr, uid, ids, context=context)
+#        self.validate_amount(cr,uid,ids,context=context)
+#        return True
 
 
 
@@ -153,7 +153,8 @@ class account_voucher(osv.osv):
             for aml in data[data.keys()[0]]['line_ids']:
                 if aml.get('move_line_id',False):
                     aml_brw = move_line_pool.browse(cr, uid, aml['move_line_id'], context=context)
-                    aml.update({'invoice_id':aml_brw.invoice.id, 'partner_id':parm['partner_id']})
+                    residual_amount = aml['amount_unreconciled'] - aml['amount']
+                    aml.update({'invoice_id':aml_brw.invoice.id, 'partner_id':parm['partner_id'], 'amount_residual':residual_amount})
                     aml_lst.append(aml)
                     if aml['type'] == 'cr':
                         aml_cr_lst.append(aml)
@@ -161,7 +162,7 @@ class account_voucher(osv.osv):
                         aml_dr_lst.append(aml)
 
             data[data.keys()[0]].update({'line_ids':aml_lst,'line_cr_ids':aml_cr_lst,'line_dr_ids':aml_dr_lst})
-        print 'data: despues: ',data
+        #print 'data: despues: ',data
         return data
 
     def onchange_partner_id(self, cr, uid, ids, partner_id, journal_id, price, currency_id, ttype, date, context=None):

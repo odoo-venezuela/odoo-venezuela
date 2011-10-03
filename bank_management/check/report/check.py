@@ -42,10 +42,10 @@ class report_check_voucher_pay(report_sxw_ext.rml_parse): #nuevo
         self.contecito = context
         self.localcontext.update({
             'time': time,
-            'obt_texto':self.obt_texto                      ,
-            'get_beneficiario':self.get_beneficiario        ,
-            'get_monto':self.get_monto                      ,
-            'get_fecha': self.get_fecha                     ,
+            'obt_texto':self.obt_texto,
+            'get_beneficiario':self.get_beneficiario,
+            'get_monto':self.get_monto,
+            'get_fecha': self.get_fecha,
         })
         
     def obt_texto(self):
@@ -119,8 +119,8 @@ class report_check_voucher_pay(report_sxw_ext.rml_parse): #nuevo
 report_sxw_ext.report_sxw( #nuevo
 #report_sxw.report_sxw( #original
     'report.check_print',
-    'voucher.pay.support.wizard'                          ,
-    'addons/account_voucher_pay_order/report/check.rml'   ,
-    parser=report_check_voucher_pay                       ,
+    'voucher.pay.support.wizard',
+    'addons/bank_management/check/report/check.rml',
+    parser=report_check_voucher_pay,
     header = False 
 )

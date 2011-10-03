@@ -8,7 +8,7 @@
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Angelica Barrios          <angélicaisabelb@gmail.com>
 #              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javieredm@gmail.com>             
+#              Javier Duran              <javier.duran@netquatro.com>             
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -25,17 +25,28 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+##############################################################################
 
-import res_company
-import check_book
-import check_note
-import check_book_wizard
-import check_book_request
-import voucher_pay_support
-import account_voucher_payment
-import account
-import report
-import wizard
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from osv import osv
+from osv import fields
+from tools.translate import _
+from tools import config
+
+
+class res_company(osv.osv):
+    _inherit = "res.company"
+    
+    _columns = {
+    'expiry':fields.integer('Dias de Caducidad', readonly=False, required=True),
+    'transitory': fields.boolean('Cuenta Transitoria', help="Manejo de Cuentas Transitorias"),
+    }
+    _defaults = {
+        'expiry': lambda *a: 30,
+    }
+res_company()
+
+
+
+
+
