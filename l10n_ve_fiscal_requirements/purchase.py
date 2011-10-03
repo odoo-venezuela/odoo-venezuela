@@ -26,7 +26,7 @@ class purchase_order(osv.osv):
     _inherit='purchase.order'
 
     '''
-    Return address invoice by default
+    Return invoicing address by default
     '''
     def onchange_partner_id(self, cr, uid, ids, part):
         if not part:

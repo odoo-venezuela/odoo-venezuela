@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import purchase
+#import purchase
 import stock
 import invoice
 import partner
