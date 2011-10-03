@@ -57,8 +57,9 @@
         'view/stock_view.xml',
         'view/account_invoice_view.xml',
         'view/res_company_view.xml',
+        'view/l10n_ut_view.xml',
         'wizard/wizard_invoice_nro_ctrl_view.xml',
-        'wizard/wizard_nro_ctrl_view.xml'
+        'wizard/wizard_nro_ctrl_view.xml',
     ],
     'demo_xml': [],
     'test': [],
