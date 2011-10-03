@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-        <data noupdate="0">
+        <data noupdate="1">
             <record id="l10n_ut_data_2011" model="l10n.ut">
             <field name="name">39.623</field>
             <field name="date">2011-03-01</field>
