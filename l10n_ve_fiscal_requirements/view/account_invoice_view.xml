@@ -107,6 +107,6 @@
                 </xpath>
             </field>
         </record>
-
+        <menuitem id="menu_venezuela_reporting" name="Venezuela Reports" parent="account.menu_finance_legal_statement"/>
     </data>
 </openerp>

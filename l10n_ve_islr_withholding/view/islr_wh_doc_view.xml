@@ -325,7 +325,7 @@
         <menuitem
             id="menu_action_wh_islr_customer"
             name="Customer Withholding Income"
-            parent="l10n_ve_withholding.menu_wh_customer"
+            parent="account.menu_finance_receivables"
             action="action_wh_islr_customer"/>
 
         <record model="ir.actions.act_window" id="action_wh_islr_supplier">
@@ -356,7 +356,7 @@
         <menuitem
             id="menu_action_wh_islr_supplier"
             name="Supplier Withholding Income" 
-            parent="l10n_ve_withholding.menu_wh_suppiler"
+            parent="account.menu_finance_payables"
             action="action_wh_islr_supplier"/>
 
     </data>
