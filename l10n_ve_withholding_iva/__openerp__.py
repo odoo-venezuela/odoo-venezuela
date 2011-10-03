@@ -32,16 +32,20 @@
     'init_xml': [],
     "depends" : ["l10n_ve_withholding"],
     'update_xml': [
+
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
-        'res_company_view.xml',    
+        'generate_txt_view.xml',
+        'txt_wh_report.xml',
+        'res_company_view.xml',
         'account_invoice_view.xml',
         'account_view.xml',
-        'partner_view.xml',        
+        'partner_view.xml',
         'wh_iva_view.xml',
         "wh_iva_sequence.xml",
         "wh_iva_workflow.xml",
-        "account_workflow.xml",        
+        "account_workflow.xml",
+
     ],
     'demo_xml': [],
     'test': [],
