@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_finance_partner_fiscal_information" name="Partner Fiscal Information" parent="account.menu_finance"/>
+        <menuitem id="menu_finance_partner_fiscal_information" name="Partner Fiscal Information" parent="account.menu_finance" groups="account.group_account_manager"/>
 
         <record id="view_wizard_update_info_partner" model="ir.ui.view">
             <field name="name">view.update.info.partner</field>
