@@ -103,25 +103,42 @@ class res_partner(osv.osv):
         if xml_data.find('450')>=0:
             if not 'all_rif' in context:
                 self._print_error(_('Vat Error !'),_('Invalid VAT!'))
+            else:
+                return True
 
         if xml_data.find('452')>=0:
             if not 'all_rif' in context:
                 self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+            else:
+                return True
 
         if xml_data.find("404")>=0:
             if not 'all_rif' in context:
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
+            else:
+                return True
     
     def update_rif(self, cr, uid, ids, context={}):
         print 'entando update'
         for partner in self.browse(cr,uid,ids):
             url1=partner.company_id.url_seniat1_company+'%s'
             url2=partner.company_id.url_seniat2_company+'%s'
-            xml_data = self._load_url(3,url1 %partner.vat[2:])
-            self._eval_seniat_data(xml_data,context)
-            print 'xml_data',xml_data
-            dom = parseString(xml_data)
-            self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+            print "URL1",url1
+            print "URL2",url2
+            if partner.vat:
+                xml_data = self._load_url(3,url1 %partner.vat[2:])
+                print self._eval_seniat_data(xml_data,context)
+                if not self._eval_seniat_data(xml_data,context):
+                    print "entro en el if"
+                    print 'xml_data',xml_data
+                    dom = parseString(xml_data)
+                    self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                else:
+                    print "entro en el else"
+                    return False
+            else:
+                if not 'all_rif' in context:
+                    self._print_error(_('Vat Error !'),_('The field vat is empty'))
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
@@ -129,7 +146,7 @@ class res_partner(osv.osv):
             ctx = context.copy()
             ctx.update({'all_rif': True})
         for partner in self.browse(cr,uid,ids):
-            self. update_rif(cr, uid, [partner.id], context=ctx)
+            self.update_rif(cr, uid, [partner.id], context=ctx)
 
         return True
     
