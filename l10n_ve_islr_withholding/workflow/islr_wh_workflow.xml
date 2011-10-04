@@ -50,7 +50,7 @@ write({'state':'cancel'})</field>
         <record id="trans_draft_confirmed" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_confirmed"/>
-            <field name="condition">type=='in_invoice' and invoice_ids and concept_ids</field>
+            <field name="condition">validate(type,concept_ids,invoice_ids)</field>
         </record>
         
         <record id="trans_draft_progress" model="workflow.transition">

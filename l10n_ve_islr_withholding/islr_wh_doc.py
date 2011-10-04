@@ -127,8 +127,13 @@ class islr_wh_doc(osv.osv):
         'user_id': lambda s, cr, u, c: u,
     }
 
+    def validate(self, cr,uid,ids,*args):
+        print 'ARGS', args
+
+        if args[0]=='in_invoice' and args[1] and args[2]:
+            return True
+
     def action_process(self,cr,uid,ids, *args):
-        
         inv_obj=self.pool.get('account.invoice')
         context = {}
         wh_doc_brw = self.browse(cr, uid, ids, context=None)
@@ -148,10 +153,7 @@ class islr_wh_doc(osv.osv):
         inv_obj = self.pool.get('account.invoice')
         inv_line_obj = self.pool.get('account.invoice.line')
         
-        #~ wh_doc_id = self.browse(cr, uid, ids, ids[0])[0].id
-        print 'WH_DOC_ID', ids
         wh_doc_id = ids[0]
-        
         wh_line_list = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
         line_obj.unlink(cr,uid,wh_line_list)
         
@@ -164,10 +166,6 @@ class islr_wh_doc(osv.osv):
         inv_line_list = inv_line_obj.search(cr,uid,[('invoice_id','in',inv_list)])
         inv_line_obj.write(cr, uid, inv_line_list, {'apply_wh':False})
         
-        
-        
-        
-        #~ self.write(cr, uid, ids, {'state':'to_process'})
         return True
 
     def retencion_seq_get(self, cr, uid, context=None):
@@ -241,13 +239,10 @@ class islr_wh_doc(osv.osv):
         for ret in ret_brw:
             for ret_line in ret.concept_ids:
                 account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
-                print 'Putting right information about cancel process'
                 #~ Putting right information about cancel process
                 account_move_obj.write(cr,uid,[ret_line.move_id.id],{'ref':'Canceled by wh islr workflow %s'%ret_line.move_id.ref})
-                print 'Deleting relation from the line'
                 #~ Deleting relation from the line
                 self.write(cr,uid,ids,{'move_id':False})
-                print 'LISTo'
                 #~ delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
         return True
         
