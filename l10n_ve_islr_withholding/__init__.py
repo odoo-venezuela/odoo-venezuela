@@ -32,4 +32,5 @@ import invoice
 import islr_wh_doc
 import islr_xml_wh
 import partner
+import product
 import report
