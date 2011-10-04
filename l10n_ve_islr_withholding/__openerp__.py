@@ -47,7 +47,7 @@
                     3.- Create the journal of type: islr.
                     --------------------CHANGELOG-------------------------------------
                     Oct 4, 2011:
-                     - Decoupled this module by eliminating dependencies con product, purchase, sale and stock.
+                     - Decoupled this module by eliminating dependencies with purchase, sale and stock.
                    ''',
     "depends" : ["account", "l10n_ve_withholding", "product"],
     "init_xml" : [],
