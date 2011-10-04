@@ -20,7 +20,7 @@
 ##############################################################################
 
 from osv import fields, osv
-
+from tools.translate import _
 
 class res_partner_address(osv.osv):
     _inherit='res.partner.address'
@@ -75,15 +75,16 @@ class res_partner(osv.osv):
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
     
+
+    
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
-        print " paseeeeee por aquiiiiiiiii"
         warning = {'Tittle':'Vat Error !','Message':'You try to put a VAT already existant !'}
-        
-        res = self.pool.get('res.partner').search(cr, uid, [('vat', '=', value)])[0]
-        if res:
-            return warning
+        res = self.pool.get('res.partner').search(cr, uid, [('vat', '=', value)])
+        print "esto es el len",len(res)
+        if len(res)>=1:
+            raise osv.except_osv(_('Vat Error !'),_('Invalid VAT. This vat is alredy used'))
         else:
-            return super(res_partner,self).vat_change(self, cr, uid, ids, value, context=None)
+            return super(res_partner,self).vat_change(cr, uid, ids, value, context=None)
 
     def check_vat_ve(self, vat):
         '''
