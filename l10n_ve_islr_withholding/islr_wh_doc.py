@@ -33,7 +33,6 @@ import time
 import datetime
 import decimal_precision as dp
 
-
 class islr_wh_doc(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
