@@ -52,7 +52,6 @@
                     "purchase",
                     "sale",
                     "l10n_ve_withholding",
-                    "l10n_ve_ut",
                 ],
     "init_xml" : [],
     "demo_xml":[
