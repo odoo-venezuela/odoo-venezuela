@@ -1,0 +1,2 @@
+1.- Eliminated the dependency on purchase, files involved: purchase.py, this file has a method that returns the partners invoicing address.
+2.- Eliminated the dependency with stock, files involved: stock_view.xml. This overrides the stock.picking view to show a control number (nro_ctrl) atribute and stock.py that adds that attribute on the model

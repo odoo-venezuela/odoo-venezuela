@@ -15,19 +15,15 @@
                 </form>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="change_nro_ctrl_act">
-            <field name="name">Change Control Number</field>
-            <field name="res_model">wiz.nroctrl</field>
-            <field name="src_model">account.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-        <act_window
-            id="change_nro_ctrl_act"
-            res_model="wiz.nroctrl"
+        <act_window 
+            name="Change control number"  
+            res_model="wiz.nroctrl" 
             src_model="account.invoice"
-            name="Change Control Number" />
+            view_mode="form"
+            key2="client_action_multi"
+            target="new" 
+            id="action_wiz_nroctrl"
+        />
     </data>
 </openerp>
 

@@ -105,9 +105,13 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         wizard_brw = self.browse(cr, uid, ids, context=None)
         wizard_deli_obj = self.pool.get('wz.picking.delivery.note')
         inv_id = context['active_id']
-        invoice_obj = self.pool.get('account.invoice')
-        inv_brw = invoice_obj.browse(cr,uid,inv_id,context)
-
+        if context['menu']:
+            invoice_obj = self.pool.get('account.invoice')
+            inv_brw = invoice_obj.browse(cr, uid, invoice_obj.search(cr, uid, [], limit=1), context)
+        if inv_brw == []:
+            raise osv.except_osv(_("ERROR !"), _("You must have created at least one invoice to declare it as damaged"))
+        inv_id = inv_brw[0].id
+        inv_brw = inv_brw[0]
         for wizard in wizard_brw:
             if not wizard.sure:
                 raise osv.except_osv(_("Error!"), _("Please confirm that you know what you're doing by checking the option bellow!"))

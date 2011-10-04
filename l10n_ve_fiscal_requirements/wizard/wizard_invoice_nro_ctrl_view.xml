@@ -17,26 +17,18 @@
                 </form>
             </field>
         </record>
-
-        <act_window 
-            name="Generate null paper"  
-            res_model="wizard.invoice.nro.ctrl" 
-            src_model="account.invoice"
-            view_mode="form"
-            key2="client_action_multi"
-            target="new" 
-            id="menu_create_invoice_duplicate" 
-        />
-
-        <record id="wizard_invoice_nro_control" model="ir.actions.act_window">
+        <record id="wizard_invoice_nro_control_action" model="ir.actions.act_window">
             <field name="name">Create null paper</field>
             <field name="res_model">wizard.invoice.nro.ctrl</field>
-            <field name="src_model">wizard.invoice.nro.ctrl</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_wizard_invoice_nro_ctrl"/>
             <field name="target">new</field>
+            <field name="context">{'menu': True}</field>
         </record>
-
+        <menuitem name="Declare damaged paper" id="wizard_invoice_nro_ctrl_action" 
+            parent="account.menu_finance_receivables" action="wizard_invoice_nro_control_action"
+            sequence="200"
+        />
     </data>
 </openerp>
