@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+        #----------------------------------------------
+        # Activity
+        #----------------------------------------------
+
+
+        <!-- Added-->
+        <record id="act_withold_islr" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">Withholding Islr</field>
+            <field name="kind">subflow</field>
+            <field name="subflow_id" ref="wh_islr_order"/>
+            <field name="action">action_ret_islr()</field>
+        </record>
+
+        
+        #----------------------------------------------
+        # Transitions
+        #----------------------------------------------
+
+<!--        <record id="account.t8" model="workflow.transition">-->
+            <!-- Modified -->
+            <!--<field name="act_from" ref="act_open"/>-->
+<!--            <field name="act_from" ref="account.act_withold_islr"/>-->
+<!--        </record>-->
+<!--        From Open to Withholdings-->
+        <record id="trans_open_wh_islr" model="workflow.transition">
+            <field name="act_from" ref="account.act_open"/>
+            <field name="act_to" ref="act_withold_islr"/>
+            <field name="condition">True</field>
+            <field name="signal"></field>
+        </record>
+<!--        From Withholdings to paid-->
+
+        <record id="trans_withhold_paid" model="workflow.transition">
+            <field name="act_from" ref="act_withold_islr"/>
+            <field name="act_to" ref="account.act_paid"/>
+            <field name="signal"></field>
+            <field name="condition">test_paid()</field>
+        </record>
+
+
+</data>
+</openerp>

@@ -455,7 +455,10 @@ class account_invoice(osv.osv):
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
         
         return journal_id[0] or None
-    
+
+    def button_confirm(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state': 'confirmed'})
+
     def _create_islr_wh_doc(self,cr,uid,inv_brw,dict):
         '''
         Funcion para crear en el modelo islr_wh_doc
@@ -475,8 +478,9 @@ class account_invoice(osv.osv):
         'journal_id': self.get_journal(cr,uid,inv_brw),})
         
         wf_service = netsvc.LocalService("workflow")
-        print 'wf service', str(dir(wf_service))
-        wf_service.trg_write(uid, 'islr.wh.doc', islr_wh_doc_id, cr)
+#        print 'wf service', str(dir(wf_service))
+        wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id, 'button_confirm', cr)
+#        wf_service.trg_write(uid, 'islr.wh.doc', islr_wh_doc_id, cr)
         return islr_wh_doc_id
 
 
@@ -569,11 +573,11 @@ class account_invoice(osv.osv):
                 pass
         else:
             pass
-        return True
+        return islr_wh_doc_id
 
 
     def action_ret_islr(self, cr, uid, ids, context={}):
-        invoices_brw = self.browse(cr, uid, ids, context=None)
+        invoices_brw = self.browse(cr, uid, ids, context)
         wh_doc_list = []
         for invoice in invoices_brw:
             wh_doc_list = self.pool.get('islr.wh.doc.invoices').search(cr,uid,[('invoice_id','=',invoice.id)])  
@@ -593,12 +597,12 @@ class account_invoice(osv.osv):
                         dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
                         dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature) # Retorna el dict con todos los datos de la retencion por linea de factura.
-                        self._logic_create(cr,uid,dict_completo,context.get('wh_doc_id',False))# Se escribe y crea en todos los modelos asociados al islr.
+                        islr_wh_doc_id=self._logic_create(cr,uid,dict_completo,context.get('wh_doc_id',False))# Se escribe y crea en todos los modelos asociados al islr.
                     else:
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:
                     raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
-        return True
+        return islr_wh_doc_id
 account_invoice()
 
 

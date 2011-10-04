@@ -73,7 +73,8 @@
             "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
-            "workflow/islr_wh_workflow.xml"
+            "workflow/islr_wh_workflow.xml",
+            "workflow/account_workflow.xml",
     ],
     "active": False,
     "installable": True
