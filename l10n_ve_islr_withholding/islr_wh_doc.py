@@ -8,7 +8,7 @@
 #    Coded by: Humberto Arocha           <hbto@vauxoo.com>
 #              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Javier Duran              <javier@vauxoo.com>
-#    Planified by: Nhomar Hernandez
+#    Planified by: Nhomar Hernandez <nhomar@vauxoo.com>
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha hbto@vauxoo.com
 #############################################################################
