@@ -171,9 +171,6 @@
                         <field name="code"/>
                         <field name="partner_id"/>
                         <field name="journal_id"  select="1" widget="selection" string="Journal"/>
-                        <field name="user_id" select="1" widget="selection" string="Salesman">
-                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
-                        </field>
                     </group>
                     <newline/>
                     <group expand="1" string="Group By...">
@@ -330,9 +327,9 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field name="domain">[('type','=','in_invoice')]</field>
-            <field name="context">{'type':'in_invoice'}</field>
+            <field name="context">{'type':'in_invoice', 'search_default_draft': 1}</field>
             <field name="search_view_id" ref="view_wh_islr_filter_suppliers"/>
-            <field name="help">With Supplier Withholding  you can manage document withholding issued to your suppliers. OpenERP can also generate document withholding automatically from invoices. To generate the withholding income you must confirm and validate the document withholding.</field>
+            <field name="help">With Supplier Withholding  you can manage document withholding issued to your suppliers. OpenERP can Just generate document withholding for purchase process automatically from invoices. To generate the withholding income and all accounting process you must confirm and validate the document withholding.</field>
 
         </record>
         <record model="ir.actions.act_window.view" id="action_wh_islr_tree">
