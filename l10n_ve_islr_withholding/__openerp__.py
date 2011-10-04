@@ -45,14 +45,11 @@
                     1.- The periods must be defined with the format: 09/2011 (MM/YYYY).
                     2.- Create the accounts of Withholding Income and assing to the partner.
                     3.- Create the journal of type: islr.
+                    --------------------CHANGELOG-------------------------------------
+                    Oct 4, 2011:
+                     - Decoupled this module by eliminating dependencies con product, purchase, sale and stock.
                    ''',
-    "depends" : [   "base",
-                    "account",
-   #                 "product",
-   #                 "purchase",
-   #                 "sale",
-                    "l10n_ve_withholding",
-                ],
+    "depends" : ["account", "l10n_ve_withholding",],
     "init_xml" : [],
     "demo_xml":[
             "demo/l10n_ve_islr_withholding_demo.xml",],
@@ -67,9 +64,6 @@
             "view/partner_view.xml",
             "view/islr_wh_doc_view.xml",
             "view/islr_wh_concept_view.xml",
-#            "view/purchase_view.xml",
-#            "view/sale_order_view.xml",
-#            "view/product_view.xml",
             "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
