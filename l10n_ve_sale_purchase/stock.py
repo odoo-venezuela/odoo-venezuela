@@ -58,6 +58,11 @@ class stock_picking(osv.osv):
                     if line_invoice.product_id==line_orden.product_id: #si es la misma linea
                         self.pool.get('account.invoice.line').write(cursor, user, line_invoice.id, {'concept_id':line_orden.concept_id.id})       
             return data 
+
+         _columns = { 
+             'nro_ctrl': fields.char('Invoice ref.', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Invoice reference"),
+         }   
+
     
 stock_picking()
 
