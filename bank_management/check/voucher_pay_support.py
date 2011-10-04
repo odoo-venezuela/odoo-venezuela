@@ -138,7 +138,7 @@ class voucher_pay_support(osv.osv):
                     self.write(cr,uid,i.id,{'state' : 'open', 'name':i.name })
                 else:
                     raise osv.except_osv(_('Alert !'), _('Enter the acknowledgment'))
-
+        return True
 
     def get_realizado(self, cr, uid, ids, context={}):
         soporte = self.browse(cr,uid,ids)
@@ -155,7 +155,7 @@ class voucher_pay_support(osv.osv):
                     self.create_voucher(cr, uid, ids,i, context)
                 else:
                     raise osv.except_osv(_('Alert !'), _('You must enter Account Bank Transitional: %s')%(i.accounting_bank_id.bank_id.name))
-
+        return True
 
 
     def create_voucher(self, cr, uid, ids, soporte, context=None):

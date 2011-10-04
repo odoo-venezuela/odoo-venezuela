@@ -38,13 +38,13 @@ class voucher_pay_support_wizard(osv.osv_memory):
         'name':fields.char('Nombre', 64),
         'accounting_bank_id':fields.many2one('res.partner.bank','Cuenta Bancaria', readonly=False , required=True), 
         'check_note_id': fields.many2one('check.note', 'Non. Cheque', required=True, readonly=False, domain="[('accounting_bank_id','=',accounting_bank_id)]"),
-        'bank_id':fields.related('check_note_id','bank_id',type='many2one',relation='res.bank',string='Banco', store=True, readonly=True),
-        'min_lim':fields.related('bank_id','min_lim',type='integer',relation='res.bank',string='Limite minimo (Bs.)',readonly=True,store=False),
-        'max_lim':fields.related('bank_id','max_lim',type='integer',relation='res.bank',string='Limite maximo (Bs.)',readonly=True,store=False),
+        'bank_id':fields.related('check_note_id','bank_id',type='many2one',relation='res.bank',string='Banco', store=True, readonly=False),
+        'min_lim':fields.related('bank_id','min_lim',type='integer',relation='res.bank',string='Limite minimo (Bs.)',readonly=False,store=False),
+        'max_lim':fields.related('bank_id','max_lim',type='integer',relation='res.bank',string='Limite maximo (Bs.)',readonly=False,store=False),
         'company_id': fields.many2one('res.company', 'Company', required=True),
-        'expiry':fields.related('company_id','expiry', type='integer',relation='res.company',string='Dias de Caducidad',readonly=True,store=True),
-        'payee_id':fields.many2one('res.partner.address','Beneficiario',required=False, readonly=True),
-        'partner_id':fields.many2one('res.partner','Contrapartida',required=True, readonly=True),
+        'expiry':fields.related('company_id','expiry', type='integer',relation='res.company',string='Dias de Caducidad',readonly=False,store=True),
+        'payee_id':fields.many2one('res.partner.address','Beneficiario',required=False, readonly=False),
+        'partner_id':fields.many2one('res.partner','Contrapartida',required=True, readonly=False),
         'state': fields.selection([
             ('draft','Draft'), 
             ('open','Open'),
@@ -212,7 +212,7 @@ class voucher_pay_support_wizard(osv.osv_memory):
                 #Se hace un write de check_note el campo account_voucher_id
                 obj_check_note.write({'account_voucher_id':obj_account_voucher.id})
                 #Se dispara el proceso de contabilizacion de voucher, asientos contables
-#                account_voucher.proforma_voucher(cr, uid,  ids2)
+                account_voucher.proforma_voucher(cr, uid,  ids2, context=context)
                 #Se redirecciona laventana al tree
                 mod_obj = self.pool.get('ir.model.data')
                 act_obj = self.pool.get('ir.actions.act_window')
