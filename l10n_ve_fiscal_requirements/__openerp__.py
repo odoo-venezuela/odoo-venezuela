@@ -53,7 +53,9 @@
          - Integrated the l10n_ve_nro_ctrl module functionality on this one
          - Since the concept_id field is added by the l10n_ve_islr_withholding, an
            error es rised if it's not installed and it is necesary to withhold
-         - If you need to withhold ISLR, you must install the module mentioned abofe
+         - If you need to withhold ISLR, you must install the module mentioned above
+         - Eliminated the dependencies with stock and purchase modules, migrated that functionalities to
+           other modules
 
     """,
     'init_xml': [
