@@ -74,8 +74,16 @@ class res_partner(osv.osv):
     _constraints = [
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
-
-
+    
+    def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
+        print " paseeeeee por aquiiiiiiiii"
+        warning = {'Tittle':'Vat Error !','Message':'You try to put a VAT already existant !'}
+        
+        res = self.pool.get('res.partner').search(cr, uid, [('vat', '=', value)])[0]
+        if res:
+            return warning
+        else:
+            return super(res_partner,self).vat_change(self, cr, uid, ids, value, context=None)
 
     def check_vat_ve(self, vat):
         '''
