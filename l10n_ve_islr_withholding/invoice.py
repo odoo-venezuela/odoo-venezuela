@@ -575,34 +575,10 @@ class account_invoice(osv.osv):
             pass
         return islr_wh_doc_id
 
-
     def action_ret_islr(self, cr, uid, ids, context={}):
-        invoices_brw = self.browse(cr, uid, ids, context)
-        wh_doc_list = []
-        for invoice in invoices_brw:
-            wh_doc_list = self.pool.get('islr.wh.doc.invoices').search(cr,uid,[('invoice_id','=',invoice.id)])  
-            if wh_doc_list: #Chequear que la factura no haya sido retenida.
-                raise osv.except_osv(_('Invalid action !'),_("The Withholding invoice '%s' has already been done!") % (invoice.number))
-            else: # 1.- Si la factura no ha sido retenida
-                wh_dict={}
-                dict_rate={}
-                dict_completo={}
-                vendor, buyer, apply_wh = self._get_partners(cr,uid,invoice) # Se obtiene el (vendedor, el comprador, si el comprador es agente de retencion)
-                concept_list = self._get_concepts(cr,uid,invoice)# Se obtiene la lista de conceptos de las lineas de la factura actual.
-                if concept_list:  # 2.- Si existe algun concepto de retencion en las lineas de la factura.
-                    if apply_wh:  # 3.- Si el comprador es agente de retencion
-                        wh_dict = self._get_service_wh(cr, uid, invoice, concept_list) # Se obtiene un dic con la lista de lineas de factura, si se aplico retencion alguna vez, el monto base total de las lineas.
-                        residence = self._get_residence(cr, uid, vendor, buyer) # Retorna el tipo de residencia del vendedor
-                        nature = self._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
-                        dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
-                        self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
-                        dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature) # Retorna el dict con todos los datos de la retencion por linea de factura.
-                        islr_wh_doc_id=self._logic_create(cr,uid,dict_completo,context.get('wh_doc_id',False))# Se escribe y crea en todos los modelos asociados al islr.
-                    else:
-                        raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
-                else:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
-        return islr_wh_doc_id
+        return self.pool.get('islr.wh.doc').action_ret_islr(cr,uid,ids,context)
+
+
 account_invoice()
 
 
