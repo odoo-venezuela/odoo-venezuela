@@ -33,7 +33,6 @@ import time
 import datetime
 import decimal_precision as dp
 
-
 class islr_wh_doc(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
@@ -84,15 +83,16 @@ class islr_wh_doc(osv.osv):
     _name = "islr.wh.doc"
     _description = 'Document Withholding Income'
     _columns= {
-        'name': fields.char('Description', size=64,readonly=True, states={'to_process':[('readonly',False)]}, required=True, help="Voucher description"),
-        'code': fields.char('Code', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
-        'number': fields.char('Withhold Number', size=32, readonly=True, states={'to_process':[('readonly',False)]}, help="Voucher reference"),
+        'name': fields.char('Description', size=64,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Voucher description"),
+        'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Voucher reference"),
+        'number': fields.char('Withhold Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Voucher reference"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
             ],'Type', readonly=True, help="Voucher type"),
         'state': fields.selection([
             ('to_process','To Process'),
+            ('progress','Progress'),
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
@@ -101,23 +101,23 @@ class islr_wh_doc(osv.osv):
         'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
         'date_uid': fields.date('Withhold Date', readonly=True, help="Voucher date"),
         'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Period', help="Period when the accounts entries were done"),
-        'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'to_process':[('readonly',False)]}, help="Account Receivable or Account Payable of partner"),
-        'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'to_process':[('readonly',False)]}, help="Partner object of withholding"),
-        'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'to_process':[('readonly',False)]}, help="Currency in which the transaction takes place"),
-        'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'to_process':[('readonly',False)]}, help="Journal where accounting entries are recorded"),
+        'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Account Receivable or Account Payable of partner"),
+        'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Partner object of withholding"),
+        'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency in which the transaction takes place"),
+        'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal where accounting entries are recorded"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, string='Amount Total', type='float', digits_compute= dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Withholding Income Concept', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withheld Invoices'),
         'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
-        'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'to_process':[('readonly',False)]}),
+        'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
     }
 
     _defaults = {
         'code': lambda obj, cr, uid, context: obj.pool.get('islr.wh.doc').retencion_seq_get(cr, uid, context),
         'type': _get_type,
-        'state': lambda *a: 'to_process',
+        'state': 'draft',
         'journal_id': _get_journal,
         'currency_id': _get_currency,
         'company_id': lambda self, cr, uid, context: \
@@ -125,6 +125,12 @@ class islr_wh_doc(osv.osv):
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
     }
+
+    def validate(self, cr,uid,ids,*args):
+        print 'ARGS', args
+
+        if args[0]=='in_invoice' and args[1] and args[2]:
+            return True
 
     def action_process(self,cr,uid,ids, *args):
         inv_obj=self.pool.get('account.invoice')
@@ -136,10 +142,8 @@ class islr_wh_doc(osv.osv):
             for wh_doc_line in wh_doc.islr_wh_doc_id: 
                 inv_ids.append(wh_doc_line.id)
 
-        context = args[0]
         context["wh_doc_id"]=ids[0]
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
-        self.write(cr, uid, ids, {'state':'draft'})
         return True
 
     def action_cancel_process(self,cr,uid,ids,*args):
@@ -148,8 +152,7 @@ class islr_wh_doc(osv.osv):
         inv_obj = self.pool.get('account.invoice')
         inv_line_obj = self.pool.get('account.invoice.line')
         
-        wh_doc_id = self.browse(cr, uid, ids, args[0])[0].id
-        
+        wh_doc_id = ids[0]
         wh_line_list = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
         line_obj.unlink(cr,uid,wh_line_list)
         
@@ -162,7 +165,6 @@ class islr_wh_doc(osv.osv):
         inv_line_list = inv_line_obj.search(cr,uid,[('invoice_id','in',inv_list)])
         inv_line_obj.write(cr, uid, inv_line_list, {'apply_wh':False})
         
-        self.write(cr, uid, ids, {'state':'to_process'})
         return True
 
     def retencion_seq_get(self, cr, uid, context=None):
@@ -220,6 +222,12 @@ class islr_wh_doc(osv.osv):
         self.write(cr, uid, ids, {'state':'done'})
         return True
 
+    def action_cancel(self,cr,uid,ids,context={}):
+        if self.browse(cr,uid,ids)[0].type=='in_invoice':
+            return True
+        self.cancel_move(cr,uid,ids)
+        return True
+        
     def action_cancel1(self,cr,uid,ids,context={}):
         self.cancel_move(cr,uid,ids)
         return True
@@ -228,14 +236,13 @@ class islr_wh_doc(osv.osv):
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
         for ret in ret_brw:
-            if ret.state == 'done':
-                for ret_line in ret.concept_ids:
-                    account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
-                    delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
-                if delete:
-                    self.write(cr, uid, ids, {'state':'cancel'})
-            else:
-                self.write(cr, uid, ids, {'state':'cancel'})
+            for ret_line in ret.concept_ids:
+                account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                #~ Putting right information about cancel process
+                account_move_obj.write(cr,uid,[ret_line.move_id.id],{'ref':'Canceled by wh islr workflow %s'%ret_line.move_id.ref})
+                #~ Deleting relation from the line
+                self.write(cr,uid,ids,{'move_id':False})
+                #~ delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
         return True
         
     def action_cancel_draft(self,cr,uid,ids, *args):

@@ -30,6 +30,7 @@ from tools.translate import _
 from tools import config
 import time
 import datetime
+import netsvc
 
 class account_invoice_line(osv.osv):
     '''
@@ -374,7 +375,7 @@ class account_invoice(osv.osv):
         return res
 
 
-    def _get_wh_apply(self,cr,uid,dict_rate,wh_dict):
+    def _get_wh_apply(self,cr,uid,dict_rate,wh_dict,nature):
         '''
         Retorna el diccionario completo con todos los datos para realizar la retencion, cada elemento es una linea de la factura.
         '''
@@ -454,7 +455,7 @@ class account_invoice(osv.osv):
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
         
         return journal_id[0] or None
-        
+    
     def _create_islr_wh_doc(self,cr,uid,inv_brw,dict):
         '''
         Funcion para crear en el modelo islr_wh_doc
@@ -471,8 +472,11 @@ class account_invoice(osv.osv):
         'period_id': inv_brw.period_id.id,
         'account_id': inv_brw.account_id.id,
         'type': inv_brw.type,
-        'journal_id': self.get_journal(cr,uid,inv_brw),
-        'state': 'draft',})
+        'journal_id': self.get_journal(cr,uid,inv_brw),})
+        
+        wf_service = netsvc.LocalService("workflow")
+        print 'wf service', str(dir(wf_service))
+        wf_service.trg_write(uid, 'islr.wh.doc', islr_wh_doc_id, cr)
         return islr_wh_doc_id
 
 
@@ -588,7 +592,7 @@ class account_invoice(osv.osv):
                         nature = self._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
                         dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
-                        dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
+                        dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature) # Retorna el dict con todos los datos de la retencion por linea de factura.
                         self._logic_create(cr,uid,dict_completo,context.get('wh_doc_id',False))# Se escribe y crea en todos los modelos asociados al islr.
                     else:
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
