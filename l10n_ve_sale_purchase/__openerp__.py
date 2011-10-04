@@ -38,6 +38,8 @@
     'website' : 'http://openerp.com',
     'depends' : ['sale', 'purchase', 'stock', 'l10n_ve_islr_withholding'],
     'update_xml' : [
+        'view/product_view.xml',
+        'view/stock_view.xml',
         'view/purchase_view.xml',
         'view/sale_order_view.xml',
     ],
