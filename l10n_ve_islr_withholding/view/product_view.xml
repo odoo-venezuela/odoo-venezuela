@@ -12,7 +12,7 @@
                     <page string="Concept of Withholding Income">
                         <separator string="Concept of Withholding Income" colspan="6"/>
                         <newline/>
-                        <field name="concept_id" required='1'/>
+                        <field name="concept_id" />
                     </page>
                 </notebook>
             </field>
@@ -27,7 +27,7 @@
                     <page string="Concept of Withholding Income">
                         <separator string="Concept of Withholding Income" colspan="6"/>
                         <newline/>
-                        <field name="concept_id" required='1'/>
+                        <field name="concept_id" />
                     </page>
                 </notebook>
             </field>

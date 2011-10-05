@@ -1,0 +1,5 @@
+1.- Eliminated the overriden models: files involved: sale.py, stock.py and purchase.py
+2.- Eliminated the views: files involved: sale_order_view.xml, purchase_view.xml
+
+No logic modules were touched
+All deleted files were saved locally
