@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-09-29 17:30+0000\n"
-"PO-Revision-Date: 2011-09-29 17:30+0000\n"
+"POT-Creation-Date: 2011-10-05 14:10+0000\n"
+"PO-Revision-Date: 2011-10-05 14:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 #. module: l10n_ve_split_invoice
 #: view:res.company:0
 msgid "Invoice Lines Configutarion"
-msgstr "Configuración de líneas de factura"
+msgstr "Invoice Lines Configutarion"
 
 #. module: l10n_ve_split_invoice
 #: model:ir.module.module,description:l10n_ve_split_invoice.module_meta_information
@@ -44,58 +44,59 @@ msgid "\n"
 "\n"
 " "
 msgstr "\n"
-"Por razones legales, en Venezuela, se necesita tener sólo una factura por página, con este módulo, dependiendo de la configuración de la compañía, podrás establecer el número de líneas por factura. Con esto, serás capaz de:\n"
+"For legal reasons in Venezuela we need just ONE invoice per page, with this module depending on your company configuration you will stablish the number of lines per invoice, with this you will be able of:\n"
 " \n"
-" 1.- Establecer el número de líneas de factura permitidas.\n"
-" 2.- Dividir la factura de acuerdo al número de líneas configurado una vez el documento sea validado.\n"
+" 1.-Add module for establishing the number of lines per invoice\n"
+" 2.-Split Invoice according number of lines per invoice once you confirm it.\n"
 "\n"
-"-------Instrucciones para Prueba--------\n"
-"Una vez instalado el módulo:\n"
+"-------Testing Instructions--------\n"
+"Once you installed the module:\n"
 "\n"
-"1.- Vaya a Configuración - Compañías, abra alguna de sus compañías (si hay más de una), \n"
-"    vaya a la pestaña de configuración.\n"
-"2.- Establezca un número de líneas de factura en el campo correspondiente.\n"
+"1.- Go to Administration - Companies, open one of your companies (if more than one) and \n"
+"    open the Configuration page.\n"
+"2.- Set a number of lines per invoice on the corresponding field.\n"
 "\n"
-"3.- Crée una factura nueva con más líneas de las que configuró previamente \n"
+"3.- Go to Account - Clients - Client Invoices and create a new invoice with more lines \n"
+"    than you previously specified on the company configuration\n"
 "\n"
-"4.- Valide el documento\n"
+"4.- Validate the invoice document\n"
 "\n"
-"El documento debería haberse dividido en N facturas con el número de líneas que configuró previamente\n"
+"The document should be now splited on N invoices with the number of lines that you specified\n"
 "\n"
 " "
 
 #. module: l10n_ve_split_invoice
 #: model:ir.model,name:l10n_ve_split_invoice.model_res_company
 msgid "Companies"
-msgstr "Compañías"
+msgstr "Companies"
 
 #. module: l10n_ve_split_invoice
 #: constraint:res.company:0
 msgid "Error! You can not create recursive companies."
-msgstr "¡Error! No se pueden crear compañías recursivas."
+msgstr "Error! You can not create recursive companies."
 
 #. module: l10n_ve_split_invoice
 #: help:res.company,lines_invoice:0
 msgid "Number of lines per invoice"
-msgstr "Numero de líneas por factura"
+msgstr "Number of lines per invoice"
 
 #. module: l10n_ve_split_invoice
 #: model:ir.model,name:l10n_ve_split_invoice.model_account_invoice
 msgid "Invoice"
-msgstr "Factura"
+msgstr "Invoice"
 
 #. module: l10n_ve_split_invoice
 #: view:res.company:0
 msgid "Configuration"
-msgstr "Configuración"
+msgstr "Configuration"
 
 #. module: l10n_ve_split_invoice
 #: field:res.company,lines_invoice:0
 msgid "Invoice Lines"
-msgstr "Líneas de factura"
+msgstr "Invoice Lines"
 
 #. module: l10n_ve_split_invoice
 #: model:ir.module.module,shortdesc:l10n_ve_split_invoice.module_meta_information
 msgid "Split Invoices"
-msgstr "Dividir Facturas"
+msgstr "Split Invoices"
 
