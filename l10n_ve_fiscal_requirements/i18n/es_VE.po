@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-09-30 23:50+0000\n"
-"PO-Revision-Date: 2011-09-30 23:50+0000\n"
+"POT-Creation-Date: 2011-10-05 13:43+0000\n"
+"PO-Revision-Date: 2011-10-05 13:43+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,20 +16,19 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ve_fiscal_requirements
-#: help:res.company,account_id:0
+#: help:res.company,acc_id:0
 msgid "Default account used for invoices and lines from damaged invoices"
-msgstr "Cuenta por defecto para líneas y facturas dañadas"
+msgstr "Default account used for invoices and lines from damaged invoices"
 
 #. module: l10n_ve_fiscal_requirements
-#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:88
-#, python-format
-msgid "You have to install the ISLR Withholding"
-msgstr "Debe instalar el módulo para realizar retención de ISLR"
+#: view:l10n.ut:0
+msgid "Tax Unit per date"
+msgstr "Tax Unit per date"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,sin_cred:0
 msgid "Tax-exempt?"
-msgstr "¿Libre de impuesto?"
+msgstr "Tax-exempt?"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wiz.nroctrl:0
@@ -37,76 +36,154 @@ msgid "Confirm"
 msgstr "Confirm"
 
 #. module: l10n_ve_fiscal_requirements
-#: view:res.company:0
-msgid "Data used by default for invoices damaged"
-msgstr "Datos por defecto para facturas dañadas"
+#: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.wizard_invoice_nro_ctrl_action
+msgid "Declare damaged paper"
+msgstr "Declare damaged paper"
 
 #. module: l10n_ve_fiscal_requirements
-#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:113
+#: model:ir.module.module,description:l10n_ve_fiscal_requirements.module_meta_information
+msgid "Venezuelan Tax Laws Requirements:\n"
+"    - Invoice Control Number.\n"
+"    - Tax-except concept\n"
+"    - Required address invoice.\n"
+"    - Unique address invoice.\n"
+"    - VAT verification for Venezuela rules.\n"
+"    - Damaged \"free forms\" justification.\n"
+"    - Tax Units configuration.\n"
+"    ---------------------------------------------------------------------------\n"
+"    For damaged invoices (Free form formats), you must go to the company and, under the configuration section,\n"
+"    create the corresponding journal and account.\n"
+"\n"
+"    If you install this module with invoice data on the database, the concept_id will be \n"
+"    Empty for all those invoices, so, when you try to modify them you have to add a value on\n"
+"    that field\n"
+"\n"
+"    This module should also install a menu item under the accounting configuration menu.\n"
+"    ------------------------TECH INFO-------------------------------------------\n"
+"    CHANGELOG:\n"
+"       - For the migration to the l10n_ve on OpenERP:\n"
+"         - Added the functionality to configure Tax Units, for this, it was necesary make this module depend on\n"
+"           account_accountant, to make visible de accounting configuration menu.\n"
+"         - Added the functionality to change the control number on an invoice (free form format)\n"
+"         - Changed the Invoice Ref label to Control Number\n"
+"         - Integrated the l10n_ve_nro_ctrl module functionality on this one\n"
+"         - Since the concept_id field is added by the l10n_ve_islr_withholding, an\n"
+"           error es rised if it's not installed and it is necesary to withhold\n"
+"         - If you need to withhold ISLR, you must install the module mentioned above\n"
+"         - Eliminated the dependencies with stock and purchase modules, migrated that functionalities to\n"
+"           other modules\n"
+"\n"
+"    "
+msgstr "Venezuelan Tax Laws Requirements:\n"
+"    - Invoice Control Number.\n"
+"    - Tax-except concept\n"
+"    - Required address invoice.\n"
+"    - Unique address invoice.\n"
+"    - VAT verification for Venezuela rules.\n"
+"    - Damaged \"free forms\" justification.\n"
+"    - Tax Units configuration.\n"
+"    ---------------------------------------------------------------------------\n"
+"    For damaged invoices (Free form formats), you must go to the company and, under the configuration section,\n"
+"    create the corresponding journal and account.\n"
+"\n"
+"    If you install this module with invoice data on the database, the concept_id will be \n"
+"    Empty for all those invoices, so, when you try to modify them you have to add a value on\n"
+"    that field\n"
+"\n"
+"    This module should also install a menu item under the accounting configuration menu.\n"
+"    ------------------------TECH INFO-------------------------------------------\n"
+"    CHANGELOG:\n"
+"       - For the migration to the l10n_ve on OpenERP:\n"
+"         - Added the functionality to configure Tax Units, for this, it was necesary make this module depend on\n"
+"           account_accountant, to make visible de accounting configuration menu.\n"
+"         - Added the functionality to change the control number on an invoice (free form format)\n"
+"         - Changed the Invoice Ref label to Control Number\n"
+"         - Integrated the l10n_ve_nro_ctrl module functionality on this one\n"
+"         - Since the concept_id field is added by the l10n_ve_islr_withholding, an\n"
+"           error es rised if it's not installed and it is necesary to withhold\n"
+"         - If you need to withhold ISLR, you must install the module mentioned above\n"
+"         - Eliminated the dependencies with stock and purchase modules, migrated that functionalities to\n"
+"           other modules\n"
+"\n"
+"    "
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:117
 #, python-format
 msgid "Please confirm that you know what you're doing by checking the option bellow!"
-msgstr "Por favor, confirme que está seguro de que desea hacer esto!"
+msgstr "Please confirm that you know what you're doing by checking the option bellow!"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.wizard_invoice_nro_control
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.wizard_invoice_nro_control_action
 msgid "Create null paper"
-msgstr "Crear papel dañado"
+msgstr "Create null paper"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:42
 #, python-format
 msgid "Please confirm that you want to do this by checking the option"
-msgstr "Por favor, confirme que desea hacer esto marcando la opción"
+msgstr "Please confirm that you want to do this by checking the option"
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:112
+#, python-format
+msgid "You must have created at least one invoice to declare it as damaged"
+msgstr "You must have created at least one invoice to declare it as damaged"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:l10n.ut:0
+msgid "Group By..."
+msgstr "Group By..."
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Create Invoice"
-msgstr "Crear Factura"
+msgstr "Create Invoice"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:48
 #, python-format
 msgid "You cannot change the state of a Draft invoice"
-msgstr "No puede cambiar una factura en Borrador"
+msgstr "You cannot change the state of a Draft invoice"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.module.module,shortdesc:l10n_ve_fiscal_requirements.module_meta_information
 msgid "Fiscal requirements Venezuelan laws"
-msgstr "Requerimientos fiscales de las Leyes Venezolanas"
+msgstr "Fiscal requirements Venezuelan laws"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.model,name:l10n_ve_fiscal_requirements.model_stock_picking
-msgid "Picking List"
-msgstr "Albarán"
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:88
+#, python-format
+msgid "You have to install the ISLR Withholding"
+msgstr "You have to install the ISLR Withholding"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:wiz.nroctrl,sure:0
 msgid "Are you sure?"
-msgstr "¿Está seguro?"
+msgstr "Are you sure?"
 
 #. module: l10n_ve_fiscal_requirements
 #: constraint:res.partner.address:0
 msgid "Error ! The partner already has an invoice address. "
-msgstr "Error ! Este cliente ya tiene una dirección fiscal. "
+msgstr "Error ! The partner already has an invoice address. "
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.menu_create_invoice_duplicate
-msgid "Generate null paper"
-msgstr "Generar papel dañado"
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.act_l10n_ut_tree
+#: model:ir.model,name:l10n_ve_fiscal_requirements.model_l10n_ut
+#: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.menu_action_l10n_ut_tree
+#: view:l10n.ut:0
+msgid "Tax Unit"
+msgstr "Tax Unit"
 
 #. module: l10n_ve_fiscal_requirements
-#: help:res.company,journal_id:0
+#: help:res.company,jour_id:0
 msgid "Default journal for damaged invoices"
-msgstr "Diario por defecto para Facturas Dañadas"
-
-#. module: l10n_ve_fiscal_requirements
-#: sql_constraint:purchase.order:0
-msgid "Order Reference must be unique !"
-msgstr "La referencia debe ser única !"
+msgstr "Default journal for damaged invoices"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:50
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:88
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:112
 #, python-format
 msgid "ERROR !"
 msgstr "ERROR !"
@@ -114,84 +191,110 @@ msgstr "ERROR !"
 #. module: l10n_ve_fiscal_requirements
 #: view:wiz.nroctrl:0
 msgid "Changing the Control Number"
-msgstr "Cambio de número de control"
+msgstr "Changing the Control Number"
 
 #. module: l10n_ve_fiscal_requirements
-#: field:res.company,journal_id:0
+#: field:res.company,jour_id:0
 msgid "Journal"
-msgstr "Diario"
+msgstr "Journal"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice,nro_ctrl:0
 msgid "Code used for intern invoice control"
-msgstr "Código para control interno de facturas"
+msgstr "Code used for intern invoice control"
+
+#. module: l10n_ve_fiscal_requirements
+#: help:l10n.ut,name:0
+msgid "Reference number under the law"
+msgstr "Reference number under the law"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:res.company:0
+msgid "Data used by default for invoices damaged"
+msgstr "Data used by default for invoices damaged"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,nro_ctrl:0
 #: field:wiz.nroctrl,name:0
 #: field:wizard.invoice.nro.ctrl,nro_ctrl:0
 msgid "Control Number"
-msgstr "Número de control"
+msgstr "Control Number"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_wiz_nroctrl
 msgid "Wizard that changes the invoice control number"
-msgstr "Asistemte para cambiar el número de control"
+msgstr "Wizard that changes the invoice control number"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.change_nro_ctrl_act
-msgid "Change Control Number"
-msgstr "Cambiar el número de control"
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.action_wiz_nroctrl
+msgid "Change control number"
+msgstr "Change control number"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:l10n.ut,date:0
+msgid "Date"
+msgstr "Date"
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/partner.py:85
+#, python-format
+msgid "Vat Error !"
+msgstr "Vat Error !"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:res.company:0
 msgid "Configuration"
-msgstr "Configuración"
+msgstr "Configuration"
 
 #. module: l10n_ve_fiscal_requirements
-#: field:stock.picking,nro_ctrl:0
-msgid "Invoice ref."
-msgstr "Número de Control"
+#: view:l10n.ut:0
+msgid "date"
+msgstr "date"
 
 #. module: l10n_ve_fiscal_requirements
-#: field:res.company,account_id:0
+#: help:l10n.ut,amount:0
+msgid "Amount of the tax unit in bs"
+msgstr "Amount of the tax unit in bs"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:res.company,acc_id:0
 msgid "Account"
-msgstr "Cuenta"
+msgstr "Account"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice
 msgid "Invoice"
-msgstr "Factura"
+msgstr "Invoice"
 
 #. module: l10n_ve_fiscal_requirements
 #: constraint:res.company:0
 msgid "Error! You can not create recursive companies."
-msgstr "Error! no puede crear compañías recursivas."
+msgstr "Error! You can not create recursive companies."
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_company
 msgid "Companies"
-msgstr "Compañías"
+msgstr "Companies"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:50
 #, python-format
 msgid "This partner does not have an invoice address"
-msgstr "Este cliente no tiene una dirección fiscal"
+msgstr "This partner does not have an invoice address"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.model,name:l10n_ve_fiscal_requirements.model_purchase_order
-msgid "Purchase Order"
-msgstr "Pedido de compra"
-
-#. module: l10n_ve_fiscal_requirements
-#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:113
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:117
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:121
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:42
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:48
 #, python-format
 msgid "Error!"
 msgstr "Error!"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:l10n.ut,amount:0
+msgid "Amount"
+msgstr "Amount"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_wizard_invoice_nro_ctrl
@@ -202,106 +305,88 @@ msgstr "wizard.invoice.nro.ctrl"
 #: view:wiz.nroctrl:0
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Are you sure you want to do this?"
-msgstr "¿Está seguro que desea hacer esto?"
+msgstr "Are you sure you want to do this?"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Create an invoice to justify the damaged one"
-msgstr "Crear una factura para justificar otra dañada"
+msgstr "Create an invoice to justify the damaged one"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice,sin_cred:0
 msgid "Set it true if the invoice is V.A.T. exempt"
-msgstr "Marcar si la factura es libre de impuesto"
+msgstr "Set it true if the invoice is V.A.T. exempt"
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.actions.act_window,help:l10n_ve_fiscal_requirements.act_l10n_ut_tree
+msgid "With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat."
+msgstr "With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat."
 
 #. module: l10n_ve_fiscal_requirements
 #: field:wizard.invoice.nro.ctrl,sure:0
 msgid "Are You Sure?"
-msgstr "¿Está seguro?"
+msgstr "Are You Sure?"
 
 #. module: l10n_ve_fiscal_requirements
-#: help:stock.picking,nro_ctrl:0
-msgid "Invoice reference"
-msgstr "Referencia"
+#: field:l10n.ut,name:0
+msgid "Reference number"
+msgstr "Reference number"
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.menu_venezuela_reporting
+msgid "Venezuela Reports"
+msgstr "Venezuela Reports"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:l10n.ut:0
+msgid "Search Tax Unit"
+msgstr "Search Tax Unit"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:wizard.invoice.nro.ctrl,nro_ctrl:0
 msgid "New control number of the invoice damaged."
-msgstr "Nuevo número de control para la factura dañada."
+msgstr "New control number of the invoice damaged."
 
 #. module: l10n_ve_fiscal_requirements
-#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:117
+#: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:121
 #, python-format
 msgid "You must go to the company form and configure a journal and an account for damaged invoices"
-msgstr "Debe ir a la compañía y configurar un diario y una cuenta para facturas dañadas"
+msgstr "You must go to the company form and configure a journal and an account for damaged invoices"
 
 #. module: l10n_ve_fiscal_requirements
 #: constraint:res.partner:0
 msgid "Error ! The partner does not have an invoice address. "
-msgstr "Error ! Este cliente no posée una dirección fiscal. "
+msgstr "Error ! The partner does not have an invoice address. "
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.module.module,description:l10n_ve_fiscal_requirements.module_meta_information
-msgid "Venezuelan Tax Laws Requirements:\n"
-"    - Invoice Control Number\n"
-"    - Tax-except\n"
-"    - Required address invoice\n"
-"    - Unique address invoice.\n"
-"    - VAT verification for Venezuela rules.\n"
-"    - Damaged invoices justification.\n"
-"    ---------------------------------------------------------------------------\n"
-"    For damaged invoices, you must go to the company and, under the configuration section,\n"
-"    create the corresponding journal and account.\n"
-"\n"
-"    ------------------------TECH INFO-------------------------------------------\n"
-"    CHANGELOG:\n"
-"       - For the migration to the l10n_ve on OpenERP:\n"
-"         - Changed the Invoice Ref label to Control Number\n"
-"         - Integrated the l10n_ve_nro_ctrl module functionality on this one\n"
-"         - Since the concept_id field is added by the l10n_ve_islr_withholding, an\n"
-"           error es rised if it's not installed and it is necesary to withhold\n"
-"         - If you need to withhold ISLR, you must install the module mentioned abofe\n"
-"\n"
-"    FURTHER DEVELOPMENT:\n"
-"       - Find a way to decouple this module and l10n_ve_islr_withholding\n"
-"    "
-msgstr "Venezuelan Tax Laws Requirements:\n"
-"    - Invoice Control Number\n"
-"    - Tax-except\n"
-"    - Required address invoice\n"
-"    - Unique address invoice.\n"
-"    - VAT verification for Venezuela rules.\n"
-"    - Damaged invoices justification.\n"
-"    ---------------------------------------------------------------------------\n"
-"    For damaged invoices, you must go to the company and, under the configuration section,\n"
-"    create the corresponding journal and account.\n"
-"\n"
-"    ------------------------TECH INFO-------------------------------------------\n"
-"    CHANGELOG:\n"
-"       - For the migration to the l10n_ve on OpenERP:\n"
-"         - Changed the Invoice Ref label to Control Number\n"
-"         - Integrated the l10n_ve_nro_ctrl module functionality on this one\n"
-"         - Since the concept_id field is added by the l10n_ve_islr_withholding, an\n"
-"           error es rised if it's not installed and it is necesary to withhold\n"
-"         - If you need to withhold ISLR, you must install the module mentioned abofe\n"
-"\n"
-"    FURTHER DEVELOPMENT:\n"
-"       - Find a way to decouple this module and l10n_ve_islr_withholding\n"
-"    "
+#: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_partner
+msgid "Partner"
+msgstr "Partner"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wiz.nroctrl:0
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Cancel"
 
 #. module: l10n_ve_fiscal_requirements
-#: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_partner
-msgid "Partner"
-msgstr "Empresa"
+#: code:addons/l10n_ve_fiscal_requirements/partner.py:85
+#, python-format
+msgid "Invalid VAT. This vat is alredy used"
+msgstr "Invalid VAT. This vat is alredy used"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_partner_address
 msgid "Partner Addresses"
-msgstr "Direcciones de empresa"
+msgstr "Partner Addresses"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:l10n.ut,user_id:0
+msgid "Salesman"
+msgstr "Salesman"
+
+#. module: l10n_ve_fiscal_requirements
+#: help:l10n.ut,date:0
+msgid "Date on which goes into effect the new Unit Tax Unit"
+msgstr "Date on which goes into effect the new Unit Tax Unit"
 
