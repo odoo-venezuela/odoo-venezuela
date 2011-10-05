@@ -95,7 +95,7 @@ class islr_xml_wh_doc(osv.osv):
 
     def _write_attachment(self, cr,uid,ids,root,context):
         '''
-        Codificar el xml, para guardarlo en la bd y poder verlo en el cliente como attachment
+        Codify the xml, to save it in the database and be able to see it in the client as an attachment
         '''
         fecha = time.strftime('%Y_%m_%d')
         name = 'ISLR_' + fecha +'.'+ 'xml'
