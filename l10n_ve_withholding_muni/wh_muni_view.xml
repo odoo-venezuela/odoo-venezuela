@@ -168,7 +168,7 @@
         <menuitem
             id="menu_action_account_wh_muni_customer"
             name="Local Withholding Customer"
-            parent="l10n_ve_withholding.menu_wh_customer"
+            parent="account.menu_finance_receivables"
             action="action_account_wh_muni_customer"/>
 
 
@@ -200,7 +200,7 @@
         <menuitem
             id="menu_action_account_wh_muni_supplier"
             name="Local Withholding Supplier"
-            parent="l10n_ve_withholding.menu_wh_suppiler"
+            parent="account.menu_finance_payables"
             action="action_account_wh_muni_supplier"/>
 
     </data>
