@@ -34,8 +34,8 @@ from tools import config
 class res_company(osv.osv):
     _inherit = 'res.company'
     _columns = {
-        'journal_id': fields.many2one('account.journal', 'Journal',required=True,help="Default journal for damaged invoices"),
-        'account_id': fields.many2one('account.account', 'Account',required=True,help="Default account used for invoices and lines from damaged invoices"),
+        'jour_id': fields.many2one('account.journal', 'Journal',required=False,help="Default journal for damaged invoices"),
+        'acc_id': fields.many2one('account.account', 'Account',required=False,help="Default account used for invoices and lines from damaged invoices"),
         }
 res_company()
 

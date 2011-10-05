@@ -53,11 +53,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
             'company_id': inv_brw.company_id.id,
             'date_invoice': inv_brw.date_invoice,
             'number': inv_brw.number,
-            'journal_id': inv_brw.company_id.journal_id.id,
+            'journal_id': inv_brw.company_id.jour_id.id,
             'partner_id': inv_brw.company_id.partner_id.id,
             'address_invoice_id' : address_invoice_id[0],
             'nro_ctrl': wizard_brw.nro_ctrl,
-            'account_id': inv_brw.company_id.account_id.id,
+            'account_id': inv_brw.company_id.acc_id.id,
             'currency_id': inv_brw.company_id.currency_id.id,
             'name': 'PAPELANULADO_NRO_CTRL_'+wizard_brw.nro_ctrl,
             'state':'paid',
@@ -68,11 +68,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
                          'amount':0.00,
                          'tax_amount':0.00,
                          'base':0.00,
-                         'account_id':inv_brw.company_id.account_id.id,
+                         'account_id':inv_brw.company_id.acc_id.id,
                          'invoice_id':inv_id},{})
         invoice_line.update({
             'name': 'PAPELANULADO_NRO_CTRL_'+wizard_brw.nro_ctrl,
-            'account_id': inv_brw.company_id.account_id.id,
+            'account_id': inv_brw.company_id.acc_id.id,
             'price_unit': 0,
             'quantity': 0,
             'invoice_id': inv_id,
@@ -115,7 +115,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         for wizard in wizard_brw:
             if not wizard.sure:
                 raise osv.except_osv(_("Error!"), _("Please confirm that you know what you're doing by checking the option bellow!"))
-            if inv_brw.company_id.journal_id and inv_brw.company_id.account_id:
+            if inv_brw.company_id.jour_id and inv_brw.company_id.acc_id:
                 inv_id = self.action_invoice_create(cr,uid,ids,wizard,inv_id,context)
             else:
                 raise osv.except_osv(_('Error!'), _("You must go to the company form and configure a journal and an account for damaged invoices"))
