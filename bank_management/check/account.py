@@ -5,13 +5,11 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Angelica Barrios          <angélicaisabelb@gmail.com>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javieredm@gmail.com>             
+#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
+#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
+#    Audited by: Humberto Arocha humberto@vauxoo.com
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,17 +23,22 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+##############################################################################
+from osv import osv
+from osv import fields
+from tools.translate import _
+from tools import config
+import time
+import datetime
+import decimal_precision as dp
 
-import res_company
-import check_book
-import check_note
-import check_book_wizard
-import check_book_request
-import voucher_pay_support
-import account_voucher_payment
-import account
-import report
-import wizard
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class account_journal(osv.osv):
+    
+    _inherit= "account.journal"
+    
+    _columns={
+        'default_payment_credit_account_id' : fields.many2one('account.account','Write-Off Credit Account'),
+        'default_payment_debit_account_id' : fields.many2one('account.account','Write-Off Debit account'),
+    }
+account_journal()

@@ -6,9 +6,9 @@
             <field name="model">voucher.pay.support.wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Generar Orden de Pago" >
+                <form string="Make Payment Order" >
                       <group colspan="4" col="4">
-                            <separator string="Seleccionar el Tipo de Pago" colspan="4"/>
+                            <separator string="Select Payment Type" colspan="4"/>
                             <hpaned/>
                             <field name="type"/>
                             <hpaned/> 
@@ -19,7 +19,7 @@
                             <hpaned/> 
                             <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
                             <hpaned/>  
-                            <button icon="gtk-ok" name="accion_tipo" string="Siguiente" type="object"/>
+                            <button icon="gtk-ok" name="accion_tipo" string="Next" type="object"/>
                             <hpaned/> 
                      </group>
                 </form>
@@ -27,7 +27,7 @@
         </record>
 
         <record id="wiz_pay_support" model="ir.actions.act_window">
-            <field name="name">Generar Orden de Pago</field>
+            <field name="name">Make Payment Order</field>
             <field name="res_model">voucher.pay.support.wizard</field>
             <field name="src_model">voucher.pay.support.wizard</field>
             <field name="view_type">form</field>
@@ -45,7 +45,7 @@
              <field name="arch" type="xml">
                 <form string="Cheque">
                       <group colspan="4" col="4">
-                            <separator string="Seleccione la Cuenta Bancaria" colspan="4"/>
+                            <separator string="Select Bank Account" colspan="4"/>
                             <hpaned/>
                             <field name="accounting_bank_id"/>
                             <hpaned/> 
@@ -56,7 +56,7 @@
                             <hpaned/> 
                             <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
                             <hpaned/>  
-                            <button icon="gtk-ok" name="action_cheque" string="Siguiente" type="object"/>
+                            <button icon="gtk-ok" name="action_cheque" string="Next" type="object"/>
                             <hpaned/> 
                      </group>
                 </form>
@@ -69,9 +69,9 @@
              <field name="model">voucher.pay.support.wizard</field>
              <field name="type">form</field>
              <field name="arch" type="xml">
-                <form string="Transferencia">
+                <form string="Transfer">
                       <group colspan="4" col="4">
-                            <separator string="Estamos tomando medidas..." colspan="4"/>
+                            <separator string="In progress..." colspan="4"/>
                       </group>
                       <group colspan="2" col="3">
                             <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
@@ -86,9 +86,9 @@
              <field name="model">voucher.pay.support.wizard</field>
              <field name="type">form</field>
              <field name="arch" type="xml">
-                <form string="Geneneracion de Cheque">
-                      <group colspan="4" col="4" string="Cheque">
-                            <field name="accounting_bank_id" readonly="1" required="0" />
+                <form string="check generation">
+                      <group colspan="4" col="4" string="Check Note">
+                            <field name="accounting_bank_id" readonly="0" required="0" />
                             <field name="bank_id" required="0"/>
                             <field name="partner_id" required="0"/>
                             <field name="payee_id" required="0"/>
@@ -99,7 +99,7 @@
                       <hpaned/> 
                       <group colspan="2" col="3">
                             <hpaned/> 
-                            <button name="%(voucher_pay_support_report)d" string='Imprimir Cheque' type="action" icon='gtk-print' />
+                            <button name="%(check_fmt_report)d" string='Print Check' type="action" icon='gtk-print' />
                             <hpaned/> 
                       </group>
                       <hpaned/> 
@@ -107,7 +107,7 @@
                       <group colspan="2" col="7">
                             <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
                             <hpaned/>  
-                            <button icon='gtk-ok' name="pop_check_printer" string="Confirmar Impresion" type="object"/> 
+                            <button icon='gtk-ok' name="pop_check_printer" string="print confirmation" type="object"/> 
                       </group>
                 </form>
              </field>
@@ -120,9 +120,9 @@
              <field name="model">voucher.pay.support.wizard</field>
              <field name="type">form</field>
              <field name="arch" type="xml">
-                <form string="¿El cheque se ha impreso correctamente?">
+                <form string="The check is printed correctly?">
                       <group colspan="4" col="4">
-                            <separator string="¿El cheque se ha impreso correctamente?" colspan="4"/>
+                            <separator string="The check is printed correctly?" colspan="4"/>
                              <group colspan="4" col="4">
                                     <group colspan="3" col="3" attrs="{'invisible':[('bool_bad','=','True')]}" >
                                         <group attrs="{'invisible':[('bool_good','=','False')]}" >
@@ -147,7 +147,7 @@
                                     <hpaned/>
                                     <hpaned/>
                                     <hpaned/>
-                                    <button icon="gtk-ok" name="pop_check" string="Aceptar" type="object"/>
+                                    <button icon="gtk-ok" name="pop_check" string="Agree" type="object"/>
                                     <newline/> 
                                     <hpaned/>
                                     <hpaned/>
@@ -169,7 +169,7 @@
              <field name="arch" type="xml">
                 <form string="Nota">
                       <group colspan="4" col="4">
-                            <separator string="Justificación de Anulacion" colspan="4"/> 
+                            <separator string="Grounds for Annulment" colspan="4"/> 
                            <group colspan="4" col="6">
                                 <field name="cancel_check_note"/>
                                 <hpaned/> 
@@ -183,7 +183,7 @@
                             <hpaned/> 
                             <button icon="gtk-cancel" special="cancel" string="_Cancel"/>
                             <hpaned/>  
-                            <button icon="gtk-ok" name="fin_check" string="Procesar" type="object"/>
+                            <button icon="gtk-ok" name="fin_check" string="Process" type="object"/>
                             <hpaned/> 
                       </group>
                 </form>

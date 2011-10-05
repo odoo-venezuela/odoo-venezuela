@@ -6,33 +6,35 @@
             <field name="model">gral.check.book</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Reporte General de Chequeras" >
-                    <group colspan="4" col='4'>
-                        <field name="check_book_id"   nolabel="1"/>
-                    </group>
-                    <group colspan="4">
-                        <separator string="Periodo" colspan="4"/>                        
-                        <field name="state_check_note"/>
-                        <newline/>                        
-                        <group attrs="{'invisible':[('state_check_note','=','sin_filtro')]}" colspan="4">
-                            <field name="tiempo"/>
+                <form string="General Report Checkbooks" >
+                    <group height="300" width="500" colspan="4" col='4'>
+                        <group colspan="4" col='4'>
+                            <field name="check_book_id"   nolabel="1"/>
+                        </group>
+                        <group colspan="4">
+                            <separator string="Period" colspan="4"/>
+                            <field name="state_check_note"/>
                             <newline/>
-                            <group attrs="{'invisible':[('tiempo','=','sin_filtro')]}" colspan="4">
-                                <group attrs="{'invisible':[('tiempo','=','mes')]}" colspan="4">
-                                    <separator string=" Filtrado por Fecha" colspan="4"/>
-                                    <field name="desde"/>
-                                    <field name="hasta"/>
-                                </group>
-                                <group attrs="{'invisible':[('tiempo','=','fecha')]}" colspan="4">
-                                    <separator string="Filtrado por Periodos" colspan="4"/>
-                                    <field name="mes" colspan="4" nolabel="1"/>
+                            <group attrs="{'invisible':[('state_check_note','=','sin_filtro')]}" colspan="4">
+                                <field name="tiempo"/>
+                                <newline/>
+                                <group attrs="{'invisible':[('tiempo','=','sin_filtro')]}" colspan="4">
+                                    <group attrs="{'invisible':[('tiempo','=','mes')]}" colspan="4">
+                                        <separator string=" Filter by Date" colspan="4"/>
+                                        <field name="desde"/>
+                                        <field name="hasta"/>
+                                    </group>
+                                    <group attrs="{'invisible':[('tiempo','=','fecha')]}" colspan="4">
+                                        <separator string="Filter by Period" colspan="4"/>
+                                        <field name="mes" colspan="4" nolabel="1"/>
+                                    </group>
                                 </group>
                             </group>
                         </group>
+                        <group colspan="2" col="4">
+                            <button name="check_report"  string="Check Book Report" type="object" icon="gtk-print"/>
+                        </group>
                     </group>
-                    <group colspan="2" col="4">
-                        <button name="check_report"  string="Check Book Report" type="object" icon="gtk-print"/>
-                    </group>                        
                 </form>
             </field>
         </record>

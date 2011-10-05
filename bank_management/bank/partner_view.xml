@@ -17,10 +17,10 @@
                     <separator string="Account Properties" colspan="4"/>
                     <field name="bank_account_id"/>
                     <field name="trans_account_id"/>
-                    <field name="journal_id"/>                    
-                    <field name="transitory_money"/>                      
+                    <field name="journal_id"/>
+                    <field name="transitory_money"/>
                     <field name="virtual_balance"/>
-                    <field name="balance"/>                    
+                    <field name="balance"/>
                 </xpath>
             </field>
         </record>
@@ -36,9 +36,9 @@
                     <field name="bank_account_id"/>
                     <field name="journal_id"/>
                     <field name="trans_account_id"/>
-                    <field name="transitory_money"/>                      
+                    <field name="transitory_money"/>
                     <field name="virtual_balance"/>
-                    <field name="balance"/>                    
+                    <field name="balance"/>
                 </xpath>
             </field>
         </record>
@@ -55,7 +55,7 @@
                     <field name="acc_number"/>
                     <field name="partner_id"/>
                     <field name="owner_name"/>
-                    <field name="journal_id"/>                                                
+                    <field name="journal_id"/>
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
@@ -66,7 +66,7 @@
                     </group>
                </search>
             </field>
-        </record>        
+        </record>
         
         <record id="view_res_partner_bank_form" model="ir.ui.view">
             <field name="name">res.partner.bank.account.form</field>
@@ -86,12 +86,12 @@
                     <separator colspan="4" string="Account Properties"/>
                     <field name="bank_account_id"/>
                     <field name="trans_account_id"/>
-                    <field name="journal_id"/>                    
-                    <field name="transitory_money"/>                      
+                    <field name="journal_id"/>
+                    <field name="transitory_money"/>
                     <field name="virtual_balance"/>
-                    <field name="balance"/>                    
+                    <field name="balance"/>
                     <separator colspan="4" string="Bank Account Owner"/>
-                    <field colspan="4" name="owner_name"/>                    
+                    <field colspan="4" name="owner_name"/>
                     <field colspan="4" name="street"/>
                     <field name="city"/>
                     <field name="zip"/>
@@ -114,22 +114,22 @@
                     <field name="bank_account_id"/>
                     <field name="journal_id"/>
                     <field name="trans_account_id"/>
-                    <field name="transitory_money"/>                      
+                    <field name="transitory_money"/>
                     <field name="virtual_balance"/>
-                    <field name="balance"/>                    
+                    <field name="balance"/>
                 </tree>
             </field>
         </record>
 
 
         <record model="ir.actions.act_window" id="action_res_partner_bank">
-            <field name="name">Bank Account</field>
+            <field name="name">Bank Accounts</field>
             <field name="res_model">res.partner.bank</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
 	    	<field name="search_view_id" ref="view_res_partner_bank_filter"/>
-            <field name="help">With Bank Account you can create and manage Bank Account.</field>            
+            <field name="help">With Bank Account you can create and manage Bank Account.</field>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_partner_bank_tree">
             <field name="sequence" eval="10"/>
@@ -146,7 +146,7 @@
 
         <menuitem
             id="menu_action_res_partner_bank"
-            parent="base.menu_config_address_book"
+            parent="menu_configuration_bank"
             action="action_res_partner_bank"
             sequence="5"/>
 

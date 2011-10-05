@@ -124,7 +124,7 @@ class check_note(osv.osv):
         if isinstance(ids, (int, long)):
             ids = [ids]
         reads = self.read(cr, uid, ids, ['number'], context)
-        return [(x['number']) for x in reads]
+        return [(x['id'],x['number']) for x in reads]
 
     def copy(self, cr, uid, id, default=None, context=None):
         raise osv.except_osv(_('Warning !'), _('You can not duplicate this document!!!'))
