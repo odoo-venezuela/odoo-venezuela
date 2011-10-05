@@ -12,7 +12,7 @@
                     <field name="sure"/>
                      <group colspan="8" col="8">
                             <button icon="gtk-cancel" special="cancel" string="Cancel"/>
-                            <button icon="gtk-ok" name="shbda" string="Create Invoice" type="object"/>
+                            <button icon="gtk-ok" name="create_invoice" string="Create Invoice" type="object"/>
                      </group>
                 </form>
             </field>
