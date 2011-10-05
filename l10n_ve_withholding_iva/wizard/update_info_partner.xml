@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_finance_partner_fiscal_information" name="Partner Fiscal Information" parent="account.menu_finance" groups="account.group_account_manager"/>
+
+        <record id="view_wizard_update_info_partner" model="ir.ui.view">
+            <field name="name">view.update.info.partner</field>
+            <field name="model">update.info.partner</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <separator string="Are you sure you want to do this?" colspan="4"/>
+                    <group colspan="8" col="8">
+                            <button icon="gtk-ok" name="update_info" type="object" string="Yes"/>
+                            <button icon="gtk-cancel" special="cancel" string="No"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_update_info_partner" model="ir.actions.act_window">
+            <field name="name">Update Info Partner</field>
+            <field name="res_model">update.info.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wizard_update_info_partner"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Update All Partner Information" id="wizard_update_all_partner_information" 
+            parent="menu_finance_partner_fiscal_information" action="wizard_update_info_partner"
+        />
+    </data>
+</openerp>
