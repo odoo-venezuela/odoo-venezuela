@@ -154,7 +154,7 @@ msgstr "Los impuestos globales definidos, pero no están en las líneas de factu
 #. module: l10n_ve_withholding
 #: field:account.wh.doc,model_child:0
 msgid "Child Object"
-msgstr "Objecto Hijo"
+msgstr "Objeto Hijo"
 
 #. module: l10n_ve_withholding
 #: view:account.move:0
