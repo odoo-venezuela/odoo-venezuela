@@ -38,7 +38,17 @@
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
     "description": """
-    Proporciona los formatos para los cheques venezolanos
+    - Management of check book, check note
+    - Print format of venezuelan check note
+    - Traceability of check note throught paid support
+    - Account voucher payment 
+---------------------------------------------------------
+    1.- Create bank account
+    2.- Create check book request
+    3.- Load check note
+    4.- Make supplier invoice
+    5.- Create one supplier payment
+    6.- Create support (click button)
     """,
     'init_xml': [],
     "depends" : ["base", "account", "account_voucher"],
@@ -55,14 +65,10 @@
         'check/wizard/cancel_wizard.xml',
         'check/wizard/voucher_pay_support_wizard_pay_order.xml',
         'check/wizard/chk_book_gral.xml',
-#        'check/generate_lines_payment_wizard.xml',
         'check/check_book_request_view.xml',
-#        'check/data/res.bank.xml',
         'check/voucher_pay_support_view.xml',
         'check/account_voucher_payment_view.xml',
         'check/account_view.xml',
-#        'check/menu_vouche_view.xml',
-#        'check/pay_order_view.xml',
         'check/account_voucher_journal_view.xml',
         'security/ir.model.access.csv',
         'security/account_voucher_group.xml',
