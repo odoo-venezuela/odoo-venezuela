@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <!--BEGIN ADDRESSES -->
+        <!--        <record id="f_req_address_1" model="res.partner.address">
+            <field eval="" name="" />
 
+        </record>-->
+
+        <!--END ADDRESSES -->
+        <!--BEGIN PARTNERS -->
+        <record id="f_req_partner_1" model="res.partner">
+            <field eval="Comercializadora M321, C.A." name="name" />
+            <field eval="J-29986864-7" name="vat" />
+            <!--            <field name="address" ref="" />-->
+        </record>
+        <record id="f_req_partner_2" model="res.partner">
+            <field eval="Accesorios AMD Computadoras, C.A." name="name" />
+            <field eval="J-29777433-5" name="vat" />
+            <!--            <field name="address" ref="" /> -->
+        </record>
+        <record id="f_req_partner_3" model="res.partner">
+            <field eval="Computación Activa, C.A." name="name" />
+            <field eval="J-29846236-1" name="vat" />
+            <!--<field name="address" ref="" />-->
+        </record>
+        <record id="f_req_partner_4" model="res.partner">
+            <field eval="Multiservicios del Sura VII, C.A." name="name" />
+            <field eval="J-31315572-1" name="vat" />
+            <!--<field name="address" ref="" />-->
+        </record>
+        <record id="f_req_partner_5" model="res.partner">
+            <field eval="Data PC Shop, C.A." name="name" />
+            <field eval="J-31722420-5" name="vat" />
+            <!--<field name="address" ref="" />-->
+        </record>
+        <!--END PARTNERS -->
     </data>
 </openerp>
 
