@@ -37,7 +37,6 @@
         'security/ir.model.access.csv',
         'generate_txt_view.xml',
         'txt_wh_report.xml',
-        'res_company_view.xml',
         'account_invoice_view.xml',
         'account_view.xml',
         'partner_view.xml',

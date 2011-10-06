@@ -36,6 +36,12 @@ class res_company(osv.osv):
     _columns = {
         'jour_id': fields.many2one('account.journal', 'Journal',required=False,help="Default journal for damaged invoices"),
         'acc_id': fields.many2one('account.account', 'Account',required=False,help="Default account used for invoices and lines from damaged invoices"),
+        'url_seniat1_company':fields.char('URL Seniat for Partner Information',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
+        'url_seniat2_company':fields.char('URL Seniat for Retention Rate',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner'),
         }
+    _defaults = {
+        'url_seniat1_company':'http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=',
+        'url_seniat2_company':'http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=',
+    }
 res_company()
 

@@ -24,14 +24,11 @@
                                 <field name="wh_iva_rate"/>
                                 <field name="property_wh_iva_payable"/>
                                 <field name="property_wh_iva_receivable"/>
-                                <button name="update_rif" string="Update Data Vat" type="object" icon="gtk-execute"/>
                             </group>
                         </page>
                     </notebook>
                 </page>
             </field>
         </record>
-
-
     </data>
 </openerp>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
         <record id="il_company_invoice_damaged" model="ir.ui.view">
             <field name="name">il_company_invoice_damaged</field>
             <field name="model">res.company</field>
@@ -15,6 +16,21 @@
                 </page>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="view_res_company_wh_iva_form_inherit">
+          <field name="name">res.company.form.inherit</field>
+          <field name="model">res.company</field>
+          <field name="type">form</field>
+          <field name="inherit_id" ref="base.view_company_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="/form/notebook/page[@string='Configuration']" position="inside">
+                  <separator string="Fiscal Information" colspan="4"/>
+                  <field name="url_seniat1_company" />
+                  <field name="url_seniat2_company" />
+              </xpath>
+          </field>
+        </record>
+
     </data>
 </openerp>
 
