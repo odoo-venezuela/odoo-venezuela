@@ -2,7 +2,17 @@
 ##############################################################################
 #
 #    
+#    Programmed by: Alexander Olivares <olivaresa@gmail.com>
+#                   Juan Márquez <jmarquez@tecvemar.com.ve>
+#
+#    This the script to connect with Seniat website 
+#    for consult the rif asociated with a partner was taken from:
 #    
+#    http://siv.cenditel.gob.ve/svn/sigesic/ramas/sigesic-1.1.x/sigesic/apps/comun/seniat.py
+#
+#    This script was modify by:
+#                   Javier Duran <javier@vauxoo.com>
+#                   Miguel Delgado <miguel@openerp.com.ve>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,6 +31,9 @@
 
 from osv import fields, osv
 from tools.translate import _
+import urllib
+from xml.dom.minidom import parseString
+import netsvc
 
 class res_partner_address(osv.osv):
     _inherit='res.partner.address'
@@ -50,6 +63,10 @@ res_partner_address()
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
+    logger = netsvc.Logger()
+    _columns = {
+    'vat_apply': fields.boolean('Vat Apply', help="This field indicate if partner is subject to vat apply "),
+    }
 
     '''
     Required Invoice Address
@@ -57,7 +74,6 @@ class res_partner(osv.osv):
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         partner_obj = self.browse(cr,uid,ids[0])
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE':
-            #~ if hasattr(partner_obj, 'address') and partner_obj.address:
             if hasattr(partner_obj, 'address'):
                 res = [addr for addr in partner_obj.address if addr.type == 'invoice']
 
@@ -70,17 +86,13 @@ class res_partner(osv.osv):
                 return True
         return True
 
-
     _constraints = [
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
-    
 
-    
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
         warning = {'Tittle':'Vat Error !','Message':'You try to put a VAT already existant !'}
         res = self.pool.get('res.partner').search(cr, uid, [('vat', '=', value)])
-        print "esto es el len",len(res)
         if len(res)>=1:
             raise osv.except_osv(_('Vat Error !'),_('Invalid VAT. This vat is alredy used'))
         else:
@@ -97,6 +109,68 @@ class res_partner(osv.osv):
             return False
         return True
     
-res_partner()
+#    Update Partner Information 
 
+    def _load_url(self,retries,url):
+        str_error= '404 Not Found'
+        while retries > 0:
+            try:
+                s = urllib.urlopen(url)
+                r = s.read()
+                ok = not('404 Not Found' in r)
+                if ok:
+                    self.logger.notifyChannel("info", netsvc.LOG_INFO,
+            "Url Loaded correctly %s" % url)
+                    return r
+            except:
+                self.logger.notifyChannel("warning", netsvc.LOG_WARNING,
+            "Url could not be loaded %s" % str_error)
+                pass
+            retries -= 1
+        return str_error
+
+    def _parse_dom(self,dom,rif,url_seniat):
+        name = dom.childNodes[0].childNodes[0].firstChild.data 
+        vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
+        self.logger.notifyChannel("info", netsvc.LOG_INFO,
+            "RIF: %s Found" % rif)
+        return {'name':name,'vat_apply':vat_apply}
+
+    def _print_error(self, error, msg):
+        raise osv.except_osv(error,msg)
+
+    def _eval_seniat_data(self,xml_data,context={}):
+        if xml_data.find('450')>=0:
+            if not 'all_rif' in context:
+                self._print_error(_('Vat Error !'),_('Invalid VAT!'))
+            else:
+                return True
+        if xml_data.find('452')>=0:
+            if not 'all_rif' in context:
+                self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+            else:
+                return True
+        if xml_data.find("404")>=0:
+            if not 'all_rif' in context:
+                self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
+            else:
+                return True
+
+    def update_rif(self, cr, uid, ids, context={}):
+        for partner in self.browse(cr,uid,ids):
+            url1=partner.company_id.url_seniat1_company+'%s'
+            url2=partner.company_id.url_seniat2_company+'%s'
+            if partner.vat:
+                xml_data = self._load_url(3,url1 %partner.vat[2:])
+                if not self._eval_seniat_data(xml_data,context):
+                    dom = parseString(xml_data)
+                    self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                else:
+                    return False
+            else:
+                if not 'all_rif' in context:
+                    self._print_error(_('Vat Error !'),_('The field vat is empty'))
+        return True
+
+res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

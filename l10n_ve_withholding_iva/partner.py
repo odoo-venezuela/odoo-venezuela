@@ -89,13 +89,12 @@ class res_partner(osv.osv):
             return 0.0
 
     def _parse_dom(self,dom,rif,url_seniat):
-        name = dom.childNodes[0].childNodes[0].firstChild.data 
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
-        vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         wh_rate = self._buscar_porcentaje(rif,url_seniat)
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
-        return {'name':name, 'wh_iva_agent':wh_agent,'vat_subjected':vat_apply,'wh_iva_rate':wh_rate}
+        data = {'wh_iva_agent':wh_agent,'wh_iva_rate':wh_rate}
+        return dict(data.items() + super(res_partner,self)._parse_dom(dom,rif,url_seniat).items())
 
     def _print_error(self, error, msg):
         raise osv.except_osv(error,msg)
