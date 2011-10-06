@@ -18,12 +18,12 @@ msgstr ""
 #. module: l10n_ve_islr_withholding
 #: field:islr.wh.doc,date_uid:0
 msgid "Withhold Date"
-msgstr "Fecha de retención"
+msgstr "Fecha de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.concept,rate_ids:0
 msgid "Withholding Concept rate"
-msgstr "Arancel Concepto de Retención"
+msgstr "Aranceles de Conceptos de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.xml.wh.doc,amount_total_ret:0
@@ -38,7 +38,7 @@ msgstr "Intereses de Capitales tomados en préstamo e invertidos en la producci�
 #. module: l10n_ve_islr_withholding
 #: help:islr.rates,name:0
 msgid "Name retention rate of withhold concept"
-msgstr "Nombre arancel de retención de concepto de retención "
+msgstr "Nombre de la tasa de retención del concepto de retención"
 
 #. module: l10n_ve_islr_withholding
 #: code:addons/l10n_ve_islr_withholding/invoice.py:455
@@ -65,7 +65,7 @@ msgstr "TOTAL MONTO DE RETENCION"
 #: view:islr.wh.doc:0
 #: view:islr.xml.wh.doc:0
 msgid "Group By..."
-msgstr "Grupo por..."
+msgstr "Agrupar por..."
 
 #. module: l10n_ve_islr_withholding
 #: report:list.wh.islr:0
@@ -98,7 +98,7 @@ msgstr "Generar XML"
 #: help:islr.wh.doc.invoices,islr_wh_doc_id:0
 #: help:islr.wh.doc.line,islr_wh_doc_id:0
 msgid "Document Retention income tax generated from this bill"
-msgstr "Impuesto ingreso de documento de retención"
+msgstr "Documento de impuesto de ingreso de retención generado desde esta factura"
 
 #. module: l10n_ve_islr_withholding
 #: help:islr.rates,nature:0
@@ -116,7 +116,7 @@ msgstr "Compañía"
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.doc.line,retention_rate:0
 msgid "Withhold rate has been applied to the invoice"
-msgstr "Arancel de retención ha sido aplicado a la factura"
+msgstr "El arancel de retención ha sido aplicado a la factura"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.xml.wh.line,control_number:0
@@ -153,7 +153,7 @@ msgstr "Descripción de la línea del recibo"
 #: view:islr.wh.doc:0
 #: selection:islr.wh.doc,state:0
 msgid "To Process"
-msgstr "A proceder"
+msgstr "A procesar"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.wh.concept,property_retencion_islr_receivable:0
@@ -180,7 +180,7 @@ msgstr "Concepto de retención asociado con este arancel"
 #. module: l10n_ve_islr_withholding
 #: field:islr.rates,minimum:0
 msgid "Min. Amount"
-msgstr "Min. Monto"
+msgstr "Cantidad mínima"
 
 #. module: l10n_ve_islr_withholding
 #: model:islr.wh.concept,name:l10n_ve_islr_withholding.islr_wh_concept_cualquie_cosa_menos_sueldos
@@ -201,7 +201,7 @@ msgstr "Pagos por Servicios de Publicidad y Propaganda y la Cesión de la Venta 
 #: view:islr.wh.concept:0
 #: field:islr.wh.concept,withholdable:0
 msgid "Withhold"
-msgstr "Retención"
+msgstr "Retener"
 
 #. module: l10n_ve_islr_withholding
 #: report:voucher.wh.islr:0
@@ -216,7 +216,7 @@ msgstr "Cantidad"
 #. module: l10n_ve_islr_withholding
 #: report:list.wh.islr:0
 msgid "Nombre del Contribuyente"
-msgstr "Name of the contributor"
+msgstr "Name of the Contributor"
 
 #. module: l10n_ve_islr_withholding
 #: report:voucher.wh.islr:0
@@ -242,7 +242,7 @@ msgstr "Factura a retener"
 #. module: l10n_ve_islr_withholding
 #: field:islr.xml.wh.line,partner_vat:0
 msgid "VAT"
-msgstr "IVA"
+msgstr "RIF"
 
 #. module: l10n_ve_islr_withholding
 #: report:voucher.wh.islr:0
@@ -427,8 +427,8 @@ msgstr "\n"
 "\n"
 "                    Pasos para la primera instalación:\n"
 "                    1.- Crear el concepto de retención con sus aranceles\n"
-"                    2.- Asignar a servicios asociados con el concepto de retención\n"
-"                    3.- Revisa que la retención de la compañia sea agente de retención. (si y asi) \n"
+"                    2.- Asignar los servicios asociados con el concepto de retención\n"
+"                    3.- Revisar que la retención de la compañia sea agente de retención.  \n"
 "                    4.- Crear el concepto de retención para cuando la retención no aplica: LA RETENCIÓN NO APLICA.\n"
 "                    \n"
 "                    Para el correcto funcionamiento:\n"
@@ -490,12 +490,12 @@ msgstr "Pagos de los Administradores de bienes Inmuebles a los arrendadores de l
 #. module: l10n_ve_islr_withholding
 #: model:ir.actions.act_window,help:l10n_ve_islr_withholding.action_wh_islr_supplier
 msgid "With Supplier Withholding  you can manage document withholding issued to your suppliers. OpenERP can Just generate document withholding for purchase process automatically from invoices. To generate the withholding income and all accounting process you must confirm and validate the document withholding."
-msgstr "Con la retención de Proveedor puedes manejar documentos de retención asociados a tus proveedores. OpenERP can simplemente generar documentos de retención para procesos de comprar automaticamente desde las facturas. Para generar el ingreso de retención y todos los procesos de contabilidad debes confirmar y validar el documento de retención."
+msgstr "Con la retención de Proveedor puedes manejar documentos de retención asociados a tus proveedores. OpenERP can simplemente generar documentos de retención para procesos de compra automaticamente desde las facturas. Para generar el ingreso de retención y todos los procesos de contabilidad debes confirmar y validar el documento de retención."
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.xml.wh.doc,xml_ids:0
 msgid "XML Document Lines"
-msgstr "Linea de Documento XML"
+msgstr "Lineas de Documento XML"
 
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.doc,type:0
@@ -565,7 +565,7 @@ msgstr "Nombre de concepto de retención, Ejemplo: Honorarios Profesionales, Com
 #. module: l10n_ve_islr_withholding
 #: field:islr.xml.wh.line,islr_wh_doc_line_id:0
 msgid "Withholding Income Document"
-msgstr "Ingreso de Documento de Retención"
+msgstr "Documento de Ingreso deRetención"
 
 #. module: l10n_ve_islr_withholding
 #: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:288
@@ -718,7 +718,7 @@ msgstr "Sustraendo"
 #. module: l10n_ve_islr_withholding
 #: constraint:product.template:0
 msgid "Error: The default UOM and the purchase UOM must be in the same category."
-msgstr "Error: El UOM por defecto and el UOM de compra deben estar en la misma categoría"
+msgstr "Error: El UOM por defecto y el UOM de compra deben estar en la misma categoría"
 
 #. module: l10n_ve_islr_withholding
 #: model:ir.actions.act_window,help:l10n_ve_islr_withholding.action_wh_islr_concept
@@ -741,7 +741,7 @@ msgstr "Borrador"
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.concept,property_retencion_islr_receivable:0
 msgid "This account will be used as the account where the withheld amounts shall be charged in (Sale) of income tax"
-msgstr "Esta cuenta será usada como la cuenta donde los montos de retención deben ser cargados in (Venta) del impuesto ingreso"
+msgstr "Esta cuenta será usada como la cuenta donde los montos de retención deben ser cargados in (Venta) del impuesto de ingreso"
 
 #. module: l10n_ve_islr_withholding
 #: field:islr.rates,code:0
@@ -779,7 +779,7 @@ msgstr "Naturaleza"
 #: model:ir.ui.menu,name:l10n_ve_islr_withholding.menu_wh_configuration_islr
 #: view:res.partner:0
 msgid "Withholding Income"
-msgstr "Retención Entrada"
+msgstr "Ingreso de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: model:islr.wh.concept,name:l10n_ve_islr_withholding.islr_wh_concept_servicios_tecnologicos
@@ -799,17 +799,17 @@ msgstr "Mantener vacío para usar la fecha actual"
 #. module: l10n_ve_islr_withholding
 #: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_doc
 msgid "Document Withholding Income"
-msgstr "Ingreso de Documento de Retención"
+msgstr "Documento de Ingreso de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: help:product.template,concept_id:0
 msgid "Concept Withholding Income to apply to the service"
-msgstr "Ingreso de Documento de Retención a aplicar al servicio"
+msgstr "Concepto de Ingreso de Retención a aplicar al servicio"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.xml.wh.doc:0
 msgid "Lines Withholding for XML"
-msgstr "Lineas de Retención para XML"
+msgstr "Lineas de Retención para el XML"
 
 #. module: l10n_ve_islr_withholding
 #: report:list.wh.islr:0
@@ -824,7 +824,7 @@ msgstr "Contribuyente"
 #. module: l10n_ve_islr_withholding
 #: help:islr.rates,wh_perc:0
 msgid "The percentage to apply to taxable withold income  throw the amount to withhold"
-msgstr "El porcentaje a aplicar al ingreso de retención del contribuyente arroja la cantidad a retención"
+msgstr "El porcentaje a aplicar al ingreso de retención del contribuyente arroja la cantidad a retener"
 
 #. module: l10n_ve_islr_withholding
 #: report:list.wh.islr:0
@@ -869,7 +869,7 @@ msgstr "RIF del socio"
 #. module: l10n_ve_islr_withholding
 #: help:islr.xml.wh.line,islr_xml_wh_doc:0
 msgid "Income tax XML Doc"
-msgstr "Documento XML de impuesto de Entrada"
+msgstr "Documento XML de impuesto de Ingreso"
 
 #. module: l10n_ve_islr_withholding
 #: model:islr.wh.concept,name:l10n_ve_islr_withholding.islr_wh_concept_pub_emisoras
@@ -919,18 +919,18 @@ msgstr "Documento de entrada de retención"
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.doc.line,amount:0
 msgid "Withheld amount"
-msgstr "Monto de retención"
+msgstr "Monto a retener "
 
 #. module: l10n_ve_islr_withholding
 #: model:ir.actions.report.xml,name:l10n_ve_islr_withholding.voucher_report_withholding_islr
 msgid "Voucher Withholding Income"
-msgstr "Ingreso de Recibo de Retención"
+msgstr "Ingreso del Recibo de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: model:ir.actions.act_window,name:l10n_ve_islr_withholding.action_xml_islr
 #: model:ir.ui.menu,name:l10n_ve_islr_withholding.menu_action_xml_islr
 msgid "Generate file XML"
-msgstr "Generar archivo XML"
+msgstr "Genera archivo XML"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.xml.wh.doc:0
@@ -1024,7 +1024,7 @@ msgstr "Exportar en data XML"
 #: code:addons/l10n_ve_islr_withholding/invoice.py:229
 #, python-format
 msgid "Impossible withholding income, because the Concept of Withholding associated with type line is not withheld!"
-msgstr "Ingreso de entrada imposible, porque el concepto de retención asociado con el tipo de línea no es retención!"
+msgstr "Ingreso de retención imposible, porque el concepto de retención asociado con el tipo de línea no es a retener!"
 
 #. module: l10n_ve_islr_withholding
 #: selection:account.invoice,status:0
@@ -1047,7 +1047,7 @@ msgstr "Período cuando las entradas a las cuentas fueron realizadas"
 #: model:ir.model,name:l10n_ve_islr_withholding.model_islr_wh_concept
 #: field:islr.wh.doc,concept_ids:0
 msgid "Withholding Income Concept"
-msgstr "Concepto de xiEentrada de Retención"
+msgstr "Concepto de Ingreso de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: selection:islr.wh.doc,type:0
@@ -1134,7 +1134,7 @@ msgstr "Descripción"
 #. module: l10n_ve_islr_withholding
 #: help:islr.wh.doc,amount_total_ret:0
 msgid "Total Withheld amount"
-msgstr "Monto Total de retención"
+msgstr "Monto Total a retener"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.wh.doc:0
@@ -1173,7 +1173,7 @@ msgstr "Número de factura"
 #. module: l10n_ve_islr_withholding
 #: field:account.invoice.line,wh_xml_id:0
 msgid "XML Id"
-msgstr "XML Id"
+msgstr "Id XML"
 
 #. module: l10n_ve_islr_withholding
 #: code:addons/l10n_ve_islr_withholding/invoice.py:166
@@ -1300,7 +1300,7 @@ msgstr "Referencia del recibo"
 #: code:addons/l10n_ve_islr_withholding/islr_wh_doc.py:410
 #, python-format
 msgid "Impossible withholding income, because the supplier '%s' withholding agent is not!"
-msgstr "Entrada de retención imposible, porque el agente de retención de '%s'no lo es!"
+msgstr "Entrada de retención imposible, porque el agente de retención del proveedor '%s' no lo es!"
 
 #. module: l10n_ve_islr_withholding
 #: help:islr.xml.wh.doc,amount_total_ret:0
@@ -1321,12 +1321,12 @@ msgstr "Detalle del XML"
 #: code:addons/l10n_ve_islr_withholding/product.py:62
 #, python-format
 msgid "Must create the concept of withholding income"
-msgstr "Se debe de crear el concepto de ingreso de retención"
+msgstr "Se debe crear el concepto de ingreso de retención"
 
 #. module: l10n_ve_islr_withholding
 #: help:account.invoice.line,wh_xml_id:0
 msgid "XML withhold line id"
-msgstr "id línea de retención XML"
+msgstr "id de la línea de retención XML"
 
 #. module: l10n_ve_islr_withholding
 #: model:ir.actions.act_window,name:l10n_ve_islr_withholding.action_wh_islr_concept
@@ -1337,7 +1337,7 @@ msgstr "id línea de retención XML"
 #: view:product.product:0
 #: view:product.template:0
 msgid "Concept of Withholding Income"
-msgstr "Concepto de Ingreso de retención"
+msgstr "Concepto de Ingreso de Retención"
 
 #. module: l10n_ve_islr_withholding
 #: view:islr.wh.concept:0
