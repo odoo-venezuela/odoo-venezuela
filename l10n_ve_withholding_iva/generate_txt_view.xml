@@ -13,7 +13,7 @@
             <field name="model">txt.iva</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Archivo TXT">
+                <tree string="Field TXT">
                     <field name="company_id"/>
                     <field name="fiscalyear_id"/>
                     <field name="period_id"/>
@@ -27,7 +27,7 @@
             <field name="model">txt.iva</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Lineas de Retencion para TXT">
+                <form string="Withholding lines for TXT">
                     <group col="4" colspan="4">
                         <field name="company_id"/>
                         <field name="type"/>
@@ -43,9 +43,9 @@
                         <field name="date_end"/>
                     </group>
                     <notebook colspan="4">
-                        <page string="Lineas de Retencion">
+                        <page string="Withholding lines">
                             <field name="txt_ids" nolabel="1"  colspan='4' widget="one2many_list">
-                                <tree string="Lineas del archivo TXT">
+                                <tree string="Field of lines TXT">
                                     <field name="partner_id"/>
                                     <field name="invoice_id"/>
                                     <field name="voucher_id"/>
@@ -55,10 +55,10 @@
                             </field>
                             <group col="4" colspan="2">
                                 <field name="state" select="2" colspan="4"/>
-                                <button name="action_generate_lines_txt" string="Generar Lineas TXT" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
-                                <button name="action_confirm" string="Confirmar" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
-                                <button name="action_done" string="Realizar TXT" states="confirmed" type="object"  icon="gtk-ok"/>
-                                <button name="action_anular" string="Anular" states="confirmed,done" type="object"  icon="gtk-cancel"/>
+                                <button name="action_generate_lines_txt" string="Lines Generate TXT" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
+                                <button name="action_confirm" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
+                                <button name="action_done" string="Make TXT" states="confirmed" type="object"  icon="gtk-ok"/>
+                                <button name="action_anular" string="Canlce" states="confirmed,done" type="object"  icon="gtk-cancel"/>
                             </group>
 <!--
                             <group col="2" colspan="2">
@@ -94,7 +94,7 @@
             <field name="act_window_id" ref="action_generate_text_iva"/>
         </record>
 
-        <menuitem name="Generar TXT" 
+        <menuitem name="Generate TXT" 
             id="menu_action_generate_txt_iva" 
             parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting"
             action="action_generate_text_iva"/>

@@ -59,20 +59,20 @@ class txt_iva(osv.osv):
         #~ return res
 
     _columns = {
-        'company_id': fields.many2one('res.company', 'Compañía', required=True, readonly=True,states={'draft':[('readonly',False)]}),
+        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True,states={'draft':[('readonly',False)]}),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
-        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Año Fiscal', required=True,readonly=True,states={'draft':[('readonly',False)]}),
-        'period_id':fields.many2one('account.period','Periodo',required=True,readonly=True,states={'draft':[('readonly',False)]}, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
-        'type':fields.boolean('Retención Proveedores?',required=True,states={'draft':[('readonly',False)]}, help="Seleccione el tipo de retencion a realizar"),
-        'date_start': fields.date('Fecha Inicio',required=True,states={'draft':[('readonly',False)]}, help="Fecha de Inicio del periodo"),
-        'date_end': fields.date('Fecha Fin', required=True,states={'draft':[('readonly',False)]}, help="Fecha de Fin del periodo"),
-        'type':fields.boolean('Retención Proveedores?',required=True,states={'draft':[('readonly',False)]}, help="Seleccione el tipo de retencion a realizar"),
-        'txt_ids':fields.one2many('txt.iva.line','txt_id',domain="[('txt_id','=',False)]", readonly=True,states={'draft':[('readonly',False)]}, help='Lineas del archivo txt exigido por el SENIAT, para retención del IVA'),
+            ],'Estado', select=True, readonly=True, help="proof status"),
+        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', required=True,readonly=True,states={'draft':[('readonly',False)]}),
+        'period_id':fields.many2one('account.period','Period',required=True,readonly=True,states={'draft':[('readonly',False)]}, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
+        'type':fields.boolean('Retention Suppliers?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
+        'date_start': fields.date('Begin Date',required=True,states={'draft':[('readonly',False)]}, help="Begin date of period"),
+        'date_end': fields.date('End date', required=True,states={'draft':[('readonly',False)]}, help="End date of period"),
+        'type':fields.boolean('Retención Proveedores?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
+        'txt_ids':fields.one2many('txt.iva.line','txt_id',domain="[('txt_id','=',False)]", readonly=True,states={'draft':[('readonly',False)]}, help='Txt field lines of ar required by SENIAT for VAT withholding'),
         #~ 'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
         #~ 'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
     }
@@ -160,7 +160,7 @@ class txt_iva(osv.osv):
         number=0
         if txt_line.invoice_id.type in ['in_invoice','in_refund']:
             if not txt_line.invoice_id.reference:
-                raise osv.except_osv(_('Invalid action !'),_("Imposible realizar archivo txt, debido a que la factura no tiene numero de referencia libre!"))
+                raise osv.except_osv(_('Invalid action !'),_("Unable to make txt file, because the bill has no reference number free!"))
             else:
                 number = self.get_number(cr,uid,txt_line.invoice_id.reference.strip(),inv_type,20)
         elif txt_line.invoice_id.number:
@@ -230,7 +230,7 @@ class txt_iva(osv.osv):
         
     def _write_attachment(self, cr,uid,ids,root,context):
         '''
-        Codificar el txt, para guardarlo en la bd y poder verlo en el cliente como attachment
+        Encrypt txt, save it to the db and view it on the client as an attachment
         '''
         fecha = time.strftime('%Y_%m_%d')
         name = 'IVA_' + fecha +'.'+ 'txt'
@@ -251,12 +251,12 @@ class txt_iva_line(osv.osv):
     _name = "txt.iva.line"
     
     _columns = {
-        'partner_id':fields.many2one('res.partner','Comprador/Vendedor',help="Persona jurídica ó natural que genera la Factura, Nota de Crédito, Nota de Débito o Certificación (vendedor)"),
-        'invoice_id':fields.many2one('account.invoice','Factura/ND/NC',help="Fecha de la factura, Nota de Crédito, Nota de Débito o Certificación, Declaración de Importación"),
-        'voucher_id':fields.many2one('account.wh.iva','Comprobante de Retencion IVA',help="Comprobante de Retencion de Impuesto al Valor Agregado (IVA)"),
+        'partner_id':fields.many2one('res.partner','Buyer/Seller',help="Natural or juridical person that generates the Invoice, Credit Note, Debit Note or C ertification (seller)"),
+        'invoice_id':fields.many2one('account.invoice','Bill/ND/NC',help="Date of invoice, credit note, debit note or certificate, I mportación Statement"),
+        'voucher_id':fields.many2one('account.wh.iva','Tax Withholding',help="Withholding of Value Added Tax (VAT)"),
         'amount_withheld':fields.float('Amount Withheld'),
         'untaxed':fields.float('Untaxed'),
-        'txt_id':fields.many2one('txt.iva','Documento-Generar txt IVA'),
+        'txt_id':fields.many2one('txt.iva','Generate-Document txt VAT'),
     }
     _rec_name = 'partner_id'
  
