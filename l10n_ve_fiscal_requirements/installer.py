@@ -30,14 +30,26 @@ from osv import fields
 from tools.translate import _
 import base64
 
-class fiscal_requirements_installer(osv.osv_memory):
+class fiscal_requirements_config(osv.osv_memory):
     """
     Fiscal Requirements installer wizard
     """
-    _name = 'fiscal.requirements.installer'
-    _inherit = 'res.config.installer'
+    _name = 'fiscal.requirements.config'
+    _inherit = 'res.config'
     _description= __doc__
-    _columns = {
 
+    def execute(self, cr, uid, ids, context=None):
+        pass
+
+    _columns = {
+        'name': fields.char('Name', 64, help="The commercial name of the company"),
+        'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),
+        'address': fields.char('Address', 256, help="Billing address"),
     }
-fiscal_requirements_installer()
+
+    _defaults = {
+        'name': "Polar",
+        'vat': "B33R",
+        'address': "Birrolandia",
+    }
+fiscal_requirements_config()
