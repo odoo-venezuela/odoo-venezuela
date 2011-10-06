@@ -24,7 +24,6 @@ import invoice
 import partner
 import generate_txt
 import report
-import res_company
 import installer
 import wizard
 
