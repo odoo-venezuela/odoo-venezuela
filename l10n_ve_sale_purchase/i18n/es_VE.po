@@ -111,7 +111,7 @@ msgstr "Orden de compra"
 #. module: l10n_ve_sale_purchase
 #: field:stock.picking,nro_ctrl:0
 msgid "Invoice ref."
-msgstr "Factura de referencia"
+msgstr "Referencia de Factura"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_sale_order_line
