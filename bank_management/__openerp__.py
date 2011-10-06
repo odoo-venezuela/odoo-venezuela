@@ -80,7 +80,7 @@
         'bank/data/industrial_data.xml',
         'bank/data/mercantil_bank_data.xml',
         'bank/data/venezuela_bank_data.xml',
-        'check/demo/demo.xml',
+#        'check/demo/demo.xml',
     ],
     'demo_xml': [],
     'test': [],
