@@ -29,7 +29,7 @@ msgstr "Crear y gestionar los documentos de retención en la línea de la cuenta
 #: model:ir.actions.act_window,name:l10n_ve_withholding.wh_doc_action
 #: model:ir.ui.menu,name:l10n_ve_withholding.menu_wh_doc
 msgid "Withholdings Document"
-msgstr "Documentos de Retenciones"
+msgstr "Documentos de retenciones"
 
 #. module: l10n_ve_withholding
 #: sql_constraint:account.journal:0
@@ -39,7 +39,7 @@ msgstr "El nombre del diario debe ser único por compañía !"
 #. module: l10n_ve_withholding
 #: model:ir.module.module,shortdesc:l10n_ve_withholding.module_meta_information
 msgid "Management withholdings Venezuelan laws"
-msgstr "Gestión de retenciones de las leyes Venezolanas"
+msgstr "Gestión de retenciones de las leyes venezolanas"
 
 #. module: l10n_ve_withholding
 #: view:account.move:0
@@ -59,12 +59,12 @@ msgstr "Diario"
 #. module: l10n_ve_withholding
 #: view:account.move:0
 msgid "Optional Information"
-msgstr "Información Opcional"
+msgstr "Información opcional"
 
 #. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_move_line
 msgid "Journal Items"
-msgstr "Líneas de Libro Diario"
+msgstr "Líneas de libro diario"
 
 #. module: l10n_ve_withholding
 #: constraint:account.move.line:0
@@ -74,7 +74,7 @@ msgstr "La empresa debe ser la misma para su cuenta y el período relacionado."
 #. module: l10n_ve_withholding
 #: view:account.move:0
 msgid "Total Credit"
-msgstr "Credito Total"
+msgstr "Credito total"
 
 #. module: l10n_ve_withholding
 #: model:ir.module.module,description:l10n_ve_withholding.module_meta_information
@@ -103,12 +103,12 @@ msgstr "No se puede crear líneas de asiento en una cuenta que está cerrada."
 #. module: l10n_ve_withholding
 #: view:account.move:0
 msgid "Account Entry Line"
-msgstr "Línea de Entrada de la Cuenta"
+msgstr "Línea de entrada de la cuenta"
 
 #. module: l10n_ve_withholding
 #: view:account.move:0
 msgid "Total Debit"
-msgstr "Débito Total"
+msgstr "Débito total"
 
 #. module: l10n_ve_withholding
 #: sql_constraint:account.move.line:0
@@ -127,17 +127,17 @@ msgstr "Advertencia !"
 #: code:addons/l10n_ve_withholding/invoice.py:111
 #, python-format
 msgid "Taxes missing !"
-msgstr "Impuestos Faltantes !"
+msgstr "Impuestos faltantes !"
 
 #. module: l10n_ve_withholding
 #: field:account.wh.doc,model_parent:0
 msgid "Parent Object"
-msgstr "Objeto Padre"
+msgstr "Objeto padre"
 
 #. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_invoice_tax
 msgid "Invoice Tax"
-msgstr "Impuesto de Factura"
+msgstr "Impuesto de factura"
 
 #. module: l10n_ve_withholding
 #: field:account.invoice.tax,tax_id:0
@@ -154,12 +154,12 @@ msgstr "Los impuestos globales definidos, pero no están en las líneas de factu
 #. module: l10n_ve_withholding
 #: field:account.wh.doc,model_child:0
 msgid "Child Object"
-msgstr "Objeto Hijo"
+msgstr "Objeto hijo"
 
 #. module: l10n_ve_withholding
 #: view:account.move:0
 msgid "General Information"
-msgstr "Información General"
+msgstr "Información general"
 
 #. module: l10n_ve_withholding
 #: code:addons/l10n_ve_withholding/invoice.py:108
@@ -167,7 +167,7 @@ msgstr "Información General"
 msgid "Tax base different !\n"
 "Click on compute to update tax base"
 msgstr "Base diferente de impuesto !\n"
-"Haga Click en calcular para actualizar la base del impuesto"
+"Haga click en calcular para actualizar la base del impuesto"
 
 #. module: l10n_ve_withholding
 #: sql_constraint:account.journal:0
