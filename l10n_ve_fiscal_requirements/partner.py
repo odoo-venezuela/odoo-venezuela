@@ -158,7 +158,6 @@ class res_partner(osv.osv):
                 return True
 
     def _dom_giver(self, url1, url2, context, vat):
-        print vat
         xml_data = self._load_url(3,url1 % vat)
         if not self._eval_seniat_data(xml_data,context):
             dom = parseString(xml_data)

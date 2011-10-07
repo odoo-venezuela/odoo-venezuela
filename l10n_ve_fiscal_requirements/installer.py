@@ -40,15 +40,18 @@ class fiscal_requirements_config(osv.osv_memory):
 
     def onchange_update_rif(self, cr, uid, ids, vat):
         context = {'exec_wizard': True, 'vat': vat}
-        partner_obj = self.pool.get('res.partner').update_rif(cr, uid, ids, context)
+        partner_info = self.pool.get('res.partner').update_rif(cr, uid, ids, context)
+        v = {'name': partner_info.get('name'), 'vat_apply': partner_info.get('vat_apply')}
+        return {'value': v}
 
     def execute(self, cr, uid, ids, context=None):
-        pass
+        data = self.browse(cr, uid, ids[0])
+
+
 
     _columns = {
-        'name': fields.char('Name', 64, help="The commercial name of the company"),
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),
-        'address': fields.char('Address', 256, help="Billing address"),
+        'name': fields.char('Name', 64, help="The commercial name of the company"),
         'vat_apply': fields.boolean("Apply VAT?"),
     }
 fiscal_requirements_config()

@@ -22,11 +22,11 @@
                   <attribute name='string'></attribute>
               </xpath>
             <group string="res_config_contents" position="replace">
-              <field name="name" groups="base.group_extended"/>
               <field name="vat" on_change="onchange_update_rif(vat)" groups="base.group_extended"/>
               <newline/>
-              <field name="address" groups="base.group_extended"/>
-              <field name="vat_apply" groups="base.groupP_extended" />
+              <field name="name" groups="base.group_extended"/>
+              <newline/>
+              <field name="vat_apply" groups="base.group_extended" />
             </group>
             <xpath expr='//button[@name="action_skip"]' position='replace'/>
           </data>
