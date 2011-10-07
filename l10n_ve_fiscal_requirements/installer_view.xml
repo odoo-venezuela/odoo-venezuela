@@ -2,7 +2,7 @@
 <openerp>
   <data>
     <record id="fiscal_req_config_view" model="ir.ui.view">
-        <field name="name">Configure Picking Policy for Sales Order </field>
+        <field name="name">Configure Venezuelan Fiscal Requirements </field>
         <field name="model">fiscal.requirements.config</field>
         <field name="type">form</field>
         <field name="inherit_id" ref="base.res_config_view_base"/>
@@ -15,7 +15,12 @@
             <attribute name="string">Configure Venezuelan Fiscal Requirements</attribute>
               </separator>
               <xpath expr="//label[@string='description']" position="attributes">
-                <attribute name="string">DONDE SALE ESTO</attribute>
+                  <attribute name="string">
+                      Configure your company data according to how it
+                      was registered on SENIAT. This wizard will get
+                      your company data from the SENIAT's database and
+                      update it on your system for you
+                  </attribute>
               </xpath>
             <xpath expr='//separator[@string="vsep"]' position='attributes'>
                   <attribute name='rowspan'>15</attribute>

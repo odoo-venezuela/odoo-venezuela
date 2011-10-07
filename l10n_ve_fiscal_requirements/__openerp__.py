@@ -44,6 +44,8 @@
     that field
 
     This module should also install a menu item under the accounting configuration menu.
+    
+    We now have a configuration wizard after this module install.
     """,
     'init_xml': [
         'data/l10n_ut_data.xml',
