@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+
+        <record id="view_seniat_url_form" model="ir.ui.view">
+            <field name="name">seniat.url.form</field>
+            <field name="model">seniat.url</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Seniat URL">
+                    <field name="url_seniat1_company"/>
+                    <field name="url_seniat2_company"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_seniat_url" model="ir.actions.act_window">
+            <field name="name">Seniat URL</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seniat.url</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,form</field>
+            <field name="view_id" ref="view_seniat_url_form"/>
+        </record>
+
+        <menuitem action="action_seniat_url" string="Seniat URL" id="seniat_url_menu" parent="base.menu_res_company_global"/>
+
+  </data>
+</openerp>

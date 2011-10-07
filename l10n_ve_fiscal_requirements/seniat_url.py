@@ -5,12 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
-#              María Gabriela Quilarque  <gabriela@vauxoo.com>
-#              Nhomar Hernandez          <nhomar@vauxoo.com>
-#    Planified by: Humberto Arocha
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
+#    Coded by: Miguel Delgado           <miguel@openerp.com.ve>
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -31,11 +26,19 @@ import tools
 from tools.translate import _
 from tools import config
 
-class res_company(osv.osv):
-    _inherit = 'res.company'
+class seniat_url(osv.osv):
+    """
+    OpenERP Model : seniat_url
+    """
+    
+    _name = 'seniat.url'
+    _description = __doc__
     _columns = {
-        'jour_id': fields.many2one('account.journal', 'Journal',required=False,help="Default journal for damaged invoices"),
-        'acc_id': fields.many2one('account.account', 'Account',required=False,help="Default account used for invoices and lines from damaged invoices"),
-        }
-res_company()
-
+         'url_seniat1_company':fields.char('URL Seniat for Partner Information',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
+        'url_seniat2_company':fields.char('URL Seniat for Retention Rate',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner'),
+    }
+    _defaults = {
+        'url_seniat1_company':'http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=',
+        'url_seniat2_company':'http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=',
+    }
+seniat_url()
