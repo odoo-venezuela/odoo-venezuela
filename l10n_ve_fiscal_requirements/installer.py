@@ -45,9 +45,10 @@ class fiscal_requirements_config(osv.osv_memory):
         return {'value': v}
 
     def execute(self, cr, uid, ids, context=None):
-        data = self.browse(cr, uid, ids[0])
-
-
+        wiz_data = self.browse(cr, uid, ids[0])
+        data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat, 'vat_apply': wiz_data.vat_apply}
+        partner = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id
+        self.pool.get('res.partner').write(cr, uid, [partner.id], data)
 
     _columns = {
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),

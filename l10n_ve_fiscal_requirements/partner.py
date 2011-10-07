@@ -166,15 +166,17 @@ class res_partner(osv.osv):
             return False
 
     def update_rif(self, cr, uid, ids, context={}):
-        company = self.pool.get('res.users').browse(cr, uid, uid).company_id
-        url1 = company.url_seniat1_company + '%s'
-        url2 = company.url_seniat2_company + '%s'
+        pool = self.pool.get('seniat.url')
+        url_obj = pool.browse(cr, uid, pool.search(cr, uid, []))[0]
+        url1 = url_obj.url_seniat1_company + '%s'
+        url2 = url_obj.url_seniat2_company + '%s'
         if context.get('exec_wizard'):
             return self._dom_giver(url1, url2, context, context['vat'])
 
         for partner in self.browse(cr,uid,ids):
             if partner.vat:
                     data = self._dom_giver(url1, url2, context, partner.vat[2:])
+                    print data
                     self.write(cr,uid,partner.id,data)
             else:
                 if not 'all_rif' in context:
