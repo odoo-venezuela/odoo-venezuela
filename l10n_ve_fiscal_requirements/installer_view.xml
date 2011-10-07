@@ -16,10 +16,10 @@
               </separator>
               <xpath expr="//label[@string='description']" position="attributes">
                   <attribute name="string">
-                      Configure your company data according to how it
-                      was registered on SENIAT. This wizard will get
-                      your company data from the SENIAT's database and
-                      update it on your system for you
+Configure your company data according to how it
+was registered on SENIAT. This wizard will get
+your company data from the SENIAT's database and
+update it on your system for you
                   </attribute>
               </xpath>
             <xpath expr='//separator[@string="vsep"]' position='attributes'>
