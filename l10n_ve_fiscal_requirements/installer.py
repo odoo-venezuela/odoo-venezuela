@@ -38,6 +38,10 @@ class fiscal_requirements_config(osv.osv_memory):
     _inherit = 'res.config'
     _description= __doc__
 
+    def onchange_update_rif(self, cr, uid, ids, vat):
+        context = {'exec_wizard': True, 'vat': vat}
+        partner_obj = self.pool.get('res.partner').update_rif(cr, uid, ids, context)
+
     def execute(self, cr, uid, ids, context=None):
         pass
 
@@ -45,11 +49,6 @@ class fiscal_requirements_config(osv.osv_memory):
         'name': fields.char('Name', 64, help="The commercial name of the company"),
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),
         'address': fields.char('Address', 256, help="Billing address"),
-    }
-
-    _defaults = {
-        'name': "Polar",
-        'vat': "B33R",
-        'address': "Birrolandia",
+        'vat_apply': fields.boolean("Apply VAT?"),
     }
 fiscal_requirements_config()

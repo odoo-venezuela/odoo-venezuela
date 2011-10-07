@@ -59,7 +59,9 @@
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_nro_ctrl_view.xml',
     ],
-    'demo_xml': [],
+    'demo_xml': [
+        'demo/demo_partners.xml',
+    ],
     'test': [],
     'installable': True,
     'active': False,

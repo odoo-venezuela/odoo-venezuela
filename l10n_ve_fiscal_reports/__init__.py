@@ -29,8 +29,8 @@
 #
 ##############################################################################
 
-import invoice
-import l10n_ve_fiscal_reports
-import report
-import wizard
+#import invoice
+#import l10n_ve_fiscal_reports
+#import report
+#import wizard
 import adjustment_book

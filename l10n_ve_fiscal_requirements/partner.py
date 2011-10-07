@@ -3,7 +3,6 @@
 #
 #    
 #    Programmed by: Alexander Olivares <olivaresa@gmail.com>
-#                   Juan Márquez <jmarquez@tecvemar.com.ve>
 #
 #    This the script to connect with Seniat website 
 #    for consult the rif asociated with a partner was taken from:
@@ -13,6 +12,8 @@
 #    This script was modify by:
 #                   Javier Duran <javier@vauxoo.com>
 #                   Miguel Delgado <miguel@openerp.com.ve>
+#                   Israel Fermín Montilla <israel@openerp.com.ve>
+#                   Juan Márquez <jmarquez@tecvemar.com.ve>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -156,17 +157,26 @@ class res_partner(osv.osv):
             else:
                 return True
 
+    def _dom_giver(self, url1, url2, context, vat):
+        print vat
+        xml_data = self._load_url(3,url1 % vat)
+        if not self._eval_seniat_data(xml_data,context):
+            dom = parseString(xml_data)
+            return self._parse_dom(dom, vat, url2)
+        else:
+            return False
+
     def update_rif(self, cr, uid, ids, context={}):
+        company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        url1 = company.url_seniat1_company + '%s'
+        url2 = company.url_seniat2_company + '%s'
+        if context.get('exec_wizard'):
+            return self._dom_giver(url1, url2, context, context['vat'])
+
         for partner in self.browse(cr,uid,ids):
-            url1=partner.company_id.url_seniat1_company+'%s'
-            url2=partner.company_id.url_seniat2_company+'%s'
             if partner.vat:
-                xml_data = self._load_url(3,url1 %partner.vat[2:])
-                if not self._eval_seniat_data(xml_data,context):
-                    dom = parseString(xml_data)
-                    self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
-                else:
-                    return False
+                    data = self._dom_giver(url1, url2, context, partner.vat[2:])
+                    self.write(cr,uid,partner.id,data)
             else:
                 if not 'all_rif' in context:
                     self._print_error(_('Vat Error !'),_('The field vat is empty'))
