@@ -18,50 +18,50 @@ msgstr ""
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_product_product
 msgid "Product"
-msgstr "Product"
+msgstr "Producto"
 
 #. module: l10n_ve_sale_purchase
 #: help:stock.picking,nro_ctrl:0
 msgid "Invoice reference"
-msgstr "Invoice reference"
+msgstr "Referencia de la factura"
 
 #. module: l10n_ve_sale_purchase
 #: help:purchase.order.line,concept_id:0
 #: help:sale.order.line,concept_id:0
 msgid "Withhold concept associated with this rate"
-msgstr "Withhold concept associated with this rate"
+msgstr "Concepto de retención asociado con esta tasa"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_product_template
 msgid "Product Template"
-msgstr "Product Template"
+msgstr "Planilla del producto"
 
 #. module: l10n_ve_sale_purchase
 #: field:purchase.order.line,concept_id:0
 #: field:sale.order.line,concept_id:0
 msgid "Withhold  Concept"
-msgstr "Withhold  Concept"
+msgstr "Concepto de retención"
 
 #. module: l10n_ve_sale_purchase
 #: code:addons/l10n_ve_sale_purchase/product.py:62
 #, python-format
 msgid "Must create the concept of withholding income"
-msgstr "Must create the concept of withholding income"
+msgstr "Debe crear el concepto de retención de ingresos"
 
 #. module: l10n_ve_sale_purchase
 #: constraint:product.template:0
 msgid "Error: The default UOM and the purchase UOM must be in the same category."
-msgstr "Error: The default UOM and the purchase UOM must be in the same category."
+msgstr "Error: La UOM por defecto y la UOM de compra debe ser en la misma categoría."
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Purchase Order Line"
+msgstr "Compra línea del pedido"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.module.module,shortdesc:l10n_ve_sale_purchase.module_meta_information
 msgid "ISLR Sale and Purchase Functionalities"
-msgstr "ISLR Sale and Purchase Functionalities"
+msgstr "ISLR Venta y funcionalidades de compra"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.module.module,description:l10n_ve_sale_purchase.module_meta_information
@@ -71,50 +71,50 @@ msgid "\n"
 "        was created for.\n"
 "    "
 msgstr "\n"
-"        Due to the Dependendy reduction on the l10n_ve_islr_withholding module, it was necesary to incorporate\n"
-"        the functionalities wich has to do with the eliminated dependencies on another module. That's what this one\n"
-"        was created for.\n"
-"    "
+"       Debido a la reducción en el módulo Dependendy l10n_ve_islr_withholding, era necesaria la incorporación de \ n "
+"       Las funciones que tiene que ver con las dependencias eliminados en otro módulo. Eso es lo que esta \ n"
+"       Fue creado para.\n"
+""    
 
 #. module: l10n_ve_sale_purchase
 #: sql_constraint:purchase.order:0
 msgid "Order Reference must be unique !"
-msgstr "Order Reference must be unique !"
+msgstr "La referencia de pedido debe ser único !"
 
 #. module: l10n_ve_sale_purchase
 #: view:product.product:0
 #: view:product.template:0
 msgid "Concept of Withholding Income"
-msgstr "Concept of Withholding Income"
+msgstr "Ingreso del concepto de retención"
 
 #. module: l10n_ve_sale_purchase
 #: constraint:product.product:0
 msgid "Error: Invalid ean code"
-msgstr "Error: Invalid ean code"
+msgstr "Error: Código inválido ean"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_stock_picking
 msgid "Picking List"
-msgstr "Picking List"
+msgstr "Nota de salida"
 
 #. module: l10n_ve_sale_purchase
 #: code:addons/l10n_ve_sale_purchase/product.py:62
 #, python-format
 msgid "Invalid action !"
-msgstr "Invalid action !"
+msgstr "Acción inválida !"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_purchase_order
 msgid "Purchase Order"
-msgstr "Purchase Order"
+msgstr "Orden de compra"
 
 #. module: l10n_ve_sale_purchase
 #: field:stock.picking,nro_ctrl:0
 msgid "Invoice ref."
-msgstr "Invoice ref."
+msgstr "Referencia de Factura"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Sales Order Line"
+msgstr "Línea de orden de ventas"
 
