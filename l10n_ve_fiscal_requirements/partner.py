@@ -162,8 +162,8 @@ class res_partner(osv.osv):
     def update_rif(self, cr, uid, ids, context={}):
         pool = self.pool.get('seniat.url')
         url_obj = pool.browse(cr, uid, pool.search(cr, uid, []))[0]
-        url1 = url_obj.url_seniat1_company + '%s'
-        url2 = url_obj.url_seniat2_company + '%s'
+        url1 = url_obj.name + '%s'
+        url2 = url_obj.url_seniat + '%s'
         if context.get('exec_wizard'):
             return self._dom_giver(url1, url2, context, context['vat'])
 
