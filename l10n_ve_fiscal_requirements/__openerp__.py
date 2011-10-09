@@ -44,12 +44,15 @@
     that field
 
     This module should also install a menu item under the accounting configuration menu.
+    
+    We now have a configuration wizard after this module install.
     """,
     'init_xml': [
         'data/l10n_ut_data.xml',
     ],
     "depends" : ["base_vat", "account", "account_accountant"],
     'update_xml': [
+        'installer_view.xml',
         'security/ir.model.access.csv',
         'view/account_invoice_view.xml',
         'view/res_company_view.xml',
