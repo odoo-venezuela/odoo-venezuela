@@ -13,7 +13,7 @@ class product_historical(osv.osv):
     """
     def _get_historical_price(self, cr, uid, ids, field_name, field_value, arg, context={}):
         res = {}
-        product_hist = self.pool.get('product.historic')
+        product_hist = self.pool.get('product.historic.price')
         for id in ids:
             if self.browse(cr, uid, id).list_price != self.browse(cr, uid, id).list_price_historical:
                 res[id] = self.browse(cr, uid, id).list_price
