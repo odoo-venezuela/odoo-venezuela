@@ -114,15 +114,15 @@ class res_partner(osv.osv):
                 return True
 
         if xml_data.find("404")>=0:
-            if not 'all_rif' in context:
-                self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
-            else:
-                return True
+            self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
+            return True
     
     def update_rif(self, cr, uid, ids, context={}):
+        pool = self.pool.get('seniat.url')
+        url_obj = pool.browse(cr, uid, pool.search(cr, uid, []))[0]
+        url1 = url_obj.name + '%s'
+        url2 = url_obj.url_seniat + '%s'
         for partner in self.browse(cr,uid,ids):
-            url1=partner.company_id.url_seniat1_company+'%s'
-            url2=partner.company_id.url_seniat2_company+'%s'
             if partner.vat:
                 xml_data = self._load_url(3,url1 %partner.vat[2:])
                 if not self._eval_seniat_data(xml_data,context):
