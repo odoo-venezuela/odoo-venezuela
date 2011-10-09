@@ -48,6 +48,7 @@ class fiscal_requirements_config(osv.osv_memory):
         wiz_data = self.browse(cr, uid, ids[0])
         data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat, 'vat_apply': wiz_data.vat_apply}
         partner = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id
+        print 'esto es partner_id',partner.id
         self.pool.get('res.partner').write(cr, uid, [partner.id], data)
 
     _columns = {

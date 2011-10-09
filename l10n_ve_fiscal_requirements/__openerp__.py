@@ -49,6 +49,7 @@
     """,
     'init_xml': [
         'data/l10n_ut_data.xml',
+        'data/seniat_url_data.xml',
     ],
     "depends" : ["base_vat", "account", "account_accountant"],
     'update_xml': [
@@ -58,7 +59,6 @@
         'view/res_company_view.xml',
         'view/l10n_ut_view.xml',
         'view/partner_view.xml',
-        'view/seniat_url_view.xml',
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_nro_ctrl_view.xml',
     ],

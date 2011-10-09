@@ -34,11 +34,7 @@ class seniat_url(osv.osv):
     _name = 'seniat.url'
     _description = __doc__
     _columns = {
-         'url_seniat1_company':fields.char('URL Seniat for Partner Information',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
-        'url_seniat2_company':fields.char('URL Seniat for Retention Rate',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner'),
-    }
-    _defaults = {
-        'url_seniat1_company':'http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=',
-        'url_seniat2_company':'http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=',
+         'name':fields.char('URL Seniat for Partner Information',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
+        'url_seniat':fields.char('URL Seniat for Retention Rate',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner'),
     }
 seniat_url()
