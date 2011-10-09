@@ -61,6 +61,7 @@
         'view/partner_view.xml',
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_nro_ctrl_view.xml',
+        'wizard/wizard_url_seniat_view.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
