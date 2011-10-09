@@ -142,20 +142,14 @@ class res_partner(osv.osv):
 
     def _eval_seniat_data(self,xml_data,context={}):
         if xml_data.find('450')>=0:
-            if not 'all_rif' in context:
-                self._print_error(_('Vat Error !'),_('Invalid VAT!'))
-            else:
-                return True
+            self._print_error(_('Vat Error !'),_('Invalid VAT!'))
+
         if xml_data.find('452')>=0:
-            if not 'all_rif' in context:
-                self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
-            else:
-                return True
+            self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+
         if xml_data.find("404")>=0:
-            if not 'all_rif' in context:
-                self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
-            else:
-                return True
+            self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
+
 
     def _dom_giver(self, url1, url2, context, vat):
         xml_data = self._load_url(3,url1 % vat)
@@ -175,12 +169,9 @@ class res_partner(osv.osv):
 
         for partner in self.browse(cr,uid,ids):
             if partner.vat:
-                    data = self._dom_giver(url1, url2, context, partner.vat[2:])
-                    print data
-                    self.write(cr,uid,partner.id,data)
-            else:
-                if not 'all_rif' in context:
-                    self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                data = self._dom_giver(url1, url2, context, partner.vat[2:])
+                print data
+                self.write(cr,uid,partner.id,data)
         return True
 
 res_partner()
