@@ -102,10 +102,6 @@
             <group string="res_config_contents" position="replace">
               <field name="name" invisible="1" groups="base.group_extended"/>
               <field name="wh" groups="base.group_extended"/>
-              <newline/>
-              <field name="vat" groups="base.group_extended"/>
-              <newline/>
-              <field name="add" groups="base.group_extended"/>
             </group>
             <xpath expr='//button[@name="action_skip"]' position='replace'/>
           </data>

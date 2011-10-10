@@ -66,13 +66,8 @@ class wh_iva_config(osv.osv_memory):
     _columns = {
         'name': fields.char('Name', 64),
         'wh':fields.boolean('Are You Withholding Agent?'),
-        #Move this action to withholding base.
-        'vat':fields.char('Give VAT Number for your company.',12, help='Put your VAT number with this format VEYXXXXXXXX Where Y can be J-G-V-E and the rest are just numeric'),
     }
     _defaults = {
-        'wh': True,
-        'vat': 'VEJ147744443',
-        'add': 'Av XXXX con Calle YYY Estado SSSS No 0000',
     }
 
     def _show_company_data(self, cr, uid, context=None):
@@ -124,14 +119,5 @@ class wh_iva_config(osv.osv_memory):
         else:
             p_obj.write(cr,uid,[partner_id],{'wh_iva_agent':0,
                                             'wh_iva_rate':75.00})
-        if wiz.vat:
-            add_ids=pa_obj.search(cr,uid,
-                            [('partner_id','=',user[0].company_id.partner_id.id),
-                            ('type','=','invoice')])
-            if not add_ids:
-                pa_obj.create(cr,uid,{'type':'invoice',
-                                    'street':wiz.add ,
-                                    'partner_id':partner_id},context)
-            p_obj.write(cr,uid,[partner_id],{'vat':wiz.vat})
 
 wh_iva_config()
