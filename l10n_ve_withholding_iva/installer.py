@@ -68,7 +68,6 @@ class wh_iva_config(osv.osv_memory):
         'wh':fields.boolean('Are You Withholding Agent?'),
         #Move this action to withholding base.
         'vat':fields.char('Give VAT Number for your company.',12, help='Put your VAT number with this format VEYXXXXXXXX Where Y can be J-G-V-E and the rest are just numeric'),
-        'add':fields.char('Invoice Address',64,help='Put Here the address declared on your VAT information on SENIAT'),
     }
     _defaults = {
         'wh': True,

@@ -32,6 +32,8 @@
     - Required address invoice.
     - Unique billing address (invoice), necesary rule by Venezuelan Laws.
     - VAT verification for Venezuela rules.
+    - If you have internet conexion you will be able of update your partner information from SENIAT
+Automatically on install wizard.
     - Damaged "Legal free forms" declaration.
     - Tax Units configuration.
     ---------------------------------------------------------------------------
