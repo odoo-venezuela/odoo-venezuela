@@ -64,6 +64,7 @@ Automatically on install wizard.
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_nro_ctrl_view.xml',
         'wizard/wizard_url_seniat_view.xml',
+        'wizard/update_info_partner.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
