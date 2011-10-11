@@ -46,7 +46,6 @@
         "account_workflow.xml",        
         "l10n_ve_withholding_iva_installer.xml",
         "account_workflow.xml",
-        "wizard/update_info_partner.xml",
     ],
     'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
     'test': [],

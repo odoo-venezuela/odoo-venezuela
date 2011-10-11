@@ -141,14 +141,22 @@ class res_partner(osv.osv):
         raise osv.except_osv(error,msg)
 
     def _eval_seniat_data(self,xml_data,context={}):
+
         if xml_data.find('450')>=0:
-            self._print_error(_('Vat Error !'),_('Invalid VAT!'))
+            if not 'all_rif' in context:
+                self._print_error(_('Vat Error !'),_('Invalid VAT!'))
+            else:
+                return True
 
         if xml_data.find('452')>=0:
-            self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+            if not 'all_rif' in context:
+                self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+            else:
+                return True
 
         if xml_data.find("404")>=0:
             self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
+            return True
 
 
     def _dom_giver(self, url1, url2, context, vat):
@@ -166,12 +174,25 @@ class res_partner(osv.osv):
         url2 = url_obj.url_seniat + '%s'
         if context.get('exec_wizard'):
             return self._dom_giver(url1, url2, context, context['vat'])
-
         for partner in self.browse(cr,uid,ids):
             if partner.vat:
-                data = self._dom_giver(url1, url2, context, partner.vat[2:])
-                print data
-                self.write(cr,uid,partner.id,data)
+                xml_data = self._load_url(3,url1 %partner.vat[2:])
+                if not self._eval_seniat_data(xml_data,context):
+                    dom = parseString(xml_data)
+                    self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                else:
+                    return False
+            else:
+                if not 'all_rif' in context:
+                    self._print_error(_('Vat Error !'),_('The field vat is empty'))
+        return True
+
+    def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
+        if all_rif:
+            ctx = context.copy()
+            ctx.update({'all_rif': True})
+        for partner in self.browse(cr,uid,ids):
+            self.update_rif(cr, uid, [partner.id], context=ctx)
         return True
 
 res_partner()
