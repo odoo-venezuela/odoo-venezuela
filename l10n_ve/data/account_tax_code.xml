@@ -1,0 +1,394 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data noupdate="1">
+
+		<record id="atc_iva0" model="account.tax.code.template">
+			<field eval="&quot;IVA&quot;" name="code"/>
+			<field eval="&quot;IVA (Impuesto al Valor Agregado)&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+		</record>
+
+		<record id="atc_b_crd_fscl_bs_imp0" model="account.tax.code.template">
+			<field eval="&quot;B1&quot;" name="code"/>
+			<field eval="&quot;B1. CREDITOS Fiscal - BASE IMPONIBLE&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_iva0"/>
+		</record>
+
+		<record id="atc_b_crd_fscl_crd_fscl0" model="account.tax.code.template">
+			<field eval="&quot;B2&quot;" name="code"/>
+			<field eval="&quot;B2. CREDITOS Fiscal - CREDITO Fiscal&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_iva0"/>
+		</record>
+
+		<record id="atc_a_dbt_fscl_b_imp0" model="account.tax.code.template">
+			<field eval="&quot;A1&quot;" name="code"/>
+			<field eval="&quot;A1. DEBITOS Fiscal - BASE IMPONIBLE&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_iva0"/>
+		</record>
+        
+		<record id="atc_a_dbt_fscl_dbt_fscl0" model="account.tax.code.template">
+			<field eval="&quot;A2&quot;" name="code"/>
+			<field eval="&quot;A2. DEBITOS Fiscal - DEBITO Fiscal&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_iva0"/>
+		</record>
+        
+		<record id="atc_cmp_no_grv_sdcf_0" model="account.tax.code.template">
+			<field eval="&quot;30&quot;" name="code"/>
+			<field eval="&quot;Compras No Gravadas y/o Sin Derecho a Credito Fiscal&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_comprasexoneradas0" model="account.tax.code.template">
+			<field eval="&quot;31&quot;" name="code"/>
+			<field eval="&quot;Compras Exoneradas&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_importacingrvxalcgrl0" model="account.tax.code.template">
+			<field eval="&quot;31&quot;" name="code"/>
+			<field eval="&quot;Importacion Gravada por Alicuota General&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_importacionesgrvxalcgrlmsalcuotaadicional0" model="account.tax.code.template">
+			<field eval="&quot;312&quot;" name="code"/>
+			<field eval="&quot;Importaciones Gravadas por Alicuota Gral. mas alicuota Adicional&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_importacionesgrvxalcred0" model="account.tax.code.template">
+			<field eval="&quot;313&quot;" name="code"/>
+			<field eval="&quot;Importaciones Gravadas por Alicuota Reducida&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_importacingrvxalcgrl1" model="account.tax.code.template">
+			<field eval="&quot;32&quot;" name="code"/>
+			<field eval="&quot;Importacion Gravada por Alicuota General&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_importacionesgrvxalcgrlmsalcuotaadicional1" model="account.tax.code.template">
+			<field eval="&quot;322&quot;" name="code"/>
+			<field eval="&quot;Importaciones Gravadas por Alicuota Gral. mas alicuota Adicional&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_importacionesgrvxalcred1" model="account.tax.code.template">
+			<field eval="&quot;323&quot;" name="code"/>
+			<field eval="&quot;Importaciones Gravadas por Alicuota Reducida&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_cmp_int_grv_sol_alc_grl0" model="account.tax.code.template">
+			<field eval="&quot;33&quot;" name="code"/>
+			<field eval="&quot;Compras Internas Gravadas por Alicuota General&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_cmp_int_grv_x_alc_adic0" model="account.tax.code.template">
+			<field eval="&quot;332&quot;" name="code"/>
+			<field eval="&quot;Compras Internas Gravadas por Alicuota Gral + Alic. Adic.&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_cmpintgrvxalcred0" model="account.tax.code.template">
+			<field eval="&quot;333&quot;" name="code"/>
+			<field eval="&quot;Compras Internas Gravadas por Alicuota Reducida&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_cmp_int_grv_sol_alc_grl1" model="account.tax.code.template">
+			<field eval="&quot;34&quot;" name="code"/>
+			<field eval="&quot;Compras Internas Gravadas por Alicuota General&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_cmp_int_grv_x_alc_adic1" model="account.tax.code.template">
+			<field eval="&quot;342&quot;" name="code"/>
+			<field eval="&quot;Compras Internas Gravadas por Alicuota Gral + Alic. Adic.&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_cmpintgrvxalcred1" model="account.tax.code.template">
+			<field eval="&quot;343&quot;" name="code"/>
+			<field eval="&quot;Compras Internas Gravadas por Alicuota Reducida&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_totalcomprasycrdsfscldelperodo0" model="account.tax.code.template">
+			<field eval="&quot;35&quot;" name="code"/>
+			<field eval="&quot;Total Compras y Creditos Fiscal del Periodo&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_bs_imp0"/>
+		</record>
+
+		<record id="atc_totalcomprasycrdsfscldelperodo1" model="account.tax.code.template">
+			<field eval="&quot;36&quot;" name="code"/>
+			<field eval="&quot;Total Compras y Creditos Fiscal del Periodo&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_crdsfscltotalmentededucibles0" model="account.tax.code.template">
+			<field eval="&quot;36(70&quot;" name="code"/>
+			<field eval="&quot;Creditos Fiscal Totalmente Deducibles&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_crdsfsclproductodelaaplicacindeldelaprorrata0" model="account.tax.code.template">
+			<field eval="&quot;37&quot;" name="code"/>
+			<field eval="&quot;Creditos Fiscal producto de la aplicacion del % de la Prorrata&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_totalcrdsfscldeduciblesoperacin0" model="account.tax.code.template">
+			<field eval="&quot;37(71)&quot;" name="code"/>
+			<field eval="&quot;Total Creditos Fiscal deducibles - Operacion [70 + 37]&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_excedentecrdsfscldelmesanterior0" model="account.tax.code.template">
+			<field eval="&quot;37(71)[20]&quot;" name="code"/>
+			<field eval="&quot;Excedente Creditos Fiscal del Mes Anterior&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_reintegrosolicitadosoloexportadores0" model="account.tax.code.template">
+			<field eval="&quot;37(71)[21]&quot;" name="code"/>
+			<field eval="&quot;Reintegro Solicitado (Solo Exportadores)&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_reintegrosolicitadoprestadordeserviciosaentesexonerados0" model="account.tax.code.template">
+			<field eval="&quot;37(81)&quot;" name="code"/>
+			<field eval="&quot;Reintegro Solicitado (Prestador de Servicios a Entes Exonerados)&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_ajustesaloscrdsfscldeperodosanteriores0" model="account.tax.code.template">
+			<field eval="&quot;38&quot;" name="code"/>
+			<field eval="&quot;Ajustes a los Creditos Fiscal de periodos anteriores&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_certificadosdecrdsfsclexonerados0" model="account.tax.code.template">
+			<field eval="&quot;38(82)&quot;" name="code"/>
+			<field eval="&quot;Certificados de Creditos Fiscal Exonerados&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_totalcrdsfscl0" model="account.tax.code.template">
+			<field eval="&quot;39&quot;" name="code"/>
+			<field eval="&quot;Total Creditos Fiscal&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_b_crd_fscl_crd_fscl0"/>
+		</record>
+
+		<record id="atc_vtas_int_no_grv_0" model="account.tax.code.template">
+			<field eval="&quot;40&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas No Gravadas&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_b_imp0"/>
+		</record>
+
+		<record id="atc_vtasdeexportacin0" model="account.tax.code.template">
+			<field eval="&quot;41&quot;" name="code"/>
+			<field eval="&quot;Ventas de Exportacion&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_b_imp0"/>
+		</record>
+
+		<record id="atc_vtasint_grv_sol_alc_grl0" model="account.tax.code.template">
+			<field eval="&quot;42&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas Gravadas solo por Alicuota General&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_b_imp0"/>
+		</record>
+
+		<record id="atc_vtasint_grv_sol_alc_grl1" model="account.tax.code.template">
+			<field eval="&quot;43&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas Gravadas solo por Alicuota General&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+		<record id="atc_vtasint_grv_sol_alc_adc0" model="account.tax.code.template">
+			<field eval="&quot;442&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas Gravadas por Alicuota General mas Adicional&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_b_imp0"/>
+		</record>
+
+		<record id="atc_vtasinternasgrvxalcred0" model="account.tax.code.template">
+			<field eval="&quot;443&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas Gravadas por Alicuota Reducida&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_b_imp0"/>
+		</record>
+
+		<record id="atc_vtasint_grv_sol_alc_adc1" model="account.tax.code.template">
+			<field eval="&quot;452&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas Gravadas por Alicuota General mas Adicional&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+		<record id="atc_vtasinternasgrvxalcred1" model="account.tax.code.template">
+			<field eval="&quot;453&quot;" name="code"/>
+			<field eval="&quot;Ventas Internas Gravadas por Alicuota Reducida&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+		<record id="atc_totalvtasydbitosfsclparaefectosdedeterminacin0" model="account.tax.code.template">
+			<field eval="&quot;46&quot;" name="code"/>
+			<field eval="&quot;Total Ventas y Debitos Fiscal para efectos de Determinacion&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_b_imp0"/>
+		</record>
+
+		<record id="atc_totalvtasydbitosfsclparaefectosdedeterminacin1" model="account.tax.code.template">
+			<field eval="&quot;47&quot;" name="code"/>
+			<field eval="&quot;Total Ventas y Debitos Fiscal para efectos de Determinacion&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+		<record id="atc_ajustesalosdbitosfscldeperodosanteriores0" model="account.tax.code.template">
+			<field eval="&quot;48&quot;" name="code"/>
+			<field eval="&quot;Ajustes a los Debitos Fiscal de periodos anteriores&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+		<record id="atc_certificadosdedbitosfsclexonerados0" model="account.tax.code.template">
+			<field eval="&quot;48(80)&quot;" name="code"/>
+			<field eval="&quot;Certificados de Debitos Fiscal Exonerados&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+		<record id="atc_totaldbitosfscl0" model="account.tax.code.template">
+			<field eval="&quot;49&quot;" name="code"/>
+			<field eval="&quot;Total Debitos Fiscal&quot;" name="name"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1.0" name="sign"/>
+			<field eval="0" name="notprintable"/>
+			<field model="account.tax.code.template" name="parent_id" ref="atc_a_dbt_fscl_dbt_fscl0"/>
+		</record>
+
+
+
+	</data>
+</openerp>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+	<record id="tax1sale" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA - 0% VENTAS SDCF</field>
+		<field name="description">ALICUOTA EXENTA VENTAS</field>
+		<field name="amount">0.000000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">sale</field>
+		<field name="base_code_id" ref="atc_vtas_int_no_grv_0"/>
+		<field name="ref_base_code_id" ref="atc_vtas_int_no_grv_0"/>
+	</record>
+	<record id="tax2sale" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA reducido (8.0%)</field>
+		<field name="description">ALICUOTA REDUCIDA VENTAS</field>
+		<field name="amount">0.080000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">sale</field>
+		<field name="account_collected_id" ref="chart_2160201001"/>
+		<field name="account_paid_id" ref="chart_2160201001"/>
+		<field name="base_code_id" ref="atc_vtasinternasgrvxalcred0"/>
+		<field name="tax_code_id" ref="atc_vtasinternasgrvxalcred1"/>
+		<field name="ref_base_code_id" ref="atc_vtasinternasgrvxalcred0"/>
+		<field name="ref_tax_code_id" ref="atc_vtasinternasgrvxalcred1"/>
+	</record>
+	<record id="tax3sale" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA (12.0%)</field>
+		<field name="description">ALICUOTA GENERAL VENTAS</field>
+		<field name="amount">0.120000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">sale</field>
+		<field name="account_collected_id" ref="chart_2160201001"/>
+		<field name="account_paid_id" ref="chart_2160201001"/>
+		<field name="base_code_id" ref="atc_vtasint_grv_sol_alc_grl0"/>
+		<field name="tax_code_id" ref="atc_vtasint_grv_sol_alc_grl1"/>
+		<field name="ref_base_code_id" ref="atc_vtasint_grv_sol_alc_grl0"/>
+		<field name="ref_tax_code_id" ref="atc_vtasint_grv_sol_alc_grl1"/>
+	</record>
+	<record id="tax4sale" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA Extendido (22.0%)</field>
+		<field name="description">ALICUOTA ADICIONAL VENTAS</field>
+		<field name="amount">0.220000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">sale</field>
+		<field name="account_collected_id" ref="chart_2160201001"/>
+		<field name="account_paid_id" ref="chart_2160201001"/>
+		<field name="base_code_id" ref="atc_vtasint_grv_sol_alc_adc0"/>
+		<field name="tax_code_id" ref="atc_vtasint_grv_sol_alc_adc1"/>
+		<field name="ref_base_code_id" ref="atc_vtasint_grv_sol_alc_adc0"/>
+		<field name="ref_tax_code_id" ref="atc_vtasint_grv_sol_alc_adc1"/>
+	</record>
+	<record id="tax1purchase" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA - 0% COMPRAS SDCF</field>
+		<field name="description">ALICUOTA EXENTA COMPRAS</field>
+		<field name="amount">0.000000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">purchase</field>
+		<field name="base_code_id" ref="atc_cmp_no_grv_sdcf_0"/>
+		<field name="ref_base_code_id" ref="atc_cmp_no_grv_sdcf_0"/>
+    </record>
+	<record id="tax2purchase" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA reducido (8.0%)</field>
+		<field name="description">ALICUOTA REDUCIDA COMPRAS</field>
+		<field name="amount">0.080000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">purchase</field>
+		<field name="account_collected_id" ref="chart_2160220001"/>
+		<field name="account_paid_id" ref="chart_2160220001"/>
+		<field name="base_code_id" ref="atc_cmpintgrvxalcred0"/>
+		<field name="tax_code_id" ref="atc_cmpintgrvxalcred1"/>
+		<field name="ref_base_code_id" ref="atc_cmpintgrvxalcred0"/>
+		<field name="ref_tax_code_id" ref="atc_cmpintgrvxalcred1"/>
+	</record>
+	<record id="tax3purchase" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA (12.0%)</field>
+		<field name="description">ALICUOTA GENERAL COMPRAS</field>
+		<field name="amount">0.120000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">purchase</field>
+		<field name="account_collected_id" ref="chart_2160220001"/>
+		<field name="account_paid_id" ref="chart_2160220001"/>
+		<field name="base_code_id" ref="atc_cmp_int_grv_sol_alc_grl0"/>
+		<field name="tax_code_id" ref="atc_cmp_int_grv_sol_alc_grl1"/>
+		<field name="ref_base_code_id" ref="atc_cmp_int_grv_sol_alc_grl0"/>
+		<field name="ref_tax_code_id" ref="atc_cmp_int_grv_sol_alc_grl1"/>
+	</record>
+	<record id="tax4purchase" model="account.tax.template">
+		<field name="chart_template_id" ref="l10n_ve_chart_template"/>
+		<field name="name">IVA Extendido (22.0%)</field>
+		<field name="description">ALICUOTA ADICIONAL COMPRAS</field>
+		<field name="amount">0.220000</field>
+		<field name="type">percent</field>
+		<field name="type_tax_use">purchase</field>
+		<field name="account_collected_id" ref="chart_2160220001"/>
+		<field name="account_paid_id" ref="chart_2160220001"/>
+		<field name="base_code_id" ref="atc_cmp_int_grv_x_alc_adic0"/>
+		<field name="tax_code_id" ref="atc_cmp_int_grv_x_alc_adic1"/>
+		<field name="ref_base_code_id" ref="atc_cmp_int_grv_x_alc_adic0"/>
+		<field name="ref_tax_code_id" ref="atc_cmp_int_grv_x_alc_adic1"/>
+	</record>
+</data>
+</openerp>
