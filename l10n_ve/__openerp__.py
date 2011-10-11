@@ -23,7 +23,7 @@
 #
 ##############################################################################
 {
-    "name" : "Commercial Chart Account for Venezuela",
+    "name" : "Venezuelan Account Chart (Aimed at Commercial Trades)",
     "version" : "1.0",
     "author" : "Tiny & Vauxoo",
     "category" : "Localisation/Account Charts",
@@ -42,7 +42,6 @@ You will need accounting knowledge to understad some concepts.
                     'data/account_chart.xml',
                     'data/account_account.xml',
                     'data/account_tax.xml',
-                    'data/account_chart_ve.xml',
                     'wizard/l10n_chart_ve_wizard.xml'],
     "active": False,
     "installable": True,

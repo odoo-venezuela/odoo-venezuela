@@ -66,7 +66,7 @@
     </record>
     <record id="chart_11120" model="account.account.template">
       <field name="code">11120</field>
-      <field name="name">Bancos-cuentas corrientes</field>
+      <field name="name">Bancos - Cuentas Corrientes</field>
       <field name="type">view</field>
       <field eval="False" name="reconcile"/>
       <field name="user_type" ref="account_type_view"/>
@@ -2704,6 +2704,14 @@
       <field name="user_type" ref="account_type_view"/>
       <field name="parent_id" ref="chart_182"/>
     </record>
+    <record id="chart_18220" model="account.account.template">
+      <field name="code">18220</field>
+      <field name="name">Retencion de Impuestos sobre la Renta (ISLR)</field>
+      <field name="type">view</field>
+      <field eval="False" name="reconcile"/>
+      <field name="user_type" ref="account_type_view"/>
+      <field name="parent_id" ref="chart_182"/>
+    </record>
     <record id="chart_183" model="account.account.template">
       <field name="code">183</field>
       <field name="name">Costo vtas.inmuebles-diferido</field>
@@ -4371,6 +4379,14 @@
     <record id="chart_2161002" model="account.account.template">
       <field name="code">2161002</field>
       <field name="name">Impto.s/varios -retenidos</field>
+      <field name="type">view</field>
+      <field eval="False" name="reconcile"/>
+      <field name="user_type" ref="account_type_view"/>
+      <field name="parent_id" ref="chart_21610"/>
+    </record>
+    <record id="chart_2161009" model="account.account.template">
+      <field name="code">2161009</field>
+      <field name="name">Impuesto sobre la renta (ISLR) retenido por enterar</field>
       <field name="type">view</field>
       <field eval="False" name="reconcile"/>
       <field name="user_type" ref="account_type_view"/>
@@ -6679,6 +6695,30 @@
       <field eval="False" name="reconcile"/>
       <field name="user_type" ref="account_type_view"/>
       <field name="parent_id" ref="chart_359"/>
+    </record>
+    <record id="chart_39" model="account.account.template">
+      <field name="code">39</field>
+      <field name="name">Ganancias y/o Pérdidas del Ejercicio</field>
+      <field name="type">view</field>
+      <field eval="False" name="reconcile"/>
+      <field name="user_type" ref="account_type_view"/>
+      <field name="parent_id" ref="chart_3"/>
+    </record>
+    <record id="chart_399" model="account.account.template">
+      <field name="code">399</field>
+      <field name="name">Ganancias y/o Pérdidas del Ejercicio</field>
+      <field name="type">view</field>
+      <field eval="False" name="reconcile"/>
+      <field name="user_type" ref="account_type_view"/>
+      <field name="parent_id" ref="chart_39"/>
+    </record>
+    <record id="chart_39999" model="account.account.template">
+      <field name="code">39999</field>
+      <field name="name">Ganancias y/o Pérdidas del Ejercicio</field>
+      <field name="type">view</field>
+      <field eval="False" name="reconcile"/>
+      <field name="user_type" ref="account_type_view"/>
+      <field name="parent_id" ref="chart_399"/>
     </record>
     <record id="chart_4" model="account.account.template">
       <field name="code">4</field>
@@ -11768,5 +11808,6 @@
       <field name="user_type" ref="account_type_view"/>
       <field name="parent_id" ref="chart_799"/>
     </record>
+
   </data>
 </openerp>
