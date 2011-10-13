@@ -93,8 +93,14 @@ class account_invoice(osv.osv):
             partner = self.pool.get('res.partner').browse(cr, uid,partner_id)
             vals['wh_iva_rate'] = partner.wh_iva_rate
         return super(account_invoice, self).create(cr, uid, vals, context)
-    
-    
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default = default.copy()
+        default.update({'wh_iva_id':False})
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
+
     def test_retenida(self, cr, uid, ids, *args):     
         type2journal = {'out_invoice': 'iva_sale', 'in_invoice': 'iva_purchase', 'out_refund': 'iva_sale', 'in_refund': 'iva_purchase'}
         type_inv = self.browse(cr, uid, ids[0]).type

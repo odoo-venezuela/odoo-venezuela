@@ -8,6 +8,5 @@
     <record id="group_account_wh_iva_manager" model="res.groups">
         <field name="name">Withhold VAT / Manager</field>
     </record>
-
 </data>
 </openerp>

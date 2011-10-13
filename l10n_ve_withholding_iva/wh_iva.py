@@ -21,6 +21,7 @@
 
 from osv import osv, fields
 import time
+from tools.translate import _
 import decimal_precision as dp
 
 
@@ -317,14 +318,12 @@ class account_wh_iva_line(osv.osv):
 
         return res
 
-#    def _retention_rate(self, cr, uid, ids, name, args, context=None):
-#        res = {}
-#        for ret_line in self.browse(cr, uid, ids, context=context):
-#            if ret_line.invoice_id:
-#                res[ret_line.id] = ret_line.invoice_id.p_ret
-#            else:
-#                res[ret_line.id] = 0.0
-#        return res
+    def check_a_retention(self, cr, uid, ids, context=None):
+        imp=self.pool.get('account.invoice.tax').browse(cr, uid, ids, context=context)[0]
+        wh_vat_line=self.browse(cr, uid, ids, context)[0]
+        if wh_vat_line.amount_base_wh > imp.amount:
+            raise osv.except_osv(_('Amount Error'),_('the amount is greater than the tax'))
+        return True
 
 
     _name = "account.wh.iva.line"
