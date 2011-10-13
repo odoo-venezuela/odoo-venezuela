@@ -135,7 +135,8 @@ class res_partner(osv.osv):
         vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
-        return {'name':name,'vat_apply':vat_apply}
+        name = name[:name.index('(')].rstrip()
+        return {'name': name,'vat_apply': vat_apply}
 
     def _print_error(self, error, msg):
         raise osv.except_osv(error,msg)
