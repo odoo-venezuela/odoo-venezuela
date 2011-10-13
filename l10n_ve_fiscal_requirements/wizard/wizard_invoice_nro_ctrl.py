@@ -85,7 +85,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
                     })
                 break
         except:
-            raise osv.except_osv(_("ERROR !"), _("You have to install the ISLR Withholding"))
+            pass
         invoice_line_id = invoice_line_obj.create(cr, uid, invoice_line, {})
         return inv_id
 
