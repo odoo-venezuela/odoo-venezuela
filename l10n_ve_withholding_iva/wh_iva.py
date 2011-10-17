@@ -319,9 +319,11 @@ class account_wh_iva_line(osv.osv):
         return res
 
     def check_a_retention(self, cr, uid, ids, context=None):
-        imp=self.pool.get('account.invoice.tax').browse(cr, uid, ids, context=context)[0]
+        amount = 0.0
+        for tax_line in self.browse(cr,uid, ids[0]).tax_line:
+            amount+= tax_line.amount
         wh_vat_line=self.browse(cr, uid, ids, context)[0]
-        if wh_vat_line.amount_base_wh > imp.amount:
+        if wh_vat_line.amount_base_wh > amount:
             raise osv.except_osv(_('Amount Error'),_('the amount is greater than the tax'))
         return True
 
