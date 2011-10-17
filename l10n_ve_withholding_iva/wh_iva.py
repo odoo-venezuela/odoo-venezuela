@@ -81,8 +81,8 @@ class account_wh_iva(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Withholding State"),
-        'date_ret': fields.date('Withholding date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
-        'date': fields.date('Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
+        'date_ret': fields.date('Accounting date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
+        'date': fields.date('Voucher Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="The pay account used for this withholding."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Withholding customer/supplier"),
