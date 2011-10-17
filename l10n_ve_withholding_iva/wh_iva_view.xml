@@ -57,6 +57,7 @@
                                 <field name="amount_base_wh"/>
                                 <field name="amount_tax_wh"/>
                             </group>
+                            <button name="check_a_retention" string="Validate Amount Retention" type="object"  icon="gtk-ok"/>
                         </page>
                     </notebook>
                 </form>
@@ -155,8 +156,8 @@
                                 <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>
                                 <field name="amount_base_ret"/>
                                 <field name="total_tax_ret"/>
-                                <field name="tot_amount_base_wh"/>
-                                <field name="tot_amount_tax_wh"/>
+                                <field name="tot_amount_base_wh" groups='l10n_ve_withholding_iva.group_account_wh_iva_manager'/>
+                                <field name="tot_amount_tax_wh" groups='l10n_ve_withholding_iva.group_account_wh_iva_manager'/>
                             </group>
                         </page>
                         <page string="Other Information">
