@@ -39,6 +39,7 @@
         'wh_muni_view.xml',
         "wh_muni_sequence.xml",
         "wh_muni_report.xml",
+        "workflow/l10n_ve_wh_muni_wf.xml"
 #        "account_workflow.xml",
     ],
     'demo_xml': [],

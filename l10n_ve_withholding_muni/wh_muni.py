@@ -117,7 +117,6 @@ class account_wh_munici(osv.osv):
                 raise osv.except_osv(_('Invalid action !'), _("The line containing the document '%s' looks as if the amount withheld was wrong please check.!") % (i.invoice_id.reference))
             total+=i.amount
         self.write(cr,uid,ids,{'amount':total})
-        self.write(cr, uid, ids, {'state':'confirmed'})
         return True
 
 
@@ -141,7 +140,6 @@ class account_wh_munici(osv.osv):
     def action_done(self, cr, uid, ids, context={}):
         self.action_number(cr, uid, ids)
         self.action_move_create(cr, uid, ids)
-        self.write(cr, uid, ids, {'state':'done'})
         return True
 
 
