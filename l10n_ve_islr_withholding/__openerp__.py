@@ -28,7 +28,7 @@
 
 {
     "name" : "Automatically Calculated Withholding Income",
-    "version" : "0.6",
+    "version" : "0.2",
     "author" : "Vauxoo",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
