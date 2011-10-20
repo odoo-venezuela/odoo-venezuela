@@ -22,7 +22,7 @@
 ##############################################################################
 {
     "name" : "Fiscal requirements Venezuelan laws",
-    "version" : "0.5",
+    "version" : "0.2",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',

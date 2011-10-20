@@ -33,7 +33,7 @@
 
 {
     "name" : "Bank Management",
-    "version" : "0.1",
+    "version" : "0.2",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',

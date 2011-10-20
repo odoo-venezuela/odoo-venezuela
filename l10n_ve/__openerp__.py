@@ -24,7 +24,7 @@
 ##############################################################################
 {
     "name" : "Venezuelan Account Chart (Aimed at Commercial Trades)",
-    "version" : "1.0",
+    "version" : "0.2",
     "author" : "Tiny & Vauxoo",
     "category" : "Localisation/Account Charts",
     "description": 

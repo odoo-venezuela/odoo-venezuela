@@ -27,7 +27,7 @@
 ###############################################################################
 {
     'name' : 'ISLR Sale and Purchase Functionalities',
-    'version' : '0.1',
+    'version' : '0.2',
     'author' : 'Vauxoo',
     'description' : '''
         Due to the Dependendy reduction on the l10n_ve_islr_withholding module, it was necesary to incorporate

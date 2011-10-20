@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     "name" : "Opening balance Update",
-    "version" : "0.1",
+    "version" : "0.2",
     "depends" : ["base"],
     "author" : "Vauxoo",
     "description" : """

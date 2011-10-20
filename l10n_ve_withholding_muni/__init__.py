@@ -34,4 +34,4 @@ import invoice
 import partner
 import report
 #import wizard
-
+import workflow 
