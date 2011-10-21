@@ -92,8 +92,8 @@ class wh_iva_config(osv.osv_memory):
                                             'images', 'angelfalls.jpg'),'rb')
         defaults['config_logo'] = base64.encodestring(logo.read())
         if not self._show_company_data(cr, uid, context=context):
-            defaults['add']=''
-            defaults['vat']=''
+#            defaults['add']=''
+#            defaults['vat']=''
             return defaults
         return defaults
 

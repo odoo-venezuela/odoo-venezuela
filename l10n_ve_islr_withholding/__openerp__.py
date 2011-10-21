@@ -52,7 +52,8 @@
     "depends" : ["account", "l10n_ve_withholding", "product"],
     "init_xml" : [],
     "demo_xml":[
-            "demo/l10n_ve_islr_withholding_demo.xml",],
+#            "demo/l10n_ve_islr_withholding_demo.xml",
+               ],
     "update_xml" : [
             "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
