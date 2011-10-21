@@ -38,7 +38,7 @@ TODO:
 - 
     """,
     'init_xml': [],
-    "depends" : ["l10n_ve_fiscal_requirements", "account", "account_accountant"],
+    "depends" : ["l10n_ve_fiscal_requirements", "account", "account_accountant","account_voucher"],
     'update_xml': [
         'security/withholding_security.xml',
         'security/ir.model.access.csv',    
