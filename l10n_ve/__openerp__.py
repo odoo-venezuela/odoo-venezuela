@@ -32,16 +32,18 @@
 This Module load a generic format for manage medium and big business.
 You will need accounting knowledge to understad some concepts.
 ''',
+    
+    "init_xml": ['data/account_tax_code.xml',
+                 'data/account_user_types.xml',
+                 'data/account_chart.xml',
+                 'data/account_account.xml',
+                 'data/account_tax.xml',],
+
     "depends" : ["account",
                  "account_chart"],
     "demo_xml" : [],
     "update_xml" : [
                     'view/account_view.xml',
-                    'data/account_tax_code.xml',
-                    'data/account_user_types.xml',
-                    'data/account_chart.xml',
-                    'data/account_account.xml',
-                    'data/account_tax.xml',
                     'wizard/l10n_chart_ve_wizard.xml'],
     "active": False,
     "installable": True,
