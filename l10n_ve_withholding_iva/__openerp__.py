@@ -34,18 +34,15 @@
     "description": """
         Management withholding vat based in the Venezuelan tax laws.
 
-        --Create from invoice voucher withholding vat, 
-          to validate invoice.
+        --Create from invoice voucher withholding vat, to validate invoice.
+        --Generate new tag in the view of partner for  add information basic of withholdings vat.
+        --Generate file .txt required by Venezuelan law, based in the withholdings vat made 
+          during period defined for users.
+        --Generate voucher of withholding vat based in the Venezuelan tax laws.
           
-        --Generate new tag in the view of partner for 
-          add information basic of withholdings vat.
-          
-        --Generate file .txt required by Venezuelan law, 
-          based in the withholdings vat made during period 
-          defined for users.
-          
-        --Generate voucher of withholding vat based in 
-          the Venezuelan tax laws.
+        Recommendations:
+        --For printing the vat withholding report, is recomended to defined the size of the logo 
+          of the company in 886 x 236 pixeles.
     """,
     'init_xml': [],
     "depends" : ["l10n_ve_withholding"],

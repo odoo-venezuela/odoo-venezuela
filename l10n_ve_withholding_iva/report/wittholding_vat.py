@@ -77,7 +77,7 @@ class rep_comprobante(report_sxw.rml_parse):
             addr_inv =(addr.street and ('%s, '%addr.street.title()) or '')    + \
             (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
             (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
-            (addr.city_id and ('%s, '%addr.city_id.name.title()) or '')+ \
+            (addr.city and ('%s, '%addr.city.title()) or '')+ \
             (addr.country_id and ('%s '%addr.country_id.name.title()) or '')
             #~ addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv 
@@ -106,7 +106,7 @@ class rep_comprobante(report_sxw.rml_parse):
              (addr.street2 and ('%s '%addr.street2.title()) or '')      +\
              (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
              (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
-             (addr.city_id and ('%s, '%addr.city_id.name.title()) or '')+ \
+             (addr.city and ('%s, '%addr.city.title()) or '')+ \
              (addr.country_id and ('%s '%addr.country_id.name.title()) or '')
         if addr_ids:
             addr_inv['invoice'] = var
@@ -147,7 +147,7 @@ class rep_comprobante(report_sxw.rml_parse):
         ttal = {}
         lst_comp = []
 
-        for rl in comp.retention_line:
+        for rl in comp.wh_lines:
             dic_inv = {}
             lst_tmp = []
             k=1
@@ -172,7 +172,7 @@ class rep_comprobante(report_sxw.rml_parse):
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
                     'nro_ncre': rl.invoice_id.reference,
                     'nro_ndeb': rl.invoice_id.reference,
-                    'porcenta': rl.invoice_id.p_ret,
+                    'porcenta': rl.invoice_id.wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
                     'tot_civa': not sdcf and k*(txl.base_ret+txl.amount) or 0.0,
