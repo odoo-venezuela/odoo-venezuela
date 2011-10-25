@@ -1,12 +1,14 @@
+#!/usr/bin/python
 # -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution   
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Copyright (c) 2009 Zikzakmedia S.L. (http://zikzakmedia.com) All Rights Reserved.
-#                       Jordi Esteve <jesteve@zikzakmedia.com>
-#    $Id$
-#
+###########################################################################
+#    Module Writen to OpenERP, Open Source Management Solution
+#    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
+#    All Rights Reserved
+###############Credits######################################################
+#    Coded by: Vauxoo C.A.           
+#    Planified by: Nhomar Hernandez
+#    Audited by: Vauxoo C.A.
+#############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -19,8 +21,7 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+################################################################################
 import wizard
 import osv
 import pooler
