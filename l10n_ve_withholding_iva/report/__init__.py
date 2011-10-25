@@ -5,9 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
-#              Javier Duran              <javier@nvauxoo.com>
+#    Coded by: Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
+#              Nhomar Hernandez          <nhomar@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -27,4 +26,4 @@
 ##############################################################################
 
 import list_wh_iva
-
+import wittholding_vat
