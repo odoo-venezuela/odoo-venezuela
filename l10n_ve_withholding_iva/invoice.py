@@ -189,6 +189,17 @@ class account_invoice(osv.osv):
         self.button_reset_taxes_ret(cr, uid, ids, context)
         
         return True
+    
+    def check_wh_apply(self, cr, uid, ids, context=None):
+        if context is None:
+            context={}
+        tax_ids=[]
+        for line in self.browse(cr, uid, ids[0], context=context).tax_line:
+            tax_ids.append(line.tax_id.ret)
+        if True in set(tax_ids):
+            return True 
+        else:
+            return False
 
 account_invoice()
 
