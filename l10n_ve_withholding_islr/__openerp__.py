@@ -57,7 +57,6 @@
             "demo/l10n_ve_islr_withholding_demo.xml",
                ],
     "update_xml" : [
-            "demo/l10n_ve_islr_withholding_demo.xml",
             "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
             "data/l10n_ve_islr_withholding_data.xml",
