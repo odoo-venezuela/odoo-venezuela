@@ -6,7 +6,7 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              María Gabriela Quilarque  <gabriela@vauxoo.com>
+#              María Gabriela Quilarque  <gabriela@openerp.com.ve>
 #              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
@@ -27,38 +27,39 @@
 ##############################################################################
 
 {
-    "name" : "Automatically Calculated Withholding Income",
-    "version" : "0.2",
+    "name" : "Automatically Calculation Withholding Income",
+    "version" : "0.1",
     "author" : "Vauxoo",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
     "description": '''
                     ----------Automatically Calculated Withholding Income------------
 
-                    Steps to the firts installation:
-                    1.- Create the Concept of Withholding whith their rates.
-                    2.- Assigned to services associated with the concept of retention.
-                    3.- Check that the company withheld an agent retention. (if and so).
-                    4.- Create the Concept of Withholding for when retention does not apply: RETENTION DOES NOT APPLY.
+                    What make this module?
                     
-                    For correct functioning:
-                    1.- The periods must be defined with the format: 09/2011 (MM/YYYY).
-                    2.- Create the accounts of Withholding Income and assing to the partner.
-                    3.- Create the journal of type: islr.
-                    --------------------CHANGELOG-------------------------------------
-                    Oct 4, 2011:
-                     - Decoupled this module by eliminating dependencies with purchase, sale and stock.
+                    --Generate the voucher of withholding income to validate the invoice.
+                    --Generate the report of voucher of withholding income.
+                    --Generate the file .xml required by the Venezuelan laws, for agent
+                      of withholding income specials.
+                    --Generate view for load the concepts of wittholding whith their rates.
+                    --Generate view for visualize the withholding income for suppilers and 
+                      customers.
+                    --Load data of the 86 concepts of wittholdings whith their rates.
+
+                    Impromevents
+                    
+                    --For include the functionality of the withholding income to sales, 
+                      purchases and stock you should installer the module: l10n_ve_sale_purchase.
                    ''',
     "depends" : ["account", "l10n_ve_withholding", "product"],
     "init_xml" : [],
     "demo_xml":[
-#            "demo/l10n_ve_islr_withholding_demo.xml",
+            "demo/l10n_ve_islr_withholding_demo.xml",
                ],
     "update_xml" : [
             "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
             "data/l10n_ve_islr_withholding_data.xml",
-            "data/islr_concept_data.xml",
             "retencion_islr_sequence.xml",
             "view/wh_islr_view.xml",
             "view/invoice_view.xml",

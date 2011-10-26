@@ -20,37 +20,23 @@
                     </tr>
                     <tr>
                         <td><para style="TITULOCENTER"></para></td>
-                        <td>
-                            <para style="TITULOCENTER"></para>
-                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
                         <td><para style="TITULOCENTER"></para></td>
                     </tr>
                     <tr>
                         <td><para style="TITULOCENTER"></para></td>
-                        <td>
-                            <para style="TITULOCENTER"></para>
-                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
                         <td><para style="TITULOCENTER"></para></td>
                     </tr>
                     <tr>
-                        <td><para style="TCENTER"> </para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>Fecha de Retención</b></para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>No. de Comprobante</b></para>
-                        </td>
+                        <td><para style="TCENTER"></para></td>
+                        <td><para style="TCENTER"><b>Fecha de Retención</b></para></td>
+                        <td><para style="TCENTER"><b>No. de Comprobante</b></para></td>
                     </tr>
                     <tr>
-                        <td><para style="TCENTER"> </para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>[[ o.date_ret ]]</b></para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>[[ o.number ]]</b></para>
-                        </td>
+                        <td><para style="TCENTER"> </para></td>
+                        <td><para style="TCENTER"><b>[[ o.date_ret ]]</b></para></td>
+                        <td><para style="TCENTER"><b>[[ o.number ]]</b></para></td>
                     </tr>
                 </blockTable>
                 <blockTable colWidths="202.0mm">
@@ -58,16 +44,16 @@
                         <td><para style="RIFLEFT">[[ get_company_addr() or '' ]]</para></td>
                     </tr>
                 </blockTable>
-<!--
-[[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s,'%(o.invoice_id.address_invoice_id.city_id.name)) or '') or '') or '']]
--->
             </place>
                 <place x="3.50mm"  y="225.0mm"  width="203.0mm"  height="25.0mm">>
                     <blockTable colWidths="202.0mm">
                         <tr>
                             <td>
                                 <para style="RIFLEFT">[[ o.partner_id and ('CONTRIBUYENTE: %s,'%(o.partner_id.name)) or 'SIN CONTRI' ]][[ o.partner_id.vat and (' RIF.:%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or 'SIN RIF' ]]</para>
+                                <para style="RIFLEFT">DIRECCION: [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.street and  ('%s,'%(o.invoice_id.address_invoice_id.street)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.zip and ('Codigo Postal: %s,'%(o.invoice_id.address_invoice_id.zip)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.city and ('%s,'%(o.invoice_id.address_invoice_id.city)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s '%(o.invoice_id.address_invoice_id.country_id.name)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.phone and ('Telf: %s '%(o.invoice_id.address_invoice_id.phone)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.fax and ('Fax: %s'%(o.invoice_id.address_invoice_id.fax)) or '') or '') or '']] </para>
+<!--
                                 <para style="RIFLEFT">DIRECCION: [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.street and  ('%s,'%(o.invoice_id.address_invoice_id.street)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.zip and ('Codigo Postal: %s,'%(o.invoice_id.address_invoice_id.zip)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.city_id and ('%s,'%(o.invoice_id.address_invoice_id.city_id.name)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s '%(o.invoice_id.address_invoice_id.country_id.name)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.phone and ('Telf: %s '%(o.invoice_id.address_invoice_id.phone)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.fax and ('Fax: %s'%(o.invoice_id.address_invoice_id.fax)) or '') or '') or '']] </para>
+-->
                             </td>
                         </tr>
                     </blockTable>
@@ -85,9 +71,7 @@
 
             <place x="157.0mm"  y="135.0mm"  width="50.0mm"  height="30.0mm">
                 <blockTable colWidths="50.0mm" rowHeights="13mm"  style="Tabla3">
-                    <tr>
-                        <td><para></para></td>
-                    </tr>
+                    <tr><td><para></para></td></tr>
                 </blockTable>
                 <blockTable colWidths="50.0mm" rowHeights="6mm"  style="Tabla3">
                     <tr>
@@ -104,7 +88,6 @@
     </pageTemplate>
   </template>
   <stylesheet>
-  
   
     <blockTableStyle id="TABLATITULO">
         <blockSpan start="0,0" stop="0,-1"/>
@@ -145,8 +128,6 @@
   </stylesheet>
   <images/>
 
-
-
   <story>
     <para>[[repeatIn(objects,'o')]]</para>
     <para>[[ setLang(company.partner_id.lang) ]]</para> 
@@ -174,11 +155,10 @@
                         <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.date_invoice ]]</para></td>   
                         <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.reference ]]</para></td>  
                         <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.nro_ctrl ]]</para></td>
-                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.type and x.account_invoice_line_id.invoice_id.type=='in_refund' and 'N.C.' or removeParentNode('para') ]]</para>
-                            <para style="TCENTER"> 
-[[ (x.account_invoice_line_id.invoice_id.type=='in_invoice' and (x.account_invoice_line_id.invoice_id.parent_id and ('N.D.') or removeParentNode('para')) or removeParentNode('para'))]]</para>
-                            <para style="TCENTER">
-[[(x.account_invoice_line_id.invoice_id.type=='in_invoice' and ((not x.account_invoice_line_id.invoice_id.parent_id) and ('F') or removeParentNode('para'))  or removeParentNode('para')) ]]</para>
+                        <td>
+                            <para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.type and x.account_invoice_line_id.invoice_id.type=='in_refund' and 'N.C.' or removeParentNode('para') ]]</para>
+                            <para style="TCENTER">[[ (x.account_invoice_line_id.invoice_id.type=='in_invoice' and (x.account_invoice_line_id.invoice_id.parent_id and 'N.D.' or removeParentNode('para')) or removeParentNode('para'))]]</para>
+                            <para style="TCENTER">[[(x.account_invoice_line_id.invoice_id.type=='in_invoice' and ((not x.account_invoice_line_id.invoice_id.parent_id) and 'F' or removeParentNode('para'))  or removeParentNode('para')) ]]</para>
                         </td>
                         <td><para style="TLEFT">[[ x.rate_id.concept_id.name ]]</para></td>
                         <td><para style="TRIGHT">[[ formatLang(x.base) ]]</para></td>

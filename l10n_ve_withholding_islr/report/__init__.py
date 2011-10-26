@@ -6,7 +6,6 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
-#              Nhomar Hernandez          <nhomar@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -25,5 +24,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import list_wh_iva
-import wittholding_vat
+import wh_islr
+
