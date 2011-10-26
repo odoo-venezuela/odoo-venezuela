@@ -2,29 +2,6 @@
 <openerp>
     <data noupdate="0">
 
-<!--
-        <record id="base.main_company" model="res.company">
-            <field name="property_reserve_and_surplus_account" ref="account.rsa"/>
-        </record>
--->
-
-<!--
-        <record id="base.main_address" model="res.partner.address">
-            <field name="partner_id" ref="base.main_partner"/>
-            <field name="name">Fabien Pinckaers</field>
-            <field name="street">Chaussee de Namur 40</field>
-            <field name="zip">1367</field>
-            <field name="phone">(+32).81.81.37.00</field>
-            <field name="type">invoice</field>
-            <field name="country_id" ref="base.ve"/>
--->
-            <!-- Company ID will be set later -->
-<!--
-            <field name="company_id" eval="None"/>
-        </record>
--->
-
-
         <record id="base.main_partner" model="res.partner">
             <field eval="1" name="islr_withholding_agent"/>
             <field eval="1" name="customer"/>
