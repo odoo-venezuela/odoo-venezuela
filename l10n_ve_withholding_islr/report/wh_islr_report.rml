@@ -20,37 +20,23 @@
                     </tr>
                     <tr>
                         <td><para style="TITULOCENTER"></para></td>
-                        <td>
-                            <para style="TITULOCENTER"></para>
-                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
                         <td><para style="TITULOCENTER"></para></td>
                     </tr>
                     <tr>
                         <td><para style="TITULOCENTER"></para></td>
-                        <td>
-                            <para style="TITULOCENTER"></para>
-                        </td>
+                        <td><para style="TITULOCENTER"></para></td>
                         <td><para style="TITULOCENTER"></para></td>
                     </tr>
                     <tr>
-                        <td><para style="TCENTER"> </para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>Fecha de Retención</b></para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>No. de Comprobante</b></para>
-                        </td>
+                        <td><para style="TCENTER"></para></td>
+                        <td><para style="TCENTER"><b>Fecha de Retención</b></para></td>
+                        <td><para style="TCENTER"><b>No. de Comprobante</b></para></td>
                     </tr>
                     <tr>
-                        <td><para style="TCENTER"> </para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>[[ o.date_ret ]]</b></para>
-                        </td>
-                        <td>
-                            <para style="TCENTER"><b>[[ o.number ]]</b></para>
-                        </td>
+                        <td><para style="TCENTER"> </para></td>
+                        <td><para style="TCENTER"><b>[[ o.date_ret ]]</b></para></td>
+                        <td><para style="TCENTER"><b>[[ o.number ]]</b></para></td>
                     </tr>
                 </blockTable>
                 <blockTable colWidths="202.0mm">
@@ -58,16 +44,16 @@
                         <td><para style="RIFLEFT">[[ get_company_addr() or '' ]]</para></td>
                     </tr>
                 </blockTable>
-<!--
-[[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s,'%(o.invoice_id.address_invoice_id.city_id.name)) or '') or '') or '']]
--->
             </place>
                 <place x="3.50mm"  y="225.0mm"  width="203.0mm"  height="25.0mm">>
                     <blockTable colWidths="202.0mm">
                         <tr>
                             <td>
                                 <para style="RIFLEFT">[[ o.partner_id and ('CONTRIBUYENTE: %s,'%(o.partner_id.name)) or 'SIN CONTRI' ]][[ o.partner_id.vat and (' RIF.:%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or 'SIN RIF' ]]</para>
+                                <para style="RIFLEFT">DIRECCION: [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.street and  ('%s,'%(o.invoice_id.address_invoice_id.street)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.zip and ('Codigo Postal: %s,'%(o.invoice_id.address_invoice_id.zip)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.city and ('%s,'%(o.invoice_id.address_invoice_id.city)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s '%(o.invoice_id.address_invoice_id.country_id.name)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.phone and ('Telf: %s '%(o.invoice_id.address_invoice_id.phone)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.fax and ('Fax: %s'%(o.invoice_id.address_invoice_id.fax)) or '') or '') or '']] </para>
+<!--
                                 <para style="RIFLEFT">DIRECCION: [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.street and  ('%s,'%(o.invoice_id.address_invoice_id.street)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.zip and ('Codigo Postal: %s,'%(o.invoice_id.address_invoice_id.zip)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.city_id and ('%s,'%(o.invoice_id.address_invoice_id.city_id.name)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.name and ('%s '%(o.invoice_id.address_invoice_id.country_id.name)) or '') or '') or '']][[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.phone and ('Telf: %s '%(o.invoice_id.address_invoice_id.phone)) or '') or '') or '']] [[ o.invoice_id and (o.invoice_id.address_invoice_id and (o.invoice_id.address_invoice_id.fax and ('Fax: %s'%(o.invoice_id.address_invoice_id.fax)) or '') or '') or '']] </para>
+-->
                             </td>
                         </tr>
                     </blockTable>
@@ -85,9 +71,7 @@
 
             <place x="157.0mm"  y="135.0mm"  width="50.0mm"  height="30.0mm">
                 <blockTable colWidths="50.0mm" rowHeights="13mm"  style="Tabla3">
-                    <tr>
-                        <td><para></para></td>
-                    </tr>
+                    <tr><td><para></para></td></tr>
                 </blockTable>
                 <blockTable colWidths="50.0mm" rowHeights="6mm"  style="Tabla3">
                     <tr>
@@ -104,7 +88,6 @@
     </pageTemplate>
   </template>
   <stylesheet>
-  
   
     <blockTableStyle id="TABLATITULO">
         <blockSpan start="0,0" stop="0,-1"/>
@@ -144,8 +127,6 @@
       <paraStyle name="TITULOCENTER" fontName="Courier-Bold" fontSize="10.0" leading="10.0" spaceBefore="0.0" spaceAfter="0.0" rigthIdent="-4.0" leftIndent="-4.0" alignment="CENTER"/>
   </stylesheet>
   <images/>
-
-
 
   <story>
     <para>[[repeatIn(objects,'o')]]</para>
