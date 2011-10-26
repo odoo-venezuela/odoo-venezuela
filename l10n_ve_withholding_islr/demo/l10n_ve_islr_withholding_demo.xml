@@ -2,10 +2,13 @@
 <openerp>
     <data noupdate="0">
 
+<!--
         <record id="base.main_company" model="res.company">
             <field name="property_reserve_and_surplus_account" ref="account.rsa"/>
         </record>
+-->
 
+<!--
         <record id="base.main_address" model="res.partner.address">
             <field name="partner_id" ref="base.main_partner"/>
             <field name="name">Fabien Pinckaers</field>
@@ -14,16 +17,18 @@
             <field name="phone">(+32).81.81.37.00</field>
             <field name="type">invoice</field>
             <field name="country_id" ref="base.ve"/>
+-->
             <!-- Company ID will be set later -->
+<!--
             <field name="company_id" eval="None"/>
         </record>
+-->
+
 
         <record id="base.main_partner" model="res.partner">
             <field eval="1" name="islr_withholding_agent"/>
-            <field eval="&quot;&quot;&quot;VEJ846123456&quot;&quot;&quot;" name="vat"/>
             <field eval="1" name="customer"/>
             <field eval="1" name="supplier"/>
-            <field name="currency_id" ref="base.VEB"/>
         </record>
 
         <!--
@@ -139,9 +144,7 @@
             <field name="concept_id" ref="islr_wh_concept_demo2" />
         </record>
 
-       <!--
-        Sequence
-        -->
+       <!--Sequence-->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
             <field name="name">Retencion de ISLR Compra</field>
             <field name="code">account.journal</field>
@@ -392,12 +395,12 @@
             <field eval="700000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEB"/>
-            <field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_0"/>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_0"/>
             <field name="nro_ctrl">00-786347</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="reference">libre-0003873</field>
-            <field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_0"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_0"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -407,19 +410,19 @@
             <field eval="0" name="reconciled"/>
             <field eval="700000.0" name="amount_untaxed"/>
             <field eval="700000.0" name="amount_total"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_administradoramengimca0"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_administradoramengimca0"/>
         </record>
         
         <record id="account_invoice_line_facturapersonajuridicadomiciliada0" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
-            <field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
             <field name="invoice_id" ref="account_invoice_0"/>
             <field eval="350000.0" name="price_unit"/>
             <field eval="700000.0" name="price_subtotal"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_administradoramengimca0"/>
-            <field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo1"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_administradoramengimca0"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
             <field name="name">Factura 1. Persona Juridica Domiciliada</field>
         </record>
         
@@ -428,12 +431,12 @@
             <field eval="1180000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEB"/>
-            <field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_1"/>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_1"/>
             <field name="nro_ctrl">00-65323</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="reference">libre-003873</field>
-            <field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_1"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_1"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -443,19 +446,19 @@
             <field eval="0" name="reconciled"/>
             <field eval="1182000.1" name="amount_untaxed"/>
             <field eval="1182000.1" name="amount_total"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_gutierrezrrohgere0"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_gutierrezrrohgere0"/>
         </record>
         
         <record id="account_invoice_line_facturapersonanaturalresidenciada1" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
-            <field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
             <field name="invoice_id" ref="account_invoice_2"/>
             <field eval="591000.0" name="price_unit"/>
             <field eval="1182000.1" name="price_subtotal"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_gutierrezrrohgere0"/>
-            <field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo1"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_gutierrezrrohgere0"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
             <field name="name">Factura2. Persona Natural Residenciada</field>
         </record>
 
@@ -463,12 +466,12 @@
             <field eval="2424000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEB"/>
-            <field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_3"/>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_3"/>
             <field name="nro_ctrl">00-0003873298</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="reference">libre-00238738</field>
-            <field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_3"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_3"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -478,19 +481,19 @@
             <field eval="0" name="reconciled"/>
             <field eval="2424000.0" name="amount_untaxed"/>
             <field eval="2424000.0" name="amount_total"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_viajesmirandaca0"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_viajesmirandaca0"/>
         </record>
         
         <record id="account_invoice_line_facturapersonajuridicanodomiciliada0" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
-            <field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
             <field name="invoice_id" ref="account_invoice_3"/>
             <field eval="1212000.0" name="price_unit"/>
             <field eval="2424000.0" name="price_subtotal"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_viajesmirandaca0"/>
-            <field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo2"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_viajesmirandaca0"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
             <field name="name">Factura 4. Persona Juridica No Domiciliada</field>
         </record>
 
@@ -498,12 +501,12 @@
             <field eval="1568000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEB"/>
-            <field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_2"/>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_2"/>
             <field name="nro_ctrl">00-00084787</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="reference">libre-0082387</field>
-            <field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_2"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_2"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -513,19 +516,19 @@
             <field eval="0" name="reconciled"/>
             <field eval="1568000.0" name="amount_untaxed"/>
             <field eval="1568000.0" name="amount_total"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_nhomarhernandez0"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_nhomarhernandez0"/>
         </record>
         
         <record id="account_invoice_line_facturapersonanaturalnoresidente0" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
-            <field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
             <field name="invoice_id" ref="account_invoice_4"/>
             <field eval="784000.0" name="price_unit"/>
             <field eval="1568000.0" name="price_subtotal"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
-            <field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_nhomarhernandez0"/>
-            <field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo2"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_nhomarhernandez0"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
             <field name="name">Factura 3. Persona Natural no Residente</field>
         </record>
         
@@ -534,11 +537,11 @@
 		<record id="account_invoice_5" model="account.invoice">
 			<field name="currency_id" ref="base.VEB"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_6"/>
+			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_6"/>
 			<field name="nro_ctrl">00-562115613156</field>
 			<field eval="0" name="sin_cred"/>
 			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_6"/>
+			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_6"/>
 			<field name="reference_type">none</field>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="state">draft</field>
@@ -548,28 +551,28 @@
 			<field eval="0" name="reconciled"/>
 			<field eval="6000000.0" name="amount_untaxed"/>
 			<field eval="6000000.0" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_3"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
 		</record>
 		<record id="account_invoice_line_domiciliado0" model="account.invoice.line">
 			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
 			<field name="invoice_id" ref="account_invoice_5"/>
 			<field eval="3000000.0" name="price_unit"/>
 			<field eval="6000000.0" name="price_subtotal"/>
 			<field name="company_id" ref="base.main_company"/>
 			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_3"/>
-			<field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo2"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
+			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
 			<field name="name">Factura4 CU.Persona Juridica No Domiciliado</field>
 		</record>
 		<record id="account_invoice_6" model="account.invoice">
 			<field name="currency_id" ref="base.VEB"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_4"/>
+			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_4"/>
 			<field name="nro_ctrl">00-8975452</field>
 			<field eval="0" name="sin_cred"/>
 			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_4"/>
+			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_4"/>
 			<field name="reference_type">none</field>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="state">draft</field>
@@ -579,29 +582,29 @@
 			<field eval="0" name="reconciled"/>
 			<field eval="1370000.65" name="amount_untaxed"/>
 			<field eval="1370000.65" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_1"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
 		</record>
 		<record id="account_invoice_line_factura6" model="account.invoice.line">
 			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
 			<field name="invoice_id" ref="account_invoice_6"/>
 			<field eval="685000.0" name="price_unit"/>
 			<field eval="1370000.65" name="price_subtotal"/>
 			<field name="company_id" ref="base.main_company"/>
 			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_1"/>
-			<field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo2"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
+			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
 			<field name="name">Fact3 CUS. Persona Juridica Domiciliada</field>
 		</record>
               
 		<record id="account_invoice_7" model="account.invoice">
 			<field name="currency_id" ref="base.VEB"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_7"/>
+			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_7"/>
 			<field name="nro_ctrl">00-545413165</field>
 			<field eval="0" name="sin_cred"/>
 			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_7"/>
+			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_7"/>
 			<field name="reference_type">none</field>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="state">draft</field>
@@ -611,29 +614,29 @@
 			<field eval="0" name="reconciled"/>
 			<field eval="6000000.0" name="amount_untaxed"/>
 			<field eval="6000000.0" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_4"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
 		</record>
 		<record id="account_invoice_line_factura2" model="account.invoice.line">
 			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
 			<field name="invoice_id" ref="account_invoice_7"/>
 			<field eval="3000000.0" name="price_unit"/>
 			<field eval="6000000.0" name="price_subtotal"/>
 			<field name="company_id" ref="base.main_company"/>
 			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_4"/>
-			<field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo1"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
+			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
 			<field name="name">Factura 2 Customer. Persona Natural No Residenciada</field>
 		</record>
 
 		<record id="account_invoice_8" model="account.invoice">
 			<field name="currency_id" ref="base.VEB"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_islr_withholding.res_partner_address_5"/>
+			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_5"/>
 			<field name="nro_ctrl">00-5642165</field>
 			<field eval="0" name="sin_cred"/>
 			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_islr_withholding.res_partner_address_5"/>
+			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_5"/>
 			<field name="reference_type">none</field>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="state">draft</field>
@@ -643,18 +646,18 @@
 			<field eval="0" name="reconciled"/>
 			<field eval="3999999.4" name="amount_untaxed"/>
 			<field eval="3999999.4" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_2"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
 		</record>
 		<record id="account_invoice_line_factura3" model="account.invoice.line">
 			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_islr_withholding.a_islr"/>
+			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
 			<field name="invoice_id" ref="account_invoice_8"/>
 			<field eval="2000000.0" name="price_unit"/>
 			<field eval="3999999.4" name="price_subtotal"/>
 			<field name="company_id" ref="base.main_company"/>
 			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_islr_withholding.res_partner_2"/>
-			<field name="concept_id" ref="l10n_ve_islr_withholding.islr_wh_concept_demo1"/>
+			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
+			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
 			<field name="name">Factura 1 Customer. Persona Natural Residenciada</field>
 		</record>
 

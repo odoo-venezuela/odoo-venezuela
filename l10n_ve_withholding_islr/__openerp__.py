@@ -44,6 +44,7 @@
                     --Generate view for load the concepts of wittholding whith their rates.
                     --Generate view for visualize the withholding income for suppilers and 
                       customers.
+                    --Load data of the 86 concepts of wittholdings whith their rates.
 
                     Impromevents
                     
@@ -53,13 +54,13 @@
     "depends" : ["account", "l10n_ve_withholding", "product"],
     "init_xml" : [],
     "demo_xml":[
-#            "demo/l10n_ve_islr_withholding_demo.xml",
+            "demo/l10n_ve_islr_withholding_demo.xml",
                ],
     "update_xml" : [
-            #~ "security/wh_islr_security.xml",
-            #~ "security/ir.model.access.csv",
-            #~ "data/l10n_ve_islr_withholding_data.xml",
-            #~ "data/islr_concept_data.xml",
+            "demo/l10n_ve_islr_withholding_demo.xml",
+            "security/wh_islr_security.xml",
+            "security/ir.model.access.csv",
+            "data/l10n_ve_islr_withholding_data.xml",
             "retencion_islr_sequence.xml",
             "view/wh_islr_view.xml",
             "view/invoice_view.xml",
