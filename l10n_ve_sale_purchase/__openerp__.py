@@ -27,16 +27,16 @@
 ###############################################################################
 {
     'name' : 'ISLR Sale and Purchase Functionalities',
-    'version' : '0.2',
+    'version' : '0.3',
     'author' : 'Vauxoo',
     'description' : '''
-        Due to the Dependendy reduction on the l10n_ve_islr_withholding module, it was necesary to incorporate
-        the functionalities wich has to do with the eliminated dependencies on another module. That's what this one
-        was created for.
+        Due to the Dependendy reduction on the l10n_ve_withholding_islr module, it was necessary to incorporate
+        the functionalities regarding with the eliminated dependencies on another module. Because of that this
+	module was created
     ''',
     'category' : '',
     'website' : 'http://openerp.com',
-    'depends' : ['sale', 'purchase', 'stock', 'l10n_ve_islr_withholding'],
+    'depends' : ['sale', 'purchase', 'stock', 'l10n_ve_withholding_islr'],
     'update_xml' : [
         'view/product_view.xml',
         'view/stock_view.xml',
