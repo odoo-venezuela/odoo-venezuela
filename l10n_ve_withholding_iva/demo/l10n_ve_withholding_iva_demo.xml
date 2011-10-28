@@ -2,6 +2,31 @@
 <openerp>
     <data noupdate='0'>
 
+
+ <record id="a_iva" model="account.account">
+            <field name="code">X2003</field>
+            <field name="name">Otros gastos</field>
+            <field ref="account.rev" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.account_type_income"/>
+        </record>
+
+        <record id="iva_rec" model="account.account">
+            <field name="code">X11007</field>
+            <field name="name">Impuestos al valor agregado por Cobrar(IVA)</field>
+            <field ref="account.cas" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.account_type_asset"/>
+        </record>
+        
+        <record id="iva_pay" model="account.account">
+            <field name="code">X1115</field>
+            <field name="name">Impuestos al valor agregado por Pagar(IVA)</field>
+            <field ref="account.cli" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.account_type_liability"/>
+        </record>
+<!--Partner -->
         <record id="res_partner_address_0" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.ve"/>
@@ -21,10 +46,12 @@
             <field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
             <field eval="1" name="supplier"/>
             <field eval="&quot;&quot;&quot;VEJ147744443&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="customer"/>
+            <field eval="1" name="customer"/>
             <field eval="&quot;&quot;&quot;WHATEVER YOU WANT, C.A.&quot;&quot;&quot;" name="name"/>
             <field name="property_account_receivable" ref="account.a_recv"/>
             <field name="property_account_payable" ref="account.a_pay"/>
+	    <field name="property_wh_iva_payable" ref="l10n_ve_withholding_iva.iva_pay"/>
+            <field name="property_wh_iva_receivable" ref="l10n_ve_withholding_iva.iva_rec"/>
         </record>
 
         <!--
@@ -46,6 +73,20 @@
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_withholding_iva.res_partner_administradoramengimca0"/>
         </record>
+
+	<record id="account_invoice_line_cpugenregularprocessorconfig0" model="account.invoice.line">
+		<field name="uos_id" ref="product.product_uom_unit"/>
+		<field name="account_id" ref="l10n_ve_withholding_iva.a_iva"/>
+		<field name="invoice_id" ref="l10n_ve_withholding_iva.account_invoice_0"/>
+		<field eval="200.0" name="price_unit"/>
+		<field eval="200.6" name="price_subtotal"/>
+		<field name="company_id" ref="base.main_company"/>
+		<field name="product_id" ref="product.product_product_cpu_gen"/>
+		<field eval="1.0" name="quantity"/>
+		<field name="partner_id" ref="l10n_ve_withholding_iva.res_partner_administradoramengimca0"/>
+		<field name="name">[CPU_GEN] Regular processor config</field>
+	</record>
+
 
 <!--        <record id="account_invoice_line_iva" model="account.invoice.line">-->
 <!--            <field name="invoice_id" ref="account_invoice_0"/>-->
