@@ -88,7 +88,7 @@
 
  <!-- Invoices Customer  -->
 
-  <record id="account_invoice_0" model="account.invoice">
+  <record id="account_invoice_1" model="account.invoice">
             <field eval="700000.0" name="check_total"/>
             <field name="journal_id" ref="account.sales_journal"/>
             <field name="currency_id" ref="base.VEB"/>
@@ -103,10 +103,10 @@
             <field name="partner_id" ref="l10n_ve_withholding_iva.res_partner_administradoramengimca0"/>
         </record>
 
-	<record id="account_invoice_line_cpugenregularprocessorconfig0" model="account.invoice.line">
+	<record id="account_invoice_line_cpugenregularprocessorconfig1" model="account.invoice.line">
 		<field name="uos_id" ref="product.product_uom_unit"/>
 		<field name="account_id" ref="l10n_ve_withholding_iva.a_iva"/>
-		<field name="invoice_id" ref="l10n_ve_withholding_iva.account_invoice_0"/>
+		<field name="invoice_id" ref="l10n_ve_withholding_iva.account_invoice_1"/>
 		<field eval="200.0" name="price_unit"/>
 		<field eval="200.6" name="price_subtotal"/>
 		<field name="company_id" ref="base.main_company"/>
