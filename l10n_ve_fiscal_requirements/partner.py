@@ -135,7 +135,8 @@ class res_partner(osv.osv):
         vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
-        if name.find('(')==0:
+        if name.count('(') > 0:
+            print "i'm so in!"
             name = name[:name.index('(')].rstrip()
         return {'name': name,'vat_apply': vat_apply}
 
