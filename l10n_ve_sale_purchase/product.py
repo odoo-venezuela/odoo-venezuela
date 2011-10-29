@@ -50,18 +50,16 @@ class product_product(osv.osv):
     Funcion que agrega un concepto por defecto para los productos que no son de servicios
     '''
     def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
-        concept_id = False
+        domain = {}
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
-            
             concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)],context=context)
-            print 'concept_id ', concept_id
             if concept_id:
                 return {'value' : {'concept_id':concept_id[0]}} 
             else:
                 raise osv.except_osv(_('Invalid action !'),_("Must create the concept of withholding income"))
-                
-        return {'value' : {'concept_id':concept_id or False}} 
+        return {'value' : {'concept_id':False} ,
+                'domain' :{'concept_id':[('withholdable','=',True)]}} ,
 
 product_product()
 

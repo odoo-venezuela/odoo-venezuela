@@ -44,15 +44,20 @@ class purchase_order_line(osv.osv):
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order=False, fiscal_position=False, date_planned=False, name=False, price_unit=False, notes=False):
         '''
         This method loads the withholding concept to a product automatically
-        '''
-        data = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom,partner_id, date_order, fiscal_position)
+        '''        
+        def get_concept():
+            concept_obj = self.pool.get('islr.wh.concept')
+            concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)])
+            return concept_id and concept_id[0] or False
+        res = super(purchase_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order, fiscal_position, date_planned, name, price_unit, notes)
         if not product:
-            return {'value': {'price_unit': 0.0, 'name':'','notes':'', 'product_uom' : False}, 'domain':{'product_uom':[]}}  
-        pro = self.pool.get('product.product').browse(cr, uid, product)
-        concepto=pro.concept_id.id
-        data[data.keys()[1]]['concept_id'] = concepto
-        return data
-    
+            concept_id = get_concept()
+            if concept_id:
+                res['value']['concept_id']=concept_id
+            return res
+        prod_brw = self.pool.get('product.product').browse(cr, uid, product)
+        res['value']['concept_id'] = prod_brw.concept_id and prod_brw.concept_id.id or get_concept()
+        return res
 purchase_order_line()
 
 
