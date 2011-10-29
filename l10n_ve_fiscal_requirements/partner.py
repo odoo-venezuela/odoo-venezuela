@@ -136,7 +136,6 @@ class res_partner(osv.osv):
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
         if name.count('(') > 0:
-            print "i'm so in!"
             name = name[:name.index('(')].rstrip()
         return {'name': name,'vat_apply': vat_apply}
 
