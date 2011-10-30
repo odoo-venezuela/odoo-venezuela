@@ -210,10 +210,7 @@ class account_invoice(osv.osv):
         tax_ids=[]
         for line in self.browse(cr, uid, ids[0], context=context).tax_line:
             tax_ids.append(line.tax_id.ret)
-        if True in set(tax_ids):
-            return True
-        else:
-            return False
+        return any(tax_ids)
  
     def check_wh_apply(self, cr, uid, ids, context=None):
         if context is None:
