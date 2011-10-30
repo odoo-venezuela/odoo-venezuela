@@ -26,7 +26,7 @@
 import time
 from osv import fields, osv
 import decimal_precision as dp
-
+from tools.translate import _
 
 
 class account_invoice(osv.osv):
