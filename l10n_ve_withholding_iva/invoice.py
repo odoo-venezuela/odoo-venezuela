@@ -193,17 +193,35 @@ class account_invoice(osv.osv):
         self.button_reset_taxes_ret(cr, uid, ids, context)
         
         return True
-    
-    def check_wh_apply(self, cr, uid, ids, context=None):
+
+    def _withholding_partner(self, cr, uid, ids, context=None):  
+        if context is None:
+            context={}
+        obj = self.browse(cr, uid, ids[0],context=context)
+        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
+            return True
+        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.wh_iva_agent:
+            return True 
+        return False
+
+    def _withholdable_tax(self, cr, uid, ids, context=None):
         if context is None:
             context={}
         tax_ids=[]
         for line in self.browse(cr, uid, ids[0], context=context).tax_line:
             tax_ids.append(line.tax_id.ret)
         if True in set(tax_ids):
-            return True 
+            return True
         else:
             return False
+ 
+    def check_wh_apply(self, cr, uid, ids, context=None):
+        if context is None:
+            context={}
+        wh_apply=[]
+        wh_apply.append(self._withholdable_tax(cr, uid, ids, context=context))
+        wh_apply.append(self._withholding_partner(cr, uid, ids, context=context))
+        return all(wh_apply)
 
 account_invoice()
 
