@@ -31,7 +31,7 @@
         <record id="trans_open_wh" model="workflow.transition">
             <field name="act_from" ref="account.act_open"/>
             <field name="act_to" ref="act_withold_vat"/>
-            <field name="condition">True</field>
+            <field name="condition">check_wh_apply()</field>
             <field name="signal"></field>
         </record>
 <!--        From Withholdings to paid-->
