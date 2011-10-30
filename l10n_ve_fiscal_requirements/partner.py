@@ -92,12 +92,22 @@ class res_partner(osv.osv):
     ]
 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
-        warning = {'Tittle':'Vat Error !','Message':'You try to put a VAT already existant !'}
-        res = self.pool.get('res.partner').search(cr, uid, [('vat', '=', value)])
-        if len(res)>=1:
-            raise osv.except_osv(_('Vat Error !'),_('Invalid VAT. This vat is alredy used'))
+        if context is None:
+            context={}
+        if not value:
+            return super(res_partner,self).vat_change(cr, uid, ids, value, context=context)
+        res = self.search(cr, uid, [('vat', 'ilike', value)])
+        if res:
+            rp = self.browse(cr, uid, res[0],context=context)
+            return {'warning':  {
+                                'title':_('Vat Error !'),
+                                'message':_('The VAT [%s] looks like '%value + 
+                                            '[%s] which is'%rp.vat.upper()+
+                                            ' already being used by: %s'%rp.name.upper())
+                                }
+                   }
         else:
-            return super(res_partner,self).vat_change(cr, uid, ids, value, context=None)
+            return super(res_partner,self).vat_change(cr, uid, ids, value, context=context)
 
     def check_vat_ve(self, vat):
         '''
