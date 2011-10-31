@@ -14,15 +14,15 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
-                <page string="Withholdings" position="inside">
-                    <notebook>
-                        <page string="Withholding Income">
-                            <group col="4" colspan="2">
-                                <field name="islr_withholding_agent"/>
-                            </group>
-                        </page>
-                    </notebook>
-                </page>
+                <xpath expr="//separator[@string='vsep']" position="after">
+                    <newline/>
+                        <group col="4" colspan="2">
+                            <field name="islr_withholding_agent"/>
+                        </group>
+                </xpath>
+                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                    <attribute name="string">Income Withholding</attribute>
+                </xpath>
             </field>
         </record>
 
