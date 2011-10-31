@@ -57,7 +57,7 @@ class product_product(osv.osv):
             concept_id = concept_obj.search(cr, uid, [('id','<>',None)])
             
             if concept_id:
-                concept_id = concept_obj.search(cr, uid, [('name','ilike','RETENTION DOES NOT APPLY')])[0]
+                concept_id = concept_obj.search(cr, uid, [('name','ilike','NO APLICA RETENCION')])[0]
             else:
                 raise osv.except_osv(_('Invalid action !'),_("Must create the concept of withholding income"))
                 
