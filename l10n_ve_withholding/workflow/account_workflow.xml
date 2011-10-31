@@ -8,6 +8,7 @@
             <field name="wkf_id" ref="account.wkf"/>
             <field name="name">wh_router</field>
             <field name="kind">dummy</field>
+	    <field name="split_mode">OR</field>
         </record>
         #----------------------------------------------
         # Transitions

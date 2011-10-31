@@ -575,13 +575,10 @@ class account_invoice(osv.osv):
     def action_ret_islr(self, cr, uid, ids, context={}):
         return self.pool.get('islr.wh.doc').action_ret_islr(cr,uid,ids,context)
 
-    def check_wh_islr_apply(self, cr, uid, ids, context=None):
-        '''
-        This Method test if given certain conditions it is
-        possible to create a new withholding document
-        '''
+    def _check_wh_islr(self, cr, uid, ids, context=None):
         if context is None:
             context={}
+        
         wh_apply=[]
         # The two function being called below should undergo overhauling
         # right now it takes an object as and argument instead of an integer
@@ -591,19 +588,69 @@ class account_invoice(osv.osv):
         wh_apply.append(wh)
         wh_apply.append(concept_list)
         
-        inv_brw = False
-        if all(wh_apply):
-            wh_dict = self._get_service_wh(cr, uid, invoice, concept_list)
-            residence = self._get_residence(cr, uid, vendor, buyer)
-            nature = self._get_nature(cr, uid, vendor)
-            dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context=context)
-            self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict)
+        return invoice, vendor, buyer, concept_list, all(wh_apply)
+
+    def _check_do_wh(self, cr, uid, ids, invoice, vendor, buyer, concept_list, context=None):
+        if context is None:
+            context={}
+        wh_dict = self._get_service_wh(cr, uid, invoice, concept_list)
+        residence = self._get_residence(cr, uid, vendor, buyer)
+        nature = self._get_nature(cr, uid, vendor)
+        dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context=context)
+        self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict)
+        dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature,context=context)
+        inv_brw = self._get_inv_id(cr,uid,dict_completo)
+        
+        return bool(inv_brw)
+        
+    def check_wh_islr_apply(self, cr, uid, ids, context=None):
+        '''
+        This Method test if given certain conditions it is
+        possible to create a new withholding document
+        '''
+        if context is None:
+            context={}
+        
+        invoice, vendor, buyer, concept_list, wh_apply = self._check_wh_islr(cr, uid, ids, context=context)
+        
+        do_wh = False
+        if wh_apply:
             context.update({'test_from_wkf':True})
-            dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature,context=context)
-            inv_brw = self._get_inv_id(cr,uid,dict_completo)
+            do_wh = self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
             
-        wh_apply.append(inv_brw)
-        return all(wh_apply)
+        return all([wh_apply,do_wh])
+
+    def check_wh_islr_xml(self, cr, uid, ids, context=None):
+        '''
+        This Method test if given certain conditions it is
+        __not__ possible to create a new withholding document
+        but the xml elements needed to create a legal report
+        '''
+        if context is None:
+            context={}
+        
+        invoice, vendor, buyer, concept_list, wh_apply = self._check_wh_islr(cr, uid, ids, context=context)
+        
+        do_wh = True
+        if wh_apply:
+            context.update({'test_from_wkf':True})
+            do_wh = self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
+            
+        return all([wh_apply,not do_wh])
+
+    def action_islr_xml(self, cr, uid, ids, context=None):
+        '''
+        This Method creates the xml elements needed to provide a legal report
+        '''
+        if context is None:
+            context={}
+        
+        invoice, vendor, buyer, concept_list, wh_apply = self._check_wh_islr(cr, uid, ids, context=context)
+        
+        if wh_apply:
+            self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
+            
+        return True
 
 account_invoice()
 
