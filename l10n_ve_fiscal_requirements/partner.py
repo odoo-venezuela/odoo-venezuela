@@ -91,6 +91,10 @@ class res_partner(osv.osv):
         (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
     ]
 
+    _sql_constraints = [
+        ("vat_unique", "unique(vat)", "Partner's VAT must be an unique value"),
+    ]
+
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
         if context is None:
             context={}
