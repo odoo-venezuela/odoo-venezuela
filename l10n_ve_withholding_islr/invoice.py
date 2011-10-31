@@ -578,6 +578,18 @@ class account_invoice(osv.osv):
     def action_ret_islr(self, cr, uid, ids, context={}):
         return self.pool.get('islr.wh.doc').action_ret_islr(cr,uid,ids,context)
 
+    def check_wh_islr_apply(self, cr, uid, ids, context=None):
+        if context is None:
+            context={}
+        wh_apply=[]
+
+        # The two function being called below should undergo overhauling
+        # right now it takes an object as and argument instead of an integer
+        invoice=self.browse(cr, uid, ids[0], context=context)
+        wh_apply.append(self._get_partners(cr, uid, invoice)[2])
+        wh_apply.append(self._get_concepts(cr, uid, invoice))
+
+        return all(wh_apply)
 
 account_invoice()
 
