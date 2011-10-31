@@ -323,10 +323,12 @@ class account_invoice(osv.osv):
         'partner_id': inv_id.partner_id.id,
         })
 
-    def _get_wh(self,cr, uid, subtract,concept, wh_dict, dict_rate, apply):
+    def _get_wh(self,cr, uid, subtract,concept, wh_dict, dict_rate, apply,context=None):
         '''
         Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
         '''
+        if context is None:
+            context={}
         res= {}
         inv_obj= self.pool.get('account.invoice')
         if apply: # Si se va a aplicar retencion.
@@ -352,8 +354,9 @@ class account_invoice(osv.osv):
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
                             'name_rate': dict_rate[concept][6]}
-                self._write_wh_apply(cr,uid,line,res[line],apply,type)
-                inv_obj.write(cr, uid, inv_id, {'status': 'pro'})
+                if not context.get('test_from_wkf',False):
+                    self._write_wh_apply(cr,uid,line,res[line],apply,type)
+                    inv_obj.write(cr, uid, inv_id, {'status': 'pro'})
         else: # Si no aplica retencion
             for line in wh_dict[concept]['lines']:
                 subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
@@ -370,31 +373,34 @@ class account_invoice(osv.osv):
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
                             'name_rate': dict_rate[concept][6]}
-                self._write_wh_apply(cr,uid,line,res[line],apply,type)
-                inv_obj.write(cr, uid, inv_id, {'status': 'tasa'})
+                if not context.get('test_from_wkf',False):
+                    self._write_wh_apply(cr,uid,line,res[line],apply,type)
+                    inv_obj.write(cr, uid, inv_id, {'status': 'pro'})
         return res
 
 
-    def _get_wh_apply(self,cr,uid,dict_rate,wh_dict,nature):
+    def _get_wh_apply(self,cr,uid,dict_rate,wh_dict,nature,context=None):
         '''
         Retorna el diccionario completo con todos los datos para realizar la retencion, cada elemento es una linea de la factura.
         '''
+        if context is None:
+            context={}
         res = {}
         for concept in wh_dict:
             if not wh_dict[concept]['wh']:  #Si nunca se ha aplicado retencion con este concepto.
                 if wh_dict[concept]['base'] >= dict_rate[concept][1]: # Si el monto base que suman todas las lineas de la factura es mayor o igual al monto minimo de la tasa.
                     subtract = dict_rate[concept][3]  # Obtengo el sustraendo a aplicar. Existe sustraendo porque es la primera vez.
-                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para asignar al campo booleano de la linea de la factura True, para asi marcar de una vez que ya fue retenida, para una posterior busqueda.
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True,context=context))# El True sirve para asignar al campo booleano de la linea de la factura True, para asi marcar de una vez que ya fue retenida, para una posterior busqueda.
                 else: # Si el monto base no supera el monto minimo de la tasa(de igual forma se deb declarar asi no supere.)
                     subtract = 0.0
-                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False,context=context))
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
                 if nature:
                     subtract = dict_rate[concept][3]
-                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True,context=context))
                 else:
                     subtract = 0.0
-                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True,context=context))# El True sirve para indicar que la linea si se va a retener.
         return res
 
 
@@ -478,7 +484,6 @@ class account_invoice(osv.osv):
         'journal_id': self.get_journal(cr,uid,inv_brw),})
         
         wf_service = netsvc.LocalService("workflow")
-#        print 'wf service', str(dir(wf_service))
         wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id, 'button_confirm', cr)
 #        wf_service.trg_write(uid, 'islr.wh.doc', islr_wh_doc_id, cr)
         return islr_wh_doc_id
@@ -527,18 +532,10 @@ class account_invoice(osv.osv):
         '''
         Funcion para obtener el objeto_browse de la factura
         '''
-        inv_brw = False
         inv_obj =self.pool.get('account.invoice.line')
-        line_ids = []
-        inv_id1 = 0
-        for key in dict:
-            if dict[key]['apply']:
-                line_ids.append(key)
-        if line_ids:
-            line_ids.sort()
-            inv_id1 = line_ids[-1]
-            inv_brw = inv_obj.browse(cr,uid,inv_id1)
-        return inv_brw
+        line_ids = [key for key in dict if dict[key]['apply']]
+        line_ids.sort()
+        return line_ids and inv_obj.browse(cr,uid,line_ids[-1]) or False
 
 
     def _logic_create(self,cr,uid,dict,wh_doc_id):
@@ -579,16 +576,33 @@ class account_invoice(osv.osv):
         return self.pool.get('islr.wh.doc').action_ret_islr(cr,uid,ids,context)
 
     def check_wh_islr_apply(self, cr, uid, ids, context=None):
+        '''
+        This Method test if given certain conditions it is
+        possible to create a new withholding document
+        '''
         if context is None:
             context={}
         wh_apply=[]
-
         # The two function being called below should undergo overhauling
         # right now it takes an object as and argument instead of an integer
-        invoice=self.browse(cr, uid, ids[0], context=context)
-        wh_apply.append(self._get_partners(cr, uid, invoice)[2])
-        wh_apply.append(self._get_concepts(cr, uid, invoice))
-
+        invoice = self.browse(cr, uid, ids[0], context=context)
+        vendor, buyer, wh = self._get_partners(cr, uid, invoice)
+        concept_list = self._get_concepts(cr, uid, invoice)
+        wh_apply.append(wh)
+        wh_apply.append(concept_list)
+        
+        inv_brw = False
+        if all(wh_apply):
+            wh_dict = self._get_service_wh(cr, uid, invoice, concept_list)
+            residence = self._get_residence(cr, uid, vendor, buyer)
+            nature = self._get_nature(cr, uid, vendor)
+            dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context=context)
+            self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict)
+            context.update({'test_from_wkf':True})
+            dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature,context=context)
+            inv_brw = self._get_inv_id(cr,uid,dict_completo)
+            
+        wh_apply.append(inv_brw)
         return all(wh_apply)
 
 account_invoice()
