@@ -14,23 +14,18 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
-                <page string="Withholdings" position="inside">
-                    <notebook>
-                        <page string="Withholdings Income">
-                            <group col="6" colspan="4">
-                                <field name="status" colspan='4'/>
-                                <newline/>
-                                <button name="action_ret_islr" attrs="{'readonly':[('state','in',['draft','open','paid'])]}" string="Retener ISLR" type="object" colspan='1'/>
-                                <newline/>
-                                <hpaned/>
-                                <hpaned/>
-                                <hpaned/>
-                                <hpaned/>
-                                <field name="islr_wh_doc_id" colspan='8'/>
-                            </group>
-                        </page>
-                    </notebook>
-                </page>
+                <xpath expr="//separator[@string='vsep']" position="after">
+                    <newline/>
+                    <group col="6" colspan="4">
+                        <field name="status" colspan='2'/>
+                        <field name="islr_wh_doc_id" colspan='2'/>
+                        <newline/>
+<!--                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>-->
+                    </group>
+                </xpath>
+                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                    <attribute name="string">Income Withholding</attribute>
+                </xpath>
             </field>
         </record>
 
@@ -40,23 +35,18 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
             <field name="arch" type="xml">
-                <page string="Withholdings" position="inside">
-                    <notebook>
-                        <page string="Withholdings Income">
-                            <group col="6" colspan="4">
-                            <field name="status" colspan='4'/>
-                            <newline/>
-                            <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
-                            <newline/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <hpaned/>
-                            <field name="islr_wh_doc_id" colspan='8'/>
-                            </group>
-                        </page>
-                    </notebook>
-                </page>
+                <xpath expr="//separator[@string='vsep']" position="after">
+                    <newline/>
+                    <group col="6" colspan="4">
+                        <field name="status" colspan='2'/>
+                        <field name="islr_wh_doc_id" colspan='2'/>
+                        <newline/>
+<!--                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>-->
+                    </group>
+                </xpath>
+                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                <attribute name="string">Income Withholding</attribute>
+                </xpath>
             </field>
         </record>
 

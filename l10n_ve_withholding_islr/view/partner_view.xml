@@ -23,7 +23,6 @@
                 <xpath expr='//separator[@string="vsep"]' position='attributes'>
                     <attribute name="string">Income Withholding</attribute>
                 </xpath>
-                </page>
             </field>
         </record>
 
