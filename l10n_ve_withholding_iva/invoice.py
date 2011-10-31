@@ -207,10 +207,7 @@ class account_invoice(osv.osv):
     def _withholdable_tax(self, cr, uid, ids, context=None):
         if context is None:
             context={}
-        tax_ids=[]
-        for line in self.browse(cr, uid, ids[0], context=context).tax_line:
-            tax_ids.append(line.tax_id.ret)
-        return any(tax_ids)
+        return any([line.tax_id.ret for line in self.browse(cr, uid, ids[0], context=context).tax_line])
  
     def check_wh_apply(self, cr, uid, ids, context=None):
         if context is None:
