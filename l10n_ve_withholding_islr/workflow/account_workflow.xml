@@ -17,7 +17,19 @@
             <field name="action">action_ret_islr()</field>
         </record>
 
-        
+	<record id="act_islr_router" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">islr_router</field>
+            <field name="kind">dummy</field>
+	    <field name="split_mode">XOR</field>
+        </record>
+	
+	<record id="act_islr_xml" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">islr_xml</field>
+            <field name="kind">function</field>
+            <field name="action">action_islr_xml()</field>
+        </record>        
         #----------------------------------------------
         # Transitions
         #----------------------------------------------
@@ -28,13 +40,29 @@
 <!--            <field name="act_from" ref="account.act_withold_islr"/>-->
 <!--        </record>-->
 <!--        From Open to Withholdings-->
-        <record id="trans_open_wh_islr" model="workflow.transition">
-            <field name="act_from" ref="account.act_open"/>
+
+
+        <record id="trans_wh_router_wh_islr" model="workflow.transition">
+            <field name="act_from" ref="l10n_ve_withholding.act_wh_router"/>
+            <field name="act_to" ref="act_islr_router"/>
+            <field name="condition">True</field>
+            <field name="signal"></field>
+        </record>
+	
+        <record id="trans_wh_router_xml" model="workflow.transition">
+            <field name="act_from" ref="act_islr_router"/>
+            <field name="act_to" ref="act_islr_xml"/>
+            <field name="condition">check_wh_islr_xml()</field>
+            <field name="signal"></field>
+        </record>
+
+        <record id="trans_islr_router_wh_islr" model="workflow.transition">
+            <field name="act_from" ref="act_islr_router"/>
             <field name="act_to" ref="act_withold_islr"/>
             <field name="condition">check_wh_islr_apply()</field>
             <field name="signal"></field>
-        </record>
-<!--        From Withholdings to paid-->
+        </record>        
+        <!--        From Withholdings to paid-->
 
         <record id="trans_withhold_paid" model="workflow.transition">
             <field name="act_from" ref="act_withold_islr"/>

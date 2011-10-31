@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        #----------------------------------------------
+        # Activity
+        #----------------------------------------------
+        <record id="act_wh_router" model="workflow.activity">
+            <field name="wkf_id" ref="account.wkf"/>
+            <field name="name">wh_router</field>
+            <field name="kind">dummy</field>
+	    <field name="split_mode">OR</field>
+        </record>
+        #----------------------------------------------
+        # Transitions
+        #----------------------------------------------
+        <record id="trans_open_wh_router" model="workflow.transition">
+            <field name="act_from" ref="account.act_open"/>
+            <field name="act_to" ref="act_wh_router"/>
+            <field name="condition">True</field>
+        </record>
+    </data>
+</openerp>
