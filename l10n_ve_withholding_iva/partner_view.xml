@@ -16,18 +16,18 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
-                <page string="Withholdings" position="inside">
-                    <notebook>
-                        <page string="Withholdings Vat">
+                <xpath expr="//separator[@string='isep']" position="after">
+                    <newline/>
                             <group col="4" colspan="2">
                                 <field name="wh_iva_agent"/>
                                 <field name="wh_iva_rate"/>
                                 <field name="property_wh_iva_payable"/>
                                 <field name="property_wh_iva_receivable"/>
                             </group>
-                        </page>
-                    </notebook>
-                </page>
+                </xpath>
+                <xpath expr='//separator[@string="isep"]' position='attributes'>
+                    <attribute name="string">VAT Withholding</attribute>
+                </xpath>
             </field>
         </record>
     </data>
