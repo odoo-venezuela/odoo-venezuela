@@ -45,7 +45,8 @@ TODO:
         'security/ir.model.access.csv',    
         'l10n_ve_withholding_data.xml',    
         'l10n_ve_withholding_view.xml',
-        'account_view.xml'
+        'account_view.xml',
+        'workflow/account_workflow.xml',
     ],
     'demo_xml': [],
     'test': [],
