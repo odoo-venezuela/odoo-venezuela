@@ -20,11 +20,12 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <notebook>
+                <xpath expr="/form/notebook/page[@string='Invoice']" position="after">
                    <page string="Withholdings" >
-
+                        <separator string="vsep"/>
+                        <separator string="isep"/>
                     </page> 
-                </notebook>
+                </xpath>
             </field>
         </record>
         
@@ -33,16 +34,17 @@
 -->
         
         <record id="wh_inv_customer" model="ir.ui.view">
-            <field name="name">account.invoice.supplier.wh.form</field>
+            <field name="name">account.invoice.customer.wh.form</field>
             <field name="model">account.invoice</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <notebook>
+                <xpath expr="/form/notebook/page[@string='Invoice']" position="after">
                    <page string="Withholdings" >
-
+                        <separator string="vsep"/>
+                        <separator string="isep"/>
                     </page> 
-                </notebook>
+                </xpath>
             </field>
         </record>
         
@@ -56,11 +58,13 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <notebook>
+                <xpath expr="/form/notebook/page[@string='Notes']" position="after">
                    <page string="Withholdings" >
-
+                        <separator string="vsep"/>
+                        <newline/>
+                        <separator string="isep"/>
                     </page> 
-                </notebook>
+                </xpath>
             </field>
         </record>        
 
