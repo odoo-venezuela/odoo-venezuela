@@ -57,6 +57,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Lines Withholding for XML" >
+                    <field name="name"/>
                     <field name="company_id"/>
                     <field name="fiscalyear_id"/>
                     <field name="period_id"/>
@@ -70,7 +71,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Lines Withholding for XML">
-                    <field name="company_id"/>
+                    <field name="name"/>
                     <newline/>
                     <group col="4" colspan="2">
                         <field name="fiscalyear_id"  />
@@ -99,7 +100,10 @@
                                 <field name="amount_total_ret"/>
                                 <field name="amount_total_base"/>
                              </group>
-                        </page>
+                         </page>
+                         <page string="Other information">
+                             <field name="company_id" />
+                         </page>
                     </notebook>
                 </form>
             </field>
@@ -163,7 +167,6 @@
     </data>
 </openerp>
 
-<!--            parent="l10n_ve_withholding.menu_wh_suppiler"-->
 
 
 

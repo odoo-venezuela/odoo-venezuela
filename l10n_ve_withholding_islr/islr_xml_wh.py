@@ -57,6 +57,7 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     _columns = {
+        'name':fields.char('Description',128, required=True, select=True, help = "Description about statement of withholding income"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'state': fields.selection([
             ('draft','Draft'),
@@ -68,18 +69,38 @@ class islr_xml_wh_doc(osv.osv):
         'period_id':fields.many2one('account.period','Period',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]", help="Period when the accounts entries were done"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding Income Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
-        'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]",states={'draft':[('readonly',False)]}),
+        'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
     }
-    _rec_rame = 'company_id'
-
     _defaults = {
         'state': lambda *a: 'draft',
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
+
+        'fiscalyear_id': lambda self,cr,uid,conext:\
+                self.pool.get('account.fiscalyear').browse(cr,uid,uid,context={}).id,
+                                   
+        'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
+        'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
     }
+
+    def period_return(self,cr,uid,contex=None):
+        period_obj = self.pool.get('account.period')
+        fecha = time.strftime('%m/%Y')
+        period_id = period_obj.search(cr,uid,[('code','=',fecha)])
+        if period_id:
+            return period_id[0]
+        else:
+            return False
+
+    def name_get(self, cr, uid, ids, context={}):
+        if not len(ids):
+            return []
+        
+        res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
+        return res
 
     def action_anular1(self, cr, uid, ids, context={}):
         return self.write(cr, uid, ids, {'state':'draft'})
@@ -191,7 +212,6 @@ class islr_xml_wh_line(osv.osv):
 
 islr_xml_wh_line()
 
-
 class account_invoice_line(osv.osv):
     _inherit = "account.invoice.line"
 
@@ -202,9 +222,3 @@ class account_invoice_line(osv.osv):
         'wh_xml_id': lambda *a: 0,
     }
 account_invoice_line()
-
-
-
-
-
-
