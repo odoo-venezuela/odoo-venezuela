@@ -59,6 +59,7 @@ class txt_iva(osv.osv):
         #~ return res
 
     _columns = {
+        'name':fields.char('Description',128, required=True, select=True, help = "Description about statement of withholding income"),
         'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True,states={'draft':[('readonly',False)]}),
         'state': fields.selection([
             ('draft','Draft'),
@@ -84,6 +85,26 @@ class txt_iva(osv.osv):
                     context=context).company_id.id,
         'type': lambda *a:'True',
     }
+
+    def period_return(self,cr,uid,contex=None):
+    period_obj = self.pool.get('account.period')
+    fecha = time.strftime('%m/%Y')
+    period_id = period_obj.search(cr,uid,[('code','=',fecha)])
+    if period_id:
+        return period_id[0]
+    else:
+        return False
+
+    
+    
+    def name_get(self, cr, uid, ids, context={}):
+    if not len(ids):
+        return []
+                            
+    res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
+    return res 
+
+
 
     def action_anular(self, cr, uid, ids, context={}):
         return self.write(cr, uid, ids, {'state':'draft'})

@@ -79,7 +79,26 @@ class islr_xml_wh_doc(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
-    }	
+
+        'fiscalyear_id': lambda self,cr,uid,conext:\
+                self.pool.get('account.fiscalyear').browse(cr,uid,uid,context={}).id,
+                                   
+        'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context)
+
+    }
+
+
+
+    def period_return(self,cr,uid,contex=None):
+        period_obj = self.pool.get('account.period')
+        fecha = time.strftime('%m/%Y')
+        period_id = period_obj.search(cr,uid,[('code','=',fecha)])
+        if period_id:
+            return period_id[0]
+        else:
+            return False
+
+
 	
     def name_get(self, cr, uid, ids, context={}):
         if not len(ids):
