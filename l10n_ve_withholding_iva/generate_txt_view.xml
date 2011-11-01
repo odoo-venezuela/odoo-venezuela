@@ -60,12 +60,10 @@
                                 <button name="action_done" string="Make TXT" states="confirmed" type="object"  icon="gtk-ok"/>
                                 <button name="action_anular" string="Canlce" states="confirmed,done" type="object"  icon="gtk-cancel"/>
                             </group>
-<!--
                             <group col="2" colspan="2">
                                 <field name="amount_total_ret"/>
                                 <field name="amount_total_base"/>
-                             </group>
--->
+                            </group>
                         </page>
                           <page string="Other information">
                                <field name="company_id" />
@@ -105,8 +103,4 @@
 
     </data>
 </openerp>
-
-
-
-
 

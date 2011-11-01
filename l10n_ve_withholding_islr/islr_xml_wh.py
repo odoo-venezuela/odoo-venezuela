@@ -72,7 +72,6 @@ class islr_xml_wh_doc(osv.osv):
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
     }
-
     _defaults = {
         'state': lambda *a: 'draft',
         'company_id': lambda self, cr, uid, context: \
@@ -87,8 +86,6 @@ class islr_xml_wh_doc(osv.osv):
         'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
     }
 
-
-
     def period_return(self,cr,uid,contex=None):
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
@@ -98,8 +95,6 @@ class islr_xml_wh_doc(osv.osv):
         else:
             return False
 
-
-	
     def name_get(self, cr, uid, ids, context={}):
         if not len(ids):
             return []
@@ -217,7 +212,6 @@ class islr_xml_wh_line(osv.osv):
 
 islr_xml_wh_line()
 
-
 class account_invoice_line(osv.osv):
     _inherit = "account.invoice.line"
 
@@ -228,9 +222,3 @@ class account_invoice_line(osv.osv):
         'wh_xml_id': lambda *a: 0,
     }
 account_invoice_line()
-
-
-
-
-
-
