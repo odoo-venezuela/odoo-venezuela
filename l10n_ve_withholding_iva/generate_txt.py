@@ -86,9 +86,8 @@ class txt_iva(osv.osv):
         'fiscalyear_id': lambda self,cr,uid,conext:\
                 self.pool.get('account.fiscalyear').browse(cr,uid,uid,context={}).id,
                                 
-        'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context)
-
-        
+        'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
+        'name':lambda self,cr,uid,context : 'Withholding Vat '+time.strftime('%m/%Y')
         }
 
     def period_return(self,cr,uid,contex=None):

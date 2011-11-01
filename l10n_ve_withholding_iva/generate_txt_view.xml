@@ -30,7 +30,6 @@
                 <form string="Withholding lines for TXT">
                     <group col="4" colspan="4">
                         <field name="name"/>
-                        <field name="company_id"/>
                         <field name="type"/>
                     </group>
                     <newline/>
@@ -68,6 +67,10 @@
                              </group>
 -->
                         </page>
+                          <page string="Other information">
+                               <field name="company_id" />
+                          </page>
+                                                                                    
                     </notebook>
                 </form>
             </field>

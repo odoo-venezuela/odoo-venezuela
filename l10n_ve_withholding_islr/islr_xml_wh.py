@@ -83,8 +83,8 @@ class islr_xml_wh_doc(osv.osv):
         'fiscalyear_id': lambda self,cr,uid,conext:\
                 self.pool.get('account.fiscalyear').browse(cr,uid,uid,context={}).id,
                                    
-        'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context)
-
+        'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
+        'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
     }
 
 
