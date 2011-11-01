@@ -56,7 +56,7 @@ class res_partner_address(osv.osv):
 
 
     _constraints = [
-        (_check_addr_invoice, 'Error ! The partner already has an invoice address. ', [])
+        (_check_addr_invoice, _('Error ! The partner already has an invoice address.'), [])
     ]
 
 res_partner_address()
@@ -87,12 +87,21 @@ class res_partner(osv.osv):
                 return True
         return True
 
-    _constraints = [
-        (_check_partner_invoice_addr, 'Error ! The partner does not have an invoice address. ', [])
-    ]
+    def _check_vat_uniqueness(self, cr, uid, ids, context={}):
+        partner_obj = self.pool.get('res.partner')
+        current_partner = partner_obj.read(cr, uid, ids, ['vat', 'address'])[0]
 
-    _sql_constraints = [
-        ("vat_unique", "unique(vat)", "Partner's VAT must be an unique value"),
+        if not 'VE' in [a.country_id.code for a in self.pool.get('res.partner.address').browse(cr, uid, current_partner['address'])]:
+            return True
+
+        current_vat = current_partner['vat']
+        duplicates = partner_obj.read(cr, uid, partner_obj.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
+
+        return not current_vat in [p['vat'] for p in duplicates if p['id'] != current_partner['id']]
+
+    _constraints = [
+        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
+        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value"), []),
     ]
 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
