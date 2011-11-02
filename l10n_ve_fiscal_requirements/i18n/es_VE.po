@@ -320,7 +320,7 @@ msgstr "Colocar en verdad si la factura esta exenta de R.I.F."
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.actions.act_window,help:l10n_ve_fiscal_requirements.act_l10n_ut_tree
 msgid "With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat."
-msgstr "Con Unidad Tributaria puedes crear y manejar la unidad tributaria. La Unidad Tributaria es establecida bajo la ley de cada país, es usada para la retención de ingresos y retención del iva."
+msgstr "Con Unidad Tributaria puedes crear y manejar la unidad tributaria. La Unidad Tributaria es establecida bajo la ley de cada país, es usada para la retención de ISLR y retención del iva."
 
 #. module: l10n_ve_fiscal_requirements
 #: field:wizard.invoice.nro.ctrl,sure:0
