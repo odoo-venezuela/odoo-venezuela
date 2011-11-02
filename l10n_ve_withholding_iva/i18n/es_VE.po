@@ -7,18 +7,18 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
 "POT-Creation-Date: 2011-10-26 01:07+0000\n"
-"PO-Revision-Date: 2011-10-26 01:07+0000\n"
+"PO-Revision-Date: 2011-11-02 16:43-0400\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 
 #. module: l10n_ve_withholding_iva
 #: view:l10n_ve_withholding_iva.installer:0
 msgid "Withholding VAT for Venezuelan laws"
-msgstr "Retención del IVA para leyes Venezolanas"
+msgstr "Retención del IVA para leyes Venezolanas."
 
 #. module: l10n_ve_withholding_iva
 #: help:account.wh.iva.line,move_id:0
@@ -323,7 +323,8 @@ msgstr "Confirmado"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.module.module,description:l10n_ve_withholding_iva.module_meta_information
-msgid "\n"
+msgid ""
+"\n"
 "        Management withholding vat based in the Venezuelan tax laws.\n"
 "\n"
 "        --Create from invoice voucher withholding vat, to validate invoice.\n"
@@ -336,21 +337,19 @@ msgid "\n"
 "        --For printing the vat withholding report, is recomended to defined the size of the logo \n"
 "          of the company in 886 x 236 pixeles.\n"
 "    "
-msgstr "\n"
+msgstr ""
+"\n"
 "        Gestion de la retención del Impuesto al Valor Agregado(IVA), basado en las leyes venezolanas.\n"
 "\n"
 "¿Qué hace este modulo?\n"
 "          \n"
 "        --Genera desde la factura el comprobante de retencion de IVA, al validar la misma.\n"
-"        --Genera una nueva pestaña en la vista general de la empresa para agregar información\n"
-"          basica referente a las retenciones de iva.\n"
-"        --Genera el archivo .txt requerido por las leyes venezolanas para declarar \n"
-"          el impuesto al valor agregado retenido, durante el periodo definido por los usuarios.\n"
+"        --Genera una nueva pestaña en la vista general de la empresa para agregar información basica referente a las retenciones de iva.\n"
+"        --Genera el archivo .txt requerido por las leyes venezolanas para declarar el impuesto al valor agregado retenido, durante el periodo definido por los usuarios.\n"
 "        --Genera reporte del comprobante de retencion de iva.\n"
 "          \n"
 "        Recomendaciones:\n"
-"        --Para la impresión del reporte del comprobante de retencion de iva, se recomienda definir el\n"
-"          el tamaño del logo de la compañía en 886 x 236 pixeles.\n"
+"        --Para la impresión del reporte del comprobante de retencion de iva, se recomienda definir el tamaño del logo de la compañía en 886 x 236 pixeles.\n"
 "    "
 
 #. module: l10n_ve_withholding_iva
@@ -358,6 +357,11 @@ msgstr "\n"
 #: view:txt.iva:0
 msgid "Confirm"
 msgstr "Confirmar"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_generate_text_iva
+msgid "With this option you can create and manage the generation of file txt, required by the Venezuelan Laws for special agent of withhold vat"
+msgstr "Con 'Generar TXT' usted podrá crear y gestionar el archivo txt, mendiante el cual las leyes venezolanas reciben la declaración del Impuesto al Valor Agregado(IVA) realizado por los agentes especiales. Contará con la posibilidad de seleccionar el ejercicio fiscal, el periodo, y las fechas entre las cuales realizará la declaracion del IVA. Generar Txt cargará automáticamente todas las retenciones realizadas en el periodo definido anteriormente."
 
 #. module: l10n_ve_withholding_iva
 #: view:account.wh.iva:0
@@ -481,10 +485,12 @@ msgstr "Configurar cómo va a manejar su retención del IVA"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.model,name:l10n_ve_withholding_iva.model_l10n_ve_withholding_iva_installer
-msgid "\n"
+msgid ""
+"\n"
 "    wh_vat_installer\n"
 "    "
-msgstr "\n"
+msgstr ""
+"\n"
 "    wh_vat_installer\n"
 "    "
 
