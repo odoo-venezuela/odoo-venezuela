@@ -65,8 +65,14 @@ res_partner_address()
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     logger = netsvc.Logger()
+    
     _columns = {
-    'vat_apply': fields.boolean('Vat Apply', help="This field indicate if partner is subject to vat apply "),
+        'vat_apply': fields.boolean('Vat Apply', help="This field indicate if partner is subject to vat apply "),
+        'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
+    }
+
+    _default = {
+        'seniat_updated': lambda *a: False,
     }
 
     '''
