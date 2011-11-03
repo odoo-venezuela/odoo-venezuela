@@ -58,7 +58,8 @@
             <field name="type">tree</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/group/field[@name='period_id']" position="after">
+                <xpath expr="/form/group/group" position="after">
+                    <newline/>
                     <field name="parent_id" attrs="{'required':[('type','=','out_refund')]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund']" position="after">
@@ -72,7 +73,8 @@
             <field name="type">tree</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/group/field[@name='period_id']" position="after">
+                <xpath expr="/form/group/group" position="after">
+                    <newline/>
                     <field name="parent_id" attrs="{'required':[('type','=','in_refund')]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund']" position="after">
