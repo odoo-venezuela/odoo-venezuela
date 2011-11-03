@@ -31,6 +31,8 @@ class account_invoice(osv.osv):
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Code used for intern invoice control"),
         'sin_cred': fields.boolean('Tax-exempt?', readonly=False, help="Set it true if the invoice is V.A.T. exempt"),
+        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', readonly=True, states={'draft':[('readonly',False)]}, help='When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note.'),
+        'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
     }
 account_invoice()
 
