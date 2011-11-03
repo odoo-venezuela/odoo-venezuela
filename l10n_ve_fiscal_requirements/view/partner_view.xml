@@ -26,5 +26,16 @@
         </field>
     </record>
 
+    <record id="view_partner_form4" model="ir.ui.view">
+      <field name="name">res.partner.vat.inherit4</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base_vat.view_partner_form"/>
+      <field name="arch" type="xml">
+        <field name="name" position="replace">
+            <field name="name" required="1" attrs="{'readonly':[('seniat_update','IS',True)]}" />
+        </field>
+      </field>
+    </record>
+
   </data>
 </openerp>
