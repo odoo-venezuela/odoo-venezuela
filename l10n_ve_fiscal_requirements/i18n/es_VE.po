@@ -390,3 +390,115 @@ msgstr "Vendedor"
 msgid "Date on which goes into effect the new Unit Tax Unit"
 msgstr "Fecha en la cual entra en vigencia la nueva Unidad Tributaria"
 
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_debit.py:125
+#, python-format
+msgid "Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice"
+msgstr "Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:account.invoice:0
+#: view:account.invoice.debit:0
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.action_account_invoice_debit
+msgid "Debit Note"
+msgstr "Nota de Debito"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice,child_ids:0
+msgid "Debit and Credit Notes"
+msgstr "Notas de Débito/Crédito"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:account.invoice.debit:0
+msgid "Debit Invoice: Creates the debit note invoice, ready for editing."
+msgstr "Nota de Débito: Crea la nota de dédito lista para ser editada."
+
+#. module: l10n_ve_fiscal_requirements
+#: view:account.invoice.debit:0
+msgid "Debit Note Options"
+msgstr "Opciones Nota de Débito"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice.debit,comment:0
+msgid "Comment"
+msgstr "Comentario"
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_refund.py:109
+#, python-format
+msgid "Can not %s invoice which is already reconciled, invoice should be unreconciled first. You can only Refund this invoice"
+msgstr "Imposible generar una nota de crédito cuando la factura %s ya esta conciliada, primero debes realizar la desconciliación."
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice_debit
+msgid "Invoice Debit Note"
+msgstr "Nota de Débito"
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_debit.py:123
+#, python-format
+msgid "Can not create a debit note from draft/proforma/cancel invoice."
+msgstr "Imposible crear nota de débito desde draft/proforma/cancel invoice."
+
+#. module: l10n_ve_fiscal_requirements
+#: help:account.invoice.debit,journal_id:0
+msgid "You can select here the journal to use for the refund invoice that will be created. If you leave that field empty, it will use the same journal as the current invoice."
+msgstr "Puedes seleccionar un diario para la nota de débito que será creada. Si dejas este campo vacio, se usará el diario de la factura actual."
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_debit.py:168
+#: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_refund.py:148
+#, python-format
+msgid "Data Insufficient !"
+msgstr "Datos Insuficientes !"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice.debit,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: l10n_ve_fiscal_requirements
+#: help:account.invoice.debit,date:0
+msgid "This date will be used as the invoice date for Refund Invoice and Period will be chosen accordingly!"
+msgstr "Puedes definir la fecha que tendrá la Nota de Débito."
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Nota de Crédito"
+
+#. module: l10n_ve_fiscal_requirements
+#: view:account.invoice:0
+msgid "Debit-Credit Notes"
+msgstr "Notas de Débito/Crédito"
+
+#. module: l10n_ve_fiscal_requirements
+#: help:account.invoice,parent_id:0
+msgid "When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note."
+msgstr "Cuando este campo contiene información, la factura es una nota de crédito o notá de debito. Es usado para referenciar a la factura desde donde se originó la Nota de Crédio o Debito."
+
+#. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_debit.py:127
+#, python-format
+msgid "Can not make a debit note on a refund invoice."
+msgstr "No puedes crear una nota de débito o credito."
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice,parent_id:0
+msgid "Parent Invoice"
+msgstr "Factura Origen"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice.debit,date:0
+msgid "Operation date"
+msgstr "Fecha operación"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice.debit,journal_id:0
+msgid "Refund Journal"
+msgstr "Diario Reembolso"
+
+#. module: l10n_ve_fiscal_requirements
+#: field:account.invoice.debit,period:0
+msgid "Force period"
+msgstr "Periodo"
