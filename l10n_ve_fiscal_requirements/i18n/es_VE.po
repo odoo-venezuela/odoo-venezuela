@@ -475,7 +475,7 @@ msgstr "Notas de Débito/Crédito"
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice,parent_id:0
 msgid "When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note."
-msgstr "Cuando este campo contiene información, la factura es una nota de crédito o notá de debito. Es usado para referenciar a la factura desde donde se originó la Nota de Crédio o Debito."
+msgstr "Cuando este campo contiene información, estamos en presencia de una Nota de Crédito o Débito. Es usado para referenciar a la factura desde donde se originó la Nota de Crédito o Débito."
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_debit.py:127
