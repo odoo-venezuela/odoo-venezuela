@@ -38,7 +38,10 @@
 Automatically on install wizard.
     - Damaged "Legal free forms" declaration.
     - Tax Units configuration.
-    ---------------------------------------------------------------------------
+    - Added field Parent in the invoice of customers and suppliers, for link the invoice 
+    that generated debit or credit note.
+    --Added wizard for generate debit note from invoice and done accounting entry.
+    -------------------------------------------------------------------------------------------
     For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
     create the corresponding journal and account.
     TODO : Include this on wizard configuration.
