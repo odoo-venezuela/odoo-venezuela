@@ -34,6 +34,36 @@ class wh_islr_config(osv.osv_memory):
     _inherit = 'res.config'
     _description = __doc__
 
+    def _create_journal(self, cr, uid, name, type, code):
+        self.pool.get("account.journal").create(cr, uid, { 
+            'name': name,
+            'type': type,
+            'code': code,
+            'view_id': 3,}
+        )
+
+    def _update_concepts(self, cr, uid, sale, purchase):
+        concept_pool = self.pool.get("islr.wh.concept")
+        concept_pool.write(cr, uid, concept_pool.search(cr, uid, []), {
+            'property_retencion_islr_payable': purchase,
+            'property_retencion_islr_receivable': sale
+        })
+
+    def _set_wh_agent(self, cr, uid):
+        company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        self.pool.get('res.partner').write(cr, uid, [company.partner_id.id], {'islr_withholding_agent': True})
+
+    def execute(self, cr, uid, ids, context=None):
+        wiz_data = self.read(cr, uid, ids[0])
+        if wiz_data['journal_purchase']:
+            self._create_journal(cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')
+        if wiz_data['journal_sale']:
+            self._create_journal(cr, uid, wiz_data['journal_sale'], 'islr_sale', 'ISLRS')
+        if wiz_data['account_sale'] or wiz_data['account_purchase']:
+            self._update_concepts(cr, uid, wiz_data['account_sale'], wiz_data['account_purchase'])
+        if wiz_data['wh_agent']:
+            self._set_wh_agent(cr, uid)
+
     _columns = {
         'journal_purchase': fields.char("Journal Wh Income Purchase", 64, help="Journal for purchase operations involving Withholding Income"),
         'journal_sale': fields.char("Journal Wh Income Sale", 64, help="Journal for sale operations involving Withholding Income"),
