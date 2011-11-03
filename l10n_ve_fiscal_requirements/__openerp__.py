@@ -68,7 +68,7 @@ Automatically on install wizard.
         'wizard/wizard_url_seniat_view.xml',
         'wizard/update_info_partner.xml',
         'wizard/account_invoice_debit_view.xml',
-        'wizard/account_invoice_view.xml',
+        'account_invoice_view.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
