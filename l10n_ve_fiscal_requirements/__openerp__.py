@@ -38,6 +38,8 @@
 Automatically on install wizard.
     - Damaged "Legal free forms" declaration.
     - Tax Units configuration.
+    - When a partner is updated by using the SENIAT Update Button, its name changes to
+      readonly to avoid manual changes.
     ---------------------------------------------------------------------------
     For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
     create the corresponding journal and account.

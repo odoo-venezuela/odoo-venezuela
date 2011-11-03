@@ -65,8 +65,14 @@ res_partner_address()
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     logger = netsvc.Logger()
+    
     _columns = {
-    'vat_apply': fields.boolean('Vat Apply', help="This field indicate if partner is subject to vat apply "),
+        'vat_apply': fields.boolean('Vat Apply', help="This field indicate if partner is subject to vat apply "),
+        'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
+    }
+
+    _default = {
+        'seniat_updated': False,
     }
 
     '''
@@ -192,19 +198,29 @@ class res_partner(osv.osv):
         else:
             return False
 
+    def _update_partner(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'seniat_updated': True})
+
     def update_rif(self, cr, uid, ids, context={}):
         pool = self.pool.get('seniat.url')
         url_obj = pool.browse(cr, uid, pool.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
         if context.get('exec_wizard'):
-            return self._dom_giver(url1, url2, context, context['vat'])
+            res = self._dom_giver(url1, url2, context, context['vat'])
+            if res:
+                self._update_partner(cr, uid, ids, context)
+                return res
+            else:
+                return False
         for partner in self.browse(cr,uid,ids):
             if partner.vat:
                 xml_data = self._load_url(3,url1 %partner.vat[2:])
                 if not self._eval_seniat_data(xml_data,context):
                     dom = parseString(xml_data)
-                    self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                    res = self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                    if res:
+                      self._update_partner(cr, uid, ids, context)  
                 else:
                     return False
             else:
