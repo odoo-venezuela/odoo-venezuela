@@ -6,30 +6,26 @@
             <field name="name">product.template.form.islr</field>
             <field name="model">product.template</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="inherit_id" ref="account.product_template_form_view"/>
             <field name="arch" type="xml">
-                <notebook position="inside">
-                    <page string="Concept of Withholding Income">
-                        <separator string="Concept of Withholding Income" colspan="6"/>
-                        <newline/>
-                        <field name="concept_id" />
-                    </page>
-                </notebook>
+                <xpath expr="/form/notebook/page/field[@name='property_account_expense']" position="after">
+                    <separator string="Concept of Withholding Income" colspan="6"/>
+                    <newline/>
+                    <field name="concept_id" />
+                </xpath>
             </field>
         </record>
         <record model="ir.ui.view" id="view_product_product_islr">
             <field name="name">product.product.form.islr</field>
             <field name="model">product.product</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="inherit_id" ref="account.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <notebook position="inside">
-                    <page string="Concept of Withholding Income">
-                        <separator string="Concept of Withholding Income" colspan="6"/>
-                        <newline/>
-                        <field name="concept_id" />
-                    </page>
-                </notebook>
+                <xpath expr="/form/notebook/page/group/field[@name='property_account_expense']" position="after">
+                    <separator string="Concept of Withholding Income" colspan="6"/>
+                    <newline/>
+                    <field name="concept_id" />
+                </xpath>
             </field>
         </record>
 
