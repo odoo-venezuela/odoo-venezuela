@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-11-02 15:26+0000\n"
-"PO-Revision-Date: 2011-11-02 15:26+0000\n"
+"POT-Creation-Date: 2011-11-03 23:04+0000\n"
+"PO-Revision-Date: 2011-11-03 23:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -183,6 +183,15 @@ msgid "Withhold concept associated with this rate"
 msgstr "Concepto de Retención asociado a esta tasa"
 
 #. module: l10n_ve_withholding_islr
+#: view:wh.islr.config:0
+msgid "\n"
+"Configure your company's withholding ISLR                      \n"
+"                  "
+msgstr "\n"
+"Configure las retenciones de ISLR para su compañía                      \n"
+"                  "
+
+#. module: l10n_ve_withholding_islr
 #: field:islr.rates,minimum:0
 msgid "Min. Amount"
 msgstr "Monto Mínimo"
@@ -196,6 +205,11 @@ msgstr "Cualquier otra Comisión distintas a Remuneraciones accesorias de los su
 #: help:islr.wh.doc.line,move_id:0
 msgid "Accounting voucher"
 msgstr "Comprobante Contable"
+
+#. module: l10n_ve_withholding_islr
+#: help:wh.islr.config,journal_sale:0
+msgid "Journal for sale operations involving Withholding Income"
+msgstr "Diario para operaciones de venta que involucran retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_pagos_de_servicios_publicitarios
@@ -217,6 +231,11 @@ msgstr "Fecha de Doc."
 #: field:islr.wh.doc.line,amount:0
 msgid "Amount"
 msgstr "Monto"
+
+#. module: l10n_ve_withholding_islr
+#: help:wh.islr.config,journal_purchase:0
+msgid "Journal for purchase operations involving Withholding Income"
+msgstr "Diario para operaciones de venta que involucran ISLR"
 
 #. module: l10n_ve_withholding_islr
 #: report:islr.wh.doc:0
@@ -250,14 +269,14 @@ msgid "DIRECCION:"
 msgstr "DIRECCION:"
 
 #. module: l10n_ve_withholding_islr
+#: help:islr.xml.wh.line,control_number:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: l10n_ve_withholding_islr
 #: view:islr.wh.doc:0
 msgid "Invoices Withhelds"
 msgstr "Facturas Retenidas"
-
-#. module: l10n_ve_withholding_islr
-#: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_demo2
-msgid "DEMO Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares"
-msgstr "DEMO Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas
@@ -282,6 +301,11 @@ msgid "Ganancias obtenidas por premios de Loterías y de Hipódromos"
 msgstr "Ganancias obtenidas por premios de Loterías y de Hipódromos"
 
 #. module: l10n_ve_withholding_islr
+#: field:wh.islr.config,account_purchase:0
+msgid "Account Withholding Income Purchase"
+msgstr "Cuenta contable para ISLR (compras)"
+
+#. module: l10n_ve_withholding_islr
 #: help:islr.rates,code:0
 #: help:islr.xml.wh.line,concept_code:0
 msgid "Concept code"
@@ -293,7 +317,7 @@ msgstr "Código del Concepto"
 #: field:islr.wh.doc,partner_id:0
 #: field:islr.xml.wh.line,partner_id:0
 msgid "Partner"
-msgstr "Empresa"
+msgstr "Cliente"
 
 #. module: l10n_ve_withholding_islr
 #: help:islr.wh.concept,withholdable:0
@@ -336,9 +360,9 @@ msgid "Confirm"
 msgstr "Confirmado"
 
 #. module: l10n_ve_withholding_islr
-#: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_seguros_prestacion
-msgid "Pagos de las Empresas de Seguro, las sociedades de corretaje de seguro y las empresas de reaseguros por la prestación de los servicios que le son propios"
-msgstr "Pagos de las Empresas de Seguro, las sociedades de corretaje de seguro y las empresas de reaseguros por la prestación de los servicios que le son propios"
+#: view:islr.xml.wh.doc:0
+msgid "Other information"
+msgstr "Otra información"
 
 #. module: l10n_ve_withholding_islr
 #: model:ir.model,name:l10n_ve_withholding_islr.model_islr_wh_doc_invoices
@@ -398,9 +422,9 @@ msgid "Enriquecimientos netos de exhibición de películas, cine o la televisió
 msgstr "Enriquecimientos netos de exhibición de películas, cine o la televisión"
 
 #. module: l10n_ve_withholding_islr
-#: field:islr.wh.doc.line,retencion_islr:0
-msgid "Percentage"
-msgstr "Porcentaje"
+#: field:wh.islr.config,journal_sale:0
+msgid "Journal Wh Income Sale"
+msgstr "Diario ISLR para ventas"
 
 #. module: l10n_ve_withholding_islr
 #: code:addons/l10n_ve_withholding_islr/islr_wh_doc.py:282
@@ -432,7 +456,7 @@ msgstr "Enriquecimientos netos derivados de las primas de seguros y reaseguros"
 #. module: l10n_ve_withholding_islr
 #: help:islr.wh.concept,property_retencion_islr_payable:0
 msgid "This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"
-msgstr "This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"
+msgstr "Esta cuenta será usada como cuenta para cargar los montor retenidos en compras para ISLR en este concepto"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_pagos_administradores_en_el_pais
@@ -557,6 +581,11 @@ msgid "Pagos a los arrendadores de los bienes inmuebles situados en el país"
 msgstr "Pagos a los arrendadores de los bienes inmuebles situados en el país"
 
 #. module: l10n_ve_withholding_islr
+#: report:islr.wh.doc:0
+msgid "TOTAL IMPUESTO RETENIDO"
+msgstr "TOTAL IMPUESTO RETENIDO"
+
+#. module: l10n_ve_withholding_islr
 #: help:islr.rates,subtract:0
 msgid "Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold "
 msgstr "Cantidad a restar del monto total a retener,..Monto Porcentual de Retención... Este sustraendo solo se aplicará la primera vez que se realiza la retención"
@@ -565,6 +594,11 @@ msgstr "Cantidad a restar del monto total a retener,..Monto Porcentual de Retenc
 #: field:islr.wh.concept,property_retencion_islr_payable:0
 msgid "Purchase account withhold income"
 msgstr "Cuenta contable de ISLR (compra)"
+
+#. module: l10n_ve_withholding_islr
+#: field:wh.islr.config,config_logo:0
+msgid "Image"
+msgstr "Image"
 
 #. module: l10n_ve_withholding_islr
 #: report:islr.wh.doc:0
@@ -633,9 +667,10 @@ msgid "Salesman"
 msgstr "Vendedor"
 
 #. module: l10n_ve_withholding_islr
-#: help:islr.xml.wh.line,control_number:0
-msgid "Reference"
-msgstr "Referencia"
+#: code:addons/l10n_ve_withholding_islr/installer.py:92
+#, python-format
+msgid "Journal Withholding Income Purchase"
+msgstr "Diario ISLR para compras"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_juegos_y_apuestas
@@ -646,6 +681,11 @@ msgstr "Ganancias obtenidas por juegos y apuestas"
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_tarjetas_de_credito_cualquier_concepto
 msgid "Pagos de las Empresas Emisoras de Tarjetas de Credito o Concumo por la venta de bienes y servicios o cualquier otro concepto"
 msgstr "Pagos de las Empresas Emisoras de Tarjetas de Credito o Concumo por la venta de bienes y servicios o cualquier otro concepto"
+
+#. module: l10n_ve_withholding_islr
+#: field:wh.islr.config,wh_agent:0
+msgid "Withholding Income Agent"
+msgstr "Withholding Income Agent"
 
 #. module: l10n_ve_withholding_islr
 #: model:ir.module.module,shortdesc:l10n_ve_withholding_islr.module_meta_information
@@ -667,6 +707,12 @@ msgstr "Error: La UdM por defecto y la UdM de compra deben estar en la misma cat
 #: model:ir.actions.act_window,help:l10n_ve_withholding_islr.action_wh_islr_concept
 msgid "With \"Concept of Withholding Income\" you can create and manage the concept of wittholding income. For each concept is to create and manage rates associated."
 msgstr "A través de \"Concepto de Retención de ISLR\"  usted podrá crear y gestionar los conceptos de retención de ISLR. Por cada concepto se puede crear y gestionar las tasas asociadas."
+
+#. module: l10n_ve_withholding_islr
+#: field:islr.rates,name:0
+#: field:islr.wh.concept,rate_ids:0
+msgid "Rate"
+msgstr "Tasa"
 
 #. module: l10n_ve_withholding_islr
 #: model:ir.model,name:l10n_ve_withholding_islr.model_islr_wh_doc_line
@@ -703,9 +749,9 @@ msgid "Status"
 msgstr "Estatus"
 
 #. module: l10n_ve_withholding_islr
-#: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_demo1
-msgid "DEMO Honorarios Profesionales No Mercantiles"
-msgstr "DEMO Honorarios Profesionales No Mercantiles"
+#: field:wh.islr.config,progress:0
+msgid "Configuration Progress"
+msgstr "Configuration Progress"
 
 #. module: l10n_ve_withholding_islr
 #: field:islr.rates,nature:0
@@ -739,6 +785,11 @@ msgid "Document Withholding Income"
 msgstr "Documento de Retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
+#: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_seguros_prestacion
+msgid "Pagos de las Empresas de Seguro, las sociedades de corretaje de seguro y las empresas de reaseguros por la prestación de los servicios que le son propios"
+msgstr "Pagos de las Empresas de Seguro, las sociedades de corretaje de seguro y las empresas de reaseguros por la prestación de los servicios que le son propios"
+
+#. module: l10n_ve_withholding_islr
 #: help:product.template,concept_id:0
 msgid "Concept Withholding Income to apply to the service"
 msgstr "Concepto de Retención a aplicar para el servicio"
@@ -747,6 +798,11 @@ msgstr "Concepto de Retención a aplicar para el servicio"
 #: view:islr.xml.wh.doc:0
 msgid "Lines Withholding for XML"
 msgstr "Líneas de Retención para el XML"
+
+#. module: l10n_ve_withholding_islr
+#: view:wh.islr.config:0
+msgid "title"
+msgstr "title"
 
 #. module: l10n_ve_withholding_islr
 #: help:islr.xml.wh.line,base:0
@@ -774,9 +830,9 @@ msgid "% Withhold"
 msgstr "% Retención"
 
 #. module: l10n_ve_withholding_islr
-#: report:islr.wh.doc:0
-msgid ">"
-msgstr ">"
+#: view:islr.wh.doc.line:0
+msgid "Detail of the Concept of Withholding Income"
+msgstr "Detalle del Concepto de Retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
 #: report:islr.wh.doc:0
@@ -815,6 +871,12 @@ msgstr "Pagos por Servicios de Publicidad Propaganda y la Cesión de la Venta de
 #: field:product.template,concept_id:0
 msgid "Withhold  Concept"
 msgstr "Concepto de Retención"
+
+#. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/installer.py:93
+#, python-format
+msgid "Journal Withholding Income Sale"
+msgstr "Diario ISLR para ventas"
 
 #. module: l10n_ve_withholding_islr
 #: help:islr.wh.doc,state:0
@@ -865,6 +927,11 @@ msgid "Code"
 msgstr "Código"
 
 #. module: l10n_ve_withholding_islr
+#: view:wh.islr.config:0
+msgid "Withholding ISLR Configuration"
+msgstr "Withholding ISLR Configuration"
+
+#. module: l10n_ve_withholding_islr
 #: field:islr.wh.doc.line,retention_rate:0
 msgid "Withholding Rate"
 msgstr "Tasa de Retención"
@@ -879,6 +946,11 @@ msgstr "Intereses provenientes de préstamos y otros créditos pagaderos a insti
 #: help:islr.xml.wh.line,partner_id:0
 msgid "Partner object of withholding"
 msgstr "Empresa objecto de retención"
+
+#. module: l10n_ve_withholding_islr
+#: model:ir.model,name:l10n_ve_withholding_islr.model_wh_islr_config
+msgid "wh.islr.config"
+msgstr "wh.islr.config"
 
 #. module: l10n_ve_withholding_islr
 #: field:islr.wh.doc,period_id:0
@@ -909,6 +981,11 @@ msgid "Done"
 msgstr "Realizado"
 
 #. module: l10n_ve_withholding_islr
+#: field:wh.islr.config,account_sale:0
+msgid "Account Withholding Income Sale"
+msgstr "Cuenta contable ISLR (ventas)"
+
+#. module: l10n_ve_withholding_islr
 #: model:ir.model,name:l10n_ve_withholding_islr.model_account_invoice
 #: field:islr.wh.doc,invoice_id:0
 #: field:islr.wh.doc.invoices,invoice_id:0
@@ -929,9 +1006,9 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: l10n_ve_withholding_islr
-#: view:islr.wh.doc.line:0
-msgid "Detail of the Concept of Withholding Income"
-msgstr "Detalle del Concepto de Retención de ISLR"
+#: report:islr.wh.doc:0
+msgid ">"
+msgstr ">"
 
 #. module: l10n_ve_withholding_islr
 #: constraint:res.partner:0
@@ -983,6 +1060,11 @@ msgid "Number of invoice"
 msgstr "Número de Factura"
 
 #. module: l10n_ve_withholding_islr
+#: help:wh.islr.config,account_purchase:0
+msgid "Account for purchase operations involving Withholding Income"
+msgstr "Cuenta contable para operaciones de compra que involucran ISLR"
+
+#. module: l10n_ve_withholding_islr
 #: report:islr.wh.doc:0
 msgid "AGENTE DE RETENCION"
 msgstr "AGENTE DE RETENCION"
@@ -1003,19 +1085,29 @@ msgid "Minimum amount, from which it will determine whether you withholded"
 msgstr "Monto mínimo a partir del cual se determina si se va a a retener"
 
 #. module: l10n_ve_withholding_islr
+#: help:islr.xml.wh.doc,name:0
+msgid "Description about statement of withholding income"
+msgstr "Description about statement of withholding income"
+
+#. module: l10n_ve_withholding_islr
 #: report:islr.wh.doc:0
 msgid "Base Imponible"
 msgstr "Base Imponible"
 
 #. module: l10n_ve_withholding_islr
-#: report:islr.wh.doc:0
-msgid "TOTAL IMPUESTO RETENIDO"
-msgstr "TOTAL IMPUESTO RETENIDO"
+#: view:islr.wh.concept:0
+msgid "Search Concept of Withholding Income"
+msgstr "Búsqueda - Concepto de Retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
 #: field:res.partner,islr_withholding_agent:0
 msgid "Withholding Income Agent?"
 msgstr "Agente de Retención de ISLR?"
+
+#. module: l10n_ve_withholding_islr
+#: field:islr.wh.doc.line,retencion_islr:0
+msgid "Percentage"
+msgstr "Porcentaje"
 
 #. module: l10n_ve_withholding_islr
 #: view:islr.wh.doc:0
@@ -1040,8 +1132,14 @@ msgstr "%"
 #. module: l10n_ve_withholding_islr
 #: field:islr.wh.doc,name:0
 #: field:islr.wh.doc.line,name:0
+#: field:islr.xml.wh.doc,name:0
 msgid "Description"
 msgstr "Descripción"
+
+#. module: l10n_ve_withholding_islr
+#: model:ir.actions.act_window,name:l10n_ve_withholding_islr.action_config_wh_islr
+msgid "Configure ISLR Withholding"
+msgstr "Configure ISLR Withholding"
 
 #. module: l10n_ve_withholding_islr
 #: help:islr.wh.doc,amount_total_ret:0
@@ -1061,10 +1159,9 @@ msgid "Not found a fiscal period to date: '%s' please check!"
 msgstr "No se encontró un periodo fiscal para la fecha: '%s' por favor verificar.!"
 
 #. module: l10n_ve_withholding_islr
-#: field:islr.rates,name:0
-#: field:islr.wh.concept,rate_ids:0
-msgid "Rate"
-msgstr "Tasa"
+#: view:wh.islr.config:0
+msgid "Configure Venezuelan ISLR Withholding"
+msgstr "Configure Venezuelan ISLR Withholding"
 
 #. module: l10n_ve_withholding_islr
 #: field:islr.rates,base:0
@@ -1081,6 +1178,11 @@ msgstr "Porcentaje de Retención"
 #: field:islr.xml.wh.line,invoice_number:0
 msgid "Invoice Number"
 msgstr "Número de Factura"
+
+#. module: l10n_ve_withholding_islr
+#: view:wh.islr.config:0
+msgid "res_config_contents"
+msgstr "res_config_contents"
 
 #. module: l10n_ve_withholding_islr
 #: field:account.invoice.line,wh_xml_id:0
@@ -1165,6 +1267,11 @@ msgstr "Concepto"
 #: help:islr.wh.doc,invoice_id:0
 msgid "Invoice to make the accounting entry"
 msgstr "Factura afectada para realizar el asiento contable"
+
+#. module: l10n_ve_withholding_islr
+#: help:wh.islr.config,account_sale:0
+msgid "Account for sale operations involving Withholding Income"
+msgstr "Cuenta para operaciones de ventas que involucran ISLR"
 
 #. module: l10n_ve_withholding_islr
 #: help:islr.wh.doc.invoices,invoice_id:0
@@ -1284,9 +1391,9 @@ msgid "Concept of Withholding Income"
 msgstr "Concepto de Retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
-#: view:islr.wh.concept:0
-msgid "Search Concept of Withholding Income"
-msgstr "Búsqueda - Concepto de Retención de ISLR"
+#: help:wh.islr.config,wh_agent:0
+msgid "Check if this company is a withholding income agent"
+msgstr "Check if this company is a withholding income agent"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_hprof_jinetes_entrenadores_preparadores
@@ -1313,6 +1420,11 @@ msgstr "Comisiones pagadas por la venta de bienes inmuebles"
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_pagos_propietarios_animales_carrera_premios
 msgid "Pagos a Propietarios de Animales de Carrera por concepto de Premios"
 msgstr "Pagos a Propietarios de Animales de Carrera por concepto de Premios"
+
+#. module: l10n_ve_withholding_islr
+#: field:wh.islr.config,journal_purchase:0
+msgid "Journal Wh Income Purchase"
+msgstr "Diario ISLR para compras"
 
 #. module: l10n_ve_withholding_islr
 #: report:islr.wh.doc:0
