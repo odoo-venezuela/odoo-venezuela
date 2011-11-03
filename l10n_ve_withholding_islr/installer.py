@@ -28,11 +28,19 @@
 from osv import osv
 from osv import fields
 from tools.translate import _
+import base64
+import addons
 
 class wh_islr_config(osv.osv_memory):
     _name = 'wh.islr.config'
     _inherit = 'res.config'
     _description = __doc__
+
+    def default_get(self, cr, uid, fields_list=None, context=None):
+        defaults = super(wh_islr_config, self).default_get(cr, uid, fields_list=fields_list, context=context)
+        logo = open(addons.get_module_resource('l10n_ve_withholding_islr', 'images', 'playa-medina.jpg'), 'rb')
+        defaults['config_logo'] = base64.encodestring(logo.read())
+        return defaults
 
     def _create_journal(self, cr, uid, name, type, code):
         self.pool.get("account.journal").create(cr, uid, { 
