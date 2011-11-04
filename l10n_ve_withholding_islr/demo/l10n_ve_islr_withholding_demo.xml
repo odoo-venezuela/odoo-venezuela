@@ -155,7 +155,7 @@
         -->
         <record id="withholding_purchase_journal" model="account.journal">
             <field name="name">DIARIO DE ISLR COMPRA</field>
-            <field name="code">ISLRC</field>
+            <field name="code">ISLR1</field>
             <field name="type">islr_purchase</field>
             <field name="view_id" ref="account.account_journal_view"/>
             <field name="sequence_id" ref="seq_wh_islr_purchase_journal"/>
@@ -163,7 +163,7 @@
         
         <record id="withholding_sale_journal" model="account.journal">
             <field name="name">DIARIO DE ISLR VENTA</field>
-            <field name="code">ISLRS</field>
+            <field name="code">ISLR2</field>
             <field name="type">islr_sale</field>
             <field name="view_id" ref="account.account_journal_view"/>
             <field name="sequence_id" ref="seq_wh_islr_sale_journal"/>
