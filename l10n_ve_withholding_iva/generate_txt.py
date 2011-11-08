@@ -228,18 +228,17 @@ class txt_iva(osv.osv):
                 document_type  = self.get_type_document(cr,uid,txt_line)
                 document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number',context)
                 control_number = self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
-                #~ document_affected= self.get_document_affected(cr,uid,txt_line,context)
+                document_affected= self.get_document_affected(cr,uid,txt_line,context)
                 voucher_number = self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
                 amount_exempt,amount_untaxed = self.get_amount_exempt_document(cr,uid,txt_line)
                 alicuota = self.get_alicuota(cr,uid,txt_line)
 
-                txt_string= txt_string + buyer +'\t'+period2.strip()+'\n'
-                #~ +'\t'\
-                #~ +txt_line.invoice_id.date_invoice+'\t'+operation_type+'\t'+document_type+'\t'+vendor+'\t'\
-                #~ +document_number+'\t'+control_number+'\t'+str(round(txt_line.invoice_id.amount_total,2))+'\t'\
-                #~ +str(round(amount_untaxed,2))+'\t'\
-                #~ +str(round(txt_line.amount_withheld,2))+'\t'+document_affected+'\t'+voucher_number+'\t'\
-                #~ +str(round(amount_exempt,2))+'\t'+str(alicuota)+'\t'+'0'\
+                txt_string= txt_string + buyer +'\t'+period2.strip()+'\t'\
+                 +txt_line.invoice_id.date_invoice+'\t'+operation_type+'\t'+document_type+'\t'+vendor+'\t'\
+                 +document_number+'\t'+control_number+'\t'+str(round(txt_line.invoice_id.amount_total,2))+'\t'\
+                 +str(round(amount_untaxed,2))+'\t'\
+                 +str(round(txt_line.amount_withheld,2))+'\t'+document_affected+'\t'+voucher_number+'\t'\
+                 +str(round(amount_exempt,2))+'\t'+str(alicuota)+'\t'+'0'\
                 
         return txt_string
         
