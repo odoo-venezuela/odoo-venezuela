@@ -29,3 +29,4 @@ import wizard_url_seniat
 import update_info_partner
 import account_invoice_refund
 import account_invoice_debit
+import account_invoice_parent

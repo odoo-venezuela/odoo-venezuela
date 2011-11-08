@@ -80,6 +80,9 @@
                 <xpath expr="//button[@string='Refund']" position="after">
                     <button name="%(action_account_invoice_debit)d" type='action' string='Debit Note' states='open,paid' icon="gtk-execute" attrs="{'invisible':[('type','in',['in_refund', 'out_refund'])]}"/>
                 </xpath>
+                <xpath expr="//button[@string='Refund']" position="after">
+                    <button name="%(action_account_invoice_parent)d" type='action' string='Parent Invoice' states='open,paid' icon="gtk-execute"/>
+                </xpath>
             </field>
         </record>
 
