@@ -178,7 +178,7 @@ class rep_comprobante(report_sxw.rml_parse):
                     'tot_civa': not sdcf and k*(txl.base_ret+txl.amount) or 0.0,
                     'cmp_sdcr': sdcf and k*(txl.base_ret+txl.amount) or 0.0,
                     'bas_impo': k*txl.base_ret,
-                    'alic': txl.tax_amount/txl.base_amount*100 or 0.0,
+                    'alic': txl.base_amount and (txl.tax_amount/txl.base_amount*100) or 0.0,
                     'iva': k*txl.amount,
                     'iva_ret': k*txl.amount_ret,
                     'inv_type': rl.invoice_id.type
