@@ -239,7 +239,7 @@ class txt_iva(osv.osv):
                  +str(round(amount_untaxed,2))+'\t'\
                  +str(round(txt_line.amount_withheld,2))+'\t'+document_affected+'\t'+voucher_number+'\t'\
                  +str(round(amount_exempt,2))+'\t'+str(alicuota)+'\t'+'0'\
-                
+                 +'\n'
         return txt_string
         
     def _write_attachment(self, cr,uid,ids,root,context):
