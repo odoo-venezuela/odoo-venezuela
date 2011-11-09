@@ -120,19 +120,19 @@ class account_invoice_parent(osv.osv_memory):
 
     def check_sure(self, cr, uid, ids, ok, context=None):
         if not ok:
-            raise osv.except_osv(_('Error Usuario'), _('Asignar factura original, !Por Favor confirme seleccionando la opcion!'))
+            raise osv.except_osv(_('User Error'), _('Assign parent invoice, Please check the box to confirm that you agree!'))
         return True
 
     def check_incest(self, cr, uid, ids, child_id,parent_id, context=None):
         if child_id == parent_id:
-            raise osv.except_osv(_('Error Usuario'), _('Factura actual igual a la original, !La nota de credito o debito no pude ser la misma factura orginal, Por Favor seleccione otra factura original!'))
+            raise osv.except_osv(_('User Error'), _('Current invoice is the same father invoice, Credit or debit note have to be diferent of parent invoice, Please choise another one!'))
         return True
 
     def check_grandfather(self, cr, uid, ids, parent_id, context=None):
         inv_obj = self.pool.get('account.invoice')
         inv_parent_brw = inv_obj.browse(cr, uid, parent_id, context=context)
         if inv_parent_brw.parent_id:
-            raise osv.except_osv(_('Error Usuario'), _('Factura original incorrecta, !La factura seleccionada no puede poseer una factura padre asignada!'))
+            raise osv.except_osv(_('User Error'), _('Incorrect Parent Invoice, The parent invoice selected can not have an assigned parent invoice!'))
         return True
 
     def action_assigned(self, cr, uid, ids, form, context=None):
@@ -145,7 +145,7 @@ class account_invoice_parent(osv.osv_memory):
         inv_brw = inv_obj.browse(cr, uid, active_id,context=context)
 
         if inv_brw.parent_id:
-            raise osv.except_osv(_('Error Usuario'), _('Nota Credito/Debito Asignada, !Esta nota ya fue asignada a una factura anteriormente!'))
+            raise osv.except_osv(_('User Error'), _('Credit or debit note assign, This credit or debit note already assign to an invoice!'))
         if parent_id:
             self.check_grandfather(cr, uid, ids, parent_id, context)
             inv_obj.write(cr, uid, active_id, {'parent_id':parent_id}, context=context)

@@ -34,7 +34,7 @@ class account_invoice_debit(osv.osv_memory):
     _columns = {
        'date': fields.date('Operation date', help='This date will be used as the invoice date for Refund Invoice and Period will be chosen accordingly!'),
        'period': fields.many2one('account.period', 'Force period'),
-       'journal_id': fields.many2one('account.journal', 'Refund Journal', help='You can select here the journal to use for the refund invoice that will be created. If you leave that field empty, it will use the same journal as the current invoice.'),
+       'journal_id': fields.many2one('account.journal', 'Debits Journal', help='You can select here the journal to use for the refund invoice that will be created. If you leave that field empty, it will use the same journal as the current invoice.'),
        'description': fields.char('Description', size=128, required=True),
        'comment': fields.text('Comment', required=True),
     }
@@ -121,8 +121,6 @@ class account_invoice_debit(osv.osv_memory):
             for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
                 if inv.state in ['draft', 'proforma2', 'cancel']:
                     raise osv.except_osv(_('Error !'), _('Can not create a debit note from draft/proforma/cancel invoice.'))
-                if inv.reconciled and mode in ('cancel', 'modify'):
-                    raise osv.except_osv(_('Error !'), _('Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice'))
                 if inv.type not in ['in_invoice', 'out_invoice']:
                     raise osv.except_osv(_('Error !'), _('Can not make a debit note on a refund invoice.'))
                 if form['period']:
