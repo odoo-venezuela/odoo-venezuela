@@ -43,6 +43,7 @@ Automatically on install wizard.
     - Add field Parent in the invoice of customers and suppliers, for link the invoice 
     that generated debit or credit note.
     --Add wizard for generate debit note from invoice and done accounting entry.
+    --Add wizard to assign, modify or unlink source invoice (parent invoice) to another one.
     -------------------------------------------------------------------------------------------
     For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
     create the corresponding journal and account.
