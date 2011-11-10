@@ -8,7 +8,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Debit Note">
-                    <separator string="Debit and Credit Note Options" colspan="4"/>
+                    <separator string="Debit Note Options" colspan="4"/>
                     <group colspan="4" >
                          <field name="partner_id" readonly="True"/>
                          <field name="type"/>

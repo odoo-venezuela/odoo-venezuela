@@ -33,10 +33,10 @@ class account_invoice_debit(osv.osv_memory):
     _description = "Invoice Debit Note"
     _columns = {
        'date': fields.date('Operation date', help='This date will be used as the invoice date for Refund Invoice and Period will be chosen accordingly!'),
-       'period': fields.many2one('account.period', 'Force period'),
-       'journal_id': fields.many2one('account.journal', 'Debits Journal', help='You can select here the journal to use for the refund invoice that will be created. If you leave that field empty, it will use the same journal as the current invoice.'),
-       'description': fields.char('Description', size=128, required=True),
-       'comment': fields.text('Comment', required=True),
+       'period': fields.many2one('account.period', 'Force period', help='Fiscal period to assign to the invoice. Keep empty to use the period of the current date.'),
+       'journal_id': fields.many2one('account.journal', 'Debits Journal', help='You can select here the journal to use for the debit note that will be created. If you leave that field empty, it will use the same journal as the current invoice.'),
+       'description': fields.char('Description', size=128, required=True, help='Name or reference of the invoice'),
+       'comment': fields.text('Comment', required=True, help='Additional Information'),
     }
 
     def _get_journal(self, cr, uid, context=None):
