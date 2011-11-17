@@ -254,6 +254,7 @@ class islr_wh_doc(osv.osv):
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = {}
         inv_id = None
+        doc_brw = None
         
         for ret in self.browse(cr, uid, ids):
             if not ret.date_uid:
@@ -264,8 +265,6 @@ class islr_wh_doc(osv.osv):
             
             period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
-            message = _("Comprobante de retención validado y asiento contable generado.")
-            self.log(cr, uid, ids[0], message)
             
             if not period_id:
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
@@ -314,6 +313,9 @@ class islr_wh_doc(osv.osv):
                                 raise osv.except_osv(_('Invalid action !'),_("Impossible change the period accountig to a withholding that has already been declared."))
                             
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
+        doc_brw = self.browse(cr, uid, ids[0]).name
+        message = _("Comprobante de retencion %s validado y asiento contable generado.") % doc_brw
+        self.log(cr, uid, ids[0], message) 
         return True
 
 
