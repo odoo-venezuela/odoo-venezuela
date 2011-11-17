@@ -155,10 +155,10 @@ class islr_xml_wh_doc(osv.osv):
             period = wh_brw.period_id.name.split('/')
             period2 = period[1]+period[0]
 
-            sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base  
+            sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
             FROM islr_xml_wh_line 
             WHERE period_id= %s 
-            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number'''%(wh_brw.period_id.id)
+            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id'''%(wh_brw.period_id.id)
             cr.execute(sql)
             xml_lines=cr.fetchall()
 
@@ -166,14 +166,14 @@ class islr_xml_wh_doc(osv.osv):
             root.attrib['RifAgente'] = wh_brw.company_id.partner_id.vat[2:]
             root.attrib['Periodo'] = period2.strip()
             for line in xml_lines:
-                partner_vat,control_number,porcent_rete,concept_code,invoice_number,base=line
+                partner_vat,control_number,porcent_rete,concept_code,invoice_number,base,inv_id=line
                 detalle = SubElement(root,"DetalleRetencion")
-                SubElement(detalle, "RifRetenido").text = line.partner_vat
-                SubElement(detalle, "NumeroFactura").text = line.invoice_number
-                SubElement(detalle, "NumeroControl").text = line.control_number
-                SubElement(detalle, "CodigoConcepto").text = line.concept_code
-                SubElement(detalle, "MontoOperacion").text = str(line.base)
-                SubElement(detalle, "PorcentajeRetencion").text = str(line.porcent_rete)
+                SubElement(detalle, "RifRetenido").text = partner_vat
+                SubElement(detalle, "NumeroFactura").text =invoice_number
+                SubElement(detalle, "NumeroControl").text = control_number
+                SubElement(detalle, "CodigoConcepto").text = concept_code
+                SubElement(detalle, "MontoOperacion").text = str(base)
+                SubElement(detalle, "PorcentajeRetencion").text = str(porcent_rete)
         #~ ElementTree(root).write("/home/gabriela/openerp/Gabriela/5.0/Helados Gilda/islr_withholding/xml.xml")
         self.indent(root)
         return tostring(root,encoding="ISO-8859-1")
@@ -198,6 +198,7 @@ class islr_xml_wh_line(osv.osv):
         'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True, help="Person type"),
         'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withholding Income Document', help="Withhold income document"),
         'account_invoice_line_id':fields.many2one('account.invoice.line','Invoice Line', help="Invoice line to Withhold"),
+        'account_invoice_id':fields.many2one('account.invoice','Invoice', help="Invoice to Withhold"),
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
         'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner object of withholding"),
         'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute= dp.get_precision('Withhold ISLR')),
