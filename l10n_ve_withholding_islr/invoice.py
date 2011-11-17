@@ -302,6 +302,8 @@ class account_invoice(osv.osv):
                 self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply})
             else:
                 self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply,'wh_xml_id':self._create_islr_xml_wh_line(cr, uid,line,dict)})
+                message = _("Withholding income xml line generated.")
+                self.log(cr, uid, line, message)
                 
     def _create_islr_xml_wh_line(self,cr, uid, line, dict):
         '''
@@ -566,6 +568,11 @@ class account_invoice(osv.osv):
                     self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
                         
                 self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
+                
+                account_obj = self.pool.get('account.invoice')
+                account_brw = account_obj.browse(cr, uid, inv_brw.invoice_id.id).islr_wh_doc_id.name
+                message = _("Withholding income voucher %s generated.") % account_brw
+                self.log(cr, uid, islr_wh_doc_id, message)
             else:
                 pass
         else:

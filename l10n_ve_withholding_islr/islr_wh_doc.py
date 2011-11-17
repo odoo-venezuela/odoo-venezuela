@@ -141,7 +141,7 @@ class islr_wh_doc(osv.osv):
         for wh_doc in wh_doc_brw:
             for wh_doc_line in wh_doc.islr_wh_doc_id: 
                 inv_ids.append(wh_doc_line.id)
-
+               
         context["wh_doc_id"]=ids[0]
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
         return True
@@ -264,6 +264,8 @@ class islr_wh_doc(osv.osv):
             
             period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
+            message = _("Comprobante de retención validado y asiento contable generado.")
+            self.log(cr, uid, ids[0], message)
             
             if not period_id:
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
