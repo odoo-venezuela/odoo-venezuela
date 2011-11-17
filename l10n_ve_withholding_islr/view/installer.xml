@@ -9,14 +9,14 @@
         <field name="arch" type="xml">
           <data>
             <form position="attributes">
-              <attribute name="string">Withholding ISLR Configuration</attribute>
+              <attribute name="string">Withholding income Configuration</attribute>
             </form>
             <separator string="title" position="attributes">
-            <attribute name="string">Configure Venezuelan ISLR Withholding</attribute>
+            <attribute name="string">Configure Venezuelan income Withholding</attribute>
               </separator>
               <xpath expr="//label[@string='description']" position="attributes">
                   <attribute name="string">
-Configure your company's withholding ISLR                      
+Configure your company's withholding income                      
                   </attribute>
               </xpath>
             <xpath expr='//separator[@string="vsep"]' position='attributes'>
@@ -39,7 +39,7 @@ Configure your company's withholding ISLR
         </field>
     </record>
     <record id="action_config_wh_islr" model="ir.actions.act_window">
-        <field name="name">Configure ISLR Withholding</field>
+        <field name="name">Configure Income Withholding</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">wh.islr.config</field>
         <field name="view_id" ref="wh_islr_config_view"/>
