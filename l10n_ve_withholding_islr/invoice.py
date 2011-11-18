@@ -569,9 +569,7 @@ class account_invoice(osv.osv):
                         
                 self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
                 
-                account_obj = self.pool.get('account.invoice')
-                account_brw = account_obj.browse(cr, uid, inv_brw.invoice_id.id).islr_wh_doc_id.name
-                message = _("Withholding income voucher %s generated.") % account_brw
+                message = _("Withholding income voucher '%s' generated.") % self.pool.get('islr.wh.doc').browse(cr,uid,islr_wh_doc_id).name
                 self.log(cr, uid, islr_wh_doc_id, message)
             else:
                 pass
