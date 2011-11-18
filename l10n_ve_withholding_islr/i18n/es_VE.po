@@ -1447,3 +1447,20 @@ msgstr "Pagos por Gastos de Transporte conformados por Fletes"
 msgid "Impossible withholding income, because the lines of the invoice has not concept withholding!"
 msgstr "Imposible realizar retención de ISLR, porque las lineas de la factura no tienen concepto de retención asociado!"
 
+#. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/invoice.py:305
+#, python-format
+msgid "Withholding income xml line generated."
+msgstr "Línea xml de retención de ISLR generada."
+
+#. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/invoice.py:574
+#, python-format
+msgid "Withholding income voucher %s generated."
+msgstr "Comprobante de retención de ISLR %s generado."
+
+#. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/islr_wh_doc.py:318
+#, python-format
+msgid "Withholding income voucher %s validated and accounting entry generated."
+msgstr "Comprobante de retención de ISLR %s validado y asiento contable generado."

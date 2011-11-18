@@ -314,7 +314,8 @@ class islr_wh_doc(osv.osv):
                             
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
         doc_brw = self.browse(cr, uid, ids[0]).name
-        message = _("Comprobante de retencion %s validado y asiento contable generado.") % doc_brw
+        
+        message = _("Withholding income voucher %s validated and accounting entry generated.") % doc_brw
         self.log(cr, uid, ids[0], message) 
         return True
 
