@@ -194,10 +194,11 @@
                             <field colspan="4" name="wh_lines" nolabel="1" widget="one2many_list"/>
                             <group col="4" colspan="2">
                                 <field name="state" select="2"/>
-                                <button name="wh_iva_done" states="draft" string="Realize" icon="gtk-execute"/>
+                                <button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/>
+                                <button name="wh_iva_confirmed" states="draft" string="Confirm" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
-<!--                                <field name="amount_base_ret"/>                           -->
+<!--                                <field name="amount_base_ret"/>-->
 <!--                                <field name="total_tax_ret"/>-->
                                 <field name="tot_amount_base_wh"/>
                                 <field name="tot_amount_tax_wh"/>
@@ -253,7 +254,7 @@
             <field name="domain">[('type','=','in_invoice')]</field>
             <field name="context">{'type':'in_invoice'}</field>
             <field name="search_view_id" ref="view_wh_iva_filter"/>
-            <field name="help">With Supplier Withholding Vat you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document.</field>            
+            <field name="help">With Supplier Withholding Vat you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document.</field>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_tree">
             <field name="sequence" eval="10"/>
@@ -270,7 +271,7 @@
 
         <menuitem
             id="menu_action_account_wh_iva_supplier"
-            name="Supplier Withholding VAT "        
+            name="Supplier Withholding VAT "
             parent="account.menu_finance_payables"
             action="action_account_wh_iva_supplier"/>
 
