@@ -653,6 +653,17 @@ class account_invoice(osv.osv):
             
         return True
 
+    def check_invoice_type(self, cr, uid, ids, context=None):
+        '''
+        This method test the invoice types to create a new withholding document
+        '''
+        if context is None:
+            context={}
+        obj = self.browse(cr, uid, ids[0],context=context)
+        if obj.type in ('in_invoice', 'in_refund'):
+            return True 
+        return False
+
 account_invoice()
 
 
