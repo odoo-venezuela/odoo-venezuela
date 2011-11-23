@@ -50,7 +50,7 @@ class cancel_voucher_pay_support(osv.osv_memory):
             ('open','Open'),
             ('done','Done'),
             ('cancel','Cancel'),
-            ],'Estado', select=True, readonly=True, help="Check note state"),
+            ],'State', select=True, readonly=True, help="Check note state"),
         'wire':fields.char('Transfer',size=26),
         'type': fields.selection([
             ('check','Check'),
