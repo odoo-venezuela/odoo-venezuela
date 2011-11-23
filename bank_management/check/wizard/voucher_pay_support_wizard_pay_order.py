@@ -35,7 +35,7 @@ from tools import config
 class voucher_pay_support_wizard(osv.osv_memory):
     _name = "voucher.pay.support.wizard"
     _columns = {
-        'name':fields.char('Nombre', 64),
+        'name':fields.char('Name', 64),
         'accounting_bank_id':fields.many2one('res.partner.bank','Bank Account', readonly=False , required=True), 
         'check_note_id': fields.many2one('check.note', 'Check No', required=True, readonly=False, domain="[('accounting_bank_id','=',accounting_bank_id)]"),
         'bank_id':fields.related('check_note_id','bank_id',type='many2one',relation='res.bank',string='Bank', store=True, readonly=False),
@@ -50,8 +50,8 @@ class voucher_pay_support_wizard(osv.osv_memory):
             ('open','Open'),
             ('done','Done'),
             ('cancel','Cancel'),
-            ],'Estado', select=True, readonly=True, help="Chech note state"),
-        'wire':fields.char('Transferencia',size=26),
+            ],'Estado', select=True, readonly=True, help="Check note state"),
+        'wire':fields.char('Transfer',size=26),
         'type': fields.selection([
             ('check','Check'),
             ('wire','Transfer'),
@@ -61,7 +61,7 @@ class voucher_pay_support_wizard(osv.osv_memory):
         'bool_sure': fields.boolean('Are you sure?'),
         'notes':fields.char('Reason',size=256, required=False, readonly=False ),
         'cancel_check_note': fields.selection([
-            ('print','Error de Impresion'),
+            ('print','Print error'),
             ('perdida','Loss or misplacement'),
             ('dan_fis','Physical damage'),
             ('pago','Payment is not made'),
@@ -104,7 +104,7 @@ class voucher_pay_support_wizard(osv.osv_memory):
         if che_b:
             che_n= check_note.search(cr, uid, [('check_book_id','=',che_b[0]), ('state','=',"active")], limit = 1)
         else:
-            raise osv.except_osv(_('Atencion !'), _('No existen cheques en esta cuenta, ingrese otra!!!'))   
+            raise osv.except_osv(_('Alert !'), _('There are not check in thi account, enter another one!!!'))   
         id=context["active_id"]
         a_v=self.pool.get('account.voucher')
         obj_account_v=a_v.browse(cr, uid, id, context=None)  
@@ -243,7 +243,7 @@ class voucher_pay_support_wizard(osv.osv_memory):
         nota=obj.notes
         check_note = self.pool.get('check.note') 
         accounting_bank_id = self.pool.get('res.bank')
-        bank_id = self.pool.get('res.bank.entity') 
+        bank_id = self.pool.get('res.bank') 
         account_voucher = self.pool.get('account.voucher')
         obj_check_note=check_note.browse(cr, uid, context["check_note_id"], context=None)
         obj_accounting_bank_id=accounting_bank_id.browse(cr, uid, context["accounting_bank_id"], context=None)
