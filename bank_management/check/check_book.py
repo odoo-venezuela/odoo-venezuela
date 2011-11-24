@@ -123,7 +123,7 @@ class check_book(osv.osv):
             ('50','50'),
             ('75','75'),
             ('100','100'),
-            ],'Check Number', select=True, readonly=True, required=True,
+            ],'Check Qty', select=True, readonly=True, required=True,
             states={'request':[('readonly',False)],
                  'draft':[('readonly',True)],
                  'review':[('readonly',True)],
