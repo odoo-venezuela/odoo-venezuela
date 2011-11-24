@@ -1101,3 +1101,8 @@ msgstr "Cálculo del monto del impuesto por retención del IVA"
 msgid "No. Nota Débito"
 msgstr "No. Nota Débito"
 
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/generate_txt.py:261
+#, python-format
+msgid "File TXT %s generated."
+msgstr "Archivo TXT %s generado."
