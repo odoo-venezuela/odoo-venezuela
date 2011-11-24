@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-11-23 21:12+0000\n"
-"PO-Revision-Date: 2011-11-23 21:12+0000\n"
+"POT-Creation-Date: 2011-11-24 22:11+0000\n"
+"PO-Revision-Date: 2011-11-24 22:11+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -128,6 +128,11 @@ msgid "Suffix"
 msgstr "Sufijo"
 
 #. module: bank_management
+#: selection:check.book.wizard,tiempo:0
+msgid "Fiscal Period"
+msgstr "Fiscal Period"
+
+#. module: bank_management
 #: field:gral.check.book,desde:0
 msgid "Starting Date"
 msgstr "Fecha de Inicio"
@@ -169,6 +174,7 @@ msgstr "Motivos para anular"
 
 #. module: bank_management
 #: view:account.voucher:0
+#: field:cancel.voucher.pay.support,state:0
 #: view:check.book:0
 #: field:check.book,state:0
 #: view:check.book.request:0
@@ -177,6 +183,7 @@ msgstr "Motivos para anular"
 #: field:check.note,state:0
 #: view:voucher.pay.support:0
 #: field:voucher.pay.support,state:0
+#: field:voucher.pay.support.wizard,state:0
 msgid "State"
 msgstr "Estado"
 
@@ -278,11 +285,6 @@ msgstr "Beneficiario"
 #: report:cash_amount.3:0
 msgid "Retenciones IVA"
 msgstr "Retenciones IVA"
-
-#. module: bank_management
-#: field:res.company,transitory:0
-msgid "Cuenta Transitoria"
-msgstr "Cuenta Transitoria"
 
 #. module: bank_management
 #: field:res.partner.bank,virtual_balance:0
@@ -387,6 +389,11 @@ msgstr "Imprimir Cheque"
 #: view:voucher.pay.support:0
 msgid "Search Voucher Pay Support"
 msgstr "Busqueda soporte de pago"
+
+#. module: bank_management
+#: help:res.bank,format_h:0
+msgid "Print format of check"
+msgstr "Formato de impresión el cheque"
 
 #. module: bank_management
 #: field:print.lpr.option,media:0
@@ -497,19 +504,9 @@ msgid "Payment"
 msgstr "Pago"
 
 #. module: bank_management
-#: selection:check.book.wizard,state_check_note:0
-msgid "Sin Filtro"
-msgstr "Sin Filtro"
-
-#. module: bank_management
 #: view:check.book:0
 msgid "Search Check Book"
 msgstr "Busqueda Chequeras"
-
-#. module: bank_management
-#: field:res.company,expiry:0
-msgid "Dias de Caducidad"
-msgstr "Dias de Caducidad"
 
 #. module: bank_management
 #: view:check.book:0
@@ -630,6 +627,11 @@ msgid "AMOUNT PAID"
 msgstr "AMOUNT PAID"
 
 #. module: bank_management
+#: help:res.partner.bank,bank_account_id:0
+msgid "Acountig account associated to the bank account, it journal entries will be made"
+msgstr "Cuenta contable asociada a la cuenta bancaria, en donde se realizarán los asientos"
+
+#. module: bank_management
 #: code:addons/bank_management/check/check_book.py:311
 #: code:addons/bank_management/check/check_book_request.py:108
 #: code:addons/bank_management/check/check_note.py:130
@@ -644,7 +646,6 @@ msgstr "Con cuentas bancarias Ud. puede crear y administrar cuentas bancarias."
 
 #. module: bank_management
 #: report:cash_amount.3:0
-#: selection:check.book.wizard,tiempo:0
 msgid "Fecha"
 msgstr "Fecha"
 
@@ -744,11 +745,6 @@ msgid "With Check Book you can create and manage Check Book."
 msgstr "Con chequeras Ud. puede crear y administrar chequeras."
 
 #. module: bank_management
-#: selection:check.book.wizard,tiempo:0
-msgid "Periodo Fiscal"
-msgstr "Periodo Fiscal"
-
-#. module: bank_management
 #: model:ir.actions.act_window,name:bank_management.action_vendor_payment_XYZ
 msgid "One Supplier Payment"
 msgstr "Pagos de un solo proveedor"
@@ -799,6 +795,13 @@ msgstr "¿Esta seguro?"
 #, python-format
 msgid "Hibernate"
 msgstr "Hibernar"
+
+#. module: bank_management
+#: field:cancel.voucher.pay.support,type:0
+#: field:voucher.pay.support,type:0
+#: field:voucher.pay.support.wizard,type:0
+msgid "Type"
+msgstr "Tipo"
 
 #. module: bank_management
 #: field:ir.print,report_id:0
@@ -951,6 +954,7 @@ msgstr "¿Seguro que desea romper la conciliación de este registro?"
 
 #. module: bank_management
 #: field:cancel.voucher.pay.support,date:0
+#: selection:check.book.wizard,tiempo:0
 #: selection:gral.check.book,tiempo:0
 #: field:voucher.pay.support.wizard,date:0
 msgid "Date"
@@ -962,10 +966,9 @@ msgid "Extended Filters..."
 msgstr "Filtros extendidos..."
 
 #. module: bank_management
-#: field:cancel.voucher.pay.support,state:0
-#: field:voucher.pay.support.wizard,state:0
-msgid "Estado"
-msgstr "Estado"
+#: view:account.voucher:0
+msgid "Unreconcile"
+msgstr "Romper conciliación"
 
 #. module: bank_management
 #: model:ir.model,name:bank_management.model_res_company
@@ -980,6 +983,7 @@ msgstr "Limit Min. (Bs.)"
 
 #. module: bank_management
 #: view:res.company:0
+#: field:res.company,transitory:0
 #: field:res.partner.bank,trans_account_id:0
 msgid "Transitory Account"
 msgstr "Cuenta transitoria"
@@ -990,6 +994,11 @@ msgid "No.:"
 msgstr "No.:"
 
 #. module: bank_management
+#: help:res.partner.bank,balance:0
+msgid "return the balance of accounting account"
+msgstr "devuelve el balance de la cuenta contable"
+
+#. module: bank_management
 #: field:account.voucher.line,amount_residual:0
 msgid "Residual Amount"
 msgstr "Monto Residual"
@@ -998,11 +1007,6 @@ msgstr "Monto Residual"
 #: field:ir.print,create_uid:0
 msgid "Creator"
 msgstr "Creator"
-
-#. module: bank_management
-#: view:account.voucher:0
-msgid "Unreconcile"
-msgstr "Romper conciliación"
 
 #. module: bank_management
 #: field:print.model.reports,python_code:0
@@ -1041,6 +1045,11 @@ msgstr "DL"
 #: field:account.voucher,voucher_pay_support_id:0
 msgid "Payment Order"
 msgstr "Orden de pago"
+
+#. module: bank_management
+#: field:res.company,expiry:0
+msgid "Expiration Days"
+msgstr "Expiration Days"
 
 #. module: bank_management
 #: selection:check.book,cancel_check:0
@@ -1090,6 +1099,11 @@ msgstr "Error ! El campo \"Prefijo\" debe estar entre 0000-9999\"."
 #: field:check.book.request,accounting_bank_id:0
 msgid "Account Bank"
 msgstr "Cuenta Bancaria"
+
+#. module: bank_management
+#: field:check.book,qty_check_selection:0
+msgid "Check Qty"
+msgstr "Cant. cheques"
 
 #. module: bank_management
 #: field:cancel.voucher.pay.support,bank_id:0
@@ -1157,9 +1171,9 @@ msgid "The name of the journal must be unique per company !"
 msgstr "¡El nombre del diaro debe ser único por compañía!"
 
 #. module: bank_management
-#: selection:check.book.wizard,state_check_note:0
-msgid "Emitido"
-msgstr "Emitido"
+#: help:print.model.reports,check_note_use:0
+msgid "Checking this field when allow you to take different headers to print"
+msgstr "Checking this field when allow you to take different headers to print"
 
 #. module: bank_management
 #: report:chk.book:0
@@ -1187,11 +1201,6 @@ msgstr "Report Header"
 #: report:cash_receipt.drcr.3:0
 msgid "Comprobante de Cobro Bancario"
 msgstr "Comprobante de Cobro Bancario"
-
-#. module: bank_management
-#: help:print.model.reports,check_note_use:0
-msgid "Checking this field when allow you to take different headers to print"
-msgstr "Checking this field when allow you to take different headers to print"
 
 #. module: bank_management
 #: report:chk.book:0
@@ -1273,6 +1282,11 @@ msgid " ftp://mirror.switch.ch/mirror/ghost/gs5man_e.pdf "
 msgstr " ftp://mirror.switch.ch/mirror/ghost/gs5man_e.pdf "
 
 #. module: bank_management
+#: selection:check.book.wizard,state_check_note:0
+msgid "Without Filter"
+msgstr "Without Filter"
+
+#. module: bank_management
 #: code:addons/bank_management/check/voucher_pay_support.py:140
 #, python-format
 msgid "Enter the acknowledgment"
@@ -1305,6 +1319,16 @@ msgid "Warning ! You can not duplicate this document"
 msgstr "Advertencia ! Ud no puede duplicar este documento"
 
 #. module: bank_management
+#: help:print.lpr.option,name:0
+msgid "Set the name for this LPR Profile"
+msgstr "Set the name for this LPR Profile"
+
+#. module: bank_management
+#: help:res.partner.bank,journal_id:0
+msgid "In which journal the entries will be made"
+msgstr "Diario contable en donde se realizaran los asientos"
+
+#. module: bank_management
 #: field:print.model.reports,allow_repeat:0
 msgid "Allow print again"
 msgstr "Allow print again"
@@ -1325,6 +1349,11 @@ msgstr "Enviado"
 #: field:print.model.reports,gs_use:0
 msgid "Use Ghostscript?"
 msgstr "Use Ghostscript?"
+
+#. module: bank_management
+#: help:res.company,expiry:0
+msgid "Number of the days on which the check could be cashed"
+msgstr "Number of the days on which the check could be cashed"
 
 #. module: bank_management
 #: view:res.partner.bank:0
@@ -1509,6 +1538,11 @@ msgid "Number of Copies"
 msgstr "Number of Copies"
 
 #. module: bank_management
+#: help:res.bank,max_lim:0
+msgid "Maximum amount for check"
+msgstr "Monto maximo para los cheques"
+
+#. module: bank_management
 #: selection:voucher.pay.support,type:0
 msgid "Transferencia"
 msgstr "Transferencia"
@@ -1545,9 +1579,10 @@ msgid "Process"
 msgstr "Process"
 
 #. module: bank_management
+#: selection:check.book.wizard,state_check_note:0
 #: selection:gral.check.book,state_check_note:0
 msgid "Issued"
-msgstr "Emitido"
+msgstr "Issued"
 
 #. module: bank_management
 #: model:ir.model,name:bank_management.model_account_voucher
@@ -1711,12 +1746,6 @@ msgid "Sets the media size"
 msgstr "Sets the media size"
 
 #. module: bank_management
-#: report:cash_amount.3:0
-#: report:cash_receipt.drcr.3:0
-msgid "Cash Payment Voucher"
-msgstr "Comprobante de pago efectivo"
-
-#. module: bank_management
 #: view:account.voucher:0
 msgid "Open Balance"
 msgstr "Abrir balance"
@@ -1728,14 +1757,19 @@ msgid "CHECK BOOK:"
 msgstr "CHECK BOOK:"
 
 #. module: bank_management
-#: help:print.lpr.option,name:0
-msgid "Set the name for this LPR Profile"
-msgstr "Set the name for this LPR Profile"
+#: help:res.bank,min_lim:0
+msgid "Minimum amount for check"
+msgstr "Monto mínimo para los cheques"
 
 #. module: bank_management
 #: model:ir.model,name:bank_management.model_check_book_request
 msgid "check.book.request"
 msgstr "check.book.request"
+
+#. module: bank_management
+#: help:res.partner.bank,trans_account_id:0
+msgid "Account which the money that has no been charged"
+msgstr "Cuenta en la cual se encuentra el dinero no cobrado"
 
 #. module: bank_management
 #: help:print.model.reports,depend_state:0
@@ -1800,6 +1834,11 @@ msgid "VOIDED CHECK:"
 msgstr "VOIDED CHECK:"
 
 #. module: bank_management
+#: help:gral.check.book,state_check_note:0
+msgid "Check note state on voucher"
+msgstr "Check note state on voucher"
+
+#. module: bank_management
 #: model:ir.module.module,shortdesc:bank_management.module_meta_information
 msgid "Bank Management"
 msgstr "Bank Management"
@@ -1854,9 +1893,14 @@ msgid "Epson-compatible 9-pin, intermediate resolution"
 msgstr "Epson-compatible 9-pin, intermediate resolution"
 
 #. module: bank_management
-#: help:res.company,transitory:0
-msgid "Manejo de Cuentas Transitorias"
-msgstr "Manejo de Cuentas Transitorias"
+#: help:gral.check.book,tiempo:0
+msgid "period in which to generate the report"
+msgstr "period in which to generate the report"
+
+#. module: bank_management
+#: sql_constraint:account.journal:0
+msgid "The code of the journal must be unique per company !"
+msgstr "¡El código del diario debe ser único por compañía!"
 
 #. module: bank_management
 #: field:print.lpr.option,lpi:0
@@ -1911,6 +1955,11 @@ msgid "Printers"
 msgstr "Printers"
 
 #. module: bank_management
+#: help:res.company,transitory:0
+msgid "Apply transitory account"
+msgstr "Apply transitory account"
+
+#. module: bank_management
 #: view:account.voucher:0
 msgid "Create Support"
 msgstr "Crear Soporte"
@@ -1931,12 +1980,6 @@ msgid "Modelo Reports"
 msgstr "Modelo Reports"
 
 #. module: bank_management
-#: help:gral.check.book,state_check_note:0
-#: help:gral.check.book,tiempo:0
-msgid "Estado del Cheque en Voucher"
-msgstr "Estado del Cheque en Voucher"
-
-#. module: bank_management
 #: code:addons/bank_management/check/report/reporte_check_book.py:118
 #: code:addons/bank_management/check/report/reporte_wizard_general.py:193
 #, python-format
@@ -1947,11 +1990,6 @@ msgstr "Chequeras en borrador"
 #: report:chk.book.request:0
 msgid "Authorizing"
 msgstr "Autorizado"
-
-#. module: bank_management
-#: sql_constraint:account.journal:0
-msgid "The code of the journal must be unique per company !"
-msgstr "¡El código del diario debe ser único por compañía!"
 
 #. module: bank_management
 #: report:chk.book.request:0
@@ -2057,19 +2095,14 @@ msgstr "Make Orden de pago"
 
 #. module: bank_management
 #: selection:check.book.wizard,state_check_note:0
-msgid "Cobrado"
-msgstr "Cobrado"
+msgid "Cashed"
+msgstr "Cashed"
 
 #. module: bank_management
 #: report:cash_amount.3:0
 #: report:cash_receipt.drcr.3:0
 msgid "PRO-FORMA"
 msgstr "PRO-FORMA"
-
-#. module: bank_management
-#: field:check.book,qty_check_selection:0
-msgid "Check Qty"
-msgstr "Cant. cheques"
 
 #. module: bank_management
 #: field:check.note,number:0
@@ -2213,11 +2246,10 @@ msgid "Ref.: Checking Account"
 msgstr "Ref.: Checking Account"
 
 #. module: bank_management
-#: field:cancel.voucher.pay.support,type:0
-#: field:voucher.pay.support,type:0
-#: field:voucher.pay.support.wizard,type:0
-msgid "Type"
-msgstr "Tipo"
+#: report:cash_amount.3:0
+#: report:cash_receipt.drcr.3:0
+msgid "Cash Payment Voucher"
+msgstr "Comprobante de pago efectivo"
 
 #. module: bank_management
 #: view:account.voucher:0
@@ -2267,6 +2299,11 @@ msgstr "Comprobante transitorio"
 #: field:check.note,account_voucher_id:0
 msgid "Account Voucher"
 msgstr "Comprobante de pago"
+
+#. module: bank_management
+#: help:res.partner.bank,transitory_money:0
+msgid "Sum of the amounts on voucher pay support in state draft or open"
+msgstr "Sumatoria del los montos de los soportes de pago en estado borrador y abierto"
 
 #. module: bank_management
 #: view:account.journal:0
