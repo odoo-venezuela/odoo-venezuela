@@ -56,6 +56,26 @@ class account_invoice_line(osv.osv):
             pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
             data[data.keys()[1]]['concept_id'] = pro.concept_id.id
         return data
+        
+    
+    def create(self, cr, uid, vals, context=None):
+        
+        if context is None :
+            context = {}
+        
+        print 'esto es context, ',context
+        
+        if context.get('new_key',False):
+
+            vals.update({'wh_xml_id':False,
+                         'apply_wh': False,
+                
+            })
+
+        print 'esto es vals ', vals
+        
+        return super(account_invoice_line, self).create(cr, uid, vals, context=context)
+    
 
 account_invoice_line()
 
@@ -79,12 +99,20 @@ class account_invoice(osv.osv):
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
+        
         if default is None:
             default = {}
+        
+        if context is None :
+            context = {}
+            
         default = default.copy()
         default.update({'islr_wh_doc':0,
                         'status': 'no_pro',
         })
+        
+        context.update({'new_key':True})
+        
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
 
