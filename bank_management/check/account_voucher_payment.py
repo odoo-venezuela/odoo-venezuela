@@ -181,23 +181,23 @@ class account_voucher(osv.osv):
         return res
 
 
-    def voucher_move_line_get_item(self, cr, uid, voucher, line, move_id, company_currency, current_currency, context):
-        partner_id = voucher.partner_id.id
-        if context.get('one_partner',False):
-            partner_id = line.partner_id.id
-        return {
-            'journal_id': voucher.journal_id.id,
-            'period_id': voucher.period_id.id,
-            'name': line.name and line.name or '/',
-            'account_id': line.account_id.id,
-            'move_id': move_id,
-            'partner_id': partner_id,
-            'currency_id': company_currency <> current_currency and current_currency or False,
-            'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
-            'quantity': 1,
-            'credit': 0.0,
-            'debit': 0.0,
-            'date': voucher.date
-        }
+#    def voucher_move_line_get_item(self, cr, uid, voucher, line, move_id, company_currency, current_currency, context):
+#        partner_id = voucher.partner_id.id
+#        if context.get('one_partner',False):
+#            partner_id = line.partner_id.id
+#        return {
+#            'journal_id': voucher.journal_id.id,
+#            'period_id': voucher.period_id.id,
+#            'name': line.name and line.name or '/',
+#            'account_id': line.account_id.id,
+#            'move_id': move_id,
+#            'partner_id': partner_id,
+#            'currency_id': company_currency <> current_currency and current_currency or False,
+#            'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
+#            'quantity': 1,
+#            'credit': 0.0,
+#            'debit': 0.0,
+#            'date': voucher.date
+#        }
 
 account_voucher()
