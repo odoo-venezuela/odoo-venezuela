@@ -324,7 +324,7 @@
           <para style="P25">Código de Cuenta:</para>
         </td>
         <td>
-          <para style="P24">[[ voucher.accounting_bank_id.code]]</para>
+          <para style="P24">[[ voucher.accounting_bank_id.acc_number]]</para>
         </td>
       </tr>
       <tr>

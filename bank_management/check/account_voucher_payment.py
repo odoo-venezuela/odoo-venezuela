@@ -61,15 +61,15 @@ class account_voucher_line(osv.osv):
         'amount_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Amount', type='float', store=True),
     }
 
-    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
-        partner_obj = self.pool.get('res.partner')
-        partner_brw = partner_obj.browse(cr,uid,partner_id,context)
-        
-        account_id = partner_brw.property_account_payable.id
-        account_balance = partner_brw.property_account_payable.balance
-   
-        res = {'value' : {'account_id':account_id,'amount':abs(account_balance),}}
-        return res
+#    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
+#        partner_obj = self.pool.get('res.partner')
+#        partner_brw = partner_obj.browse(cr,uid,partner_id,context)
+#        
+#        account_id = partner_brw.property_account_payable.id
+#        account_balance = partner_brw.property_account_payable.balance
+#   
+#        res = {'value' : {'account_id':account_id,'amount':abs(account_balance),}}
+#        return res
 
 #    def onchange_invoice_id(self, cr, uid, ids, inv_id, context=None):
 #        invoice_obj = self.pool.get('account.invoice')

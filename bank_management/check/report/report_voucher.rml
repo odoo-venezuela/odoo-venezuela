@@ -187,7 +187,7 @@
           <para style="P27">Código de Cuenta:</para>
         </td>
         <td>
-          <para style="P9">[[ voucher.accounting_bank_id.code ]]</para>
+          <para style="P9">[[ voucher.accounting_bank_id.acc_number ]]</para>
         </td>
       </tr>
     </blockTable>
