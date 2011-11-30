@@ -209,9 +209,9 @@ class account_wh_iva(osv.osv):
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_wh_iva_receivable.id
+                acc_id = p.property_account_receivable.id
             else:
-                acc_id = p.property_wh_iva_payable.id
+                acc_id = p.property_account_payable.id
 
         self._update_check(cr, uid, ids, partner_id)
         result = {'value': {
@@ -226,7 +226,7 @@ class account_wh_iva(osv.osv):
             inv_str = ''
             for line in ret.wh_lines:
                 if line.invoice_id.partner_id.id != partner_id:
-                    inv_str+= '%s'% '\n'+line.invoice_id.name
+                    inv_str+= line.invoice_id.name and '%s'% '\n'+line.invoice_id.name or ''
 
             if inv_str:
                 raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))

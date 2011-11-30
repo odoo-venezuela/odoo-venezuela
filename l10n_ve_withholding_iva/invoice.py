@@ -154,10 +154,10 @@ class account_invoice(osv.osv):
                 raise osv.except_osv('Invalid Action !', _('This invoice is already withholded'))
             ret_line = []
             if inv.type in ('out_invoice', 'out_refund'):
-                acc_id = inv.partner_id.property_wh_iva_receivable.id
+                acc_id = inv.partner_id.property_account_receivable.id
                 wh_type = 'out_invoice'
             else:
-                acc_id = inv.partner_id.property_wh_iva_payable.id
+                acc_id = inv.partner_id.property_account_payable.id
                 wh_type = 'in_invoice'
                 if not acc_id:
                     raise osv.except_osv('Invalid Action !',\
