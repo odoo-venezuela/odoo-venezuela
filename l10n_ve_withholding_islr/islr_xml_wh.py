@@ -129,7 +129,7 @@ class islr_xml_wh_doc(osv.osv):
             }, context=context
         )
         cr.commit()
-
+        self.log(cr, uid, ids[0], _("File XML %s generated.") % name)
 
     def indent(self,elem, level=0):
         i = "\n" + level*"  "

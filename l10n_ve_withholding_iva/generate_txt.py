@@ -140,6 +140,7 @@ class txt_iva(osv.osv):
         root = self.generate_txt(cr,uid,ids)
         self._write_attachment(cr,uid,ids,root,context)
         self.write(cr, uid, ids, {'state':'done'})
+        
         return True
 
     def get_type_document(self,cr,uid,txt_line):
@@ -256,7 +257,8 @@ class txt_iva(osv.osv):
             'res_id': ids[0],
             }, context=context
         )
-        cr.commit()
+        cr.commit()            
+        self.log(cr, uid, ids[0], _("File TXT %s generated.") % name)
         
 txt_iva()
 
