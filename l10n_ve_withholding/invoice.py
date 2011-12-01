@@ -64,39 +64,15 @@ class account_invoice(osv.osv):
             'name':name
         }
         lines = [(0, 0, l1)]
-        #########################################################
-        #  START TODO                                           #
-        #########################################################
+
         l2 = self._get_move_lines(cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=context)
         if not l2:
             raise osv.except_osv(_('Warning !'), _('No accounting moves were created.\n Please, Check if there are Taxes/Concepts to withhold in the Invoices!'))
-        print 'DESPUES DE LAS LINEAS 2' 
         lines += l2
-        
-        print 'ACCOUNT\t\tDEBIT\t\tCREDIT'
-        for i in lines:
-            print '%s\t\t%s\t\t%s'%(i[2]['account_id'],i[2]['debit'],i[2]['credit'])
-        
-        #~ l2 = {
-            #~ 'debit': direction * pay_amount<0 and - direction * pay_amount,
-            #~ 'credit': direction * pay_amount>0 and direction * pay_amount,
-            #~ 'account_id': pay_account_id,
-            #~ 'partner_id': invoice.partner_id.id,
-            #~ 'ref':invoice.number,
-            #~ 'date': date,
-            #~ 'currency_id': False,
-        #~ }
-#~ 
-        #~ l2['name'] = name
 
-        #~ lines = [(0, 0, l1), (0, 0, l2)]
-        
-        #########################################################
-        #  END TODO                                             #
-        #########################################################
         move = {'ref': invoice.number, 'line_id': lines, 'journal_id': pay_journal_id, 'period_id': period_id, 'date': date}
         move_id = self.pool.get('account.move').create(cr, uid, move, context=context)
 

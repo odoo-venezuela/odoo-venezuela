@@ -163,7 +163,6 @@ class account_wh_iva(osv.osv):
 
 
     def action_move_create(self, cr, uid, ids, context=None):
-        print 'action_move_create'
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
 
@@ -183,7 +182,6 @@ class account_wh_iva(osv.osv):
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
                 if len(period_ids):
                     period_id = period_ids[0]
-            print 'CONTEXT ES ', context
             if ret.wh_lines:
                 for line in ret.wh_lines:
                     writeoff_account_id,writeoff_journal_id = False, False
@@ -197,7 +195,6 @@ class account_wh_iva(osv.osv):
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, ret.date_ret, name,line.tax_line, context)
-                    print 'DESPUES DE RET & RECONCILE'
                     # make the withholding line point to that move
                     rl = {
                         'move_id': ret_move['move_id'],
@@ -378,44 +375,3 @@ class account_wh_iva_line(osv.osv):
         return {'value':result, 'domain':domain}
 
 account_wh_iva_line()
-
-class account_invoice(osv.osv):
-    _inherit = 'account.invoice'
-    
-    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
-                            name, context=None):
-        if context is None: context = {}
-        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
-                            name, context=context)
-        if context.get('vat_wh',False):
-            print 'ENTRO EN LA GENERACION MOV. DE CONT. DE LAS LINEAS DE IMPUESTO'
-            invoice = self.browse(cr, uid, ids[0])
-            
-            types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
-            direction = types[invoice.type]
-
-            for tax_brw in to_wh:
-                if 'invoice' in invoice.type:
-                    acc = tax_brw.tax_id.wh_vat_collected_account_id and tax_brw.tax_id.wh_vat_collected_account_id.id or False
-                elif 'refund' in invoice.type:
-                    acc = tax_brw.tax_id.wh_vat_paid_account_id and tax_brw.tax_id.wh_vat_paid_account_id or False
-                if not acc:
-                    raise osv.except_osv(_('Missing Account in Tax!'),_("Tax [%s] has missing account. Please, fill the missing fields") % (tax_brw.tax_id.name,))
-                res.append((0,0,{
-                    'debit': direction * tax_brw.amount_ret<0 and - direction * tax_brw.amount_ret,
-                    'credit': direction * tax_brw.amount_ret>0 and direction * tax_brw.amount_ret,
-                    'account_id': acc,
-                    'partner_id': invoice.partner_id.id,
-                    'ref':invoice.number,
-                    'date': date,
-                    'currency_id': False,
-                    'name':name
-                }))
-        
-        
-        return res
-account_invoice()
