@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-11-24 22:11+0000\n"
-"PO-Revision-Date: 2011-11-24 22:11+0000\n"
+"POT-Creation-Date: 2011-12-01 16:03+0000\n"
+"PO-Revision-Date: 2011-12-01 16:03+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1049,7 +1049,7 @@ msgstr "Orden de pago"
 #. module: bank_management
 #: field:res.company,expiry:0
 msgid "Expiration Days"
-msgstr "Expiration Days"
+msgstr "Días de caducidad"
 
 #. module: bank_management
 #: selection:check.book,cancel_check:0
@@ -1300,7 +1300,7 @@ msgstr "Error ! El nombre del banco ya esta siendo usado. "
 #. module: bank_management
 #: view:voucher.pay.support.wizard:0
 msgid "print confirmation"
-msgstr "Confirmr impresión"
+msgstr "Confirmar impresión"
 
 #. module: bank_management
 #: report:cash_amount.3:0
@@ -1496,7 +1496,7 @@ msgstr "Cheques"
 #: code:addons/bank_management/check/voucher_pay_support.py:157
 #, python-format
 msgid "You must enter Account Bank Transitional: %s"
-msgstr "Dene introducir una cuenta bancaria transitoria: %s"
+msgstr "Debe introducir una cuenta bancaria transitoria: %s"
 
 #. module: bank_management
 #: help:print.lpr.option,lpi:0
@@ -1717,7 +1717,7 @@ msgstr "Carta de solicitud"
 #. module: bank_management
 #: constraint:res.bank:0
 msgid "Error ! Minimum limit must be less than maximun limit"
-msgstr "Error ! El límite Mínimo debe sr menor que el límite máximo"
+msgstr "Error ! El límite Mínimo debe ser menor que el límite máximo"
 
 #. module: bank_management
 #: model:ir.actions.report.xml,name:bank_management.report_account_voucher3
@@ -1836,7 +1836,7 @@ msgstr "VOIDED CHECK:"
 #. module: bank_management
 #: help:gral.check.book,state_check_note:0
 msgid "Check note state on voucher"
-msgstr "Check note state on voucher"
+msgstr "Estado del cheque en el comprobante"
 
 #. module: bank_management
 #: model:ir.module.module,shortdesc:bank_management.module_meta_information
@@ -2091,12 +2091,12 @@ msgstr "Borrador"
 #: model:ir.actions.act_window,name:bank_management.wiz_pay_support
 #: view:voucher.pay.support.wizard:0
 msgid "Make Payment Order"
-msgstr "Make Orden de pago"
+msgstr "Crear Orden de pago"
 
 #. module: bank_management
 #: selection:check.book.wizard,state_check_note:0
 msgid "Cashed"
-msgstr "Cashed"
+msgstr "Cobrado"
 
 #. module: bank_management
 #: report:cash_amount.3:0
