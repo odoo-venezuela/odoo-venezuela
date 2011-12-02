@@ -143,7 +143,17 @@ class islr_wh_doc(osv.osv):
                 inv_ids.append(wh_doc_line.id)
 
         context["wh_doc_id"]=ids[0]
+        print "LOCO"
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
+
+
+        ctx = context.copy()
+        ctx = self.get_log_context(cr, uid, context=ctx)
+        message = _('BARBARAAAAAAAAAA ') + " '" + name + "' "+ _("is validated.")
+        self.log(cr, uid, inv_id, message, context=ctx)
+
+
+
         return True
 
     def action_cancel_process(self,cr,uid,ids,*args):

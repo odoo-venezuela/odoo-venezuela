@@ -34,7 +34,7 @@ class City(osv.osv):
     _description='Model to manipulate Cities'
     _name ='res.city'
     _columns = {
-        'state_ids': fields.many2many('res.country.state','state_city_rel','city_id','state_id','State', required=True, help="This field selects the states to which this city is associated \n"),
+        'state_id': fields.many2many('res.country.state','state_city_rel','city_id','state_id','State', required=True, help="This field selects the states to which this city is associated \n"),
         'name': fields.char('City Name', size=64, required=True, help="In this field enter the name of the City \n"),
         'code': fields.char('City Code', size=3,
             help='The city code in three chars, Example: CCS for Caracas .\n', required=True),

@@ -29,20 +29,26 @@
     "author" : "Vauxoo",
     "description" : """
     What do this module:
-    This module handles the topology according to the sectors of a city
-                    """,
+        This module handles the topology according to the sectors of a city.
+        
+	Obtain information and managed all states, municipalities, parishes and sectors of Venezuela
+    with their zip codes and city codes.
+
+	Adds new information sectors of the state, municipality, parish and city to which he belongs. 
+			""",
     "website" : "http://vauxoo.com",
     "category" : "Generic Modules/Topology",
-    "init_xml" : [    ],
-    "demo_xml" : [    ],
-    "test": [
-    "test/create_topology.yml",
-    ],
-    "update_xml" : [
+    "init_xml" : [
                     "data/states_ve_data.xml",
                     "data/city_ve_data.xml",
                     "data/municipality_data.xml",
                     "data/parish_ve_data.xml",
+        ],
+    "demo_xml" : [    ],
+    "test": [
+    ],
+    "update_xml" : [
+                    
                     "view/municipality_view.xml",
                     "view/city_view.xml",
                     "view/parish_view.xml",
@@ -50,6 +56,7 @@
                     "view/sector_view.xml",
                     "view/state_view.xml",
                     "security/ir.model.access.csv",
+                    "data/zip_code_data.xml"
                     ],
     "active": False,
     "installable": True,

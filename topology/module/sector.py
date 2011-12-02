@@ -63,8 +63,12 @@ class sector(osv.osv):
     _columns = {
         'name': fields.char('Sector', size=128, required=True,help="In this field enter the name of the Sector\n"),
         'city':fields.many2one('res.city','City',required=True,help="In this field you enter the city to which the sector is associated\n"),
+        'municipality':fields.many2one('res.municipality','Municipality',required=True, help="In this field enter the name of the municipality which is associated with the parish\n"),
         'parish':fields.many2one('res.parish','Parish',required=True,help="In this field you enter the parish to which the sector is associated\n"),
         'zipcode':fields.many2one('res.zipcode',string='Zip Code',required=True,help="in this field is selected Zip Code associated with this sector\n"),
+        'state':fields.many2one('res.country.state','State',required=True, help="In this field enter the name of state associated with the country"),
+        'country':fields.many2one('res.country','Country',required=True, help="In this field enter the name of country"),
+    
     }
 
 sector()

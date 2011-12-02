@@ -550,6 +550,7 @@ class account_invoice(osv.osv):
         if inv_brw:
             if dictc and not wh_doc_id:
                 islr_wh_doc_id = self._create_islr_wh_doc(cr,uid,inv_brw,dict)
+                print "LOcooooooooooo"
             else:
                 islr_wh_doc_id = wh_doc_id
             key_lst = []

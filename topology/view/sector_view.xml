@@ -205,9 +205,12 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Sector">
-                <field name="name"/>
-                <field name="city"/>
-                <field name="parish"/>
+                 <field name="name"/>
+                <field name="country"/>
+                <field name="state" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+                <field name="municipality" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+                <field name="parish" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+                <field name="city" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
                 <field name="zipcode"/>
             </tree>
         </field>
@@ -219,10 +222,13 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Sector">
-                <field name="name" />
-                <field name="city" />
-                <field name="parish" />
-                <field name="zipcode" />
+                <field name="name"/>
+                <field name="country"/>
+                <field name="state" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+                <field name="municipality" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+                <field name="parish" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+                <field name="city" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+                <field name="zipcode"/>
             </form>
         </field>
     </record>

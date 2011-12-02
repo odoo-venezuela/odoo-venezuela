@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data >
+    <data noupdate="1" >
 <!--Amazonas-->
          <record id="res_country_state_city_001" model="res.city">
               <field name="name">Puerto Ayacucho</field>

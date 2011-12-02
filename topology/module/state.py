@@ -34,5 +34,6 @@ class state(osv.osv):
     _columns = {
         'city_ids':fields.many2many('res.city','state_city_rel','state_id','city_id','Cities',help="In this field selects the cities associated with the state\n"),
         'municipalities_ids': fields.one2many('res.municipality',"state_id",'State', required=True,help="In this field enter the name of the associated municipalities to the state"),
+        
     }
 state()
