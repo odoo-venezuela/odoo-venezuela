@@ -32,20 +32,20 @@ from tools import config
 
 class check_book_wizard(osv.osv):
     _name = "check.book.wizard"
-    _columns = {                                                                     
-    'check_book_id': fields.many2one('check.book', 'Check Book', required=False)     ,   
+    _columns = {
+    'check_book_id': fields.many2one('check.book', 'Check Book', required=False),
     'state_check_note': fields.selection([
-            ('sin_filtro','Sin Filtro')                             ,
-            ('cobrado','Cobrado')                                   ,
-            ('emitido','Emitido')                                   ,
-            ],'Check Note State', select=True, required=False)                     ,
+            ('sin_filtro','Without Filter'),
+            ('cobrado','Cashed'),
+            ('emitido','Issued'),
+            ],'Check Note State', select=True, required=False),
     'tiempo': fields.selection([
-            ('mes','Periodo Fiscal')                                ,
-            ('fecha','Fecha')                                       ,
-            ],'Time', select=True)                                ,
-    'desde': fields.date('From', required=False)                                   ,
-    'hasta': fields.date('To', required=False)                                   ,
-    'mes': fields.many2one('account.period', 'Period', required=False)          ,
+            ('mes','Fiscal Period'),
+            ('fecha','Date'),
+            ],'Time', select=True),
+    'desde': fields.date('From', required=False),
+    'hasta': fields.date('To', required=False),
+    'mes': fields.many2one('account.period', 'Period', required=False),
     }
 
     _rec_name='check_book_id' # esto es para no crear un atributo name

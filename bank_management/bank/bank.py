@@ -38,13 +38,19 @@ class Bank(osv.osv):
     '''
     _inherit = 'res.bank'
     _columns={
-        'min_lim':fields.float('Min. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True ),
-        'max_lim':fields.float('Max. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True ),
-        'format_h':fields.text('Format Check', required=True),
+        'min_lim':fields.float('Min. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True, help="Minimum amount for check"),
+        'max_lim':fields.float('Max. Limit', digits_compute= dp.get_precision('Bank'), readonly=False, required=True, help="Maximum amount for check"),
+        'format_h':fields.text('Format Check', required=True, help="Print format of check"),
     }
     
     def _check_bank(self,cr,uid,ids,context={}):
+        """
+        Check that the bank name is unique.
+        -------------------------------------------
+        Verifica que el nombre del banco sea único.
 
+        @return: return a boolean True if valid False if invalid
+        """
         obj_bank = self.browse(cr,uid,ids[0])
         cr.execute('select a.name from res_bank a')
         lista=cr.fetchall()
@@ -56,7 +62,13 @@ class Bank(osv.osv):
         return True
     
     def _check_lim(self,cr,uid,ids,context={}):
+        """
+        Check that the minimum limit of check note is less than maximum.
+        ----------------------------------------------------------------
+        Verifica que el límite mínimo del cheque sea menor al límite máximo.
 
+        @return: return a boolean True if valid False if invalid
+        """
         obj_bank = self.browse(cr,uid,ids[0])
         if obj_bank.min_lim > obj_bank.max_lim:
             return False
@@ -64,10 +76,10 @@ class Bank(osv.osv):
             return True
     
     _constraints = [
-        (_check_bank, 'Error ! Specified bank name already exists for any other registered bank. ', ['name'])                 ,
+        (_check_bank, 'Error ! Specified bank name already exists for any other registered bank. ', ['name']),
         (_check_lim, 'Error ! Minimum limit must be less than maximun limit', ['name'])
     ]
-        
+
 Bank()
 
 

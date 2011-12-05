@@ -40,12 +40,11 @@ class gral_check_book(osv.osv_memory):
             ('sin_filtro','Unfiltered'), 
             ('cobrado','Charged'),
             ('emitido','Issued')
-            ],'Check Note State', readonly=False, help="Estado del Cheque en Voucher"),        
-        'tiempo': fields.selection([('mes','Period'), ('fecha','Date')],'Time', readonly=False, help="Estado del Cheque en Voucher"),
+            ],'Check Note State', readonly=False, help="Check note state on voucher"),
+        'tiempo': fields.selection([('mes','Period'), ('fecha','Date')],'Time', readonly=False, help="period in which to generate the report"),
         'desde': fields.date('Starting Date', required=False),
         'hasta': fields.date('Ending Date', required=False),
-        'mes': fields.many2one('account.period', 'Period', required=False),        
-        
+        'mes': fields.many2one('account.period', 'Period', required=False),
     }
     _defaults = {
         'state_check_note': 'sin_filtro',

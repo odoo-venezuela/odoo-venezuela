@@ -38,8 +38,8 @@ class res_company(osv.osv):
     _inherit = "res.company"
     
     _columns = {
-    'expiry':fields.integer('Dias de Caducidad', readonly=False, required=True),
-    'transitory': fields.boolean('Cuenta Transitoria', help="Manejo de Cuentas Transitorias"),
+    'expiry':fields.integer('Expiration Days', readonly=False, required=True, help="Number of the days on which the check could be cashed"),
+    'transitory': fields.boolean('Transitory Account', help="Apply transitory account"),
     }
     _defaults = {
         'expiry': lambda *a: 30,

@@ -101,9 +101,9 @@ class check_note(osv.osv):
         note_books = self.browse(cr,uid,ids)
         for note in note_books:
             if note.cancel_check_note=='otros' and note.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field'))
+                raise osv.except_osv(_('Alert !'), _('Enter the Reason for Cancellation in other information field'))
             if note.cancel_check_note==False and note.notes==False:
-                raise osv.except_osv(_('Atencion !'), _('Enter the Reason for Cancellation in other information field'))
+                raise osv.except_osv(_('Alert !'), _('Enter the Reason for Cancellation in other information field'))
             else:
                 self.write(cr,uid,note.id,{'state' : 'cancel'})
 

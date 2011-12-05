@@ -43,13 +43,13 @@ class check_book_request(osv.osv):
     'accounting_bank_id':fields.many2one('res.partner.bank','Account Bank',required=True,
                           states={'draft':[('readonly',False)],
                                   'received':[('readonly',True)],
-                                  'send':[('readonly',True)]}),
+                                  'send':[('readonly',True)]}, help='Bank account to which belong the check book'),
     'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
     'agen_id':fields.related('accounting_bank_id', 'name',type='char', size=30, string='Bank Agency', store=True, readonly=True, help='The Bank Agency name must be load when saved it'),
     'partner_id': fields.many2one('res.partner', 'Authorized',required=True,
                    states={'draft':[('readonly',False)],
                            'received':[('readonly',True)],
-                           'send':[('readonly',True)]}),
+                           'send':[('readonly',True)]}, help='Person authorized to withdraw the checkbook'),
     'check_book_ids': fields.one2many('check.book', 'check_book_request_id', 'Check Books',required=True,
                       states={'draft':[('readonly',False)],
                               'received':[('readonly',True)],
@@ -68,16 +68,29 @@ class check_book_request(osv.osv):
     }
 
 
-    #cambia el estado del documento y se muestra el rml para impresion
     def get_enviar(self, cr, uid, ids, context={}):
+        """
+        Set the document state.
+        -------------------------------------------
+        Cambia el estado del documento.
+
+        @return: return a boolean True 
+        """
         book_request = self.browse(cr,uid,ids)
         for request in book_request:
             self.write(cr,uid,request.id,{'state' : 'send'})
 
         return True
 
-    #se cancelan las chequeras asociadas a la solicitud
+
     def get_anular(self, cr, uid, ids, context={}):
+        """
+        Cancel the check book on request.
+        -------------------------------------------
+        Se cancelan las chequeras asociadas a la solicitud.
+
+        @return: return a boolean True 
+        """
         book_request = self.browse(cr,uid,ids)
         for request in book_request:
             self.write(cr,uid,request.id,{'state' : 'cancel'})
@@ -87,8 +100,15 @@ class check_book_request(osv.osv):
                                                                    'notes' : 'Cancelacion de Chequera por Solicitud' })
         return True
 
-    #cambia el estado del documento a received, el estado draft en chequera y fecha de recepcion
+
     def get_received(self, cr, uid, ids, context={}):
+        """
+        Set the document state to received, the check book state to draft and date of receipt.
+        -------------------------------------------
+        Cambia el estado del documento a received, el estado draft en chequera y fecha de recepcion.
+
+        @return: return a boolean True 
+        """
         book_request = self.browse(cr,uid,ids)
         for request in book_request:
             self.write(cr,uid,request.id,{'state' : 'received'}) 
@@ -97,11 +117,20 @@ class check_book_request(osv.osv):
 
         return True
 
-    def onchange_accounting_bank_id(self, cr, uid, ids, accounting_bank_id): 
-        boock = self.pool.get('check.book').search(cr, uid, [('accounting_bank_id','=',accounting_bank_id),
+    def onchange_accounting_bank_id(self, cr, uid, ids, accounting_bank_id, context=None):
+        """
+        Returns a check book list without request belong to a bank account.
+        -------------------------------------------
+        Devuelve las chequeras sin solicitud pertenencientes a una cuenta bancaria.
+
+        @return: Returns a dict which contains new values, and context
+        """
+        if context is None:
+            context = {}
+        book = self.pool.get('check.book').search(cr, uid, [('accounting_bank_id','=',accounting_bank_id),
                                                               ('state', '=', 'request'),
                                                               ('check_book_request_id', '=', False)])
-        result = {'value': {'check_book_ids': boock} }
+        result = {'value': {'check_book_ids': book} }
         return result
 
     def copy(self, cr, uid, id, default=None, context=None):

@@ -43,7 +43,11 @@ class check_book(osv.osv):
     
     def _get_qty_active(self, cr, uid, ids, field_name, arg, context):
         '''
-        funcion para el calculo el numero de cheques disponibles
+        Get check note quantity available.
+        -----------------------------------------------------------
+        funcion para el calculo el numero de cheques disponibles.
+
+        @return: return a dictionary with quantity
         '''
         res={}
         for i in self.browse(cr,uid,ids):
@@ -52,11 +56,15 @@ class check_book(osv.osv):
             value=cr.fetchone()
             if value:
                 res[i.id]=value[0]
-        return  res       
+        return res
         
     def _get_qty_check_selection(self, cr, uid, ids, field_name, arg, context):
         '''
-        numero de cheques segun seleccion
+        Check note quantity list.
+        --------------------------------------------------------
+        numero de cheques segun seleccion.
+
+        @return: return a dictionary with total quantity of check note
         '''
         qty_chk = {
             '25': 25,
@@ -71,7 +79,11 @@ class check_book(osv.osv):
    
     def _get_rate_user(self, cr, uid, ids, field_name, arg, context):
         '''
-        funcion para el calculo el porcentaje de uso
+        Get percent used of checkbook.
+        ------------------------------------------------------
+        funcion para el calculo el porcentaje de uso.
+
+        @return: return a dictionary with use percent
         '''
         res={}
         for i in self.browse(cr,uid,ids):
@@ -101,14 +113,16 @@ class check_book(osv.osv):
     'accounting_bank_id':fields.many2one('res.partner.bank','Bank Account',required=True, readonly=True,
                         states={'request':[('readonly',False)],
                         'draft':[('readonly',True)],
-                        'review':[('readonly',True)]}), 
+                        'review':[('readonly',True)]}, help='bank account to which belong the check book'), 
     'bank_id':fields.related('accounting_bank_id','bank',type='many2one',relation='res.bank',string='Bank',store=True,readonly=True,help='The bank entity name must be load when saved it'),
     'from_suffix':fields.integer('From Suffix',  readonly=True,
-                  states={'request':[('readonly',True)]  ,
+                  states={'request':[('readonly',True)],
                           'draft':[('readonly',False), ('required',True)],
                           'review':[('readonly',False), ('required',True)],
-                          'active':[('readonly',True)]}) ,    
-    'to_suffix':fields.integer('To Suffix',readonly=True),
+                          'active':[('readonly',True)]}, help='the check note number format is prefix + suffix\n\
+                          beginning of the suffix'),
+    'to_suffix':fields.integer('To Suffix',readonly=True, help='the check note number format is prefix + suffix\n\
+                          ending of the suffix'),
     'state': fields.selection([
             ('request','Request'),
             ('draft','Draft'),
@@ -123,15 +137,15 @@ class check_book(osv.osv):
             ('50','50'),
             ('75','75'),
             ('100','100'),
-            ],'Check Number', select=True, readonly=True, required=True,
+            ],'Check Qty', select=True, readonly=True, required=True,
             states={'request':[('readonly',False)],
                  'draft':[('readonly',True)],
                  'review':[('readonly',True)],
                  'hibernate':[('readonly',True)],
                  'done':[('readonly',True)],
                  'cancel':[('readonly',True)],
-                 'active':[('readonly',True)]}),
-    'qty_check':fields.function(_get_qty_check_selection, method=True, type='integer', string='Check'),
+                 'active':[('readonly',True)]}, help='Quantity of check note will have the check book'),
+    'qty_check':fields.function(_get_qty_check_selection, method=True, type='integer', string='Check', help='Check note quantity of check book'),
     'fixed_prefix': fields.boolean('Fixed Prefix?', help="If the prefix of the number of checks is constant check this option",
                     states={'request':[('readonly',True)],
                     'draft':[('readonly',False)],
@@ -147,17 +161,18 @@ class check_book(osv.osv):
                     'hibernate':[('readonly',True)],
                     'cancel':[('readonly',True)],
                     'done':[('readonly',True)],
-                    'active':[('readonly',True)]}),
-    'date_draft': fields.date('Date Received', readonly=True),
-    'date_active': fields.date('Activation Date', required=False, readonly=True ),
-    'date_done': fields.date('Closing Date', required=False, readonly=True ),
+                    'active':[('readonly',True)]}, help='The check note number format is prefix + suffix, \n\
+                                if Fixed Prefix is true this number will be load to all check note'),
+    'date_draft': fields.date('Date Received', readonly=True, help='date of receipt of the checkbook'),
+    'date_active': fields.date('Activation Date', required=False, readonly=True, help='Date on which the check book status change to active'),
+    'date_done': fields.date('Closing Date', required=False, readonly=True, help='Date when the check book ran out of available check note or when cancel the check book'),
     'notes':fields.char('Note',size=256, required=False, readonly=False ,
                     states={'request':[('readonly',True)],
                     'draft':[('readonly',False)],
                     'review':[('readonly',False)],
                     'hibernate':[('readonly',False)],
                     'cancel':[('readonly',True)],
-                    'active':[('readonly',False)]}),
+                    'active':[('readonly',False)]}, help='Comments needed'),
     'cancel_check': fields.selection([
             ('perdida','Lost or misplaced'),
             ('dan_fis','Physical damage'),
@@ -169,7 +184,7 @@ class check_book(osv.osv):
                     'hibernate':[('readonly',False)],
                     'cancel':[('readonly',True)],
                     'done':[('readonly',True)],
-                    'active':[('readonly',False)]}),
+                    'active':[('readonly',False)]}, help='Grounds for cancellation'),
     'check_note_ids': fields.one2many('check.note', 'check_book_id', 'Checks',readonly=True,required=True,
                       states={'request':[('readonly',True)],
                               'draft':[('readonly',False)],
@@ -179,17 +194,26 @@ class check_book(osv.osv):
     'qty_active':fields.function(_get_qty_active, method=True, type='integer', string='Available Checks',
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix'], 20),
-                'check.note': (_get_chek_note, ['state'], 20),}),
+                'check.note': (_get_chek_note, ['state'], 20),}, help='Check note quantity on state active'),
     'rate_user': fields.function(_get_rate_user, method=True, type='float', digits_compute= dp.get_precision('Bank'), string='Use Rate',
              store={
                 'check.book': (lambda self, cr, uid, ids, c={}: ids, ['check_note_ids', 'suffix', 'prefix', 'qty_active'], 20),
-                'check.note': (_get_chek_note, ['state'], 20),}),
+                'check.note': (_get_chek_note, ['state'], 20),}, help='percent used a checkbook'),
     }
     _defaults = {
         'state': lambda *a: 'request',
     }
 
     def _check_long(self,cr,uid,ids, field):
+        '''
+        Check that the field must be between 0 and 9999.
+        ----------------------------------------------------------------
+        Verifica que el límite del campo se encuentre entre 0 y 9999.
+
+        :param field: name field to evaluate
+
+        @return: return a boolean True if valid False if invalid
+        '''
         obj = getattr(self.browse(cr,uid,ids[0]), field)
         if (obj <=9999) and (obj >= 0):
             return True
@@ -202,6 +226,14 @@ class check_book(osv.osv):
         return self._check_long(cr,uid,ids,'prefix')
 
     def _check_qty_check(self,cr,uid,ids):
+        '''
+        Check that the check note quantity have to be greater than zero.
+        ----------------------------------------------------------------
+        Verifica que la cantidad de cheques sea mayor a cero.
+
+
+        @return: return a boolean True if valid False if invalid
+        '''
         obj = getattr(self.browse(cr,uid,ids[0]), 'qty_check')
         if obj>0:
             return True
@@ -217,6 +249,14 @@ class check_book(osv.osv):
         (_check_qty_check, 'Error ! Check number must be greater than zero".', ['qty_check']),
     ]
     def load_check(self, cr, uid, ids, context={}):
+        '''
+        Load the check notes into check book.
+        -----------------------------------------------
+        Carga los cheques en la chequera.
+
+
+        @return: return a boolean True
+        '''
         res={}
         books = self.browse(cr,uid,ids)
         for book in books:
@@ -237,8 +277,12 @@ class check_book(osv.osv):
 
     def _get_name_check(self, cr, uid, ids, context):
         '''
+        Get the name of check note. The format is (bank name+code bank account+date_draft+from_suffix+to_suffix).
+        --------------------------------------------------------------------------------------------------------------
         funcion para obtener el nombre de la chequera concatenado. El campo va a ser la concatenacion de lo siguiente:
         Banco(nombre) + Cuenta(numero de la cuenta) + Fecha de recepcion(date_draft) + from + to.
+
+        @return: return a boolean True
         '''
         res={}
         for i in self.browse(cr,uid,ids):
@@ -248,6 +292,13 @@ class check_book(osv.osv):
         return name_check
     
     def review(self, cr, uid, ids, context={}):
+        '''
+        Set the state of check book to review.
+        ------------------------------------------------------
+        Establece el estado de la chequera a revisado.
+
+        @return: return a boolean True
+        '''
         #se calcula el to_suffix hasta
         books = self.browse(cr,uid,ids)
         for book in books:
@@ -274,6 +325,13 @@ class check_book(osv.osv):
 
     #activar, la primera vez
     def active(self, cr, uid, ids, context={}):
+        '''
+        Set the state of check book to active.
+        ------------------------------------------------------
+        Establece el estado de la chequera a activado.
+
+        @return: return a boolean True
+        '''
         books = self.browse(cr,uid,ids)
         for book in books:
             self.write(cr,uid,book.id,{'state' : 'active'})
@@ -284,6 +342,13 @@ class check_book(osv.osv):
         return True
 
     def hibernate(self, cr, uid, ids, context={}):
+        '''
+        Set the state of check book to hibernate.
+        ------------------------------------------------------
+        Establece el estado de la chequera a hibernado.
+
+        @return: return a boolean True
+        '''
         books = self.browse(cr,uid,ids)
         for book in books:
             self.write(cr,uid,book.id,{'state' : 'hibernate'})
@@ -295,6 +360,13 @@ class check_book(osv.osv):
 
     #para reactivar despues de hibernar
     def active_hibernate(self, cr, uid, ids, context={}):
+        '''
+        Set the check book state from hibernate to active.
+        ------------------------------------------------------
+        Establece el estado de la chequera de hibernado a activado.
+
+        @return: return a boolean True
+        '''
         books = self.browse(cr,uid,ids)
         for book in books:
             self.write(cr,uid,book.id,{'state' : 'active'})
@@ -305,6 +377,13 @@ class check_book(osv.osv):
         return True
 
     def anular(self, cr, uid, ids, context={}):
+        '''
+        Set the state of check book to cancel.
+        ------------------------------------------------------
+        Establece el estado de la chequera a cancelado.
+
+        @return: return a boolean True
+        '''
         books = self.browse(cr,uid,ids)
         for book in books:
             if book.cancel_check=='otros' and book.notes==False:
