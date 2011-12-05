@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-12-01 16:03+0000\n"
-"PO-Revision-Date: 2011-12-01 16:03+0000\n"
+"POT-Creation-Date: 2011-12-05 18:56+0000\n"
+"PO-Revision-Date: 2011-12-05 18:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,8 +47,8 @@ msgid "Check Book Report"
 msgstr "Reporte de chequera"
 
 #. module: bank_management
-#: code:addons/bank_management/check/check_book.py:311
-#: code:addons/bank_management/check/check_book.py:313
+#: code:addons/bank_management/check/check_book.py:390
+#: code:addons/bank_management/check/check_book.py:392
 #: code:addons/bank_management/check/check_note.py:104
 #: code:addons/bank_management/check/check_note.py:106
 #, python-format
@@ -72,9 +72,9 @@ msgid "check.book"
 msgstr "check.book"
 
 #. module: bank_management
-#: view:account.voucher:0
-msgid "Search Vouchers"
-msgstr "Buscar comprobantes"
+#: help:check.book,qty_active:0
+msgid "Check note quantity on state active"
+msgstr "Check note quantity on state active"
 
 #. module: bank_management
 #: report:chk.book.request:0
@@ -216,6 +216,11 @@ msgid "Write-Off Debit account"
 msgstr "Cuenta de ajuste a debitar"
 
 #. module: bank_management
+#: help:check.book,date_active:0
+msgid "Date on which the check book status change to active"
+msgstr "Fecha en la cual la chequera cambia su estado a activo"
+
+#. module: bank_management
 #: code:addons/bank_management/check/account_voucher_payment.py:134
 #, python-format
 msgid "Bad Total !"
@@ -302,6 +307,11 @@ msgid "Closing Date"
 msgstr "Fecha de cierre"
 
 #. module: bank_management
+#: help:check.book,accounting_bank_id:0
+msgid "bank account to which belong the check book"
+msgstr "Cuenta bancaria a la cual pertenece la chequera"
+
+#. module: bank_management
 #: field:cancel.voucher.pay.support,partner_id:0
 #: view:voucher.pay.support:0
 #: field:voucher.pay.support,partner_id:0
@@ -366,6 +376,11 @@ msgstr "Período"
 #: view:check.note:0
 msgid "Search Check Note"
 msgstr "Busqueda de cheque"
+
+#. module: bank_management
+#: view:account.voucher:0
+msgid "Search Vouchers"
+msgstr "Buscar comprobantes"
 
 #. module: bank_management
 #: report:cash_amount.3:0
@@ -455,9 +470,10 @@ msgid " Epson-compatible dot matrix printer (9 or 24 pi"
 msgstr " Epson-compatible dot matrix printer (9 or 24 pi"
 
 #. module: bank_management
-#: help:check.book.request,state:0
-msgid "Request check book state"
-msgstr "Estado en que se encuentra la solicitud"
+#: report:chk.book:0
+#: report:wizard.general.book:0
+msgid "THIS DOCUMENT IS NOT INTENDED TO BE USED AS FINAL DOCUMENT"
+msgstr "THIS DOCUMENT IS NOT INTENDED TO BE USED AS FINAL DOCUMENT"
 
 #. module: bank_management
 #: view:account.voucher:0
@@ -571,13 +587,12 @@ msgid "Physical damage"
 msgstr "Daño físico"
 
 #. module: bank_management
-#: report:chk.book:0
-#: report:wizard.general.book:0
-msgid "THIS DOCUMENT IS NOT INTENDED TO BE USED AS FINAL DOCUMENT"
-msgstr "THIS DOCUMENT IS NOT INTENDED TO BE USED AS FINAL DOCUMENT"
+#: help:check.book.request,state:0
+msgid "Request check book state"
+msgstr "Estado en que se encuentra la solicitud"
 
 #. module: bank_management
-#: code:addons/bank_management/check/check_book.py:313
+#: code:addons/bank_management/check/check_book.py:392
 #, python-format
 msgid "warning !"
 msgstr "advertencia !"
@@ -632,8 +647,8 @@ msgid "Acountig account associated to the bank account, it journal entries will 
 msgstr "Cuenta contable asociada a la cuenta bancaria, en donde se realizarán los asientos"
 
 #. module: bank_management
-#: code:addons/bank_management/check/check_book.py:311
-#: code:addons/bank_management/check/check_book_request.py:108
+#: code:addons/bank_management/check/check_book.py:390
+#: code:addons/bank_management/check/check_book_request.py:137
 #: code:addons/bank_management/check/check_note.py:130
 #, python-format
 msgid "Warning !"
@@ -815,7 +830,7 @@ msgid "Max Limit"
 msgstr "Limite Max"
 
 #. module: bank_management
-#: code:addons/bank_management/check/check_book.py:211
+#: code:addons/bank_management/check/check_book.py:243
 #, python-format
 msgid "Atencion !"
 msgstr "Atencion !"
@@ -898,6 +913,13 @@ msgstr "Anular Voucher de pago"
 #: help:print.lpr.option,cpi:0
 msgid "Sets the number of characters per inch"
 msgstr "Sets the number of characters per inch"
+
+#. module: bank_management
+#: help:check.book,prefix:0
+msgid "The check note number format is prefix + suffix, \n"
+"                                if Fixed Prefix is true this number will be load to all check note"
+msgstr "El formato del nro de cheque es prefijo + sufijo, \n"
+"                                Si es Prefijo fijo este nro. será cargado a todos los cheques"
 
 #. module: bank_management
 #: code:addons/bank_management/check/wizard/voucher_pay_support_wizard_pay_order.py:162
@@ -997,6 +1019,16 @@ msgstr "No.:"
 #: help:res.partner.bank,balance:0
 msgid "return the balance of accounting account"
 msgstr "devuelve el balance de la cuenta contable"
+
+#. module: bank_management
+#: help:check.book.request,accounting_bank_id:0
+msgid "Bank account to which belong the check book"
+msgstr "Cuenta bancaria a la cual pertenece la chequera"
+
+#. module: bank_management
+#: help:check.book,cancel_check:0
+msgid "Grounds for cancellation"
+msgstr "Causas que provocarón la anulación"
 
 #. module: bank_management
 #: field:account.voucher.line,amount_residual:0
@@ -1166,6 +1198,13 @@ msgstr "The orientation-requested option rotates the page depending on the value
 "6 - reverse portrait or upside-down orientation (180 degrees)"
 
 #. module: bank_management
+#: help:check.book,from_suffix:0
+msgid "the check note number format is prefix + suffix\n"
+"                          beginning of the suffix"
+msgstr "El formato del nro de cheque es prefijo + sufijo\n"
+"                          comienzo del sufijo"
+
+#. module: bank_management
 #: sql_constraint:account.journal:0
 msgid "The name of the journal must be unique per company !"
 msgstr "¡El nombre del diaro debe ser único por compañía!"
@@ -1190,11 +1229,6 @@ msgstr "Recibido (en palabras) :"
 #: report:cash_amount.3:0
 msgid "Banco"
 msgstr "Banco"
-
-#. module: bank_management
-#: field:res.company,header_report:0
-msgid "Report Header"
-msgstr "Report Header"
 
 #. module: bank_management
 #: report:cash_amount.3:0
@@ -1282,9 +1316,20 @@ msgid " ftp://mirror.switch.ch/mirror/ghost/gs5man_e.pdf "
 msgstr " ftp://mirror.switch.ch/mirror/ghost/gs5man_e.pdf "
 
 #. module: bank_management
+#: help:check.book,rate_user:0
+msgid "percent used a checkbook"
+msgstr "percent used a checkbook"
+
+#. module: bank_management
 #: selection:check.book.wizard,state_check_note:0
 msgid "Without Filter"
 msgstr "Without Filter"
+
+#. module: bank_management
+#: report:chk.book:0
+#: report:wizard.general.book:0
+msgid "CHECK BOOK REPORT"
+msgstr "CHECK BOOK REPORT"
 
 #. module: bank_management
 #: code:addons/bank_management/check/voucher_pay_support.py:140
@@ -1395,6 +1440,16 @@ msgid "Pagado"
 msgstr "Pagado"
 
 #. module: bank_management
+#: help:check.book,qty_check:0
+msgid "Check note quantity of check book"
+msgstr "Check note quantity of check book"
+
+#. module: bank_management
+#: help:check.book,qty_check_selection:0
+msgid "Quantity of check note will have the check book"
+msgstr "Cantidad de cheques que poseera la chequera"
+
+#. module: bank_management
 #: field:cancel.voucher.pay.support,bool_good:0
 #: field:voucher.pay.support.wizard,bool_good:0
 msgid "Printed"
@@ -1417,6 +1472,11 @@ msgid "Particulares"
 msgstr "Particulares"
 
 #. module: bank_management
+#: help:check.book.request,partner_id:0
+msgid "Person authorized to withdraw the checkbook"
+msgstr "Persona autorizda a retirar la chequera"
+
+#. module: bank_management
 #: field:cancel.voucher.pay.support,check_note_id:0
 #: field:voucher.pay.support.wizard,check_note_id:0
 msgid "Check No"
@@ -1428,9 +1488,9 @@ msgid "Payment Made"
 msgstr "Pagado"
 
 #. module: bank_management
-#: view:account.voucher:0
-msgid "To Review"
-msgstr "A revisar"
+#: report:cash_amount.3:0
+msgid "Monto"
+msgstr "Monto"
 
 #. module: bank_management
 #: help:print.model.reports,num_copies:0
@@ -1499,9 +1559,11 @@ msgid "You must enter Account Bank Transitional: %s"
 msgstr "Debe introducir una cuenta bancaria transitoria: %s"
 
 #. module: bank_management
-#: help:print.lpr.option,lpi:0
-msgid "Sets the number of lines per inch"
-msgstr "Sets the number of lines per inch"
+#: code:addons/bank_management/check/report/reporte_check_book.py:121
+#: code:addons/bank_management/check/report/reporte_wizard_general.py:196
+#, python-format
+msgid "Hibernate Check book"
+msgstr "Hibernar chequera"
 
 #. module: bank_management
 #: selection:voucher.pay.support,type:0
@@ -1598,9 +1660,9 @@ msgid "Assigned"
 msgstr "Asignado"
 
 #. module: bank_management
-#: report:cash_amount.3:0
-msgid "Monto"
-msgstr "Monto"
+#: field:res.company,header_report:0
+msgid "Report Header"
+msgstr "Report Header"
 
 #. module: bank_management
 #: code:addons/bank_management/check/report/reporte_check_book.py:64
@@ -1652,6 +1714,11 @@ msgid "expiration days"
 msgstr "Días de caducidad"
 
 #. module: bank_management
+#: help:check.book,date_draft:0
+msgid "Date of receipt of the checkbook"
+msgstr "Fecha de recepción de la chequera"
+
+#. module: bank_management
 #: field:cancel.voucher.pay.support,max_lim:0
 #: field:voucher.pay.support.wizard,max_lim:0
 msgid "Max Limit (Bs.)"
@@ -1698,8 +1765,8 @@ msgid "Set the states to used for allow the printing of the document. States mus
 msgstr "Set the states to used for allow the printing of the document. States must be separated by commas and no spaces. Example: draft,open,done. The state field must be defined in the model as state"
 
 #. module: bank_management
-#: code:addons/bank_management/check/check_book.py:211
-#: code:addons/bank_management/check/check_book_request.py:108
+#: code:addons/bank_management/check/check_book.py:243
+#: code:addons/bank_management/check/check_book_request.py:137
 #, python-format
 msgid "you can not duplicate this document!!!"
 msgstr "Ud. no puede duplicar este documento!!!"
@@ -2060,6 +2127,11 @@ msgid "check generation"
 msgstr "Generación de cheque"
 
 #. module: bank_management
+#: view:account.voucher:0
+msgid "To Review"
+msgstr "A revisar"
+
+#. module: bank_management
 #: help:res.company,header_report:0
 msgid "Set the header to place the report when it is not suitable for print"
 msgstr "Set the header to place the report when it is not suitable for print"
@@ -2110,6 +2182,11 @@ msgid "Check Number"
 msgstr "No. cheques"
 
 #. module: bank_management
+#: help:check.book,date_done:0
+msgid "Date when the check book ran out of available check note or when cancel the check book"
+msgstr "Fecha cuando la chequera se queda sin cheques disponibles o cuano se anula la chequera"
+
+#. module: bank_management
 #: model:ir.actions.report.xml,name:bank_management.report_chk_book_request
 msgid "Request Check Note"
 msgstr "Solicitud de Cheque"
@@ -2141,11 +2218,9 @@ msgid ":"
 msgstr ":"
 
 #. module: bank_management
-#: code:addons/bank_management/check/report/reporte_check_book.py:121
-#: code:addons/bank_management/check/report/reporte_wizard_general.py:196
-#, python-format
-msgid "Hibernate Check book"
-msgstr "Hibernar chequera"
+#: help:print.lpr.option,lpi:0
+msgid "Sets the number of lines per inch"
+msgstr "Sets the number of lines per inch"
 
 #. module: bank_management
 #: field:cancel.voucher.pay.support,bool_bad:0
@@ -2182,10 +2257,9 @@ msgid "Journal Items"
 msgstr "Apuntes contables"
 
 #. module: bank_management
-#: report:chk.book:0
-#: report:wizard.general.book:0
-msgid "CHECK BOOK REPORT"
-msgstr "CHECK BOOK REPORT"
+#: help:check.book,notes:0
+msgid "Comments needed"
+msgstr "Comments needed"
 
 #. module: bank_management
 #: model:ir.actions.act_window,name:bank_management.action_res_partner_bank
@@ -2319,4 +2393,11 @@ msgstr "Monto en letras:"
 #: view:res.partner.bank:0
 msgid "Account Properties"
 msgstr "Propiedades Contables"
+
+#. module: bank_management
+#: help:check.book,to_suffix:0
+msgid "the check note number format is prefix + suffix\n"
+"                          ending of the suffix"
+msgstr "El formato del nro de cheque es prefijo + sufijo\n"
+"                          Finalización del sufijo"
 
