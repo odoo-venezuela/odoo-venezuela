@@ -166,60 +166,104 @@ class account_wh_iva(osv.osv):
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
 
-        for ret in self.browse(cr, uid, ids, context):
-            for line in ret.wh_lines:
-                if line.move_id or line.invoice_id.wh_iva:
-                    raise osv.except_osv(_('Invoice already withhold !'),\
-                    _("You must omit the follow invoice '%s' !") %\
-                    (line.invoice_id.name,))
-                    return False
+        ret = self.browse(cr, uid, ids[0], context)
+        for line in ret.wh_lines:
+            if line.move_id or line.invoice_id.wh_iva:
+                raise osv.except_osv(_('Invoice already withhold !'),\
+                _("You must omit the follow invoice '%s' !") %\
+                (line.invoice_id.name,))
 
-            acc_id = ret.account_id.id
+        acc_id = ret.account_id.id
 
-            period_id = ret.period_id and ret.period_id.id or False
-            journal_id = ret.journal_id.id
+        period_id = ret.period_id and ret.period_id.id or False
+        journal_id = ret.journal_id.id
+        if not period_id:
+            per_obj = self.pool.get('account.period')
+            period_id = per_obj.find(cr, uid,ret.date_ret or time.strftime('%Y-%m-%d'))
+            period_id = per_obj.search(cr,uid,[('id','in',period_id),('special','=',False)])
+            print 'period_id ',period_id
             if not period_id:
-                period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
-                if len(period_ids):
-                    period_id = period_ids[0]
-            if ret.wh_lines:
-                for line in ret.wh_lines:
-                    writeoff_account_id,writeoff_journal_id = False, False
-                    amount = line.amount_tax_ret
-                    if line.invoice_id.type in ['in_invoice','in_refund']:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
-                    else:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(line.invoice_id.number)) or '')
-                    
-                    context.update({'vat_wh':True})
-                    ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
-                            amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, ret.date_ret, name,line.tax_line, context)
-                    # make the withholding line point to that move
-                    rl = {
-                        'move_id': ret_move['move_id'],
-                    }
-                    lines = [(1, line.id, rl)]
-                    self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
+                raise osv.except_osv(_('Missing Periods!'),\
+                _("There are not Periods created for the pointed day: %s!") %\
+                (ret.date_ret or time.strftime('%Y-%m-%d')))
+            period_id = period_id[0]
+        print 'ANTES DE LAS wh_lines'
+        if ret.wh_lines:
+            print 'wh_lines 192'
+            for line in ret.wh_lines:
+                print 'wh_lines 194'
+                writeoff_account_id,writeoff_journal_id = False, False
+                amount = line.amount_tax_ret
+                if line.invoice_id.type in ['in_invoice','in_refund']:
+                    name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
+                else:
+                    name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(line.invoice_id.number)) or '')
+                
+                context.update({'vat_wh':True})
+                ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
+                        amount, acc_id, period_id, journal_id, writeoff_account_id,
+                        period_id, writeoff_journal_id, ret.date_ret, name,line.tax_line, context)
+                # make the withholding line point to that move
+                rl = {
+                    'move_id': ret_move['move_id'],
+                }
+                lines = [(1, line.id, rl)]
+                self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
+    
         return True
 
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
+        if context is None: context = {}
+            
         acc_id = False
+        res = {}
+        inv_obj = self.pool.get('account.invoice')
+        
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable.id
+                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable.id
-
-        self._update_check(cr, uid, ids, partner_id)
-        result = {'value': {
-            'account_id': acc_id}
+                acc_id = p.property_account_payable and p.property_account_payable.id or False
+        #~ BEGIN DELETE
+        #~ self._update_check(cr, uid, ids, partner_id)
+        #~ END DELETE
+        
+        wh_line_obj = self.pool.get('account.wh.iva.line')
+        wh_lines = ids and wh_line_obj.search(cr, uid, [('retention_id', '=', ids[0])]) or False
+        print 'wh_lines ', wh_lines
+        res_wh_lines = []
+        if wh_lines:
+            print 'UNLINKING'
+            wh_line_obj.unlink(cr, uid, wh_lines)
+        
+        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',partner_id)],context=context)
+        
+        print 'inv_ids ', inv_ids
+        if inv_ids:
+            #~ Get only the invoices which are not in a document yet
+            inv_ids = [i for i in inv_ids if not wh_line_obj.search(cr, uid, [('invoice_id', '=', i)])]
+            
+        if inv_ids:
+            res_wh_lines = [{'invoice_id':inv_brw.id,'name':inv_brw.name} for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
+        
+        res = {'value': {
+            'account_id': acc_id,
+            'wh_lines':res_wh_lines}
         }
 
-        return result
+        return res
 
+    #~ ##########################################
+    #~ BEGIN DELETE 
+    #~ ##########################################
+    #~ ESTO SE DEBE BORRAR SI EN EL ONCHANGE 
+    #~ DEL DOCUMENTO YA SE ESTA CONSIDERANDO
+    #~ EL BORRADO DE LOS DOCUMENTOS QUE ESTABAN
+    #~ PREVIAMENTE
+    #~ ##########################################
+    
     def _update_check(self, cr, uid, ids, partner_id, context={}):
         if ids:
             ret = self.browse(cr, uid, ids[0])
@@ -232,6 +276,11 @@ class account_wh_iva(osv.osv):
                 raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
 
         return True
+
+    #~ ##########################################
+    #~ END DELETE 
+    #~ ##########################################
+
 
     def _new_check(self, cr, uid, values, context={}):
         lst_inv = []
@@ -296,19 +345,104 @@ class account_wh_iva(osv.osv):
     
 account_wh_iva()
 
+class account_wh_iva_line_tax(osv.osv):
+    
+    def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
+        if context is None: context=None
+        res = {}
+        
+        awilt_brw = self.browse(cr, uid, ids, context=context)
+        
+        for each in awilt_brw:
+            #~ TODO: THIS NEEDS REFACTORY IN ORDER TO COMPLY WITH THE SALE WITHHOLDING
+            res[each.id] = each.amount * each.wh_vat_line_id.retention_id.partner_id.wh_iva_rate /100.0
+        return res
+    
+    _name = 'account.wh.iva.line.tax'
+    _columns = {
+        'inv_tax_id': fields.many2one('account.invoice.tax', 'Invoice Tax', required=True, ondelete='set null', help="Tax Line"),
+        'wh_vat_line_id':fields.many2one('account.wh.iva.line', 'Withholding VAT Line', required=True, ondelete='cascade',),
+        'tax_id': fields.related('inv_tax_id', 'tax_id', type='many2one',relation='account.tax', string='Tax', store=True, select=True, readonly=True, ondelete='set null'),
+        'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null'),
+        'base': fields.related('inv_tax_id', 'base', type='float', string='Tax Base', store=True, select=True, readonly=True, ondelete='set null'),
+        'amount': fields.related('inv_tax_id', 'amount', type='float', string='Taxed Amount', store=True, select=True, readonly=True, ondelete='set null'),
+        # Otro campo related
+        'company_id': fields.related('inv_tax_id', 'company_id', type='many2one',relation='res.company', string='Company', store=True, select=True, readonly=True, ondelete='set null'),
+        'amount_ret': fields.function(
+            _get_amount_ret,
+            method=True,
+            type='float',
+            string='Withheld Taxed Amount',
+            digits_compute= dp.get_precision('Withhold'), 
+            help="Withholding vat amount"),
+        #~ 'amount_ret': fields.float('Withheld Taxed Amount', digits_compute= dp.get_precision('Withhold'), help="Withholding vat amount"),
 
+
+
+    }
+
+account_wh_iva_line_tax()
 
 class account_wh_iva_line(osv.osv):
+    
+    ####################################################################
+    #~ ESTO SE DEBE BORRAR UNA VEZ QUE SE TERMINE
+    #~ DE DEFINIR LA EXISTENCIA DE LAS LINEAS NUEVAS PARA RETENCION
+    ####################################################################
+    
     def _compute_tax_lines(self, cr, uid, ids, name, args, context=None):
-        result = {}
+        if context is None: context = {}
+        res = {}
+        awilt_obj = self.pool.get('account.wh.iva.line.tax')
         for ret_line in self.browse(cr, uid, ids, context):
             lines = []
             if ret_line.invoice_id:
-                ids_tline = ret_line.invoice_id.tax_line
-                lines = map(lambda x: x.id, ids_tline)
-            result[ret_line.id] = lines
-        return result
+                tax_ids = [i.id for i in ret_line.invoice_id.tax_line if i.tax_id and i.tax_id.ret]
+                print 'tax_ids ',tax_ids
+                for i in tax_ids:
+                    lines.append(awilt_obj.create(cr, uid, {
+                            'inv_tax_id':i,
+                            'wh_vat_line_id':ret_line.id
+                                                }, context=context))
+                #~ ids_tline = ret_line.invoice_id.tax_line
+                #~ lines = map(lambda x: x.id, ids_tline)
+                print 'lines ', lines
+            res[ret_line.id] = lines
+        return res
 
+    def load_taxes(self, cr, uid, ids, context=None):
+        if context is None: context = {}
+        res = {}
+        awilt_obj = self.pool.get('account.wh.iva.line.tax')
+        for ret_line in self.browse(cr, uid, ids, context):
+            lines = []
+            if ret_line.invoice_id:
+                
+                tax_lines = awilt_obj.search(cr, uid, [('wh_vat_line_id', '=', ret_line.id)])
+                print 'tax_lines ', tax_lines
+                res_wh_lines = []
+                if tax_lines:
+                    print 'UNLINKING'
+                    awilt_obj.unlink(cr, uid, tax_lines)
+                
+                
+                tax_ids = [i.id for i in ret_line.invoice_id.tax_line if i.tax_id and i.tax_id.ret]
+                print 'tax_ids ',tax_ids
+                for i in tax_ids:
+                    lines.append(awilt_obj.create(cr, uid, {
+                            'inv_tax_id':i,
+                            'wh_vat_line_id':ret_line.id
+                                                }, context=context))
+                #~ ids_tline = ret_line.invoice_id.tax_line
+                #~ lines = map(lambda x: x.id, ids_tline)
+                print 'lines ', lines
+            res[ret_line.id] = lines
+        return True
+
+    ####################################################################
+    #~ FIN DEL BORRADO
+    ####################################################################
+    
     def _amount_all(self, cr, uid, ids, name, args, context=None):
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
@@ -338,7 +472,13 @@ class account_wh_iva_line(osv.osv):
         'name': fields.char('Description', size=64, required=True, help="Withholding line Description"),
         'retention_id': fields.many2one('account.wh.iva', 'Withholding vat', ondelete='cascade', help="Withholding vat"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
-        'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.invoice.tax', type="one2many", string='Taxes', help="Invoice taxes"),
+        #########################################
+        #~ REDEFINIENDO EL CAMPO TAX LINE,
+        #~ AHORA SERA UN NUEVO MODELO EL QUE LLEVARA A CABO TAL TAREA
+        'tax_line': fields.one2many('account.wh.iva.line.tax','wh_vat_line_id', string='Taxes', help="Invoice taxes"),
+        #~ 'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.wh.iva.line.tax', type="one2many", string='Taxes', help="Invoice taxes",store = {'account.wh.iva.line': (lambda  self, cr, uid, ids, c={}: ids,['invoice_id'],15)}),
+        #~ 'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.invoice.tax', type="one2many", string='Taxes', help="Invoice taxes"),
+        #########################################
         'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
 #        'retention_rate': fields.function(_retention_rate, method=True, string='Wh. rate', type='float', help="Withholding rate"),
