@@ -76,22 +76,24 @@ class cancel_voucher_pay_support(osv.osv_memory):
 
    
     def action_cheque(self, cr, uid, ids, context=None):
-        this = self.browse(cr, uid, ids[0])
+        obj = self.browse(cr, uid, ids[0])
         created_account_voucher = []  
         account_voucher=self.pool.get('account.voucher')
         account_voucher_line=self.pool.get('account.voucher.line') 
         id=context["active_id"] 
         acount_voucher_id=account_voucher.search(cr, uid, [('voucher_pay_support_id','=',id)]) [0]
         obj_acount_voucher=account_voucher.browse(cr, uid, acount_voucher_id, context=None)
-        
+        voucher_type='refund_payment'
+        if obj_acount_voucher.type=='receipt':
+            voucher_type='refund_receipt'
         voucher_pay_support=self.pool.get('voucher.pay.support')
         obj_voucher_pay_support=voucher_pay_support.browse(cr, uid, id, context=None)
         
 
-        fecha=this.date
-        periodo=this.period_id.id
-        cancelar=this.cancel_check_note
-        nota=this.notes
+        fecha=obj.date
+        periodo=obj.period_id.id
+        cancelar=obj.cancel_check_note
+        nota=obj.notes
         if nota==False:
             cancelar1=" "
             if cancelar=="print":
@@ -121,7 +123,7 @@ class cancel_voucher_pay_support(osv.osv_memory):
                 #se crea el nuevo documento de comprobante diario
                 account_voucher_id=account_voucher.create(cr, uid,{
                                 'name': name                                                ,
-                                'type': 'journal_voucher'                                   ,
+                                'type': voucher_type                                   ,
                                 'date': fecha                                               ,       
                                 'journal_id':obj_acount_voucher.journal_id.id               , 
                                 'account_id':obj_voucher_pay_support.accounting_bank_id.trans_account_id.id  ,
@@ -135,15 +137,14 @@ class cancel_voucher_pay_support(osv.osv_memory):
                                 'partner_id': obj_acount_voucher.partner_id.id              , 
                                 'payee_id': obj_acount_voucher.payee_id.id                  ,                                                                                    
                                 },context=None)  
-                for line in obj_acount_voucher.payment_ids:    
+                for line in obj_acount_voucher.line_ids:    
                     account_voucher_line_id=account_voucher_line.create(cr, uid,{
                                     'voucher_id':account_voucher_id                   ,
                                     'name': line.name                                 ,
                                     'account_id': line.account_id.id                  ,       
                                     'partner_id': line.partner_id.id                  , 
                                     'amount': line.amount                             ,
-                                    'type': 'cr'                                      , 
-                                    'ref':line.ref                                    ,
+                                    'type': 'cr'                                      ,
                                     'account_analytic_id': line.account_analytic_id   ,                                                                                  
                                     },context=None)                     
                                                 
@@ -158,7 +159,7 @@ class cancel_voucher_pay_support(osv.osv_memory):
             #se crea el nuevo documento de comprobante diario
             account_voucher_id=account_voucher.create(cr, uid,{
                             'name': name                                        ,
-                            'type': 'journal_voucher'                           ,
+                            'type': voucher_type                           ,
                             'date': fecha                                       ,       
                             'journal_id':obj_acount_voucher.journal_id.id       , 
                             'account_id':obj_acount_voucher.account_id.id       ,
@@ -173,27 +174,26 @@ class cancel_voucher_pay_support(osv.osv_memory):
                             'payee_id': obj_acount_voucher.payee_id.id          ,                                                                                    
                             },context=None)  
 
-            for line in obj_acount_voucher.payment_ids:    
+            for line in obj_acount_voucher.line_ids:    
                 account_voucher_line_id=account_voucher_line.create(cr, uid,{
                                 'voucher_id':account_voucher_id                   ,
                                 'name': line.name                                 ,
                                 'account_id': line.account_id.id                  ,       
                                 'partner_id': line.partner_id.id                  , 
                                 'amount': line.amount                             ,
-                                'type': 'cr'                                      , 
-                                'ref':line.ref                                    ,
+                                'type': 'cr'                                      ,
                                 'account_analytic_id': line.account_analytic_id   ,                                                                                  
                                 },context=None) 
-            xml_id = 'action_view_jour_voucher_form'
+            xml_id = 'action_voucher_list'
 
         #se cambia el documento a estado a cancel
         voucher_pay_support.write(cr,uid,id,
                                   {'state' : 'cancel' , 
-                                   'cancel_check_note': this.cancel_check_note , 
-                                   'notes':this.notes, 
+                                   'cancel_check_note': obj.cancel_check_note , 
+                                   'notes':obj.notes, 
                                    'return_voucher_id':account_voucher_id})
         #se cambia el cheque a estado cancelado
-        self.pool.get('check.note').write(cr,uid,obj_voucher_pay_support.check_note_id.id,{'state' : 'cancel', 'cancel_check_note':this.cancel_check_note, 'notes':this.notes })
+        self.pool.get('check.note').write(cr,uid,obj_voucher_pay_support.check_note_id.id,{'state' : 'cancel', 'cancel_check_note':obj.cancel_check_note, 'notes':obj.notes })
 
         #Se redirecciona la ventana al tree
         mod_obj = self.pool.get('ir.model.data')

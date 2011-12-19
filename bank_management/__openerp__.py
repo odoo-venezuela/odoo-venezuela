@@ -51,7 +51,7 @@
     6.- Create support (click button)
     """,
     'init_xml': [],
-    "depends" : ["base", "account", "account_voucher", "account_voucher_multi_partner", "l10n_ve_withholding_iva"],
+    "depends" : ["base", "account", "account_voucher", "account_voucher_multi_partner", "l10n_ve_withholding_iva", "account_voucher_patch"],
     'update_xml': [
         'bank_management_data.xml',
         'bank_management_menu.xml',

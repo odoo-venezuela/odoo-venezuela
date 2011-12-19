@@ -31,7 +31,7 @@
                         <field name="journal_id" on_change= "onchange_journal_multi_partner(journal_id)"
                             domain="[('type','in',['bank', 'cash'])]"
                             widget="selection" select="1"
-                            string="Payment Method"/>
+                            string="Payment Method" invisible="1"/>
                         <field name="amount"
                             string="Paid Amount"/>
                         <field name="date" select="1"/>
@@ -39,7 +39,7 @@
                         <field name="name" colspan="2"/>
                         <field name="company_id" select="1" widget="selection" groups="base.group_multi_company"/>
                         <field name="account_id"
-                            widget="selection"/>
+                            widget="selection" invisible="1"/>
                         <field name="pre_line" invisible="1"/>
                         <field name="type" invisible="False"/>
                         <field name="multi_partner" invisible="True"/>
@@ -48,8 +48,8 @@
                         <page string="Payment Information">
                             <field name="line_cr_ids" default_get="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" colspan="4" nolabel="1" height="140" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount)" domain="[('voucher_id','=',False), ('partner_id','=',partner_id) ]">
                                 <tree string="Invoices and outstanding transactions" editable="bottom">
-                                    <field name="partner_id" domain="[('customer','=',True)]" required="1" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)"/>
-                                    <field name="invoice_id" widget='many2one' domain="[('partner_id','=',partner_id)]" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)"/>
+                                    <field name="partner_id" domain="[('customer','=',True),('id','=',parent.partner_id)]" required="1" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)"/>
+                                    <field name="invoice_id" widget='many2one' domain="[('partner_id','=',partner_id), ('state','=','open')]" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)"/>
                                     <field name="account_id"  groups="base.group_no_one" domain="[('type','=','receivable')]"/>
                                     <field name="date_original" readonly="1"/>
                                     <field name="date_due" readonly="1"/>
@@ -190,16 +190,16 @@
                         <field name="amount"/>
                         <field name="journal_id"
                             domain="[('type','in',['bank', 'cash'])]"
-                            widget="selection" select="1"
+                            widget="selection"
                             on_change="onchange_journal_multi_partner(journal_id)"
-                            string="Payment Method"/>
+                            string="Payment Method" invisible="True"/>
                         <field name="date" select="1" on_change="onchange_date_multi_partner(journal_id, date)"/>
                         <field name="reference" select="1" string="Payment Ref"/>
                         <field name="name" colspan="2"/>
                         <field name="company_id" select="1" widget="selection" groups="base.group_multi_company"/>
                         <field name="account_id"
                             widget="selection"
-                            invisible="False"/>
+                            invisible="True"/>
                         <field name="pre_line" invisible="1"/>
                         <field name="type" invisible="True"/>
                         <field name="multi_partner" invisible="True"/>
@@ -208,8 +208,8 @@
                         <page string="Payment Information">
                             <field name="line_dr_ids" default_get="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" colspan="4" nolabel="1" height="140" domain="[('voucher_id','=',False), ('partner_id','=',partner_id) ]">
                                 <tree string="Supplier Invoices and Outstanding transactions" editable="bottom">
-                                    <field name="partner_id" domain="[('supplier','=',True)]" required="1" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)" string="Supplier"/>
-                                    <field name="invoice_id" widget='many2one' domain="[('partner_id','=',partner_id)]" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)"/>
+                                    <field name="partner_id" domain="[('supplier','=',True), ('id','=',parent.partner_id)]" required="1" on_change="onchange_partner_id(parent.partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)" string="Supplier"/>
+                                    <field name="invoice_id" widget='many2one' domain="[('partner_id','=',partner_id), ('state','=','open')]" on_change="onchange_partner_id(partner_id, parent.journal_id, parent.amount, parent.currency_id, parent.type, invoice_id, context)"/>
                                     <field name="account_id" groups="base.group_no_one" domain="[('type','=','payable')]"/>
                                     <field name="date_original" readonly="1"/>
                                     <field name="date_due" readonly="1"/>

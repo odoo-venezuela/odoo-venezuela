@@ -87,6 +87,14 @@ class account_voucher(osv.osv):
 
     _columns={
         'one_partner':fields.boolean('One Supplier or Customer ?', required=False, help="Check this box if there only one supplier or customer for this voucher"),
+        'type':fields.selection([
+            ('sale','Sale'),
+            ('purchase','Purchase'),
+            ('payment','Payment'),
+            ('receipt','Receipt'),
+            ('refund_payment','Payment Refund'),
+            ('refund_receipt','Receipt Refund'),
+        ],'Default Type', readonly=True, states={'draft':[('readonly',False)]}),
     }
 
     def onchange_journal_id(self, cr, uid, ids, journal_id, type,context=None):
