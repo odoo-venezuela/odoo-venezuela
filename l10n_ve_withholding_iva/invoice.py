@@ -142,9 +142,11 @@ class account_invoice(osv.osv):
         return lines
 
     def wh_iva_line_create(self, cr, uid, inv):
+        wh_iva_rate = inv.type in ('in_invoice', 'in_refund') and inv.partner_id.wh_iva_rate or inv.type in ('out_invoice', 'out_refund') and inv.company_id.partner_id.wh_iva_rate
         return (0, False, {
             'name': inv.name or inv.number,
             'invoice_id': inv.id,
+            'wh_iva_rate': wh_iva_rate,
         })
 
     def action_wh_iva_create(self, cr, uid, ids, *args):

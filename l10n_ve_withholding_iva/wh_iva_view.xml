@@ -18,8 +18,7 @@
                     <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
-                    <field name="amount_base_wh"/>
-                    <field name="amount_tax_wh"/>
+                    <field name="wh_iva_rate" />
                     <field name="tax_line"/>
                     <field name="move_id"/>
                 </tree>
@@ -33,7 +32,7 @@
             <field name="arch" type="xml">
                 <form string="Withholding Lines">
                     <notebook>
-                        <page string="Line">
+                        <page string="Withheld Invoice">
                             <field name="invoice_id"  colspan="2" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
                             <field colspan="2" name="name" select="1"/>
                             <group col="1" colspan="4">
@@ -48,20 +47,37 @@
                                         <field  colspan="4" name="name"/>
                                         <field name="base" />
                                         <field name="amount" />
-                                        <field  colspan="4" name="amount_ret" />
+                                        <field name="amount_ret" />
                                         <field name="company_id" />
                                     </form>
                                 </field>
                             </group>
-                            <field name="move_id"/>
+                            <separator colspan='4'/>
+                            <field name="wh_iva_rate" colspan='2' invisible='True'/>
                             <group col="2" colspan="2">
-                                <field name="amount_tax_ret"/>
-                                <field name="base_ret"/>
-                                <field name="amount_base_wh"/>
-                                <field name="amount_tax_wh"/>
+                                <label
+                                    string='Please, if there are not taxes loaded, Click on Load Taxes'
+                                    colspan='2'
+                                     />
+                                <vpaned/>
+                                <field colspan='2' name="move_id"/>
                             </group>
-                            <button name="check_a_retention" string="Validate Amount Retention" type="object"  icon="gtk-ok"/>
-                            <button name="load_taxes" string="Load Taxes" type="object"  icon="gtk-ok"/>
+                            <group col="2" colspan="2">
+                                <group col="2" colspan="2">
+                                    <button
+                                        name="load_taxes" 
+                                        string="Load Taxes" 
+                                        type="object"  
+                                        icon="gtk-ok"
+                                        colspan='2'
+                                        />
+                                </group>
+                                <separator/>
+                                <group col="2" colspan="2">
+                                    <field name="amount_tax_ret" colspan='2'/>
+                                    <field name="base_ret" colspan='2' />
+                                </group>
+                            </group>
                         </page>
                     </notebook>
                 </form>
@@ -160,8 +176,12 @@
                                 <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>
                                 <field name="amount_base_ret"/>
                                 <field name="total_tax_ret"/>
+<!--
                                 <field name="tot_amount_base_wh" groups='l10n_ve_withholding_iva.group_account_wh_iva_manager'/>
+-->
+<!--
                                 <field name="tot_amount_tax_wh" groups='l10n_ve_withholding_iva.group_account_wh_iva_manager'/>
+-->
                             </group>
                         </page>
                         <page string="Other Information">
@@ -201,10 +221,14 @@
                                 <button name="wh_iva_done" states="draft" string="Realize" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
-<!--                                <field name="amount_base_ret"/>                           -->
-<!--                                <field name="total_tax_ret"/>-->
+                                <field name="amount_base_ret"/>                           
+                                <field name="total_tax_ret"/>
+<!--
                                 <field name="tot_amount_base_wh"/>
+-->
+<!--
                                 <field name="tot_amount_tax_wh"/>
+-->
                             </group>
                         </page>
                         <page string="Other Information">
