@@ -34,6 +34,24 @@ class account_invoice(osv.osv):
         'parent_id':fields.many2one('account.invoice', 'Parent Invoice', readonly=True, states={'draft':[('readonly',False)]}, help='When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note.'),
         'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
     }
+    
+    
+    def _refund_cleanup_lines(self, cr, uid, lines):
+        """
+        Metodo created to clean invoice lines
+        """
+        for line in lines:
+            del line['id']
+            del line['invoice_id']
+            #TODO Verify one more elegant way to do this
+            for field in ('company_id', 'partner_id', 'account_id', 'product_id',
+                          'uos_id', 'account_analytic_id', 'tax_code_id', 'base_code_id',
+                          "concept_id","tax_id"):
+                line[field] = line.get(field, False) and line[field][0]
+            if 'invoice_line_tax_id' in line:
+                line['invoice_line_tax_id'] = [(6,0, line.get('invoice_line_tax_id', [])) ]
+        return map(lambda x: (0,0,x), lines)
+
 account_invoice()
 
 
