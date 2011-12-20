@@ -36,6 +36,8 @@ class account_invoice(osv.osv):
         '''
         for inv in self.browse(cr, uid, ids):
             inv_id =False
+            if inv.company_id.lines_invoice < 1:
+                raise osv.except_osv(_('Error !'), _('Please set an invoice lines value in:\nAdministration->Company->Configuration->Invoice lines'))
             if inv.type in ["out_invoice","out_refund"]:
                 if len(inv.invoice_line)> inv.company_id.lines_invoice:
                     lst = []

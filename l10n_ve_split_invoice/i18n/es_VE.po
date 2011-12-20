@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-10-05 14:10+0000\n"
-"PO-Revision-Date: 2011-10-05 14:10+0000\n"
+"POT-Creation-Date: 2011-12-16 15:04+0000\n"
+"PO-Revision-Date: 2011-12-16 15:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,12 @@ msgstr ""
 #: view:res.company:0
 msgid "Invoice Lines Configutarion"
 msgstr "Configuración de líneas de factura"
+
+#. module: l10n_ve_split_invoice
+#: code:addons/l10n_ve_split_invoice/invoice.py:40
+#, python-format
+msgid "Error !"
+msgstr "Error !"
 
 #. module: l10n_ve_split_invoice
 #: model:ir.module.module,description:l10n_ve_split_invoice.module_meta_information
@@ -68,7 +74,7 @@ msgstr "\n"
 #. module: l10n_ve_split_invoice
 #: model:ir.model,name:l10n_ve_split_invoice.model_res_company
 msgid "Companies"
-msgstr "Empresas"
+msgstr "Compañías"
 
 #. module: l10n_ve_split_invoice
 #: constraint:res.company:0
@@ -79,6 +85,14 @@ msgstr "Error! no se pueden crear empresas recursivas."
 #: help:res.company,lines_invoice:0
 msgid "Number of lines per invoice"
 msgstr "Número de líneas por factura"
+
+#. module: l10n_ve_split_invoice
+#: code:addons/l10n_ve_split_invoice/invoice.py:40
+#, python-format
+msgid "Please set an invoice lines value in:\n"
+"Administration->Company->Configuration->Invoice lines"
+msgstr "Por favor establezca un valor para las líneas de facturas en:\n"
+"Administración->Compañía->Configuración->Líneas de la factura"
 
 #. module: l10n_ve_split_invoice
 #: model:ir.model,name:l10n_ve_split_invoice.model_account_invoice
