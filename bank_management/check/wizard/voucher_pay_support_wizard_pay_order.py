@@ -74,6 +74,9 @@ class voucher_pay_support_wizard(osv.osv_memory):
     }
 
     def accion_tipo(self, cr, uid, ids, context=None):
+        voucher_obj = self.pool.get('account.voucher')
+        voucher_id = context['active_id']
+        voucher_obj.validate_amount(cr,uid,[voucher_id],context=context)
         obj = self.browse(cr, uid, ids[0])
         tipo=obj.type
         obj_model = self.pool.get('ir.model.data')

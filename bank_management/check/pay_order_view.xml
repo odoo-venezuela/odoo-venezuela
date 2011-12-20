@@ -26,7 +26,7 @@
             <field name="arch" type="xml">
                 <form string="Customer Payment">
                     <group col="6" colspan="4">
-                        <field name="partner_id"  required='1'/>
+                        <field name="partner_id"  required='1' domain="[('customer','=',True)]"/>
                         <field name="payee_id"  required='0' domain="[('partner_id','=',partner_id) ]"/>
                         <field name="journal_id" on_change= "onchange_journal_multi_partner(journal_id)"
                             domain="[('type','in',['bank', 'cash'])]"
@@ -143,8 +143,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_pay_order_1_tree"/>
-            <field name="domain">[('type', 'like','payment')]</field>
-            <field name="context">{'type':'payment'}</field>
+            <field name="domain">[('type', 'like','receipt')]</field>
+            <field name="context">{'type':'receipt'}</field>
         </record>
 
         <record id="act_wv_pay_order_tree" model="ir.actions.act_window.view">
@@ -185,7 +185,7 @@
             <field name="arch" type="xml">
                 <form string="Bill Payment">
                     <group col="6" colspan="4">
-                        <field name="partner_id"  required='1'/>
+                        <field name="partner_id" required='1' domain="[('supplier','=',True)]"/>
                         <field name="payee_id"  required='0' domain="[('partner_id','=',partner_id) ]"/>
                         <field name="amount"/>
                         <field name="journal_id"
@@ -307,8 +307,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_pay_order_1_tree"/>
-            <field name="domain">[('type', 'like','receipt')]</field>
-            <field name="context">{'type':'receipt'}</field>
+            <field name="domain">[('type', 'like','payment')]</field>
+            <field name="context">{'type':'payment'}</field>
         </record>
 
         <record id="act_wv_rec_order_tree" model="ir.actions.act_window.view">

@@ -83,9 +83,9 @@ class cancel_voucher_pay_support(osv.osv_memory):
         id=context["active_id"] 
         acount_voucher_id=account_voucher.search(cr, uid, [('voucher_pay_support_id','=',id)]) [0]
         obj_acount_voucher=account_voucher.browse(cr, uid, acount_voucher_id, context=None)
-        voucher_type='refund_payment'
+        voucher_type='receipt'
         if obj_acount_voucher.type=='receipt':
-            voucher_type='refund_receipt'
+            voucher_type='payment'
         voucher_pay_support=self.pool.get('voucher.pay.support')
         obj_voucher_pay_support=voucher_pay_support.browse(cr, uid, id, context=None)
         
