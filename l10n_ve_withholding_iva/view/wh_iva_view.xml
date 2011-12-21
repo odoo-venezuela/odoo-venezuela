@@ -37,7 +37,7 @@
                             <field colspan="2" name="name" select="1"/>
                             <group col="1" colspan="4">
                                 <field name="tax_line" nolabel="1">
-                                    <tree string="Taxes">
+                                    <tree string="Taxes" editable='top'>
                                         <field name="name"/>
                                         <field name="base" />
                                         <field name="amount" />

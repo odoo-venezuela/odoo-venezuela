@@ -42,6 +42,17 @@ account_wh_iva()
 
 class account_wh_iva_line_tax(osv.osv):
     
+    def _set_amount_ret(self, cr, uid, id, name, value, arg, ctx=None):
+        if ctx is None: 
+            ctx = {}
+        if not self.browse(cr,uid,id,context=ctx).wh_vat_line_id.retention_id.type=='out_invoice':
+            return False
+        sql_str = """UPDATE account_wh_iva_line_tax set
+                    amount_ret='%s'
+                    WHERE id=%d """ % (value, id)
+        cr.execute(sql_str)
+        return True
+        
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
         if context is None: context=None
         res = {}
@@ -71,7 +82,8 @@ class account_wh_iva_line_tax(osv.osv):
             digits_compute= dp.get_precision('Withhold'), 
             store= {
                 'account.wh.iva.line.tax': (lambda self, cr, uid, ids, c={}: ids, ['amount'],15)
-            }, 
+            },
+            fnct_inv=_set_amount_ret,
             help="Withholding vat amount"),
         #~ 'amount_ret': fields.float('Withheld Taxed Amount', digits_compute= dp.get_precision('Withhold'), help="Withholding vat amount"),
     }
