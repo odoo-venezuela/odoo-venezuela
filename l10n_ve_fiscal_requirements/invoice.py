@@ -52,6 +52,13 @@ class account_invoice(osv.osv):
                 line['invoice_line_tax_id'] = [(6,0, line.get('invoice_line_tax_id', [])) ]
         return map(lambda x: (0,0,x), lines)
 
+    def copy(self, cr, uid, id, default={}, context=None):
+        if context is None:
+            context = {}
+        default.update({
+            'child_ids':[]
+        })
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
 account_invoice()
 
 
