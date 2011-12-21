@@ -45,6 +45,7 @@
                                     </tree>
                                     <form string="Taxes">
                                         <field  colspan="4" name="name"/>
+                                        <field name="tax_id" />
                                         <field name="base" />
                                         <field name="amount" />
                                         <field name="amount_ret" />
