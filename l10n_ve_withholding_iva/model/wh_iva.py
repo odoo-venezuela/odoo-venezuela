@@ -119,15 +119,16 @@ class account_wh_iva_line(osv.osv):
     
     def load_taxes(self, cr, uid, ids, context=None):
         if context is None: context = {}
-        res = {}
         awilt_obj = self.pool.get('account.wh.iva.line.tax')
         for ret_line in self.browse(cr, uid, ids, context):
             lines = []
             if ret_line.invoice_id:
-                
+                rate = \
+                    ret_line.retention_id.type == 'out_invoice' and ret_line.invoice_id.company_id.partner_id.wh_iva_rate or \
+                    ret_line.retention_id.type == 'in_invoice' and ret_line.invoice_id.partner_id.wh_iva_rate
+                self.write(cr, uid, ret_line.id, {'wh_iva_rate':  rate})
                 tax_lines = awilt_obj.search(cr, uid, [('wh_vat_line_id', '=', ret_line.id)])
                 print 'tax_lines ', tax_lines
-                res_wh_lines = []
                 if tax_lines:
                     print 'UNLINKING'
                     awilt_obj.unlink(cr, uid, tax_lines)
@@ -140,7 +141,6 @@ class account_wh_iva_line(osv.osv):
                     print 'values values: ', values
                     lines.append(awilt_obj.create(cr, uid, values, context=context))
                 print 'lines ', lines
-            res[ret_line.id] = lines
         return True
 
     ####################################################################
