@@ -8,6 +8,7 @@
 #    Coded by:  Javier Duran              <javier@nvauxoo.com>
 #               Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #               Nhomar Hernandez          <nhomar@vauxoo.com>
+#               Humberto Arocha           <hbto@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -27,7 +28,7 @@
 ##############################################################################
 {
     "name" : "Management withholding vat based in the Venezuelan tax laws",
-    "version" : "0.2",
+    "version" : "1.0",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
