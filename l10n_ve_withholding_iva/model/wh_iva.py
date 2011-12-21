@@ -105,15 +105,11 @@ class account_wh_iva_line(osv.osv):
             lines = []
             if ret_line.invoice_id:
                 tax_ids = [i.id for i in ret_line.invoice_id.tax_line if i.tax_id and i.tax_id.ret]
-                print 'tax_ids ',tax_ids
                 for i in tax_ids:
                     lines.append(awilt_obj.create(cr, uid, {
                             'inv_tax_id':i,
                             'wh_vat_line_id':ret_line.id
                                                 }, context=context))
-                #~ ids_tline = ret_line.invoice_id.tax_line
-                #~ lines = map(lambda x: x.id, ids_tline)
-                print 'lines ', lines
             res[ret_line.id] = lines
         return res
 
@@ -156,7 +152,6 @@ class account_wh_iva_line(osv.osv):
     
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
         res = {}
-        print '_amount_all'
         for ret_line in self.browse(cr, uid, ids, context):
             res[ret_line.id] = {
                 'amount_tax_ret': 0.0,
@@ -325,7 +320,6 @@ class account_wh_iva(osv.osv):
         return True
 
     def check_vat_wh(self, cr, uid, ids, context={}):
-        print 'check_vat_wh'
         obj = self.browse(cr, uid, ids[0])
         res = {}
         for wh_line in obj.wh_lines:
@@ -409,17 +403,13 @@ class account_wh_iva(osv.osv):
             per_obj = self.pool.get('account.period')
             period_id = per_obj.find(cr, uid,ret.date_ret or time.strftime('%Y-%m-%d'))
             period_id = per_obj.search(cr,uid,[('id','in',period_id),('special','=',False)])
-            print 'period_id ',period_id
             if not period_id:
                 raise osv.except_osv(_('Missing Periods!'),\
                 _("There are not Periods created for the pointed day: %s!") %\
                 (ret.date_ret or time.strftime('%Y-%m-%d')))
             period_id = period_id[0]
-        print 'ANTES DE LAS wh_lines'
         if ret.wh_lines:
-            print 'wh_lines 192'
             for line in ret.wh_lines:
-                print 'wh_lines 194'
                 writeoff_account_id,writeoff_journal_id = False, False
                 amount = line.amount_tax_ret
                 if line.invoice_id.type in ['in_invoice','in_refund']:
@@ -454,21 +444,15 @@ class account_wh_iva(osv.osv):
                 acc_id = p.property_account_receivable and p.property_account_receivable.id or False
             else:
                 acc_id = p.property_account_payable and p.property_account_payable.id or False
-        #~ BEGIN DELETE
-        #~ self._update_check(cr, uid, ids, partner_id)
-        #~ END DELETE
         
         wh_line_obj = self.pool.get('account.wh.iva.line')
         wh_lines = ids and wh_line_obj.search(cr, uid, [('retention_id', '=', ids[0])]) or False
-        print 'wh_lines ', wh_lines
         res_wh_lines = []
         if wh_lines:
-            print 'UNLINKING'
             wh_line_obj.unlink(cr, uid, wh_lines)
         
         inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',partner_id)],context=context)
         
-        print 'inv_ids ', inv_ids
         if inv_ids:
             #~ Get only the invoices which are not in a document yet
             inv_ids = [i for i in inv_ids if not wh_line_obj.search(cr, uid, [('invoice_id', '=', i)])]
@@ -537,20 +521,6 @@ class account_wh_iva(osv.osv):
                 raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
 
         return True
-
-
-    def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
-        if not context:
-            context={}
-        ret = self.browse(cr, uid, ids[0])
-        if update_check:
-            if 'partner_id' in vals and vals['partner_id']:
-                self._update_check(cr, uid, ids, vals['partner_id'], context)
-            else:
-                self._update_check(cr, uid, ids, ret.partner_id.id, context)
-
-        return super(account_wh_iva, self).write(cr, uid, ids, vals, context=context)
-
 
     def create(self, cr, uid, vals, context=None, check=True):
         if not context:
