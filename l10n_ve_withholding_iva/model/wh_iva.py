@@ -128,19 +128,14 @@ class account_wh_iva_line(osv.osv):
                     ret_line.retention_id.type == 'in_invoice' and ret_line.invoice_id.partner_id.wh_iva_rate
                 self.write(cr, uid, ret_line.id, {'wh_iva_rate':  rate})
                 tax_lines = awilt_obj.search(cr, uid, [('wh_vat_line_id', '=', ret_line.id)])
-                print 'tax_lines ', tax_lines
                 if tax_lines:
-                    print 'UNLINKING'
                     awilt_obj.unlink(cr, uid, tax_lines)
                 
                 tax_ids = [i for i in ret_line.invoice_id.tax_line if i.tax_id and i.tax_id.ret]
-                print 'tax_ids ',tax_ids
                 for i in tax_ids:
                     values = self._get_tax_lines(cr, uid, i, context=context)
                     values.update({'wh_vat_line_id':ret_line.id,})
-                    print 'values values: ', values
                     lines.append(awilt_obj.create(cr, uid, values, context=context))
-                print 'lines ', lines
         return True
 
     ####################################################################
