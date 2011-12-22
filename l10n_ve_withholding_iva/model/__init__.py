@@ -22,16 +22,13 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
+import wh_iva
+import account
+import invoice
+import partner
+import generate_txt
+import report
+import installer
+import wizard
 
-from osv import fields, osv
-
-
-class account_tax(osv.osv):
-    _inherit = 'account.tax'
-    _columns = {
-        'ret': fields.boolean('Withhold', help="Indicate if the amount of tax must be withholded"),
-   }
-
-account_tax()
-
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

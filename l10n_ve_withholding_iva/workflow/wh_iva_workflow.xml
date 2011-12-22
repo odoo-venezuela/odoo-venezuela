@@ -16,16 +16,16 @@
 
         <record id="act_confirmed" model="workflow.activity">
             <field name="wkf_id" ref="wh_iva_order"/>
-            <field name="action">action_number()
-action_date_ret()
-write({'state':'confirmed'})</field>
+            <field name="action">write({'state':'confirmed'})</field>
             <field name="kind">function</field>
             <field name="name">confirmed</field>
         </record>
 
         <record id="act_done" model="workflow.activity">
             <field name="wkf_id" ref="wh_iva_order"/>
-            <field name="action">action_move_create()
+            <field name="action">action_number()
+action_date_ret()
+action_move_create()
 write({'state':'done'})</field>
             <field name="kind">function</field>
             <field name="name">done</field>
@@ -34,6 +34,7 @@ write({'state':'done'})</field>
         <record id="trans_draft_done" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_confirmed"/>
+            <field name="condition">check_vat_wh() and check_wh_taxes()</field>
             <field name="signal">wh_iva_confirmed</field>
         </record>
 

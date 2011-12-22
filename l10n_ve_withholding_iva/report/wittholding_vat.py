@@ -147,24 +147,38 @@ class rep_comprobante(report_sxw.rml_parse):
         ttal = {}
         lst_comp = []
 
+        dic_inv = {}
         for rl in comp.wh_lines:
-            dic_inv = {}
             lst_tmp = []
             k=1
             no_fac_afe = rl.invoice_id.origin or ''
             if rl.invoice_id.type in ['in_refund', 'out_refund']:
                 k=-1
                 no_fac_afe = rl.invoice_id.parent_id and rl.invoice_id.parent_id.reference or ''
+
+            #~ Codigo para cumplir los cambios en el nuevo uso del campo ret, 
+            #~ y la relacion nueva en account.invoice.tax
+            
             for txl in rl.invoice_id.tax_line:
+                #~ Aqui se esta revisando son los impuestos que estan
+                #~ en la factura solo con el fin de poder obtener
+                #~ solo los impuestos que no son objeto de retencion
+
+                a= (txl.name and txl.name.find('SDCF')!=-1)
+                b= (txl.tax_id and not txl.tax_id.ret)
+                if not any([a,b]):
+                    continue
+                
                 sdcf = False
-                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base_ret
+                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base
                 tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type],0.0) + txl.amount
                 tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type],0.0) + txl.amount_ret
-                if txl.name.find('SDCF')!=-1:
-                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + (txl.base_ret+txl.amount)
+
+                if any([a,b]):
+                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
                     sdcf = True
                 else:
-                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + (txl.base_ret+txl.amount)
+                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
 
                 d1 = {
                     'fecha': rl.invoice_id.date_invoice,
@@ -175,17 +189,58 @@ class rep_comprobante(report_sxw.rml_parse):
                     'porcenta': rl.invoice_id.wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
-                    'tot_civa': not sdcf and k*(txl.base_ret+txl.amount) or 0.0,
-                    'cmp_sdcr': sdcf and k*(txl.base_ret+txl.amount) or 0.0,
-                    'bas_impo': k*txl.base_ret,
-                    'alic': txl.base_amount and (txl.tax_amount/txl.base_amount*100) or 0.0,
+                    'tot_civa': not sdcf and k*(txl.base+txl.amount) or 0.0,
+                    'cmp_sdcr': sdcf and k*(txl.base+txl.amount) or 0.0,
+                    'bas_impo': k*txl.base,
+                    'alic': txl.tax_id.amount and txl.tax_id.amount * 100.0 or 0.0,
                     'iva': k*txl.amount,
                     'iva_ret': k*txl.amount_ret,
                     'inv_type': rl.invoice_id.type
                 }
                 lst_tmp.append(d1)
                 dic_inv[rl.invoice_id.id] = lst_tmp
+            
+            for txl in rl.tax_line:
+                a= (txl.name and txl.name.find('SDCF')!=-1)
+                b= (txl.tax_id and not txl.tax_id.ret)
+                if any([a,b]):
+                    continue
+                sdcf = False
+                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base
+                tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type],0.0) + txl.amount
+                tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type],0.0) + txl.amount_ret
                 
+                #~ TODO: ESTO SE DEBE SOLUCIONAR, MEDIANTE EL USO DEL CAMPO RET 
+                #~ EN EL MODELO ACCOUNT.TAX, DE TAL MANERA QUE SI EL IMPUESTO APARECE
+                #~ CON EL VALOR EN FALSE, Y DADO QUE AHORA CONTAMOS CON UN TAX_ID EN ACCOUNT.INVOICE.TAX
+                #~ PODEMOS HACER EL RASTREO HASTA EL ACCOUNT.TAX
+                if txl.name.find('SDCF')!=-1:
+                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
+                    sdcf = True
+                else:
+                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
+
+                d1 = {
+                    'fecha': rl.invoice_id.date_invoice,
+                    'nro_fact': rl.invoice_id.reference,
+                    'nro_ctrl': rl.invoice_id.nro_ctrl,
+                    'nro_ncre': rl.invoice_id.reference,
+                    'nro_ndeb': rl.invoice_id.reference,
+                    'porcenta': rl.invoice_id.wh_iva_rate,
+                    'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
+                    'nro_fafe': no_fac_afe,
+                    'tot_civa': not sdcf and k*(txl.base+txl.amount) or 0.0,
+                    'cmp_sdcr': sdcf and k*(txl.base+txl.amount) or 0.0,
+                    'bas_impo': k*txl.base,
+                    'alic': txl.tax_id.amount and txl.tax_id.amount * 100.0 or 0.0,
+                    'iva': k*txl.amount,
+                    'iva_ret': k*txl.amount_ret,
+                    'inv_type': rl.invoice_id.type
+                }
+                lst_tmp.append(d1)
+                dic_inv[rl.invoice_id.id] = lst_tmp
+        
+        
         for inv_id in dic_inv.keys():
             i=0
             cf = False
@@ -211,7 +266,6 @@ class rep_comprobante(report_sxw.rml_parse):
         self.ttbase = tot_base_imp.get('s',0.0) - tot_base_imp.get('r',0.0)
         self.ttiva = tot_imp_iva.get('s',0.0) - tot_imp_iva.get('r',0.0)
         self.ttretencion = tot_iva_ret.get('s',0.0) - tot_iva_ret.get('r',0.0)
-                                
         return lst_comp
 
     def _get_tot_gral_compra(self): 
