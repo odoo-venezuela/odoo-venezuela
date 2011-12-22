@@ -8,6 +8,7 @@
 #    Coded by:  Javier Duran              <javier@nvauxoo.com>
 #               Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #               Nhomar Hernandez          <nhomar@vauxoo.com>
+#               Humberto Arocha           <hbto@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -27,7 +28,7 @@
 ##############################################################################
 {
     "name" : "Management withholding vat based in the Venezuelan tax laws",
-    "version" : "0.2",
+    "version" : "1.0",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
@@ -47,20 +48,19 @@
     'init_xml': [],
     "depends" : ["l10n_ve_withholding"],
     'update_xml': [
-        'withholding_vat_report.xml',
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
-        'generate_txt_view.xml',
-        'txt_wh_report.xml',
-        'account_invoice_view.xml',
-        'account_view.xml',
-        'partner_view.xml',
-        'wh_iva_view.xml',
+        'view/generate_txt_view.xml',
+        'view/account_invoice_view.xml',
+        'view/account_view.xml',
+        'view/partner_view.xml',
+        'view/wh_iva_view.xml',
         "data/l10n_ve_withholding_data.xml",
-        "wh_iva_workflow.xml",
-        "account_workflow.xml",        
-        "l10n_ve_withholding_iva_installer.xml",
-        "account_workflow.xml",
+        'report/txt_wh_report.xml',
+        'report/withholding_vat_report.xml',
+        "workflow/wh_iva_workflow.xml",
+        "workflow/account_workflow.xml",        
+        "wizard/l10n_ve_withholding_iva_installer.xml",
     ],
     'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
     'test': [],
