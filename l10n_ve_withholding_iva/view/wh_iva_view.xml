@@ -222,14 +222,12 @@
                                 <button name="wh_iva_done" states="draft" string="Realize" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
-                                <field name="amount_base_ret"/>                           
+<!--                                <field name="amount_base_ret"/>-->
+<!--                                <field name="total_tax_ret"/>-->
+<!--                            <field name="tot_amount_base_wh"/> -->
+<!--                            <field name="tot_amount_tax_wh"/> -->
+                                <field name="amount_base_ret"/>
                                 <field name="total_tax_ret"/>
-<!--
-                                <field name="tot_amount_base_wh"/>
--->
-<!--
-                                <field name="tot_amount_tax_wh"/>
--->
                             </group>
                         </page>
                         <page string="Other Information">

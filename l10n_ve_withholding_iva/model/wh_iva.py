@@ -387,7 +387,9 @@ class account_wh_iva(osv.osv):
     def action_move_create(self, cr, uid, ids, context=None):
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
-
+        
+        context.update({'vat_wh':True})
+        
         ret = self.browse(cr, uid, ids[0], context)
         for line in ret.wh_lines:
             if line.move_id or line.invoice_id.wh_iva:
@@ -408,26 +410,25 @@ class account_wh_iva(osv.osv):
                 _("There are not Periods created for the pointed day: %s!") %\
                 (ret.date_ret or time.strftime('%Y-%m-%d')))
             period_id = period_id[0]
-        if ret.wh_lines:
-            for line in ret.wh_lines:
-                writeoff_account_id,writeoff_journal_id = False, False
-                amount = line.amount_tax_ret
-                if line.invoice_id.type in ['in_invoice','in_refund']:
-                    name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
-                else:
-                    name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (str(int(line.invoice_id.number)) or '')
-                
-                context.update({'vat_wh':True})
-                ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
-                        amount, acc_id, period_id, journal_id, writeoff_account_id,
-                        period_id, writeoff_journal_id, ret.date_ret, name,line.tax_line, context)
-                # make the withholding line point to that move
-                rl = {
-                    'move_id': ret_move['move_id'],
-                }
-                lines = [(1, line.id, rl)]
-                self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
-    
+        if period_id:
+            if ret.wh_lines:
+                for line in ret.wh_lines:
+                    writeoff_account_id,writeoff_journal_id = False, False
+                    amount = line.amount_tax_ret
+                    if line.invoice_id.type in ['in_invoice','in_refund']:
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
+                    else:
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
+                    ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
+                            amount, acc_id, period_id, journal_id, writeoff_account_id,
+                            period_id, writeoff_journal_id, ret.date_ret, name,line.tax_line, context)
+                    # make the withholding line point to that move
+                    rl = {
+                        'move_id': ret_move['move_id'],
+                    }
+                    lines = [(1, line.id, rl)]
+                    self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
+        
         return True
 
 
