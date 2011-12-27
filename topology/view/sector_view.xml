@@ -8,173 +8,55 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <field name="country_id" position="replace">
-                <field name="location" colspan="4" />
-            </field>
+            <xpath expr="/form/notebook/page/field[@name='address']/form/group/field[@name='state_id']" position="after">
+                <field name="city_id" invisible="False"  attrs= "{'readonly':[('parish_id','=',False)]}"/>
+                <field name="municipality_id" invisible="False" attrs= "{'readonly':[('state_id','=',False)]}"/>
+                <field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+                <field name="zipcode_id" invisible="False"/>
+            </xpath>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="partners_form_del_city">
-        <field name="name">partners_form_del_city</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="city" position="replace"/>
-        </field>
-    </record>
+<!--
+ Partner Address 1 
+-->
 
-    <!-- We need to city replaces to remove it -->
-    <record model="ir.ui.view" id="partners_form_del_citycity">
-        <field name="name">partners_form_del_citycity</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="city" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_zip">
-        <field name="name">partners_form_del_zip</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="zip" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_state">
-        <field name="name">partners_form_del_state</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="state_id" position="replace"/>
-        </field>
-    </record>
-
-<!-- Partner Address 1 -->
     <record model="ir.ui.view" id="partners_form_add_location1">
         <field name="name">partners_form_add_location1</field>
         <field name="model">res.partner.address</field>
         <field name="inherit_id" ref="base.view_partner_address_form1"/>
         <field name="arch" type="xml">
-            <field name="state_id" position="replace">
-                <field name="location" colspan="4" />
-            </field>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_city1">
-        <field name="name">partners_form_del_city1</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <field name="city" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_parish1">
-        <field name="name">partners_form_parish1</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="parish_id" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_municipalities">
-        <field name="name">partners_form_municipalities</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="municipalities" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_zip1">
-        <field name="name">partners_form_del_zip1</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <field name="zip" position="replace">
-            </field>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_country1">
-        <field name="name">partners_form_del_country1</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form1"/>
-        <field name="arch" type="xml">
-            <field name="country_id" position="replace">
-            </field>
+        <xpath expr="/form/group/field[@name='state_id']" position="after">
+            <field name="state_id" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+            <field name="municipality_id" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+            <field name="parish_id" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+            <field name="city_id" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+            <field name="zipcode_id" invisible="True"/>
+        </xpath>
         </field>
     </record>
 
 
-<!-- Partner Address 2 -->
-    <record model="ir.ui.view" id="partners_form_add_location2">
-        <field name="name">partners_form_add_location2</field>
+<!--
+ Partner Address 2 
+-->
+ 
+   <record model="ir.ui.view" id="partners_form_add_location2">
+        <field name="name">partners_form_add_location1</field>
         <field name="model">res.partner.address</field>
         <field name="inherit_id" ref="base.view_partner_address_form2"/>
         <field name="arch" type="xml">
-            <field name="state_id" position="replace">
-                <field name="location" colspan="4" />
-            </field>
+        <xpath expr="/form/group/field[@name='state_id']" position="after">
+            <field name="state_id" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+            <field name="municipality_id" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+            <field name="parish_id" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+            <field name="city_id" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+            <field name="zipcode_id" invisible="True"/>
+        </xpath>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="partners_form_del_city2">
-        <field name="name">partners_form_del_city2</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form2"/>
-        <field name="arch" type="xml">
-            <field name="city" position="replace">
-            </field>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_parish2">
-        <field name="name">partners_form_parish2</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="parish_id" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_municipalities2">
-        <field name="name">partners_form_municipalities2</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="municipalities" position="replace"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_zip2">
-        <field name="name">partners_form_del_zip2</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form2"/>
-        <field name="arch" type="xml">
-            <field name="zip" position="replace">
-            </field>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="partners_form_del_country2">
-        <field name="name">partners_form_del_country2</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form2"/>
-        <field name="arch" type="xml">
-            <field name="country_id" position="replace">
-            </field>
-        </field>
-    </record>
-
-
-        <!--
         Sector
-        -->
 
     <record id="view_sector_filter" model="ir.ui.view">
         <field name="name">res.sector.search</field>
@@ -205,30 +87,34 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Sector">
-                 <field name="name"/>
-                <field name="country"/>
-                <field name="state" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
-                <field name="municipality" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
-                <field name="parish" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
-                <field name="city" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
-                <field name="zipcode"/>
+                <field name="name"/>
+<!--
+                <field name="country" invisible="True"/>
+                <field name="state" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+                <field name="municipality" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+                <field name="parish" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+                <field name="city" invisible="True" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+                <field name="zipcode" invisible="True"/>
+-->
             </tree>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_city_form">
+    <record model="ir.ui.view" id="view_sector_form">
         <field name="name">res.sector.form</field>
         <field name="model">res.sector</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Sector">
                 <field name="name"/>
-                <field name="country"/>
-                <field name="state" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
-                <field name="municipality" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
-                <field name="parish" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
-                <field name="city" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
-                <field name="zipcode"/>
+<!--
+                <field name="country" invisible="True"/>
+                <field name="state" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+                <field name="municipality" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+                <field name="parish" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+                <field name="city" invisible="True" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+                <field name="zipcode" invisible="True"/>
+-->
             </form>
         </field>
     </record>
@@ -240,8 +126,10 @@
         <field name="arch" type="xml">
             <tree string="Sector">
                 <field name="name"/>
+<!--
                 <field name="city"/>
                 <field name="zipcode"/>
+-->
             </tree>
         </field>
     </record>
@@ -252,7 +140,9 @@
         <field name="res_model">res.sector</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="view_sector_tree"/>
+<!--
         <field name="search_view_id" ref="view_sector_filter"/>
+-->
         <field name="help">Sector is a name for a city subdivision</field>
     </record>
 

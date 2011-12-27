@@ -27,7 +27,7 @@
                     </group>
                     <newline/>
                     <group string="State" >
-                    <field name="state_ids" select="1" nolabel="1" colspan="4"/>
+                    <field name="state_id" select="1" nolabel="1" colspan="4"/>
                     <newline/>
                     </group>
                 </form>
