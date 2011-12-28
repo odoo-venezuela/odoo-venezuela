@@ -13,6 +13,7 @@
                         <filter string="State" context="{'group_by': 'state_id'}" icon="terp-stock_effects-object-colorize"/>
                     </group>
                     <group string="Municipalities" colspan="4">
+                        <field name="state_id"/>
                         <field name="code"/>
                         <field name="name"/>
                     </group>

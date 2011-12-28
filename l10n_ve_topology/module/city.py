@@ -22,35 +22,37 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-{
-    "name" : "Opening balance Update",
-    "version" : "0.2",
-    "depends" : ["base"],
-    "author" : "Vauxoo",
-    "description" : """
-    What do this module:
-    This module handles the topology according to the sectors of a city
-                    """,
-    "website" : "http://vauxoo.com",
-    "category" : "Generic Modules/Topology",
-    "init_xml" : [    ],
-    "demo_xml" : [    ],
-    "test": [
-    "test/create_topology.yml",
-    ],
-    "update_xml" : [
-                    "data/states_ve_data.xml",
-                    "data/city_ve_data.xml",
-                    "data/municipality_data.xml",
-                    "data/parish_ve_data.xml",
-                    "view/municipality_view.xml",
-                    "view/city_view.xml",
-                    "view/parish_view.xml",
-                    "view/zipcode_view.xml",
-                    "view/sector_view.xml",
-                    "view/state_view.xml",
-                    "security/ir.model.access.csv",
-                    ],
-    "active": False,
-    "installable": True,
-}
+
+from osv import osv
+from osv import fields
+
+
+class City(osv.osv):
+    '''
+    Model added to manipulate separately the Cities on Partner address.
+    '''
+    _description='Model to manipulate Cities'
+    _name ='res.city'
+    _columns = {
+        'state_id': fields.many2one('res.country.state','State', required=True, help="This field selects the states to which this city is associated \n"),
+        'name': fields.char('City Name', size=64, required=True, help="In this field enter the name of the City \n"),
+        'code': fields.char('City Code', size=3,
+            help='The city code in three chars, Example: CCS for Caracas .\n', required=True),
+    }
+    def name_search(self, cr, user, name='', args=None, operator='ilike',
+            context=None, limit=80):
+        if not args:
+            args = []
+        if not context:
+            context = {}
+        ids = self.search(cr, user, [('code', '=', name)] + args, limit=limit,
+                context=context)
+        if not ids:
+            ids = self.search(cr, user, [('name', operator, name)] + args,
+                    limit=limit, context=context)
+        return self.name_get(cr, user, ids, context)
+
+    _order = 'code'
+
+City()
+
