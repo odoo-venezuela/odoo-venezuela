@@ -31,32 +31,6 @@ import pooler
 
 class sector(osv.osv):
 
-    #~ def name_get(self, cr, uid, ids, context=None):
-        #~ if not len(ids):
-            #~ return []
-        #~ res = []
-        #~ 
-        #~ for line in self.browse(cr, uid, ids):
-            #~ city = line.city.name
-            #~ parish = line.parish.name
-            #~ state= line.parish.municipalities_id.state_id.name
-            #~ municipality=line.parish.municipalities_id.name
-            #~ location = "%s %s, %s, %s, %s, %s" %(line.zipcode.name,line.name,parish,municipality,state,city)
-            #~ res.append((line['id'], location))
-        #~ return res
-
-    #~ def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
-        #~ if args is None:
-            #~ args = []
-        #~ if context is None:
-            #~ context = {}
-        #~ ids = []
-        #~ if name:
-            #~ ids = self.search(cr, uid, [('zipcode', 'ilike', name)]+ args, limit=limit)
-        #~ if not ids:
-            #~ ids = self.search(cr, uid, [('name', operator, name)]+ args, limit=limit)
-        #~ return self.name_get(cr, uid, ids, context=context)
-
     _name = 'res.sector'
     _description = 'Sector'
     _columns = {
@@ -73,150 +47,16 @@ sector()
 
 class res_partner_address(osv.osv):
     
-    def _get_zip(self, cr, uid, ids, field_name, arg, context):
+    def _get_city_name(self, cr, uid, ids, field_name, arg, context=None):
+        if context is None:
+            context={}
         res={}
         for obj in self.browse(cr,uid,ids):
-            if obj.location:
-                print 'PASEEEE:',obj.location.zipcode
-                res[obj.id] = obj.location.zipcode
+            if obj.city_id:
+                res[obj.id] = obj.city_id.name
             else:
-                res[obj.id] = ""
+                res[obj.id] = ''
         return res
-
-    def _zip_search(self, cr, uid, obj, name, args, context):
-        if not len(args):
-            return []
-        new_args = []
-        for argument in args:
-            operator = argument[1]
-            value = argument[2]
-            ids = self.pool.get('res.sector').search(cr, uid, [('zipcode',operator,value)], context=context)
-            new_args.append( ('location','in',ids) )
-        if new_args:
-            # We need to ensure that locatio is NOT NULL. Otherwise all addresses
-            # that have no location will 'match' current search pattern.
-            new_args.append( ('location','!=',False) )
-        return new_args
-    
-    def _get_parish(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        for obj in self.browse(cr,uid,ids):
-            if obj.location:
-                res[obj.id] = [obj.location.parish.id, obj.location.parish.name]
-            else:
-                res[obj.id] = ""
-        return res
-
-    def _parish_search(self, cr, uid, obj, name, args, context):
-        if not len(args):
-            return []
-        new_args = []
-        for argument in args:
-            operator = argument[1]
-            value = argument[2]
-            ids = self.pool.get('res.sector').search(cr, uid, [('parish',operator,value)], context=context)
-            new_args.append( ('location','in',ids) )
-        if new_args:
-            # We need to ensure that locatio is NOT NULL. Otherwise all addresses
-            # that have no location will 'match' current search pattern.
-            new_args.append( ('location','!=',False) )
-        return new_args
-    
-    def _get_municipalities(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        for obj in self.browse(cr,uid,ids):
-            if obj.location:
-                res[obj.id] = [obj.location.parish.municipalities_id.id, obj.location.parish.municipalities_id.name]
-            else:
-                res[obj.id] = ""
-        return res
-
-    def _municipalities_search(self, cr, uid, obj, name, args, context):
-        if not len(args):
-            return []
-        new_args = []
-        for argument in args:
-            operator = argument[1]
-            value = argument[2]
-            ids = self.pool.get('res.sector').search(cr, uid, [('parish',operator,value)], context=context)
-            new_args.append( ('location','in',ids) )
-        if new_args:
-            # We need to ensure that locatio is NOT NULL. Otherwise all addresses
-            # that have no location will 'match' current search pattern.
-            new_args.append( ('location','!=',False) )
-        return new_args
-    
-    def _get_city(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        for obj in self.browse(cr,uid,ids):
-            if obj.location:
-                res[obj.id] = [obj.location.city.id, obj.location.city.name]
-            else:
-                res[obj.id] = ""
-        return res
-
-    def _city_search(self, cr, uid, obj, name, args, context):
-        if not len(args):
-            return []
-        new_args = []
-        for argument in args:
-            operator = argument[1]
-            value = argument[2]
-            ids = self.pool.get('res.city').search(cr, uid, [('name',operator,value)], context=context)
-            new_args.append( ('location','in',ids) )
-        if new_args:
-            # We need to ensure that locatio is NOT NULL. Otherwise all addresses
-            # that have no location will 'match' current search pattern.
-            new_args.append( ('location','!=',False) )
-        return new_args
-
-    def _get_state(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        for obj in self.browse(cr,uid,ids):
-            if obj.location:
-                res[obj.id] = [obj.location.city.state_ids.id, obj.location.city.state_ids.name]
-            else:
-                res[obj.id] = False
-        return res
-
-    def _state_id_search(self, cr, uid, obj, name, args, context):
-        if not len(args):
-            return []
-        new_args = []
-        for argument in args:
-            operator = argument[1]
-            value = argument[2]
-            ids = self.pool.get('res.country.state').search(cr, uid, [('state_id',operator,value)], context=context)
-            new_args.append( ('location','in',ids) )
-        if new_args:
-            new_args.append( ('location','!=',False) )
-        return new_args
-
-    def _get_country(self, cr, uid, ids, field_name, arg, context):
-        res={}
-        for obj in self.browse(cr,uid,ids):
-            if obj.location:
-                print 'obj.location.city.state_ids',obj.location.city.state_ids
-                res[obj.id] = [obj.location.city.state_ids[0].country_id.id, obj.location.city.state_ids[0].country_id.name]
-            else:
-                res[obj.id] = False
-        return res
-
-    def _country_id_search(self, cr, uid, obj, name, args, context):
-        if not len(args):
-            return []
-        new_args = []
-        for argument in args:
-            operator = argument[1]
-            value = argument[2]
-            ids = self.pool.get('res.country.state').search(cr, uid, [('country_id',operator,value)], context=context)
-            address_ids = []
-            for country in self.pool.get('res.country.state').browse(cr, uid, ids, context):
-                ids += [city.id for city in country.city_ids]
-            new_args.append( ('location','in',tuple(ids)) )
-        if new_args:
-            new_args.append( ('location','!=',False) )
-        return new_args
 
     _inherit='res.partner.address'
     _columns = {
@@ -224,7 +64,8 @@ class res_partner_address(osv.osv):
         'parish_id':fields.many2one('res.parish','Parish',required=True,help="In this field you enter the parish to which the sector is associated",domain= "[('municipalities_id','=',municipality_id)]" ),
         'zipcode_id':fields.many2one('res.zipcode',string='Zip Code',required=False,help="in this field is selected Zip Code associated with this sector"),
         'sector_id':fields.many2one('res.sector',string='Sector',required=False,help="in this field select the Sector associated with this Municipality"),
-        'city_id':fields.many2one('res.city','City',required=True,help="In this field you enter the city to which the sector is associated", domain= "[('state_id','=',state_id)]"),
+        'city_id':fields.many2one('res.city',string='City',required=True,help="in this field select the city associated with this State"),
+        'city':fields.function(_get_city_name, method=True, type='char', string='City', size=256, domain= "[('state_id','=',state_id)]",store=True),
     }
 
 res_partner_address()
