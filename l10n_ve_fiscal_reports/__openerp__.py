@@ -32,7 +32,7 @@
 {
     "name" : "Fiscal Report For Venezuela",
     "version" : "0.3",
-    "depends" : ["account","l10n_ve_withholding_iva",],
+    "depends" : ["account","l10n_ve_withholding_iva","l10n_ve_fiscal_requirements",],
     "author" : "Vauxoo",
     "description" : """
     What this module does:
