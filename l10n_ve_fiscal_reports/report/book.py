@@ -243,11 +243,11 @@ class pur_sal_book(report_sxw.rml_parse):
         d2=form['date_end']
         if form['type']=='purchase':
             if ret_id:
-                ret_obj = self.pool.get('account.retention')
+                ret_obj = self.pool.get('account.wh.iva')
                 rets = ret_obj.browse(self.cr,self.uid,[ret_id])
                 return rets[0].number
         if ret_id:
-            ret_obj = self.pool.get('account.retention')
+            ret_obj = self.pool.get('account.wh.iva')
             rets = ret_obj.browse(self.cr,self.uid,[ret_id])
             if rets:
                 if time.strptime(rets[0].date, '%Y-%m-%d') >= time.strptime(d1, '%Y-%m-%d') \
@@ -261,7 +261,7 @@ class pur_sal_book(report_sxw.rml_parse):
             return False
 
     def _get_amount_withheld(self,wh_line_id):
-        wh_obj = self.pool.get('account.retention.line')
+        wh_obj = self.pool.get('account.wh.iva.line')
         data = wh_obj.browse(self.cr,self.uid, [wh_line_id])[0]
         return data.amount_tax_ret
 
@@ -365,7 +365,6 @@ class pur_sal_book(report_sxw.rml_parse):
         
         for d in fr_obj.browse(self.cr,self.uid, fr_ids):
             for tax in d.ai_id.tax_line:
-                
                 if percent in tax.name:
                     if nationality=='nacional':
                         if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
@@ -375,7 +374,6 @@ class pur_sal_book(report_sxw.rml_parse):
                         if self._get_p_country(user[0].company_id.partner_id.id)!=self._get_p_country(d.ai_id.partner_id.id):
                             amount_untaxed+= self._get_amount_untaxed_tax2(d.ai_id.type,tax)[0]
                             amount_tax+= self._get_amount_untaxed_tax2(d.ai_id.type,tax)[1]
-
         return (amount_untaxed,amount_tax)
 
 
