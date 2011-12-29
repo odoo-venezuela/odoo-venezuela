@@ -36,6 +36,7 @@ from osv import fields
 from tools.translate import _
 from tools import config
 from tools.sql import drop_view_if_exists
+import decimal_precision as dp
 
 class fiscal_reports_purchase(osv.osv):
     '''
@@ -54,14 +55,14 @@ class fiscal_reports_purchase(osv.osv):
         'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
         'ai_nro_ctrl':fields.char('Control No.', size=128, required=False, readonly=True),
         'ai_reference':fields.char('Invoice Number', size=128, required=False, readonly=True),
-        'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
-        'ai_amount_untaxed': fields.float('Untaxed Amount', digits=(16, int(config['price_accuracy']))),
-        'ai_amount_tax': fields.float('Tax Amount', digits=(16, int(config['price_accuracy']))),
+        'ai_amount_total': fields.float('Amount Total', digits_compute= dp.get_precision('Fiscal Report')),
+        'ai_amount_untaxed': fields.float('Untaxed Amount', digits_compute= dp.get_precision('Fiscal Report')),
+        'ai_amount_tax': fields.float('Tax Amount', digits_compute= dp.get_precision('Fiscal Report')),
         'ai_type':fields.char('Document Type', size=64, required=False, readonly=False),
-        'rp_retention': fields.float('Whitholding Rate', digits=(16, int(config['price_accuracy']))),
+        'rp_retention': fields.float('Whitholding Rate', digits_compute= dp.get_precision('Fiscal Report')),
         'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
-        'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
-        'ar_id':fields.many2one('account.retention', 'Account Retention', readonly=True),
+        'ar_line_id':fields.many2one('account.wh.iva.line', 'Account Retention', readonly=True),
+        'ar_id':fields.many2one('account.wh.iva', 'Account Retention', readonly=True),
     }
     def init(self, cr):
         '''
@@ -97,15 +98,15 @@ class fiscal_reports_purchase(osv.osv):
                     ai."amount_tax" 
                 end as ai_amount_tax,
                      ai."type" AS ai_type,
-                     rp."retention" AS rp_retention,
+                     rp."wh_iva_rate" AS rp_retention,
                      ai."id" AS id,
                      ai."id" AS ai_id,
                      ar_line."id" AS ar_line_id,
                      ar_line."retention_id" AS ar_id
                 FROM
                      "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
-                     LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
-                     LEFT JOIN "account_retention" ar ON ar_line."retention_id" = ar."id"                                                     
+                     LEFT JOIN "account_wh_iva_line" ar_line ON ar_line."invoice_id" = ai."id"
+                     LEFT JOIN "account_wh_iva" ar ON ar_line."retention_id" = ar."id"                                                     
                 WHERE
                      (ai.type = 'in_refund'
                   OR ai.type = 'in_invoice')
@@ -135,14 +136,14 @@ class fiscal_reports_sale(osv.osv):
     'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
     'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=False),
     'ai_nro_ctrl':fields.char('Control No.', size=64, required=False, readonly=False),
-    'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_untaxed': fields.float('Untaxed amount', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_tax': fields.float('Tax Amount', digits=(16, int(config['price_accuracy']))),
+    'ai_amount_total': fields.float('Amount Total', digits_compute= dp.get_precision('Fiscal Report')),
+    'ai_amount_untaxed': fields.float('Untaxed amount', digits_compute= dp.get_precision('Fiscal Report')),
+    'ai_amount_tax': fields.float('Tax Amount', digits_compute= dp.get_precision('Fiscal Report')),
     'ai_type':fields.char('Type', size=64, required=False, readonly=False),
-    'rp_retention': fields.float('Withholding', digits=(16, int(config['price_accuracy']))),
+    'rp_retention': fields.float('Withholding', digits_compute= dp.get_precision('Fiscal Report')),
     'ai_id':fields.many2one('account.invoice', 'Invoice Description', required=False),
-    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
-    'ar_id':fields.many2one('account.retention', 'Account Retention', readonly=True),
+    'ar_line_id':fields.many2one('account.wh.iva.line', 'Account Retention', readonly=True),
+    'ar_id':fields.many2one('account.wh.iva', 'Account Retention', readonly=True),
     }
     def init(self, cr):
         '''
@@ -178,15 +179,15 @@ class fiscal_reports_sale(osv.osv):
                     ai."amount_tax" 
                 end as ai_amount_tax,
                 ai."type" AS ai_type,
-                rp."retention" AS rp_retention,
+                rp."wh_iva_rate" AS rp_retention,
                 ai."id" AS id,
                 ai."id" AS ai_id,
                 ar_line."id" AS ar_line_id,
                 ar_line."retention_id" AS ar_id
                 FROM
                  "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
-                 LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
-                 LEFT JOIN "account_retention" ar ON ar_line."retention_id" = ar."id"
+                 LEFT JOIN "account_wh_iva_line" ar_line ON ar_line."invoice_id" = ai."id"
+                 LEFT JOIN "account_wh_iva" ar ON ar_line."retention_id" = ar."id"
                 WHERE
                 (ai.type = 'out_refund'
                 OR ai.type = 'out_invoice')
@@ -215,12 +216,12 @@ class fiscal_reports_whp(osv.osv):
     'rp_id':fields.many2one('res.partner', 'Partner', readonly=True),
     'ar_number':fields.char('Retention Number', size=64, required=False, readonly=True),
     'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=True),
-    'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
-    'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy'])), readonly=True),
-    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
+    'ai_amount_total': fields.float('Amount Total', digits_compute= dp.get_precision('Fiscal Report')),
+    'ai_amount_untaxed': fields.float('Amount Untaxed', digits_compute= dp.get_precision('Fiscal Report'), readonly=True),
+    'ai_amount_tax': fields.float('Amount tax', digits_compute= dp.get_precision('Fiscal Report'), readonly=True),
+    'ar_line_id':fields.many2one('account.wh.iva.line', 'Account Retention', readonly=True),
     'ai_id':fields.many2one('account.invoice', 'Account Invoice', readonly=True),
-    'ar_id':fields.many2one('account.retention', 'Account Retention', readonly=True),
+    'ar_id':fields.many2one('account.wh.iva', 'Account Retention', readonly=True),
     }
     def init(self, cr):
         '''
@@ -260,7 +261,7 @@ class fiscal_reports_whp(osv.osv):
                      rp."id" AS rp_id,
                      ai."id" AS ai_id
                 FROM
-                     "account_retention_line" ar_line INNER JOIN "account_retention" ar ON ar_line."retention_id" = ar."id"
+                     "account_wh_iva_line" ar_line INNER JOIN "account_wh_iva" ar ON ar_line."retention_id" = ar."id"
                      INNER JOIN "res_partner" rp ON ar."partner_id" = rp."id"
                      INNER JOIN "account_invoice" ai ON ar_line."invoice_id" = ai."id"
                 WHERE
@@ -288,11 +289,11 @@ class fiscal_reports_whs(osv.osv):
     'ar_number':fields.char('WH Number', size=64, readonly=True),
     'ai_number':fields.char('Invoice Number', size=64, readonly=True),
     'ai_id':fields.many2one('account.invoice', 'Invoice', required=False, readonly=True),
-    'ai_amount_total': fields.float('Invoice Total', digits=(16, int(config['price_accuracy'])), readonly=True),
-    'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
-    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
-    'ai_amount_tax': fields.float('Amount Tax', digits=(16, int(config['price_accuracy'])), readonly=True),
-    'ar_id':fields.many2one('account.retention', 'Retention', required=False, readonly=True),
+    'ai_amount_total': fields.float('Invoice Total', digits_compute= dp.get_precision('Fiscal Report'), readonly=True),
+    'ai_amount_untaxed': fields.float('Amount Untaxed', digits_compute= dp.get_precision('Fiscal Report'), readonly=True),
+    'ar_line_id':fields.many2one('account.wh.iva.line', 'Account Retention', readonly=True),
+    'ai_amount_tax': fields.float('Amount Tax', digits_compute= dp.get_precision('Fiscal Report'), readonly=True),
+    'ar_id':fields.many2one('account.wh.iva', 'Retention', required=False, readonly=True),
     'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=True),
     }
     def init(self, cr):
@@ -334,7 +335,7 @@ class fiscal_reports_whs(osv.osv):
                      rp."id" AS rp_id,
                      ai."id" AS ai_id
                 FROM
-                     "account_retention_line" ar_line INNER JOIN "account_retention" ar ON ar_line."retention_id" = ar."id"
+                     "account_wh_iva_line" ar_line INNER JOIN "account_wh_iva" ar ON ar_line."retention_id" = ar."id"
                      INNER JOIN "res_partner" rp ON ar."partner_id" = rp."id"
                      INNER JOIN "account_invoice" ai ON ar_line."invoice_id" = ai."id"
                 WHERE

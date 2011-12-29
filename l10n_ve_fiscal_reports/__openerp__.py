@@ -31,8 +31,8 @@
 
 {
     "name" : "Fiscal Report For Venezuela",
-    "version" : "0.2",
-    "depends" : ["account","retencion_iva",],
+    "version" : "0.3",
+    "depends" : ["account","l10n_ve_withholding_iva",],
     "author" : "Vauxoo",
     "description" : """
     What this module does:
@@ -49,7 +49,8 @@
     "demo_xml" : [
     ],
     "update_xml" : [
-        "security/ir.model.access.csv",    
+        "security/ir.model.access.csv",
+        "data/l10n_ve_fiscal_reports.xml",
         "fiscal_report_purchase_view.xml",
         "fiscal_report_sale_view.xml",
         "fiscal_report_whp.xml",
