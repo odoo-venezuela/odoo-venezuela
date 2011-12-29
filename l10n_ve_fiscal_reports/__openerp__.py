@@ -3,6 +3,7 @@
 #
 # Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
 #                    Javier Duran <javier@vauxoo.com>
+#                    Nhomar Hernandéz <nhomar@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -28,4 +29,37 @@
 #
 ##############################################################################
 
-import sales_book_wizard
+{
+    "name" : "Fiscal Report For Venezuela",
+    "version" : "0.2",
+    "depends" : ["account","retencion_iva",],
+    "author" : "Vauxoo",
+    "description" : """
+    What this module does:
+    Build all Fiscal Reports for Law in Venezuela.
+    -- Purchase Report.
+    -- Sales Report.
+    -- Withholding Report.
+        Sales, Purchase, ISLR and Munic.
+    """,
+    "website" : "http://openerp.com.ve",
+    "category" : "Generic Modules/Accounting",
+    "init_xml" : [
+    ],
+    "demo_xml" : [
+    ],
+    "update_xml" : [
+        "security/ir.model.access.csv",    
+        "fiscal_report_purchase_view.xml",
+        "fiscal_report_sale_view.xml",
+        "fiscal_report_whp.xml",
+        "fiscal_report_whs.xml",
+        "fiscal_report_report.xml",
+        "fiscal_report_wizard.xml",
+        "wizard/sales_book_wizard_view.xml",
+        "invoice_view.xml",
+        "adjustment_book.xml",
+    ],
+    "active": False,
+    "installable": True,
+}
