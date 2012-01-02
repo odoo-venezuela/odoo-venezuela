@@ -61,15 +61,15 @@ class account_voucher_line(osv.osv):
         'amount_residual': fields.function(_amount_residual, method=True, digits_compute=dp.get_precision('Account'), string='Residual Amount', type='float', store=True),
     }
 
-    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
-        partner_obj = self.pool.get('res.partner')
-        partner_brw = partner_obj.browse(cr,uid,partner_id,context)
-        
-        account_id = partner_brw.property_account_payable.id
-        account_balance = partner_brw.property_account_payable.balance
-   
-        res = {'value' : {'account_id':account_id,'amount':abs(account_balance),}}
-        return res
+#    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
+#        partner_obj = self.pool.get('res.partner')
+#        partner_brw = partner_obj.browse(cr,uid,partner_id,context)
+#        
+#        account_id = partner_brw.property_account_payable.id
+#        account_balance = partner_brw.property_account_payable.balance
+#   
+#        res = {'value' : {'account_id':account_id,'amount':abs(account_balance),}}
+#        return res
 
 #    def onchange_invoice_id(self, cr, uid, ids, inv_id, context=None):
 #        invoice_obj = self.pool.get('account.invoice')
@@ -87,6 +87,14 @@ class account_voucher(osv.osv):
 
     _columns={
         'one_partner':fields.boolean('One Supplier or Customer ?', required=False, help="Check this box if there only one supplier or customer for this voucher"),
+        'type':fields.selection([
+            ('sale','Sale'),
+            ('purchase','Purchase'),
+            ('payment','Payment'),
+            ('receipt','Receipt'),
+            ('refund_payment','Payment Refund'),
+            ('refund_receipt','Receipt Refund'),
+        ],'Default Type', readonly=True, states={'draft':[('readonly',False)]}),
     }
 
     def onchange_journal_id(self, cr, uid, ids, journal_id, type,context=None):
@@ -181,23 +189,23 @@ class account_voucher(osv.osv):
         return res
 
 
-    def voucher_move_line_get_item(self, cr, uid, voucher, line, move_id, company_currency, current_currency, context):
-        partner_id = voucher.partner_id.id
-        if context.get('one_partner',False):
-            partner_id = line.partner_id.id
-        return {
-            'journal_id': voucher.journal_id.id,
-            'period_id': voucher.period_id.id,
-            'name': line.name and line.name or '/',
-            'account_id': line.account_id.id,
-            'move_id': move_id,
-            'partner_id': partner_id,
-            'currency_id': company_currency <> current_currency and current_currency or False,
-            'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
-            'quantity': 1,
-            'credit': 0.0,
-            'debit': 0.0,
-            'date': voucher.date
-        }
+#    def voucher_move_line_get_item(self, cr, uid, voucher, line, move_id, company_currency, current_currency, context):
+#        partner_id = voucher.partner_id.id
+#        if context.get('one_partner',False):
+#            partner_id = line.partner_id.id
+#        return {
+#            'journal_id': voucher.journal_id.id,
+#            'period_id': voucher.period_id.id,
+#            'name': line.name and line.name or '/',
+#            'account_id': line.account_id.id,
+#            'move_id': move_id,
+#            'partner_id': partner_id,
+#            'currency_id': company_currency <> current_currency and current_currency or False,
+#            'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
+#            'quantity': 1,
+#            'credit': 0.0,
+#            'debit': 0.0,
+#            'date': voucher.date
+#        }
 
 account_voucher()

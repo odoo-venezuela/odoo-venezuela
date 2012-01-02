@@ -109,7 +109,7 @@ class report_voucher_amount(report_sxw.rml_parse):
         id_voucher_pay_sup=voucher_obj.search(self.cr, self.uid, [('voucher_pay_support_id','=',voucher.id)])[0]
         voucher_bw=voucher_obj.browse(self.cr, self.uid, id_voucher_pay_sup)
         voucher_line=[]
-        lines=voucher_bw.payment_ids
+        lines=voucher_bw.line_ids
         for l in lines:
             if l.invoice_id:
                 voucher_line.append(l)
@@ -128,10 +128,10 @@ class report_voucher_amount(report_sxw.rml_parse):
         ano=a[6:10]
         fecha="%s-%s-%s"%(ano,mes,dia)
         account_voucher= self.pool.get('account.voucher')
-        account_voucher_ids = account_voucher.search(self.cr, self.uid, [('date', '<=',fecha)])
+        account_voucher_ids = account_voucher.search(self.cr, self.uid, [('date', '<=',line.voucher_id.date)])
         account_voucher_brw=account_voucher.browse(self.cr, self.uid,account_voucher_ids)
         for voucher in account_voucher_brw:
-            for line in voucher.payment_ids:
+            for line in voucher.line_ids:
                 if line.invoice_id==invoice:
                     lis_line.append(line)
         c_set= set(lis_line)
@@ -148,7 +148,7 @@ class report_voucher_amount(report_sxw.rml_parse):
     def get_iva(self, line):
         list_iva=[]
         invoice=line.invoice_id
-        rete_line= self.pool.get('account.retention.line')
+        rete_line= self.pool.get('account.wh.iva.line')
         rete_line_ids = rete_line.search(self.cr, self.uid, [('invoice_id', '=',invoice.id)])
         rete_line_brw=rete_line.browse(self.cr, self.uid,rete_line_ids)
 

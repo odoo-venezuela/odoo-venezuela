@@ -51,7 +51,7 @@
     6.- Create support (click button)
     """,
     'init_xml': [],
-    "depends" : ["base", "account", "account_voucher"],
+    "depends" : ["base", "account", "account_voucher", "account_voucher_multi_partner", "l10n_ve_withholding_iva", "account_voucher_patch"],
     'update_xml': [
         'bank_management_data.xml',
         'bank_management_menu.xml',
@@ -67,9 +67,10 @@
         'check/wizard/chk_book_gral.xml',
         'check/check_book_request_view.xml',
         'check/voucher_pay_support_view.xml',
-        'check/account_voucher_payment_view.xml',
         'check/account_view.xml',
         'check/account_voucher_journal_view.xml',
+        'check/pay_order_view.xml',
+        'check/pay_order_contrapartida.xml',
         'security/ir.model.access.csv',
         'security/account_voucher_group.xml',
         'bank/data/banesco_data.xml',
