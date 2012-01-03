@@ -142,9 +142,11 @@ class account_invoice(osv.osv):
         return lines
 
     def wh_iva_line_create(self, cr, uid, inv):
+        wh_iva_rate = inv.type in ('in_invoice', 'in_refund') and inv.partner_id.wh_iva_rate or inv.type in ('out_invoice', 'out_refund') and inv.company_id.partner_id.wh_iva_rate
         return (0, False, {
             'name': inv.name or inv.number,
             'invoice_id': inv.id,
+            'wh_iva_rate': wh_iva_rate,
         })
 
     def action_wh_iva_create(self, cr, uid, ids, *args):
@@ -154,10 +156,10 @@ class account_invoice(osv.osv):
                 raise osv.except_osv('Invalid Action !', _('This invoice is already withholded'))
             ret_line = []
             if inv.type in ('out_invoice', 'out_refund'):
-                acc_id = inv.partner_id.property_wh_iva_receivable.id
+                acc_id = inv.partner_id.property_account_receivable.id
                 wh_type = 'out_invoice'
             else:
-                acc_id = inv.partner_id.property_wh_iva_payable.id
+                acc_id = inv.partner_id.property_account_payable.id
                 wh_type = 'in_invoice'
                 if not acc_id:
                     raise osv.except_osv('Invalid Action !',\
@@ -209,7 +211,7 @@ class account_invoice(osv.osv):
         if context is None:
             context={}
         return any([line.tax_id.ret for line in self.browse(cr, uid, ids[0], context=context).tax_line])
- 
+
     def check_wh_apply(self, cr, uid, ids, context=None):
         if context is None:
             context={}
@@ -218,9 +220,41 @@ class account_invoice(osv.osv):
         wh_apply.append(self._withholding_partner(cr, uid, ids, context=context))
         return all(wh_apply)
 
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
+                            pay_journal_id, writeoff_acc_id, 
+                            writeoff_period_id, writeoff_journal_id, date, 
+                            name, context=None):
+        if context is None: context = {}
+        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
+                            pay_journal_id, writeoff_acc_id, 
+                            writeoff_period_id, writeoff_journal_id, date, 
+                            name, context=context)
+        if context.get('vat_wh',False):
+            invoice = self.browse(cr, uid, ids[0])
+            
+            types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
+            direction = types[invoice.type]
+
+            for tax_brw in to_wh:
+                if 'invoice' in invoice.type:
+                    acc = tax_brw.tax_id.wh_vat_collected_account_id and tax_brw.tax_id.wh_vat_collected_account_id.id or False
+                elif 'refund' in invoice.type:
+                    acc = tax_brw.tax_id.wh_vat_paid_account_id and tax_brw.tax_id.wh_vat_paid_account_id or False
+                if not acc:
+                    raise osv.except_osv(_('Missing Account in Tax!'),_("Tax [%s] has missing account. Please, fill the missing fields") % (tax_brw.tax_id.name,))
+                res.append((0,0,{
+                    'debit': direction * tax_brw.amount_ret<0 and - direction * tax_brw.amount_ret,
+                    'credit': direction * tax_brw.amount_ret>0 and direction * tax_brw.amount_ret,
+                    'account_id': acc,
+                    'partner_id': invoice.partner_id.id,
+                    'ref':invoice.number,
+                    'date': date,
+                    'currency_id': False,
+                    'name':name
+                }))
+        
+        return res
 account_invoice()
-
-
 
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
@@ -228,7 +262,6 @@ class account_invoice_tax(osv.osv):
         'amount_ret': fields.float('Withholding amount', digits_compute= dp.get_precision('Withhold'), help="Withholding vat amount"),
         'base_ret': fields.float('Amount', digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),
     }
-
 
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
         res = {}

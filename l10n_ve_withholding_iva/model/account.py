@@ -29,9 +29,25 @@ from osv import fields, osv
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     _columns = {
-        'ret': fields.boolean('Withhold', help="Indicate if the amount of tax must be withholded"),
+        'ret': fields.boolean('Withholdable', help="Indicate if the tax must be withholded"),
+        'wh_vat_collected_account_id': fields.many2one(
+            'account.account',
+            type='many2one',
+            relation='account.account',
+            string="Invoice Withholding VAT Account",
+            method=True,
+            view_load=True,
+            domain="[('type', '=', 'other')]",
+            help="This account will be used when applying a withhold to an Invoice"),
+        'wh_vat_paid_account_id': fields.many2one(
+            'account.account',
+            type='many2one',
+            relation='account.account',
+            string="Refund Withholding VAT Account",
+            method=True,
+            view_load=True,
+            domain="[('type', '=', 'other')]",
+            help="This account will be used when applying a withhold to a Refund"),
    }
 
 account_tax()
-
-
