@@ -72,7 +72,6 @@ class account_wh_iva_line_tax(osv.osv):
         'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null'),
         'base': fields.related('inv_tax_id', 'base', type='float', string='Tax Base', store=True, select=True, readonly=True, ondelete='set null'),
         'amount': fields.related('inv_tax_id', 'amount', type='float', string='Taxed Amount', store=True, select=True, readonly=True, ondelete='set null'),
-        # Otro campo related
         'company_id': fields.related('inv_tax_id', 'company_id', type='many2one',relation='res.company', string='Company', store=True, select=True, readonly=True, ondelete='set null'),
         'amount_ret': fields.function(
             _get_amount_ret,
@@ -85,33 +84,11 @@ class account_wh_iva_line_tax(osv.osv):
             },
             fnct_inv=_set_amount_ret,
             help="Withholding vat amount"),
-        #~ 'amount_ret': fields.float('Withheld Taxed Amount', digits_compute= dp.get_precision('Withhold'), help="Withholding vat amount"),
     }
 
 account_wh_iva_line_tax()
 
 class account_wh_iva_line(osv.osv):
-    
-    ####################################################################
-    #~ ESTO SE DEBE BORRAR UNA VEZ QUE SE TERMINE
-    #~ DE DEFINIR LA EXISTENCIA DE LAS LINEAS NUEVAS PARA RETENCION
-    ####################################################################
-    
-    def _compute_tax_lines(self, cr, uid, ids, name, args, context=None):
-        if context is None: context = {}
-        res = {}
-        awilt_obj = self.pool.get('account.wh.iva.line.tax')
-        for ret_line in self.browse(cr, uid, ids, context):
-            lines = []
-            if ret_line.invoice_id:
-                tax_ids = [i.id for i in ret_line.invoice_id.tax_line if i.tax_id and i.tax_id.ret]
-                for i in tax_ids:
-                    lines.append(awilt_obj.create(cr, uid, {
-                            'inv_tax_id':i,
-                            'wh_vat_line_id':ret_line.id
-                                                }, context=context))
-            res[ret_line.id] = lines
-        return res
 
     def _get_tax_lines(self, cr, uid, tax_id_brw, context=None):
         if context is None: context = {}
@@ -146,10 +123,6 @@ class account_wh_iva_line(osv.osv):
                     lines.append(awilt_obj.create(cr, uid, values, context=context))
         return True
 
-    ####################################################################
-    #~ FIN DEL BORRADO
-    ####################################################################
-    
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
@@ -169,19 +142,10 @@ class account_wh_iva_line(osv.osv):
         'name': fields.char('Description', size=64, required=True, help="Withholding line Description"),
         'retention_id': fields.many2one('account.wh.iva', 'Withholding vat', ondelete='cascade', help="Withholding vat"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
-        #########################################
-        #~ REDEFINIENDO EL CAMPO TAX LINE,
-        #~ AHORA SERA UN NUEVO MODELO EL QUE LLEVARA A CABO TAL TAREA
         'tax_line': fields.one2many('account.wh.iva.line.tax','wh_vat_line_id', string='Taxes', help="Invoice taxes"),
-        #~ 'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.wh.iva.line.tax', type="one2many", string='Taxes', help="Invoice taxes",store = {'account.wh.iva.line': (lambda  self, cr, uid, ids, c={}: ids,['invoice_id'],15)}),
-        #~ 'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.invoice.tax', type="one2many", string='Taxes', help="Invoice taxes"),
-        #########################################
         'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
-#        'retention_rate': fields.function(_retention_rate, method=True, string='Wh. rate', type='float', help="Withholding rate"),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
-        #~ 'amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),        
-        #~ 'amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withholding tax vat"),        
         'wh_iva_rate': fields.float(string='Withholding Vat Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
     }
 
@@ -222,7 +186,6 @@ class account_wh_iva(osv.osv):
                 'amount_base_ret': 0.0,
                 'total_tax_ret': 0.0
             }
-            #cambiar por los campos no calculados
             for line in retention.wh_lines:
                 res[retention.id]['total_tax_ret'] += line.amount_tax_ret
                 res[retention.id]['amount_base_ret'] += line.base_ret
@@ -279,8 +242,6 @@ class account_wh_iva(osv.osv):
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'wh_lines': fields.one2many('account.wh.iva.line', 'retention_id', 'Withholding vat lines', readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat lines"),
-        #~ 'tot_amount_base_wh': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),
-        #~ 'tot_amount_tax_wh': fields.float('Amount wh. tax vat', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withholding tax vat"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
         
@@ -309,7 +270,6 @@ class account_wh_iva(osv.osv):
         note = _('Taxes in the following invoices have been miscalculated\n\n')
         for wh_line in self.browse(cr,uid, ids[0]).wh_lines:
             for tax in wh_line.tax_line:
-                #~ if not self._get_valid_wh(cr, uid, tax.amount_ret, tax.amount, tax.wh_vat_line_id.wh_iva_rate, context=context):
                 if not self._get_valid_wh(cr, uid, tax.amount_ret, tax.amount, tax.wh_vat_line_id.wh_iva_rate, context=context):
                     if not res.get(wh_line.id, False):
                         note += _('\tInvoice: %s, %s, %s\n')%(wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference or '/')
@@ -464,8 +424,6 @@ class account_wh_iva(osv.osv):
                         'invoice_id':   inv_brw.id,
                         'name':         inv_brw.name or _('N/A'),
                         'wh_iva_rate':  inv_brw.partner_id.wh_iva_rate,
-                        #~ 'tax_line': [awil_obj._get_tax_lines(cr, uid, i, context=context) for i in inv_brw.tax_line if i.tax_id and i.tax_id.ret]
-                        
                         } for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
         
         res = {'value': {
@@ -474,33 +432,6 @@ class account_wh_iva(osv.osv):
         }
 
         return res
-
-    #~ ##########################################
-    #~ BEGIN DELETE 
-    #~ ##########################################
-    #~ ESTO SE DEBE BORRAR SI EN EL ONCHANGE 
-    #~ DEL DOCUMENTO YA SE ESTA CONSIDERANDO
-    #~ EL BORRADO DE LOS DOCUMENTOS QUE ESTABAN
-    #~ PREVIAMENTE
-    #~ ##########################################
-    
-    def _update_check(self, cr, uid, ids, partner_id, context={}):
-        if ids:
-            ret = self.browse(cr, uid, ids[0])
-            inv_str = ''
-            for line in ret.wh_lines:
-                if line.invoice_id.partner_id.id != partner_id:
-                    inv_str+= line.invoice_id.name and '%s'% '\n'+line.invoice_id.name or ''
-
-            if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
-
-        return True
-
-    #~ ##########################################
-    #~ END DELETE 
-    #~ ##########################################
-
 
     def _new_check(self, cr, uid, values, context={}):
         lst_inv = []
@@ -540,18 +471,8 @@ class account_wh_iva(osv.osv):
             context = {}      
         awil_obj = self.pool.get('account.wh.iva.line')
         for retention in self.browse(cr, uid, ids, context):
-            
-            #~ res[retention.id] = {
-                #~ 'tot_amount_base_wh': 0.0,
-                #~ 'tot_amount_tax_wh': 0.0
-            #~ }
             whl_ids = [line.id for line in retention.wh_lines]
             if whl_ids:
-                awil_obj.load_taxes(cr, uid, whl_ids , context=context)
-                
-                #~ res[retention.id]['tot_amount_base_wh'] += line.amount_base_wh
-                #~ res[retention.id]['tot_amount_tax_wh'] += line.amount_tax_wh
-        #~ self.write(cr, uid, [retention.id], res[retention.id])        
+                awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
         return True
-    
 account_wh_iva()
