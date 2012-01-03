@@ -35,29 +35,9 @@ class res_partner(osv.osv):
     _columns = {
         'wh_iva_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
         'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
-        'property_wh_iva_payable': fields.property(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Purchase withholding vat account",
-            method=True,
-            view_load=True,
-            domain="[('type', '=', 'other')]",
-            help="This account will be used debit withholding vat amount"),
-        'property_wh_iva_receivable': fields.property(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Sale withholding vat account",
-            method=True,
-            view_load=True,
-            domain="[('type', '=', 'other')]",
-            help="This account will be used credit withholding vat amount"),
-
     }
     _defaults = {
         'wh_iva_rate': lambda *a: 0,
-
     }
 
 
