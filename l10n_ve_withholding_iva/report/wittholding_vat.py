@@ -183,6 +183,7 @@ class rep_comprobante(report_sxw.rml_parse):
                 d1 = {
                     'fecha': rl.invoice_id.date_invoice,
                     'nro_fact': rl.invoice_id.reference,
+                    'nro': rl.invoice_id.number,
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
                     'nro_ncre': rl.invoice_id.reference,
                     'nro_ndeb': rl.invoice_id.reference,
@@ -223,6 +224,7 @@ class rep_comprobante(report_sxw.rml_parse):
                 d1 = {
                     'fecha': rl.invoice_id.date_invoice,
                     'nro_fact': rl.invoice_id.reference,
+                    'nro': rl.invoice_id.number,
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
                     'nro_ncre': rl.invoice_id.reference,
                     'nro_ndeb': rl.invoice_id.reference,

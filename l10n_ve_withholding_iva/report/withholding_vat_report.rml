@@ -213,7 +213,7 @@
         </tr>
         <tr>[[repeatIn( get_totales(o.id),'l')]][[ setLang(company.partner_id.lang) ]]
           <td><para style="P12">[[ formatLang(l['fecha'],date=True) ]]</para></td>
-          <td><para style="P12">[[ ((l['inv_type'] in ['in_invoice', 'out_invoice']) and l['nro_fact']) or '' ]]</para></td>
+          <td><para style="P12">[[ ((l['inv_type'] in ['in_invoice']) and l['nro_fact']) or '' ]][[ ((l['inv_type'] in ['out_invoice']) and l['nro']) or '' ]]</para></td>
           <td><para style="P12">[[ l['nro_ctrl'] ]]</para></td>
           <td><para style="P12">[[ ((l['inv_type']=='in_refund') and l['nro_ncre']) or '' ]]</para></td>
           <td><para style="P12"><font color="white"> </font></para></td>
