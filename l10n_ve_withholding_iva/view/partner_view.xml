@@ -21,8 +21,6 @@
                             <group col="4" colspan="2">
                                 <field name="wh_iva_agent"/>
                                 <field name="wh_iva_rate"/>
-                                <field name="property_wh_iva_payable"/>
-                                <field name="property_wh_iva_receivable"/>
                             </group>
                 </xpath>
                 <xpath expr='//separator[@string="isep"]' position='attributes'>
