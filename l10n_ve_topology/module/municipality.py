@@ -26,7 +26,7 @@ from osv import osv
 from osv import fields
 from tools.translate import _
 
-class Municipality(osv.osv):
+class municipality(osv.osv):
     '''
     Model added to manipulate separately the municipalities on Partner address.
     '''
@@ -53,5 +53,5 @@ class Municipality(osv.osv):
 
     _order = 'code'
 
-Municipality()
+municipality()
 

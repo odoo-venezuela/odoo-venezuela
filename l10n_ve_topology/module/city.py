@@ -27,7 +27,7 @@ from osv import osv
 from osv import fields
 
 
-class City(osv.osv):
+class city(osv.osv):
     '''
     Model added to manipulate separately the Cities on Partner address.
     '''
@@ -54,5 +54,5 @@ class City(osv.osv):
 
     _order = 'code'
 
-City()
+city()
 
