@@ -62,7 +62,7 @@ class fiscal_requirements_config(osv.osv_memory):
                     'street':wiz_data.add,
                     'country_id':self.pool.get("res.country").search(cr,uid,[('code','=','VE')])[0]})
         #Data on res.partner
-        data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat, 'vat_apply': wiz_data.vat_apply,}
+        data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat.upper(), 'vat_apply': wiz_data.vat_apply,}
         self.pool.get('res.partner').write(cr, uid, [partner.id], data)
 
     _columns = {
