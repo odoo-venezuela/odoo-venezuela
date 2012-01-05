@@ -68,7 +68,7 @@ class fiscal_requirements_config(osv.osv_memory):
     _columns = {
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),
         'name': fields.char('Name', 64, help="The commercial name of the company"),
-        'add':fields.char('Invoice Address',64,help='Put Here the address declared on your VAT information on SENIAT'),
+        'add':fields.char('Invoice Address',64,help='Put Here the address declared on your VAT information on SENIAT',required=True),
         'vat_apply': fields.boolean("Apply VAT?"),
     }
 fiscal_requirements_config()
