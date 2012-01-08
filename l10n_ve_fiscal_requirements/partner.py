@@ -232,8 +232,7 @@ class res_partner(osv.osv):
         if all_rif:
             ctx = context.copy()
             ctx.update({'all_rif': True})
-        for partner in self.browse(cr,uid,ids):
-            self.update_rif(cr, uid, [partner.id], context=ctx)
+        self.update_rif(cr, uid, ids, context=ctx)
         return True
 
 res_partner()
