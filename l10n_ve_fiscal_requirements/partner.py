@@ -226,8 +226,16 @@ class res_partner(osv.osv):
                     else:
                         return False
             else:
-                if not context.get('all_rif',False):
-                    self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                if partner.address:
+                    invoices_addr_country = [i.country_id and i.country_id.code or False  for i in partner.address if i.type == 'invoice']
+                    if invoices_addr_country:
+                        country = [j for j in invoices_addr_country if j]
+                        if country and 'VE' in country and not context.get('all_rif',False):
+                                self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                else:
+                    
+                    pass
+                
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
