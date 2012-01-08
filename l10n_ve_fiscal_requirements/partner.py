@@ -215,14 +215,16 @@ class res_partner(osv.osv):
                 return False
         for partner in self.browse(cr,uid,ids):
             if partner.vat:
-                xml_data = self._load_url(3,url1 %partner.vat[2:])
-                if not self._eval_seniat_data(xml_data,context):
-                    dom = parseString(xml_data)
-                    res = self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
-                    if res:
-                      self._update_partner(cr, uid, ids, context)  
-                else:
-                    return False
+                vat_country, vat_number = self._split_vat(partner.vat)
+                if vat_country.upper() == 'VE':
+                    xml_data = self._load_url(3,url1 %partner.vat[2:])
+                    if not self._eval_seniat_data(xml_data,context):
+                        dom = parseString(xml_data)
+                        res = self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                        if res:
+                          self._update_partner(cr, uid, ids, context)  
+                    else:
+                        return False
             else:
                 if not context.get('all_rif',False):
                     self._print_error(_('Vat Error !'),_('The field vat is empty'))
