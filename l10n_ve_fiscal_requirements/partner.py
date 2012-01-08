@@ -215,25 +215,34 @@ class res_partner(osv.osv):
                 return False
         for partner in self.browse(cr,uid,ids):
             if partner.vat:
-                xml_data = self._load_url(3,url1 %partner.vat[2:])
-                if not self._eval_seniat_data(xml_data,context):
-                    dom = parseString(xml_data)
-                    res = self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
-                    if res:
-                      self._update_partner(cr, uid, ids, context)  
-                else:
-                    return False
+                vat_country, vat_number = self._split_vat(partner.vat)
+                if vat_country.upper() == 'VE':
+                    xml_data = self._load_url(3,url1 %partner.vat[2:])
+                    if not self._eval_seniat_data(xml_data,context):
+                        dom = parseString(xml_data)
+                        res = self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
+                        if res:
+                          self._update_partner(cr, uid, ids, context)  
+                    else:
+                        return False
             else:
-                if not 'all_rif' in context:
-                    self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                if partner.address:
+                    invoices_addr_country = [i.country_id and i.country_id.code or False  for i in partner.address if i.type == 'invoice']
+                    if invoices_addr_country:
+                        country = [j for j in invoices_addr_country if j]
+                        if country and 'VE' in country and not context.get('all_rif',False):
+                                self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                else:
+                    
+                    pass
+                
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
+        ctx = context.copy()
         if all_rif:
-            ctx = context.copy()
             ctx.update({'all_rif': True})
-        for partner in self.browse(cr,uid,ids):
-            self.update_rif(cr, uid, [partner.id], context=ctx)
+        self.update_rif(cr, uid, ids, context=ctx)
         return True
 
 res_partner()
