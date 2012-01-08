@@ -224,13 +224,13 @@ class res_partner(osv.osv):
                 else:
                     return False
             else:
-                if not 'all_rif' in context:
+                if not context.get('all_rif',False):
                     self._print_error(_('Vat Error !'),_('The field vat is empty'))
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
+        ctx = context.copy()
         if all_rif:
-            ctx = context.copy()
             ctx.update({'all_rif': True})
         self.update_rif(cr, uid, ids, context=ctx)
         return True
