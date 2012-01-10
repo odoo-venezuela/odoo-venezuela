@@ -35,7 +35,7 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='date_due']" position="after">
-                    <field name="nro_ctrl" />
+                    <field name="nro_ctrl" required="1"/>
                 </xpath>
             </field>
         </record>
@@ -57,7 +57,7 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="/tree/field[@name='name']" position="after">
-                    <field name="reference"/>
+                    <field name="reference" required="1" />
                 </xpath>
             </field>
         </record>
