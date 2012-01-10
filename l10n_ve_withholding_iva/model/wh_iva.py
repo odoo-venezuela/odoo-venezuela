@@ -390,7 +390,13 @@ class account_wh_iva(osv.osv):
                     self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
         
         return True
-
+    
+    def _withholdable_tax_(self, cr, uid, ids, context=None):
+        if context is None:
+            context={}
+        account_invo_obj = self.pool.get('account.invoice')
+        acc_id = [line.id for line in account_invo_obj.browse(cr, uid, ids, context=context) if line.tax_line for tax in line.tax_line if tax.tax_id.ret ]
+        return acc_id
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
         if context is None: context = {}
@@ -417,7 +423,7 @@ class account_wh_iva(osv.osv):
         if inv_ids:
             #~ Get only the invoices which are not in a document yet
             inv_ids = [i for i in inv_ids if not wh_line_obj.search(cr, uid, [('invoice_id', '=', i)])]
-            
+        inv_ids = self._withholdable_tax_(cr, uid, inv_ids, context=None)
         if inv_ids:
             awil_obj = self.pool.get('account.wh.iva.line')
             res_wh_lines = [{
