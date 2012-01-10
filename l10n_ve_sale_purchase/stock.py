@@ -45,20 +45,11 @@ class stock_picking(osv.osv):
         invoice_id=data[picking_id]
         invoice_brw = self.pool.get('account.invoice').browse(cursor, user, invoice_id)
         picking_brw=self.browse(cursor, user, picking_id)
-        if type == 'in_invoice' or type == 'in_refund': #ORDENES DE COMPRA
-            for line_invoice in invoice_brw.invoice_line: #lineas de la factura
-                for line_orden in picking_brw.purchase_id.order_line: #lineas de la orden de compra
-                    if line_invoice.product_id==line_orden.product_id: #si es la misma linea
-                        self.pool.get('account.invoice.line').write(cursor, user, line_invoice.id, {'concept_id':line_orden.concept_id.id})       
-            return data 
-        #~ ORDENES DE VENTA
-        if type =='out_invoice' or type == 'out_refund':
-            for line_invoice in invoice_brw.invoice_line: #lineas de la factura
-                for line_orden in picking_brw.sale_id.order_line: #lineas de la orden de venta
-                    if line_invoice.product_id==line_orden.product_id: #si es la misma linea
-                        self.pool.get('account.invoice.line').write(cursor, user, line_invoice.id, {'concept_id':line_orden.concept_id.id})     
-            
-            return data 
+        invoice_line_obj = self.pool.get('account.invoice.line')
+        for l in invoice_brw.invoice_line:
+            invoice_line_obj.write(cursor, user, l.id, {'concept_id':
+                l.product_id and l.product_id.concept_id and l.product_id.concept_id.id or False})       
+        return data 
 
     _columns = {
         'nro_ctrl': fields.char('Invoice ref.', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Invoice reference"),
