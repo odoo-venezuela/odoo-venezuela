@@ -8,79 +8,46 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="/form/notebook/page/field[@name='address']/form/group/field[@name='state_id']" position="after">
-                <field name="municipality_id" invisible="False" attrs= "{'readonly':[('state_id','=',False)]}"/>
-                <field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
-            </xpath>
-            <xpath expr="/form/notebook/page/field[@name='address']/form/group/field[@name='city']" position="replace">
-                <field name="city_id" invisible="False"  attrs= "{'readonly':[('parish_id','=',False)]}"/>
-            </xpath>
-            <xpath expr="/form/notebook/page/field[@name='address']/form/group/field[@name='zip']" position="replace">
-                <field name="zipcode_id" invisible="False"/>
-            </xpath>
-            
-            
+			<xpath expr="/form/notebook/page/field[@name='address']/form/group[2]" position="replace">
+				<group colspan="2" col="2">
+					<separator string="Postal Address" colspan="4" col="4"/>
+					<field name="type"/> 
+					<field name="street"/> 
+					<field name="street2"/>
+					<field name="zipcode_id" invisible="False"/> 
+					<field name="country_id"/> 
+					<field name="state_id" domain= "[('country_id','=',country_id)]" attrs= "{'readonly':[('country_id','=',False)]}"/>
+					<field name="city_id" invisible="False"  attrs= "{'readonly':[('state_id','=',False)]}"/>
+					<field name="municipality_id" invisible="False" attrs= "{'readonly':[('city_id','=',False)]}"/>
+					<field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+				</group>
+			</xpath>
         </field>
     </record>
-
-<!--
- Partner Address 1 
--->
-
-    <record model="ir.ui.view" id="partners_form_add_location1">
-        <field name="name">partners_form_add_location1</field>
+    
+<!-- Partner Address -->
+    <record model="ir.ui.view" id="partner_address_form1">
+        <field name="name">partner_address_form1</field>
         <field name="model">res.partner.address</field>
         <field name="inherit_id" ref="base.view_partner_address_form1"/>
         <field name="arch" type="xml">
-        <xpath expr="/form/group/field[@name='state_id']" position="after">
-            <field name="municipality_id" domain= "[('state_id','=',state_id)]" attrs= "{'readonly':[('state_id','=',False)]}"/>
-            <field name="parish_id" domain= "[('municipalities_id','=',municipality_id)]" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
-        </xpath>
-        <xpath expr="/form/group/field[@name='zip']" position="replace">
-            <field name="zipcode_id" invisible="True"/>
-        </xpath>
-        <xpath expr="/form/group/field[@name='city']" position="replace">
-            <field name="city_id" invisible="True"/>
-        </xpath>
+            <xpath expr="/form/group[2]" position="replace">
+				<group colspan="2" col="2">
+					<separator string="Postal Address" colspan="4" col="4"/>
+					<field name="type"/> 
+					<field name="street"/> 
+					<field name="street2"/> 
+					<field name="zipcode_id" invisible="False"/>
+					<field name="country_id"/> 
+					<field name="state_id" domain= "[('country_id','=',country_id)]" attrs= "{'readonly':[('country_id','=',False)]}"/>
+					<field name="city_id" invisible="False"  attrs= "{'readonly':[('state_id','=',False)]}"/>
+					<field name="municipality_id" invisible="False" attrs= "{'readonly':[('city_id','=',False)]}"/>
+					<field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+				</group>
+			</xpath>
         </field>
     </record>
-    
-    
-    <record model="ir.ui.view" id="partners_form_add_location3">
-        <field name="name">partners_form_add_location1</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="partners_form_add_location1"/>
-        <field name="arch" type="xml">
-        <xpath expr="/form/group/field[@name='state_id']" position="after">
-            <field name="city_id" domain= "[('state_id','=',state_id)]" attrs= "{'readonly':[('parish_id','=',False)]}"/>
-        </xpath>
-        <xpath expr="/form/group/field[@name='parish_id']" position="replace">
-            <field name="parish_id"/>
-        </xpath>
-        <xpath expr="/form/group/field[@name='parish_id']" position="after">
-            <field name="zipcode_id"/>
-        </xpath>
-        </field>
-    </record>
-    
-<!--
- Partner Address 2 
--->
- 
-   <record model="ir.ui.view" id="partners_form_add_location2">
-        <field name="name">partners_form_add_location2</field>
-        <field name="model">res.partner.address</field>
-        <field name="inherit_id" ref="base.view_partner_address_form2"/>
-        <field name="arch" type="xml">
-        <xpath expr="/form/group/field[@name='state_id']" position="after">
-            <field name="state_id" domain= "[('country_id','=',country_id)]" attrs= "{'readonly':[('country_id','=',False)]}"/>
-            <field name="municipality_id" domain= "[('state_id','=',state_id)]" attrs= "{'readonly':[('state_id','=',False)]}"/>
-            <field name="parish_id" domain= "[('municipalities_id','=',municipality_id)]" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
-            <field name="city_id" domain= "[('state_id','=',state_id)]" attrs= "{'readonly':[('parish_id','=',False)]}"/>
-            <field name="zipcode_id"/>
-        </xpath>
-        </field>
-    </record>
+
 <!--
         Sector
 -->
