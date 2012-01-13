@@ -75,6 +75,14 @@ class res_partner(osv.osv):
         'seniat_updated': False,
     }
 
+    def name_search(self,cr,uid,name='',args=[],operator='ilike',context={},limit=80):
+	ids= []
+	if len(name) >= 2:
+	    ids = self.search(cr, uid, [('vat',operator,name)] + args, limit=limit, context=context)
+	if not ids:
+	    ids = self.search(cr,uid,[('name',operator,name)] + args, limit=limit, context=context)
+	return self.name_get(cr,uid,ids)
+	
     '''
     Required Invoice Address
     '''
