@@ -57,7 +57,7 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="/tree/field[@name='name']" position="after">
-                    <field name="reference" required="1" />
+                    <field name="reference" />
                 </xpath>
             </field>
         </record>
