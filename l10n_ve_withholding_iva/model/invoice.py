@@ -240,7 +240,7 @@ class account_invoice(osv.osv):
                 if 'invoice' in invoice.type:
                     acc = tax_brw.tax_id.wh_vat_collected_account_id and tax_brw.tax_id.wh_vat_collected_account_id.id or False
                 elif 'refund' in invoice.type:
-                    acc = tax_brw.tax_id.wh_vat_paid_account_id and tax_brw.tax_id.wh_vat_paid_account_id or False
+                    acc = tax_brw.tax_id.wh_vat_paid_account_id and tax_brw.tax_id.wh_vat_paid_account_id.id or False
                 if not acc:
                     raise osv.except_osv(_('Missing Account in Tax!'),_("Tax [%s] has missing account. Please, fill the missing fields") % (tax_brw.tax_id.name,))
                 res.append((0,0,{
