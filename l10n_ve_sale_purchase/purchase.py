@@ -72,15 +72,8 @@ class purchase_order(osv.osv):
         data[2]['concept_id'] = ol.concept_id.id 
         return data
 
-    def onchange_partner_id(self, cr, uid, ids, part):
-        ''' 
-        Return invoicing address by default
-        '''
-        if not part:
-            return {'value':{'partner_address_id': False, 'fiscal_position': False}}
-        addr = self.pool.get('res.partner').address_get(cr, uid, [part], ['invoice'])
-        part = self.pool.get('res.partner').browse(cr, uid, part)
-        pricelist = part.property_product_pricelist_purchase.id
-        fiscal_position = part.property_account_position and part.property_account_position.id or False
-        return {'value':{'partner_address_id': addr['invoice'], 'pricelist_id': pricelist, 'fiscal_position': fiscal_position}}
 purchase_order()
+
+
+
+
