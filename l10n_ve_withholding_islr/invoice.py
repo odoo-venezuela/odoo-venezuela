@@ -168,9 +168,7 @@ class account_invoice(osv.osv):
                     return False
                 else:
                     return i.country_id.id
-            else:
-                raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
-                return False
+        raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
         return False
 
     def _get_residence(self, cr, uid, vendor, buyer):
