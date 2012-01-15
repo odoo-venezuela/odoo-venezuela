@@ -75,7 +75,7 @@
                     <newline/>
                     <group col="4" colspan="2">
                         <field name="fiscalyear_id"  />
-                        <field name="period_id" />
+                        <field name="period_id" on_change="search_period(period_id)" />
                     </group>
                     <notebook colspan="4">
                         <page string="Lines Withholding">

@@ -95,6 +95,17 @@ class islr_xml_wh_doc(osv.osv):
         else:
             return False
 
+    def search_period(self,cr,uid,ids,period_id,context=None):
+        if context is None:
+            context = {}
+        res ={'value':{}}
+        if period_id:
+            islr_line = self.pool.get('islr.xml.wh.line')
+            islr_line_ids = islr_line.search(cr,uid,[('period_id','=',period_id)],context=context)
+            if islr_line_ids:
+                res['value'].update({'xml_ids':islr_line_ids})
+                return res
+                
     def name_get(self, cr, uid, ids, context={}):
         if not len(ids):
             return []
