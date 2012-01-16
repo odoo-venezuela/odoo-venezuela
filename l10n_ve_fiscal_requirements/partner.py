@@ -75,7 +75,7 @@ class res_partner(osv.osv):
         'seniat_updated': False,
     }
 
-    def name_search(self,cr,uid,name='',args=[],operator='ilike',context=None,limit=80):
+    def name_search(self,cr,uid,name='',args=[],operator='ilike',context=context,limit=80):
     if context is None: 
         context={}
     ids= []
