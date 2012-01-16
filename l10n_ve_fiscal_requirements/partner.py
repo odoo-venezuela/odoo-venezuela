@@ -198,8 +198,8 @@ class res_partner(osv.osv):
         else:
             return False
 
-    def _update_partner(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'seniat_updated': True})
+    def _update_partner(self, cr, uid, id, context=None):
+        self.write(cr, uid, id, {'seniat_updated': True})
 
     def update_rif(self, cr, uid, ids, context={}):
         pool = self.pool.get('seniat.url')
@@ -222,7 +222,7 @@ class res_partner(osv.osv):
                         dom = parseString(xml_data)
                         res = self.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
                         if res:
-                          self._update_partner(cr, uid, ids, context)  
+                          self._update_partner(cr, uid, partner.id, context)  
                     else:
                         return False
             else:
