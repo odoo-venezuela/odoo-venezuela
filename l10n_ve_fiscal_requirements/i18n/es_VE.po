@@ -41,6 +41,17 @@ msgid "Declare damaged paper"
 msgstr "Declarar papel dañado"
 
 #. module: l10n_ve_fiscal_requirements
+#: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.wizard_vat_search_action_menu
+msgid "Search RIF"
+msgstr "Consultar RIF"
+
+#. module: l10n_ve_fiscal_requirements
+#: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.wizard_vat_search_action_pay_menu
+msgid "Search RIF"
+msgstr "Consultar RIF"
+
+
+#. module: l10n_ve_fiscal_requirements
 #: model:ir.module.module,description:l10n_ve_fiscal_requirements.module_meta_information
 msgid "Venezuelan Tax Laws Requirements:\n"
 "    - Invoice Control Number.\n"

@@ -73,6 +73,7 @@ Automatically on install wizard.
         'wizard/wizard_url_seniat_view.xml',
         'wizard/update_info_partner.xml',
         'wizard/account_invoice_debit_view.xml',
+        'wizard/search_info_partner_seniat.xml',
         'account_invoice_view.xml',
     ],
     'demo_xml': [
