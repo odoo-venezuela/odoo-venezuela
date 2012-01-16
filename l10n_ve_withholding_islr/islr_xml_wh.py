@@ -79,12 +79,20 @@ class islr_xml_wh_doc(osv.osv):
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
 
-        'fiscalyear_id': lambda self,cr,uid,conext:\
-                self.pool.get('account.fiscalyear').browse(cr,uid,uid,context={}).id,
-                                   
+        'fiscalyear_id': lambda self,cr,uid,context: self.fiscalyear_return(cr,uid,context),
+
         'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
         'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
     }
+
+    def fiscalyear_return(self,cr,uid,contex=None):
+        fiscaly_obj = self.pool.get('account.fiscalyear')
+        fecha = time.strftime('%Y-%m-%d')
+        fiscaly_id = fiscaly_obj.search(cr,uid,[('date_start','<=',fecha),('date_stop','>=',fecha) ])
+        if fiscaly_id:
+            return fiscaly_id[0]
+        else:
+            return False
 
     def period_return(self,cr,uid,contex=None):
         period_obj = self.pool.get('account.period')

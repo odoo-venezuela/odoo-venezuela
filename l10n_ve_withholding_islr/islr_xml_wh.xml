@@ -79,7 +79,7 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Lines Withholding">
-                            <field name="xml_ids" nolabel="1"  colspan='4' widget="many2many">
+                            <field name="xml_ids" nolabel="1"  colspan='4' widget="many2many" domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]">
                                 <tree string="Detail of the XML">
                                     <field name="partner_vat"/>
                                     <field name="partner_id"/>
