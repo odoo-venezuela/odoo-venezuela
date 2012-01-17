@@ -9,5 +9,15 @@
             string="Voucher Withholding Income"
             auto="False"
             header="False"/>
+        <report
+            id="list_report_withholding_islr" 
+            menu="True"
+            model="islr.xml.wh.doc" 
+            name="list.wh.islr" 
+            rml="addons/l10n_ve_withholding_islr/report/list_wh_islr_report.rml" 
+            string="Withholding Income"
+            auto = "False"
+            header="False"/>
+
     </data>
 </openerp>

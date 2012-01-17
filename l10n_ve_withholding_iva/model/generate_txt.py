@@ -63,8 +63,7 @@ class txt_iva(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="proof status"),
-        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', required=True,readonly=True,states={'draft':[('readonly',False)]}),
-        'period_id':fields.many2one('account.period','Period',required=True,readonly=True,states={'draft':[('readonly',False)]}, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
+        'period_id':fields.many2one('account.period','Period',required=True,readonly=True,states={'draft':[('readonly',False)]} ),
         'type':fields.boolean('Retention Suppliers?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
         'date_start': fields.date('Begin Date',required=True,states={'draft':[('readonly',False)]}, help="Begin date of period"),
         'date_end': fields.date('End date', required=True,states={'draft':[('readonly',False)]}, help="End date of period"),
@@ -79,8 +78,6 @@ class txt_iva(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'type': lambda *a:'True',
-        'fiscalyear_id': lambda self,cr,uid,conext:\
-                self.pool.get('account.fiscalyear').browse(cr,uid,uid,context={}).id,
         'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
         'name':lambda self,cr,uid,context : 'Withholding Vat '+time.strftime('%m/%Y')
         }
@@ -109,7 +106,7 @@ class txt_iva(osv.osv):
     def action_generate_lines_txt(self,cr,uid,ids,context={}):
         voucher_obj = self.pool.get('account.wh.iva')
         txt_iva_obj = self.pool.get('txt.iva.line')
-        
+        print "Entro IVA TXT"
         voucher_ids=''
         txt_brw= self.browse(cr,uid,ids[0])
         txt_ids = txt_iva_obj.search(cr,uid,[('txt_id','=',txt_brw.id)])
@@ -247,7 +244,7 @@ class txt_iva(osv.osv):
         '''
         Encrypt txt, save it to the db and view it on the client as an attachment
         '''
-        fecha = time.strftime('%Y_%m_%d')
+        fecha = time.strftime('%Y_%m_%d_%H%M%S')
         name = 'IVA_' + fecha +'.'+ 'txt'
         self.pool.get('ir.attachment').create(cr, uid, {
             'name': name,

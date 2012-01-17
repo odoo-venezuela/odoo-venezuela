@@ -65,8 +65,7 @@ class islr_xml_wh_doc(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Voucher state"),
-        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', required=True, help="Fiscal year"),
-        'period_id':fields.many2one('account.period','Period',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]", help="Period when the accounts entries were done"),
+        'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding Income Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}),
@@ -79,20 +78,9 @@ class islr_xml_wh_doc(osv.osv):
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
 
-        'fiscalyear_id': lambda self,cr,uid,context: self.fiscalyear_return(cr,uid,context),
-
         'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
         'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
     }
-
-    def fiscalyear_return(self,cr,uid,contex=None):
-        fiscaly_obj = self.pool.get('account.fiscalyear')
-        fecha = time.strftime('%Y-%m-%d')
-        fiscaly_id = fiscaly_obj.search(cr,uid,[('date_start','<=',fecha),('date_stop','>=',fecha) ])
-        if fiscaly_id:
-            return fiscaly_id[0]
-        else:
-            return False
 
     def period_return(self,cr,uid,contex=None):
         period_obj = self.pool.get('account.period')
@@ -137,7 +125,7 @@ class islr_xml_wh_doc(osv.osv):
         '''
         Codify the xml, to save it in the database and be able to see it in the client as an attachment
         '''
-        fecha = time.strftime('%Y_%m_%d')
+        fecha = time.strftime('%Y_%m_%d_%H%M%S')
         name = 'ISLR_' + fecha +'.'+ 'xml'
         self.pool.get('ir.attachment').create(cr, uid, {
             'name': name,
