@@ -44,8 +44,6 @@ class rep_comprobante(report_sxw.rml_parse):
         super(rep_comprobante, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
-            'get_company_addr': self._get_company_addr,
-            'get_partner_addr': self._get_partner_addr,
             'get_partner_addr2': self._get_partner_addr2,
             'get_tipo_doc': self._get_tipo_doc,
             'get_totales': self._get_totales,
