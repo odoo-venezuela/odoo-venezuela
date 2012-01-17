@@ -16,7 +16,7 @@
             name="list.wh.islr" 
             rml="addons/l10n_ve_withholding_islr/report/list_wh_islr_report.rml" 
             string="Withholding Income"
-            auto = "False"
+            auto = "True"
             header="False"/>
 
     </data>
