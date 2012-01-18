@@ -115,7 +115,7 @@ class search_info_partner_seniat(osv.osv_memory):
     def search_partner_seniat(self, cr, uid, vat, context=None):
         pool = self.pool.get('seniat.url')
         var_vat = self.read(cr,uid,vat,['name'])
-        context.update({'vat':var_vat[0]['name']})
+        context.update({'vat':var_vat and var_vat[0] and var_vat[0]['name'] or []})
         if not context['vat']:
             self._print_error(_('Vat Error !'),_('The field vat is empty'))
         else:
@@ -132,6 +132,7 @@ class search_info_partner_seniat(osv.osv_memory):
                 return False
         res_id = self.pool.get('ir.model.data').search(cr,uid,[('model','=','ir.ui.view'),('name','=','view_vat_return')])
         resource_id = self.pool.get('ir.model.data').read(cr, uid, res_id, fields=['res_id'])[0]['res_id']
+        
         return {
             'view_type': 'form',
             'view_mode': 'form',
@@ -141,8 +142,8 @@ class search_info_partner_seniat(osv.osv_memory):
             'nodestroy': True,
             'target': 'new',
             'context': context,
-            #~ 'ref': 'search_info_partner_seniat.view_vat_return', Descomentar en Caso de que no funcione
-            'res_id': vat,
+            #~ 'ref': 'search_info_partner_seniat.view_vat_return', 
+            'res_id': vat and vat[0] or [],
         }
         
 search_info_partner_seniat()
