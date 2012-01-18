@@ -1447,8 +1447,3 @@ msgstr "\n"
 msgid "Configure Income Withholding"
 msgstr "Configuración de la Retención de ISLR"
 
-#. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/islr_xml_wh.py:132
-#, python-format
-msgid "File XML %s generated."
-msgstr "Archivo XML %s generado."

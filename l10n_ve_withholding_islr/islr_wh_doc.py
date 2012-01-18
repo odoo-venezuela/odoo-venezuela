@@ -143,7 +143,7 @@ class islr_wh_doc(osv.osv):
         for wh_doc in wh_doc_brw:
             for wh_doc_line in wh_doc.islr_wh_doc_id: 
                 inv_ids.append(wh_doc_line.id)
-
+               
         context["wh_doc_id"]=ids[0]
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
         return True
@@ -256,6 +256,7 @@ class islr_wh_doc(osv.osv):
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = {}
         inv_id = None
+        doc_brw = None
         
         for ret in self.browse(cr, uid, ids):
             if not ret.date_uid:
@@ -305,6 +306,10 @@ class islr_wh_doc(osv.osv):
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'concept_ids':lines})
                   
+                    if lines:
+                        message = _("Withholding income voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
+                        self.log(cr, uid, ids[0], message) 
+                  
                     for line in ret.concept_ids:
                         for xml in line.xml_ids:
                             if xml.islr_xml_wh_doc.state!='done':
@@ -312,7 +317,6 @@ class islr_wh_doc(osv.osv):
                                     self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id, 'islr_xml_wh_doc':None})
                             else:
                                 raise osv.except_osv(_('Invalid action !'),_("Impossible change the period accountig to a withholding that has already been declared."))
-                            
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
         return True
 
