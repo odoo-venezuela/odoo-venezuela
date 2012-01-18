@@ -388,7 +388,9 @@ class account_wh_iva(osv.osv):
                     }
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
-        
+
+                    if rl and line.invoice_id.type in ['out_invoice','out_refund']:
+                        inv_obj.write(cr,uid,[line.invoice_id.id],{'wh_iva_id':ret.id})
         return True
     
     def _withholdable_tax_(self, cr, uid, ids, context=None):
