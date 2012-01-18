@@ -72,7 +72,6 @@ class wizard_multi_charts_accounts(osv.osv_memory):
     }
     
     def execute(self, cr, uid, ids, context=None):
-        print 'ENTRO AL EXECUTE DEL WIZARD DE CUENTAS'
         if context is None:
             context = {}
         super(wizard_multi_charts_accounts, self).execute(cr, uid, ids, context=context)
