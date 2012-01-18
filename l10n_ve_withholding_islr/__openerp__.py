@@ -68,7 +68,6 @@
             "view/islr_wh_doc_view.xml",
             "view/islr_wh_concept_view.xml",
             "view/product_view.xml",
-            "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
             "workflow/islr_wh_workflow.xml",

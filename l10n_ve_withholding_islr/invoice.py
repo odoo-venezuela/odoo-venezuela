@@ -93,7 +93,8 @@ class account_invoice(osv.osv):
         list = []
         for x,y,res in data:
             if 'concept_id' in res:
-                res['concept_id'] = res.get('concept_id', False) and res['concept_id'][0]
+                print res['concept_id']
+                res['concept_id'] = res.get('concept_id', False) and res['concept_id']
             if 'apply_wh' in res:
                 res['apply_wh'] = False
             if 'wh_xml_id' in res:
@@ -167,9 +168,7 @@ class account_invoice(osv.osv):
                     return False
                 else:
                     return i.country_id.id
-            else:
-                raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
-                return False
+        raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
         return False
 
     def _get_residence(self, cr, uid, vendor, buyer):
@@ -320,6 +319,7 @@ class account_invoice(osv.osv):
         'wh':dict['wh'],
         'rate_id': dict['rate_id'],
         'account_invoice_line_id': line,
+        'account_invoice_id': inv_id.id,
         'partner_id': inv_id.partner_id.id,
         })
 
@@ -651,6 +651,17 @@ class account_invoice(osv.osv):
             self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
             
         return True
+
+    def check_invoice_type(self, cr, uid, ids, context=None):
+        '''
+        This method test the invoice types to create a new withholding document
+        '''
+        if context is None:
+            context={}
+        obj = self.browse(cr, uid, ids[0],context=context)
+        if obj.type in ('in_invoice', 'in_refund'):
+            return True 
+        return False
 
 account_invoice()
 

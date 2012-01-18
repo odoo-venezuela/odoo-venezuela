@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_account_inv_nctrl_refund" model="ir.ui.view">
+            <field name="name">account.inv.nctrl.refund.form</field>
+            <field name="model">account.invoice.refund</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_invoice_refund"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/field[@name='period']" position="after">
+                     <field name="nro_ctrl"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -31,17 +31,29 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def split_invoice(self, cr, uid, ids):
+        '''
+        Split the invoice when the lines exceed the maximum set for the company
+        '''
         for inv in self.browse(cr, uid, ids):
             inv_id =False
-            cont2 = 0
+            if inv.company_id.lines_invoice < 1:
+                raise osv.except_osv(_('Error !'), _('Please set an invoice lines value in:\nAdministration->Company->Configuration->Invoice lines'))
             if inv.type in ["out_invoice","out_refund"]:
                 if len(inv.invoice_line)> inv.company_id.lines_invoice:
-                    lst = []                    
-                    inv_id = self.copy(cr, uid, inv.id,
-                    {
-                        'name': inv.name,
+                    lst = []
+                    invoice = self.read(cr, uid, inv.id, ['name', 'type', 'number', 'reference', 'comment', 'date_due', 'partner_id', 'address_contact_id', 'address_invoice_id', 'partner_contact', 'partner_insite', 'partner_ref', 'payment_term', 'account_id', 'currency_id', 'invoice_line', 'tax_line', 'journal_id', 'period_id'])
+                    invoice.update({
+                        'state': 'draft',
+                        'number': False,
                         'invoice_line': [],
+                        'tax_line': []
                     })
+                    # take the id part of the tuple returned for many2one fields
+                    for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
+                            'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id'):
+                        invoice[field] = invoice[field] and invoice[field][0]
+
+                    inv_id = self.create(cr, uid, invoice)
                     cont = 0
                     lst = inv.invoice_line
                     while cont < inv.company_id.lines_invoice:
@@ -55,6 +67,7 @@ class account_invoice(osv.osv):
                 wf_service = netsvc.LocalService("workflow")
                 self.button_compute(cr, uid, [inv_id], set_total=True)
 #                wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_open', cr)
+        return True
 
     def action_date_assign(self, cr, uid, ids, *args):
         data = super(account_invoice, self).action_date_assign(cr, uid, ids, *args)

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_country_city_tree" model="ir.ui.view">
+            <field name="name">res.country.city.tree</field>
+            <field name="model">res.city</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="City">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_country_city_form" model="ir.ui.view">
+            <field name="name">res.country.city.form</field>
+            <field name="model">res.city</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="city">
+                    <group colspan="2">
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <newline/>
+                    </group>
+                    <newline/>
+                    <group string="State" >
+                    <field name="state_id" select="1" nolabel="1" colspan="4"/>
+                    <newline/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_country_city" model="ir.actions.act_window">
+            <field name="name">Cities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.city</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_country_city_tree"/>
+            <field name="help">A city is an urban area, belonging to one or more states</field>
+        </record>
+        
+        <menuitem action="action_country_city" id="menu_country_city_partner" parent="base.menu_localisation"/>
+
+    </data>
+</openerp>

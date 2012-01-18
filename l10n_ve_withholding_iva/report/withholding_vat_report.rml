@@ -3,8 +3,8 @@
   <template pageSize="(280.0mm,210.0mm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
     <pageTemplate id="first">
         <pageGraphics>
-            <image x="7.0mm" y="175.0mm" height="25mm" width="96mm">[[company.logo and company.logo or removeParentNode('image')]]</image>
-            <drawString x="7.0mm" y="175.0mm">[[company.logo and removeParentNode('para') or company.name]]</drawString> 
+            <image x="7.0mm" y="175.0mm" height="25mm" width="96mm">[[o.company_id.logo and o.company_id.logo or removeParentNode('image')]]</image>
+            <drawString x="7.0mm" y="175.0mm">[[o.company_id.logo and removeParentNode('para') or o.company_id.name]]</drawString> 
             <place x="7.0mm"     y="100.0mm"    width="280.0mm"  height="100.0mm">
             
             <!--TABLA DE TITULOS-->
@@ -45,9 +45,9 @@
                 </blockTable>
                 <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="ITEMSWHITE" rowHeights="15mm">
                 <tr>
-                    <td><para style="ITEMSRIF"><b>[[ company.partner_id.name ]]</b></para></td>
+                    <td><para style="ITEMSRIF"><b>[[ o.company_id.partner_id.name ]]</b></para></td>
                     <td><para style="ITEMSRIF"><b>[[ (o.company_id.partner_id.vat and ('%s-%s-%s'%(o.company_id.partner_id.vat[2:3],o.company_id.partner_id.vat[3:11],o.company_id.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
-                    <td><para style="ITEMSLEFT"><b>[[ get_company_addr() or '' ]]</b></para></td>
+                    <td><para style="ITEMSLEFT"><b>[[ get_partner_addr2(o.company_id.partner_id.id) or '' ]]</b></para></td>
                 </tr>
             </blockTable>
             <spacer length="3mm"/>
@@ -88,7 +88,7 @@
         <tr>
             <td>
                 <para style="PFIRMA1">___________________________________</para>
-                <para style="PFIRMA1">[[ company.partner_id.name ]]</para>
+                <para style="PFIRMA1">[[ o.company_id.partner_id.name ]]</para>
                 <para style="PFIRMA1">Firma y Sello</para>
             </td>
         </tr>
@@ -118,7 +118,7 @@
     </blockTableStyle>
     <blockTableStyle id="ITEMSWHITE">
         <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
-        <blockValign value="MIDLLE"/>
+        <blockValign value="MIDDLE"/>
     </blockTableStyle>   
     <blockTableStyle id="TITLECENTER">
         <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
@@ -190,7 +190,7 @@
  
   <story>
     <para style="P8">[[repeatIn(objects,'o')]]</para>
-    <para style="P20">[[ setLang(company.partner_id.lang) ]]</para> 
+    <para style="P20">[[ setLang(o.company_id.partner_id.lang) ]]</para> 
       <para style="P5">
       <font color="white"></font>
     </para>
@@ -213,7 +213,7 @@
         </tr>
         <tr>[[repeatIn( get_totales(o.id),'l')]][[ setLang(company.partner_id.lang) ]]
           <td><para style="P12">[[ formatLang(l['fecha'],date=True) ]]</para></td>
-          <td><para style="P12">[[ ((l['inv_type'] in ['in_invoice', 'out_invoice']) and l['nro_fact']) or '' ]]</para></td>
+          <td><para style="P12">[[ ((l['inv_type'] in ['in_invoice']) and l['nro_fact']) or '' ]][[ ((l['inv_type'] in ['out_invoice']) and l['nro']) or '' ]]</para></td>
           <td><para style="P12">[[ l['nro_ctrl'] ]]</para></td>
           <td><para style="P12">[[ ((l['inv_type']=='in_refund') and l['nro_ncre']) or '' ]]</para></td>
           <td><para style="P12"><font color="white"> </font></para></td>
@@ -245,4 +245,3 @@
     </blockTable>
   </story>
 </document>
-

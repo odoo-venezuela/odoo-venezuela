@@ -10,7 +10,7 @@
                 <blockTable colWidths="90.0mm,56.0mm,56.0mm" style="TABLATITULO">
                     <tr>
                         <td>
-                            <para style="TITULOLEFT">[[ company and company.name.upper() or '']]</para>
+                            <para style="TITULOLEFT">[[ o.company_id and o.company_id.name.upper() or '']]</para>
                             <para style="RIFLEFT">[[(o.company_id.partner_id.vat and ('RIF:%s-%s-%s'%(o.company_id.partner_id.vat[2:3],o.company_id.partner_id.vat[3:11],o.company_id.partner_id.vat[11:12])) or removeParentNode('para'))]]</para>
                         </td>
                         <td>
@@ -41,7 +41,7 @@
                 </blockTable>
                 <blockTable colWidths="202.0mm">
                     <tr>
-                        <td><para style="RIFLEFT">[[ get_company_addr() or '' ]]</para></td>
+                        <td><para style="RIFLEFT">[[ o.company_id.partner_id.id and get_partner_addr(o.company_id.partner_id.id) or '' ]]</para></td>
                     </tr>
                 </blockTable>
             </place>
@@ -130,7 +130,7 @@
 
   <story>
     <para>[[repeatIn(objects,'o')]]</para>
-    <para>[[ setLang(company.partner_id.lang) ]]</para> 
+    <para>[[ setLang(o.company_id.partner_id.lang) ]]</para> 
     <blockTable colWidths="20.0mm,25.0mm,25.0mm,10.0mm,63.0mm,25.0mm,15.0mm,20.0mm" style="Tabla3" >
       <tr>
         <td><para style="TCENTER">Fecha de Doc.</para></td>   

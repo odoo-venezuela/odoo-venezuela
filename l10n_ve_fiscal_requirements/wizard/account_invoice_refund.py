@@ -29,6 +29,10 @@ class account_invoice_refund(osv.osv_memory):
 
     """Refunds invoice"""
     _inherit = 'account.invoice.refund'
+    
+    _columns = {
+        'nro_ctrl': fields.char('Control Number', size=32, help="Code used for intern invoice control"),    
+    }
 
     def _get_journal(self, cr, uid, context=None):
         obj_journal = self.pool.get('account.journal')
@@ -100,6 +104,7 @@ class account_invoice_refund(osv.osv_memory):
             date = False
             period = False
             description = False
+            nroctrl = False
             company = res_users_obj.browse(cr, uid, uid, context=context).company_id
             journal_id = form.get('journal_id', False)
             for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
@@ -143,18 +148,24 @@ class account_invoice_refund(osv.osv_memory):
                     description = form['description']
                 else:
                     description = inv.name
+                
+                if inv.type in ('in_invoice','in_refund'):
+                    if form['nro_ctrl']:
+                        nroctrl = form['nro_ctrl']
+                    else:
+                        raise osv.except_osv(_('Control Number !'), \
+                                            _('Missing Control Number on Invoice Refund!'))
 
                 if not period:
                     raise osv.except_osv(_('Data Insufficient !'), \
                                             _('No Period found on Invoice!'))
-
+                
                 refund_id = inv_obj.refund(cr, uid, [inv.id], date, period, description, journal_id)
                 refund = inv_obj.browse(cr, uid, refund_id[0], context=context)
                 #Add parent invoice
-                inv_obj.write(cr, uid, [refund.id], {'date_due': date,
+                inv_obj.write(cr, uid, [refund.id], {'date_due': date, 'nro_ctrl': nroctrl,
                                                 'check_total': inv.check_total,'parent_id':inv.id})
                 inv_obj.button_compute(cr, uid, refund_id)
-
                 created_inv.append(refund_id[0])
                 if mode in ('cancel', 'modify'):
                     movelines = inv.move_id.line_id
@@ -191,6 +202,7 @@ class account_invoice_refund(osv.osv_memory):
                         invoice_lines = inv_obj._refund_cleanup_lines(cr, uid, invoice_lines)
                         tax_lines = inv_tax_obj.read(cr, uid, invoice['tax_line'], context=context)
                         tax_lines = inv_obj._refund_cleanup_lines(cr, uid, tax_lines)
+                         
                         #Add origin value
                         orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
                         invoice.update({
@@ -203,6 +215,7 @@ class account_invoice_refund(osv.osv_memory):
                             'period_id': period,
                             'name': description,
                             'origin': orig,
+                            'nro_ctrl': nroctrl,
                         })
                         for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
                                 'account_id', 'currency_id', 'payment_term', 'journal_id'):
@@ -225,9 +238,30 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             return result
 
+    def validate_withholding(self, cr, uid, ids, context=None):
+        inv_obj = self.pool.get('account.invoice')
+        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
+            riva = True
+            if inv.type in ('in_invoice','in_refund'):
+                rislr = inv.islr_wh_doc_id and inv.islr_wh_doc_id.state in ('done') and True or False
+                if not rislr:
+                    raise osv.except_osv(_('Wh income validated !'), \
+                                         _('found a withholding income that is not validated!'))
+                    return False
+            else:
+                riva = inv.partner_id.wh_iva_agent 
+            if riva:
+                riva = inv.wh_iva_id and inv.wh_iva_id.state in ('done') and True or False
+                if not riva:
+                    raise osv.except_osv(_('Wh IVA validated !'), \
+                                         _('found a withholding IVA that is not validated!'))
+                    return False
+
     def invoice_refund(self, cr, uid, ids, context=None):
+        self.validate_withholding(cr, uid, ids, context=context)
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
+
 
 
 account_invoice_refund()

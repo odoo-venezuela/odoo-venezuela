@@ -121,6 +121,8 @@ class account_invoice_debit(osv.osv_memory):
             for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
                 if inv.state in ['draft', 'proforma2', 'cancel']:
                     raise osv.except_osv(_('Error !'), _('Can not create a debit note from draft/proforma/cancel invoice.'))
+                if inv.reconciled in ('cancel', 'modify'):
+                    raise osv.except_osv(_('Error !'), _('Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice'))
                 if inv.type not in ['in_invoice', 'out_invoice']:
                     raise osv.except_osv(_('Error !'), _('Can not make a debit note on a refund invoice.'))
                 if form['period']:

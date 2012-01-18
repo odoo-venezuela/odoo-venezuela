@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_municipalities_filter" model="ir.ui.view">
+            <field name="name">res.municipality.search</field>
+            <field name="model">res.municipality</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Municipalities">
+                    <group string="Group By.">
+                        <filter string="State" context="{'group_by': 'state_id'}" icon="terp-stock_effects-object-colorize"/>
+                    </group>
+                    <group string="Municipalities" colspan="4">
+                        <field name="state_id"/>
+                        <field name="code"/>
+                        <field name="name"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_municipalities_tree" model="ir.ui.view">
+            <field name="name">res.municipality.tree</field>
+            <field name="model">res.municipality</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="municipalities">
+                    <field name="state_id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_municipalities_form" model="ir.ui.view">
+            <field name="name">res.municipality.form</field>
+            <field name="model">res.municipality</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="municipalities">
+                        <field name="name" colspan="4"/>
+                    <newline/>
+                        <field name="state_id" colspan="2"/>
+                        <field name="code" colspan="2"/>
+                    <newline/>
+                        <field name="parish_ids" nolabel="1" context="{'tree_view_ref':'view_municipality_parish_tree'}" colspan="4"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_municipalities" model="ir.actions.act_window">
+            <field name="name">Municipalities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.municipality</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_municipalities_tree"/>
+            <field name="search_view_id" ref="view_municipalities_filter"/>
+            <field name="help">Is primarily an urban political unit having corporate status and powers of self-government</field>
+        </record>
+
+        <menuitem action="action_municipalities" id="menu_municipalities_partner" parent="base.menu_localisation"/>
+
+s    </data>
+</openerp>

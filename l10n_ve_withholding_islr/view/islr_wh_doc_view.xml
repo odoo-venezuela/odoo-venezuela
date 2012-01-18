@@ -117,7 +117,7 @@
                         <field name="journal_id" domain="[('type','=','islr_sale')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('customer','=',True)]"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>

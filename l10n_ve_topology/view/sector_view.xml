@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!-- Partner -->
+    <record model="ir.ui.view" id="partners_form_add_location">
+        <field name="name">partners_form_add_location</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/field[@name='address']/form/group[2]" position="replace">
+				<group colspan="2" col="2">
+					<separator string="Postal Address" colspan="4" col="4"/>
+					<field name="type"/> 
+					<field name="street"/> 
+					<field name="street2"/>
+					<field name="zipcode_id" invisible="False"/> 
+					<field name="country_id"/> 
+					<field name="state_id" domain= "[('country_id','=',country_id)]" attrs= "{'readonly':[('country_id','=',False)]}"/>
+					<field name="city_id" invisible="False"  attrs= "{'readonly':[('state_id','=',False)]}"/>
+					<field name="municipality_id" invisible="False" attrs= "{'readonly':[('city_id','=',False)]}"/>
+					<field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+				</group>
+			</xpath>
+        </field>
+    </record>
+    
+<!-- Partner Address -->
+    <record model="ir.ui.view" id="partner_address_form1">
+        <field name="name">partner_address_form1</field>
+        <field name="model">res.partner.address</field>
+        <field name="inherit_id" ref="base.view_partner_address_form1"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/group[2]" position="replace">
+				<group colspan="2" col="2">
+					<separator string="Postal Address" colspan="4" col="4"/>
+					<field name="type"/> 
+					<field name="street"/> 
+					<field name="street2"/> 
+					<field name="zipcode_id" invisible="False"/>
+					<field name="country_id"/> 
+					<field name="state_id" domain= "[('country_id','=',country_id)]" attrs= "{'readonly':[('country_id','=',False)]}"/>
+					<field name="city_id" invisible="False"  attrs= "{'readonly':[('state_id','=',False)]}"/>
+					<field name="municipality_id" invisible="False" attrs= "{'readonly':[('city_id','=',False)]}"/>
+					<field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+				</group>
+			</xpath>
+        </field>
+    </record>
+
+<!--
+        Sector
+-->
+
+    <record id="view_sector_filter" model="ir.ui.view">
+        <field name="name">res.sector.search</field>
+        <field name="model">res.sector</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search Sectors">
+                <group>
+                    <separator orientation="horizontal"/>
+                    <field name="name"/>
+                    <field name="city"/>
+                    <field name="parish"/>
+                    <field name="zipcode"/>
+                </group>
+                <newline/>
+                <group expand="1" string="Group By.">
+                    <filter string="City" context="{'group_by': 'city'}" icon="terp-stock_effects-object-colorize"/>
+                    <filter string="Parish" context="{'group_by': 'parish'}" icon="terp-stock_effects-object-colorize"/>
+                    <filter string="Zip Code" context="{'group_by': 'zipcode'}" icon="terp-stock_effects-object-colorize"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sector_tree">
+        <field name="name">res.sector.tree</field>
+        <field name="model">res.sector</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Sector">
+                <field name="name"/>
+<!--
+                <field name="country" invisible="True"/>
+                <field name="state" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+                <field name="municipality" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+                <field name="parish" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+                <field name="city" invisible="True" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+                <field name="zipcode" invisible="True"/>
+-->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sector_form">
+        <field name="name">res.sector.form</field>
+        <field name="model">res.sector</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Sector">
+                <field name="name"/>
+<!--
+                <field name="country" invisible="True"/>
+                <field name="state" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
+                <field name="municipality" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
+                <field name="parish" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
+                <field name="city" invisible="True" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
+                <field name="zipcode" invisible="True"/>
+-->
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sector_parish_tree">
+        <field name="name">res.sector.parish.tree</field>
+        <field name="model">res.sector</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Sector">
+                <field name="name"/>
+<!--
+                <field name="city"/>
+                <field name="zipcode"/>
+-->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_sector">
+        <field name="name">Sector</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.sector</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_sector_tree"/>
+<!--
+        <field name="search_view_id" ref="view_sector_filter"/>
+-->
+        <field name="help">Sector is a name for a city subdivision</field>
+    </record>
+
+    <menuitem name="Sectors" groups="base.group_system" action="action_sector" parent="base.menu_localisation" id="menu_sector_partner"/>
+
+    </data>
+</openerp>

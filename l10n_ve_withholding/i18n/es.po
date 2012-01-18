@@ -1,0 +1,191 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* l10n_ve_withholding
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-10-05 13:50+0000\n"
+"PO-Revision-Date: 2011-10-05 13:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ve_withholding
+#: view:account.wh.doc:0
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: l10n_ve_withholding
+#: model:ir.actions.act_window,help:l10n_ve_withholding.wh_doc_action
+msgid "Create and manage the withholding documents in account move line."
+msgstr "Crear y gestionar los documentos de retención en la línea de la cuenta."
+
+#. module: l10n_ve_withholding
+#: model:ir.actions.act_window,name:l10n_ve_withholding.wh_doc_action
+#: model:ir.ui.menu,name:l10n_ve_withholding.menu_wh_doc
+msgid "Withholdings Document"
+msgstr "Documentos de retenciones"
+
+#. module: l10n_ve_withholding
+#: sql_constraint:account.journal:0
+msgid "The name of the journal must be unique per company !"
+msgstr "El nombre del diario debe ser único por compañía !"
+
+#. module: l10n_ve_withholding
+#: model:ir.module.module,shortdesc:l10n_ve_withholding.module_meta_information
+msgid "Management withholdings Venezuelan laws"
+msgstr "Gestión de retenciones de las leyes venezolanas"
+
+#. module: l10n_ve_withholding
+#: view:account.move:0
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_ve_withholding
+#: field:account.move.line,res_id:0
+msgid "Document"
+msgstr "Documento"
+
+#. module: l10n_ve_withholding
+#: model:ir.model,name:l10n_ve_withholding.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: l10n_ve_withholding
+#: view:account.move:0
+msgid "Optional Information"
+msgstr "Información opcional"
+
+#. module: l10n_ve_withholding
+#: model:ir.model,name:l10n_ve_withholding.model_account_move_line
+msgid "Journal Items"
+msgstr "Líneas de libro diario"
+
+#. module: l10n_ve_withholding
+#: constraint:account.move.line:0
+msgid "Company must be same for its related account and period."
+msgstr "La empresa debe ser la misma para su cuenta y el período relacionado."
+
+#. module: l10n_ve_withholding
+#: view:account.move:0
+msgid "Total Credit"
+msgstr "Credito total"
+
+#. module: l10n_ve_withholding
+#: model:ir.module.module,description:l10n_ve_withholding.module_meta_information
+msgid "Management withholdings:\n"
+"    - Add journal types\n"
+"    - Add \n"
+"    "
+msgstr "Gestión de la retención:\n"
+"    - Añadir tipo de diario\n"
+"    - Añadir \n"
+"    "
+
+#. module: l10n_ve_withholding
+#: view:account.invoice:0
+#: model:ir.ui.menu,name:l10n_ve_withholding.menu_wh_configuration
+#: model:ir.ui.menu,name:l10n_ve_withholding.menu_withholdings
+#: view:res.partner:0
+msgid "Withholdings"
+msgstr "Retención"
+
+#. module: l10n_ve_withholding
+#: constraint:account.move.line:0
+msgid "You can not create move line on closed account."
+msgstr "No se puede crear líneas de asiento en una cuenta que está cerrada."
+
+#. module: l10n_ve_withholding
+#: view:account.move:0
+msgid "Account Entry Line"
+msgstr "Línea de entrada de la cuenta"
+
+#. module: l10n_ve_withholding
+#: view:account.move:0
+msgid "Total Debit"
+msgstr "Débito total"
+
+#. module: l10n_ve_withholding
+#: sql_constraint:account.move.line:0
+msgid "Wrong credit or debit value in accounting entry !"
+msgstr "Crédito equivocado o valor de débito en la entrada de la cuenta !"
+
+#. module: l10n_ve_withholding
+#: code:addons/l10n_ve_withholding/invoice.py:105
+#: code:addons/l10n_ve_withholding/invoice.py:108
+#: code:addons/l10n_ve_withholding/invoice.py:111
+#, python-format
+msgid "Warning !"
+msgstr "Advertencia !"
+
+#. module: l10n_ve_withholding
+#: code:addons/l10n_ve_withholding/invoice.py:111
+#, python-format
+msgid "Taxes missing !"
+msgstr "Impuestos faltantes !"
+
+#. module: l10n_ve_withholding
+#: field:account.wh.doc,model_parent:0
+msgid "Parent Object"
+msgstr "Objeto padre"
+
+#. module: l10n_ve_withholding
+#: model:ir.model,name:l10n_ve_withholding.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr "Impuesto de factura"
+
+#. module: l10n_ve_withholding
+#: field:account.invoice.tax,tax_id:0
+#: help:account.invoice.tax,tax_id:0
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: l10n_ve_withholding
+#: code:addons/l10n_ve_withholding/invoice.py:105
+#, python-format
+msgid "Global taxes defined, but are not in invoice lines !"
+msgstr "Los impuestos globales definidos, pero no están en las líneas de factura !"
+
+#. module: l10n_ve_withholding
+#: field:account.wh.doc,model_child:0
+msgid "Child Object"
+msgstr "Objeto hijo"
+
+#. module: l10n_ve_withholding
+#: view:account.move:0
+msgid "General Information"
+msgstr "Información general"
+
+#. module: l10n_ve_withholding
+#: code:addons/l10n_ve_withholding/invoice.py:108
+#, python-format
+msgid "Tax base different !\n"
+"Click on compute to update tax base"
+msgstr "Base diferente de impuesto !\n"
+"Haga click en calcular para actualizar la base del impuesto"
+
+#. module: l10n_ve_withholding
+#: sql_constraint:account.journal:0
+msgid "The code of the journal must be unique per company !"
+msgstr "El código del diario debe ser único por compañía !"
+
+#. module: l10n_ve_withholding
+#: model:ir.model,name:l10n_ve_withholding.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_ve_withholding
+#: model:ir.model,name:l10n_ve_withholding.model_account_wh_doc
+msgid "With holding document"
+msgstr "Documentos con retención"
+
+#. module: l10n_ve_withholding
+#: constraint:account.move.line:0
+msgid "You can not create move line on view account."
+msgstr "Tu no puedes crear líneas de asiento en la vista de la cuenta."
+

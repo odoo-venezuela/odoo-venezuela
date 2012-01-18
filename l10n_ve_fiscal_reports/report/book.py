@@ -1,29 +1,31 @@
-#!/usr/bin/python
 # -*- encoding: utf-8 -*-
-###########################################################################
-#    Module Writen to OpenERP, Open Source Management Solution
-#    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
-#    All Rights Reserved
-###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
-#    Planified by: Nhomar Hernandez
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
-#############################################################################
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+##############################################################################
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
+# Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Javier Duran <javier@vauxoo.com>
+# 
 #
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# WARNING: This program as such is intended to be used by professional
+# programmers who take the whole responsability of assessing all potential
+# consequences resulting from its eventual inadequacies and bugs
+# End users who are looking for a ready-to-use solution with commercial
+# garantees and support are strongly adviced to contract a Free Software
+# Service Company
+#
+# This program is Free Software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
 ##############################################################################
 
 '''
@@ -65,7 +67,27 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_total_iva': self._get_total_iva,
             'get_amount_untaxed_tax': self._get_amount_untaxed_tax,
             'get_taxes': self._get_taxes,
+            'get_wh_actual': self._get_wh_actual,
+            'get_id': self._get_id,
+            'get_papel_anulado': self._get_papel_anulado,
         })
+
+    def _get_id(self,form,idh,type=None):
+        x=1
+        ids =None
+        
+        if form['type']=='sale':
+            ids = self._get_data_wh(form)
+        if form['type']=='sale' and type:
+            x+=len(ids)
+        if type=='book':
+            ids = self._get_data(form)
+
+        for a in ids:
+            if a.id != idh:
+                x+=1
+            else:
+                return x
 
     def _get_book_type(self,form):
         book_type=None
@@ -121,6 +143,17 @@ class pur_sal_book(report_sxw.rml_parse):
             return False
         return True
 
+    def _get_papel_anulado(self,data,l,tipo=None):
+        
+        if l.ai_id.name:
+            if l.ai_id.name.find('PAPELANULADO')>=0: 
+                return tipo
+            else: 
+                return data
+        else:
+            return data
+        return tipo
+
     def _get_v_sdcf(self,l):
         amount = 0.0
         if not l:
@@ -128,7 +161,7 @@ class pur_sal_book(report_sxw.rml_parse):
         for tax in l.ai_id.tax_line:
             name=tax.name
             if name.find('SDCF')>=0:
-                amount = tax.base
+                amount = tax.base+amount
                 if l.ai_id.type in ['in_refund', 'out_refund']:
                     amount = amount * (-1)
         return (amount)
@@ -164,25 +197,43 @@ class pur_sal_book(report_sxw.rml_parse):
         d1=form['date_start']
         d2=form['date_end']
         fr_obj = self.pool.get('fiscal.reports.whs')
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=',d1),('ai_date_inv','<=',d1)], order='ar_date_ret')
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=',d1),('ar_date_document','<=',d1)], order='ar_date_ret')
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 
-    def _get_total_wh(self,form):
+    def _get_total_wh(self,form,actual=None):
         total=0
         data=[]
         book_type= self._get_book_type_wh(form)
         fr_obj = self.pool.get(book_type)
         
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']), ('ar_date_ret', '>=', form['date_start'])])
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
         
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
         for wh in data:
             if wh.ai_id.type in ['in_refund', 'out_refund']:
                 total+= wh.ar_line_id.amount_tax_ret * (-1)
             else:
                 total+= wh.ar_line_id.amount_tax_ret
         return total
+
+
+    def _get_wh_actual(self,form):
+        total=0
+        data=[]
+        book_type= self._get_book_type_wh(form)
+        fr_obj = self.pool.get(book_type)
+        
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']),('ar_date_ret', '>=', form['date_start']),('ai_date_inv','>=',form['date_start']),('ai_date_inv','<=',form['date_end'])])
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        for wh in data:
+            if wh.ai_id.type in ['in_refund', 'out_refund']:
+                total+= wh.ar_line_id.amount_tax_ret * (-1)
+            else:
+                total+= wh.ar_line_id.amount_tax_ret
+        return total
+
+
 
     def _get_ret(self,form,ret_id=None):
         '''
@@ -192,11 +243,11 @@ class pur_sal_book(report_sxw.rml_parse):
         d2=form['date_end']
         if form['type']=='purchase':
             if ret_id:
-                ret_obj = self.pool.get('account.retention')
+                ret_obj = self.pool.get('account.wh.iva')
                 rets = ret_obj.browse(self.cr,self.uid,[ret_id])
                 return rets[0].number
         if ret_id:
-            ret_obj = self.pool.get('account.retention')
+            ret_obj = self.pool.get('account.wh.iva')
             rets = ret_obj.browse(self.cr,self.uid,[ret_id])
             if rets:
                 if time.strptime(rets[0].date, '%Y-%m-%d') >= time.strptime(d1, '%Y-%m-%d') \
@@ -210,7 +261,7 @@ class pur_sal_book(report_sxw.rml_parse):
             return False
 
     def _get_amount_withheld(self,wh_line_id):
-        wh_obj = self.pool.get('account.retention.line')
+        wh_obj = self.pool.get('account.wh.iva.line')
         data = wh_obj.browse(self.cr,self.uid, [wh_line_id])[0]
         return data.amount_tax_ret
 
@@ -314,7 +365,6 @@ class pur_sal_book(report_sxw.rml_parse):
         
         for d in fr_obj.browse(self.cr,self.uid, fr_ids):
             for tax in d.ai_id.tax_line:
-                
                 if percent in tax.name:
                     if nationality=='nacional':
                         if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
@@ -324,7 +374,6 @@ class pur_sal_book(report_sxw.rml_parse):
                         if self._get_p_country(user[0].company_id.partner_id.id)!=self._get_p_country(d.ai_id.partner_id.id):
                             amount_untaxed+= self._get_amount_untaxed_tax2(d.ai_id.type,tax)[0]
                             amount_tax+= self._get_amount_untaxed_tax2(d.ai_id.type,tax)[1]
-
         return (amount_untaxed,amount_tax)
 
 

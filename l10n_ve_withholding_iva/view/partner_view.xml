@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+	<!-- 
+	=====================================================
+	Partners Extension
+	=====================================================
+	-->  
+
+        <record id="res_partner_wh_iva" model="ir.ui.view">
+            <field name="name">res.partner.wh.iva</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
+            <field name="arch" type="xml">
+                <xpath expr="//separator[@string='isep']" position="after">
+                    <newline/>
+                            <group col="4" colspan="2">
+                                <field name="wh_iva_agent"/>
+                                <field name="wh_iva_rate"/>
+                            </group>
+                </xpath>
+                <xpath expr='//separator[@string="isep"]' position='attributes'>
+                    <attribute name="string">VAT Withholding</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
