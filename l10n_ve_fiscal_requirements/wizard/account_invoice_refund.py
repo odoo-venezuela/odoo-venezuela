@@ -238,9 +238,30 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             return result
 
+    def validate_withholding(self, cr, uid, ids, context=None):
+        inv_obj = self.pool.get('account.invoice')
+        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
+            riva = True
+            if inv.type in ('in_invoice','in_refund'):
+                rislr = inv.islr_wh_doc_id and inv.islr_wh_doc_id.state in ('done') and True or False
+                if not rislr:
+                    raise osv.except_osv(_('Wh income validated !'), \
+                                         _('found a withholding income that is not validated!'))
+                    return False
+            else:
+                riva = inv.partner_id.wh_iva_agent 
+            if riva:
+                riva = inv.wh_iva_id and inv.wh_iva_id.state in ('done') and True or False
+                if not riva:
+                    raise osv.except_osv(_('Wh IVA validated !'), \
+                                         _('found a withholding IVA that is not validated!'))
+                    return False
+
     def invoice_refund(self, cr, uid, ids, context=None):
+        self.validate_withholding(cr, uid, ids, context=context)
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
+
 
 
 account_invoice_refund()
