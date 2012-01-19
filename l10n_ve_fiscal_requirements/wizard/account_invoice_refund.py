@@ -250,8 +250,8 @@ class account_invoice_refund(osv.osv_memory):
             if inv.reconciled:
                 raise osv.except_osv(_('Invoice Paid!'), \
                                      _('The invoice refund can not be procesed because invoice "%s" was paid!' % inv.number))
-            else:
-                return True
+                return False
+        return True
 
     def validate_wh_iva_done(self, cr, uid, ids, context=None):
         """
@@ -270,6 +270,7 @@ class account_invoice_refund(osv.osv_memory):
                     raise osv.except_osv(_('Error !'), \
                                      _('The withholding income "%s" is not validated!' % inv.islr_wh_doc_id.code ))
                     return False
+	return True
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):
         """
@@ -288,6 +289,7 @@ class account_invoice_refund(osv.osv_memory):
                     raise osv.except_osv(_('Error !'), \
                                      _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code ))
                     return False
+	return True
 
     def invoice_refund(self, cr, uid, ids, context=None):
         self.validate_total_payment_inv(cr, uid, ids, context=context)
