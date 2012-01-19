@@ -302,7 +302,7 @@ class account_wh_iva(osv.osv):
         
     def write_wh_invoices(self, cr, uid, ids, context=None):
         """
-        Method that writes the wh id in invoices.
+        Method that writes the wh vat id in sale invoices.
     
         Return: True: write successfully.
                 False: write unsuccessfully.
