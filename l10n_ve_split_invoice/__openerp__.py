@@ -56,6 +56,7 @@ The document should be now splited on N invoices with the number of lines that y
     "demo_xml" : [
     ],
     "update_xml" : [
+        "installer_view.xml",
         "view/company_view.xml",
     ],
     "active": False,
