@@ -300,6 +300,21 @@ class account_wh_iva(osv.osv):
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
         
+    def write_wh_invoices(self, cr, uid, ids, context=None):
+        """
+        Method that writes the wh vat id in sale invoices.
+    
+        Return: True: write successfully.
+                False: write unsuccessfully.
+        """
+        inv_obj = self.pool.get('account.invoice')
+        obj = self.browse(cr, uid, ids[0])
+        if obj.type in ('out_invoice', 'out_refund'):
+            for wh_line in obj.wh_lines:
+                if not inv_obj.write(cr,uid,[wh_line.invoice_id.id],{'wh_iva_id':obj.id}):
+                    return False
+        return True
+
     def _check_partner(self, cr, uid, ids, context={}):
         agt = False
         obj = self.browse(cr, uid, ids[0])

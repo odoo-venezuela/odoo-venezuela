@@ -238,27 +238,63 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             return result
 
-    def validate_withholding(self, cr, uid, ids, context=None):
+    def validate_total_payment_inv(self, cr, uid, ids, context=None):
+        """
+        Method that validate if invoice is totally paid.
+
+        return: True: if invoice is paid.
+                False: if invoice is not paid.
+        """
         inv_obj = self.pool.get('account.invoice')
         for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
-            riva = True
-            if inv.type in ('in_invoice','in_refund'):
+            if inv.reconciled:
+                raise osv.except_osv(_('Invoice Paid!'), \
+                                     _('The invoice refund can not be procesed because invoice "%s" was paid!' % inv.number))
+                return False
+        return True
+
+    def validate_wh_iva_done(self, cr, uid, ids, context=None):
+        """
+        Method that check if wh vat is validated in invoice refund.
+
+        return: True: the wh vat is validated.
+                False: the wh vat is not validated.
+        """
+        inv_obj = self.pool.get('account.invoice')
+        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
+            if inv.type in ('out_invoice', 'out_refund') and not inv.islr_wh_doc_id:
+                rislr = True
+            else:
                 rislr = inv.islr_wh_doc_id and inv.islr_wh_doc_id.state in ('done') and True or False
                 if not rislr:
-                    raise osv.except_osv(_('Wh income validated !'), \
-                                         _('found a withholding income that is not validated!'))
+                    raise osv.except_osv(_('Error !'), \
+                                     _('The withholding income "%s" is not validated!' % inv.islr_wh_doc_id.code ))
                     return False
+	return True
+
+    def validate_wh_income_done(self, cr, uid, ids, context=None):
+        """
+        Method that check if wh income is validated in invoice refund.
+
+        return: True: the wh income is validated.
+                False: the wh income is not validated.
+        """
+        inv_obj = self.pool.get('account.invoice')
+        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
+            if inv.type in ('out_invoice', 'out_refund') and not inv.wh_iva_id:
+                riva = True
             else:
-                riva = inv.partner_id.wh_iva_agent 
-            if riva:
                 riva = inv.wh_iva_id and inv.wh_iva_id.state in ('done') and True or False
                 if not riva:
-                    raise osv.except_osv(_('Wh IVA validated !'), \
-                                         _('found a withholding IVA that is not validated!'))
+                    raise osv.except_osv(_('Error !'), \
+                                     _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code ))
                     return False
+	return True
 
     def invoice_refund(self, cr, uid, ids, context=None):
-        self.validate_withholding(cr, uid, ids, context=context)
+        self.validate_total_payment_inv(cr, uid, ids, context=context)
+        self.validate_wh_iva_done(cr, uid, ids, context=context)
+        self.validate_wh_income_done(cr, uid, ids, context=context)
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
 
