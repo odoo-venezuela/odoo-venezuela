@@ -268,6 +268,7 @@ class account_wh_iva(osv.osv):
         if context is None: context = {}
         res = {}
         note = _('Taxes in the following invoices have been miscalculated\n\n')
+        error_msg = ''
         for wh_line in self.browse(cr,uid, ids[0]).wh_lines:
             for tax in wh_line.tax_line:
                 if not self._get_valid_wh(cr, uid, tax.amount_ret, tax.amount, tax.wh_vat_line_id.wh_iva_rate, context=context):
@@ -275,8 +276,13 @@ class account_wh_iva(osv.osv):
                         note += _('\tInvoice: %s, %s, %s\n')%(wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference or '/')
                         res[wh_line.id] = True
                     note += '\t\t%s\n'%tax.name
-        if res:
+                if tax.amount_ret > tax.amount:
+                    porcent='%'
+                    error_msg +=_("The withheld amount: %s(%s%s), must be less than tax amount %s(%s%s).")%(tax.amount_ret,wh_line.wh_iva_rate,porcent,tax.amount,tax.amount*100,porcent)
+        if res and self.browse(cr,uid, ids[0]).type=='in_invoice':
             raise osv.except_osv(_('Miscalculated Withheld Taxes'),note)
+        elif error_msg:
+            raise osv.except_osv(_('Invalid action !'),error_msg)
         return True
 
     def check_vat_wh(self, cr, uid, ids, context={}):
