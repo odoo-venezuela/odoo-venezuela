@@ -93,7 +93,6 @@ class account_invoice(osv.osv):
         list = []
         for x,y,res in data:
             if 'concept_id' in res:
-                print res['concept_id']
                 res['concept_id'] = res.get('concept_id', False) and res['concept_id']
             if 'apply_wh' in res:
                 res['apply_wh'] = False

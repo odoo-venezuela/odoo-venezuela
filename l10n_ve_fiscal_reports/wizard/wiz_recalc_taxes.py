@@ -73,7 +73,6 @@ class wiz_invoice_recalc(wizard.interface):
         invoices = invoice_obj.search(cr, uid, [('date_invoice', '<=', d2), ('date_invoice', '>=', d1)])
         for inv in invoice_obj.browse(cr,uid,invoices):
             invoice_obj.button_compute(cr,uid,[inv.id],{},set_total=True)
-            print "RECALCULADA.........",inv.id
         return True
     
     states = {

@@ -129,7 +129,6 @@ class islr_wh_doc(osv.osv):
     }
 
     def validate(self, cr,uid,ids,*args):
-        print 'ARGS', args
 
         if args[0]=='in_invoice' and args[1] and args[2]:
             return True

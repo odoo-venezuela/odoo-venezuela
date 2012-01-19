@@ -57,7 +57,6 @@ def _data_save(self, cr, uid, data, context):
     lst = []
     period = period_obj.browse(cr, uid, form['period_id'])
     comp_ids = comp_obj.search(cr, uid, [('date_ret','>=',period.date_start),('date_ret','<=',period.date_stop)])
-    print 'comprobantes: ',comp_ids
     for comprobante in comp_obj.browse(cr, uid, comp_ids):
         res['rif_r'] = comprobante.partner_id.vat
         for line in comprobante.munici_line_ids:            
@@ -69,11 +68,6 @@ def _data_save(self, cr, uid, data, context):
 
         lst.append(res)
 
-    print 'resultadoxxx: ',res
-
-
-        
-    
 #    os.system("python /home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_munici/wizard/prueba1.py "+period.name)
 
 
@@ -91,18 +85,13 @@ class wiz_ret_munici_xml(wizard.interface):
             'ptaje'
 
         ]
-        print 'data: ',data
         lt = []
         arch = []        
         for d in data:
-            print 'd: ',d
             for col in orden:
-                print 'col: ',col
                 lt.append(d[col])
 
-        print 'lt: ',lt
         arch.append(tuple(lt))
-        print 'archxxx: ',arch
 
         import csv
         cw = csv.writer(open("/home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_munici/wizard/out.csv", "wb"))
