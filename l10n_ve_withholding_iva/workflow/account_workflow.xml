@@ -14,7 +14,7 @@
             <field name="name">Withholding Vat</field>
             <field name="kind">subflow</field>
             <field name="subflow_id" ref="wh_iva_order"/>
-            <field name="action">action_wh_iva_create()</field>
+            <field name="action">action_wh_iva_supervisor() and action_wh_iva_create()</field>
         </record>
 
         
