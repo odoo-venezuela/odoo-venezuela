@@ -52,8 +52,6 @@ class search_info_partner_seniat(osv.osv_memory):
     def search_partner_seniat(self, cr, uid, vat, context=None):
         if context is None:
             context={}
-        print 'vat',vat
-        aux=''
         su_obj = self.pool.get('seniat.url')
         rp_obj = self.pool.get('res.partner')
         url_obj = su_obj.browse(cr, uid, su_obj.search(cr, uid, []))[0]
@@ -65,5 +63,7 @@ class search_info_partner_seniat(osv.osv_memory):
         res = su_obj._dom_giver(url1, url2, context, aux)
         res.update({'percent':self._buscar_porcentaje(aux,url2)})
         self.write(cr,uid,vat,res)
+        
+        return False
         
 search_info_partner_seniat()
