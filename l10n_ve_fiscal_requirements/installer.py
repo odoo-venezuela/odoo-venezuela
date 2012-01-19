@@ -37,7 +37,7 @@ class fiscal_requirements_config(osv.osv_memory):
     def onchange_update_rif(self, cr, uid, ids, vat):
         context = {'exec_wizard': True, 'vat': vat}
         
-        partner_info = self.pool.get('res.partner').update_rif(cr, uid, ids, context)
+        partner_info = self.pool.get('seniat.url').update_rif(cr, uid, ids, context)
         v = {'name': partner_info.get('name'), 'vat_apply': partner_info.get('vat_apply')}
         return {'value': v}
 
