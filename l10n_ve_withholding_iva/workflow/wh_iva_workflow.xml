@@ -21,6 +21,24 @@
             <field name="name">confirmed</field>
         </record>
 
+
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wh_iva_order"/>
+            <field name="action">write({'state':'draft'})</field>
+            <field name="kind">function</field>
+            <field name="name">draft</field>
+        </record>
+
+
+
+        <record id="act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="wh_iva_order"/>
+            <field name="action">action_cancel()
+            write({'state':'cancel'})</field>
+            <field name="kind">function</field>
+            <field name="name">cancel</field>
+        </record>
+
         <record id="act_done" model="workflow.activity">
             <field name="wkf_id" ref="wh_iva_order"/>
             <field name="action">action_number()
@@ -43,6 +61,20 @@ write({'state':'done'})</field>
             <field name="act_to" ref="act_done"/>
             <field name="signal">wh_iva_done</field>
         </record>
+
+        <record id="trans_done_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_done"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+
+
+        <record id="trans_cancel_draft" model="workflow.transition">
+            <field name="act_from" ref="act_cancel"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">set_to_draft</field>
+        </record>
+
 
     </data>
 </openerp>

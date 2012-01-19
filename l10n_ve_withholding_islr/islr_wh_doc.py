@@ -128,6 +128,47 @@ class islr_wh_doc(osv.osv):
         'user_id': lambda s, cr, u, c: u,
     }
 
+    def action_cancel(self,cr,uid,ids,context={}):
+        self.cancel_move(cr,uid,ids)
+        return True
+    
+    
+    def cancel_move(self,cr,uid,ids,*args):
+        context={}
+        ret = self.browse(cr, uid, ids[0])
+        aux={}
+        move_ids=[]
+        rec_ids=[]
+        account_move_obj = self.pool.get('account.move')
+        obj_aml = self.pool.get('account.move.line')
+
+        for ret_line in ret.concept_ids:
+            
+            
+            account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+            #~ Putting right information about cancel process
+            move_ids.append(ret_line.move_id.id)
+
+            #~ these comprehension list needs refactoring
+            rec_ids += [(i.id,i.reconcile_id and i.reconcile_id.id or i.reconcile_partial_id and i.reconcile_partial_id.id or Falses) for i in ret_line.move_id.line_id if i.account_id.id == ret.account_id.id]
+
+        for i in rec_ids:
+            if not aux.get(i[1],False):
+                aux[i[1]]=[i[0]]
+            else:
+                aux[i[1]].append(i[0])
+
+        for j in aux:
+            if j:
+                obj_aml._smart_unreconcile(cr, uid, j,aux[j],context=context)
+
+        #~ Deleting relation from the line
+        account_move_obj.unlink(cr, uid,move_ids)
+
+        return True
+    
+    
+    
     def validate(self, cr,uid,ids,*args):
 
         if args[0]=='in_invoice' and args[1] and args[2]:
