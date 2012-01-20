@@ -145,6 +145,7 @@
                             <button name="act_confirmed" string="Confirmed" states="progress" type="workflow"  icon="gtk-go-forward"/>
                             <button name="act_done" string="Done" states="confirmed" type="workflow"  icon="gtk-execute"/>
                             <button name="act_cancel" string="Cancel" states="done" type="workflow"  icon="gtk-cancel"/>
+                            <button name="act_draft" colspan="2" string="Set to draft" states="cancel" type="workflow"  icon="gtk-go-forward"/>
                         </group>
                 </form>
             </field>
@@ -284,6 +285,7 @@
                             <button name="act_confirmed" string="Confirmed" states="progress" type="workflow"  icon="gtk-go-forward"/>
                             <button name="act_done" string="Done" states="confirmed" type="workflow"  icon="gtk-go-forward"/>
                             <button name="act_cancel" string="Cancel" states="done" type="workflow"  icon="gtk-go-forward"/>
+                            <button name="act_draft"  colspan="2"  string="Set to draft" states="cancel" type="workflow"  icon="gtk-go-forward"/>
                         </group>
                 </form>
             </field>

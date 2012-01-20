@@ -229,23 +229,26 @@ class islr_wh_doc(osv.osv):
         self.cancel_move(cr,uid,ids)
         return True
         
-    def action_cancel1(self,cr,uid,ids,context={}):
-        self.cancel_move(cr,uid,ids)
-        return True
+    
+
 
     def cancel_move (self,cr,uid,ids, *args):
+        context={}
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
         for ret in ret_brw:
-            for ret_line in ret.concept_ids:
-                account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
-                #~ Putting right information about cancel process
-                account_move_obj.write(cr,uid,[ret_line.move_id.id],{'ref':'Canceled by wh islr workflow %s'%ret_line.move_id.ref})
-                #~ Deleting relation from the line
-                self.write(cr,uid,ids,{'move_id':False})
-                #~ delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+            if ret.state == 'done':
+                print "ret.concept_ids",ret.concept_ids
+                for ret_line in ret.concept_ids:
+                    account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+                if delete:
+                    self.write(cr, uid, ids, {'state':'cancel'})
+            else:
+                self.write(cr, uid, ids, {'state':'cancel'})
         return True
-        
+
+
     def action_cancel_draft(self,cr,uid,ids, *args):
         self.write(cr, uid, ids, {'state':'draft'})
         return True

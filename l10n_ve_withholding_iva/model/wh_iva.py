@@ -257,7 +257,27 @@ class account_wh_iva(osv.osv):
                     context=context).company_id.id,
 
     }
-
+    def action_cancel(self,cr,uid,ids,context={}):
+        self.cancel_move(cr,uid,ids)
+        return True
+    
+    
+    def cancel_move(self,cr,uid,ids, *args):
+        
+        ret_brw = self.browse(cr, uid, ids)
+        account_move_obj = self.pool.get('account.move')
+        for ret in ret_brw:
+            if ret.state == 'done':
+                for ret_line in ret.wh_lines:
+                    account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+                if delete:
+                    self.write(cr, uid, ids, {'state':'cancel'})
+            else:
+                self.write(cr, uid, ids, {'state':'cancel'})
+        return True    
+    
+        
     def _get_valid_wh(self, cr, uid, amount_ret, amount, wh_iva_rate, offset=0.5,  context=None):
         '''This method can be override in a way that
         you can afford your own value for the offset'''
@@ -504,4 +524,6 @@ class account_wh_iva(osv.osv):
             if whl_ids:
                 awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
         return True
+   
+
 account_wh_iva()
