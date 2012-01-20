@@ -292,7 +292,6 @@ class account_invoice_refund(osv.osv_memory):
 	return True
 
     def invoice_refund(self, cr, uid, ids, context=None):
-        self.validate_total_payment_inv(cr, uid, ids, context=context)
         self.validate_wh_iva_done(cr, uid, ids, context=context)
         self.validate_wh_income_done(cr, uid, ids, context=context)
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
