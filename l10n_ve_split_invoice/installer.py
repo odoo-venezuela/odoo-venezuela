@@ -47,6 +47,8 @@ class split_invoice_config(osv.osv_memory):
         In this method I will configure the maximum number of lines in your invoices.
         '''
         wiz_data = self.browse(cr, uid, ids[0])
+        if wiz_data.name < 1 :
+             raise osv.except_osv(_('Error !'), _('The number of customer invoice lines must be at least one'))
         company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         company_obj = self.pool.get('res.company')
         company_id = company_obj.search(cr,uid,[('id','=',company.id)])
