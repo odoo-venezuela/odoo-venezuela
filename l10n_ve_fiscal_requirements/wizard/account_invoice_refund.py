@@ -265,10 +265,11 @@ class account_invoice_refund(osv.osv_memory):
             if inv.type in ('out_invoice', 'out_refund') and not inv.islr_wh_doc_id:
                 rislr = True
             else:
-                rislr = inv.islr_wh_doc_id and inv.islr_wh_doc_id.state in ('done') and True or False
+                rislr = not inv.islr_wh_doc_id and True or \
+                        inv.islr_wh_doc_id.state in ('done') and True or False
                 if not rislr:
                     raise osv.except_osv(_('Error !'), \
-                                     _('The withholding income "%s" is not validated!' % inv.islr_wh_doc_id.code ))
+                                     _('The Document you are trying to refund has a income withholding "%s" which is not yet validated!' % inv.islr_wh_doc_id.code ))
                     return False
 	return True
 
@@ -284,7 +285,8 @@ class account_invoice_refund(osv.osv_memory):
             if inv.type in ('out_invoice', 'out_refund') and not inv.wh_iva_id:
                 riva = True
             else:
-                riva = inv.wh_iva_id and inv.wh_iva_id.state in ('done') and True or False
+                riva = not inv.wh_iva_id and  True or \
+                       inv.wh_iva_id.state in ('done') and True or False
                 if not riva:
                     raise osv.except_osv(_('Error !'), \
                                      _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code ))
