@@ -67,9 +67,9 @@ class account_wh_iva_line_tax(osv.osv):
     _name = 'account.wh.iva.line.tax'
     _columns = {
         'inv_tax_id': fields.many2one('account.invoice.tax', 'Invoice Tax', required=True, ondelete='set null', help="Tax Line"),
-        'wh_vat_line_id':fields.many2one('account.wh.iva.line', 'Withholding VAT Line', required=True, ondelete='cascade', help="Linea de retencion de IVA"),
+        'wh_vat_line_id':fields.many2one('account.wh.iva.line', 'Withholding VAT Line', required=True, ondelete='cascade', help="Line withholding VAT"),
         'tax_id': fields.related('inv_tax_id', 'tax_id', type='many2one',relation='account.tax', string='Tax', store=True, select=True, readonly=True, ondelete='set null', help="Tax"),
-        'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null', help="Name"),
+        'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null', help=" Tax Name"),
         'base': fields.related('inv_tax_id', 'base', type='float', string='Tax Base', store=True, select=True, readonly=True, ondelete='set null', help="Tax Base"),
         'amount': fields.related('inv_tax_id', 'amount', type='float', string='Taxed Amount', store=True, select=True, readonly=True, ondelete='set null', help="Withholding tax amount"),
         'company_id': fields.related('inv_tax_id', 'company_id', type='many2one',relation='res.company', string='Company', store=True, select=True, readonly=True, ondelete='set null', help="Company"),
