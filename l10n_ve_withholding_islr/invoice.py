@@ -63,16 +63,12 @@ class account_invoice_line(osv.osv):
         if context is None :
             context = {}
         
-        print 'esto es context, ',context
-        
         if context.get('new_key',False):
 
             vals.update({'wh_xml_id':False,
                          'apply_wh': False,
                 
             })
-
-        print 'esto es vals ', vals
         
         return super(account_invoice_line, self).create(cr, uid, vals, context=context)
     
