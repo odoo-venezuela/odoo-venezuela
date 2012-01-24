@@ -253,49 +253,10 @@ class account_invoice_refund(osv.osv_memory):
                 return False
         return True
 
-    def validate_wh_iva_done(self, cr, uid, ids, context=None):
-        """
-        Method that check if wh vat is validated in invoice refund.
-
-        return: True: the wh vat is validated.
-                False: the wh vat is not validated.
-        """
-        inv_obj = self.pool.get('account.invoice')
-        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
-            if inv.type in ('out_invoice', 'out_refund') and not inv.islr_wh_doc_id:
-                rislr = True
-            else:
-                rislr = not inv.islr_wh_doc_id and True or \
-                        inv.islr_wh_doc_id.state in ('done') and True or False
-                if not rislr:
-                    raise osv.except_osv(_('Error !'), \
-                                     _('The Document you are trying to refund has a income withholding "%s" which is not yet validated!' % inv.islr_wh_doc_id.code ))
-                    return False
-	return True
-
-    def validate_wh_income_done(self, cr, uid, ids, context=None):
-        """
-        Method that check if wh income is validated in invoice refund.
-
-        return: True: the wh income is validated.
-                False: the wh income is not validated.
-        """
-        inv_obj = self.pool.get('account.invoice')
-        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
-            if inv.type in ('out_invoice', 'out_refund') and not inv.wh_iva_id:
-                riva = True
-            else:
-                riva = not inv.wh_iva_id and  True or \
-                       inv.wh_iva_id.state in ('done') and True or False
-                if not riva:
-                    raise osv.except_osv(_('Error !'), \
-                                     _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code ))
-                    return False
-	return True
-
     def invoice_refund(self, cr, uid, ids, context=None):
-        self.validate_wh_iva_done(cr, uid, ids, context=context)
-        self.validate_wh_income_done(cr, uid, ids, context=context)
+        inv_obj = self.pool.get('account.invoice')
+        inv_obj.validate_wh_iva_done(cr, uid, context.get('active_ids'), context=context)
+        inv_obj.validate_wh_income_done(cr, uid, context.get('active_ids'), context=context)
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
 

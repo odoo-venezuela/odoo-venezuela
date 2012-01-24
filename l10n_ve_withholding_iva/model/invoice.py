@@ -271,6 +271,26 @@ class account_invoice(osv.osv):
                 }))
         
         return res
+
+    def validate_wh_iva_done(self, cr, uid, ids, context=None):
+        """
+        Method that check if wh vat is validated in invoice refund.
+        @params: ids: list of invoices.
+        return: True: the wh vat is validated.
+                False: the wh vat is not validated.
+        """
+        for inv in self.browse(cr, uid, ids, context=context):
+            if inv.type in ('out_invoice', 'out_refund') and not inv.wh_iva_id:
+                riva = True
+            else:
+                riva = not inv.wh_iva_id and True or inv.wh_iva_id.state in ('done') and True or False
+                if not riva:
+                    raise osv.except_osv(_('Error !'), \
+                                     _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code ))
+                    return False
+        return True
+
+
 account_invoice()
 
 class account_invoice_tax(osv.osv):
