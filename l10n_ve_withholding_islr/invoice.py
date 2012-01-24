@@ -667,6 +667,24 @@ class account_invoice(osv.osv):
             return True 
         return False
 
+    def validate_wh_income_done(self, cr, uid, ids, context=None):
+        """
+        Method that check if wh income is validated in invoice refund.
+        @params: ids: list of invoices.
+        return: True: the wh income is validated.
+                False: the wh income is not validated.
+        """
+        for inv in self.browse(cr, uid, ids, context=context):
+            if inv.type in ('out_invoice', 'out_refund') and not inv.islr_wh_doc_id:
+                rislr = True
+            else:
+                rislr = not inv.islr_wh_doc_id and True or inv.islr_wh_doc_id.state in ('done') and True or False
+                if not rislr:
+                    raise osv.except_osv(_('Error !'), \
+                                     _('The Document you are trying to refund has a income withholding "%s" which is not yet validated!' % inv.islr_wh_doc_id.code ))
+                    return False
+        return True
+
 account_invoice()
 
 
