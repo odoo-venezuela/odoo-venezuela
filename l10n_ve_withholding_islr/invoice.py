@@ -570,6 +570,7 @@ class account_invoice(osv.osv):
         dictc = self._get_dict_concepts(cr,uid,dict)
         inv_brw = self._get_inv_id(cr,uid,dict)
         inv_obj =self.pool.get('account.invoice.line')
+        islr_wh_doc_id=None
 
         if inv_brw:
             if dictc and not wh_doc_id:
