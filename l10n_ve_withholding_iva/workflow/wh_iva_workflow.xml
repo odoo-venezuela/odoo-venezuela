@@ -47,6 +47,7 @@ action_move_create()
 write({'state':'done'})</field>
             <field name="kind">function</field>
             <field name="name">done</field>
+            <field name="flow_stop">True</field>
         </record>
 
         <record id="trans_draft_done" model="workflow.transition">
