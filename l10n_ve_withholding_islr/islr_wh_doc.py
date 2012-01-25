@@ -392,6 +392,8 @@ class islr_wh_doc(osv.osv):
 
 
     def action_ret_islr(self, cr, uid, ids, context={}):
+        #TODO: :
+
         inv_obj = self.pool.get('account.invoice')
         invoices_brw = inv_obj.browse(cr, uid, ids, context)
         wh_doc_list = []

@@ -636,6 +636,7 @@ class account_invoice(osv.osv):
         This Method test if given certain conditions it is
         possible to create a new withholding document
         '''
+        #TODO: Este metodo deberia devolver true ya que es un metodo "check"
         if context is None:
             context={}
         
@@ -684,6 +685,7 @@ class account_invoice(osv.osv):
         '''
         This method test the invoice types to create a new withholding document
         '''
+        #TODO: change on workflow
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)
