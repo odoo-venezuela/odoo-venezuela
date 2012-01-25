@@ -36,7 +36,6 @@ class account_invoice_refund(osv.osv_memory):
 
         return: True: if invoice is does not have wh's or it does have and those ones are validated.
                 False: if invoice is does have and those wh's are not yet validated.
-                
         """
         if context is None:
             context = {}

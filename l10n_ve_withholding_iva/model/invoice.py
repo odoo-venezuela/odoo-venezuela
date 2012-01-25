@@ -290,7 +290,6 @@ class account_invoice(osv.osv):
                     return False
         return True
 
-
 account_invoice()
 
 class account_invoice_tax(osv.osv):
@@ -303,12 +302,12 @@ class account_invoice_tax(osv.osv):
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
         res = {}
         inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
-        
+
         for ait in inv.tax_line:
             amount_ret = 0.0
             if ait.tax_id.ret:
                 amount_ret = inv.wh_iva_rate and ait.tax_amount*inv.wh_iva_rate/100.0 or 0.00
             res[ait.id] = {'amount_ret': amount_ret, 'base_ret': ait.base_amount}
         return res
-        
+
 account_invoice_tax()
