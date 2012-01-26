@@ -4,12 +4,12 @@
     <pageTemplate id="first">
         
         <pageGraphics>
-            <setFont name="Helvetica" size="9"/>
+            <setFont name="Times-Roman" size="9"/>
             <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
             <drawString x="25cm" y="0.5cm">Pagina <pageNumber/></drawString>
             <lineMode width="0.7"/>
             <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
-            <setFont name="Helvetica" size="8"/>
+            <setFont name="Times-Roman" size="8"/>
         </pageGraphics>
     <frame id="first" x1="5.0" y1="15.0" width="815" height="580"/>
     </pageTemplate>
@@ -83,23 +83,23 @@
     <initialize>
       <alias id="style.normal" value="style.Normal"/>
     </initialize>
-    <paraStyle name="P1" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
-    <paraStyle name="P2" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
-    <paraStyle name="P3" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
-    <paraStyle name="P4" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
-    <paraStyle name="P5" fontName="Helvetica" fontSize="6.0" leading="8"/>
-    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="6.0" leading="6" alignment="CENTER"/>
-    <paraStyle name="TITULO_AJUSTE" fontName="Helvetica" fontSize="10.0" alignment="CENTER"/>
-    <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="6.0" leading="1" alignment="CENTER"/>
-    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT"/>
-    <paraStyle name="OBSERVACIONES" fontName="Helvetica" fontSize="9.0"  alignment="LEFT"/>
-    <paraStyle name="HEADERDOC" fontName="Helvetica-bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
-    <paraStyle name="HEADER" fontName="Helvetica-bold" fontSize="6.0" leading="6" alignment="CENTER"/>
-    <paraStyle name="CONTENIDOLEFT_BOLD" fontName="Helvetica-bold" fontSize="6.0" leading="6" alignment="LEFT"/>
-    <paraStyle name="P7" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
-    <paraStyle name="P8" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
+    <paraStyle name="P1" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
+    <paraStyle name="P2" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
+    <paraStyle name="P3" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
+    <paraStyle name="P4" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
+    <paraStyle name="P5" fontName="Times-Roman" fontSize="7.0" leading="8"/>
+    <paraStyle name="CONTENIDO" fontName="Times-Roman" fontSize="7.0" leading="6" alignment="CENTER"/>
+    <paraStyle name="TITULO_AJUSTE" fontName="Times-Roman" fontSize="10.0" alignment="CENTER"/>
+    <paraStyle name="CONTENIDOINT" fontName="Times-Roman" fontSize="7.0" leading="6" alignment="CENTER"/>
+    <paraStyle name="CONTENIDOLEFT" fontName="Times-Roman" fontSize="7.0" leading="6" alignment="LEFT"/>
+    <paraStyle name="OBSERVACIONES" fontName="Times-Roman" fontSize="9.0"  alignment="LEFT"/>
+    <paraStyle name="HEADERDOC" fontName="Times-Bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
+    <paraStyle name="HEADER" fontName="Times-Bold" fontSize="7.0" leading="6" alignment="CENTER"/>
+    <paraStyle name="CONTENIDOLEFT_BOLD" fontName="Times-Bold" fontSize="7.0" leading="6" alignment="LEFT"/>
+    <paraStyle name="P7" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
+    <paraStyle name="P8" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
     <paraStyle name="Standard" fontName="Times-Roman"/>
-    <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Heading" fontName="Times-Roman" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="List" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="Caption" fontName="Times-Roman" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
@@ -124,7 +124,7 @@
           <para style="HEADERDOC">[[data['form'] and ('Hasta: %s'%formatLang( data['form']['date_end'], date=True)) or '']]</para>
         </td>
         <td>
-          <para style="HEADERDOC" fontName="Helvetica">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
+          <para style="HEADERDOC" fontName="Times-Roman">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
         </td>
       </tr>
     </blockTable>
@@ -133,8 +133,8 @@
           <!-- ********* SALE, PURCHASE, BOOK *********-->
           <!-- ****************************************-->
     <section>
-        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'ENCANBEZADO', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,36.0,39.0,155.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"36.0,36.0,40.0,118.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0",'style':'ENCANBEZADO', 'repeatRows':'2'}) or '']]
         <tr>
             <td></td><td></td><td></td><td></td>
             <td></td><td></td><td></td><td></td>
@@ -190,8 +190,8 @@
     <!-- ************ WITHHOLDING VAT BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,36.0,39.0,155.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"36.0,36.0,40.0,118.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             <para>[[ (data['form']['type'] == 'sale') and '.' or removeParentNode('blockTable') ]]</para>
             [[ setLang(company.partner_id.lang) ]]
@@ -233,8 +233,8 @@
    <!-- ************ PURCHASE, SALE, BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,36.0,39.0,155.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[ data['form']['type'] == 'purchase' and setTag('blockTable','blockTable',{'colWidths':"36.0,36.0,40.0,118.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( l.ai_id.date_document and formatLang(l.ai_id.date_document, date=True) or '') or '' ]]</para></td>
@@ -281,8 +281,8 @@
 
         <!-- ************ TOTALS PURCHASE,SALE PARCIALES************-->
     <section>
-        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,36.0,39.0,155.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"36.0,36.0,40.0,118.0,47.0,42.0,38.0,15.0,38.0,37.0,114.0,114.0,44.0,60.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td><td></td>
@@ -450,7 +450,7 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
      <section>
         <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
         <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">        
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'ENCANBEZADO', 'repeatRows':'2'}) or '']]
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,130.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'ENCANBEZADO', 'repeatRows':'2'}) or '']]
         <tr>
             <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
             <td></td><td></td><td></td>

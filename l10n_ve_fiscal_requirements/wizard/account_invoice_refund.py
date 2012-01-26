@@ -238,9 +238,42 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             return result
 
+    def validate_total_payment_inv(self, cr, uid, ids, context=None):
+        """
+        Method that validate if invoice is totally paid.
+
+        return: True: if invoice is paid.
+                False: if invoice is not paid.
+        """
+        inv_obj = self.pool.get('account.invoice')
+        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
+            if inv.reconciled:
+                raise osv.except_osv(_('Invoice Paid!'), \
+                                     _('The invoice refund can not be procesed because invoice "%s" was paid!' % inv.number))
+                return False
+        return True
+
+    def validate_wh(self, cr, uid, ids, context=None):
+        """
+        Method that validate if invoice has non-yet processed withholds.
+
+        return: True: if invoice is does not have wh's or it does have and those ones are validated.
+                False: if invoice is does have and those wh's are not yet validated.
+                
+        in the meantime this function is DUMMY,
+        and the developer should use it to override and get advantage of it.
+        """
+        return True
+
     def invoice_refund(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        if not self.validate_wh(cr, uid, context.get('active_ids'), context=context):
+            raise osv.except_osv(_('Error !'), \
+                                     _('There are non-valid withholds for the document which refund is being processed!' % inv.wh_iva_id.code ))
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
+
 
 
 account_invoice_refund()

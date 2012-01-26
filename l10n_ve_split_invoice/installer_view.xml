@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <record id="split_invoice_config_view" model="ir.ui.view">
+        <field name="name">Configure Number of Lines in Your Customer Invoices </field>
+        <field name="model">split.invoice.config</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.res_config_view_base"/>
+        <field name="arch" type="xml">
+          <data>
+            <form position="attributes">
+              <attribute name="string">Split Invoice Configurator</attribute>
+            </form>
+            <separator string="title" position="attributes">
+            <attribute name="string">Configure Customer Invoice Lines</attribute>
+              </separator>
+              <xpath expr="//label[@string='description']" position="attributes">
+                  <attribute name="string">
+Configure your company with the maximum number
+of lines in your customer invoices
+                  </attribute>
+              </xpath>
+            <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                  <attribute name='rowspan'>5</attribute>
+                  <attribute name='string'></attribute>
+              </xpath>
+            <group string="res_config_contents" position="replace">
+              <field name="name" groups="base.group_extended"/>
+              <newline/>
+            </group>
+            <xpath expr='//button[@name="action_skip"]' position='replace'/>
+          </data>
+        </field>
+    </record>
+    <record id="action_config_split_invoice" model="ir.actions.act_window">
+        <field name="name">Configure Withholdings VAT for Venezuela</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">split.invoice.config</field>
+        <field name="view_id" ref="split_invoice_config_view"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <!-- register configuration wizard -->
+    <record id="config_wizard_step_split_invoice" model="ir.actions.todo">
+        <field name="action_id" ref="action_config_split_invoice"/>
+        <field name="restart">always</field>
+        <field name="sequence">31</field>
+        <field name="groups_id" eval="[(6,0,[ref('base.group_extended')])]"/>
+    </record>
+  </data>
+</openerp>

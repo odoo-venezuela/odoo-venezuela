@@ -106,7 +106,6 @@ class txt_iva(osv.osv):
     def action_generate_lines_txt(self,cr,uid,ids,context={}):
         voucher_obj = self.pool.get('account.wh.iva')
         txt_iva_obj = self.pool.get('txt.iva.line')
-        print "Entro IVA TXT"
         voucher_ids=''
         txt_brw= self.browse(cr,uid,ids[0])
         txt_ids = txt_iva_obj.search(cr,uid,[('txt_id','=',txt_brw.id)])

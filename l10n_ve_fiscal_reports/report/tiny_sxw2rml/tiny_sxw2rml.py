@@ -379,6 +379,5 @@ if __name__ == "__main__":
     xsl = file(os.path.join(os.getcwd(), os.path.dirname(sys.argv[0]), xsl_file)).read()
     result = sxw2rml(f, xsl, output=opt.output, save_pict=False)
 
-    print result
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

@@ -67,12 +67,12 @@ class account_wh_iva_line_tax(osv.osv):
     _name = 'account.wh.iva.line.tax'
     _columns = {
         'inv_tax_id': fields.many2one('account.invoice.tax', 'Invoice Tax', required=True, ondelete='set null', help="Tax Line"),
-        'wh_vat_line_id':fields.many2one('account.wh.iva.line', 'Withholding VAT Line', required=True, ondelete='cascade',),
-        'tax_id': fields.related('inv_tax_id', 'tax_id', type='many2one',relation='account.tax', string='Tax', store=True, select=True, readonly=True, ondelete='set null'),
-        'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null'),
-        'base': fields.related('inv_tax_id', 'base', type='float', string='Tax Base', store=True, select=True, readonly=True, ondelete='set null'),
-        'amount': fields.related('inv_tax_id', 'amount', type='float', string='Taxed Amount', store=True, select=True, readonly=True, ondelete='set null'),
-        'company_id': fields.related('inv_tax_id', 'company_id', type='many2one',relation='res.company', string='Company', store=True, select=True, readonly=True, ondelete='set null'),
+        'wh_vat_line_id':fields.many2one('account.wh.iva.line', 'Withholding VAT Line', required=True, ondelete='cascade', help="Line withholding VAT"),
+        'tax_id': fields.related('inv_tax_id', 'tax_id', type='many2one',relation='account.tax', string='Tax', store=True, select=True, readonly=True, ondelete='set null', help="Tax"),
+        'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null', help=" Tax Name"),
+        'base': fields.related('inv_tax_id', 'base', type='float', string='Tax Base', store=True, select=True, readonly=True, ondelete='set null', help="Tax Base"),
+        'amount': fields.related('inv_tax_id', 'amount', type='float', string='Taxed Amount', store=True, select=True, readonly=True, ondelete='set null', help="Withholding tax amount"),
+        'company_id': fields.related('inv_tax_id', 'company_id', type='many2one',relation='res.company', string='Company', store=True, select=True, readonly=True, ondelete='set null', help="Company"),
         'amount_ret': fields.function(
             _get_amount_ret,
             method=True,
@@ -257,7 +257,27 @@ class account_wh_iva(osv.osv):
                     context=context).company_id.id,
 
     }
-
+    def action_cancel(self,cr,uid,ids,context={}):
+        self.cancel_move(cr,uid,ids)
+        return True
+    
+    
+    def cancel_move(self,cr,uid,ids, *args):
+        
+        ret_brw = self.browse(cr, uid, ids)
+        account_move_obj = self.pool.get('account.move')
+        for ret in ret_brw:
+            if ret.state == 'done':
+                for ret_line in ret.wh_lines:
+                    account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+                if delete:
+                    self.write(cr, uid, ids, {'state':'cancel'})
+            else:
+                self.write(cr, uid, ids, {'state':'cancel'})
+        return True    
+    
+        
     def _get_valid_wh(self, cr, uid, amount_ret, amount, wh_iva_rate, offset=0.5,  context=None):
         '''This method can be override in a way that
         you can afford your own value for the offset'''
@@ -268,6 +288,7 @@ class account_wh_iva(osv.osv):
         if context is None: context = {}
         res = {}
         note = _('Taxes in the following invoices have been miscalculated\n\n')
+        error_msg = ''
         for wh_line in self.browse(cr,uid, ids[0]).wh_lines:
             for tax in wh_line.tax_line:
                 if not self._get_valid_wh(cr, uid, tax.amount_ret, tax.amount, tax.wh_vat_line_id.wh_iva_rate, context=context):
@@ -275,8 +296,13 @@ class account_wh_iva(osv.osv):
                         note += _('\tInvoice: %s, %s, %s\n')%(wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference or '/')
                         res[wh_line.id] = True
                     note += '\t\t%s\n'%tax.name
-        if res:
+                if tax.amount_ret > tax.amount:
+                    porcent='%'
+                    error_msg +=_("The withheld amount: %s(%s%s), must be less than tax amount %s(%s%s).")%(tax.amount_ret,wh_line.wh_iva_rate,porcent,tax.amount,tax.amount*100,porcent)
+        if res and self.browse(cr,uid, ids[0]).type=='in_invoice':
             raise osv.except_osv(_('Miscalculated Withheld Taxes'),note)
+        elif error_msg:
+            raise osv.except_osv(_('Invalid action !'),error_msg)
         return True
 
     def check_vat_wh(self, cr, uid, ids, context={}):
@@ -294,6 +320,21 @@ class account_wh_iva(osv.osv):
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
         
+    def write_wh_invoices(self, cr, uid, ids, context=None):
+        """
+        Method that writes the wh vat id in sale invoices.
+    
+        Return: True: write successfully.
+                False: write unsuccessfully.
+        """
+        inv_obj = self.pool.get('account.invoice')
+        obj = self.browse(cr, uid, ids[0])
+        if obj.type in ('out_invoice', 'out_refund'):
+            for wh_line in obj.wh_lines:
+                if not inv_obj.write(cr,uid,[wh_line.invoice_id.id],{'wh_iva_id':obj.id}):
+                    return False
+        return True
+
     def _check_partner(self, cr, uid, ids, context={}):
         agt = False
         obj = self.browse(cr, uid, ids[0])
@@ -388,7 +429,9 @@ class account_wh_iva(osv.osv):
                     }
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'wh_lines':lines, 'period_id':period_id})
-        
+
+                    if rl and line.invoice_id.type in ['out_invoice','out_refund']:
+                        inv_obj.write(cr,uid,[line.invoice_id.id],{'wh_iva_id':ret.id})
         return True
     
     def _withholdable_tax_(self, cr, uid, ids, context=None):
@@ -481,4 +524,6 @@ class account_wh_iva(osv.osv):
             if whl_ids:
                 awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
         return True
+   
+
 account_wh_iva()

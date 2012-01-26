@@ -56,6 +56,22 @@ class account_invoice_line(osv.osv):
             pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
             data[data.keys()[1]]['concept_id'] = pro.concept_id.id
         return data
+        
+    
+    def create(self, cr, uid, vals, context=None):
+        
+        if context is None :
+            context = {}
+        
+        if context.get('new_key',False):
+
+            vals.update({'wh_xml_id':False,
+                         'apply_wh': False,
+                
+            })
+        
+        return super(account_invoice_line, self).create(cr, uid, vals, context=context)
+    
 
 account_invoice_line()
 
@@ -79,12 +95,20 @@ class account_invoice(osv.osv):
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
+        
         if default is None:
             default = {}
+        
+        if context is None :
+            context = {}
+            
         default = default.copy()
         default.update({'islr_wh_doc':0,
                         'status': 'no_pro',
         })
+        
+        context.update({'new_key':True})
+        
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
 
@@ -93,7 +117,6 @@ class account_invoice(osv.osv):
         list = []
         for x,y,res in data:
             if 'concept_id' in res:
-                print res['concept_id']
                 res['concept_id'] = res.get('concept_id', False) and res['concept_id']
             if 'apply_wh' in res:
                 res['apply_wh'] = False
@@ -301,6 +324,8 @@ class account_invoice(osv.osv):
                 self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply})
             else:
                 self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply,'wh_xml_id':self._create_islr_xml_wh_line(cr, uid,line,dict)})
+                message = _("Withholding income xml line generated.")
+                self.log(cr, uid, line, message)
                 
     def _create_islr_xml_wh_line(self,cr, uid, line, dict):
         '''
@@ -545,6 +570,7 @@ class account_invoice(osv.osv):
         dictc = self._get_dict_concepts(cr,uid,dict)
         inv_brw = self._get_inv_id(cr,uid,dict)
         inv_obj =self.pool.get('account.invoice.line')
+        islr_wh_doc_id=None
 
         if inv_brw:
             if dictc and not wh_doc_id:
@@ -566,6 +592,9 @@ class account_invoice(osv.osv):
                     self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
                         
                 self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
+                
+                message = _("Withholding income voucher '%s' generated.") % self.pool.get('islr.wh.doc').browse(cr,uid,islr_wh_doc_id).name
+                self.log(cr, uid, islr_wh_doc_id, message)
             else:
                 pass
         else:
@@ -608,6 +637,7 @@ class account_invoice(osv.osv):
         This Method test if given certain conditions it is
         possible to create a new withholding document
         '''
+        #TODO: Este metodo deberia devolver true ya que es un metodo "check"
         if context is None:
             context={}
         
@@ -656,12 +686,31 @@ class account_invoice(osv.osv):
         '''
         This method test the invoice types to create a new withholding document
         '''
+        #TODO: change on workflow
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)
         if obj.type in ('in_invoice', 'in_refund'):
             return True 
         return False
+
+    def validate_wh_income_done(self, cr, uid, ids, context=None):
+        """
+        Method that check if wh income is validated in invoice refund.
+        @params: ids: list of invoices.
+        return: True: the wh income is validated.
+                False: the wh income is not validated.
+        """
+        for inv in self.browse(cr, uid, ids, context=context):
+            if inv.type in ('out_invoice', 'out_refund') and not inv.islr_wh_doc_id:
+                rislr = True
+            else:
+                rislr = not inv.islr_wh_doc_id and True or inv.islr_wh_doc_id.state in ('done') and True or False
+                if not rislr:
+                    raise osv.except_osv(_('Error !'), \
+                                     _('The Document you are trying to refund has a income withholding "%s" which is not yet validated!' % inv.islr_wh_doc_id.code ))
+                    return False
+        return True
 
 account_invoice()
 

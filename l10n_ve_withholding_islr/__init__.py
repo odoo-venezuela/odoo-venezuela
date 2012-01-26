@@ -34,3 +34,4 @@ import islr_xml_wh
 import partner
 import product
 import report
+import wizard
