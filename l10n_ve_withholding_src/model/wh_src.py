@@ -63,8 +63,25 @@ class account_wh_src(osv.osv):
 
 
     } 
+    
+    def _diario(self, cr, uid, model, context=None):
+		if context is None:
+			context={}
+		print "cr %s, uid %s, model %s, context=None %s "%(cr, uid, model, context)
+		account_j=self.pool.get('account.journal')
+		print "account_j %s" %account_j
+		journal_id=account_j.search(cr, uid, [('name','=','DIARIO DE SRC PARA PROVEEDORES')])
+		return journal_id[0]
+		
+		
     _defaults = {
-
+	 'state': lambda *a: 'draft',
+	 'type': lambda *a: 'in_invoice',
+	 'currency_id': lambda self, cr, uid, context: \
+		self.pool.get('res.company').browse(cr, uid, uid,
+        context=context).currency_id.id,
+	 'journal_id':lambda self, cr, uid, context: \
+		self._diario(cr, uid, uid, context),
     }
 
     _sql_constraints = [
@@ -95,3 +112,4 @@ class account_wh_src_line(osv.osv):
     ] 
 
 account_wh_src_line()
+

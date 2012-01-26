@@ -29,7 +29,7 @@ from osv import fields, osv
 class account_journal(osv.osv):
     _inherit = 'account.journal'
     _columns = {
-        'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), ('cash', 'Cash'), ('bank', 'Bank and Cheques'), ('general', 'General'), ('situation', 'Opening/Closing Situation'), ('iva_sale', 'Sale Wh VAT'), ('iva_purchase', 'Purchase Wh VAT'), ('islr_purchase', 'Purchase Wh Income'), ('islr_sale', 'Sale Wh Income'), ('mun_sale', 'Sale Wh County'), ('mun_purchase', 'Purchase Wh County')], 'Type', size=32, required=True,
+        'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), ('cash', 'Cash'), ('bank', 'Bank and Cheques'), ('general', 'General'), ('situation', 'Opening/Closing Situation'), ('iva_sale', 'Sale Wh VAT'), ('iva_purchase', 'Purchase Wh VAT'), ('islr_purchase', 'Purchase Wh Income'), ('islr_sale', 'Sale Wh Income'), ('mun_sale', 'Sale Wh County'), ('mun_purchase', 'Purchase Wh County'),('src_sale', 'Sale Wh src'), ('src_purchase', 'Purchase Wh src')], 'Type', size=32, required=True,
                                  help="Select 'Sale' for Sale journal to be used at the time of making invoice."\
                                  " Select 'Purchase' for Purchase Journal to be used at the time of approving purchase order."\
                                  " Select 'Cash' to be used at the time of making payment."\
