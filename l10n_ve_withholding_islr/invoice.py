@@ -570,6 +570,7 @@ class account_invoice(osv.osv):
         dictc = self._get_dict_concepts(cr,uid,dict)
         inv_brw = self._get_inv_id(cr,uid,dict)
         inv_obj =self.pool.get('account.invoice.line')
+        islr_wh_doc_id=None
 
         if inv_brw:
             if dictc and not wh_doc_id:
@@ -636,6 +637,7 @@ class account_invoice(osv.osv):
         This Method test if given certain conditions it is
         possible to create a new withholding document
         '''
+        #TODO: Este metodo deberia devolver true ya que es un metodo "check"
         if context is None:
             context={}
         
@@ -684,6 +686,7 @@ class account_invoice(osv.osv):
         '''
         This method test the invoice types to create a new withholding document
         '''
+        #TODO: change on workflow
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)

@@ -79,7 +79,19 @@ class islr_wh_doc(osv.osv):
                 res[doc.id] = period_id
         return res
 
-
+    def filter_lines_invoice(self,cr,uid,partner_id,context):
+        inv_obj = self.pool.get('account.invoice')
+        invoice_obj = self.pool.get('islr.wh.doc.invoices')
+        inv_ids=[]
+        
+        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),('partner_id','=',partner_id)],context={})
+        if inv_ids:
+            #~ Get only the invoices which are not in a document yet
+            inv_ids = [i.id for i in inv_obj.browse(cr,uid,inv_ids,context={})  if not i.islr_wh_doc_id]
+            inv_ids = [i for i in inv_ids if not invoice_obj.search(cr, uid, [('invoice_id', '=', i)])]
+            inv_ids = [i.id for i in inv_obj.browse(cr, uid, inv_ids, context={}) for d in i.invoice_line if d.concept_id.withholdable]
+        return inv_ids
+    
     _name = "islr.wh.doc"
     _description = 'Document Withholding Income'
     _columns= {
@@ -147,21 +159,23 @@ class islr_wh_doc(osv.osv):
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
         return True
 
-    def action_cancel_process(self,cr,uid,ids,*args):
+    def action_cancel_process(self,cr,uid,ids,context=None):
+        if not context:
+            context={}
         line_obj = self.pool.get('islr.wh.doc.line')
         doc_inv_obj = self.pool.get('islr.wh.doc.invoices')
         inv_obj = self.pool.get('account.invoice')
         inv_line_obj = self.pool.get('account.invoice.line')
         
         wh_doc_id = ids[0]
-        wh_line_list = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
-        line_obj.unlink(cr,uid,wh_line_list)
+        #~ wh_line_list = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
+        #~ line_obj.unlink(cr,uid,wh_line_list)
         
-        doc_inv_list = doc_inv_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
-        doc_inv_obj.unlink(cr,uid,doc_inv_list)
+        #~ doc_inv_list = doc_inv_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
+        #~ doc_inv_obj.unlink(cr,uid,doc_inv_list)
         
         inv_list = inv_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
-        inv_obj.write(cr, uid, inv_list, {'status':'no_pro'})
+        inv_obj.write(cr, uid, inv_list, {'status':'no_pro','islr_wh_doc_id':None})
         
         inv_line_list = inv_line_obj.search(cr,uid,[('invoice_id','in',inv_list)])
         inv_line_obj.write(cr, uid, inv_line_list, {'apply_wh':False})
@@ -181,15 +195,16 @@ class islr_wh_doc(osv.osv):
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id):
         acc_id = False
+        inv_ids=[]
+
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
                 acc_id = p.property_account_receivable.id
+                inv_ids = self.filter_lines_invoice(cr,uid,partner_id,context=None)
             else:
                 acc_id = p.property_account_payable.id
-        result = {'value': {
-            'account_id': acc_id}
-        }
+        result = {'value': {'islr_wh_doc_id':inv_ids,'account_id': acc_id}}
 
         return result
 
@@ -227,6 +242,7 @@ class islr_wh_doc(osv.osv):
         if self.browse(cr,uid,ids)[0].type=='in_invoice':
             return True
         self.cancel_move(cr,uid,ids)
+        self.action_cancel_process(cr,uid,ids,context=context)
         return True
         
     
@@ -238,7 +254,6 @@ class islr_wh_doc(osv.osv):
         account_move_obj = self.pool.get('account.move')
         for ret in ret_brw:
             if ret.state == 'done':
-                print "ret.concept_ids",ret.concept_ids
                 for ret_line in ret.concept_ids:
                     account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
                     delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
@@ -392,6 +407,8 @@ class islr_wh_doc(osv.osv):
 
 
     def action_ret_islr(self, cr, uid, ids, context={}):
+        #TODO: :
+
         inv_obj = self.pool.get('account.invoice')
         invoices_brw = inv_obj.browse(cr, uid, ids, context)
         wh_doc_list = []
