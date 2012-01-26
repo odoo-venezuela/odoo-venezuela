@@ -63,6 +63,8 @@ ser suscritos.
 	"update_xml" : [
                 'view/wh_src_view.xml',
                 'view/account_invoice_view.xml',
+                'workflow/l10n_ve_wh_src_wf.xml',
+		
     ],
 	"active": False,
 	"installable": True

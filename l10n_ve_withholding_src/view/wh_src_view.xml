@@ -15,7 +15,10 @@
             <field name="arch" type="xml">
                 <tree string="Social Responsibility Commitment Withholding Lines" editable="bottom">
                     <field name="name"/>
+<!--
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
+-->
+                    <field name="invoice_id" domain="[('wh_src_id', '!=', False),('state', '=', 'open') ('partner_id','=',parent.partner_id),]"/>
                     <field name="base_amount"/>
                     <field name="wh_src_rate"/>
                     <field name="wh_amount"/>
@@ -32,7 +35,10 @@
                 <form string="Social Responsibility Commitment Withholding Lines">
                     <notebook>
                         <page string="Linea">
+<!--
                             <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
+-->
+                            <field name="invoice_id" domain="[('wh_src_id', '!=', False),('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
                             <field colspan="4" name="name" select="1"/>
                             <field name="base_amount"/>
                             <field name="wh_src_rate"/>
@@ -57,10 +63,10 @@
             <field name="arch" type="xml">
                 <search string="Search Withholding Local">
                    <group col="10" colspan="4">
-                        <filter name="draft" icon="terp-gtk-media-pause" string="Draft" domain="[('state','=','draft')]" help="Draft Withholding Local"/>
-                        <filter name="confirmed" icon="terp-gtk-media-pause" string="Confirmed" domain="[('state','=','confirmed')]" help="Draft Withholding Local"/>
-                        <filter name="done" icon="terp-check" string="Done" domain="[('state','=','done')]" help="Done Withholding Local"/>
-                        <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Local"/>
+                        <filter name="wh_src_draft" icon="terp-gtk-media-pause" string="Draft" domain="[('state','=','draft')]" help="Draft Withholding Local"/>
+                        <filter name="wh_src_confirmed" icon="terp-gtk-media-pause" string="Confirmed" domain="[('state','=','confirmed')]" help="Draft Withholding Local"/>
+                        <filter name="wh_src_done" icon="terp-check" string="Done" domain="[('state','=','done')]" help="Done Withholding Local"/>
+                        <filter name="wh_src_cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Local"/>
                         <separator orientation="vertical"/>
                         <field name="code"/>
                         <field name="number"/>
