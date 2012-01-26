@@ -93,7 +93,7 @@ class account_invoice_refund(osv.osv_memory):
                     ret_iva_id =  invoice.wh_iva_id.id
             if i.name == 'islr_wh_doc_id':
                 if invoice.islr_wh_doc_id:
-                    ret_islr_id =  invoice.islr_wh_doc_id.i
+                    ret_islr_id =  invoice.islr_wh_doc_id.id
             
         awi_obj=self.pool.get('account.wh.iva')
         iwd_obj=self.pool.get('islr.wh.doc')
