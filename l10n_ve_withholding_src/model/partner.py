@@ -27,12 +27,18 @@
 from osv import fields, osv
 from tools.translate import _
 import decimal_precision as dp
+import netsvc
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
-    _columns = {
-
-   }
+    #~ logger = netsvc.Logger()
+    #~ _columns = {
+        #~ 'wh_src_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
+        #~ 'wh_src_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
+    #~ }
+    #~ _defaults = {
+        #~ 'wh_src_rate': lambda *a: 0,
+    #~ }
 
 
 res_partner()

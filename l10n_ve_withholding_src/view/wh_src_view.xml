@@ -114,13 +114,13 @@
             <field name="arch" type="xml">
                 <form string="Social Responsibility Commitment Withholding">
                     <group colspan="4" col="6">
-                        <field name="journal_id" on_change="onchange_journal_id(type,journal_id)""/>
+                        <field name="journal_id"/>
                         <field name="type"/>
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)"/>
                         <field name="currency_id"/>
                         <field name="date_ret"/>
-                        <field name="account_id" on_change="onchange_account_id(type,account_id)"/>
+                        <field name="account_id"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>

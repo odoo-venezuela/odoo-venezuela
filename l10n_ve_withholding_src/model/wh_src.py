@@ -65,28 +65,75 @@ class account_wh_src(osv.osv):
     } 
     
     def _diario(self, cr, uid, model, context=None):
-		if context is None:
-			context={}
-		print "cr %s, uid %s, model %s, context=None %s "%(cr, uid, model, context)
-		account_j=self.pool.get('account.journal')
-		print "account_j %s" %account_j
-		journal_id=account_j.search(cr, uid, [('name','=','DIARIO DE SRC PARA PROVEEDORES')])
-		return journal_id[0]
-		
-		
+        if context is None:
+            context={}
+        print "cr %s, uid %s, model %s, context=None %s "%(cr, uid, model, context)
+        account_j=self.pool.get('account.journal')
+        print "account_j %s" %account_j
+        journal_id=account_j.search(cr, uid, [('name','=','DIARIO DE SRC PARA PROVEEDORES')])
+        return journal_id[0]
+
+
     _defaults = {
-	 'state': lambda *a: 'draft',
-	 'type': lambda *a: 'in_invoice',
-	 'currency_id': lambda self, cr, uid, context: \
-		self.pool.get('res.company').browse(cr, uid, uid,
+    'state': lambda *a: 'draft',
+    'type': lambda *a: 'in_invoice',
+    'currency_id': lambda self, cr, uid, context: \
+        self.pool.get('res.company').browse(cr, uid, uid,
         context=context).currency_id.id,
-	 'journal_id':lambda self, cr, uid, context: \
-		self._diario(cr, uid, uid, context),
+    'journal_id':lambda self, cr, uid, context: \
+        self._diario(cr, uid, uid, context),
     }
 
     _sql_constraints = [
 
     ] 
+    
+    #~ def _withholdable_tax_(self, cr, uid, ids, context=None):
+        #~ if context is None:
+            #~ context={}
+        #~ account_invo_obj = self.pool.get('account.invoice')
+        #~ acc_id = [line.id for line in account_invo_obj.browse(cr, uid, ids, context=context) if line.tax_line for tax in line.tax_line if tax.tax_id.ret ]
+        #~ return acc_id
+    
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
+        if context is None: context = {}    
+        acc_id = False
+        res = {}
+        inv_obj = self.pool.get('account.invoice')
+        
+        if partner_id:
+            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            if type in ('out_invoice', 'out_refund'):
+                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+            else:
+                acc_id = p.property_account_payable and p.property_account_payable.id or False
+        
+        #~ wh_line_obj = self.pool.get('account.wh.src.line')
+        #~ wh_lines = ids and wh_line_obj.search(cr, uid, [('retention_id', '=', ids[0])]) or False
+        #~ res_wh_lines = []
+        #~ if wh_lines:
+            #~ wh_line_obj.unlink(cr, uid, wh_lines)
+        #~ 
+        #~ inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'), ('wh_src', '=', False), ('partner_id','=',partner_id)],context=context)
+        #~ 
+        #~ if inv_ids:
+         #~ 
+            #~ inv_ids = [i for i in inv_ids if not wh_line_obj.search(cr, uid, [('invoice_id', '=', i)])]
+        #~ inv_ids = self._withholdable_tax_(cr, uid, inv_ids, context=None)
+        #~ if inv_ids:
+            #~ awil_obj = self.pool.get('account.wh.src.line')
+            #~ res_wh_lines = [{
+                        #~ 'invoice_id':   inv_brw.id,
+                        #~ 'name':         inv_brw.name or _('N/A'),
+                        #~ 'wh_src_rate':  inv_brw.partner_id.wh_src_rate,
+                        #~ } for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
+        
+        res = {'value': {
+            'account_id': acc_id,
+            }
+        }
+
+        return res
 
 account_wh_src()
 
@@ -110,6 +157,6 @@ class account_wh_src_line(osv.osv):
     _sql_constraints = [
 
     ] 
+    
 
 account_wh_src_line()
-
