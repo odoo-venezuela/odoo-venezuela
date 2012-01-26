@@ -44,7 +44,6 @@ class account_invoice_refund(osv.osv_memory):
                 journal = obj_journal.search(cr, uid, [('type', '=', 'purchase_refund')])
         return journal and journal[0] or False
 
-
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
         journal_obj = self.pool.get('account.journal')
         res = super(account_invoice_refund,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
@@ -79,6 +78,28 @@ class account_invoice_refund(osv.osv_memory):
             nro_ref = inv.number
         orig = 'Devolucion FACT:' +(nro_ref or '') + '- DE FECHA:' + (inv.date_invoice or '') + (' TOTAL:' + str(inv.amount_total) or '')
         return orig
+
+    
+    def cn_iva_validate(self, cr, uid,invoice,context=None):
+        if context is None:
+            context={}
+        ret_iva_id =  invoice.wh_iva_id.id
+        ret_islr_id =  invoice.islr_wh_doc_id.id
+        
+        awi_obj=self.pool.get('account.wh.iva')
+        iwd_obj=self.pool.get('islr.wh.doc')
+        wf_service = netsvc.LocalService("workflow")
+        
+        if ret_iva_id:
+            awi_obj.compute_amount_wh(cr,uid,[ret_iva_id],context=context)
+            wf_service.trg_validate(uid, 'account.wh.iva', ret_iva_id, 'wh_iva_confirmed', cr)
+            wf_service.trg_validate(uid, 'account.wh.iva', ret_iva_id, 'wh_iva_done', cr)
+        
+        if ret_islr_id:
+            iwd_obj.action_confirm1(cr,uid,[ret_islr_id],context=context)
+            wf_service.trg_validate(uid, 'islr.wh.doc', ret_islr_id, 'act_done', cr)
+        
+        return True
 
     def compute_refund(self, cr, uid, ids, mode='refund', context=None):
         """
@@ -178,6 +199,9 @@ class account_invoice_refund(osv.osv_memory):
                     wf_service.trg_validate(uid, 'account.invoice', \
                                         refund.id, 'invoice_open', cr)
                     refund = inv_obj.browse(cr, uid, refund_id[0], context=context)
+                
+                    self.cn_iva_validate(cr,uid,refund,context=context)
+                    
                     for tmpline in  refund.move_id.line_id:
                         if tmpline.account_id.id == inv.account_id.id:
                             to_reconcile_ids[tmpline.account_id.id].append(tmpline.id)
@@ -268,13 +292,12 @@ class account_invoice_refund(osv.osv_memory):
     def invoice_refund(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
+        
         if not self.validate_wh(cr, uid, context.get('active_ids'), context=context):
             raise osv.except_osv(_('Error !'), \
                                      _('There are non-valid withholds for the document which refund is being processed!' % inv.wh_iva_id.code ))
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
-
-
 
 account_invoice_refund()
 
