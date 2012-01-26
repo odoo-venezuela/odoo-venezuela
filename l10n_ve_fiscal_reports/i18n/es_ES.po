@@ -572,10 +572,7 @@ msgstr "Lineas del libro de ajustes"
 msgid "Correspodiente al Mes de"
 msgstr "Correspodiente al Mes de"
 
-#. module: l10n_ve_fiscal_reports
-#: selection:fiscal.reports.whp.wh_book_HG,init,model:0
-msgid "Witholding Purchase"
-msgstr "Retención Compra"
+
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.module.module,description:l10n_ve_fiscal_reports.module_meta_information
@@ -605,11 +602,6 @@ msgstr "\n"
 msgid "Date"
 msgstr "Fecha"
 
-#. module: l10n_ve_fiscal_reports
-#: code:addons/l10n_ve_fiscal_reports/wizard/sales_book_wizard.py:0
-#, python-format
-msgid "No period defined for this date !\nPlease create a fiscal year."
-msgstr "No period defined for this date !\nPlease create a fiscal year."
 
 #. module: l10n_ve_fiscal_reports
 #: rml:fiscal.reports.whp.whp_seniat_HG:0
@@ -939,10 +931,7 @@ msgstr "BASE IMPONIBLE"
 msgid "sales.book.wizard"
 msgstr "sales.book.wizard"
 
-#. module: l10n_ve_fiscal_reports
-#: selection:fiscal.reports.whp.wh_book_HG,init,model:0
-msgid "Witholding Sales"
-msgstr "Retención Ventas"
+
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.actions.wizard,name:l10n_ve_fiscal_reports.wizard_sale_purchase_book
@@ -985,4 +974,39 @@ msgstr "TOTAL CON IVA"
 #: model:ir.ui.menu,name:l10n_ve_fiscal_reports.menu_wizard_recompute_report
 msgid "Recompute Taxes."
 msgstr "Recalcule Impuestos."
+
+#. module: l10n_ve_fiscal_reports
+#: field:fiscal.reports.purchase,ar_date_document:0
+#: field:fiscal.reports.sale,ar_date_document:0
+#: field:fiscal.reports.whp,ar_date_document:0
+#: field:fiscal.reports.whs,ar_date_document:0
+msgid "Date Account Retencion"
+msgstr "Fecha Contable de la Retencion"
+
+#. module: l10n_ve_fiscal_reports
+#: code:addons/l10n_ve_fiscal_reports/wizard/wh_book_wizard.py:45
+#: selection:wh.book.wizard,model:0
+#, python-format
+msgid "Witholding Purchase"
+msgstr "Retenciones en Compras"
+
+#. module: l10n_ve_fiscal_reports
+#: sql_constraint:adjustment.book:0
+msgid "The period and type combination must be unique!"
+msgstr "El periodo y el tipo deben ser unicos"
+
+#. module: l10n_ve_fiscal_reports
+#: code:addons/l10n_ve_fiscal_reports/wizard/sales_book_wizard.py:46
+#, python-format
+msgid "No period defined for this date !\n"
+"Please create a fiscal year."
+msgstr "No se han definido periodos para esta fecha!\n"
+
+#. module: l10n_ve_fiscal_reports
+#: code:addons/l10n_ve_fiscal_reports/wizard/wh_book_wizard.py:46
+#: selection:wh.book.wizard,model:0
+#, python-format
+msgid "Witholding Sales"
+msgstr "Retenciones en Ventas"
+
 
