@@ -38,19 +38,12 @@ write({'state':'confirmed'})</field>
 write({'state':'done'})</field>
         </record>
         
-        
-        
         <record id="act_draft" model="workflow.activity">
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="kind">function</field>
             <field name="name">draft</field>
             <field name="action">write({'state':'draft'})</field>
         </record>
-        
-        
-        
-        
-        
 
         <record id="act_cancel" model="workflow.activity">
             <field name="wkf_id" ref="wh_islr_order"/>

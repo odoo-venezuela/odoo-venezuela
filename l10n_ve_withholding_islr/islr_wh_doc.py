@@ -130,7 +130,7 @@ class islr_wh_doc(osv.osv):
 
     def validate(self, cr,uid,ids,*args):
 
-        if args[0]=='in_invoice' and args[1] and args[2]:
+        if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
             return True
 
     def action_process(self,cr,uid,ids, *args):
@@ -238,7 +238,6 @@ class islr_wh_doc(osv.osv):
         account_move_obj = self.pool.get('account.move')
         for ret in ret_brw:
             if ret.state == 'done':
-                print "ret.concept_ids",ret.concept_ids
                 for ret_line in ret.concept_ids:
                     account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
                     delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
