@@ -241,17 +241,15 @@ class account_invoice_refund(osv.osv_memory):
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
         """
         Method that validate if invoice is totally paid.
-
+        @param ids: list of invoices.
         return: True: if invoice is paid.
                 False: if invoice is not paid.
         """
+        res = False
         inv_obj = self.pool.get('account.invoice')
-        for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
-            if inv.reconciled:
-                raise osv.except_osv(_('Invoice Paid!'), \
-                                     _('The invoice refund can not be procesed because invoice "%s" was paid!' % inv.number))
-                return False
-        return True
+        for inv in inv_obj.browse(cr, uid, ids, context=context):
+            res = inv.reconciled
+        return res
 
     def validate_wh(self, cr, uid, ids, context=None):
         """
@@ -265,16 +263,46 @@ class account_invoice_refund(osv.osv_memory):
         """
         return True
 
+    def unreconcile_paid_invoices(self, cr, uid, invoiceids, context=None):
+        """
+        Method that unreconcile the payments of invoice.
+        @param invoiceids: list of invoices.
+        return: True: unreconcile successfully.
+                False: unreconcile unsuccessfully.
+        """
+        inv_obj = self.pool.get('account.invoice')
+        moveline_obj = self.pool.get('account.move.line')
+        voucher_pool = self.pool.get('account.voucher')
+        res = True
+        rec = []
+        mid = []
+        if self.validate_total_payment_inv(cr, uid, invoiceids, context=context):
+            for inv in inv_obj.browse(cr, uid, invoiceids, context=context):
+                movelineids = inv.move_line_id_payment_get(cr, uid,[inv.id])
+                for moveline in moveline_obj.browse(cr, uid, movelineids,context=context):
+                    if moveline.reconcile_id:
+                        rec += [moveline.reconcile_id.id]
+                    if moveline.reconcile_partial_id:
+                        rec += [moveline.reconcile_partial_id.id]
+                movelines = moveline_obj.search(cr, uid, [('|'),('reconcile_id','in',rec),('reconcile_partial_id','in',rec)],context=context)
+                for mids in moveline_obj.browse(cr, uid, movelines, ['move_id']):
+                    mid +=[mids.move_id.id]
+                voucherids = voucher_pool.search(cr, uid,[('move_id','in',mid)])
+            if voucherids:
+                voucher_pool.cancel_voucher(cr, uid, voucherids, context=context)
+            else:
+                res = False
+        return res
+
     def invoice_refund(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
         if not self.validate_wh(cr, uid, context.get('active_ids'), context=context):
             raise osv.except_osv(_('Error !'), \
                                      _('There are non-valid withholds for the document which refund is being processed!' % inv.wh_iva_id.code ))
+        self.unreconcile_paid_invoices(cr, uid, context.get('active_ids'), context=context)
         data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
-
-
 
 account_invoice_refund()
 
