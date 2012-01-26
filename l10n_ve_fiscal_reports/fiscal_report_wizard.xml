@@ -2,21 +2,6 @@
 <openerp>
     <data>
 
-        <wizard
-            id="wizard_wh_book"
-            model="fiscal.reports.whp"
-            name="fiscal.reports.whp.wh_book"
-            string="Witholding Book"/>
-
-		<menuitem
-			name="Print Report Witholding Sales or Purchase"
-			parent="l10n_ve_fiscal_reports.menu_fr_main"
-			action="wizard_wh_book"
-			type="wizard"
-			icon="STOCK_PRINT"
-			id="menu_wizard_wh_book_report"
-            groups="account.group_account_manager"
-            sequence="50"/>
 
         <wizard
             id="wizard_recalc_taxes"
