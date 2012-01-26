@@ -44,6 +44,8 @@ Automatically on install wizard.
     that generated debit or credit note.
     --Add wizard for generate debit note from invoice and done accounting entry.
     --Add wizard to assign, modify or unlink source invoice (parent invoice) to another one.
+    --Automatically unreconciles paid invoices when making a refund of type modify or cancel.
+    --Validate automatically the withholding of debit notes.
     -------------------------------------------------------------------------------------------
     For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
     create the corresponding journal and account.
