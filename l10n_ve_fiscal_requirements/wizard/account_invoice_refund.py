@@ -83,9 +83,18 @@ class account_invoice_refund(osv.osv_memory):
     def cn_iva_validate(self, cr, uid,invoice,context=None):
         if context is None:
             context={}
-        ret_iva_id =  invoice.wh_iva_id.id
-        ret_islr_id =  invoice.islr_wh_doc_id.id
-        
+        ret_iva_id=False
+        ret_islr_id=False
+        im_obj=self.pool.get('ir.model')
+        res = im_obj.browse(cr,uid,im_obj.search(cr, uid, [('model', '=','account.invoice')], context=context),context=context)[0].field_id
+        for i in res:
+            if i.name == 'wh_iva_id':
+                if invoice.wh_iva_id: 
+                    ret_iva_id =  invoice.wh_iva_id.id
+            if i.name == 'islr_wh_doc_id':
+                if invoice.islr_wh_doc_id:
+                    ret_islr_id =  invoice.islr_wh_doc_id.i
+            
         awi_obj=self.pool.get('account.wh.iva')
         iwd_obj=self.pool.get('islr.wh.doc')
         wf_service = netsvc.LocalService("workflow")
