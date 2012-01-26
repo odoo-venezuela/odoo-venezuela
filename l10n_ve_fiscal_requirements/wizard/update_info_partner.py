@@ -32,8 +32,9 @@ class update_info_partner(osv.osv_memory):
     
     def update_info(self, cr, uid, ids, context={}):
         res_part_obj = self.pool.get('res.partner')
+        seniat_url_obj = self.pool.get('seniat.url')
         es_partner_ids= res_part_obj.search(cr, uid, [])
-        res_part_obj.connect_seniat(cr, uid, es_partner_ids, context,True)
+        seniat_url_obj.connect_seniat(cr, uid, es_partner_ids, context,True)
         return{}
 
    
