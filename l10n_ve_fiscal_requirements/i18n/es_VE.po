@@ -628,8 +628,8 @@ msgstr "Cancelar"
 #: code:addons/l10n_ve_fiscal_requirements/partner.py:110
 #: constraint:res.partner:0
 #, python-format
-msgid "Error ! Partner's VAT must be a unique value"
-msgstr "Error ! El RIF debe ser único"
+msgid "Error ! Partner's VAT must be a unique value or empty"
+msgstr "Error ! El RIF debe ser único o estar vac�o para poder procesarlo y guardarlo"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/partner.py:189
