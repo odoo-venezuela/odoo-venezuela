@@ -1,0 +1,36 @@
+=== modified file 'l10n_ve_withholding_islr/installer.py'
+--- l10n_ve_withholding_islr/installer.py	2011-11-03 23:01:47 +0000
++++ l10n_ve_withholding_islr/installer.py	2012-01-27 15:09:37 +0000
+@@ -50,25 +50,26 @@
+             'view_id': 3,}
+         )
+ 
+-    def _update_concepts(self, cr, uid, sale, purchase):
++    def _update_concepts(self, cr, uid, sale, purchase,context={}):
+         concept_pool = self.pool.get("islr.wh.concept")
+-        concept_pool.write(cr, uid, concept_pool.search(cr, uid, []), {
++        concept_pool.write(cr, uid, concept_pool.search(cr, uid, [],context=context), {
+             'property_retencion_islr_payable': purchase,
+             'property_retencion_islr_receivable': sale
+-        })
++        },context=context)
++        return True
+ 
+     def _set_wh_agent(self, cr, uid):
+         company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+         self.pool.get('res.partner').write(cr, uid, [company.partner_id.id], {'islr_withholding_agent': True})
+ 
+     def execute(self, cr, uid, ids, context=None):
+-        wiz_data = self.read(cr, uid, ids[0])
++        wiz_data = self.read(cr, uid, ids[0],context=context)
+         if wiz_data['journal_purchase']:
+             self._create_journal(cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')
+         if wiz_data['journal_sale']:
+             self._create_journal(cr, uid, wiz_data['journal_sale'], 'islr_sale', 'ISLRS')
+         if wiz_data['account_sale'] or wiz_data['account_purchase']:
+-            self._update_concepts(cr, uid, wiz_data['account_sale'], wiz_data['account_purchase'])
++            self._update_concepts(cr, uid, wiz_data['account_sale'][0], wiz_data['account_purchase'][0],context=context)
+         if wiz_data['wh_agent']:
+             self._set_wh_agent(cr, uid)
+ 
+
