@@ -67,6 +67,7 @@ ser suscritos.
                 'workflow/l10n_ve_wh_src_wf.xml',
                 'data/wh_src_sequence.xml',
                 'data/data.xml',
+                'wh_src_report.xml',
     ],
     "active": False,
     "installable": True
