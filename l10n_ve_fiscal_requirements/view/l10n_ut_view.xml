@@ -41,11 +41,11 @@
             <field name="model">l10n.ut</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Tax Unit per date" editable="top/bottom">
-                    <field name="name" select="1"/>
+                <tree string="Tax Unit per date" editable="top">
+                    <field name="name"/>
                     <newline/>
-                    <field name="date" select="1"/>
-                    <field name="amount" select="1"/>
+                    <field name="date"/>
+                    <field name="amount"/>
                 </tree>
             </field>
         </record>
