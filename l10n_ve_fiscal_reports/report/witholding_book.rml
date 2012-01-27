@@ -30,6 +30,7 @@
     <blockTableStyle id="Tabla2">
       <blockAlignment value="CENTER"/>
       <blockValign value="CENTER"/>
+      <lineStyle kind="GRID" colorName="#e6e6e6" thickness="1" start="0,0" stop="-1,-1"/>
     </blockTableStyle>
     <blockTableStyle id="TablaTotales">
       <blockAlignment value="CENTER"/>
@@ -85,7 +86,7 @@
         <font color="white"> </font>
       </para>
 <!--    </section>-->
-    <blockTable colWidths="45.0,50.0,206.0,65.0,32.0,44.0,42.0,42.0,42.0,42.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
+    <blockTable colWidths="45.0,50.0,182.0,65.0,32.0,50.0,48.0,42.0,48.0,48.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
       <tr>
         <td>
           <para style="ENCABEZADO">Fecha</para>
@@ -158,7 +159,7 @@
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ get_exc(l.ar_line_id) ]]</para>
+            <para style="VALORES">[[ l.ar_line_id and get_exc(l.ar_line_id) or '0.0' ]]</para>
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
@@ -171,16 +172,20 @@
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ formatLang(l.ar_line_id.retention_rate) ]]</para>
+            <para style="VALORES">[[ formatLang(l.ar_line_id.wh_iva_rate) ]]</para>
+
           </td>
           <td>
-                <blockTable colWidths="40.0,40.0" style="Tabla2">
+                <blockTable colWidths="40.0,30.0" style="Tabla2">
                     <tr>[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]
                     <td>
-                        <para style="SUBTABLE">[[ formatLang(t.base_ret) ]]</para>
+                        <para style="SUBTABLE">[[formatLang(t.base)]]</para>
                     </td>
                     <td>
-                        <para style="SUBTABLE">[[ formatLang(t.base_ret and (t.tax_amount/t.base_ret*100) or 0.0) ]]</para>
+<!--Original  <para style="SUBTABLE">[[ formatLang(t.base_ret and (t.tax_amount/t.base_ret*100) or 0.0) ]]</para> -->
+                        <para style="SUBTABLE">[[ formatLang(t.base and (t.amount/t.base*100) or 0.0) ]]</para>
+                        
+                        
                     </td>
                     </tr>
                 </blockTable>

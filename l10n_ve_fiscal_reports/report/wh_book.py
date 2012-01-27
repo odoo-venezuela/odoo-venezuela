@@ -100,13 +100,19 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        print data
         return data
 
     def _get_exc(self,obj_rl):
+        print ' Objeto ', obj_rl
         excent=0.0
         for taxes in obj_rl.tax_line:
-            if not taxes.tax_amount:
-                excent=excent + taxes.base_amount
+            print 'Taxes', taxes
+            print 'TAxes.amount', taxes.amount
+            if not taxes.amount:
+                print 'Entre'
+                excent=excent + taxes.base
+                print 'Excento', excent
         return excent
     
     def _get_totals(self,form):
