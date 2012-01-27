@@ -38,11 +38,11 @@ class account_wh_src(osv.osv):
     _columns = {
         'name': fields.char('Description', size=64, readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Description of withholding"),
         'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding reference"),
-        'number': fields.char('Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding number"),
+        'number': fields.char('Number', size=32, states={'draft':[('readonly',False)]}, help="Withholding number"),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
-            ],'Type', readonly=True, help="Withholding type"),
+            ],'Type', readonly=False, help="Withholding type"),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
@@ -67,38 +67,33 @@ class account_wh_src(osv.osv):
     def _diario(self, cr, uid, model, context=None):
         if context is None:
             context={}
-        print "cr %s, uid %s, model %s, context=None %s "%(cr, uid, model, context)
-        account_j=self.pool.get('account.journal')
-        print "account_j %s" %account_j
-        #~ TO_CHECK:
-        #~ HAY QUE UTILIZAR EL ID DEL DIARIO CREADO EN EL DATA XML
-        #~ Y BUSCARLO EN EL MODELO ir.model.data
-        journal_id=account_j.search(cr, uid, [('name','=','DIARIO DE SRC PARA PROVEEDORES')])
-        return journal_id[0]
+        ir_model_data = self.pool.get('ir.model.data')
+        journal_purchase=ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_scr_purchase_journal')])
+        journal_sale=ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_src_sale_journal')])
+        ir_model_purchase_brw=ir_model_data.browse(cr, uid, journal_purchase, context=context)
+        ir_model_sale_brw=ir_model_data.browse(cr, uid, journal_sale, context=context)
+        print 'ir_model_purchase_brw %s' %ir_model_purchase_brw
+        print 'ir_model_sale_brw %s' %ir_model_sale_brw
+        if context.get('type') == 'in_invoice':
+            return ir_model_purchase_brw[0].res_id
+        else:
+            return ir_model_sale_brw[0].res_id
 
 
     _defaults = {
     'state': lambda *a: 'draft',
-    'type': lambda *a: 'in_invoice',
     'currency_id': lambda self, cr, uid, context: \
         self.pool.get('res.company').browse(cr, uid, uid,
         context=context).currency_id.id,
     'journal_id':lambda self, cr, uid, context: \
         self._diario(cr, uid, uid, context),
-     #~ TO_CHECK:
-     #~ HAY QUE COLOCAR EL DEFAULT PARA EL company_id
+    'company_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
+
     }
 
     _sql_constraints = [
 
     ] 
-    
-    #~ def _withholdable_tax_(self, cr, uid, ids, context=None):
-        #~ if context is None:
-            #~ context={}
-        #~ account_invo_obj = self.pool.get('account.invoice')
-        #~ acc_id = [line.id for line in account_invo_obj.browse(cr, uid, ids, context=context) if line.tax_line for tax in line.tax_line if tax.tax_id.ret ]
-        #~ return acc_id
     
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
         if context is None: context = {}    
@@ -112,33 +107,13 @@ class account_wh_src(osv.osv):
                 acc_id = p.property_account_receivable and p.property_account_receivable.id or False
             else:
                 acc_id = p.property_account_payable and p.property_account_payable.id or False
-        
-        #~ wh_line_obj = self.pool.get('account.wh.src.line')
-        #~ wh_lines = ids and wh_line_obj.search(cr, uid, [('retention_id', '=', ids[0])]) or False
-        #~ res_wh_lines = []
-        #~ if wh_lines:
-            #~ wh_line_obj.unlink(cr, uid, wh_lines)
-        #~ 
-        #~ inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'), ('wh_src', '=', False), ('partner_id','=',partner_id)],context=context)
-        #~ 
-        #~ if inv_ids:
-         #~ 
-            #~ inv_ids = [i for i in inv_ids if not wh_line_obj.search(cr, uid, [('invoice_id', '=', i)])]
-        #~ inv_ids = self._withholdable_tax_(cr, uid, inv_ids, context=None)
-        #~ if inv_ids:
-            #~ awil_obj = self.pool.get('account.wh.src.line')
-            #~ res_wh_lines = [{
-                        #~ 'invoice_id':   inv_brw.id,
-                        #~ 'name':         inv_brw.name or _('N/A'),
-                        #~ 'wh_src_rate':  inv_brw.partner_id.wh_src_rate,
-                        #~ } for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
-        
         res = {'value': {
             'account_id': acc_id,
             }
         }
 
         return res
+        
 
     def action_confirm(self, cr, uid, ids, context={}):
         return True
@@ -148,8 +123,16 @@ class account_wh_src(osv.osv):
 
     def action_cancel(self,cr,uid,ids,context={}):
         return True
+        
+    def copy(self,cr,uid,id,default,context=None):
+        raise osv.except_osv('Procedimiento invalido!',"No puede duplicar lineas")
+        return True
+        
+    def unlink(self, cr, uid, ids, context=None):
+        raise osv.except_osv('Procedimiento invalido!',"No puede eliminar lineas")
+        return True
 
-#~ TO_CHECK metodo copy & unlink
+
 
     def action_move_create(self, cr, uid, ids, context=None):
         inv_obj = self.pool.get('account.invoice')
@@ -203,7 +186,21 @@ class account_wh_src(osv.osv):
             else:
                 return False
         return True
-    
+
+    def action_number(self, cr, uid, ids, *args):
+        print "entreeeee"
+        obj_ret = self.browse(cr, uid, ids)[0]
+        if obj_ret.type == 'in_invoice':
+            cr.execute('SELECT id, number ' \
+                    'FROM account_wh_src ' \
+                    'WHERE id IN ('+','.join(map(str,ids))+')')
+
+            for (id, number) in cr.fetchall():
+                if not number:
+                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.src.%s' % obj_ret.type)
+                cr.execute('UPDATE account_wh_src SET number=%s ' \
+                        'WHERE id=%s', (number, id))
+        return True
 account_wh_src()
 
 class account_wh_src_line(osv.osv):
@@ -226,5 +223,18 @@ class account_wh_src_line(osv.osv):
 
     ] 
     
+    def onchange_invoice_id(self, cr, uid, ids, type, invoice_id,context=None):
+        if context is None: context = {}    
+        res = {}
+        inv_obj = self.pool.get('account.invoice')
+        
+        if invoice_id:
+            p = inv_obj.browse(cr, uid, partner_id).amount_untaxed
+        res = {'value': {
+            'base_amount': p,
+            }
+        }
 
+        return res
+        
 account_wh_src_line()
