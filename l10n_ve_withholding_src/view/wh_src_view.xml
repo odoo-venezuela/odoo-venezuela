@@ -132,8 +132,12 @@
                             <field name="line_ids" default_get="{'lines': line_ids }" colspan="4" nolabel="1" height="275"/>
                             <group col="4" colspan="2">
                                 <field name="state"/>
-                                <button name="wh_src_confirmed" states="draft" string="Confirm" icon="gtk-execute"/>
+                            </group>
+                            <group col="4" colspan="2">
+                                <button name="wh_src_confirmed" states="draft" string="Confirm" icon="gtk-ok"/>
                                 <button name="wh_src_done" states="confirmed" string="Done" icon="gtk-execute"/>
+                                <button name="wh_src_cancel" states="done" string="Cancel" icon="gtk-cancel"/>
+                                <button name="wh_src_draft" states="cancel" string="Set to draft" icon="gtk-refresh"/>
                             </group>
                         </page>
                         <page string="Other Information">

@@ -140,6 +140,14 @@ class account_wh_src(osv.osv):
 
         return res
 
+    def action_confirm(self, cr, uid, ids, context={}):
+        return True
+        
+    def action_done(self, cr, uid, ids, context={}):
+        return True
+
+    def action_cancel(self,cr,uid,ids,context={}):
+        return True
 account_wh_src()
 
 class account_wh_src_line(osv.osv):
