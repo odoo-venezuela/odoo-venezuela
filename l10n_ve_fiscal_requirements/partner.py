@@ -101,21 +101,24 @@ class res_partner(osv.osv):
 
     def _check_vat_uniqueness(self, cr, uid, ids, context={}):
         partner_obj = self.pool.get('res.partner')
+        #Check if its possible to use 'browse' in this 'read'
         current_partner = partner_obj.read(cr, uid, ids, ['vat', 'address'])[0]
 
         if not 'VE' in [a.country_id.code for a in self.pool.get('res.partner.address').browse(cr, uid, current_partner['address'])]:
             return True
 
         current_vat = current_partner['vat']
-        if current_vat.strip()=='':
-            return True
+
+        if not current_vat or current_vat.strip()=='':
+            return True # Accept empty VAT's
+            
         duplicates = partner_obj.read(cr, uid, partner_obj.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
 
         return not current_vat in [p['vat'] for p in duplicates if p['id'] != current_partner['id']]
 
     _constraints = [
         (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
-        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value"), []),
+        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
     ]
 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
