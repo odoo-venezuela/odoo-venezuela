@@ -70,8 +70,8 @@
       <field name="context">{'menu':True}</field> 
     </record>
 
-    <menuitem parent="account.menu_finance_accounting" 
-        name="Withholding Vat Configurator"
+    <menuitem parent="l10n_ve_withholding.menu_wh_configuration" 
+        name="Withholding Vat"
         id="menu_withholding_iva" sequence="70" />
     <menuitem parent="menu_withholding_iva" name="Vat Configurator"
         action="action_withholding_iva_wizard"

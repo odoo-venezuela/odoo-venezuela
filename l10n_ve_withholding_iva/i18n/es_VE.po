@@ -123,6 +123,11 @@ msgid "Error ! The partner must be withholding vat agent ."
 msgstr "Error ! El cliente o proveedor debe ser agente de retención del IVA ."
 
 #. module: l10n_ve_withholding_iva
+#: help:account.invoice,wh_iva_id:0
+msgid "Withholding vat."
+msgstr "Retención de IVA."
+
+#. module: l10n_ve_withholding_iva
 #: view:l10n_ve_withholding_iva.installer:0
 #: view:wh_iva.config:0
 msgid "title"

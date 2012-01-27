@@ -5,7 +5,7 @@
 <!--
     Menu Generico para todos los modulos de iva, islr y municipales
 -->
-        <menuitem id="menu_wh_configuration" name="Withholdings" parent="account.menu_finance_configuration"/>
+        <menuitem id="menu_wh_configuration" name="Withholdings" parent="account.menu_finance_accounting"/>
         <menuitem id="menu_withholdings" name="Withholdings" parent="account.menu_finance"/>
 
 <!--        <menuitem id="menu_wh_customer" name="Customer Withholding" parent="account.menu_finance_receivables" sequence="300"/>-->
