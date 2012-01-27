@@ -22,9 +22,9 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page[@string='Invoice']" position="after">
                    <page string="Withholdings" >
-                        <separator string="vsep"/>
-                        <separator string="isep"/>
-                        <separator string="rsep"/>
+                        <separator colspan='4' string="vsep"/>
+                        <separator colspan='4' string="isep"/>
+                        <separator colspan='4' string="rsep"/>
                     </page> 
                 </xpath>
             </field>
@@ -42,9 +42,9 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page[@string='Invoice']" position="after">
                    <page string="Withholdings" >
-                        <separator string="vsep"/>
-                        <separator string="isep"/>
-                        <separator string="rsep"/>
+                        <separator colspan='4' string="vsep"/>
+                        <separator colspan='4' string="isep"/>
+                        <separator colspan='4' string="rsep"/>
                     </page> 
                 </xpath>
             </field>
@@ -62,11 +62,11 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page[@string='Notes']" position="after">
                    <page string="Withholdings" >
-                        <separator string="vsep"/>
+                        <separator colspan='4' string="vsep"/>
                         <newline/>
-                        <separator string="isep"/>
+                        <separator colspan='4' string="isep"/>
                         <newline/>
-                        <separator string="rsep"/>
+                        <separator colspan='4' string="rsep"/>
                     </page> 
                 </xpath>
             </field>
