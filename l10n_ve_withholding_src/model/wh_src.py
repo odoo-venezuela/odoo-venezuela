@@ -185,11 +185,9 @@ class account_wh_src(osv.osv):
                     writeoff_account_id,writeoff_journal_id = False, False
                     amount = line.wh_amount
                     if line.invoice_id.type in ['in_invoice','in_refund']:
-                        #~ name = 'COMP. RET. CRS ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
-                        name = 'COMP. RET. CRS '  + ' Doc. '+ (line.invoice_id.reference or '')
+                        name = 'COMP. RET. CRS ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
                     else:
-                        #~ name = 'COMP. RET. CRS ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
-                        name = 'COMP. RET. CRS ' + ' Doc. '+ (line.invoice_id.number or '')
+                        name = 'COMP. RET. CRS ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, ret.date_ret, name,[line], context)
