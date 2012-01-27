@@ -14,6 +14,7 @@
             <field name="action">write({'state':'draft'})</field>
             <field name="kind">function</field>
             <field name="name">draft</field>
+            <field name="flow_start">True</field>
         </record>
 
         <record id="act_confirmed" model="workflow.activity">
@@ -35,10 +36,10 @@
         <record id="act_done" model="workflow.activity">
             <field name="wkf_id" ref="wh_src_wkf"/>
             <field name="action">action_done()
+                action_move_create()
                 write({'state':'done'})</field>
             <field name="kind">function</field>
             <field name="name">done</field>
-            <field name="flow_stop">True</field>
         </record>
 
 

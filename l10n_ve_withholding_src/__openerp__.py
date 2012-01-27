@@ -24,12 +24,12 @@
 ################################################################################
 
 {
-	"name" : "Compromiso de Responsabilidad Social",
-	"version" : "0.2",
-	"author" : "Vauxoo",
-	"category" : "Generic Modules",
-	"website": "http://wiki.openerp.org.ve/",
-	"description": '''
+    "name" : "Compromiso de Responsabilidad Social",
+    "version" : "0.2",
+    "author" : "Vauxoo",
+    "category" : "Generic Modules",
+    "website": "http://wiki.openerp.org.ve/",
+    "description": '''
     Administración de la Aplicacion del Compromiso de Responsabilidad Social
 que se establece en el Reglamento de Ley de Contrataciones Públicas,
 (Gaceta Oficial Nº 39.181 del 19 de mayo de 2009) Decreto Nº 6.708.
@@ -51,24 +51,23 @@ porcentajes a ser aplicados a cada condición del Compromiso de Responsabilidad 
 como, establecer categorías o escalas proporcionales con base en los montos de los contratos a
 ser suscritos.
 ''',
-	"depends" : [
+    "depends" : [
                 "base",
                 "account",
                 "l10n_ve_withholding",
                 ],
-	"init_xml" : [],
-	"demo_xml" : [
+    "init_xml" : [],
+    "demo_xml" : [
 
     ], 
-	"update_xml" : [
+    "update_xml" : [
                 'view/wh_src_view.xml',
                 'view/account_invoice_view.xml',
+                'view/company_view.xml',
                 'workflow/l10n_ve_wh_src_wf.xml',
-		'data/wh_src_sequence.xml',
-		'data/data.xml',
-		
-		
+                'data/wh_src_sequence.xml',
+                'data/data.xml',
     ],
-	"active": False,
-	"installable": True
+    "active": False,
+    "installable": True
 }

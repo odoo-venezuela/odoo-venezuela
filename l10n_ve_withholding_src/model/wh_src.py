@@ -148,6 +148,64 @@ class account_wh_src(osv.osv):
 
     def action_cancel(self,cr,uid,ids,context={}):
         return True
+
+#~ TO_CHECK metodo copy & unlink
+
+    def action_move_create(self, cr, uid, ids, context=None):
+        inv_obj = self.pool.get('account.invoice')
+        if context is None: context = {}
+        
+        context.update({'src_wh':True})
+        
+        ret = self.browse(cr, uid, ids[0], context)
+        #~ TO_CHECK
+        #~ VALIDACION PARA VERIFICAR SI LA FACTURA YA ESTA RETENIDA
+        #~ for line in ret.line_ids:
+            #~ if line.move_id or line.invoice_id.wh_iva:
+                #~ raise osv.except_osv(_('Invoice already withhold !'),\
+                #~ _("You must omit the follow invoice '%s' !") %\
+                #~ (line.invoice_id.name,))
+
+        acc_id = ret.account_id.id
+
+        period_id = ret.period_id and ret.period_id.id or False
+        journal_id = ret.journal_id.id
+        if not period_id:
+            per_obj = self.pool.get('account.period')
+            period_id = per_obj.find(cr, uid,ret.date_ret or time.strftime('%Y-%m-%d'))
+            period_id = per_obj.search(cr,uid,[('id','in',period_id),('special','=',False)])
+            if not period_id:
+                raise osv.except_osv(_('Missing Periods!'),\
+                _("There are not Periods created for the pointed day: %s!") %\
+                (ret.date_ret or time.strftime('%Y-%m-%d')))
+            period_id = period_id[0]
+        if period_id:
+            if ret.line_ids:
+                for line in ret.line_ids:
+                    writeoff_account_id,writeoff_journal_id = False, False
+                    amount = line.wh_amount
+                    if line.invoice_id.type in ['in_invoice','in_refund']:
+                        #~ name = 'COMP. RET. CRS ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
+                        name = 'COMP. RET. CRS '  + ' Doc. '+ (line.invoice_id.reference or '')
+                    else:
+                        #~ name = 'COMP. RET. CRS ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
+                        name = 'COMP. RET. CRS ' + ' Doc. '+ (line.invoice_id.number or '')
+                    ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
+                            amount, acc_id, period_id, journal_id, writeoff_account_id,
+                            period_id, writeoff_journal_id, ret.date_ret, name,[line], context)
+                    # make the withholding line point to that move
+                    rl = {
+                        'move_id': ret_move['move_id'],
+                    }
+                    lines = [(1, line.id, rl)]
+                    self.write(cr, uid, [ret.id], {'line_ids':lines, 'period_id':period_id})
+
+                    if rl and line.invoice_id.type in ['out_invoice','out_refund']:
+                        inv_obj.write(cr,uid,[line.invoice_id.id],{'wh_iva_id':ret.id})
+            else:
+                return False
+        return True
+    
 account_wh_src()
 
 class account_wh_src_line(osv.osv):
@@ -158,11 +216,10 @@ class account_wh_src_line(osv.osv):
         'name': fields.char('Description', size=64, required=True, help="Local Withholding line Description"),
         'wh_id': fields.many2one('account.wh.src', 'Local withholding', ondelete='cascade', help="Local withholding"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
-        'base_amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold')),
-        'wh_amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold')),
+        'base_amount':fields.float('Base Amount', digits_compute= dp.get_precision('Base Amount to be Withheld')),
+        'wh_amount':fields.float('Withheld Amount', digits_compute= dp.get_precision('Withhold')),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account Entry"),
-        'wh_src_rate':fields.float('Rate', help="Local withholding rate"),
-        'concepto_id': fields.integer('Concept', size=3, help="Local withholding concept"),
+        'wh_src_rate':fields.float('Withholding Rate', help="Withholding rate"),
     }
     _defaults = {
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_company" model="ir.ui.view">
+            <field name="name">res.company.account</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <page string="Configuration" position="inside">
+                    <separator string="Social Responsability Commitment Accounts" colspan="4"/>
+                        <field name="wh_src_collected_account_id" required='1'/>
+                        <field name="wh_src_paid_account_id" required='1'/>
+                    <newline/>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

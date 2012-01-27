@@ -23,7 +23,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import wh_src
-import invoice
-import res_company
+import time
+from osv import fields, osv
+from tools.translate import _
+import decimal_precision as dp
 
+class res_company(osv.osv):
+    _inherit = 'res.company'
+    
+    _columns = {        
+        'wh_src_collected_account_id': fields.many2one(
+            'account.account',
+            type='many2one',
+            relation='account.account',
+            string="Collected Withholding SRC Account",
+            method=True,
+            view_load=True,
+            domain="[('type', '=', 'other')]",
+            help="This account will be used when applying a withhold to an Supplier"),
+        'wh_src_paid_account_id': fields.many2one(
+            'account.account',
+            type='many2one',
+            relation='account.account',
+            string="Paid Withholding SRC Account",
+            method=True,
+            view_load=True,
+            domain="[('type', '=', 'other')]",
+            help="This account will be used when applying a withhold to a Customer"),
+    }
+
+res_company()
