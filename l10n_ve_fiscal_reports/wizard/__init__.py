@@ -29,4 +29,4 @@
 ##############################################################################
 
 import sales_book_wizard
-import wiz_wh_book
+import wh_book_wizard
