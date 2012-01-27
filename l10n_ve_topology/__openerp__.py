@@ -23,8 +23,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 {
-    "name" : "Opening balance Update",
-    "version" : "0.2",
+    "name" : "Topology for Venezuela",
+    "version" : "0.3",
     "depends" : ["base"],
     "author" : "Vauxoo",
     "description" : """
@@ -37,7 +37,7 @@
 	Adds new information sectors of the state, municipality, parish and city to which he belongs. 
 			""",
     "website" : "http://vauxoo.com",
-    "category" : "Generic Modules/Topology",
+    "category" : "Generic Modules/Localization",
     "init_xml" : [
                     "data/states_ve_data.xml",
                     "data/city_ve_data.xml",
