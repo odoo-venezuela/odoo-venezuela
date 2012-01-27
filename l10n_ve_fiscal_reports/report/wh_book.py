@@ -47,6 +47,7 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_month':self._get_month,
             'get_dates':self._get_dates,
             'get_totals':self._get_totals,
+            'get_total_excent':self._get_total_excent,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -100,19 +101,13 @@ class pur_sal_wh_book(report_sxw.rml_parse):
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        print data
         return data
 
     def _get_exc(self,obj_rl):
-        print ' Objeto ', obj_rl
         excent=0.0
         for taxes in obj_rl.tax_line:
-            print 'Taxes', taxes
-            print 'TAxes.amount', taxes.amount
             if not taxes.amount:
-                print 'Entre'
                 excent=excent + taxes.base
-                print 'Excento', excent
         return excent
     
     def _get_totals(self,form):
@@ -131,6 +126,22 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             total[2]=total[2]+d.ai_amount_tax
             total[3]=total[3]+d.ar_id.total_tax_ret
         return total
+        
+    def _get_total_excent(self, form):
+        date_start=form['date_start']
+        date_end=form['date_end']
+        if form['model']=='wh_p':
+            book_type='fiscal.reports.whp'           
+        else:
+            book_type='fiscal.reports.whs'
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', date_end), ('ar_date_ret', '>=', date_start)])
+        total_excent=0
+        for d in fr_obj.browse(self.cr,self.uid, fr_ids):
+            total_excent=total_excent+self._get_exc(d.ar_line_id)
+        return total_excent
+        
+    
       
 report_sxw.report_sxw(
     'report.fiscal.reports.whp.whp_seniat',

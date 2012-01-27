@@ -24,13 +24,12 @@
       <blockValign value="TOP"/>
         <lineStyle kind="LINEABOVE" colorName="black" thickness="1" start="0,0" stop="-1,0" />
         <lineStyle kind="LINEBELOW" colorName="black" thickness="1" start="0,0" stop="-1,0" count="2"/>
-        <lineStyle kind="LINEBELOW" colorName="black" thickness="2" start="-6,-2" stop="-1,-2" count="2"/>
+        <lineStyle kind="LINEBELOW" colorName="black" thickness="2" start="-7,-2" stop="-1,-2" count="2"/>
         <lineStyle kind="GRID" colorName="#e6e6e6" thickness="1" start="0,1" stop="-1,-1"/>
     </blockTableStyle>
     <blockTableStyle id="Tabla2">
       <blockAlignment value="CENTER"/>
       <blockValign value="CENTER"/>
-      <lineStyle kind="GRID" colorName="#e6e6e6" thickness="1" start="0,0" stop="-1,-1"/>
     </blockTableStyle>
     <blockTableStyle id="TablaTotales">
       <blockAlignment value="CENTER"/>
@@ -46,10 +45,10 @@
     <paraStyle name="P10" fontName="Helvetica" fontSize="2.0" leading="3" alignment="CENTER"/>
     <paraStyle name="VALORES" fontName="Helvetica" fontSize="6.0" leading="3" spaceBefore="3.0" alignment="CENTER"/>
     <paraStyle name="NAMEVAL" fontName="Helvetica" fontSize="6.0" leading="6" spaceBefore="3.0" alignment="LEFT"/>
-    <paraStyle name="ENCABEZADO" fontName="Helvetica-Bold" fontSize="7.0" leading="6" alignment="CENTER"/>
+    <paraStyle name="ENCABEZADO" fontName="Helvetica-Bold" fontSize="7.0" leading="8" alignment="CENTER"/>
     <paraStyle name="HIDINGVALUES" fontName="Helvetica" fontSize="0" leading="0" textColor="white"/>
-    <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT" spaceBefore="-2.0"/>
-    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="8.0" leading="0" alignment="CENTER" spaceBefore="1.0" bottomPadding="-4"/>
+    <paraStyle name="SUBTABLE" fontName="Helvetica" fontSize="6.0" leading="6" alignment="CENTER" spaceBefore="0.0"/>
+    <paraStyle name="TOTALES" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER" spaceBefore="1.0" bottomPadding="-4"/>
     <paraStyle name="HEADERDOC" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" />
     <paraStyle name="HEADERDOCBOLD" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT"/>
     <paraStyle name="BIGHEADER" fontName="Helvetica" fontSize="14.0" leading="17" alignment="LEFT"/>
@@ -86,7 +85,7 @@
         <font color="white"> </font>
       </para>
 <!--    </section>-->
-    <blockTable colWidths="45.0,50.0,182.0,65.0,32.0,50.0,48.0,42.0,48.0,48.0,34.0,82.0" style="CONTENIDO" repeatRows="1">
+    <blockTable colWidths="41.0,46.0,169.0,65.0,32.0,54.0,55.0,45.0,49.0,49.0,28.0,51.0,32.0" style="CONTENIDO" repeatRows="1">
       <tr>
         <td>
           <para style="ENCABEZADO">Fecha</para>
@@ -122,7 +121,10 @@
           <para style="ENCABEZADO">% Ret</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Base Ret. % Iva.</para>
+          <para style="ENCABEZADO">Base Ret.</para>
+        </td>
+        <td>
+          <para style="ENCABEZADO">% Iva.</para>
         </td>
       </tr>
 <!--    <section> -->
@@ -159,7 +161,7 @@
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
-            <para style="VALORES">[[ l.ar_line_id and get_exc(l.ar_line_id) or '0.0' ]]</para>
+            <para style="VALORES">[[formatLang(l.ar_line_id and get_exc(l.ar_line_id)) or '0.0' ]]</para>
           </td>
           <td>
             <para style="HIDINGVALUES">HIDING</para>
@@ -176,38 +178,37 @@
 
           </td>
           <td>
-                <blockTable colWidths="40.0,30.0" style="Tabla2">
+                <blockTable colWidths="45.0,30.0" style="Tabla2">
                     <tr>[[ repeatIn( l.ar_line_id.tax_line,'t' ) ]]
                     <td>
                         <para style="SUBTABLE">[[formatLang(t.base)]]</para>
                     </td>
                     <td>
-<!--Original  <para style="SUBTABLE">[[ formatLang(t.base_ret and (t.tax_amount/t.base_ret*100) or 0.0) ]]</para> -->
-                        <para style="SUBTABLE">[[ formatLang(t.base and (t.amount/t.base*100) or 0.0) ]]</para>
-                        
-                        
+                        <para style="SUBTABLE">[[ formatLang(t.base and (t.amount/t.base*100) or removeParentNode('tr')) ]]</para>
                     </td>
                     </tr>
                 </blockTable>
+
           </td>
         </tr>
             <tr>
                 <td>
                 </td>
-<td>
+                <td>
                 </td>
-<td>
+                <td>
                 </td>
-<td>
+                <td>
                 </td>
-<td>
+                <td>
                 </td>
-<td>
+                <td>
                 </td>
                 <td>
                     <para style="TOTALES">[[ formatLang(get_totals(data['form'])[0]) ]]</para>
                 </td>
                 <td>
+                    <para style="TOTALES">[[ formatLang(get_total_excent(data['form'])) ]]</para>
                 </td>
                 <td>
                     <para style="TOTALES">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
