@@ -147,7 +147,7 @@ class txt_iva(osv.osv):
             type= '02'
         return type
 
-    def get_document_affected(self,cr,uid,txt_line,context):
+    def get_document_affected(self,cr,uid,txt_line,context={}):
         number='0'
         if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
             number = txt_line.invoice_id.parent_id.reference
@@ -168,7 +168,7 @@ class txt_iva(osv.osv):
                     result = i + result
         return result[::-1].strip()
 
-    def get_document_number(self,cr,uid,ids,txt_line,inv_type,context):
+    def get_document_number(self,cr,uid,ids,txt_line,inv_type,context={}):
         number=0
         if txt_line.invoice_id.type in ['in_invoice','in_refund']:
             if not txt_line.invoice_id.reference:
@@ -211,7 +211,7 @@ class txt_iva(osv.osv):
                 list.append(0)
         return max(list)
 
-    def generate_txt(self,cr,uid,ids,context=None):
+    def generate_txt(self,cr,uid,ids,context={}):
         txt_string = ''
         for txt in self.browse(cr,uid,ids,context):
             vat = txt.company_id.partner_id.vat[2:]
@@ -223,9 +223,9 @@ class txt_iva(osv.osv):
                 
                 operation_type = 'V' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'C'
                 document_type  = self.get_type_document(cr,uid,txt_line)
-                document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number',context)
+                document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number')
                 control_number = self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
-                document_affected= self.get_document_affected(cr,uid,txt_line,context)
+                document_affected= self.get_document_affected(cr,uid,txt_line)
                 voucher_number = self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
                 amount_exempt,amount_untaxed = self.get_amount_exempt_document(cr,uid,txt_line)
                 alicuota = self.get_alicuota(cr,uid,txt_line)
@@ -239,7 +239,7 @@ class txt_iva(osv.osv):
                  +'\n'
         return txt_string
         
-    def _write_attachment(self, cr,uid,ids,root,context):
+    def _write_attachment(self, cr,uid,ids,root,context={}):
         '''
         Encrypt txt, save it to the db and view it on the client as an attachment
         '''
