@@ -124,7 +124,11 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             total[0]=total[0]+d.ai_amount_total
             total[1]=total[1]+d.ai_amount_untaxed
             total[2]=total[2]+d.ai_amount_tax
-            total[3]=total[3]+d.ar_id.total_tax_ret
+            
+            if d.ai_id.type in ['in_refund', 'out_refund']:
+                total[3]=total[3]+(d.ar_id.total_tax_ret * (-1))
+            else:
+                total[3]=total[3]+d.ar_id.total_tax_ret
         return total
         
     def _get_total_excent(self, form):
