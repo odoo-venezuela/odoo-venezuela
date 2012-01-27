@@ -38,10 +38,8 @@ class account_invoice_parent(osv.osv_memory):
        'parent_id': fields.many2one('account.invoice', 'Source Invoice', help='You can select here the source invoice to use as father as the current invoice.'),
        'sure': fields.boolean('Are you sure?'),
        'partner_id': fields.many2one('res.partner', 'Partner', help='Customer or supplier who owns the invoice'),
-       'type': fields.selection([('assigned', 'Assign source invoice'), ('modify', 'Change source invoice'), ('unlink', 'Unlink source invoice')], "Operation Type", help='Operation to make on the refund invoice or debit credit note.\n'\
-                'Assign source invoice: Assign a parent invoice to the current one.\n'\
-                'Change source invoice: Modify the current parent invoice of the current invoice.\n'\
-                'Unlink source invoice: Delete the link between the parent invoice and the current one.'),
+       'type': fields.selection([('modify', 'Change source invoice')], "Operation Type", help='Operation to make on the refund invoice or debit credit note.\n'\
+                'Change source invoice: Modify the current parent invoice of the current invoice.'),
     }
 
     def _get_partner(self, cr, uid, context=None):
@@ -55,7 +53,7 @@ class account_invoice_parent(osv.osv_memory):
 
     _defaults = {
         'partner_id': _get_partner,
-        'type': 'assigned',
+        'type': 'modify',
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
