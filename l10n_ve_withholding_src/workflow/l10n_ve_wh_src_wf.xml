@@ -36,9 +36,10 @@
         <record id="act_done" model="workflow.activity">
             <field name="wkf_id" ref="wh_src_wkf"/>
             <field name="action">action_done()
-                action_number()
-                action_move_create()
-                write({'state':'done'})</field>
+action_date_ret()
+action_number()
+action_move_create()
+write({'state':'done'})</field>
             <field name="kind">function</field>
             <field name="name">done</field>
         </record>

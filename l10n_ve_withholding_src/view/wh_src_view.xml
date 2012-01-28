@@ -15,10 +15,7 @@
             <field name="arch" type="xml">
                 <tree string="Social Responsibility Commitment Withholding Lines" editable="bottom">
                     <field name="name"/>
-<!--
-                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
--->
-                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('wh_src_id', '!=', False),('state', '=', 'open') ('partner_id','=',parent.partner_id),]"/>
+                    <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
                     <field name="base_amount"/>
                     <field name="wh_src_rate"/>
                     <field name="wh_amount"/>
@@ -35,10 +32,7 @@
                 <form string="Social Responsibility Commitment Withholding Lines">
                     <notebook>
                         <page string="Linea">
-<!--
-                            <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
--->
-                            <field name="invoice_id" domain="[('wh_src_id', '!=', False),('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
+                    <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
                             <field colspan="4" name="name" select="1"/>
                             <field name="base_amount"/>
                             <field name="wh_src_rate"/>

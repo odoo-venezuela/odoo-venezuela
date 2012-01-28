@@ -115,6 +115,11 @@ class account_wh_src(osv.osv):
         return res
         
 
+    def action_date_ret(self,cr,uid,ids,context=None):
+        for wh in self.browse(cr, uid, ids, context):
+            wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
+        return True
+
     def action_confirm(self, cr, uid, ids, context={}):
         return True
         
@@ -229,7 +234,7 @@ class account_wh_src_line(osv.osv):
         inv_obj = self.pool.get('account.invoice')
         
         if invoice_id:
-            p = inv_obj.browse(cr, uid, partner_id).amount_untaxed
+            p = inv_obj.browse(cr, uid, invoice_id).amount_untaxed
         res = {'value': {
             'base_amount': p,
             }
