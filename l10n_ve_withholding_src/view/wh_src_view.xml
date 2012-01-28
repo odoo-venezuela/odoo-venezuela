@@ -18,7 +18,7 @@
 <!--
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>
 -->
-                    <field name="invoice_id" domain="[('wh_src_id', '!=', False),('state', '=', 'open') ('partner_id','=',parent.partner_id),]"/>
+                    <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('wh_src_id', '!=', False),('state', '=', 'open') ('partner_id','=',parent.partner_id),]"/>
                     <field name="base_amount"/>
                     <field name="wh_src_rate"/>
                     <field name="wh_amount"/>
@@ -129,7 +129,11 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
-                            <field name="line_ids" default_get="{'lines': line_ids }" colspan="4" nolabel="1" height="275"/>
+                            <field name="line_ids" default_get="{'lines': line_ids }" colspan="4" nolabel="1" height="275">
+<!--
+                            <field name="invoice_id" domain="[('wh_src_id', '!=', False),('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>                            
+-->
+                            </field>
                             <group col="4" colspan="2">
                                 <field name="state"/>
                             </group>
