@@ -121,7 +121,33 @@ class account_wh_src(osv.osv):
         return True
 
     def action_confirm(self, cr, uid, ids, context={}):
-        return True
+        print 'hybto estouvo auqi,k'
+        if context is None:
+            context={}
+        brw = self.browse(cr,uid,ids[0],context)
+        line_ids = brw.line_ids
+        if not line_ids:
+            return False
+        #~ VERIFICANDO QUE NO HAY CEROS EN LAS LINEAS DE RETENCION
+        res = [True]
+        res.append([False for i in line_ids if i.wh_amount <= 0.0 or i.base_amount  <= 0.0 or i.wh_src_rate  <= 0.0 ])
+        print 'VERIFICANDO QUE NO HAY CEROS EN LAS LINEAS DE RETENCION ',res 
+        if not all(res):
+            #~ TO-CHECK
+            #~ AQUI EN LUGAR DE DEVOLVER UN FALSE 
+            #~ COLOCAR UN RAISE, PARA ADVERTIR AL USUARIO
+            return False
+        #~ VERIFICANDO QUE LA SUMA DE LAS RETENCIONES
+        #~ SEA IGUAL AL INDICADO EN LA CABECERA
+        res = 0.0
+        for i in line_ids:
+            res+=i.wh_amount
+        print 'VERIFICANDO QUE LA SUMA DE LAS RETENCIONES', res
+        if not res== brw.wh_amount:
+            #~ TO-CHECK
+            #~ ELEVAR UN RAISE
+            return False
+        return False
         
     def action_done(self, cr, uid, ids, context={}):
         return True
@@ -146,13 +172,12 @@ class account_wh_src(osv.osv):
         context.update({'src_wh':True})
         
         ret = self.browse(cr, uid, ids[0], context)
-        #~ TO_CHECK
-        #~ VALIDACION PARA VERIFICAR SI LA FACTURA YA ESTA RETENIDA
-        #~ for line in ret.line_ids:
-            #~ if line.move_id or line.invoice_id.wh_iva:
-                #~ raise osv.except_osv(_('Invoice already withhold !'),\
-                #~ _("You must omit the follow invoice '%s' !") %\
-                #~ (line.invoice_id.name,))
+
+        for line in ret.line_ids:
+            if line.move_id or line.invoice_id.wh_src:
+                raise osv.except_osv(_('Invoice already withhold !'),\
+                _("You must omit the follow invoice '%s' !") %\
+                (line.invoice_id.name,))
 
         acc_id = ret.account_id.id
 
@@ -187,7 +212,7 @@ class account_wh_src(osv.osv):
                     self.write(cr, uid, [ret.id], {'line_ids':lines, 'period_id':period_id})
 
                     if rl and line.invoice_id.type in ['out_invoice','out_refund']:
-                        inv_obj.write(cr,uid,[line.invoice_id.id],{'wh_iva_id':ret.id})
+                        inv_obj.write(cr,uid,[line.invoice_id.id],{'wh_src_id':ret.id})
             else:
                 return False
         return True
@@ -206,6 +231,18 @@ class account_wh_src(osv.osv):
                 cr.execute('UPDATE account_wh_src SET number=%s ' \
                         'WHERE id=%s', (number, id))
         return True
+        
+        
+    def wh_src_confirmed(self, cr, uid, ids):
+        number = self.pool.get('account.wh.src.line')
+        print "cr %s" %cr
+        print "uid %s" %uid
+        print "ids %s" %ids
+        #~ print "context %s" %context
+        return True
+        
+
+        
 account_wh_src()
 
 class account_wh_src_line(osv.osv):
