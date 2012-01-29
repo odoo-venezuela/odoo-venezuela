@@ -32,18 +32,61 @@ from report import report_sxw
 from tools.translate import _
 
 class list_wh_iva(report_sxw.rml_parse):
+    
+    total_amount_exempt=0
+    total_amount_untaxed=0
+    
     def __init__(self, cr, uid, name, context):
         super(list_wh_iva, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'get_type_doc': self._get_type_document,
+            'get_doc_number':self._get_document_number,
+            'get_doc_affected':self._get_document_affected,
+            'get_ctrl_number':self._get_control_number,
+            'get_alicuota':self._get_alicuota,
+            'get_amount_exempt':self._get_amount_exempt,
+            'get_total_amount_exempt':self._get_total_amount_exempt,
+            'get_amount_untaxed':self._get_amount_untaxed,
+            'get_total_amount_untaxed':self._get_total_amount_untaxed,
+            'get_total_amount_doc':self._get_total_amount_doc,
         })
+        
+    def _get_total_amount_doc(self,doc_id):
+        total=0
+        for line in self.pool.get('txt.iva').browse(self.cr,self.uid, doc_id).txt_ids:
+            total+=line.invoice_id.amount_total
+        return total
+        
+    def _get_alicuota(self,txt_line):
+        return self.pool.get('txt.iva').get_alicuota(self.cr,self.uid,txt_line)
+        
+    def _get_amount_exempt(self,txt_line):
+        amount_exempt,amount_untaxed = self.pool.get('txt.iva').get_amount_exempt_document(self.cr,self.uid,txt_line)
+        self.total_amount_exempt+=amount_exempt
+        return amount_exempt
+
+    def _get_total_amount_exempt(self):
+        return self.total_amount_exempt
+
+    def _get_amount_untaxed(self,txt_line):
+        amount_exempt,amount_untaxed = self.pool.get('txt.iva').get_amount_exempt_document(self.cr,self.uid,txt_line)
+        self.total_amount_untaxed+=amount_untaxed
+        return amount_untaxed
+        
+    def _get_total_amount_untaxed(self):
+        return self.total_amount_untaxed
+                
+    def _get_control_number(self,txt_line):
+        return self.pool.get('txt.iva').get_number(self.cr,self.uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)    
 
     def _get_type_document(self,line):
         return self.pool.get('txt.iva').get_type_document(self.cr,self.uid,line)
 
-    #~ def get_type_document(self,cr,uid,txt_line):
+    def _get_document_number(self,txt_id,txt_line):
+        return self.pool.get('txt.iva').get_document_number(self.cr,self.uid,txt_id,txt_line,'inv_number')
 
-
+    def _get_document_affected(self,line):
+        return self.pool.get('txt.iva').get_document_affected(self.cr,self.uid,line)
 
 report_sxw.report_sxw(
     'report.list_report_wh_vat2',
