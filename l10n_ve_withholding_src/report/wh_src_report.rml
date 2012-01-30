@@ -9,65 +9,128 @@
         <blockTableStyle id="Table7">
       <blockAlignment value="LEFT" />
       <blockValign value="TOP" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,1" stop="1,2" />
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,2" />
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,2" />
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="1,2" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,2" />
     </blockTableStyle>
         <blockTableStyle id="Table5">
       <blockAlignment value="LEFT" />
       <blockValign value="TOP" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,1" stop="1,2" />
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="1,2" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,2" />
 <!--
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,2" />
 -->
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
     </blockTableStyle>
         <blockTableStyle id="Table8">
       <blockAlignment value="LEFT" />
       <blockValign value="TOP" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,1" stop="1,2" />
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="1,2" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,2" />
 <!--
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,2" />
 -->
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
     </blockTableStyle>
         <blockTableStyle id="Table9">
       <blockAlignment value="LEFT" />
       <blockValign value="TOP" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,1" stop="0,2" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,2" stop="0,3" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,3" stop="0,4" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,4" stop="0,5" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,5" stop="0,6" />
-      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,1" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,1" stop="1,2" />
-      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="4,1" stop="4,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="5,1" stop="5,2" />
 <!--
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,2" stop="1,3" />
 -->
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="1,0" stop="1,2" />
-      <lineStyle kind="LINEAFTER" colorName="#000000" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+
     </blockTableStyle>
+    
+        <blockTableStyle id="Table11">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      
+      
+
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="4,1" stop="4,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="5,1" stop="5,2" />
+
+<!--
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,2" stop="1,3" />
+-->
+
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+
+
+    </blockTableStyle>
+
+      <blockTableStyle id="Table10">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="4,1" stop="4,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="5,1" stop="5,2" />
+<!--
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,2" stop="1,3" />
+-->
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+
+    </blockTableStyle>   
     <blockTableStyle id="Table6">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
@@ -113,6 +176,7 @@
     <paraStyle name="P25" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P26" fontName="Courier-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P27" fontName="Helvetica-Bold" fontSize="10.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P27_a" fontName="Helvetica-Bold" fontSize="10.0" leading="15" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P28" rightIndent="0.0" leftIndent="35.0" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P29" rightIndent="0.0" leftIndent="35.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
     <paraStyle name="P30" rightIndent="0.0" leftIndent="71.0" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
@@ -285,10 +349,12 @@
           </td>
         </tr>
       </blockTable>
+<!--
          <spacer length='5mm'/>
+-->
       <section>
     <para style="P9">[[repeatIn(o.line_ids,'l')]]</para>
-     <blockTable colWidths="87.3,87.3,87.3,87.3,87.3,87.3" >
+     <blockTable colWidths="87.3,87.3,87.3,87.3,87.3,87.3" style="Table11">
         <tr>
           <td>
             <para style="P21_b" alignment="CENTER">[[l.name]]</para>
@@ -311,8 +377,10 @@
         </tr>
       </blockTable>
       </section>
+
    <spacer length='5mm'/>
-     <blockTable colWidths="100.0,400.0" >
+
+     <blockTable colWidths="87.3,436.7" style="Table10">
         <tr>
           <td>
             <para style="estilo6" alignment="CENTER">Código de Retención</para>
@@ -325,24 +393,24 @@
 
    
     <spacer length='30mm'/>
-     <blockTable colWidths="150.0,150.0,150.0">
+     <blockTable colWidths="174.0,174.0,174.0">
       <tr>
         <td>
-          <para style="P27">Elaborado por: </para>
-           <spacer length='5mm'/>
-          <para style="P27">Firma y Fecha: </para>
+          <para style="P27_a">Elaborado por: </para>
+           <spacer length='15mm'/>
+          <para style="P27_a">Firma y Fecha: </para>
         </td>
           <spacer length='10mm'/>
         <td>
-          <para style="P27">Conforme por:</para>
-          <spacer length='5mm'/>
-       <para style="P27">Firma y Fecha: </para>
+          <para style="P27_a">Conforme por:</para>
+          <spacer length='15mm'/>
+       <para style="P27_a">Firma y Fecha: </para>
         </td>
           <spacer length='10mm'/>
         <td>
-          <para style="P27">Recibido por:</para>
-          <spacer length='5mm'/>
-          <para style="P27">Firma y Fecha: </para>
+          <para style="P27_a">Recibido por:</para>
+          <spacer length='15mm'/>
+          <para style="P27_a">Firma y Fecha: </para>
         </td>
       </tr>
     </blockTable>
