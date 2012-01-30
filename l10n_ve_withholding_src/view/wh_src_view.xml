@@ -15,10 +15,10 @@
             <field name="arch" type="xml">
                 <tree string="Social Responsibility Commitment Withholding Lines" editable="bottom">
                     <field name="name"/>
-                    <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
-                    <field name="base_amount"/>
-                    <field name="wh_src_rate"/>
-                    <field name="wh_amount"/>
+                    <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
+                    <field name="base_amount" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" sum='Total Base a Retener'/>
+                    <field name="wh_src_rate" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" />
+                    <field name="wh_amount" sum='Total Retenido'/>
                     <field name="move_id"/>
                 </tree>
             </field>
@@ -32,10 +32,10 @@
                 <form string="Social Responsibility Commitment Withholding Lines">
                     <notebook>
                         <page string="Linea">
-                    <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
+                            <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
                             <field colspan="4" name="name" select="1"/>
-                            <field name="base_amount"/>
-                            <field name="wh_src_rate"/>
+                            <field name="base_amount" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" />
+                            <field name="wh_src_rate" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" />
                             <field name="wh_amount"/>
                             <field name="move_id"/>  
                         </page>
@@ -95,7 +95,7 @@
                     <field name="currency_id"/>
                     <field name="period_id"/>
                     <field name="state"/>
-                    <field name="wh_amount"/>
+                    <field name="wh_amount" sum='Total Retenido'/>
 
                 </tree>
             </field>
@@ -119,7 +119,7 @@
                         <field name="period_id"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date" />
-                        <field name="wh_amount" />
+                        <field name="wh_amount"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
@@ -135,7 +135,7 @@
                                 <button name="wh_src_confirmed" states="draft" string="Confirm" icon="gtk-ok"/>
                                 <button name="wh_src_done" states="confirmed" string="Done" icon="gtk-execute"/>
                                 <button name="wh_src_cancel" states="done" string="Cancel" icon="gtk-cancel"/>
-                                <button name="wh_src_draft" states="cancel" string="Set to draft" icon="gtk-refresh"/>
+                                <button name="wh_src_draft" states="cancel,confirmed" string="Set to draft" icon="gtk-refresh"/>
                             </group>
                         </page>
                         <page string="Other Information">

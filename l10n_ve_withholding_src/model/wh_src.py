@@ -33,10 +33,28 @@ import decimal_precision as dp
 
 class account_wh_src(osv.osv):
 
+    def name_get(self, cursor, user, ids, context=None):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+        if not ids:
+            return []
+        res = []
+        data_move = self.pool.get('account.wh.src').browse(cursor, user, ids, context=context)
+        for move in data_move:
+            if not move.name:
+                if move.number:
+                    name = move.number
+                else:
+                    name = 'CRS * ID = ' + str(move.id)
+            else:
+                name = move.name
+            res.append((move.id, name))
+        return res
+
     _name = "account.wh.src"
     _description = "Social Responsibility Commitment Withholding"
     _columns = {
-        'name': fields.char('Description', size=64, readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Description of withholding"),
+        'name': fields.char('Description', size=64, readonly=True, states={'draft':[('readonly',False)]}, help="Description of withholding"),
         'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Withholding reference"),
         'number': fields.char('Number', size=32, states={'draft':[('readonly',False)]}, help="Withholding number"),
         'type': fields.selection([
@@ -72,8 +90,6 @@ class account_wh_src(osv.osv):
         journal_sale=ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_src_sale_journal')])
         ir_model_purchase_brw=ir_model_data.browse(cr, uid, journal_purchase, context=context)
         ir_model_sale_brw=ir_model_data.browse(cr, uid, journal_sale, context=context)
-        print 'ir_model_purchase_brw %s' %ir_model_purchase_brw
-        print 'ir_model_sale_brw %s' %ir_model_sale_brw
         if context.get('type') == 'in_invoice':
             return ir_model_purchase_brw[0].res_id
         else:
@@ -100,6 +116,7 @@ class account_wh_src(osv.osv):
         acc_id = False
         res = {}
         inv_obj = self.pool.get('account.invoice')
+        wh_line_obj = self.pool.get('account.wh.src.line')
         
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
@@ -107,52 +124,83 @@ class account_wh_src(osv.osv):
                 acc_id = p.property_account_receivable and p.property_account_receivable.id or False
             else:
                 acc_id = p.property_account_payable and p.property_account_payable.id or False
+        
+        wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])]) or False
+        p_id_prv = ids and self.browse(cr, uid, ids[0], context=context).partner_id.id or False
+        print 'idssssssssss, ',ids
+        print 'partner_id, ',partner_id
+        print 'p_id_prv, ',p_id_prv
+        if wh_lines and p_id_prv != partner_id:
+            wh_line_obj.unlink(cr, uid, wh_lines)
+        
         res = {'value': {
             'account_id': acc_id,
             }
         }
-
         return res
         
 
     def action_date_ret(self,cr,uid,ids,context=None):
+        #~ TO-CHECK
+        #~ SI EL DOCUMENTO YA TIENE FECHA SE DEVUELVE LA MISMA FECHA,
+        #~ NO SE DEBE HACER NADA
         for wh in self.browse(cr, uid, ids, context):
             wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
         return True
 
-    def action_confirm(self, cr, uid, ids, context={}):
-        print 'hybto estouvo auqi,k'
+
+    def action_draft(self, cr, uid, ids, context={}):
         if context is None:
             context={}
+        print 'ENTROOOOOO EN SET TO DRAFT'
+        inv_obj = self.pool.get('account.invoice')
+        
+        brw = self.browse(cr,uid,ids[0],context)
+        inv_ids = [i.invoice_id.id for i in brw.line_ids]
+        if inv_ids:
+            inv_obj.write(cr,uid,inv_ids,{'wh_src_id':False})
+                
+        return self.write(cr,uid,ids[0],{'state':'draft'})
+
+    def action_confirm(self, cr, uid, ids, context={}):
+        if context is None:
+            context={}
+        inv_obj = self.pool.get('account.invoice')
+        
         brw = self.browse(cr,uid,ids[0],context)
         line_ids = brw.line_ids
         if not line_ids:
-            return False
-        #~ VERIFICANDO QUE NO HAY CEROS EN LAS LINEAS DE RETENCION
+            raise osv.except_osv(_('Procedimiento invalido!'),_("No hay lineas de retencion"))
+        
         res = [True]
-        res.append([False for i in line_ids if i.wh_amount <= 0.0 or i.base_amount  <= 0.0 or i.wh_src_rate  <= 0.0 ])
-        print 'VERIFICANDO QUE NO HAY CEROS EN LAS LINEAS DE RETENCION ',res 
+        res+=[False for i in line_ids if i.wh_amount <= 0.0 or i.base_amount  <= 0.0 or i.wh_src_rate  <= 0.0 ]
         if not all(res):
-            #~ TO-CHECK
-            #~ AQUI EN LUGAR DE DEVOLVER UN FALSE 
-            #~ COLOCAR UN RAISE, PARA ADVERTIR AL USUARIO
-            return False
-        #~ VERIFICANDO QUE LA SUMA DE LAS RETENCIONES
-        #~ SEA IGUAL AL INDICADO EN LA CABECERA
+            raise osv.except_osv(_('Procedimiento invalido!'),_("Verificar que las lineas de retencion\nno tenga Valores nulos (0.00)"))
+        
         res = 0.0
         for i in line_ids:
             res+=i.wh_amount
-        print 'VERIFICANDO QUE LA SUMA DE LAS RETENCIONES', res
         if not res== brw.wh_amount:
-            #~ TO-CHECK
-            #~ ELEVAR UN RAISE
-            return False
-        return False
+            raise osv.except_osv(_('Procedimiento invalido!'),_("Verificar la suma de las retenciones"))
         
-    def action_done(self, cr, uid, ids, context={}):
-        return True
-
+        inv_ids = [i.invoice_id.id for i in brw.line_ids]
+        if inv_ids:
+            inv_obj.write(cr,uid,inv_ids,{'wh_src_id':ids[0]})
+        
+        return self.write(cr,uid,ids[0],{'state':'confirmed'})
+        
+    def action_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        #~ 
+        self.action_date_ret(cr, uid, ids, context=context)
+        self.action_number(cr, uid, ids)
+        self.action_move_create(cr, uid, ids, context=context)
+        
+        return self.write(cr,uid,ids,{'state':'done'})
+        
     def action_cancel(self,cr,uid,ids,context={}):
+        raise osv.except_osv(_('Procedimiento invalido!'),_("Por el momento, el sistema no le permite Cancelar estas Retenciones."))
         return True
         
     def copy(self,cr,uid,id,default,context=None):
@@ -166,18 +214,23 @@ class account_wh_src(osv.osv):
 
 
     def action_move_create(self, cr, uid, ids, context=None):
+        
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
         
         context.update({'src_wh':True})
         
         ret = self.browse(cr, uid, ids[0], context)
-
+        #~ TO-CHECK 
+        #~ SI EL DOCUMENTO YA TIENE UN ASIENTO CONTABLE,
+        #~ PRIMERO SE DEBE DESTRUIR, Y ANTES DE DESTRUIR,
+        #~ SE DEBE CUMPLIR CON UNA SERIE DE CONDICIONES 
+        #~ PARA SU DESTRUCCION
         for line in ret.line_ids:
-            if line.move_id or line.invoice_id.wh_src:
+            if line.move_id:
                 raise osv.except_osv(_('Invoice already withhold !'),\
                 _("You must omit the follow invoice '%s' !") %\
-                (line.invoice_id.name,))
+                (line.invoice_id.number,))
 
         acc_id = ret.account_id.id
 
@@ -204,7 +257,6 @@ class account_wh_src(osv.osv):
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, ret.date_ret, name,[line], context)
-                    # make the withholding line point to that move
                     rl = {
                         'move_id': ret_move['move_id'],
                     }
@@ -218,7 +270,9 @@ class account_wh_src(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, *args):
-        print "entreeeee"
+        #~ TO-CHECK
+        #~ SI EL DOCUMENTO YA TIENE NUMERO 
+        #~ SE DEVUELVE TRUE UNA VEZ
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
@@ -235,10 +289,6 @@ class account_wh_src(osv.osv):
         
     def wh_src_confirmed(self, cr, uid, ids):
         number = self.pool.get('account.wh.src.line')
-        print "cr %s" %cr
-        print "uid %s" %uid
-        print "ids %s" %ids
-        #~ print "context %s" %context
         return True
         
 
@@ -265,18 +315,27 @@ class account_wh_src_line(osv.osv):
 
     ] 
     
-    def onchange_invoice_id(self, cr, uid, ids, type, invoice_id,context=None):
+    def onchange_invoice_id(self, cr, uid, ids, type, invoice_id=False,base_amount=0.0,wh_src_rate=5.0,context=None):
         if context is None: context = {}    
         res = {}
         inv_obj = self.pool.get('account.invoice')
+        if not invoice_id:
+            return {'value': {
+                        'invoice_id': False,
+                        'base_amount': 0.0,
+                        'wh_src_rate': 0.0,
+                        'wh_amount': 0.0,}
+                    }
         
-        if invoice_id:
-            p = inv_obj.browse(cr, uid, invoice_id).amount_untaxed
+        inv_brw = inv_obj.browse(cr, uid, invoice_id)
+        base_amount = base_amount or inv_brw.amount_untaxed
+        wh_src_rate = wh_src_rate or inv_brw.wh_src_rate or 5.0
+        wh_amount = base_amount * wh_src_rate/100.0
         res = {'value': {
-            'base_amount': p,
+            'base_amount': base_amount,
+            'wh_src_rate': wh_src_rate,
+            'wh_amount': wh_amount,
             }
         }
-
         return res
-        
 account_wh_src_line()
