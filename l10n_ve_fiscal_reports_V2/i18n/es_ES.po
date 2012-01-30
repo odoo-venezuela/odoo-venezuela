@@ -679,7 +679,7 @@ msgstr "Imprimir Libro Ventas/Compras"
 #: field:fiscal.reports.purchase,rp_vat:0
 #: field:fiscal.reports.sale,rp_vat:0
 msgid "VAT Number"
-msgstr "Número IVA"
+msgstr "RIF"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.module.module,shortdesc:l10n_ve_fiscal_reports.module_meta_information
@@ -789,7 +789,7 @@ msgstr "Control Start"
 #: field:fiscal.reports.whp,rp_vat:0
 #: field:fiscal.reports.whs,rp_vat:0
 msgid "Vat Number"
-msgstr "Número IVA"
+msgstr "RIF"
 
 #. module: l10n_ve_fiscal_reports
 #: wizard_field:fiscal.reports.purchase.book_seniat_HG,init,model:0

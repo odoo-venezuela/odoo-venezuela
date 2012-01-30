@@ -803,7 +803,7 @@ msgstr "Imprimir Libro Ventas/Compras"
 #: field:fiscal.reports.purchase,rp_vat:0
 #: field:fiscal.reports.sale,rp_vat:0
 msgid "VAT Number"
-msgstr "Número IVA"
+msgstr "RIF"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.module.module,shortdesc:l10n_ve_fiscal_reports.module_meta_information
@@ -935,7 +935,7 @@ msgstr "[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0]+
 #: field:fiscal.reports.whp,rp_vat:0
 #: field:fiscal.reports.whs,rp_vat:0
 msgid "Vat Number"
-msgstr "Número IVA"
+msgstr "RIF"
 
 #. module: l10n_ve_fiscal_reports
 #: view:adjustment.book:0

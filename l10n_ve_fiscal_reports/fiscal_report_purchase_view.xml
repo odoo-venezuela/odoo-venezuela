@@ -1,7 +1,49 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-    
+        <record id="view_fiscal_reports_purchase_search" model="ir.ui.view">
+            <field name="name">fiscal.reports.purchase.search</field>
+            <field name="model">fiscal.reports.purchase</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Purchase Invoices">
+                    <group colspan="6">
+                        <field name="ai_nro_ctrl"/>
+                        <field name="ai_reference"/>
+                        <field name="rp_vat"/>
+                        <field name="rp_id"/>
+                    </group>
+                    <newline/>
+                    <group colspan="6">
+                        <field name="ar_date_document"/>
+                        <field name="ai_date_invoice"/>
+                    </group>
+<!--                   <group col="10" colspan="4">-->
+<!--                        -->
+<!--                        <filter name="draft" icon="terp-gtk-media-pause" string="Draft" domain="[('state','=','draft')]" help="Draft Withholding Income"/>-->
+<!--                        <filter name="confirmed" icon="terp-camera_test" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Withholding Income"/>-->
+<!--                        <filter name="done" icon="terp-check" string="Done" domain="[('state','=','done')]" help="Done Withholding Income"/>-->
+<!--                        <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Income"/>-->
+<!--                        <separator orientation="vertical"/>-->
+<!--                        <field name="code"/>-->
+<!--                        <field name="partner_id"/>-->
+<!--                        <field name="journal_id"  select="1" widget="selection" string="Journal"/>-->
+<!--                        <field name="user_id" select="1" widget="selection" string="Salesman">-->
+<!--                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                    <newline/>-->
+<!--                    <group expand="1" string="Group By...">-->
+<!--                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>-->
+<!--                        <separator orientation="vertical"/>-->
+<!--                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>-->
+<!--                        <separator orientation="vertical"/>-->
+<!--                        <filter string="Accounting Date of Withhold" icon="terp-go-month" domain="[]"  context="{'group_by':'date_ret'}"/>-->
+<!--                    </group>-->
+               </search>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="view_fiscal_reports_purchase_form">
             <field name="name">fiscal.reports.purchase.form</field>
             <field name="model">fiscal.reports.purchase</field>
@@ -49,6 +91,7 @@
     <field name="res_model">fiscal.reports.purchase</field>
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
+    <field name="search_view_id" ref="view_fiscal_reports_purchase_search"/>
     <field name="help">This list of elements shown all purchase invoice that will be printed on purchase book report in order to comply with SENIAT requirements in law 0598</field>
     </record>
     <menuitem id="menu_fr_main" name="Fiscal Reporting for SENIAT" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting"/>
