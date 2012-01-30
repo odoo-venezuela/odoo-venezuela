@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2012-01-30 15:20+0000\n"
-"PO-Revision-Date: 2012-01-30 15:20+0000\n"
+"POT-Creation-Date: 2012-01-30 16:57+0000\n"
+"PO-Revision-Date: 2012-01-30 16:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -809,6 +809,11 @@ msgstr "Número IVA"
 #: model:ir.module.module,shortdesc:l10n_ve_fiscal_reports.module_meta_information
 msgid "Fiscal Report For Venezuela"
 msgstr "Reporte Fiscal para Venezuela"
+
+#. module: l10n_ve_fiscal_reports
+#: model:ir.actions.act_window,help:l10n_ve_fiscal_reports.action_fiscal_reports_purchase_tree
+msgid "This list of elements shown all purchase invoice that will be printed on purchase book report in order to comply with SENIAT requirements in law 0598"
+msgstr "En esta lista encontraras las facturas de compra con sus retenciones de IVA relacionadas, este listado es el que se usará para imprimir el libro de compras de acuerdo al SENIAT según gaceta 0598."
 
 #. module: l10n_ve_fiscal_reports
 #: help:adjustment.book,vat_general_i:0
