@@ -330,12 +330,14 @@ class account_invoice_refund(osv.osv_memory):
     def invoice_refund(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        
+        inv_obj = self.pool.get('account.invoice')
         if not self.validate_wh(cr, uid, context.get('active_ids'), context=context):
+            inv= inv_obj.browse(cr,uid,context.get('active_ids'),context=context)[0]
             raise osv.except_osv(_('Error !'), \
-                                     _('There are non-valid withholds for the document which refund is being processed!' % inv.wh_iva_id.code ))
+                                     _('There are non-valid withholds for the document %s which refund is being processed!' % inv.wh_iva_id.code ))
+                                     
         self.unreconcile_paid_invoices(cr, uid, context.get('active_ids'), context=context)
-        data_refund = self.read(cr, uid, ids, [],context=context)[0]['filter_refund']
+        data_refund = self.browse(cr, uid, ids,context=context)[0].filter_refund
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
 
 account_invoice_refund()
