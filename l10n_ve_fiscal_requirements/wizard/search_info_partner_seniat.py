@@ -32,7 +32,7 @@ class search_info_partner_seniat(osv.osv_memory):
         'vat':fields.char('Numero de RIF', size=64, help='El RIF debe poseer el formato J1234567890',required=True),
         'name':fields.char('Empresa / Persona', size=256, help='Nombre de la Empresa'),
         'vat_subjected':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
-        'percent':fields.float('Porcentaje de Retencion', help='Porcentaje de Retencion Aplicable'),
+        'wh_iva_rate':fields.float('Porcentaje de Retencion', help='Porcentaje de Retencion Aplicable'),
         'vat_apply':fields.boolean('Contribuyente Formal', help='Es Contribuyente'),
     }
     
@@ -61,7 +61,7 @@ class search_info_partner_seniat(osv.osv_memory):
         if var_vat:
             aux = var_vat[0]['vat']
         res = su_obj._dom_giver(url1, url2, context, aux)
-        res.update({'percent':self._buscar_porcentaje(aux,url2)})
+        res.update({'wh_iva_rate':self._buscar_porcentaje(aux,url2)})
         self.write(cr,uid,vat,res)
         
         return False

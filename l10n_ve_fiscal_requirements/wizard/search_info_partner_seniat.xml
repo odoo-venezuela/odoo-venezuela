@@ -15,7 +15,7 @@
                     <group colspan="4" >
                     <field name="name" readonly='True'/>
                     <field name="vat_subjected" readonly='True'/>
-                    <field name="percent" readonly='True'/>
+                    <field name="wh_iva_rate" readonly='True'/>
                     <field name="vat_apply" readonly='True'/>
                     </group>
                 </form>

@@ -63,6 +63,19 @@ class seniat_url(osv.osv):
             retries -= 1
         return str_error
     
+    def _buscar_porcentaje(self,rif,url):
+        context={}
+        html_data = self.pool.get('seniat.url')._load_url(3,url %rif)
+        html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
+        search_str='La condición de este contribuyente requiere la retención del '
+        pos = html_data.find(search_str)
+        if pos > 0:
+            pos += len(search_str)
+            pct = html_data[pos:pos+4].replace('%','').replace(' ','')
+            return float(pct)
+        else:
+            return 0.0
+    
     def _parse_dom(self,dom,rif,url_seniat):
         name = dom.childNodes[0].childNodes[0].firstChild.data 
         vat_subjected = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
@@ -71,7 +84,7 @@ class seniat_url(osv.osv):
             "RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
-        res= {'name': name,'vat_apply': vat_apply,'vat_subjected': vat_subjected }  
+        res= {'name': name,'vat_apply': vat_apply,'vat_subjected': vat_subjected ,'wh_iva_rate':self._buscar_porcentaje(rif,url_seniat)}  
         return res
 
     def _print_error(self, error, msg):
