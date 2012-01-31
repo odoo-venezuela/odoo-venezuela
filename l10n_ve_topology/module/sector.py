@@ -34,13 +34,13 @@ class sector(osv.osv):
     _name = 'res.sector'
     _description = 'Sector'
     _columns = {
-        'name': fields.char('Sector', size=128, required=True,help="In this field enter the name of the Sector"),
-        'city':fields.related('city_id',type="many2one",required=True,relation='res.partner.address',help="In this field you enter the city to which the sector is associated"),
-        'municipality':fields.related('municipality_id',type="many2one",relation='res.partner.address',required=True, help="In this field enter the name of the municipality which is associated with the parish"),
-        'parish':fields.related('parish_id',type="many2one",required=True,relation='res.partner.address',help="In this field you enter the parish to which the sector is associated"),
-        'zipcode':fields.related('zipcode_id',type="many2one",string='Zip Code',relation='res.partner.address',required=False,help="in this field is selected Zip Code associated with this sector"),
-        'state':fields.related('state_id',type="many2one",required=False, relation='res.partner.address',help="In this field enter the name of state associated with the country"),
-        'country':fields.related('country_id',type="many2one",required=False, relation='res.partner.address',help="In this field enter the name of Country"),
+        'name': fields.char('Sector', size=128, help="In this field enter the name of the Sector"),
+        'city':fields.related('city_id',type="many2one",relation='res.partner.address',help="In this field you enter the city to which the sector is associated"),
+        'municipality':fields.related('municipality_id',type="many2one",relation='res.partner.address', help="In this field enter the name of the municipality which is associated with the parish"),
+        'parish':fields.related('parish_id',type="many2one",relation='res.partner.address',help="In this field you enter the parish to which the sector is associated"),
+        'zipcode':fields.related('zipcode_id',type="many2one",string='Zip Code',relation='res.partner.address',help="in this field is selected Zip Code associated with this sector"),
+        'state':fields.related('state_id',type="many2one", relation='res.partner.address',help="In this field enter the name of state associated with the country"),
+        'country':fields.related('country_id',type="many2one", relation='res.partner.address',help="In this field enter the name of Country"),
     }
 
 sector()
@@ -60,11 +60,11 @@ class res_partner_address(osv.osv):
 
     _inherit='res.partner.address'
     _columns = {
-        'municipality_id':fields.many2one('res.municipality','Municipality',required=True, help="In this field enter the name of the municipality which is associated with the parish", domain= "[('state_id','=',state_id)]"),
-        'parish_id':fields.many2one('res.parish','Parish',required=True,help="In this field you enter the parish to which the sector is associated",domain= "[('municipalities_id','=',municipality_id)]" ),
-        'zipcode_id':fields.many2one('res.zipcode',string='Zip Code',required=False,help="in this field is selected Zip Code associated with this sector"),
+        'municipality_id':fields.many2one('res.municipality','Municipality', help="In this field enter the name of the municipality which is associated with the parish", domain= "[('state_id','=',state_id)]"),
+        'parish_id':fields.many2one('res.parish','Parish',help="In this field you enter the parish to which the sector is associated",domain= "[('municipalities_id','=',municipality_id)]" ),
+        'zipcode_id':fields.many2one('res.zipcode',string='Zip Code',help="in this field is selected Zip Code associated with this sector"),
         'sector_id':fields.many2one('res.sector',string='Sector',required=False,help="in this field select the Sector associated with this Municipality"),
-        'city_id':fields.many2one('res.city',string='City',required=True,help="in this field select the city associated with this State"),
+        'city_id':fields.many2one('res.city',string='City',help="in this field select the city associated with this State"),
         'city':fields.function(_get_city_name, method=True, type='char', string='City', size=256, domain= "[('state_id','=',state_id)]",store=True),
     }
 
