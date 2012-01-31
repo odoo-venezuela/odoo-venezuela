@@ -57,7 +57,7 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
-                    <button name="822" type="action" string="Refund" states="open,paid" groups="l10n_ve_fiscal_requirements.group_account_inv_refund_manager" icon="gtk-execute"/>
+                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund' states='open,paid' icon="gtk-execute"/>
                 </xpath>
             </field>
         </record>
@@ -68,7 +68,7 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
-                    <button name="822" type="action" string="Refund" states="open,paid" groups="l10n_ve_fiscal_requirements.group_account_inv_refund_manager" icon="gtk-execute"/>
+                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund' states='open,paid' icon="gtk-execute"/>
                 </xpath>
             </field>
         </record>
