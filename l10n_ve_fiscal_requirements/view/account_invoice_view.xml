@@ -39,6 +39,23 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="account_invoice_nro_control_supplier_form2" model="ir.ui.view">
+            <field name="name">account.invoice.nro.control.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+            
+                <xpath expr="//field[@name='period_id']" position="replace">
+                </xpath>
+         
+                <xpath expr="//field[@name='fiscal_position']" position="replace">
+                </xpath>
+            
+            </field>
+        </record>
+        
         <record id="account_invoice_nro_control_customer_form" model="ir.ui.view">
             <field name="name">account.invoice.nro.control.customer.form</field>
             <field name="model">account.invoice</field>
@@ -99,6 +116,24 @@
                 </xpath>
             </field>
         </record>
+       
+        
+        <record id="account_invoice_addr_form_loc_ve2" model="ir.ui.view">
+            <field name="name">invoice.address.account.invoice.form.loc_ve</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='period_id']" position="replace">
+                </xpath>
+         
+                <xpath expr="//field[@name='fiscal_position']" position="replace">
+                </xpath>
+            
+            </field>
+        </record>
+    
+        
         <record id="account_invoice_addr_supp_form_loc_ve" model="ir.ui.view">
             <field name="name">account.invoice.address.supplier.form.loc_ve</field>
             <field name="model">account.invoice</field>
@@ -111,6 +146,6 @@
             </field>
         </record>
         
-        <menuitem id="menu_venezuela_reporting" name="Venezuela Reports" parent="account.menu_finance_legal_statement"/>
+            <menuitem id="menu_venezuela_reporting" name="Venezuela Reports" parent="account.menu_finance_legal_statement"/>
     </data>
 </openerp>

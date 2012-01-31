@@ -208,7 +208,6 @@ class account_invoice_refund(osv.osv_memory):
                     wf_service.trg_validate(uid, 'account.invoice', \
                                         refund.id, 'invoice_open', cr)
                     refund = inv_obj.browse(cr, uid, refund_id[0], context=context)
-                
                     self.cn_iva_validate(cr,uid,refund,context=context)
                     
                     for tmpline in  refund.move_id.line_id:
@@ -269,6 +268,11 @@ class account_invoice_refund(osv.osv_memory):
             invoice_domain = eval(result['domain'])
             invoice_domain.append(('id', 'in', created_inv))
             result['domain'] = invoice_domain
+            if inv.sale_ids:
+                aux = {'invoice_ids':[(6,0,created_inv)]}
+                print "aux",aux
+                print "sale_ids",[i.id for i in inv.sale_ids]
+                self.pool.get('sale.order').write(cr,uid,[i.id for i in inv.sale_ids],aux,context=context)
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
@@ -334,7 +338,7 @@ class account_invoice_refund(osv.osv_memory):
         if not self.validate_wh(cr, uid, context.get('active_ids'), context=context):
             inv= inv_obj.browse(cr,uid,context.get('active_ids'),context=context)[0]
             raise osv.except_osv(_('Error !'), \
-                                     _('There are non-valid withholds for the document %s which refund is being processed!' % inv.wh_iva_id.code ))
+                                     _('There are non-valid withholds for the document %s which refund is being processed!' % inv and inv.wh_iva_id.code or "vacio" ))
                                      
         self.unreconcile_paid_invoices(cr, uid, context.get('active_ids'), context=context)
         data_refund = self.browse(cr, uid, ids,context=context)[0].filter_refund
