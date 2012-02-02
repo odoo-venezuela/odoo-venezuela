@@ -117,6 +117,7 @@ class account_invoice_refund(osv.osv_memory):
         @param ids: the account invoice refund’s ID or list of IDs
 
         """
+        wzd_brw = self.browse(cr,uid,ids[0],context=context)
         inv_obj = self.pool.get('account.invoice')
         reconcile_obj = self.pool.get('account.move.reconcile')
         account_m_line_obj = self.pool.get('account.move.line')
@@ -258,6 +259,10 @@ class account_invoice_refund(osv.osv_memory):
                             if 'value' in data and data['value']:
                                 inv_obj.write(cr, uid, [inv_id], data['value'])
                         created_inv.append(inv_id)
+                        
+                        new_inv_brw = inv_obj.browse(cr,uid,created_inv[1],context=context)
+                        inv_obj.write(cr,uid,created_inv[0],{'name':wzd_brw.description,'origin':new_inv_brw.origin},context=context)
+                        inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'description':''},context=context)
             if inv.type in ('out_invoice', 'out_refund'):
                 xml_id = 'action_invoice_tree3'
             else:
@@ -270,9 +275,16 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             if inv.sale_ids:
                 aux = {'invoice_ids':[(6,0,created_inv)]}
-                print "aux",aux
-                print "sale_ids",[i.id for i in inv.sale_ids]
                 self.pool.get('sale.order').write(cr,uid,[i.id for i in inv.sale_ids],aux,context=context)
+            print "created_inv",created_inv
+            if wzd_brw.filter_refund == 'cancel':
+                orig = self._get_orig(cr, uid, inv, inv.reference, context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':inv.description},context=context)
+            
+            if wzd_brw.filter_refund == 'refund':
+                orig = self._get_orig(cr, uid, inv, inv.reference, context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'description':wzd_brw.description},context=context)
+            
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
