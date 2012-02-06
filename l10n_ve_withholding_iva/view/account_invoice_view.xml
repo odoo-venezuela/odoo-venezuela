@@ -24,9 +24,8 @@
                             <field name="wh_iva_id"/>
                         </group>
                 </xpath>
-                <xpath expr="//field[@name='address_invoice_id']" position="after">
-                    <field name="vat_apply"/>
-                </xpath>
+            
+               
                 <xpath expr='//separator[@string="isep"]' position='attributes'>
                     <attribute name="string">Withholdings Vat</attribute>
                 </xpath>
@@ -58,6 +57,32 @@
                 </xpath>
             </field>
         </record>
+
+
+
+        <record id="account_invoice_wh_iva_supplier2" model="ir.ui.view">
+            <field name="name">account.invoice.wh.iva.supplier</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_ve_fiscal_reports.inherited_account_invoice_form_fiscal2"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="expedient"]' position='replace'>
+                </xpath>
+                <xpath expr="/form/group/group" position="after">
+                   <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
+                </xpath>
+           
+               
+
+
+            </field>
+        </record>
+
+
+
+
+
+
 
 
         <record id="account_invoice_wh_iva_tree" model="ir.ui.view">
