@@ -276,7 +276,6 @@ class account_invoice_refund(osv.osv_memory):
             if inv.sale_ids:
                 aux = {'invoice_ids':[(6,0,created_inv)]}
                 self.pool.get('sale.order').write(cr,uid,[i.id for i in inv.sale_ids],aux,context=context)
-            print "created_inv",created_inv
             if wzd_brw.filter_refund == 'cancel':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':inv.description},context=context)

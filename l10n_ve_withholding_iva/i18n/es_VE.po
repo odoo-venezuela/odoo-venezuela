@@ -83,6 +83,11 @@ msgid "Are You Withholding Agent?"
 msgstr "Eres un agente de retención?"
 
 #. module: l10n_ve_withholding_iva
+#: field:account.invoice,vat_apply:0
+msgid "Without Vat Doc"
+msgstr "Sin Doc. IVA"
+
+#. module: l10n_ve_withholding_iva
 #: help:account.wh.iva.line,name:0
 msgid "Withholding line Description"
 msgstr "Línea de descripción de retención"
@@ -116,6 +121,43 @@ msgstr "Cuenta para devolución de retención de IVA"
 #: field:txt.iva,date_start:0
 msgid "Begin Date"
 msgstr "Fecha de Inicio"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.invoice,vat_apply:0
+msgid "This selection indicates whether generate the invoice withholding document"
+msgstr '''Este campo indica si la factura va a generar el documento de retención de IVA, al seleccionarlo la factura no generara el documento de retencion. Esto aplica a los siguientes casos: \n 
+1.- Las operaciones no se encuentren sujetas al IVA o cuando estén
+    exentas o exoneradas del mismo . "\n"
+2.- El proveedor sea un contribuyente formal del impuesto. "\n"
+3.- Los proveedores hayan sido objeto de algún régimen de percepción
+    anticipada del IVA con ocasión de la importación de los bienes: el
+    proveedor deberá acreditar ante el agente de retención la percepción
+    soportada."\n"
+4.- Se trate de operaciones pagadas por los empleados del agente de
+    retención con cargo a cantidades otorgadas por concepto de viáticos "\n"
+5.- Se trate de operaciones pagadas por directores, gerentes,
+    administradores u otro empleados por concepto de gastos
+    reembolsables, por cuenta del agente de retención, y siempre que el
+    monto de cada operación no exceda de 20 U.T. (BsF 1.100,00). "\n"
+6.- Compra de bienes muebles o prestaciones de servicios pagadas con
+    cargo a la caja chica del agente de retención, siempre que el monto de
+    cada operación no exceda de U.T. (BsF 1.100,00). "\n"
+7.- Pagos con tarjetas de débitos o créditos, cuyo el titular sea el agente
+    de retención. "\n"
+8.- Servicios de electricidad, agua, aseo y telefonía pagados mediante
+     domiciliación a cuentas bancarias de los agentes de retención. "\n"
+9.- Cuando el proveedor de bienes y servicios gravados estuviere inscrito en el
+     Registro Nacional de Exportadores y tenga derecho a recuperar los
+     créditos fiscales soportados por la adquisición y recepción de bienes y
+     servicios con ocasión de su actividad de exportación. "\n"
+10.- Compras efectuadas por los órganos de la República, Estados y
+     Municipios, que hubieren sido calificados como sujetos pasivos especiales
+     por el SENIAT. "\n"
+11.- Compras efectuadas por entes públicos sin fines empresariales, creados
+     por la República, calificados como sujetos pasivos especiales por el
+     SENIAT. "\n"
+'''
+
 
 #. module: l10n_ve_withholding_iva
 #: constraint:account.wh.iva:0

@@ -77,6 +77,7 @@ class account_invoice(osv.osv):
             }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
         'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat rate"),
         'wh_iva_id': fields.many2one('account.wh.iva', 'Wh. Vat', readonly=True, help="Withholding vat."),        
+        'vat_apply':fields.boolean('Without Vat Doc', help="This selection indicates whether generate the invoice withholding document")
     }
 
 
@@ -232,6 +233,9 @@ class account_invoice(osv.osv):
     def check_wh_apply(self, cr, uid, ids, context=None):
         if context is None:
             context={}
+        invo_brw = self.browse(cr,uid,ids[0],context=context)
+        if invo_brw.vat_apply:
+            return False
         wh_apply=[]
         wh_apply.append(self._withholdable_tax(cr, uid, ids, context=context))
         wh_apply.append(self._withholding_partner(cr, uid, ids, context=context))
