@@ -28,7 +28,7 @@
             <field name="view_id" ref="wh_book_wizard_form"/>
             <field name="target">new</field>
         </record>
-        <menuitem name="Print Report Witholding Sales or Purchase" id="wh_book_wizard_menu" 
+        <menuitem name="Report Withholding Sale/Purchase" id="wh_book_wizard_menu" 
             parent="menu_fr_main" action="wh_book_wizard_act" />
     </data>
 </openerp>
