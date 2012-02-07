@@ -19,14 +19,13 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <data>
-                    <field name="date_due" position="after">
-                        <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
-                        <field name="date_document"/>
-                    </field>
-                </data>
+                <xpath expr="/form/group/group" position="after">
+                    <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
+                </xpath>
+                <xpath expr='//field[@name="date_due"]' position="after">
+                    <field name="date_document"/>
+                </xpath>
             </field>
         </record>
     </data>
 </openerp>
-
