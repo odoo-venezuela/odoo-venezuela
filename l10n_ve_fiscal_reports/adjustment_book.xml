@@ -8,6 +8,29 @@
     =====================================================
     -->
 
+        <record id="view_adjustment_book_search" model="ir.ui.view">
+            <field name="name">adjustment.book.search</field>
+            <field name="model">adjustment.book</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Adjustment Book">
+                   <group col="10" colspan="4">
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="period_id"/>
+                        <field name="note"/>
+                    </group>
+                    <newline/>
+                    <group expand="1" string="Group By...">
+                        <separator orientation="vertical"/>
+                        <filter string="Periodo" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'period_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Tipo" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'type'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
         <record id="view_adjustment_book_line_line_form" model="ir.ui.view">
             <field name="name">adjustment.book.line.form</field>
             <field name="model">adjustment.book.line</field>
@@ -18,7 +41,7 @@
                         <field name="date_accounting" select="1"/>
                         <field name="date_admin" select="1"/>
                         <field name="vat" select="1"/>
-                        <field name="partner" select="1"/>
+                        <field name="partner"/>
                         <field name="invoice_number" select="1"/>
                         <field name="control_number" select="1"/>
                         <field name="amount"/>
@@ -184,6 +207,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_adjustment_book_search"/>
+            <field name="help">A través del presente libro usted podrá registrar los montos que conllevan algun tipo de ajustes de acuerdo a un periodo seleccionado, asimismo podrá gestionar los datos relacionados al ajuste realizado. Los datos registrados a continuación serán mostrados en el libro de compras y ventas según sea el caso.</field>
         </record>
         
         <record model="ir.actions.act_window.view" id="action_adjustment_book_tree">
