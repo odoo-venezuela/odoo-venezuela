@@ -245,8 +245,8 @@ msgstr "Empresa"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.ui.menu,name:l10n_ve_fiscal_reports.menu_wizard_wh_book_report
-msgid "Print Report Witholding Sales or Purchase"
-msgstr "Imprimir Reporte de Retención de Ventas o Compras"
+msgid "Report Witholding Sales/Purchase"
+msgstr "Reporte Retención Ventas/Compras"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ai_amount_total:0

@@ -1,7 +1,34 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-    
+
+        <record id="view_fiscal_reports_whp_search" model="ir.ui.view">
+            <field name="name">fiscal.reports.whp.search</field>
+            <field name="model">fiscal.reports.whp</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search List of Purchases">
+                   <group col="10" colspan="4">
+                        <field name="rp_id"/>
+                        <field name="rp_vat"/>
+                        <field name="ar_number"/>
+                        <field name="ai_reference"/>
+                        <field name="ai_amount_total"/>
+                        <newline/>
+                        <field name="ai_amount_untaxed"/>
+                        <field name="ai_amount_tax"/>
+                        <field name="ar_date_ret"/>
+                    </group>
+                    <newline/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Empresa" icon="terp-partner" domain="[]" context="{'group_by':'rp_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Fecha Factura" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'ar_date_ret'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="view_fiscal_reports_whp_form">
             <field name="name">fiscal.reports.whp.form</field>
             <field name="model">fiscal.reports.whp</field>
@@ -40,22 +67,13 @@
                 </tree>
             </field>
         </record>
-<!--
-    'ar_date_ret': fields.date('Date ret.'),
-    'rp_vat':fields.char('Vat Number', size=64, readonly=True),
-    'rp_id':fields.many2one('res.partner', 'Partner', required=False),
-    'ar_number':fields.char('Retention Number', size=64, required=False, readonly=False),
-    'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=False),
-    'ai_amount_total': fields.float('Amount Total', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy']))),
-    'ai_amount_tax': fields.float('Amount tax', digits=(16, int(config['price_accuracy']))),
-    'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', required=False),
--->
     <record id="action_fiscal_reports_whp_tree" model="ir.actions.act_window">
     <field name="name">Profit by Product</field>
     <field name="res_model">fiscal.reports.whp</field>
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
+    <field name="search_view_id" ref="view_fiscal_reports_whp_search"/>
+    <field name="help">Esta lista de elementos muestra las retenciones de impuesto sobre la renta para proveedores. De acuerdo a los datos mostrados a continuación se generará el reporte para el Libro de Retenciones de Compra.</field>
     </record>
     <menuitem id="menu_fiscal_reports_whp_tree" name="Purchase Witholding Book" parent="l10n_ve_fiscal_reports.menu_fr_main" action="action_fiscal_reports_whp_tree" groups="account.group_account_manager"/>
     </data>
