@@ -29,7 +29,6 @@
             </field>
         </record>
 
-
         <record model="ir.ui.view" id="view_fiscal_reports_whp_form">
             <field name="name">fiscal.reports.whp.form</field>
             <field name="model">fiscal.reports.whp</field>
