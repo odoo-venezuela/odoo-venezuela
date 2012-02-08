@@ -647,8 +647,7 @@ class account_invoice(osv.osv):
         if wh_apply:
             context.update({'test_from_wkf':True})
             do_wh = self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
-        
-        print 'check_wh_islr_apply',all([wh_apply,do_wh])
+            
         return all([wh_apply,do_wh])
 
     def check_wh_islr_xml(self, cr, uid, ids, context=None):
@@ -666,8 +665,7 @@ class account_invoice(osv.osv):
         if wh_apply:
             context.update({'test_from_wkf':True})
             do_wh = self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
-            print 'DO WH', do_wh
-        print 'check_wh_islr_xml', all([wh_apply,not do_wh])
+            
         return all([wh_apply,not do_wh])
 
     def action_islr_xml(self, cr, uid, ids, context=None):
@@ -681,7 +679,7 @@ class account_invoice(osv.osv):
         
         if wh_apply:
             self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
-        print 'action_islr_xml SOY TRUE', 
+            
         return True
 
     def check_invoice_type(self, cr, uid, ids, context=None):
