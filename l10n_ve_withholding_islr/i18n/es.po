@@ -21,6 +21,11 @@ msgid "NO APLICA RETENCION"
 msgstr "NO APLICA RETENCION"
 
 #. module: l10n_ve_withholding_islr
+#: view:islr.wh.doc:0
+msgid "Print Withholding Income"
+msgstr "Imprimir comprobante de retención"
+
+#. module: l10n_ve_withholding_islr
 #: field:islr.wh.doc,date_uid:0
 msgid "Withhold Date"
 msgstr "Fecha de Retención"

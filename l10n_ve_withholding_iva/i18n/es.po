@@ -21,6 +21,11 @@ msgid "Withholding VAT for Venezuelan laws"
 msgstr "Retención del IVA para leyes Venezolanas."
 
 #. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:0
+msgid "Print Voucher Withholding VAT"
+msgstr "Imprimir comprobante de retención"
+
+#. module: l10n_ve_withholding_iva
 #: help:account.wh.iva.line,move_id:0
 msgid "Account entry"
 msgstr "Cuenta de entrada"
