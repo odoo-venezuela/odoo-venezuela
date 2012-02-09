@@ -34,8 +34,11 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/field[@name='date_due']" position="after">
-                    <field name="nro_ctrl" required="1"/>
+                <xpath expr="/form/notebook/page/field[@name='check_total']" position="after">
+                    <group colspan="2">
+                    <field   name="nro_ctrl" required="1"/>
+                    <button  name="%(action_wiz_nroctrl)d" type='action' string='Change control number' icon="gtk-execute" />
+                </group>
                 </xpath>
             </field>
         </record>
@@ -63,7 +66,10 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page/field[@name='payment_term']" position="after">
-                    <field name="nro_ctrl" />
+                <group colspan="2" >
+                    <field  name="nro_ctrl" />
+                    <button name="%(action_wiz_nroctrl)d" type='action' string='Change control number' icon="gtk-execute" />
+                </group>
                 </xpath>
             </field>
         </record>
