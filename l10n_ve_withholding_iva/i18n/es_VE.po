@@ -26,6 +26,11 @@ msgid "Account entry"
 msgstr "Cuenta de entrada"
 
 #. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:0
+msgid "Print Voucher Withholding VAT"
+msgstr "Imprimir comprobante de retención"
+
+#. module: l10n_ve_withholding_iva
 #: view:txt.iva:0
 msgid "Withholding lines"
 msgstr "Lineas de Retención"

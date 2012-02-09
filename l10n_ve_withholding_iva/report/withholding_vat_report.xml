@@ -6,8 +6,11 @@
             model="account.wh.iva" 
             name="account.wh.iva"
             rml="addons/l10n_ve_withholding_iva/report/withholding_vat_report.rml" 
-            string="Voucher Withhondig VAT"
+            string="Voucher Withholding VAT"
             auto="False"
-            header="True"/>
+            header="True"
+            menu="False"
+            />
+            
     </data>
 </openerp>

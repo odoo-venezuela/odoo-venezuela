@@ -46,13 +46,18 @@ class account_invoice(osv.osv):
                         'state': 'draft',
                         'number': False,
                         'invoice_line': [],
-                        'tax_line': []
+                        'tax_line': [],
                     })
                     # take the id part of the tuple returned for many2one fields
                     for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
                             'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
-
+                    
+                    if self.browse(cr,uid,inv.id,context={}).sale_ids:
+                        invoice.update({
+                        'sale_ids':[(6,0,[i.id for i in self.browse(cr,uid,inv.id,context={}).sale_ids])]
+                    })
+                        
                     inv_id = self.create(cr, uid, invoice)
                     cont = 0
                     lst = inv.invoice_line
@@ -62,7 +67,6 @@ class account_invoice(osv.osv):
                     for il in lst:
                         self.pool.get('account.invoice.line').write(cr,uid,il.id,{'invoice_id':inv_id})
                     self.button_compute(cr, uid, [inv.id], set_total=True)
-        
             if inv_id:
                 wf_service = netsvc.LocalService("workflow")
                 self.button_compute(cr, uid, [inv_id], set_total=True)

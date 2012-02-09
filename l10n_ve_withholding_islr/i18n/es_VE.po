@@ -26,6 +26,12 @@ msgid "Withhold Date"
 msgstr "Fecha de Retención"
 
 #. module: l10n_ve_withholding_islr
+#: view:islr.wh.doc:0
+msgid "Print Withholding Income"
+msgstr "Imprimir comprobante de retención"
+
+
+#. module: l10n_ve_withholding_islr
 #: help:islr.wh.concept,rate_ids:0
 msgid "Withholding Concept rate"
 msgstr "Tasa asociada al concepto de retención"
