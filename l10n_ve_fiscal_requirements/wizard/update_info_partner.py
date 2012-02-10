@@ -31,9 +31,17 @@ class update_info_partner(osv.osv_memory):
     _name = 'update.info.partner'
     
     def update_info(self, cr, uid, ids, context={}):
+        aux=[]
         res_part_obj = self.pool.get('res.partner')
         seniat_url_obj = self.pool.get('seniat.url')
-        es_partner_ids= res_part_obj.search(cr, uid, [])
+        sql= '''SELECT vat FROM res_partner GROUP BY vat HAVING count(vat) > 1 ;'''
+        cr.execute(sql)
+        record = cr.dictfetchall()
+        for r in record:
+            aux.append(r.values()[0])
+        print 'aux',aux
+        es_partner_ids= res_part_obj.search(cr, uid, [('vat','not in',aux)])
+        print len(es_partner_ids)
         seniat_url_obj.connect_seniat(cr, uid, es_partner_ids, context,True)
         return{}
 

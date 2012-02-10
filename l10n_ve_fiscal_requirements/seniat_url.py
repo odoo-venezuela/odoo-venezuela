@@ -90,31 +90,31 @@ class seniat_url(osv.osv):
     def _print_error(self, error, msg):
         raise osv.except_osv(error,msg)
 
-    def _eval_seniat_data(self,xml_data,context={}):
+    def _eval_seniat_data(self,xml_data,vat,context={}):
         if context is None:
             context={}
         if not context.get('all_rif'):
-            if xml_data.find('450')>=0:
-                if not 'all_rif' in context:
-                    self._print_error(_('Vat Error !'),_('Invalid VAT!'))
-                else:
-                    return True
+            if xml_data.find('450')>=0 and not vat.find('450'):
+                self._print_error(_('Vat Error !'),_('Invalid VAT!'))
 
-            if xml_data.find('452')>=0:
-                if not 'all_rif' in context:
-                    self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
-                else:
-                    return True
+            elif xml_data.find('452')>=0:
+                self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
+                
 
-            if xml_data.find("404")>=0:
+            elif xml_data.find("404")>=0:
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
-                return True
+        
+            else:
+                return False
         else:
-            return True
+            if xml_data.find('450')>=0 or xml_data.find('452')>=0 or xml_data.find("404")>=0:
+                return True
+            else:
+                return False
 
     def _dom_giver(self, url1, url2, context, vat):
         xml_data = self._load_url(3,url1 % vat)
-        if not self._eval_seniat_data(xml_data,context):
+        if not self._eval_seniat_data(xml_data,vat,context):
             dom = parseString(xml_data)
             return self._parse_dom(dom, vat, url2)
         else:
@@ -125,7 +125,7 @@ class seniat_url(osv.osv):
         rp_obj.write(cr, uid, id, {'seniat_updated': True})
 
     def update_rif(self, cr, uid, ids, context={}):
-        aux=0
+        aux=[]
         rp_obj = self.pool.get('res.partner')
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
@@ -137,15 +137,15 @@ class seniat_url(osv.osv):
                 return res
             else:
                 return False
+        
         for partner in rp_obj.browse(cr,uid,ids):
-            aux+=1
+            print 'nombre del partner %s \n\n'%partner.name
             if partner.vat:
                 vat_country, vat_number = rp_obj._split_vat(partner.vat)
                 if vat_country.upper() == 'VE':
-                    print 'partner.vat[2:]',partner.vat[2:]
                     if len(partner.vat[2:])==10:
                         xml_data = self._load_url(3,url1 %partner.vat[2:])
-                        if not self._eval_seniat_data(xml_data,context):
+                        if not self._eval_seniat_data(xml_data,partner.vat[2:],context):
                             dom = parseString(xml_data)
                             res = rp_obj.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
                             if res:
