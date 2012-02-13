@@ -31,7 +31,7 @@ class search_info_partner_seniat(osv.osv_memory):
     _columns = {
         'vat':fields.char('Numero de RIF', size=64, help='El RIF debe poseer el formato J1234567890',required=True),
         'name':fields.char('Empresa / Persona', size=256, help='Nombre de la Empresa'),
-        'vat_subjected':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
+#        'vat_subjected':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
         'wh_iva_rate':fields.float('Porcentaje de Retencion', help='Porcentaje de Retencion Aplicable'),
         'vat_apply':fields.boolean('Contribuyente Formal', help='Es Contribuyente'),
     }
