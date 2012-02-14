@@ -149,6 +149,11 @@ class res_partner(osv.osv):
             return False
         return True
     
+    def update_rif(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        su_obj = self.pool.get('seniat.url')
+        return su_obj.update_rif(cr, uid, ids, context=context)
 
 res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
