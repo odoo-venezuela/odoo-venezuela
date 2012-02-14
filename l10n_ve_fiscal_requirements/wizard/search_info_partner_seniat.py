@@ -31,24 +31,11 @@ class search_info_partner_seniat(osv.osv_memory):
     _columns = {
         'vat':fields.char('Numero de RIF', size=64, help='El RIF debe poseer el formato J1234567890',required=True),
         'name':fields.char('Empresa / Persona', size=256, help='Nombre de la Empresa'),
-#        'vat_subjected':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
+        'wh_iva_agent':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
         'wh_iva_rate':fields.float('Porcentaje de Retencion', help='Porcentaje de Retencion Aplicable'),
-        'vat_apply':fields.boolean('Contribuyente Formal', help='Es Contribuyente'),
+        'vat_subjected':fields.boolean('Contribuyente Formal', help='Es Contribuyente'),
     }
-    
-    def _buscar_porcentaje(self,rif,url):
-        context={}
-        html_data = self.pool.get('seniat.url')._load_url(3,url %rif)
-        html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
-        search_str='La condición de este contribuyente requiere la retención del '
-        pos = html_data.find(search_str)
-        if pos > 0:
-            pos += len(search_str)
-            pct = html_data[pos:pos+4].replace('%','').replace(' ','')
-            return float(pct)
-        else:
-            return 0.0
-        
+
     def search_partner_seniat(self, cr, uid, vat, context=None):
         if context is None:
             context={}
@@ -61,7 +48,7 @@ class search_info_partner_seniat(osv.osv_memory):
         if var_vat:
             aux = var_vat[0]['vat']
         res = su_obj._dom_giver(url1, url2, context, aux)
-        res.update({'wh_iva_rate':self._buscar_porcentaje(aux,url2)})
+        res.update({'wh_iva_rate':su_obj._buscar_porcentaje(aux,url2)})
         self.write(cr,uid,vat,res)
         
         return False

@@ -78,13 +78,12 @@ class seniat_url(osv.osv):
     
     def _parse_dom(self,dom,rif,url_seniat):
         name = dom.childNodes[0].childNodes[0].firstChild.data 
-        wh_iva_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
-        vat_apply = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
+        vat_subjected = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
-        res= {'name': name,'vat_apply': vat_apply,'wh_iva_agent': wh_iva_agent,'wh_iva_rate':self._buscar_porcentaje(rif,url_seniat)}  
+        res= {'name': name,'vat_subjected': vat_subjected,}  
         return res
 
     def _print_error(self, error, msg):

@@ -31,7 +31,7 @@ update it on your system for you
               <newline/>
               <field name="name" groups="base.group_extended"/>
               <newline/>
-              <field name="vat_apply" groups="base.group_extended" />
+              <field name="vat_subjected" groups="base.group_extended" />
               <newline/>
               <field name="add" groups="base.group_extended" widget="text"/>
             </group>
