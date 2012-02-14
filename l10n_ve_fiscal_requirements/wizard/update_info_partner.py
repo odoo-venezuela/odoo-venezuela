@@ -39,9 +39,7 @@ class update_info_partner(osv.osv_memory):
         record = cr.dictfetchall()
         for r in record:
             aux.append(r.values()[0])
-        print 'aux',aux
         es_partner_ids= res_part_obj.search(cr, uid, [('vat','not in',aux)])
-        print len(es_partner_ids)
         seniat_url_obj.connect_seniat(cr, uid, es_partner_ids, context,True)
         return{}
 

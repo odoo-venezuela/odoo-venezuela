@@ -97,11 +97,10 @@ class seniat_url(osv.osv):
             if xml_data.find('450')>=0 and not vat.find('450'):
                 self._print_error(_('Vat Error !'),_('Invalid VAT!'))
 
-            elif xml_data.find('452')>=0:
+            elif xml_data.find('452')>=0 and not vat.find('452'):
                 self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
                 
-
-            elif xml_data.find("404")>=0:
+            elif xml_data.find("404")>=0 and not vat.find('404'):
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
         
             else:
@@ -139,7 +138,6 @@ class seniat_url(osv.osv):
                 return False
         
         for partner in rp_obj.browse(cr,uid,ids):
-            print 'nombre del partner %s \n\n'%partner.name
             if partner.vat:
                 vat_country, vat_number = rp_obj._split_vat(partner.vat)
                 if vat_country.upper() == 'VE':
