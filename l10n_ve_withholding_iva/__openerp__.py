@@ -50,6 +50,7 @@
     'update_xml': [
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
+        'report/withholding_vat_report.xml',
         'view/generate_txt_view.xml',
         'view/account_invoice_view.xml',
         'view/account_view.xml',
@@ -57,7 +58,6 @@
         'view/wh_iva_view.xml',
         "data/l10n_ve_withholding_data.xml",
         'report/txt_wh_report.xml',
-        'report/withholding_vat_report.xml',
         "workflow/wh_iva_workflow.xml",
         "workflow/account_workflow.xml",        
         "wizard/l10n_ve_withholding_iva_installer.xml",

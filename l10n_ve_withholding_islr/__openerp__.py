@@ -58,6 +58,7 @@
                ],
     "update_xml" : [
             "view/installer.xml",
+            "islr_wh_report.xml",
             "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
             "data/l10n_ve_islr_withholding_data.xml",
@@ -68,7 +69,6 @@
             "view/islr_wh_doc_view.xml",
             "view/islr_wh_concept_view.xml",
             "view/product_view.xml",
-            "islr_wh_report.xml",
             "islr_xml_wh.xml",
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
