@@ -64,7 +64,7 @@ class res_partner_address(osv.osv):
         'parish_id':fields.many2one('res.parish','Parish',help="In this field you enter the parish to which the sector is associated",domain= "[('municipalities_id','=',municipality_id)]" ),
         'zipcode_id':fields.many2one('res.zipcode',string='Zip Code',help="in this field is selected Zip Code associated with this sector"),
         'sector_id':fields.many2one('res.sector',string='Sector',required=False,help="in this field select the Sector associated with this Municipality"),
-        'city_id':fields.many2one('res.city',string='City',help="in this field select the city associated with this State"),
+        'city_id':fields.many2one('res.city',string='City',domain= "[('state_id','=',state_id)]",help="in this field select the city associated with this State"),
         'city':fields.function(_get_city_name, method=True, type='char', string='City', size=256, domain= "[('state_id','=',state_id)]",store=True),
     }
 
