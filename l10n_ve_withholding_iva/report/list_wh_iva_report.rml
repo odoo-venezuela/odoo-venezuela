@@ -149,7 +149,7 @@
           <td><para style="P12">[[ get_ctrl_number(line) ]]</para></td>
           <td><para style="P13">[[  formatLang(round(line.invoice_id.amount_total,2)) ]]</para></td>
           <td><para style="P13">[[ formatLang(round( line.untaxed,2)) ]]</para></td>
-          <td><para style="P13">[[ formatLang(round(line.amount_withheld,2)) ]]</para></td>
+          <td><para style="P13">[[ line.invoice_id.type in ['in_refund','out_refund'] and formatLang(round(line.amount_withheld,2)*-1) or formatLang(round(line.amount_withheld,2)) ]]</para></td>
           <td><para style="P12">[[ get_doc_affected(line) ]]</para></td>
           <td><para style="P12">[[ line.voucher_id.number ]]</para></td>
           <td><para style="P13">[[ formatLang(round(get_amount_exempt(line),2)) ]]</para></td>
