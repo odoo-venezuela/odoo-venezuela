@@ -31,8 +31,13 @@
             <field name="target">new</field>
         </record>
         
+        
         <menuitem name="Search RIF" id="wizard_vat_search_action_menu" 
-            parent="l10n_ve_fiscal_requirements.menu_finance_partner_fiscal_information" action="wizard_vat_search_action"
+            parent="account.menu_finance_receivables" action="wizard_vat_search_action"
+            sequence="400"/>
+            
+        <menuitem name="Search RIF" id="wizard_vat_search_action_pay_menu" 
+            parent="account.menu_finance_payables" action="wizard_vat_search_action"
             sequence="400"/>
 
   </data>
