@@ -38,7 +38,7 @@ class fiscal_requirements_config(osv.osv_memory):
         context = {'exec_wizard': True, 'vat': vat}
         
         partner_info = self.pool.get('seniat.url').update_rif(cr, uid, ids, context)
-        v = {'name': partner_info.get('name'), 'vat_apply': partner_info.get('vat_apply')}
+        v = {'name': partner_info.get('name'), 'vat_subjected': partner_info.get('vat_subjected')}
         return {'value': v}
 
     def execute(self, cr, uid, ids, context=None):
@@ -63,13 +63,13 @@ class fiscal_requirements_config(osv.osv_memory):
                     'street':wiz_data.add,
                     'country_id':self.pool.get("res.country").search(cr,uid,[('code','=','VE')])[0]})
         #Data on res.partner
-        data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat.upper(), 'vat_apply': wiz_data.vat_apply,}
+        data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat.upper(), 'vat_subjected': wiz_data.vat_subjected,}
         self.pool.get('res.partner').write(cr, uid, [partner.id], data)
 
     _columns = {
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),
         'name': fields.char('Name', 64, help="The commercial name of the company"),
         'add':fields.char('Invoice Address',64,help='Put Here the address declared on your VAT information on SENIAT',required=True),
-        'vat_apply': fields.boolean("Apply VAT?"),
+        'vat_subjected': fields.boolean("Apply VAT?"),
     }
 fiscal_requirements_config()

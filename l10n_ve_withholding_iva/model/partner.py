@@ -39,28 +39,26 @@ class res_partner(osv.osv):
     _defaults = {
         'wh_iva_rate': lambda *a: 0,
     }
+    
+    def update_rif(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        su_obj = self.pool.get('seniat.url')
+        return su_obj.update_rif(cr, uid, ids, context=context)
 
+res_partner()
 
-    def _buscar_porcentaje(self,rif,url):
-        context={}
-        html_data = self._load_url(3,url %rif)
-        html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
-        self._eval_seniat_data(html_data,context)
-        search_str='La condición de este contribuyente requiere la retención del '
-        pos = html_data.find(search_str)
-        if pos > 0:
-            pos += len(search_str)
-            pct = html_data[pos:pos+4].replace('%','').replace(' ','')
-            return float(pct)
-        else:
-            return 0.0
+class seniat_url(osv.osv):
 
+    _inherit = 'seniat.url'
+    
     def _parse_dom(self,dom,rif,url_seniat):
+        su_obj = self.pool.get('seniat.url')
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
-        wh_rate = self._buscar_porcentaje(rif,url_seniat)
+        wh_rate = su_obj._buscar_porcentaje(rif,url_seniat)
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
         data = {'wh_iva_agent':wh_agent,'wh_iva_rate':wh_rate}
-        return dict(data.items() + super(res_partner,self)._parse_dom(dom,rif,url_seniat).items())
+        return dict(data.items() + super(seniat_url,self)._parse_dom(dom,rif,url_seniat).items())
     
-res_partner()
+seniat_url()

@@ -40,10 +40,6 @@ class res_partner(osv.osv):
         'islr_withholding_agent': fields.boolean('Withholding Income Agent?',help="Check if the partner is an agent for withholding income"),
     }
     
-    _defaults = {
-        'islr_withholding_agent': 1,
-    }
-    
 res_partner()
 
 
