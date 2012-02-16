@@ -43,7 +43,10 @@ class txt_iva(osv.osv):
         for txt in self.browse(cr,uid,ids,context):
             res[txt.id]=0.0
             for txt_line in txt.txt_ids:
-                res[txt.id] += txt_line.amount_withheld
+                if txt_line.invoice_id.type in ['out_refund','in_refund']:
+                    res[txt.id] -= txt_line.amount_withheld
+                else:
+                    res[txt.id] += txt_line.amount_withheld
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
