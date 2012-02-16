@@ -214,7 +214,7 @@
                     <para style="TOTALES">[[ formatLang(get_totals(data['form'])[2]) ]]</para>
                 </td>
                 <td>
-                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[3]) ]]</para>
+                    <para style="TOTALES">[[ formatLang(get_total_wh(data['form'])) ]]</para>
                 </td>
                 <td>
                 </td>

@@ -48,6 +48,7 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_dates':self._get_dates,
             'get_totals':self._get_totals,
             'get_total_excent':self._get_total_excent,
+            'get_total_wh':self._get_total_wh,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -124,13 +125,30 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             total[0]=total[0]+d.ai_amount_total
             total[1]=total[1]+d.ai_amount_untaxed
             total[2]=total[2]+d.ai_amount_tax
-            
             if d.ai_id.type in ['in_refund', 'out_refund']:
                 total[3]=total[3]+(d.ar_id.total_tax_ret * (-1))
             else:
                 total[3]=total[3]+d.ar_id.total_tax_ret
         return total
-        
+
+    def _get_total_wh(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        total=0.0
+        if form['model']=='wh_p':
+            book_type='fiscal.reports.whp'
+        else:
+            book_type='fiscal.reports.whs'
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        for wh in data:
+            if wh.ai_id.type in ['in_invoice', 'out_invoice']:
+                total+= wh.ar_line_id.amount_tax_ret
+            else:
+                total+= wh.ar_line_id.amount_tax_ret * (-1)
+        return total
+
     def _get_total_excent(self, form):
         date_start=form['date_start']
         date_end=form['date_end']
