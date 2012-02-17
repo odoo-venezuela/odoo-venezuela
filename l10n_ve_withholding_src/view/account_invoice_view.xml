@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_invoice_wh_src_customer" model="ir.ui.view">
+            <field name="name">account.invoice.wh.src.customer</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
+            <field name="arch" type="xml">
+                <xpath expr="//separator[@string='rsep']" position="after">
+                    <newline/>
+                        <group col="6" colspan="4">
+                            <field name="wh_src_rate"/>
+                            <field name="wh_src_id"/>
+                        </group>
+                </xpath>
+                <xpath expr='//separator[@string="rsep"]' position='attributes'>
+                    <attribute name="string">SRC Withholdings</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_invoice_wh_src_supplier" model="ir.ui.view">
+            <field name="name">account.invoice.wh.src.supplier</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
+            <field name="arch" type="xml">
+                <xpath expr="//separator[@string='rsep']" position="after">
+                    <newline/>
+                        <group col="6" colspan="4">
+                            <field name="wh_src_rate"/>
+                            <field name="wh_src_id"/>
+                        </group>
+                </xpath>
+                <xpath expr='//separator[@string="rsep"]' position='attributes'>
+                    <attribute name="string">SRC Withholdings</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

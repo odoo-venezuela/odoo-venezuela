@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<wizard 
+			string="Reporte Seniat" 
+			model="account.retencion.munici"
+			name="account.ret.munici.xml.seniat"
+			id="wizard_ret_munici_xml_seniat" />
+
+
+
+
+	</data>
+</openerp>

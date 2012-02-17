@@ -1,0 +1,418 @@
+<?xml version="1.0"?>
+<document filename="Voucher.pdf">
+  <template pageSize="(595.0,842.0)" title="Voucher" author="OpenERP S.A.(sales@openerp.com)" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="28.0" y1="42.0" width="525" height="772"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+        <blockTableStyle id="Table7">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="1,2" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,2" />
+    </blockTableStyle>
+        <blockTableStyle id="Table5">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="1,2" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,2" />
+<!--
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,2" />
+-->
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+    </blockTableStyle>
+        <blockTableStyle id="Table8">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="1,2" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,2" />
+<!--
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,2" />
+-->
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+    </blockTableStyle>
+        <blockTableStyle id="Table9">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="4,1" stop="4,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="5,1" stop="5,2" />
+<!--
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,2" stop="1,3" />
+-->
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+
+    </blockTableStyle>
+    
+        <blockTableStyle id="Table11">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      
+      
+
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="4,1" stop="4,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="5,1" stop="5,2" />
+
+<!--
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,2" stop="1,3" />
+-->
+
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+
+
+    </blockTableStyle>
+
+      <blockTableStyle id="Table10">
+      <blockAlignment value="LEFT" />
+      <blockValign value="TOP" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,0" stop="1,2" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="4,1" stop="4,2" />
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="5,1" stop="5,2" />
+<!--
+      <lineStyle kind="LINEABOVE" colorName="#e6e6e6" start="1,2" stop="1,3" />
+-->
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="0,0" stop="0,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="1,0" stop="1,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="2,0" stop="2,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="3,0" stop="3,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="4,0" stop="4,1" />
+      <lineStyle kind="LINEAFTER" colorName="#e6e6e6" start="5,0" stop="5,1" />
+      <lineStyle kind="LINEBEFORE" colorName="#e6e6e6" start="0,0" stop="0,1" />
+
+    </blockTableStyle>   
+    <blockTableStyle id="Table6">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+  
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    
+    <paraStyle name="P1" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT"/>
+    <paraStyle name="P2" fontName="Helvetica-Bold" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P3" fontName="Helvetica-Bold" fontSize="11.0" leading="14" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P4" fontName="Helvetica-Bold" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="12.0" leading="15" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P6" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P8" fontName="Courier-Bold" fontSize="13.0" leading="16" alignment="CENTER"/>
+    <paraStyle name="P9" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P10" fontName="Courier" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P11" fontName="Courier-Bold" fontSize="13.0" leading="16" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P12" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P13" fontName="Courier-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P14" fontName="Courier-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P15" fontName="Courier-Bold" fontSize="12.0" leading="15" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P16" fontName="Courier-Bold" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P17" fontName="Courier-Bold" fontSize="10.0" leading="13" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P18" fontName="Courier" fontSize="10.0" leading="13" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P19" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P20" fontName="Courier-Bold" fontSize="10.0" leading="13" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P20_b" fontName="Courier-Bold" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P20_c" fontName="Courier-Bold" fontSize="10.0" leading="13" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P20_a" fontName="Courier-Bold" fontSize="12.0" leading="13" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P21" fontName="Courier-Bold" fontSize="10.0" leading="27" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P21_a" fontName="Helvetica-Bold" fontSize="9.0" leading="27" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P_b" fontName="Helvetica-Bold" fontSize="9.0" leading="13" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P21_b" fontName="Helvetica" fontSize="10.0" leading="27" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P21_C" fontName="Helvetica" fontSize="10.0" leading="27" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P22" fontName="Courier" fontSize="11.0" leading="12" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P_a" fontName="Helvetica" fontSize="10.0" leading="12" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P22_a" fontName="Courier" fontSize="11.0" leading="12" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P23" fontName="Courier" fontSize="11.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P24" fontName="Courier-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P25" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P26" fontName="Courier-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P27" fontName="Helvetica-Bold" fontSize="10.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P27_a" fontName="Helvetica-Bold" fontSize="10.0" leading="15" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P28" rightIndent="0.0" leftIndent="35.0" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P29" rightIndent="0.0" leftIndent="35.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P30" rightIndent="0.0" leftIndent="71.0" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P31" fontName="Courier" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P32" rightIndent="0.0" leftIndent="0.0" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P33" rightIndent="0.0" leftIndent="0.0" fontName="Courier" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P1" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT"/>
+    <paraStyle name="P2" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P3" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+   
+    
+    <images/>
+  </stylesheet>
+  <story>
+   <para style="P9">[[repeatIn(objects,'o')]]</para>
+     <blockTable colWidths="241.0,241.0">
+      <tr>
+        <td>
+          <para style="P20">[[ repeatIn(objects,'voucher') ]]</para>
+          <para style="P20">[[ setLang(company.partner_id.lang) ]]</para>
+          <para style="P_a">[[ company.name ]]</para>
+          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].street ]]</para>
+          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].zip ]] [[ company.partner_id.address and company.partner_id.address[0].city ]] - [[ company.partner_id.address and company.partner_id.address[0].country_id and company.partner_id.address[0].country_id.name ]]</para>
+          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].phone ]]</para>
+          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].email ]]</para>
+        </td>
+        <td>
+<!--
+          <para style="P11">Cash Receipt Voucher [[ (voucher.type == 'rec_voucher' or removeParentNode('para')) and '' ]]</para>
+          <para style="P8">Cash Payment Voucher [[ (voucher.type == 'pay_voucher' or removeParentNode('para')) and '' ]]</para>
+          <para style="P11">Comprobante de Cobro Bancario [[ (voucher.type == 'bank_rec_voucher' or removeParentNode('para')) and '' ]]</para>
+          <para style="P8">Comprobante de Pago Bancario [[ (voucher.type == 'bank_pay_voucher' or removeParentNode('para')) and '' ]]</para>
+-->
+          <blockTable colWidths="118.0,118.0" >
+            <tr>
+              <td>
+                <para style="P24"></para>
+              </td>
+              <td>
+                <para style="P25"></para>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <para style="P24"></para>
+              </td>
+              <td>
+                <para style="P25"></para>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <para style="P24"></para>
+              </td>
+              <td>
+               
+                <para style="P9"></para>
+              </td>
+            </tr>
+          </blockTable>
+        </td>
+      </tr>
+    </blockTable>
+<!--
+    <para style="P5">[[ repeatIn(objects,'voucher') ]]</para>
+-->
+   
+<!--
+    <para style="P5">[[ repeatIn(voucher.line_ids,'l') ]]</para>
+-->
+ <spacer length='5mm'/>
+
+    <blockTable colWidths="524.0" style="Table6">
+      <tr>
+        <td>
+          <para style="P21_a">COMPROBANTE DE RETENCION DE RESPONSABILIDAD SOCIAL</para>
+        </td>
+      </tr>
+    </blockTable>
+     <spacer length='2mm'/>
+    <blockTable colWidths="524.0" style="Table6">
+      <tr>
+        <td>
+          <para style="P21_a">DATOS DEL BENEFICIARIO</para>
+        </td>
+      </tr>
+    </blockTable>
+   
+    <blockTable colWidths="300.0,224.0" style="Table7">
+      <tr>
+        <td>
+          <para style="P21_C">[[ company.name ]]</para>
+        </td>
+        <td>
+          <para style="P21_C">[[ company.partner_id.vat or '']]</para>
+        </td>
+        </tr>
+        <tr>
+        <td>
+         <para style="P21_b">[[ company.partner_id.address and company.partner_id.address[0].street ]]</para>
+        </td>
+        <td>
+        <para style="P21_b">[[ company.partner_id.address and company.partner_id.address[0].phone ]]</para>
+        </td>
+      </tr>
+       <tr>
+        <td>
+          <para style="P20_a"></para>
+        </td>
+        <td>
+          <para style="P21_b">Contrato</para>
+        </td>
+        </tr>
+    </blockTable>
+
+   <spacer length='5mm'/>
+    <blockTable colWidths="524.0" style="Table6">
+      <tr>
+        <td>
+          <para style="P21_a">DATOS DEL AGENTE DE RETENCION</para>
+        </td>
+      </tr>
+    </blockTable>
+         <blockTable colWidths="524" style="Table5">
+        <tr>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[ company.name ]]      [[ company.partner_id.vat or '']]</para>
+          </td>
+         
+          </tr>
+      </blockTable>
+         <blockTable colWidths="524" style="Table8">
+        <tr>
+          <td>
+             <para style="P21_b">[[ company.partner_id.address and company.partner_id.address[0].street ]]</para>
+          </td>
+          </tr>
+      </blockTable>
+   
+    <spacer length='5mm'/>
+    <blockTable colWidths="524.0" style="Table6">
+      <tr>
+        <td>
+          <para style="P21_a">POR CONCEPTO DE RETENCION</para>
+        </td>
+      </tr>
+    </blockTable>
+   
+     <blockTable colWidths="87.3,87.3,87.3,87.3,87.3,87.3" style="Table9">
+        <tr>
+          <td>
+            <para style="P_b" alignment="CENTER">POR CONCEPTO DE:</para>
+          </td>
+          <td>
+            <para style="P_b" alignment="CENTER">MONTO RETENIDO BS.</para>
+          </td>
+          <td>
+            <para style="P_b" alignment="CENTER">% DE LA RETENCION </para>
+          </td>
+          <td>
+            <para style="P_b" alignment="CENTER">MONTO BRUTO BS</para>
+          </td>
+          <td>
+            <para style="P_b" alignment="CENTER">MONTO NETO</para>
+          </td>
+          <td>
+            <para style="P_b" alignment="CENTER">FECHA</para>
+          </td>
+        </tr>
+      </blockTable>
+<!--
+         <spacer length='5mm'/>
+-->
+      <section>
+    <para style="P9">[[repeatIn(o.line_ids,'l')]]</para>
+     <blockTable colWidths="87.3,87.3,87.3,87.3,87.3,87.3" style="Table11">
+        <tr>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[l.name]]</para>
+          </td>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[l.wh_amount]]</para>
+          </td>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[l.wh_src_rate]]%</para>
+          </td>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[l.base_amount]]</para>
+          </td>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[l.invoice_id.amount_total]]</para>
+          </td>
+          <td>
+            <para style="P21_b" alignment="CENTER">[[l.invoice_id.date_invoice]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      </section>
+
+   <spacer length='5mm'/>
+
+     <blockTable colWidths="87.3,436.7" style="Table10">
+        <tr>
+          <td>
+            <para style="estilo6" alignment="CENTER">Código de Retención</para>
+          </td>
+          <td>
+            <para style="estilo6" alignment="CENTER">TIPO DE RETENCIÓN: RETENCIÓN DE RESPONSABILIDAD SOCIAL</para>
+          </td>
+        </tr>
+      </blockTable>
+
+   
+    <spacer length='30mm'/>
+     <blockTable colWidths="174.0,174.0,174.0">
+      <tr>
+        <td>
+          <para style="P27_a">Elaborado por: </para>
+           <spacer length='15mm'/>
+          <para style="P27_a">Firma y Fecha: </para>
+        </td>
+          <spacer length='10mm'/>
+        <td>
+          <para style="P27_a">Conforme por:</para>
+          <spacer length='15mm'/>
+       <para style="P27_a">Firma y Fecha: </para>
+        </td>
+          <spacer length='10mm'/>
+        <td>
+          <para style="P27_a">Recibido por:</para>
+          <spacer length='15mm'/>
+          <para style="P27_a">Firma y Fecha: </para>
+        </td>
+      </tr>
+    </blockTable>
+  </story>
+</document>
