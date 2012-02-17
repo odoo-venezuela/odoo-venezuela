@@ -59,9 +59,9 @@ class account_period(osv.osv):
         period_ids = self.search(cr,uid,[('special','=',False),('id','in',period_ids)])
         if not period_ids:
             raise osv.except_osv(_('Error !'), _('No period defined for this date: %s !\nPlease create a fiscal year.')%dt)
-        dt=
+        
         fortnight= False if int(dt.split('-')[2]) <= 15 else True
-        return return(period_ids[0],fortnight)
+        return (period_ids[0],fortnight)
 account_period()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

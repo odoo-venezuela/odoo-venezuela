@@ -230,6 +230,29 @@ class account_invoice(osv.osv):
             context={}
         return any([line.tax_id.ret for line in self.browse(cr, uid, ids[0], context=context).tax_line])
 
+    def check_withholdable(self, cr, uid, ids, context=None):
+        '''
+        This will test for Refund invoice trying to find out
+        if its regarding parent is in the same fortnight.
+        
+        return True if invoice is type 'in_invoice'
+        return True if invoice is type 'in_refund' and parent_id invoice
+                are both in the same fortnight.
+        return False otherwise
+        '''
+        per_obj = self.pool.get('account.period')
+        if context is None:
+            context={}
+        inv_brw = self.browse(cr,uid,ids[0],context=context)
+        if inv_brw.type == 'in_invoice':
+            return True
+        if inv_brw.type == 'in_refund' and inv_brw.parent_id:
+            dt_refund = inv_brw.date_invoice or time.strftime('%Y-%m-%d')
+            dt_invoice = inv_brw.parent_id.date_invoice
+            return  per_obj.find_fortnight(cr, uid, dt=dt_refund, context=context) == \
+                    per_obj.find_fortnight(cr, uid, dt=dt_invoice, context=context)
+        return False
+
     def check_wh_apply(self, cr, uid, ids, context=None):
         if context is None:
             context={}
