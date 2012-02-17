@@ -24,7 +24,7 @@
 ################################################################################
 
 from osv import fields, osv
-
+import time
 
 class account_journal(osv.osv):
     _inherit = 'account.journal'
@@ -38,5 +38,30 @@ class account_journal(osv.osv):
     }
 
 account_journal()
+
+class account_period(osv.osv):
+    _inherit = "account.period"
+
+    def find_fortnight(self, cr, uid, dt=None, context=None):
+        '''
+        This Function returns a tuple composed of 
+            *) period for the asked dt (int)
+            *) fortnight for the asked dt (boolean):
+                -) False: for the 1st. fortnight
+                -) True: for the 2nd. fortnight.
+            Example:
+            (3,True) => a period whose id is 3 in the second fortnight
+        '''
+        if context is None: context = {}
+        if not dt:
+            dt = time.strftime('%Y-%m-%d')
+        period_ids = self.find(cr,uid,dt=dt,context=context)
+        period_ids = self.search(cr,uid,[('special','=',False),('id','in',period_ids)])
+        if not period_ids:
+            raise osv.except_osv(_('Error !'), _('No period defined for this date: %s !\nPlease create a fiscal year.')%dt)
+        dt=
+        fortnight= False if int(dt.split('-')[2]) <= 15 else True
+        return return(period_ids[0],fortnight)
+account_period()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
