@@ -98,9 +98,7 @@ class account_wh_src(osv.osv):
 
     _defaults = {
     'state': lambda *a: 'draft',
-    'currency_id': lambda self, cr, uid, context: \
-        self.pool.get('res.company').browse(cr, uid, uid,
-        context=context).currency_id.id,
+    'currency_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.currency_id.id,
     'journal_id':lambda self, cr, uid, context: \
         self._diario(cr, uid, uid, context),
     'company_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
