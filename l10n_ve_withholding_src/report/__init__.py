@@ -5,8 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
-#    Planified by: Humberto Arocha / Nhomar Hernandez
+#    Coded by: Javier Duran <javier@vauxoo.com>         
+#    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
@@ -23,5 +23,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import model
-import report
+import wh_src_report

@@ -2,7 +2,28 @@
 <document filename="Voucher.pdf">
   <template pageSize="(595.0,842.0)" title="Voucher" author="OpenERP S.A.(sales@openerp.com)" allowSplitting="20">
     <pageTemplate id="first">
-      <frame id="first" x1="28.0" y1="42.0" width="525" height="772"/>
+      <frame id="first" x1="25.0" y1="40.0" width="525" height="740"/>
+              <pageGraphics>
+        <drawCentredString x="700" y="550">Pag.<pageNumber style="estilo2" /></drawCentredString>
+         <drawCentredString x="700" y="550"></drawCentredString>
+          <image x="2,5" y="750" width="28.06mm" height="28.06mm">[[ company.logo or removeParentNode('image') ]]</image>
+          <setFont name="DejaVu Sans" size="8" />
+          <fill color="black" />
+          <stroke color="black" />
+          <drawString x="3.2cm" y="29cm" style="estilo2">[[ company.partner_id.name ]]</drawString>
+          <drawString x="3.7cm" y="28.7cm" style="estilo4">[[ company.partner_id.vat or '']]</drawString>
+          <drawString x="2.5cm" y="28.4cm" style="estilo4">[[ get_empresa(company.partner_id.id)['street'] or '']]</drawString>
+          <drawString x="2.4cm" y="28.1cm" style="estilo4">Telf.: [[ get_empresa(company.partner_id.id)['phone'] or '']] - Fax: [[ get_empresa(company.partner_id.id)['fax'] or '']]</drawString>
+          <drawString x="2.7cm" y="27.8cm" style="estilo4">Email: [[ get_empresa(company.partner_id.id)['email'] or '']]</drawString>
+          <drawString x="3.4cm" y="27.6cm" style="estilo4">[[ get_empresa(company.partner_id.id)['city'] or '']] - [[ get_empresa(company.partner_id.id)['country'] or '']]</drawString>
+         <lines>1.2cm 2.15cm 19.9cm 2.15cm</lines>
+
+            <drawCentredString x="10.5cm" y="1.7cm">Elaborado por: SISB</drawCentredString>
+            <drawCentredString x="10.5cm" y="1.25cm">[[ get_empresa(company.partner_id.id)['email'] or '']]</drawCentredString>
+            <drawCentredString x="10.5cm" y="0.8cm">Diana La Soberana 100.5 FM<pageNumber/></drawCentredString>
+          <drawString x="680" y="535">[[get_final_date()]]</drawString>
+        
+        </pageGraphics>
     </pageTemplate>
   </template>
   <stylesheet>
@@ -194,62 +215,8 @@
   </stylesheet>
   <story>
    <para style="P9">[[repeatIn(objects,'o')]]</para>
-     <blockTable colWidths="241.0,241.0">
-      <tr>
-        <td>
-          <para style="P20">[[ repeatIn(objects,'voucher') ]]</para>
-          <para style="P20">[[ setLang(company.partner_id.lang) ]]</para>
-          <para style="P_a">[[ company.name ]]</para>
-          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].street ]]</para>
-          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].zip ]] [[ company.partner_id.address and company.partner_id.address[0].city ]] - [[ company.partner_id.address and company.partner_id.address[0].country_id and company.partner_id.address[0].country_id.name ]]</para>
-          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].phone ]]</para>
-          <para style="P_a">[[ company.partner_id.address and company.partner_id.address[0].email ]]</para>
-        </td>
-        <td>
-<!--
-          <para style="P11">Cash Receipt Voucher [[ (voucher.type == 'rec_voucher' or removeParentNode('para')) and '' ]]</para>
-          <para style="P8">Cash Payment Voucher [[ (voucher.type == 'pay_voucher' or removeParentNode('para')) and '' ]]</para>
-          <para style="P11">Comprobante de Cobro Bancario [[ (voucher.type == 'bank_rec_voucher' or removeParentNode('para')) and '' ]]</para>
-          <para style="P8">Comprobante de Pago Bancario [[ (voucher.type == 'bank_pay_voucher' or removeParentNode('para')) and '' ]]</para>
--->
-          <blockTable colWidths="118.0,118.0" >
-            <tr>
-              <td>
-                <para style="P24"></para>
-              </td>
-              <td>
-                <para style="P25"></para>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <para style="P24"></para>
-              </td>
-              <td>
-                <para style="P25"></para>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <para style="P24"></para>
-              </td>
-              <td>
-               
-                <para style="P9"></para>
-              </td>
-            </tr>
-          </blockTable>
-        </td>
-      </tr>
-    </blockTable>
-<!--
-    <para style="P5">[[ repeatIn(objects,'voucher') ]]</para>
--->
-   
-<!--
-    <para style="P5">[[ repeatIn(voucher.line_ids,'l') ]]</para>
--->
- <spacer length='5mm'/>
+
+ <spacer length='10mm'/>
 
     <blockTable colWidths="524.0" style="Table6">
       <tr>
@@ -270,18 +237,18 @@
     <blockTable colWidths="300.0,224.0" style="Table7">
       <tr>
         <td>
-          <para style="P21_C">[[ company.name ]]</para>
+          <para style="P21_C">[[ o.partner_id.name ]]</para>
         </td>
         <td>
-          <para style="P21_C">[[ company.partner_id.vat or '']]</para>
+          <para style="P21_C">[[ o.partner_id.vat or '']]</para>
         </td>
         </tr>
         <tr>
         <td>
-         <para style="P21_b">[[ company.partner_id.address and company.partner_id.address[0].street ]]</para>
+         <para style="P21_b">[[ o.partner_id.address and o.partner_id.address[0].street ]]</para>
         </td>
         <td>
-        <para style="P21_b">[[ company.partner_id.address and company.partner_id.address[0].phone ]]</para>
+        <para style="P21_b">[[ o.partner_id.address and o.partner_id.address[0].phone ]]</para>
         </td>
       </tr>
        <tr>
@@ -313,7 +280,7 @@
          <blockTable colWidths="524" style="Table8">
         <tr>
           <td>
-             <para style="P21_b">[[ company.partner_id.address and company.partner_id.address[0].street ]]</para>
+             <para style="P21_b">[[ get_empresa(company.partner_id.id)['street'] or '']]</para>
           </td>
           </tr>
       </blockTable>
@@ -349,9 +316,7 @@
           </td>
         </tr>
       </blockTable>
-<!--
-         <spacer length='5mm'/>
--->
+
       <section>
     <para style="P9">[[repeatIn(o.line_ids,'l')]]</para>
      <blockTable colWidths="87.3,87.3,87.3,87.3,87.3,87.3" style="Table11">
@@ -392,24 +357,24 @@
       </blockTable>
 
    
-    <spacer length='30mm'/>
+    <spacer length='3mm'/>
      <blockTable colWidths="174.0,174.0,174.0">
       <tr>
         <td>
           <para style="P27_a">Elaborado por: </para>
-           <spacer length='15mm'/>
+           <spacer length='10mm'/>
           <para style="P27_a">Firma y Fecha: </para>
         </td>
           <spacer length='10mm'/>
         <td>
           <para style="P27_a">Conforme por:</para>
-          <spacer length='15mm'/>
+          <spacer length='10mm'/>
        <para style="P27_a">Firma y Fecha: </para>
         </td>
           <spacer length='10mm'/>
         <td>
           <para style="P27_a">Recibido por:</para>
-          <spacer length='15mm'/>
+          <spacer length='10mm'/>
           <para style="P27_a">Firma y Fecha: </para>
         </td>
       </tr>
