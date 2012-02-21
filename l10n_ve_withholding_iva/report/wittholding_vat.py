@@ -141,7 +141,7 @@ class rep_comprobante(report_sxw.rml_parse):
                     tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
 
                 d1 = {
-                    'fecha': rl.invoice_id.date_invoice,
+                    'fecha': rl.invoice_id.date_document,
                     'nro_fact': rl.invoice_id.reference,
                     'nro': rl.invoice_id.number,
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
@@ -182,7 +182,7 @@ class rep_comprobante(report_sxw.rml_parse):
                     tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
 
                 d1 = {
-                    'fecha': rl.invoice_id.date_invoice,
+                    'fecha': rl.invoice_id.date_document,
                     'nro_fact': rl.invoice_id.reference,
                     'nro': rl.invoice_id.number,
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
