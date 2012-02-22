@@ -125,9 +125,6 @@ class account_wh_src(osv.osv):
         
         wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])]) or False
         p_id_prv = ids and self.browse(cr, uid, ids[0], context=context).partner_id.id or False
-        print 'idssssssssss, ',ids
-        print 'partner_id, ',partner_id
-        print 'p_id_prv, ',p_id_prv
         if wh_lines and p_id_prv != partner_id:
             wh_line_obj.unlink(cr, uid, wh_lines)
         
@@ -139,9 +136,6 @@ class account_wh_src(osv.osv):
         
 
     def action_date_ret(self,cr,uid,ids,context=None):
-        #~ TO-CHECK
-        #~ SI EL DOCUMENTO YA TIENE FECHA SE DEVUELVE LA MISMA FECHA,
-        #~ NO SE DEBE HACER NADA
         for wh in self.browse(cr, uid, ids, context):
             wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
         return True
@@ -150,7 +144,6 @@ class account_wh_src(osv.osv):
     def action_draft(self, cr, uid, ids, context={}):
         if context is None:
             context={}
-        print 'ENTROOOOOO EN SET TO DRAFT'
         inv_obj = self.pool.get('account.invoice')
         
         brw = self.browse(cr,uid,ids[0],context)
@@ -190,7 +183,7 @@ class account_wh_src(osv.osv):
     def action_done(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        #~ 
+
         self.action_date_ret(cr, uid, ids, context=context)
         self.action_number(cr, uid, ids)
         self.action_move_create(cr, uid, ids, context=context)
@@ -219,11 +212,7 @@ class account_wh_src(osv.osv):
         context.update({'src_wh':True})
         
         ret = self.browse(cr, uid, ids[0], context)
-        #~ TO-CHECK 
-        #~ SI EL DOCUMENTO YA TIENE UN ASIENTO CONTABLE,
-        #~ PRIMERO SE DEBE DESTRUIR, Y ANTES DE DESTRUIR,
-        #~ SE DEBE CUMPLIR CON UNA SERIE DE CONDICIONES 
-        #~ PARA SU DESTRUCCION
+
         for line in ret.line_ids:
             if line.move_id:
                 raise osv.except_osv(_('Invoice already withhold !'),\
@@ -268,20 +257,20 @@ class account_wh_src(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, *args):
-        #~ TO-CHECK
-        #~ SI EL DOCUMENTO YA TIENE NUMERO 
-        #~ SE DEVUELVE TRUE UNA VEZ
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
                     'FROM account_wh_src ' \
                     'WHERE id IN ('+','.join(map(str,ids))+')')
 
+
             for (id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.src.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_src SET number=%s ' \
                         'WHERE id=%s', (number, id))
+
+                
         return True
         
         

@@ -65,7 +65,6 @@ ser suscritos.
                 'view/account_invoice_view.xml',
                 'view/company_view.xml',
                 'workflow/l10n_ve_wh_src_wf.xml',
-                'data/wh_src_sequence.xml',
                 'data/data.xml',
                 'wh_src_report.xml',
     ],
