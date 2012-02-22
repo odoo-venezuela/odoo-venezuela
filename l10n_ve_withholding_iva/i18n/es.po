@@ -1157,3 +1157,15 @@ msgstr "No. Nota Débito"
 #, python-format
 msgid "File TXT %s generated."
 msgstr "Archivo TXT %s generado."
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:535
+#, python-format
+msgid "you can not duplicate this document!!!"
+msgstr "Ud. no puede duplicar este documento!!!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:535
+#, python-format
+msgid "Alert !"
+msgstr "Atención !"

@@ -524,6 +524,24 @@ class account_wh_iva(osv.osv):
             if whl_ids:
                 awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
         return True
-   
+
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if not default:
+            default = {}
+        if context is None:
+            context = {}
+        if self.browse(cr, uid, id, context=context).type == 'in_invoice':
+            raise osv.except_osv(_('Alert !'), _('you can not duplicate this document!!!'))
+
+        default.update({
+            'state':'draft',
+            'number':False,
+            'code':False,
+            'wh_lines': [],
+            'period_id': False
+        })
+
+        return super(account_wh_iva, self).copy(cr, uid, id, default, context)
 
 account_wh_iva()
