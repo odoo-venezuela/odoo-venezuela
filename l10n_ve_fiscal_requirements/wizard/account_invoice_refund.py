@@ -265,6 +265,11 @@ class account_invoice_refund(osv.osv_memory):
                         inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'description':''},context=context)
             if inv.type in ('out_invoice', 'out_refund'):
                 xml_id = 'action_invoice_tree3'
+                if inv.sale_ids:
+                    aux = {
+                        'invoice_ids' : [(6, 0, created_inv)],
+                    }
+                    self.pool.get('sale.order').write(cr, uid, [i.id for i in inv.sale_ids], aux, context=context)
             else:
                 xml_id = 'action_invoice_tree4'
             result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
@@ -273,9 +278,7 @@ class account_invoice_refund(osv.osv_memory):
             invoice_domain = eval(result['domain'])
             invoice_domain.append(('id', 'in', created_inv))
             result['domain'] = invoice_domain
-            if inv.sale_ids:
-                aux = {'invoice_ids':[(6,0,created_inv)]}
-                self.pool.get('sale.order').write(cr,uid,[i.id for i in inv.sale_ids],aux,context=context)
+            
             if wzd_brw.filter_refund == 'cancel':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':inv.description},context=context)
@@ -352,7 +355,7 @@ class account_invoice_refund(osv.osv_memory):
                                      _('There are non-valid withholds for the document %s which refund is being processed!' % inv and inv.wh_iva_id.code or "vacio" ))
                                      
         self.unreconcile_paid_invoices(cr, uid, context.get('active_ids'), context=context)
-        data_refund = self.browse(cr, uid, ids,context=context)[0].filter_refund
+        data_refund = self.browse(cr, uid, ids, context=context)[0].filter_refund
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
 
 account_invoice_refund()
