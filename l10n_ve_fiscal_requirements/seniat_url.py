@@ -93,15 +93,13 @@ class seniat_url(osv.osv):
         if context is None:
             context={}
         if not context.get('all_rif'):
-            if xml_data.find('450')>=0 and not vat.find('450'):
+            if xml_data.find('450')>=0 and not vat.find('450')>=0:
                 self._print_error(_('Vat Error !'),_('Invalid VAT!'))
-
-            elif xml_data.find('452')>=0 and not vat.find('452'):
+            elif xml_data.find('452')>=0 and not vat.find('452')>=0:
                 self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
                 
-            elif xml_data.find("404")>=0 and not vat.find('404'):
+            elif xml_data.find("404")>=0 and not vat.find('404')>=0:
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
-        
             else:
                 return False
         else:
