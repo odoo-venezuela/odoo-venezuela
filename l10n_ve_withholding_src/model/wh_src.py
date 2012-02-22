@@ -190,7 +190,7 @@ class account_wh_src(osv.osv):
     def action_done(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        #~ 
+
         self.action_date_ret(cr, uid, ids, context=context)
         self.action_number(cr, uid, ids)
         self.action_move_create(cr, uid, ids, context=context)
@@ -268,20 +268,20 @@ class account_wh_src(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, *args):
-        #~ TO-CHECK
-        #~ SI EL DOCUMENTO YA TIENE NUMERO 
-        #~ SE DEVUELVE TRUE UNA VEZ
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
                     'FROM account_wh_src ' \
                     'WHERE id IN ('+','.join(map(str,ids))+')')
 
+
             for (id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.src.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_src SET number=%s ' \
                         'WHERE id=%s', (number, id))
+                print "number %s"%number 
+                
         return True
         
         
