@@ -265,7 +265,7 @@ class account_invoice_refund(osv.osv_memory):
                         inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'description':''},context=context)
             if inv.type in ('out_invoice', 'out_refund'):
                 xml_id = 'action_invoice_tree3'
-                if inv.sale_ids:
+                if hasattr(inv, 'sale_ids'):
                     aux = {
                         'invoice_ids' : [(6, 0, created_inv)],
                     }
