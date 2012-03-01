@@ -24,9 +24,28 @@
 ################################################################################
 
 from osv import fields, osv
-
+from tools.translate import _
 
 class account_invoice(osv.osv):
+
+
+    def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
+        if context is None: context={}
+        inv_brw = self.browse(cr, uid, ids, context=context)
+        for inv in inv_brw:
+            if inv.type in ('out_invoice','out_refund'):
+                return True
+            inv_ids = self.search(cr,uid,
+                        ['|',('nro_ctrl','=',inv.nro_ctrl),('reference','=',inv.reference),
+                        ('type','in',('in_invoice','in_refund')),
+                        ('partner_id','=',inv.partner_id.id)],
+                        context=context)
+            res_ids = list(set(inv_ids) - set(ids))
+            if res_ids:
+                return False
+        return True
+
+
     _inherit = 'account.invoice'    
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Code used for intern invoice control"),
@@ -35,6 +54,9 @@ class account_invoice(osv.osv):
         'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
     }
     
+    _constraints = [
+        (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Numero de Control (nro_ctrl)','Referencia (reference)']),
+        ]
     
     def _refund_cleanup_lines(self, cr, uid, lines):
         """
