@@ -88,6 +88,18 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="account_inv_ext_search_ref" model="ir.ui.view">
+            <field name="name">invoice_ext.search.ref</field>
+            <field name="model">account.invoice</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number']" position="after">
+                    <field name="reference"/>
+                </xpath>
+            </field>
+        </record>
 
 
 
