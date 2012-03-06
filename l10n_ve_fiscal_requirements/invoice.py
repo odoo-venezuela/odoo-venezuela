@@ -37,7 +37,7 @@ class account_invoice(osv.osv):
                 return True
             inv_ids = self.search(cr,uid,
                         ['|',('nro_ctrl','ilike',inv.nro_ctrl and inv.nro_ctrl.strip() ),('reference','ilike',inv.reference and inv.reference.strip()),
-                        ('type','in',('in_invoice','in_refund')),
+                        ('type','=',inv.type),
                         ('partner_id','=',inv.partner_id.id)],
                         context=context)
             res_ids = list(set(inv_ids) - set(ids))
