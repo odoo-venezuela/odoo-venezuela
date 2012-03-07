@@ -36,7 +36,7 @@ class account_invoice(osv.osv):
             if inv.type in ('out_invoice','out_refund'):
                 return True
             inv_ids = self.search(cr,uid,
-                        ['|',('nro_ctrl','ilike',inv.nro_ctrl and inv.nro_ctrl.strip() ),('reference','ilike',inv.reference and inv.reference.strip()),
+                        ['|',('nro_ctrl','=',inv.nro_ctrl and inv.nro_ctrl.strip() ),('reference','=',inv.reference and inv.reference.strip()),
                         ('type','=',inv.type),
                         ('partner_id','=',inv.partner_id.id)],
                         context=context)
