@@ -82,7 +82,7 @@ class account_wh_munici(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
-        'munici_line_ids': fields.one2many('account.wh.munici.line', 'retention_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
+        'munici_line_ids': fields.one2many('account.wh.munici.line', 'retention_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Invoices to will be made local withholdings"),
         'amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
         'move_id':fields.many2one('account.move', 'Account Entry'),
 

@@ -1,0 +1,374 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* l10n_ve_topology
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-12-29 19:33+0000\n"
+"PO-Revision-Date: 2011-12-29 19:33+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ve_topology
+#: view:res.city:0
+#: field:res.partner.address,city_id:0
+#: view:res.sector:0
+msgid "City"
+msgstr "Ciudad"
+
+#. module: l10n_ve_topology
+#: model:ir.model,name:l10n_ve_topology.model_res_parish
+msgid "Model to manipulate Parish"
+msgstr "Modelo para manipular la información de las Parroquias"
+
+#. module: l10n_ve_topology
+#: help:res.sector,country:0
+msgid "In this field enter the name of Country"
+msgstr "En este campo introduzca el nombre del País"
+
+#. module: l10n_ve_topology
+#: model:ir.module.module,shortdesc:l10n_ve_topology.module_meta_information
+msgid "Opening balance Update"
+msgstr "Actualización de la apertura de balance"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,name:l10n_ve_topology.action_zipcode
+#: model:ir.ui.menu,name:l10n_ve_topology.menu_zipcode
+#: view:res.zipcode:0
+msgid "Zipcode"
+msgstr "Código Postal"
+
+#. module: l10n_ve_topology
+#: view:res.municipality:0
+#: view:res.parish:0
+#: view:res.sector:0
+msgid "Group By."
+msgstr "Agrupar Por"
+
+#. module: l10n_ve_topology
+#: view:res.city:0
+#: field:res.city,state_id:0
+#: field:res.country.state,municipalities_ids:0
+#: view:res.municipality:0
+#: field:res.municipality,state_id:0
+msgid "State"
+msgstr "Provincia"
+
+#. module: l10n_ve_topology
+#: view:res.sector:0
+msgid "Search Sectors"
+msgstr "Buscar Sectores"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,help:l10n_ve_topology.action_sector
+msgid "Sector is a name for a city subdivision"
+msgstr "Sector es el nombre para una subdivision de la ciudad"
+
+#. module: l10n_ve_topology
+#: help:res.municipality,state_id:0
+msgid "In this field enter the name of the state to which the municipality is associated \n"
+""
+msgstr "En este campo escriba el nombre de la provincia a la cual esta asociado el municipio\n"
+""
+
+#. module: l10n_ve_topology
+#: model:ir.model,name:l10n_ve_topology.model_res_city
+msgid "Model to manipulate Cities"
+msgstr "Modelo para manipular la informacion de Ciudades "
+
+#. module: l10n_ve_topology
+#: help:res.city,code:0
+msgid "The city code in three chars, Example: CCS for Caracas .\n"
+""
+msgstr "El código de la ciudad escrito en tres caracteres, ejemplo: CCS para Caracas\n"
+""
+
+#. module: l10n_ve_topology
+#: help:res.partner.address,municipality_id:0
+#: help:res.sector,municipality:0
+msgid "In this field enter the name of the municipality which is associated with the parish"
+msgstr "En este campo introduzca el nombre del municipio que se asocia con la parroquia"
+
+#. module: l10n_ve_topology
+#: help:res.parish,name:0
+msgid "In this field enter the name of the Parish \n"
+""
+msgstr "En este campo escriba el nombre de la Parroquia \n"
+""
+
+#. module: l10n_ve_topology
+#: view:res.city:0
+msgid "city"
+msgstr "Ciudad"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,name:l10n_ve_topology.action_municipalities
+#: model:ir.ui.menu,name:l10n_ve_topology.menu_municipalities_partner
+#: view:res.country.state:0
+#: view:res.municipality:0
+msgid "Municipalities"
+msgstr "Municipios"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,help:l10n_ve_topology.action_municipalities
+msgid "Is primarily an urban political unit having corporate status and powers of self-government"
+msgstr "Es ante todo una unidad política urbana con personalidad jurídica y con poderes de autogobierno"
+
+#. module: l10n_ve_topology
+#: model:ir.ui.menu,name:l10n_ve_topology.menu_sector_partner
+msgid "Sectors"
+msgstr "Sectores"
+
+#. module: l10n_ve_topology
+#: help:res.sector,state:0
+msgid "In this field enter the name of state associated with the country"
+msgstr "En este campo introduzca el nombre del estado asociado con el país"
+
+#. module: l10n_ve_topology
+#: help:res.city,state_id:0
+msgid "This field selects the states to which this city is associated \n"
+""
+msgstr "Este campo selecciona los estados a los que se asocia esta ciudad \n"
+""
+
+#. module: l10n_ve_topology
+#: help:res.country.state,city_ids:0
+msgid "In this field selects the cities associated with the state\n"
+""
+msgstr "En éste campo seleccione las ciudades asociadas a la provincia\n"
+""
+
+#. module: l10n_ve_topology
+#: field:res.partner.address,zipcode_id:0
+#: view:res.sector:0
+#: field:res.sector,zipcode:0
+#: field:res.zipcode,name:0
+msgid "Zip Code"
+msgstr "Código Postal"
+
+#. module: l10n_ve_topology
+#: field:res.city,code:0
+msgid "City Code"
+msgstr "Codigo de la Ciudad"
+
+#. module: l10n_ve_topology
+#: help:res.sector,name:0
+msgid "In this field enter the name of the Sector"
+msgstr "En este campo introduzca el nombre del Sector"
+
+#. module: l10n_ve_topology
+#: help:res.municipality,name:0
+msgid "In this field enter the name of the Municipality\n"
+""
+msgstr "En este campo ingrese el nombre del Municipio\n"
+""
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,name:l10n_ve_topology.action_parish
+#: model:ir.ui.menu,name:l10n_ve_topology.menu_parish
+#: field:res.municipality,parish_ids:0
+#: view:res.parish:0
+#: field:res.parish,name:0
+#: field:res.partner.address,parish_id:0
+#: view:res.sector:0
+msgid "Parish"
+msgstr "Parroquia"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,name:l10n_ve_topology.action_country_city
+#: model:ir.ui.menu,name:l10n_ve_topology.menu_country_city_partner
+#: view:res.country.state:0
+#: field:res.country.state,city_ids:0
+msgid "Cities"
+msgstr "Ciudades"
+
+#. module: l10n_ve_topology
+#: model:ir.module.module,description:l10n_ve_topology.module_meta_information
+msgid "\n"
+"    What do this module:\n"
+"        This module handles the topology according to the sectors of a city.\n"
+"        \n"
+"	Obtain information and managed all states, municipalities, parishes and sectors of Venezuela\n"
+"    with their zip codes and city codes.\n"
+"\n"
+"	Adds new information sectors of the state, municipality, parish and city to which he belongs. \n"
+"			"
+msgstr "\n"
+"    ¿Qué es este módulo?:\n"
+"        Este módulo se encarga de la topología de acuerdo a los sectores de la ciudad.\n"
+"        \n"
+"	Se obtiene information y gestiona todos los estados, municipios, parroquias y sectores de Venezuela\n"
+"    con su código postal y ciudad.\n"
+"\n"
+"	Añade nuevos sectores de información del estado, municipio, parroquía y ciudad a la que pertenece. \n"
+"			"
+
+#. module: l10n_ve_topology
+#: view:res.municipality:0
+msgid "municipalities"
+msgstr "Municipios"
+
+#. module: l10n_ve_topology
+#: view:res.parish:0
+msgid "Search Parish"
+msgstr "Buscar Parroquias"
+
+#. module: l10n_ve_topology
+#: help:res.sector,city:0
+msgid "In this field you enter the city to which the sector is associated"
+msgstr "En este campo se accede a la ciudad a la que está asociada el sector"
+
+#. module: l10n_ve_topology
+#: model:ir.model,name:l10n_ve_topology.model_res_municipality
+msgid "Model to manipulate Municipalities"
+msgstr "Modelo para manipular la información de los Municipios"
+
+#. module: l10n_ve_topology
+#: field:res.municipality,name:0
+msgid "Municipality Name"
+msgstr "Nombre del municipio"
+
+#. module: l10n_ve_topology
+#: help:res.municipality,parish_ids:0
+msgid "In this field enter the name of the parishes of municipality \n"
+""
+msgstr "En este campo escriba el nombre de las parroquias del municipo \n"
+""
+
+#. module: l10n_ve_topology
+#: field:res.city,name:0
+msgid "City Name"
+msgstr "Nombre de la Ciudad"
+
+#. module: l10n_ve_topology
+#: help:res.zipcode,name:0
+msgid "The ZipCode written as four numbers, Example: 1010\n"
+""
+msgstr "El código postal escrito con cuatro numeros, Ejemplo: 1010\n"
+""
+
+#. module: l10n_ve_topology
+#: help:res.partner.address,city_id:0
+msgid "in this field select the city associated with this State"
+msgstr "En este campo, seleccione la ciudad relacionada con este Estado"
+
+#. module: l10n_ve_topology
+#: help:res.partner.address,zipcode_id:0
+#: help:res.sector,zipcode:0
+msgid "in this field is selected Zip Code associated with this sector"
+msgstr "En este campo se selecciona código postal asociado a este sector"
+
+#. module: l10n_ve_topology
+#: help:res.partner.address,sector_id:0
+msgid "in this field select the Sector associated with this Municipality"
+msgstr "En este campo seleccione el sector asociado a este Municipio"
+
+#. module: l10n_ve_topology
+#: help:res.country.state,municipalities_ids:0
+msgid "In this field enter the name of the associated municipalities to the state"
+msgstr "En este campo escriba el nombre de los municipios asociados a la Provincia"
+
+#. module: l10n_ve_topology
+#: help:res.parish,sector_ids:0
+msgid "In this field enter the name of sectors associated with the parish"
+msgstr "En este campo escriba el nombre de los sectores asociados a la parroquia"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,help:l10n_ve_topology.action_parish
+msgid "Parish is the name of some municipal entities"
+msgstr "Parroquia es el nombre de algunas entidades municipales"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,name:l10n_ve_topology.action_sector
+#: model:ir.model,name:l10n_ve_topology.model_res_sector
+#: field:res.parish,sector_ids:0
+#: field:res.partner.address,sector_id:0
+#: view:res.sector:0
+#: field:res.sector,name:0
+msgid "Sector"
+msgstr "Sector"
+
+#. module: l10n_ve_topology
+#: help:res.municipality,code:0
+msgid "The municipality code in three numbers, Example: 001 for Libertador .\n"
+""
+msgstr "El código del Municipio escrito en tres numeros , ejemplo: 001 para Libertador.\n"
+""
+
+#. module: l10n_ve_topology
+#: model:ir.model,name:l10n_ve_topology.model_res_zipcode
+msgid "res.zipcode"
+msgstr "res.zipcode"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,help:l10n_ve_topology.action_country_city
+msgid "A city is an urban area, belonging to one or more states"
+msgstr "Una ciudad es un área urbana perteneciente a uno o varias Provincias"
+
+#. module: l10n_ve_topology
+#: view:res.parish:0
+#: field:res.parish,municipalities_id:0
+#: field:res.partner.address,municipality_id:0
+msgid "Municipality"
+msgstr "Municipio"
+
+#. module: l10n_ve_topology
+#: field:res.municipality,code:0
+msgid "Municipalities Code"
+msgstr "Codigos de los Municipios"
+
+#. module: l10n_ve_topology
+#: model:ir.actions.act_window,help:l10n_ve_topology.action_zipcode
+msgid "Is a series of digits appended to a postal address for the purpose of sorting mail"
+msgstr "Es una serie de dígitos adjunta a la dirección postal con el fin de clasificar el correo"
+
+#. module: l10n_ve_topology
+#: help:res.partner.address,parish_id:0
+#: help:res.sector,parish:0
+msgid "In this field you enter the parish to which the sector is associated"
+msgstr "En este campo se introduce la parroquia a la que está asociada al sector"
+
+#. module: l10n_ve_topology
+#: help:res.parish,municipalities_id:0
+msgid "In this field enter the name of the municipality which is associated with the parish\n"
+""
+msgstr "En este campo se escribe el nombre del municipio al cual esta asociada la parroquia\n"
+""
+
+#. module: l10n_ve_topology
+#: help:res.city,name:0
+msgid "In this field enter the name of the City \n"
+""
+msgstr "En este campo se escribe el nombre de la Ciudad\n"
+""
+
+#. module: l10n_ve_topology
+#: field:res.sector,city:0
+#: field:res.sector,country:0
+#: field:res.sector,municipality:0
+#: field:res.sector,parish:0
+#: field:res.sector,state:0
+msgid "unknown"
+msgstr "Desconocido"
+
+#. module: l10n_ve_topology
+#: model:ir.model,name:l10n_ve_topology.model_res_partner_address
+msgid "Partner Addresses"
+msgstr "Direcciones de empresa"
+
+#. module: l10n_ve_topology
+#: model:ir.model,name:l10n_ve_topology.model_res_country_state
+msgid "Country state"
+msgstr "Provincia"
+
+#. module: l10n_ve_topology
+#: view:res.municipality:0
+msgid "Search Municipalities"
+msgstr "Buscar Municipios"
+

@@ -1,0 +1,538 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* l10n_ve_withholding_muni
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-03-13 21:36+0000\n"
+"PO-Revision-Date: 2012-03-13 18:00-0400\n"
+"Last-Translator: Miguel <miguel.delgado07@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici.line,retention_id:0
+#: help:account.wh.munici.line,retention_id:0
+msgid "Local withholding"
+msgstr "Retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: constraint:res.partner:0
+msgid "Error ! The partner does not have an invoice address."
+msgstr "Error ! La empresa no tiene dirección fiscal definida."
+
+#. module: l10n_ve_withholding_muni
+#: sql_constraint:account.wh.munici.line:0
+msgid "The invoice has already assigned in local withholding, you cannot assigned it twice!"
+msgstr "La Factura ya ha sido asignada a una retencion municipal, no puede ser asignada dos veces"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "NRO. COMPROBANTE:"
+msgstr "NRO. COMPROBANTE:"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,company_id:0
+#: help:account.wh.munici,company_id:0
+msgid "Company"
+msgstr "Compañia"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Razón Social"
+msgstr "Razón Social"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Nro. R.I.F."
+msgstr "Nro. R.I.F."
+
+#. module: l10n_ve_withholding_muni
+#: model:ir.actions.act_window,name:l10n_ve_withholding_muni.action_account_wh_muni_supplier
+#: model:ir.ui.menu,name:l10n_ve_withholding_muni.menu_action_account_wh_muni_supplier
+msgid "Local Withholding Supplier"
+msgstr "Proveedor de Retencion Municipal "
+
+#. module: l10n_ve_withholding_muni
+#: view:account.invoice:0
+msgid "Withholdings Vat"
+msgstr "Retenciones del IVA"
+
+#. module: l10n_ve_withholding_muni
+#: model:ir.actions.report.xml,name:l10n_ve_withholding_muni.report_wh_muni
+msgid "Comprobante Retencion Municipal"
+msgstr "Comprobante Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: sql_constraint:account.wh.munici:0
+msgid "number must be unique !"
+msgstr "El numero debe ser Unico!"
+
+#. module: l10n_ve_withholding_muni
+#: help:res.partner,property_wh_munici_payable:0
+msgid "This account will be used debit local withholding amount"
+msgstr "Esta cuenta se utilizara para para debitar el monto de la retencion municipal "
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,amount:0
+#: field:account.wh.munici.line,amount:0
+msgid "Amount"
+msgstr "Monto"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.invoice:0
+msgid "Withholdings Local"
+msgstr "Retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: selection:account.wh.munici,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/wh_muni.py:163
+#, python-format
+msgid "Warning !"
+msgstr "Advertencia !"
+
+#. module: l10n_ve_withholding_muni
+#: constraint:res.partner:0
+msgid "Error ! Partner's VAT must be a unique value or empty"
+msgstr "Error ! El RIF del partner debe ser unico a vacio "
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,date_ret:0
+msgid "Withholding date"
+msgstr "Fecha de Retencion"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,type:0
+msgid "Withholding type"
+msgstr "Tipo de retencion"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Group By..."
+msgstr "Agrupar Por"
+
+#. module: l10n_ve_withholding_muni
+#: model:ir.actions.act_window,help:l10n_ve_withholding_muni.action_account_wh_muni_supplier
+msgid "With Local Withholding Supplier you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document."
+msgstr "Con Retención Municipales de Proveedor usted puede crear y gestionar la retención de documento expedido a sus clientes. OpenERP también puede generar retención de documentos de forma automática de las facturas. Para la retención de las facturas hay que añadir, procesarlos y luego validar el documento."
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,period_id:0
+msgid "Force Period"
+msgstr "Forzar Periodo"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Retención"
+msgstr "Retención"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "AÑO"
+msgstr "AÑO"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+#: field:account.wh.munici,partner_id:0
+#: model:ir.model,name:l10n_ve_withholding_muni.model_res_partner
+msgid "Partner"
+msgstr "Compañia"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici.line,invoice_id:0
+msgid "Withholding invoice"
+msgstr "Retención de factura"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+#: selection:account.wh.munici,state:0
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: l10n_ve_withholding_muni
+#: field:res.partner,property_wh_munici_receivable:0
+msgid "Sale local withholding account"
+msgstr "Cuenta de Ventas para retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Accounting Date of Withhold"
+msgstr "Fecha contable de la retencion"
+
+#. module: l10n_ve_withholding_muni
+#: selection:account.wh.munici,type:0
+msgid "Supplier Invoice"
+msgstr "Factura de Proveedores"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici.line,name:0
+msgid "Local Withholding line Description"
+msgstr "Descripcion de la linea de retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Exento"
+msgstr "Exento"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,munici_line_ids:0
+msgid "Local withholding lines"
+msgstr "Lineas de Retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici.line,wh_loc_rate:0
+msgid "Local withholding rate"
+msgstr "Porcentaje de Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/wh_muni.py:113
+#, python-format
+msgid "The line containing the document '%s' looks as if the amount withheld was wrong please check.!"
+msgstr "La línea que contiene el documento de '% s' parece como si la cantidad retenida esta erronea por favor verifique.!"
+
+#. module: l10n_ve_withholding_muni
+#: field:res.partner,property_wh_munici_payable:0
+msgid "Purchase local withholding account"
+msgstr "Cuenta de compras para la retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/wh_muni.py:113
+#, python-format
+msgid "Invalid action !"
+msgstr "Accion Invalida"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Other Information"
+msgstr "Otra Informacion"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,amount:0
+msgid "Amount withheld"
+msgstr "Monto Retenido"
+
+#. module: l10n_ve_withholding_muni
+#: model:ir.actions.act_window,help:l10n_ve_withholding_muni.action_account_wh_muni_customer
+msgid "With Local Withholding Customer you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document."
+msgstr "Con las Retención Municipales de Cliente usted puede crear y gestionar la retención de documento expedido a sus clientes. OpenERP también puede generar retención de documento de forma automática a partir de las facturas. Para la retención de las facturas hay que añadir, procesarlos y luego validar el documento."
+
+#. module: l10n_ve_withholding_muni
+#: view:res.partner:0
+msgid "Local Withholdings"
+msgstr "Retenciones Locales "
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici.line,invoice_id:0
+#: model:ir.model,name:l10n_ve_withholding_muni.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Dirección Fiscal"
+msgstr "Dirección Fiscal"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,partner_id:0
+msgid "Withholding customer/supplier"
+msgstr "Retenido Cliente/Proveedor"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Fecha:"
+msgstr "Fecha:"
+
+#. module: l10n_ve_withholding_muni
+#: model:ir.actions.act_window,name:l10n_ve_withholding_muni.action_account_wh_muni_customer
+#: model:ir.ui.menu,name:l10n_ve_withholding_muni.menu_action_account_wh_muni_customer
+msgid "Local Withholding Customer"
+msgstr "Cliente de Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici.line,concepto_id:0
+msgid "Concept"
+msgstr "Concepto"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,account_id:0
+msgid "The pay account used for this withholding."
+msgstr "Cuenta usada para el pago de estas retenciones"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.invoice,wh_local:0
+#: view:account.wh.munici:0
+#: model:ir.model,name:l10n_ve_withholding_muni.model_account_wh_munici
+msgid "Local Withholding"
+msgstr "Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,munici_line_ids:0
+msgid "Invoices to will be made local withholdings"
+msgstr "Las facturas a las que se le efectuará las retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "COMPROBANTE DE RETENCION DE IMPUESTOS MUNICIPALES DE FACTURA:"
+msgstr "COMPROBANTE DE RETENCION DE IMPUESTOS MUNICIPALES DE FACTURA:"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,state:0
+msgid "Estado del Comprobante"
+msgstr "Estado del Comprobante"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+#: selection:account.wh.munici,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "........."
+msgstr "........."
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "PERIODO FISCAL:"
+msgstr "PERIODO FISCAL:"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Withholding"
+msgstr "Retencion"
+
+#. module: l10n_ve_withholding_muni
+#: model:ir.model,name:l10n_ve_withholding_muni.model_account_wh_munici_line
+msgid "Local Withholding Line"
+msgstr "Linea de Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici.line:0
+msgid "Local Withholding line "
+msgstr "Linea de Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,date_ret:0
+msgid "Keep empty to use the current date"
+msgstr "Mantenga Vacio para usar la fecha actual"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,code:0
+msgid "Withholding reference"
+msgstr "Referencia de retencion"
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/wh_muni.py:149
+#, python-format
+msgid "Invoice already withhold !"
+msgstr "La factura ya ha sido retenida"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,date:0
+#: help:account.wh.munici,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,state:0
+msgid "Estado"
+msgstr "Estado"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici.line,concepto_id:0
+msgid "Local withholding concept"
+msgstr "Concepto de Retencion Municipal"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.invoice,wh_local:0
+msgid "The account moves of the invoice have been withheld with account moves of the payment(s)."
+msgstr "Los movimientos de cuenta para esta factura ya han sido retenidos con los movimientos de los pagos"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,journal_id:0
+msgid "Journal entry"
+msgstr "Diario de entrada"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,period_id:0
+msgid "Keep empty to use the period of the validation(Withholding date) date."
+msgstr "Mantenga vacio para usar el periodo de la fecha de validacion (Fecha de Retenion)"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,code:0
+msgid "Code"
+msgstr "Codigo"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Base imponible"
+msgstr "Base imponible"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "% Retención:"
+msgstr "% Retención:"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "COMPROBANTE RETENCION IMPUESTOS MUNICIPALES"
+msgstr "COMPROBANTE RETENCION IMPUESTOS MUNICIPALES"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,number:0
+msgid "Number"
+msgstr "Numero"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "----------------------------------------------------"
+msgstr "----------------------------------------------------"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+#: selection:account.wh.munici,state:0
+msgid "Done"
+msgstr "Realizado"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "MES"
+msgstr "MES"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/wh_muni.py:163
+#, python-format
+msgid "No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!"
+msgstr "No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!"
+
+#. module: l10n_ve_withholding_muni
+#: selection:account.wh.munici,type:0
+msgid "Customer Invoice"
+msgstr "Factura de Cliente"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,account_id:0
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,name:0
+#: field:account.wh.munici.line,name:0
+msgid "Description"
+msgstr "Descripcion"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,currency_id:0
+#: help:account.wh.munici,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+#: field:account.wh.munici,journal_id:0
+msgid "Journal"
+msgstr "Diario"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Por la Empresa"
+msgstr "Por la Empresa"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "POR"
+msgstr "POR"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,name:0
+msgid "Description of withholding"
+msgstr "Descripcion de la retencion"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.invoice:0
+#: view:res.partner:0
+msgid "Withholdings"
+msgstr "Retenciones"
+
+#. module: l10n_ve_withholding_muni
+#: constraint:account.invoice:0
+msgid "The Document you have been entering for this Partner has already been recorded"
+msgstr "El documento que esta intentando ingresar ya ha sido grabado en el sistema "
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "SUJETO RETENIDO:"
+msgstr "SUJETO RETENIDO:"
+
+#. module: l10n_ve_withholding_muni
+#: help:account.wh.munici,number:0
+msgid "Withholding number"
+msgstr "Numero de retencion "
+
+#. module: l10n_ve_withholding_muni
+#: help:res.partner,property_wh_munici_receivable:0
+msgid "This account will be used credit local withholding amount"
+msgstr "This account will be used credit local withholding amount"
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici.line:0
+msgid "Linea"
+msgstr "Linea"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici,move_id:0
+#: field:account.wh.munici.line,move_id:0
+#: help:account.wh.munici.line,move_id:0
+msgid "Account Entry"
+msgstr "Cuenta de Entrada "
+
+#. module: l10n_ve_withholding_muni
+#: view:account.wh.munici:0
+msgid "Search Withholding Local"
+msgstr "Buscar Retenciones Municipales"
+
+#. module: l10n_ve_withholding_muni
+#: report:wh.muni_rep:0
+msgid "Retención por concepto de impuestos municipales:"
+msgstr "Retención por concepto de impuestos municipales:"
+
+#. module: l10n_ve_withholding_muni
+#: field:account.wh.munici.line,wh_loc_rate:0
+msgid "Rate"
+msgstr "Porcentaje"
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/wh_muni.py:149
+#, python-format
+msgid "You must omit the follow invoice '%s' !"
+msgstr "Omita la siguiente Factura '%s'!"
+
