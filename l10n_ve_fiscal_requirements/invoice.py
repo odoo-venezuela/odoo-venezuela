@@ -79,8 +79,8 @@ class account_invoice(osv.osv):
             context = {}
         default.update({
             'child_ids':[],
-            'nro_ctrl':'',
-            'reference':'', 
+            'nro_ctrl':None,
+            'reference':None, 
         })
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 account_invoice()
