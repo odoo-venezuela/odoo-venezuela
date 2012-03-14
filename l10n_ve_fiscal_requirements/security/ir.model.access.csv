@@ -4,4 +4,4 @@
 "access_account_seniat_url_3","seniat.url","model_seniat_url","account.group_account_manager",1,1,1,1
 "access_account_seniat_url_4","seniat.url","model_seniat_url","base.group_erp_manager",1,1,1,1
 "access_account_seniat_url_5","seniat.url","model_seniat_url","base.group_partner_manager",1,0,0,0
-"access_account_inv_refund_1","account.invoice.refund","model_account_invoice_refund","l10n_ve_fiscal_requirements.group_account_inv_refund_manager",1,1,1,1
+

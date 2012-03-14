@@ -66,7 +66,6 @@ Automatically on install wizard.
     "depends" : ["base_vat", "account", "account_accountant","account_voucher"],
     'update_xml': [
         'installer_view.xml',
-        'security/acc_inv_refund_security.xml',
         'security/ir.model.access.csv',
         'wizard/wizard_nro_ctrl_view.xml',
         'view/account_invoice_view.xml',
