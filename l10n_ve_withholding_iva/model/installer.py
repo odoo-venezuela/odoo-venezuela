@@ -129,11 +129,11 @@ class wh_iva_config(osv.osv_memory):
         pa_obj=self.pool.get('res.partner.address')
         partner_id=user[0].company_id.partner_id.id
         
-        if wiz_data['journal_purchase_vat']:
+        if wiz_data.get('journal_purchase_vat'):
             self._create_journal(cr, uid, wiz_data["journal_purchase_vat"], 'iva_purchase', 'VATP')
-        if wiz_data['journal_sale_vat']:
+        if wiz_data.get('journal_sale_vat'):
             self._create_journal(cr, uid, wiz_data['journal_sale_vat'], 'iva_sale', 'VATS')
-        if wiz_data['wh']:
+        if wiz_data.get('wh'):
             p_obj.write(cr,uid,[partner_id],{'wh_iva_agent':1,
                                             'wh_iva_rate':75.00})
         else:
