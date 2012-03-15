@@ -124,10 +124,11 @@ class wh_iva_config(osv.osv_memory):
         and update all your partners information.
         '''
         user=self.pool.get('res.users').browse(cr,uid,[uid],context)
-        wiz_data=self.browse(cr,uid,ids[0],context)
+        wiz_data=self.read(cr,uid,ids[0],context)
         p_obj=self.pool.get('res.partner')
         pa_obj=self.pool.get('res.partner.address')
         partner_id=user[0].company_id.partner_id.id
+        
         
         if wiz_data.get('journal_purchase_vat'):
             self._create_journal(cr, uid, wiz_data["journal_purchase_vat"], 'iva_purchase', 'VATP')
