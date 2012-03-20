@@ -82,7 +82,7 @@ class islr_xml_wh_doc(osv.osv):
         'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
     }
 
-    def period_return(self,cr,uid,contex=None):
+    def period_return(self,cr,uid,context=None):
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
         period_id = period_obj.search(cr,uid,[('code','=',fecha)])

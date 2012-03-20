@@ -188,7 +188,7 @@ class rep_comprobante(report_sxw.rml_parse):
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
                     'nro_ncre': rl.invoice_id.reference,
                     'nro_ndeb': rl.invoice_id.reference,
-                    'porcenta': rl.invoice_id.wh_iva_rate,
+                    'porcenta': rl.invoice_id.partner_id.wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
                     'tot_civa': not sdcf and k*(txl.base+txl.amount) or 0.0,
