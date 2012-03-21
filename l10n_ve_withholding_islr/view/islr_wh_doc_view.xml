@@ -40,6 +40,11 @@
                         </field>
                     </group>
                     <newline/>
+                    <group col="10" colspan="4">
+                        <field name="date_ret" string="Fecha Contable"/>
+                        <field name="date_uid" string="Fecha Comprobante"/>
+                    </group>
+                    <newline/>
                     <group expand="1" string="Group By...">
                         <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <separator orientation="vertical"/>
@@ -93,16 +98,14 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state=='draft'" string="Customer Withholding Income">
-                    <field name="name"/>
-                    <field name="type"/>
-                    <field name="code"/>
-                    <field name="number"/>
                     <field name="partner_id"/>
                     <field name="date_ret"/>
-                    <field name="currency_id"/>
                     <field name="period_id"/>
-                    <field name="state"/>
+                    <field name="number"/>
+                    <field name="code"/>
+                    <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
+                    <field name="currency_id"/>
                 </tree>
             </field>
         </record>
@@ -173,6 +176,9 @@
                         <field name="code"/>
                         <field name="partner_id"/>
                         <field name="journal_id"  select="1" widget="selection" string="Journal"/>
+                        <newline/>
+                        <field name="date_ret" string="Fecha Contable"/>
+                        <field name="date_uid" string="Fecha Comprobante"/>
                     </group>
                     <newline/>
                     <group expand="1" string="Group By...">
@@ -192,15 +198,14 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state=='draft'" string="Supplier Withholding Income">
-                    <field name="name"/>
-                    <field name="type"/>
-                    <field name="code"/>
                     <field name="partner_id"/>
                     <field name="date_ret"/>
-                    <field name="currency_id"/>
                     <field name="period_id"/>
-                    <field name="state"/>
+                    <field name="number"/>
+                    <field name="code"/>
+                    <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
+                    <field name="currency_id"/>
                 </tree>
             </field>
         </record>
