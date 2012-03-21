@@ -363,7 +363,7 @@
                 <td><para style="HEADER">[[data['form']['type'] == 'purchase' and 'CREDITO FISCAL' or 'DEBITO FISCAL']]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'DEBITOS FISCALES']]</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'VENTAS INTERNAS NO GRAVADAS']]</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]+get_amount_untaxed_tax(data['form'],'SDCF')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]) ]]</para></td>
                 <td><para style="CONTENIDO">0.0</para></td>
             </tr>
