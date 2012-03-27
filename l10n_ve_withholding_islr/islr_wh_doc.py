@@ -154,7 +154,6 @@ class islr_wh_doc(osv.osv):
         for wh_doc in wh_doc_brw:
             for wh_doc_line in wh_doc.islr_wh_doc_id: 
                 inv_ids.append(wh_doc_line.id)
-               
         context["wh_doc_id"]=ids[0]
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
         return True
@@ -408,7 +407,6 @@ class islr_wh_doc(osv.osv):
 
     def action_ret_islr(self, cr, uid, ids, context={}):
         #TODO: :
-
         inv_obj = self.pool.get('account.invoice')
         invoices_brw = inv_obj.browse(cr, uid, ids, context)
         wh_doc_list = []
@@ -435,6 +433,7 @@ class islr_wh_doc(osv.osv):
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:
                     raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
+            break
         return islr_wh_doc_id
 
 
