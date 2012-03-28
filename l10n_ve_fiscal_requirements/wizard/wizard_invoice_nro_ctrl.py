@@ -34,6 +34,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
     _name = "wizard.invoice.nro.ctrl"
     _columns = {
         'nro_ctrl': fields.char('Control Number',size= 32,required=True,help="New control number of the invoice damaged."),
+        'date': fields.date('Date',help="Date used for declared damaged paper. Keep empty to use the current date"),
         'sure': fields.boolean('Are You Sure?'),
     }
 
@@ -51,7 +52,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
 
         invoice.update({
             'company_id': inv_brw.company_id.id,
-            'date_invoice': inv_brw.date_invoice,
+            'date_invoice': wizard_brw.date,
             'number': inv_brw.number,
             'journal_id': inv_brw.company_id.jour_id.id,
             'partner_id': inv_brw.company_id.partner_id.id,
