@@ -69,8 +69,12 @@ class wh_iva_config(osv.osv_memory):
     _columns = {
         'name': fields.char('Name', 64),
         'wh':fields.boolean('Are You Withholding Agent?'),
+        'journal_purchase_vat': fields.char("Journal Wh VAT Purchase", 64, help="Journal for purchase operations involving Withholding VAT"),
+        'journal_sale_vat': fields.char("Journal Wh VAT Sale", 64, help="Journal for sale operations involving Withholding VAT"),
     }
     _defaults = {
+        'journal_purchase_vat': _("Journal Withholding VAT Purchase"),
+        'journal_sale_vat': _("Journal Withholding VAT Sale"),
     }
 
     def _show_company_data(self, cr, uid, context=None):
@@ -100,6 +104,14 @@ class wh_iva_config(osv.osv_memory):
             return defaults
         return defaults
 
+    def _create_journal(self, cr, uid, name, type, code):
+        self.pool.get("account.journal").create(cr, uid, { 
+            'name': name,
+            'type': type,
+            'code': code,
+            'view_id': 3,}
+        )
+
     def execute(self, cr, uid, ids, context=None):
         '''
         In this method I will configure all needs for work out of the box with 
@@ -112,11 +124,17 @@ class wh_iva_config(osv.osv_memory):
         and update all your partners information.
         '''
         user=self.pool.get('res.users').browse(cr,uid,[uid],context)
-        wiz=self.browse(cr,uid,ids,context)[0]
+        wiz_data=self.read(cr,uid,ids[0],context)
         p_obj=self.pool.get('res.partner')
         pa_obj=self.pool.get('res.partner.address')
         partner_id=user[0].company_id.partner_id.id
-        if wiz.wh:
+        
+        
+        if wiz_data.get('journal_purchase_vat'):
+            self._create_journal(cr, uid, wiz_data["journal_purchase_vat"], 'iva_purchase', 'VATP')
+        if wiz_data.get('journal_sale_vat'):
+            self._create_journal(cr, uid, wiz_data['journal_sale_vat'], 'iva_sale', 'VATS')
+        if wiz_data.get('wh'):
             p_obj.write(cr,uid,[partner_id],{'wh_iva_agent':1,
                                             'wh_iva_rate':75.00})
         else:

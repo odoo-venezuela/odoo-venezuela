@@ -100,6 +100,8 @@
                   <attribute name='string'></attribute>
               </xpath>
             <group string="res_config_contents" position="replace">
+              <field name="journal_purchase_vat" colspan="4" groups="base.group_extended"/>
+              <field name="journal_sale_vat" colspan="4" groups="base.group_extended"/>
               <field name="name" invisible="1" groups="base.group_extended"/>
               <field name="wh" groups="base.group_extended"/>
             </group>

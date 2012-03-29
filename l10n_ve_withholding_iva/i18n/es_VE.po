@@ -332,7 +332,7 @@ msgstr "Gestión de la retención del Impuesto al Valor Agregado(IVA), basado en
 #. module: l10n_ve_withholding_iva
 #: view:wh_iva.config:0
 msgid "Setup your Withholding Values."
-msgstr "Configure los valores de la retención."
+msgstr "Configure los valores de la retención del Impuesto al Valor Agregado (IVA)."
 
 #. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
@@ -1165,7 +1165,7 @@ msgstr "Fecha de la factura, nota de crédito, nota de débito o certificado, de
 #: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:303
 #, python-format
 msgid "Miscalculated Withheld Taxes"
-msgstr "Miscalculated Withheld Taxes"
+msgstr "Los impuestos no han sido calculados."
 
 #. module: l10n_ve_withholding_iva
 #: help:res.partner,wh_iva_agent:0
@@ -1347,3 +1347,24 @@ msgstr "Ud. no puede duplicar este documento!!!"
 msgid "Alert !"
 msgstr "Atención !"
 
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/installer.py:77
+#, python-format
+msgid "Journal Withholding VAT Sale"
+msgstr "Diario-Retención de IVA(Ventas)"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/installer.py:76
+#, python-format
+msgid "Journal Withholding VAT Purchase"
+msgstr "Diario-Retención de IVA(Compras)"
+
+#. module: l10n_ve_withholding_iva
+#: field:wh_iva.config,journal_purchase_vat:0
+msgid "Journal Wh VAT Purchase"
+msgstr "Diario-Retención de IVA(Compras)"
+
+#. module: l10n_ve_withholding_iva
+#: field:wh_iva.config,journal_sale_vat:0
+msgid "Journal Wh VAT Sale"
+msgstr "Diario-Retención de IVA(Ventas)"
