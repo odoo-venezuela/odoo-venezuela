@@ -61,12 +61,14 @@ ser suscritos.
 
     ], 
     "update_xml" : [
-                'view/wh_src_view.xml',
-                'view/account_invoice_view.xml',
-                'view/company_view.xml',
-                'workflow/l10n_ve_wh_src_wf.xml',
-                'data/data.xml',
-                'wh_src_report.xml',
+        'security/wh_src_security.xml',
+        'security/ir.model.access.csv',
+        'view/wh_src_view.xml',
+        'view/account_invoice_view.xml',
+        'view/company_view.xml',
+        'workflow/l10n_ve_wh_src_wf.xml',
+        'data/data.xml',
+        'wh_src_report.xml',
     ],
     "active": False,
     "installable": True
