@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Create an invoice to justify the damaged one">
                     <group colspan="8" col="8">
-                        <field name="nro_ctrl"/>
+                        <field name="invoice_id"/>
                         <field name="date"/>
                     </group>
                     <separator string="Are you sure you want to do this?" colspan="4"/>

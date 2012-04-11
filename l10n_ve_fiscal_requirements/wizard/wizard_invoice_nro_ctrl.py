@@ -33,16 +33,15 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
 
     _name = "wizard.invoice.nro.ctrl"
     _columns = {
-        'nro_ctrl': fields.char('Control Number',size= 32,required=True,help="New control number of the invoice damaged."),
+        'invoice_id': fields.many2one('account.invoice','Invoice',help="Invoice to be declared damaged."),
         'date': fields.date('Date',help="Date used for declared damaged paper. Keep empty to use the current date"),
         'sure': fields.boolean('Are You Sure?'),
     }
 
-    def action_invoice_create(self, cr, uid, ids, wizard_brw,invoice_id,context=None):
+    def action_invoice_create(self, cr, uid, ids, wizard_brw,inv_brw,context=None):
 
         invoice_line_obj = self.pool.get('account.invoice.line')
         invoice_obj = self.pool.get('account.invoice')
-        inv_brw = invoice_obj.browse(cr,uid,invoice_id,context)
         invoice={}
         invoice_line ={}
 
@@ -52,27 +51,29 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
 
         invoice.update({
             'company_id': inv_brw.company_id.id,
-            'date_invoice': wizard_brw.date,
+            'date_invoice': wizard_brw.date or inv_brw.date_invoice ,
             'number': inv_brw.number,
+            'move_id':inv_brw.move_id and inv_brw.move_id.id,
             'journal_id': inv_brw.company_id.jour_id.id,
             'partner_id': inv_brw.company_id.partner_id.id,
             'address_invoice_id' : address_invoice_id[0],
-            'nro_ctrl': wizard_brw.nro_ctrl,
+            'nro_ctrl': inv_brw.nro_ctrl,
             'account_id': inv_brw.company_id.acc_id.id,
             'currency_id': inv_brw.company_id.currency_id.id,
-            'name': 'PAPELANULADO_NRO_CTRL_'+wizard_brw.nro_ctrl,
+            'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or '') ,
             'state':'paid',
             })
         inv_id = invoice_obj.create(cr, uid, invoice,{})
+        tax_ids = self.pool.get('account.tax').search(cr,uid,[],context=context)
         tax_id=self.pool.get('account.invoice.tax').create(cr,uid,{'name':'SDCF',
-                         'tax_id': 1,
+                         'tax_id': tax_ids and tax_ids[0],
                          'amount':0.00,
                          'tax_amount':0.00,
                          'base':0.00,
                          'account_id':inv_brw.company_id.acc_id.id,
                          'invoice_id':inv_id},{})
         invoice_line.update({
-            'name': 'PAPELANULADO_NRO_CTRL_'+wizard_brw.nro_ctrl,
+            'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or ''),
             'account_id': inv_brw.company_id.acc_id.id,
             'price_unit': 0,
             'quantity': 0,
@@ -88,6 +89,10 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         except:
             pass
         invoice_line_id = invoice_line_obj.create(cr, uid, invoice_line, {})
+        invoice_obj.write(cr,uid,[inv_brw.id],{
+        'number':self.pool.get('ir.sequence').get(cr, uid,'account.invoice.%s'%inv_brw.type),
+        'move_id':False,
+        },context=context)
         return inv_id
 
     def new_open_window(self,cr,uid,ids,list_ids,xml_id,module,context=None):
@@ -106,18 +111,18 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         wizard_brw = self.browse(cr, uid, ids, context=None)
         wizard_deli_obj = self.pool.get('wz.picking.delivery.note')
         inv_id = context['active_id']
-        if context['menu']:
-            invoice_obj = self.pool.get('account.invoice')
-            inv_brw = invoice_obj.browse(cr, uid, invoice_obj.search(cr, uid, [], limit=1), context)
-        if inv_brw == []:
-            raise osv.except_osv(_("ERROR !"), _("You must have created at least one invoice to declare it as damaged"))
-        inv_id = inv_brw[0].id
-        inv_brw = inv_brw[0]
+        #~ if context['menu']:
+            #~ invoice_obj = self.pool.get('account.invoice')
+            #~ inv_brw = invoice_obj.browse(cr, uid, invoice_obj.search(cr, uid, [], limit=1), context)
+        #~ if inv_brw == []:
+            #~ raise osv.except_osv(_("ERROR !"), _("You must have created at least one invoice to declare it as damaged"))
+        #~ inv_id = inv_brw[0].id
+        #~ inv_brw = inv_brw[0]
         for wizard in wizard_brw:
             if not wizard.sure:
                 raise osv.except_osv(_("Error!"), _("Please confirm that you know what you're doing by checking the option bellow!"))
-            if inv_brw.company_id.jour_id and inv_brw.company_id.acc_id:
-                inv_id = self.action_invoice_create(cr,uid,ids,wizard,inv_id,context)
+            if wizard.invoice_id and wizard.invoice_id.company_id.jour_id and wizard.invoice_id and wizard.invoice_id.company_id.acc_id:
+                inv_id = self.action_invoice_create(cr,uid,ids,wizard,wizard.invoice_id,context)
             else:
                 raise osv.except_osv(_('Error!'), _("You must go to the company form and configure a journal and an account for damaged invoices"))
         return self.new_open_window(cr,uid,ids,[inv_id],'action_invoice_tree1','account')
