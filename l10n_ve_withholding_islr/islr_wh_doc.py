@@ -113,7 +113,7 @@ class islr_wh_doc(osv.osv):
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Voucher state"),
         'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
-        'date_uid': fields.date('Withhold Date', readonly=True, help="Voucher date"),
+        'date_uid': fields.date('Withhold Date', readonly=True, states={'draft':[('readonly',False)]}, help="Voucher date"),
         'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Period', help="Period when the accounts entries were done"),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Account Receivable or Account Payable of partner"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Partner object of withholding"),

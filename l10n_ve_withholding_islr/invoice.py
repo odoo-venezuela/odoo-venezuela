@@ -506,7 +506,9 @@ class account_invoice(osv.osv):
         'period_id': inv_brw.period_id.id,
         'account_id': inv_brw.account_id.id,
         'type': inv_brw.type,
-        'journal_id': self.get_journal(cr,uid,inv_brw),})
+        'journal_id': self.get_journal(cr,uid,inv_brw),
+        'date_ret': inv_brw.date_invoice,
+        'date_uid': inv_brw.date_document or False})
         
         wf_service = netsvc.LocalService("workflow")
         wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id, 'button_confirm', cr)
