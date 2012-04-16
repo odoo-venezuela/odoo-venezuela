@@ -55,8 +55,8 @@ class account_invoice(osv.osv):
     }
     
     _constraints = [
-        (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Numero de Control (nro_ctrl)','Referencia (reference)']),
-        ]
+         (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Numero de Control (nro_ctrl)','Referencia (reference)']),
+         ]
     
     def _refund_cleanup_lines(self, cr, uid, lines):
         """
