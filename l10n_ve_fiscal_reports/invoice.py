@@ -36,7 +36,7 @@ class inherited_invoice(osv.osv):
         'date_document': fields.date("Document Date", 
                                 help="Administrative date", 
                                         select=True),
-        'date_invoice': fields.datetime('Fecha Contable', 
+        'date_invoice': fields.date('Fecha Contable', 
                                     states={'open':[('readonly',True)],
                                     'close':[('readonly',True)],
                                     'paid':[('readonly',True)]},

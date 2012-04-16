@@ -42,21 +42,20 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
 
         invoice_line_obj = self.pool.get('account.invoice.line')
         invoice_obj = self.pool.get('account.invoice')
+        acc_mv_obj = self.pool.get('account.move')
         invoice={}
         invoice_line ={}
 
-        address_invoice_id = self.pool.get('res.partner.address').search(cr,uid,[('partner_id','=',inv_brw.partner_id.id),('type','=','invoice')])
-        if address_invoice_id == []:
-            raise osv.except_osv(_("ERROR !"), _("This partner does not have an invoice address"))
-
+#~  cancelar asioento en la factura
+#~ debe y haber en 0
         invoice.update({
             'company_id': inv_brw.company_id.id,
             'date_invoice': wizard_brw.date or inv_brw.date_invoice ,
             'number': inv_brw.number,
             'move_id':inv_brw.move_id and inv_brw.move_id.id,
             'journal_id': inv_brw.company_id.jour_id.id,
-            'partner_id': inv_brw.company_id.partner_id.id,
-            'address_invoice_id' : address_invoice_id[0],
+            'partner_id': inv_brw.partner_id and inv_brw.partner_id.id,
+            'address_invoice_id' : inv_brw.address_invoice_id and inv_brw.address_invoice_id.id,
             'nro_ctrl': inv_brw.nro_ctrl,
             'account_id': inv_brw.company_id.acc_id.id,
             'currency_id': inv_brw.company_id.currency_id.id,
@@ -93,6 +92,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         'number':self.pool.get('ir.sequence').get(cr, uid,'account.invoice.%s'%inv_brw.type),
         'move_id':False,
         },context=context)
+        
         return inv_id
 
     def new_open_window(self,cr,uid,ids,list_ids,xml_id,module,context=None):
