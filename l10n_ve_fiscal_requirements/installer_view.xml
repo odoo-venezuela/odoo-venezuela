@@ -35,7 +35,6 @@ update it on your system for you
               <newline/>
               <field name="add" groups="base.group_extended" widget="text"/>
             </group>
-            <xpath expr='//button[@name="action_skip"]' position='replace'/>
           </data>
         </field>
     </record>
