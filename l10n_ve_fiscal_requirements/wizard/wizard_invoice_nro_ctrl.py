@@ -43,57 +43,39 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         invoice_line_obj = self.pool.get('account.invoice.line')
         invoice_obj = self.pool.get('account.invoice')
         acc_mv_obj = self.pool.get('account.move')
+        acc_mv_l_obj = self.pool.get('account.move.line')
+        tax_obj=self.pool.get('account.invoice.tax')
         invoice={}
         invoice_line ={}
-
+        
 #~  cancelar asioento en la factura
 #~ debe y haber en 0
         invoice.update({
-            'company_id': inv_brw.company_id.id,
-            'date_invoice': wizard_brw.date or inv_brw.date_invoice ,
-            'number': inv_brw.number,
-            'move_id':inv_brw.move_id and inv_brw.move_id.id,
-            'journal_id': inv_brw.company_id.jour_id.id,
-            'partner_id': inv_brw.partner_id and inv_brw.partner_id.id,
-            'address_invoice_id' : inv_brw.address_invoice_id and inv_brw.address_invoice_id.id,
-            'nro_ctrl': inv_brw.nro_ctrl,
-            'account_id': inv_brw.company_id.acc_id.id,
-            'currency_id': inv_brw.company_id.currency_id.id,
             'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or '') ,
             'state':'paid',
+            'tax_line':[],
             })
-        inv_id = invoice_obj.create(cr, uid, invoice,{})
+        invoice_obj.write(cr,uid,[inv_brw.id],invoice,context=context)
+        for line in inv_brw.invoice_line:
+            invoice_line_obj.write(cr,uid,[line.id],{'quantity':0.0,'invoice_line_tax_id':[],'price_unit':0.0},context=context)
+            
         tax_ids = self.pool.get('account.tax').search(cr,uid,[],context=context)
-        tax_id=self.pool.get('account.invoice.tax').create(cr,uid,{'name':'SDCF',
+        tax = tax_obj.search(cr,uid,[('invoice_id','=',inv_brw and inv_brw.id)],context=context)
+        tax and tax_obj.write(cr,uid,tax[0],{'invoice_id':[]},context=context)
+        tax_id=tax_obj.create(cr,uid,{'name':'SDCF',
                          'tax_id': tax_ids and tax_ids[0],
                          'amount':0.00,
                          'tax_amount':0.00,
                          'base':0.00,
                          'account_id':inv_brw.company_id.acc_id.id,
-                         'invoice_id':inv_id},{})
-        invoice_line.update({
-            'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or ''),
-            'account_id': inv_brw.company_id.acc_id.id,
-            'price_unit': 0,
-            'quantity': 0,
-            'invoice_id': inv_id,
-            })
-        try:
-            for inv_line in inv_brw.invoice_line:
-                if inv_line.concept_id or False:
-                    invoice_line.update({
-                    'concept_id': inv_line.concept_id.id or 1,
-                    })
-                break
-        except:
-            pass
-        invoice_line_id = invoice_line_obj.create(cr, uid, invoice_line, {})
-        invoice_obj.write(cr,uid,[inv_brw.id],{
-        'number':self.pool.get('ir.sequence').get(cr, uid,'account.invoice.%s'%inv_brw.type),
-        'move_id':False,
-        },context=context)
+                         'invoice_id':inv_brw and inv_brw.id},{})
+        move_id = inv_brw.move_id and inv_brw.move_id.id
         
-        return inv_id
+        if move_id:
+            acc_mv_obj.button_cancel(cr, uid, [inv_brw.move_id.id], context=context)
+            acc_mv_obj.write(cr, uid, [inv_brw.move_id.id],{'ref':'Damanged Paper'}, context=context)
+            acc_mv_l_obj.unlink(cr,uid,[i.id for i in inv_brw.move_id.line_id])
+        return inv_brw.id
 
     def new_open_window(self,cr,uid,ids,list_ids,xml_id,module,context=None):
         '''

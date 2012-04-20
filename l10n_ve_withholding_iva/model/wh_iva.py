@@ -66,7 +66,7 @@ class account_wh_iva_line_tax(osv.osv):
     
     _name = 'account.wh.iva.line.tax'
     _columns = {
-        'inv_tax_id': fields.many2one('account.invoice.tax', 'Invoice Tax', required=True, ondelete='set null', help="Tax Line"),
+        'inv_tax_id': fields.many2one('account.invoice.tax', 'Invoice Tax', ondelete='set null', help="Tax Line"),
         'wh_vat_line_id':fields.many2one('account.wh.iva.line', 'Withholding VAT Line', required=True, ondelete='cascade', help="Line withholding VAT"),
         'tax_id': fields.related('inv_tax_id', 'tax_id', type='many2one',relation='account.tax', string='Tax', store=True, select=True, readonly=True, ondelete='set null', help="Tax"),
         'name': fields.related('inv_tax_id', 'name', type='char', string='Tax Name', size=256, store=True, select=True, readonly=True, ondelete='set null', help=" Tax Name"),

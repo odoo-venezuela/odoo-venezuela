@@ -165,16 +165,26 @@ class islr_wh_doc(osv.osv):
         doc_inv_obj = self.pool.get('islr.wh.doc.invoices')
         inv_obj = self.pool.get('account.invoice')
         inv_line_obj = self.pool.get('account.invoice.line')
-        
+        xml_obj = self.pool.get('islr.xml.wh.line')
         wh_doc_id = ids[0]
-        #~ wh_line_list = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
-        #~ line_obj.unlink(cr,uid,wh_line_list)
         
-        #~ doc_inv_list = doc_inv_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
-        #~ doc_inv_obj.unlink(cr,uid,doc_inv_list)
+        
+         #~ DELETED XML LINES
+        islr_lines = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
+        xml_lines = islr_lines and xml_obj.search(cr,uid,[('islr_wh_doc_line_id','in',islr_lines)])
+        xml_lines and xml_obj.unlink(cr,uid,xml_lines)
+        
+        wh_line_list = line_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
+        line_obj.unlink(cr,uid,wh_line_list)
+        
+        doc_inv_list = doc_inv_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
+        doc_inv_obj.unlink(cr,uid,doc_inv_list)
         
         inv_list = inv_obj.search(cr,uid,[('islr_wh_doc_id','=',wh_doc_id)])
-        inv_obj.write(cr, uid, inv_list, {'status':'no_pro','islr_wh_doc_id':None})
+        #~ inv_obj.write(cr, uid, inv_list, {'status':'no_pro','islr_wh_doc_id':None}) REVISAR 
+        inv_obj.write(cr, uid, inv_list, {'status':'no_pro'})
+        
+        
         
         inv_line_list = inv_line_obj.search(cr,uid,[('invoice_id','in',inv_list)])
         inv_line_obj.write(cr, uid, inv_line_list, {'apply_wh':False})
@@ -238,8 +248,8 @@ class islr_wh_doc(osv.osv):
         return True
 
     def action_cancel(self,cr,uid,ids,context={}):
-        if self.browse(cr,uid,ids)[0].type=='in_invoice':
-            return True
+        #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
+            #~ return True
         self.cancel_move(cr,uid,ids)
         self.action_cancel_process(cr,uid,ids,context=context)
         return True
@@ -268,7 +278,6 @@ class islr_wh_doc(osv.osv):
         return True
 
     def action_move_create(self, cr, uid, ids, *args):
-
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = {}
         inv_id = None
