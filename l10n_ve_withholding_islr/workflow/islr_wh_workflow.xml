@@ -55,6 +55,12 @@ write({'state':'cancel'})</field>
             <field name="name">cancel</field>
         </record>
 
+        <record id="trans_draft_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">act_cancel</field>
+        </record>
+
         <record id="trans_draft_confirmed" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_confirmed"/>
@@ -67,9 +73,23 @@ write({'state':'cancel'})</field>
             <field name="signal">act_progress</field>
         </record>
         
+        
+           <record id="trans_progress_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_progress"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">act_cancel</field>
+        </record>
+
         <record id="trans_progress_confirmed" model="workflow.transition">
             <field name="act_from" ref="act_progress"/>
             <field name="act_to" ref="act_confirmed"/>
+            <field name="signal">act_confirmed</field>
+        </record>
+
+        <record id="trans_confirmed_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_confirmed"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">act_cancel</field>
         </record>
 
         <record id="trans_confirmed_done" model="workflow.transition">

@@ -175,7 +175,7 @@
                                
                             </group>
                             <group col="2" colspan="2">
-                                <button name="cancel" colspan="2"  states="done" string="Cancel" icon="gtk-cancel"/>
+                                <button name="cancel" colspan="2"  states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
                                 <button name="%(withholding_vat)d" type="action" colspan="2"  states="done" string="Print Voucher Withholding VAT" icon="gtk-execute"/>
                                 <button name="set_to_draft" colspan="2"  states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
                                 <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>
@@ -227,7 +227,7 @@
                                 <button name="wh_iva_confirmed" states="draft" string="Confirm" icon="gtk-execute"/>
                             </group>
                             <group col="2" colspan="2">
-                             <button name="cancel" colspan="2"  states="done" string="Cancel" icon="gtk-cancel"/>
+                             <button name="cancel" colspan="2"  states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
                              <button name="%(withholding_vat)d" type="action" colspan="2"  states="done" string="Print Voucher Withholding VAT" icon="gtk-execute"/>
                              <button name="set_to_draft" colspan="2"  states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
                                

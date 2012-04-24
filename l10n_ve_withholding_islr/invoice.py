@@ -164,19 +164,19 @@ class account_invoice(osv.osv):
         dict={}
         for key in concept_list:
             dict[key]={'lines':[],'wh':False,'base':0.0}
-        inv_obj = self.pool.get('account.invoice')
-        inv_lst = inv_obj.search(cr, uid,[('partner_id', '=', invoice.partner_id.id),('period_id','=',invoice.period_id.id),('state','in',['done','open'])]) # Lista de  facturas asociadas al proveedor actual, al periodo actual y al estado de las facturas: donde, open.
-        
-        inv_line_lst=[]
-        for id in inv_lst:
-            inv_line_brw = inv_obj.browse(cr, uid, id).invoice_line #lista de lineas de facturas
-            for line in inv_line_brw:
-                if line.concept_id and  line.concept_id.id in concept_list: # Se verifica si el concepto de la linea en la que estoy buscando coincide con alguno de los conceptos de la factura actual.
-                    if not line.apply_wh: # Se verifica si a la linea no se le ha aplicado retencion, de ser asi se almacena el id de la linea y la base.
-                        dict[line.concept_id.id]['lines'].append(line.id)
-                        dict[line.concept_id.id]['base']+= line.price_subtotal
-                    else:  # Si ya se le aplico retencion, no se guarda el id porque no hace falta pero se indica que ya se le aplico retencion.
-                        dict[line.concept_id.id]['wh']=True
+        #~ inv_obj = self.pool.get('account.invoice')
+        #~ inv_lst = inv_obj.search(cr, uid,[('partner_id', '=', invoice.partner_id.id),('period_id','=',invoice.period_id.id),('state','in',['done','open'])]) # Lista de  facturas asociadas al proveedor actual, al periodo actual y al estado de las facturas: donde, open.
+        #~ 
+        #~ inv_line_lst=[]
+        #~ for id in inv_lst:
+            #~ inv_line_brw = inv_obj.browse(cr, uid, id).invoice_line #lista de lineas de facturas
+        for line in invoice.invoice_line:
+            if line.concept_id and  line.concept_id.id in concept_list: # Se verifica si el concepto de la linea en la que estoy buscando coincide con alguno de los conceptos de la factura actual.
+                if not line.apply_wh: # Se verifica si a la linea no se le ha aplicado retencion, de ser asi se almacena el id de la linea y la base.
+                    dict[line.concept_id.id]['lines'].append(line.id)
+                    dict[line.concept_id.id]['base']+= line.price_subtotal
+                else:  # Si ya se le aplico retencion, no se guarda el id porque no hace falta pero se indica que ya se le aplico retencion.
+                    dict[line.concept_id.id]['wh']=True
         #~ dict[key]={'lines':[],'wh':False,'base':0.0}
         return dict
 
@@ -498,7 +498,7 @@ class account_invoice(osv.osv):
         wh_doc_obj = self.pool.get('islr.wh.doc')
         inv_obj =self.pool.get('account.invoice.line')
         inv_brw = inv_brw.invoice_id
-    
+        inv_brw2 = inv_obj.browse(cr,uid,dict.keys())
         islr_wh_doc_id = wh_doc_obj.create(cr,uid,
         {'name': wh_doc_obj.retencion_seq_get(cr, uid),
         'partner_id': inv_brw.partner_id.id,
@@ -508,7 +508,9 @@ class account_invoice(osv.osv):
         'type': inv_brw.type,
         'journal_id': self.get_journal(cr,uid,inv_brw),
         'date_ret': inv_brw.date_invoice,
-        'date_uid': inv_brw.date_document or False})
+        'date_uid': inv_brw.date_document or False,
+        'islr_wh_doc_id': [(6,0,[i.invoice_id.id for i in inv_brw2])]
+        })
         
         wf_service = netsvc.LocalService("workflow")
         wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id, 'button_confirm', cr)
