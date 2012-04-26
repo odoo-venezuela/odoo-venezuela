@@ -173,16 +173,12 @@ class account_invoice(osv.osv):
                 #raise osv.except_osv('Invalid Action !', _('This invoice is already withholded'))
                 return 0
             ret_line = []
-            date_inv = False
-            date_doc = False
             if inv.type in ('out_invoice', 'out_refund'):
                 acc_id = inv.partner_id.property_account_receivable.id
                 wh_type = 'out_invoice'
             else:
                 acc_id = inv.partner_id.property_account_payable.id
                 wh_type = 'in_invoice'
-                date_inv = inv.date_invoice
-                date_doc = inv.date_document or False
                 if not acc_id:
                     raise osv.except_osv('Invalid Action !',\
             _('You need to configure the partner with withholding accounts!'))
@@ -193,9 +189,7 @@ class account_invoice(osv.osv):
                 'type': wh_type,
                 'account_id': acc_id,
                 'partner_id': inv.partner_id.id,
-                'wh_lines':ret_line,
-                'date_ret': date_inv,
-                'date': date_doc
+                'wh_lines':ret_line
             }
             ret_id = wh_iva_obj.create(cr, uid, ret_iva)
             self.write(cr, uid, [inv.id], {'wh_iva_id':ret_id})
