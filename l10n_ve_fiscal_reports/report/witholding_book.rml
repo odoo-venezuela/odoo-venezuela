@@ -106,10 +106,10 @@
           <para style="ENCABEZADO">Factura Afectada</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Total Ventas</para>
+          <para style="ENCABEZADO">[[ (data['form']['model'] == 'wh_p') and "Total Compras" or "Total Ventas" ]]</para>
         </td>
         <td>
-          <para style="ENCABEZADO">Ventas Exentas</para>
+          <para style="ENCABEZADO">[[ (data['form']['model'] == 'wh_p') and "Compras Exentas" or "Ventas Exentas" ]]</para>
         </td>
         <td>
           <para style="ENCABEZADO">Impuesto</para>
