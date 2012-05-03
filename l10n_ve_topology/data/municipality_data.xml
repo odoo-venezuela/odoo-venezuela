@@ -231,12 +231,12 @@
             <field name="state_id" ref="res_country_state_ar"/>
          </record>
         <record id="res_country_state_municipalities_043" model="res.municipality">
-            <field name="name">Jose Felix Ribas </field>
+            <field name="name">Jose Felix Ribas</field>
             <field name="code">043</field>
             <field name="state_id" ref="res_country_state_ar"/>
          </record>
         <record id="res_country_state_municipalities_044" model="res.municipality">
-            <field name="name">José Rafael Revenga </field>
+            <field name="name">José Rafael Revenga</field>
             <field name="code">044</field>
             <field name="state_id" ref="res_country_state_ar"/>
          </record>
@@ -246,7 +246,7 @@
             <field name="state_id" ref="res_country_state_ar"/>
          </record>
         <record id="res_country_state_municipalities_047" model="res.municipality">
-            <field name="name">Mario Briceno Iragorry </field>
+            <field name="name">Mario Briceno Iragorry</field>
             <field name="code">047</field>
             <field name="state_id" ref="res_country_state_ar"/>
          </record>

@@ -35,13 +35,12 @@ class account_invoice(osv.osv):
         for inv in inv_brw:
             if inv.type in ('out_invoice','out_refund'):
                 return True
-            inv_ids = inv.nro_ctrl is not False and inv.reference is not False and self.search(cr,uid,
+            inv_ids = inv.nro_ctrl is not '' and inv.nro_ctrl is not False and inv.reference is not False and self.search(cr,uid,
                         ['|',('nro_ctrl','=',inv.nro_ctrl and inv.nro_ctrl.strip() ),('reference','=',inv.reference and inv.reference.strip()),
                         ('type','=',inv.type),
                         ('partner_id','=',inv.partner_id.id)],
                         context=context) or []
-            res_ids = list(set(inv_ids) - set(ids))
-            if res_ids:
+            if inv_ids:
                 return False
         return True
 
@@ -56,9 +55,9 @@ class account_invoice(osv.osv):
     
     
     _constraints = [
-         (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Numero de Control (nro_ctrl)','Referencia (reference)']),
+          (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Numero de Control (nro_ctrl)','Referencia (reference)']),
          ]
-    
+     
     def _refund_cleanup_lines(self, cr, uid, lines):
         """
         Metodo created to clean invoice lines
