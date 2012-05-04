@@ -194,8 +194,8 @@ class account_invoice_refund(osv.osv_memory):
                 
                 refund = inv_obj.browse(cr, uid, refund_id[0], context=context)
                 #Add parent invoice
-                cr.execute("update account_invoice set date_due='%s', check_total='%s', \
-                            parent_id=%s where id =%s"%(date,inv.check_total,inv.id,refund.id))
+                cr.execute("update account_invoice set date_due='%s',nro_ctrl='%s', check_total='%s', \
+                            parent_id=%s where id =%s"%(date,nroctrl,inv.check_total,inv.id,refund.id))
                 inv_obj.button_compute(cr, uid, refund_id)
                 
                 created_inv.append(refund_id[0])
@@ -285,7 +285,6 @@ class account_invoice_refund(osv.osv_memory):
             if wzd_brw.filter_refund == 'refund':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'description':wzd_brw.description},context=context)
-            cr.execute("update account_invoice set nro_ctrl='%s' where id =%s"%(nroctrl,refund.id))
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
