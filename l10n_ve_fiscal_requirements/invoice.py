@@ -41,7 +41,7 @@ class account_invoice(osv.osv):
                         ('type','=',inv.type),
                         ('partner_id','=',inv.partner_id.id)],
                         context=context) or []
-            if [True for i in ids_ivo if i not in inv_ids ] and inv_ids :
+            if [True for i in inv_ids if i not in ids_ivo ] and inv_ids:
                 return False
         return True
 
