@@ -25,14 +25,15 @@
 
 from osv import fields, osv
 from tools.translate import _
-
 class account_invoice(osv.osv):
 
 
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
         if context is None: context={}
         inv_brw = self.browse(cr, uid, ids, context=context)
+        ids_ivo = []
         for inv in inv_brw:
+            ids_ivo.append(inv.id)
             if inv.type in ('out_invoice','out_refund'):
                 return True
             inv_ids = inv.nro_ctrl is not '' and inv.nro_ctrl is not False and inv.reference is not False and self.search(cr,uid,
@@ -40,7 +41,7 @@ class account_invoice(osv.osv):
                         ('type','=',inv.type),
                         ('partner_id','=',inv.partner_id.id)],
                         context=context) or []
-            if inv_ids:
+            if [True for i in ids_ivo if i not in inv_ids ] and inv_ids :
                 return False
         return True
 
