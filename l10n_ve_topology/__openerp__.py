@@ -25,7 +25,7 @@
 {
     "name" : "Topology for Venezuela",
     "version" : "0.3",
-    "depends" : ["base"],
+    "depends" : ["base","l10n_ve_fiscal_requirements"],
     "author" : "Vauxoo",
     "description" : """
     What do this module:

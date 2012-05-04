@@ -9,7 +9,7 @@
          </record> 
 <!--Anzoategui-->
          <record id="res_country_state_city_002" model="res.city">
-              <field name="name">Anaco </field>
+              <field name="name">Anaco</field>
               <field name="code">anc</field>
               <field name="state_id" ref="res_country_state_an"/>
          </record>
@@ -40,7 +40,7 @@
          </record>
 <!--Apure-->
          <record id="res_country_state_city_008" model="res.city">
-              <field name="name">Biruaca </field>
+              <field name="name">Biruaca</field>
               <field name="code">bir</field>
               <field name="state_id" ref="res_country_state_ap"/>
          </record>
@@ -96,7 +96,7 @@
               <field name="state_id" ref="res_country_state_ar"/>
          </record>
          <record id="res_country_state_city_019" model="res.city">
-              <field name="name">Turmero </field>
+              <field name="name">Turmero</field>
               <field name="code">tmr</field>
               <field name="state_id" ref="res_country_state_ar"/>
          </record>
@@ -107,7 +107,7 @@
          </record>
 <!--Barinas-->
          <record id="res_country_state_city_021" model="res.city">
-              <field name="name">Barinas </field>
+              <field name="name">Barinas</field>
               <field name="code">brn</field>
               <field name="state_id" ref="res_country_state_ba"/>
          </record>
@@ -123,13 +123,13 @@
               <field name="state_id" ref="res_country_state_bo"/>
          </record>
          <record id="res_country_state_city_024" model="res.city">
-              <field name="name">Upata </field>
+              <field name="name">Upata</field>
               <field name="code">upt</field>
               <field name="state_id" ref="res_country_state_bo"/>
          </record>
 <!--Carabobo -->
          <record id="res_country_state_city_025" model="res.city">
-              <field name="name">Guacara </field>
+              <field name="name">Guacara</field>
               <field name="code">gcr</field>
               <field name="state_id" ref="res_country_state_ca"/>
          </record>
@@ -139,7 +139,7 @@
               <field name="state_id" ref="res_country_state_ca"/>
          </record>
          <record id="res_country_state_city_027" model="res.city">
-              <field name="name">Mariara </field>
+              <field name="name">Mariara</field>
               <field name="code">mra</field>
               <field name="state_id" ref="res_country_state_ca"/>
          </record>
@@ -159,12 +159,12 @@
               <field name="state_id" ref="res_country_state_ca"/>
          </record>
          <record id="res_country_state_city_031" model="res.city">
-              <field name="name">Tacarigua </field>
+              <field name="name">Tacarigua</field>
               <field name="code">tcr</field>
               <field name="state_id" ref="res_country_state_ca"/>
          </record>
          <record id="res_country_state_city_032" model="res.city">
-              <field name="name">Valencia </field>
+              <field name="name">Valencia</field>
               <field name="code">val</field>
               <field name="state_id" ref="res_country_state_ca"/>
          </record>
@@ -175,19 +175,19 @@
               <field name="state_id" ref="res_country_state_co"/>
          </record>
          <record id="res_country_state_city_034" model="res.city">
-              <field name="name">Tinaquillo </field>
+              <field name="name">Tinaquillo</field>
               <field name="code">tnq</field>
               <field name="state_id" ref="res_country_state_co"/>
          </record>
 <!--Delta Amacuro -->
          <record id="res_country_state_city_035" model="res.city">
-              <field name="name">Tucupita </field>
+              <field name="name">Tucupita</field>
               <field name="code">tcp</field>
               <field name="state_id" ref="res_country_state_da"/>
          </record>
 <!--Distrito Capital-->
          <record id="res_country_state_city_036" model="res.city">
-              <field name="name">Caracas </field>
+              <field name="name">Caracas</field>
               <field name="code">ccs</field>
               <field name="state_id" ref="res_country_state_dc"/>
          </record>
@@ -214,7 +214,7 @@
                   <field name="state_id" ref="res_country_state_gu"/>
          </record>
          <record id="res_country_state_city_041" model="res.city">
-                  <field name="name">Calabozo </field>
+                  <field name="name">Calabozo</field>
                   <field name="code">clb</field>
                   <field name="state_id" ref="res_country_state_gu"/>
          </record>
@@ -229,13 +229,13 @@
                   <field name="state_id" ref="res_country_state_gu"/>
          </record>
          <record id="res_country_state_city_044" model="res.city">
-              <field name="name">Zaraza </field>
+              <field name="name">Zaraza</field>
               <field name="code">zrz</field>
               <field name="state_id" ref="res_country_state_gu"/>
          </record>
 <!--Lara-->
          <record id="res_country_state_city_045" model="res.city">
-              <field name="name">Barquisimeto </field>
+              <field name="name">Barquisimeto</field>
               <field name="code">bto</field>
               <field name="state_id" ref="res_country_state_la"/>
          </record>
@@ -245,7 +245,7 @@
               <field name="state_id" ref="res_country_state_la"/>
          </record>
          <record id="res_country_state_city_047" model="res.city">
-              <field name="name">Carora </field>
+              <field name="name">Carora</field>
               <field name="code">crr</field>
               <field name="state_id" ref="res_country_state_la"/>
          </record>
@@ -255,18 +255,18 @@
               <field name="state_id" ref="res_country_state_la"/>
          </record>
          <record id="res_country_state_city_049" model="res.city">
-              <field name="name">Quibor </field>
+              <field name="name">Quibor</field>
               <field name="code">qbo</field>
               <field name="state_id" ref="res_country_state_la"/>
          </record>
 <!--Merida-->
          <record id="res_country_state_city_050" model="res.city">
-              <field name="name">Baruta </field>
+              <field name="name">Baruta</field>
               <field name="code">bta</field>
               <field name="state_id" ref="res_country_state_me"/>
          </record>
          <record id="res_country_state_city_051" model="res.city">
-              <field name="name">Ejido </field>
+              <field name="name">Ejido</field>
               <field name="code">ejd</field>
               <field name="state_id" ref="res_country_state_me"/>
          </record>
@@ -282,7 +282,7 @@
          </record>
 <!--Miranda-->
          <record id="res_country_state_city_054" model="res.city">
-              <field name="name">Carrizal </field>
+              <field name="name">Carrizal</field>
               <field name="code">crz</field>
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
@@ -292,12 +292,12 @@
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
          <record id="res_country_state_city_056" model="res.city">
-              <field name="name">Chacao </field>
+              <field name="name">Chacao</field>
               <field name="code">cco</field>
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
          <record id="res_country_state_city_057" model="res.city">
-              <field name="name">Charallave </field>
+              <field name="name">Charallave</field>
               <field name="code">cha</field>
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
@@ -317,12 +317,12 @@
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
          <record id="res_country_state_city_061" model="res.city">
-              <field name="name">Guarenas </field>
+              <field name="name">Guarenas</field>
               <field name="code">grn</field>
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
          <record id="res_country_state_city_062" model="res.city">
-              <field name="name">Guatire </field>
+              <field name="name">Guatire</field>
               <field name="code">gtr</field>
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
@@ -347,7 +347,7 @@
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
          <record id="res_country_state_city_067" model="res.city">
-              <field name="name">Petare </field>
+              <field name="name">Petare</field>
               <field name="code">ptr</field>
               <field name="state_id" ref="res_country_state_mi"/>
          </record>
@@ -368,7 +368,7 @@
          </record>
 <!--Monagas-->
          <record id="res_country_state_city_071" model="res.city">
-              <field name="name">Caripito </field>
+              <field name="name">Caripito</field>
               <field name="code">crp</field>
               <field name="state_id" ref="res_country_state_mo"/>
          </record>
@@ -379,17 +379,17 @@
          </record> 
 <!--Portuguesa-->
          <record id="res_country_state_city_073" model="res.city">
-              <field name="name">Acarigua </field>
+              <field name="name">Acarigua</field>
               <field name="code">acr</field>
               <field name="state_id" ref="res_country_state_po"/>
          </record>
          <record id="res_country_state_city_074" model="res.city">
-              <field name="name">Araure </field>
+              <field name="name">Araure</field>
               <field name="code">aru</field>
               <field name="state_id" ref="res_country_state_po"/>
          </record>
          <record id="res_country_state_city_075" model="res.city">
-              <field name="name">Guanare </field>
+              <field name="name">Guanare</field>
               <field name="code">gnr</field>
               <field name="state_id" ref="res_country_state_po"/>
          </record>
@@ -411,12 +411,12 @@
          </record>
 <!--Tachira-->
          <record id="res_country_state_city_079" model="res.city">
-              <field name="name">Palmira </field>
+              <field name="name">Palmira</field>
               <field name="code">pal</field>
               <field name="state_id" ref="res_country_state_ta"/>
          </record>
          <record id="res_country_state_city_080" model="res.city">
-              <field name="name">Rubio </field>
+              <field name="name">Rubio</field>
               <field name="code">rub</field>
               <field name="state_id" ref="res_country_state_ta"/>
          </record>
@@ -426,7 +426,7 @@
               <field name="state_id" ref="res_country_state_ta"/>
          </record>
          <record id="res_country_state_city_082" model="res.city">
-              <field name="name">San Crist&#243;bal </field>
+              <field name="name">San Crist&#243;bal</field>
               <field name="code">sct</field>
               <field name="state_id" ref="res_country_state_ta"/>
          </record>
@@ -447,18 +447,18 @@
          </record>
 <!--Trujillo-->
          <record id="res_country_state_city_086" model="res.city">
-              <field name="name">Trujillo </field>
+              <field name="name">Trujillo</field>
               <field name="code">tru</field>
               <field name="state_id" ref="res_country_state_tr"/>
          </record>
          <record id="res_country_state_city_087" model="res.city">
-              <field name="name">Valera </field>
+              <field name="name">Valera</field>
               <field name="code">vlr</field>
               <field name="state_id" ref="res_country_state_tr"/>
          </record>
 <!--Vargas-->
           <record id="res_country_state_city_088" model="res.city">
-              <field name="name">Caraballeda </field>
+              <field name="name">Caraballeda</field>
               <field name="code">crb</field>
               <field name="state_id" ref="res_country_state_va"/>
          </record>
@@ -483,28 +483,28 @@
               <field name="state_id" ref="res_country_state_va"/>
          </record>      
          <record id="res_country_state_city_093" model="res.city">
-              <field name="name">Porlamar </field>
+              <field name="name">Porlamar</field>
               <field name="code">por</field>
               <field name="state_id" ref="res_country_state_va"/>
          </record>
          <record id="res_country_state_city_094" model="res.city">
-              <field name="name">Villa Rosa </field>
+              <field name="name">Villa Rosa</field>
               <field name="code">vro</field>
               <field name="state_id" ref="res_country_state_va"/>
          </record>        
  <!--Yaracuy-->
          <record id="res_country_state_city_095" model="res.city">
-              <field name="name">Chivacoa </field>
+              <field name="name">Chivacoa</field>
               <field name="code">chi</field>
               <field name="state_id" ref="res_country_state_ya"/>
          </record>
          <record id="res_country_state_city_096" model="res.city">
-              <field name="name">Cocorote </field>
+              <field name="name">Cocorote</field>
               <field name="code">crt</field>
               <field name="state_id" ref="res_country_state_ya"/>
          </record>
          <record id="res_country_state_city_097" model="res.city">
-              <field name="name">Independencia </field>
+              <field name="name">Independencia</field>
               <field name="code">idp</field>
               <field name="state_id" ref="res_country_state_ya"/>
          </record>
@@ -514,18 +514,18 @@
               <field name="state_id" ref="res_country_state_ya"/>
          </record>
          <record id="res_country_state_city_099" model="res.city">
-              <field name="name">Yaritagua </field>
+              <field name="name">Yaritagua</field>
               <field name="code">yrt</field>
               <field name="state_id" ref="res_country_state_ya"/>
          </record>        
 <!--Zulia-->
          <record id="res_country_state_city_100" model="res.city">
-              <field name="name">Bachaquero </field>
+              <field name="name">Bachaquero</field>
               <field name="code">bcq</field>
               <field name="state_id" ref="res_country_state_zu"/>
          </record>
          <record id="res_country_state_city_101" model="res.city">
-              <field name="name">Cabimas </field>
+              <field name="name">Cabimas</field>
               <field name="code">cbm</field>
               <field name="state_id" ref="res_country_state_zu"/>
          </record>
@@ -535,17 +535,17 @@
               <field name="state_id" ref="res_country_state_zu"/>
          </record>
          <record id="res_country_state_city_103" model="res.city">
-              <field name="name">Lagunillas </field>
+              <field name="name">Lagunillas</field>
               <field name="code">lag</field>
               <field name="state_id" ref="res_country_state_zu"/>
          </record>
          <record id="res_country_state_city_104" model="res.city">
-              <field name="name">Machiques </field>
+              <field name="name">Machiques</field>
               <field name="code">mcq</field>
               <field name="state_id" ref="res_country_state_zu"/>
          </record>
          <record id="res_country_state_city_105" model="res.city">
-              <field name="name">Maracaibo </field>
+              <field name="name">Maracaibo</field>
               <field name="code">mbo</field>
               <field name="state_id" ref="res_country_state_zu"/>
          </record>

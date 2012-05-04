@@ -36,7 +36,6 @@ write({'state':'confirmed'})</field>
             <field name="name">done</field>
             <field name="action">action_move_create()
 write({'state':'done'})</field>
-            <field name="flow_stop">True</field>
         </record>
         
         <record id="act_draft" model="workflow.activity">

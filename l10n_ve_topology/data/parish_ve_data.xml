@@ -5,7 +5,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_002" />
         </record>
         <record id="res_municipality_parish_2" model="res.parish">
-          <field name="name">Parroquia Marawaka </field>
+          <field name="name">Parroquia Marawaka</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_002" />
         </record>
         <record id="res_municipality_parish_3" model="res.parish">
@@ -13,39 +13,39 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_002" />
         </record>
         <record id="res_municipality_parish_4" model="res.parish">
-          <field name="name">Parroquia Sierra Parima </field>
+          <field name="name">Parroquia Sierra Parima</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_002" />
         </record>
         <record id="res_municipality_parish_5" model="res.parish">
-          <field name="name">Parroquia Ucata </field>
+          <field name="name">Parroquia Ucata</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_003" />
         </record>
         <record id="res_municipality_parish_6" model="res.parish">
-          <field name="name">Parroquia Yapacana </field>
+          <field name="name">Parroquia Yapacana</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_003" />
         </record>
         <record id="res_municipality_parish_7" model="res.parish">
-          <field name="name">Parroquia Caname </field>
+          <field name="name">Parroquia Caname</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_003" />
         </record>
         <record id="res_municipality_parish_8" model="res.parish">
-          <field name="name">Parroquia Fernando Gir&#243;n Tovar </field>
+          <field name="name">Parroquia Fernando Gir&#243;n Tovar</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_004" />
         </record>
         <record id="res_municipality_parish_9" model="res.parish">
-          <field name="name">Parroquia Luis Alberto G&#243;mez </field>
+          <field name="name">Parroquia Luis Alberto G&#243;mez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_004" />
         </record>
         <record id="res_municipality_parish_10" model="res.parish">
-          <field name="name">Parroquia Parhue&#241;a </field>
+          <field name="name">Parroquia Parhue&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_004" />
         </record>
         <record id="res_municipality_parish_11" model="res.parish">
-          <field name="name">Parroquia Platanillal </field>
+          <field name="name">Parroquia Platanillal</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_004" />
         </record>
         <record id="res_municipality_parish_12" model="res.parish">
-          <field name="name">Parroquia Samariapo </field>
+          <field name="name">Parroquia Samariapo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_005" />
         </record>
         <record id="res_municipality_parish_13" model="res.parish">
@@ -57,7 +57,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_005" />
         </record>
         <record id="res_municipality_parish_15" model="res.parish">
-          <field name="name">Parroquia Guayapo </field>
+          <field name="name">Parroquia Guayapo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_005" />
         </record>
         <record id="res_municipality_parish_16" model="res.parish">
@@ -65,11 +65,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_007" />
         </record>
         <record id="res_municipality_parish_17" model="res.parish">
-          <field name="name">Parroquia Comunidad </field>
+          <field name="name">Parroquia Comunidad</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_007" />
         </record>
         <record id="res_municipality_parish_18" model="res.parish">
-          <field name="name">Parroquia Alto Ventuari </field>
+          <field name="name">Parroquia Alto Ventuari</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_006" />
         </record>
         <record id="res_municipality_parish_19" model="res.parish">
@@ -77,15 +77,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_006" />
         </record>
         <record id="res_municipality_parish_20" model="res.parish">
-          <field name="name">Parroquia Bajo Ventuari </field>
+          <field name="name">Parroquia Bajo Ventuari</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_006" />
         </record>
         <record id="res_municipality_parish_21" model="res.parish">
-          <field name="name">Parroquia Solano </field>
+          <field name="name">Parroquia Solano</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_008" />
         </record>
         <record id="res_municipality_parish_22" model="res.parish">
-          <field name="name">Parroquia Casiquiare </field>
+          <field name="name">Parroquia Casiquiare</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_008" />
         </record>
         <record id="res_municipality_parish_23" model="res.parish">
@@ -93,7 +93,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_008" />
         </record>
         <record id="res_municipality_parish_24" model="res.parish">
-          <field name="name">Parroquia Capital Anaco </field>
+          <field name="name">Parroquia Capital Anaco</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_009" />
         </record>
         <record id="res_municipality_parish_25" model="res.parish">
@@ -101,7 +101,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_009" />
         </record>
         <record id="res_municipality_parish_26" model="res.parish">
-          <field name="name">Parroquia Capital Aragua </field>
+          <field name="name">Parroquia Capital Aragua</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_010" />
         </record>
         <record id="res_municipality_parish_27" model="res.parish">
@@ -109,7 +109,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_010" />
         </record>
         <record id="res_municipality_parish_28" model="res.parish">
-          <field name="name">Parroquia Capital Fernando de Pe&#241;alver </field>
+          <field name="name">Parroquia Capital Fernando de Pe&#241;alver</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_024" />
         </record>
         <record id="res_municipality_parish_29" model="res.parish">
@@ -121,15 +121,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_024" />
         </record>
         <record id="res_municipality_parish_31" model="res.parish">
-          <field name="name">Parroquia Capital Francisco del Carmen Carvajal </field>
+          <field name="name">Parroquia Capital Francisco del Carmen Carvajal</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_014" />
         </record>
         <record id="res_municipality_parish_32" model="res.parish">
-          <field name="name">Parroquia Santa B&#225;rbara </field>
+          <field name="name">Parroquia Santa B&#225;rbara</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_014" />
         </record>
         <record id="res_municipality_parish_33" model="res.parish">
-          <field name="name">Parroquia Capital Francisco de Miranda </field>
+          <field name="name">Parroquia Capital Francisco de Miranda</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_022" />
         </record>
         <record id="res_municipality_parish_34" model="res.parish">
@@ -145,19 +145,19 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_022" />
         </record>
         <record id="res_municipality_parish_37" model="res.parish">
-          <field name="name">Parroquia M&#250;cura </field>
+          <field name="name">Parroquia M&#250;cura</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_022" />
         </record>
         <record id="res_municipality_parish_38" model="res.parish">
-          <field name="name">Parroquia Capital Guanta </field>
+          <field name="name">Parroquia Capital Guanta</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_018" />
         </record>
         <record id="res_municipality_parish_39" model="res.parish">
-          <field name="name">Parroquia Chorrer&#243;n </field>
+          <field name="name">Parroquia Chorrer&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_018" />
         </record>
         <record id="res_municipality_parish_40" model="res.parish">
-          <field name="name">Parroquia Capital Independencia </field>
+          <field name="name">Parroquia Capital Independencia</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_019" />
         </record>
         <record id="res_municipality_parish_41" model="res.parish">
@@ -165,7 +165,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_019" />
         </record>
         <record id="res_municipality_parish_42" model="res.parish">
-          <field name="name">Parroquia Capital Puerto La Cruz </field>
+          <field name="name">Parroquia Capital Puerto La Cruz</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_029" />
         </record>
         <record id="res_municipality_parish_43" model="res.parish">
@@ -173,7 +173,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_029" />
         </record>
         <record id="res_municipality_parish_44" model="res.parish">
-          <field name="name">Parroquia Capital Juan Manuel Cajigal </field>
+          <field name="name">Parroquia Capital Juan Manuel Cajigal</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_013" />
         </record>
         <record id="res_municipality_parish_45" model="res.parish">
@@ -181,7 +181,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_013" />
         </record>
         <record id="res_municipality_parish_46" model="res.parish">
-          <field name="name">Parroquia Capital Jos&#233; Gregorio Monagas </field>
+          <field name="name">Parroquia Capital Jos&#233; Gregorio Monagas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_023" />
         </record>
         <record id="res_municipality_parish_47" model="res.parish">
@@ -205,7 +205,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_023" />
         </record>
         <record id="res_municipality_parish_52" model="res.parish">
-          <field name="name">Parroquia Capital Libertad </field>
+          <field name="name">Parroquia Capital Libertad</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_020" />
         </record>
         <record id="res_municipality_parish_53" model="res.parish">
@@ -217,7 +217,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_020" />
         </record>
         <record id="res_municipality_parish_55" model="res.parish">
-          <field name="name">Parroquia Capital Manuel Ezequiel Bruzual </field>
+          <field name="name">Parroquia Capital Manuel Ezequiel Bruzual</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_012" />
         </record>
         <record id="res_municipality_parish_56" model="res.parish">
@@ -229,7 +229,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_012" />
         </record>
         <record id="res_municipality_parish_58" model="res.parish">
-          <field name="name">Parroquia Capital Pedro Mar&#237;a Freites </field>
+          <field name="name">Parroquia Capital Pedro Mar&#237;a Freites</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_016" />
         </record>
         <record id="res_municipality_parish_59" model="res.parish">
@@ -245,23 +245,23 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_016" />
         </record>
         <record id="res_municipality_parish_62" model="res.parish">
-          <field name="name">Parroquia Capital P&#237;ritu  </field>
+          <field name="name">Parroquia Capital P&#237;ritu</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_025" />
         </record>
         <record id="res_municipality_parish_63" model="res.parish">
-          <field name="name">Parroquia San Francisco </field>
+          <field name="name">Parroquia San Francisco</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_025" />
         </record>
         <record id="res_municipality_parish_64" model="res.parish">
-          <field name="name">Parroquia Capital San Juan de Capistrano </field>
+          <field name="name">Parroquia Capital San Juan de Capistrano</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_026" />
         </record>
         <record id="res_municipality_parish_65" model="res.parish">
-          <field name="name">Parroquia Boca de Ch&#225;vez </field>
+          <field name="name">Parroquia Boca de Ch&#225;vez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_026" />
         </record>
         <record id="res_municipality_parish_66" model="res.parish">
-          <field name="name">Parroquia Capital Santa Ana  </field>
+          <field name="name">Parroquia Capital Santa Ana</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_027" />
         </record>
         <record id="res_municipality_parish_67" model="res.parish">
@@ -293,23 +293,23 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_011" />
         </record>
         <record id="res_municipality_parish_74" model="res.parish">
-          <field name="name">Parroquia Edmundo Barrios </field>
+          <field name="name">Parroquia Edmundo Barrios</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_028" />
         </record>
         <record id="res_municipality_parish_75" model="res.parish">
-          <field name="name">Parroquia Miguel Otero Silva   </field>
+          <field name="name">Parroquia Miguel Otero Silva</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_028" />
         </record>
         <record id="res_municipality_parish_76" model="res.parish">
-          <field name="name">Parroquia Capital Sir Arthur Mc Gregor  </field>
+          <field name="name">Parroquia Capital Sir Arthur Mc Gregor</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_021" />
         </record>
         <record id="res_municipality_parish_77" model="res.parish">
-          <field name="name">Parroquia Tom&#225;s Alfaro Calatrava  </field>
+          <field name="name">Parroquia Tom&#225;s Alfaro Calatrava</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_021" />
         </record>
         <record id="res_municipality_parish_78" model="res.parish">
-          <field name="name">Parroquia Capital Diego Bautista Urbaneja </field>
+          <field name="name">Parroquia Capital Diego Bautista Urbaneja</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_015" />
         </record>
         <record id="res_municipality_parish_79" model="res.parish">
@@ -421,7 +421,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_037" />
         </record>
         <record id="res_municipality_parish_106" model="res.parish">
-          <field name="name">Parroquia Camatagua </field>
+          <field name="name">Parroquia Camatagua</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_039" />
         </record>
         <record id="res_municipality_parish_107" model="res.parish">
@@ -429,19 +429,19 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_039" />
         </record>
         <record id="res_municipality_parish_108" model="res.parish">
-          <field name="name">Parroquia No Urbana Choron&#237; </field>
+          <field name="name">Parroquia No Urbana Choron&#237;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_041" />
         </record>
         <record id="res_municipality_parish_109" model="res.parish">
-          <field name="name">Parroquia Urbana Las Delicias </field>
+          <field name="name">Parroquia Urbana Las Delicias</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_041" />
         </record>
         <record id="res_municipality_parish_110" model="res.parish">
-          <field name="name">Parroquia Urbana Madre Mar&#237;a de San Jos&#233; </field>
+          <field name="name">Parroquia Urbana Madre Mar&#237;a de San Jos&#233;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_041" />
         </record>
         <record id="res_municipality_parish_111" model="res.parish">
-          <field name="name">Parroquia Urbana Joaqu&#237;n Crespo </field>
+          <field name="name">Parroquia Urbana Joaqu&#237;n Crespo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_041" />
         </record>
         <record id="res_municipality_parish_112" model="res.parish">
@@ -457,15 +457,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_041" />
         </record>
         <record id="res_municipality_parish_115" model="res.parish">
-          <field name="name">Parroquia Urbana Los Tacariguas </field>
+          <field name="name">Parroquia Urbana Los Tacariguas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_041" />
         </record>
         <record id="res_municipality_parish_116" model="res.parish">
-          <field name="name">Parroquia Jos&#233; F&#233;lix Ribas </field>
+          <field name="name">Parroquia Jos&#233; F&#233;lix Ribas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_043" />
         </record>
         <record id="res_municipality_parish_117" model="res.parish">
-          <field name="name">Parroquia Castor Nieves R&#237;os </field>
+          <field name="name">Parroquia Castor Nieves R&#237;os</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_043" />
         </record>
         <record id="res_municipality_parish_118" model="res.parish">
@@ -481,15 +481,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_043" />
         </record>
         <record id="res_municipality_parish_121" model="res.parish">
-          <field name="name">Parroquia Libertador </field>
+          <field name="name">Parroquia Libertador</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_045" />
         </record>
         <record id="res_municipality_parish_122" model="res.parish">
-          <field name="name">Parroquia No Urbana San Mart&#237;n de Porres </field>
+          <field name="name">Parroquia No Urbana San Mart&#237;n de Porres</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_045" />
         </record>
         <record id="res_municipality_parish_123" model="res.parish">
-          <field name="name">Parroquia Mario Brice&#241;o Iragorry </field>
+          <field name="name">Parroquia Mario Brice&#241;o Iragorry</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_047" />
         </record>
         <record id="res_municipality_parish_124" model="res.parish">
@@ -497,7 +497,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_047" />
         </record>
         <record id="res_municipality_parish_125" model="res.parish">
-          <field name="name">Parroquia San Casimiro </field>
+          <field name="name">Parroquia San Casimiro</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_049" />
         </record>
         <record id="res_municipality_parish_126" model="res.parish">
@@ -513,7 +513,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_049" />
         </record>
         <record id="res_municipality_parish_129" model="res.parish">
-          <field name="name">Parroquia Santiago Mari&#241;o </field>
+          <field name="name">Parroquia Santiago Mari&#241;o</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_051" />
         </record>
         <record id="res_municipality_parish_130" model="res.parish">
@@ -533,7 +533,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_051" />
         </record>
         <record id="res_municipality_parish_134" model="res.parish">
-          <field name="name">Parroquia Santos Michelena </field>
+          <field name="name">Parroquia Santos Michelena</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_052" />
         </record>
         <record id="res_municipality_parish_135" model="res.parish">
@@ -541,7 +541,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_052" />
         </record>
         <record id="res_municipality_parish_136" model="res.parish">
-          <field name="name">Parroquia Sucre </field>
+          <field name="name">Parroquia Sucre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_053" />
         </record>
         <record id="res_municipality_parish_137" model="res.parish">
@@ -549,7 +549,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_053" />
         </record>
         <record id="res_municipality_parish_138" model="res.parish">
-          <field name="name">Parroquia Urdaneta </field>
+          <field name="name">Parroquia Urdaneta</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_055" />
         </record>
         <record id="res_municipality_parish_139" model="res.parish">
@@ -565,7 +565,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_055" />
         </record>
         <record id="res_municipality_parish_142" model="res.parish">
-          <field name="name">Parroquia Zamora </field>
+          <field name="name">Parroquia Zamora</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_056" />
         </record>
         <record id="res_municipality_parish_143" model="res.parish">
@@ -585,15 +585,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_056" />
         </record>
         <record id="res_municipality_parish_147" model="res.parish">
-          <field name="name">Parroquia Francisco Linares Alc&#225;ntara </field>
+          <field name="name">Parroquia Francisco Linares Alc&#225;ntara</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_040" />
         </record>
         <record id="res_municipality_parish_148" model="res.parish">
-          <field name="name">Parroquia No Urbana Francisco de Miranda </field>
+          <field name="name">Parroquia No Urbana Francisco de Miranda</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_040" />
         </record>
         <record id="res_municipality_parish_149" model="res.parish">
-          <field name="name">Parroquia No Urbana Monse&#241;or Feliciano Gonz&#225;lez </field>
+          <field name="name">Parroquia No Urbana Monse&#241;or Feliciano Gonz&#225;lez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_040" />
         </record>
         <record id="res_municipality_parish_150" model="res.parish">
@@ -609,7 +609,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_059" />
         </record>
         <record id="res_municipality_parish_153" model="res.parish">
-          <field name="name">Parroquia Andr&#233;s Bello </field>
+          <field name="name">Parroquia Andr&#233;s Bello</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_059" />
         </record>
         <record id="res_municipality_parish_154" model="res.parish">
@@ -657,23 +657,23 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_165" model="res.parish">
-          <field name="name">Parroquia El Carmen </field>
+          <field name="name">Parroquia El Carmen</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_166" model="res.parish">
-          <field name="name">Parroquia R&#243;mulo Betancourt </field>
+          <field name="name">Parroquia R&#243;mulo Betancourt</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_167" model="res.parish">
-          <field name="name">Parroquia Coraz&#243;n de Jes&#250;s </field>
+          <field name="name">Parroquia Coraz&#243;n de Jes&#250;s</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_168" model="res.parish">
-          <field name="name">Parroquia Ram&#243;n Ignacio M&#233;ndez </field>
+          <field name="name">Parroquia Ram&#243;n Ignacio M&#233;ndez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_169" model="res.parish">
-          <field name="name">Parroquia Alto Barinas </field>
+          <field name="name">Parroquia Alto Barinas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_170" model="res.parish">
@@ -681,11 +681,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_171" model="res.parish">
-          <field name="name">Parroquia Juan Antonio Rodr&#237;guez Dom&#237;nguez </field>
+          <field name="name">Parroquia Juan Antonio Rodr&#237;guez Dom&#237;nguez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_172" model="res.parish">
-          <field name="name">Parroquia Dominga Ortiz de P&#225;ez </field>
+          <field name="name">Parroquia Dominga Ortiz de P&#225;ez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_061" />
         </record>
         <record id="res_municipality_parish_173" model="res.parish">
@@ -709,7 +709,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_063" />
         </record>
         <record id="res_municipality_parish_178" model="res.parish">
-          <field name="name">Parroquia Masparrito </field>
+          <field name="name">Parroquia Masparrito</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_063" />
         </record>
         <record id="res_municipality_parish_179" model="res.parish">
@@ -741,7 +741,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_065" />
         </record>
         <record id="res_municipality_parish_186" model="res.parish">
-          <field name="name">Parroquia Los Guasimitos </field>
+          <field name="name">Parroquia Los Guasimitos</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_065" />
         </record>
         <record id="res_municipality_parish_187" model="res.parish">
@@ -753,7 +753,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_066" />
         </record>
         <record id="res_municipality_parish_189" model="res.parish">
-          <field name="name">Parroquia Jos&#233; F&#233;lix Ribas </field>
+          <field name="name">Parroquia Jos&#233; F&#233;lix Ribas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_066" />
         </record>
         <record id="res_municipality_parish_190" model="res.parish">
@@ -777,7 +777,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_067" />
         </record>
         <record id="res_municipality_parish_195" model="res.parish">
-          <field name="name">Parroquia Sim&#243;n Rodr&#237;guez </field>
+          <field name="name">Parroquia Sim&#243;n Rodr&#237;guez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_067" />
         </record>
         <record id="res_municipality_parish_196" model="res.parish">
@@ -797,15 +797,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_068" />
         </record>
         <record id="res_municipality_parish_200" model="res.parish">
-          <field name="name">Parroquia Sim&#243;n Bol&#237;var </field>
+          <field name="name">Parroquia Sim&#243;n Bol&#237;var</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_068" />
         </record>
         <record id="res_municipality_parish_201" model="res.parish">
-          <field name="name">Parroquia El Cant&#243;n </field>
+          <field name="name">Parroquia El Cant&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_058" />
         </record>
         <record id="res_municipality_parish_202" model="res.parish">
-          <field name="name">Parroquia Santa Cruz de Guacas </field>
+          <field name="name">Parroquia Santa Cruz de Guacas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_058" />
         </record>
         <record id="res_municipality_parish_203" model="res.parish">
@@ -813,19 +813,19 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_058" />
         </record>
         <record id="res_municipality_parish_204" model="res.parish">
-          <field name="name">Parroquia Cachamay </field>
+          <field name="name">Parroquia Cachamay</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_205" model="res.parish">
-          <field name="name">Parroquia Chirica </field>
+          <field name="name">Parroquia Chirica</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_206" model="res.parish">
-          <field name="name">Parroquia Dalla Costa </field>
+          <field name="name">Parroquia Dalla Costa</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_207" model="res.parish">
-          <field name="name">Parroquia Once de Abril </field>
+          <field name="name">Parroquia Once de Abril</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_208" model="res.parish">
@@ -833,31 +833,31 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_209" model="res.parish">
-          <field name="name">Parroquia Unare </field>
+          <field name="name">Parroquia Unare</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_210" model="res.parish">
-          <field name="name">Parroquia Universidad </field>
+          <field name="name">Parroquia Universidad</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_211" model="res.parish">
-          <field name="name">Parroquia Vista al Sol </field>
+          <field name="name">Parroquia Vista al Sol</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_212" model="res.parish">
-          <field name="name">Parroquia Pozo Verde </field>
+          <field name="name">Parroquia Pozo Verde</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_213" model="res.parish">
-          <field name="name">Parroquia Yocoima </field>
+          <field name="name">Parroquia Yocoima</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_069" />
         </record>
         <record id="res_municipality_parish_214" model="res.parish">
-          <field name="name">Secci&#243;n Capital Cede&#241;o </field>
+          <field name="name">Secci&#243;n Capital Cede&#241;o</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_070" />
         </record>
         <record id="res_municipality_parish_215" model="res.parish">
-          <field name="name">Parroquia Altagracia </field>
+          <field name="name">Parroquia Altagracia</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_070" />
         </record>
         <record id="res_municipality_parish_216" model="res.parish">
@@ -865,7 +865,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_070" />
         </record>
         <record id="res_municipality_parish_217" model="res.parish">
-          <field name="name">Parroquia Guaniamo </field>
+          <field name="name">Parroquia Guaniamo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_070" />
         </record>
         <record id="res_municipality_parish_218" model="res.parish">
@@ -877,15 +877,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_070" />
         </record>
         <record id="res_municipality_parish_220" model="res.parish">
-          <field name="name">Secci&#243;n Capital Gran Sabana </field>
+          <field name="name">Secci&#243;n Capital Gran Sabana</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_072" />
         </record>
         <record id="res_municipality_parish_221" model="res.parish">
-          <field name="name">Parroquia Ikabar&#250; </field>
+          <field name="name">Parroquia Ikabar&#250;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_072" />
         </record>
         <record id="res_municipality_parish_222" model="res.parish">
-          <field name="name">Parroquia Agua Salada </field>
+          <field name="name">Parroquia Agua Salada</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_223" model="res.parish">
@@ -893,15 +893,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_224" model="res.parish">
-          <field name="name">Parroquia Jos&#233; Antonio P&#225;ez </field>
+          <field name="name">Parroquia Jos&#233; Antonio P&#225;ez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_225" model="res.parish">
-          <field name="name">Parroquia La Sabanita </field>
+          <field name="name">Parroquia La Sabanita</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_226" model="res.parish">
-          <field name="name">Parroquia Marhuanta </field>
+          <field name="name">Parroquia Marhuanta</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_227" model="res.parish">
@@ -917,11 +917,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_230" model="res.parish">
-          <field name="name">Parroquia Zea </field>
+          <field name="name">Parroquia Zea</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_073" />
         </record>
         <record id="res_municipality_parish_231" model="res.parish">
-          <field name="name">Secci&#243;n Capital Piar </field>
+          <field name="name">Secci&#243;n Capital Piar</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_074" />
         </record>
         <record id="res_municipality_parish_232" model="res.parish">
@@ -933,7 +933,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_074" />
         </record>
         <record id="res_municipality_parish_234" model="res.parish">
-          <field name="name">Secci&#243;n Capital Ra&#250;l Leoni </field>
+          <field name="name">Secci&#243;n Capital Ra&#250;l Leoni</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_075" />
         </record>
         <record id="res_municipality_parish_235" model="res.parish">
@@ -945,11 +945,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_075" />
         </record>
         <record id="res_municipality_parish_237" model="res.parish">
-          <field name="name">Parroquia Santa B&#225;rbara </field>
+          <field name="name">Parroquia Santa B&#225;rbara</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_075" />
         </record>
         <record id="res_municipality_parish_238" model="res.parish">
-          <field name="name">Secci&#243;n Capital Roscio </field>
+          <field name="name">Secci&#243;n Capital Roscio</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_076" />
         </record>
         <record id="res_municipality_parish_239" model="res.parish">
@@ -957,7 +957,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_076" />
         </record>
         <record id="res_municipality_parish_240" model="res.parish">
-          <field name="name">Secci&#243;n Capital Sifontes </field>
+          <field name="name">Secci&#243;n Capital Sifontes</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_077" />
         </record>
         <record id="res_municipality_parish_241" model="res.parish">
@@ -969,7 +969,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_077" />
         </record>
         <record id="res_municipality_parish_243" model="res.parish">
-          <field name="name">Secci&#243;n Capital Sucre </field>
+          <field name="name">Secci&#243;n Capital Sucre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_078" />
         </record>
         <record id="res_municipality_parish_244" model="res.parish">
@@ -1161,11 +1161,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_046" />
         </record>
         <record id="res_municipality_parish_291" model="res.parish">
-          <field name="name">Parroquia Macapo </field>
+          <field name="name">Parroquia Macapo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_096" />
         </record>
         <record id="res_municipality_parish_292" model="res.parish">
-          <field name="name">Parroquia La Aguadita </field>
+          <field name="name">Parroquia La Aguadita</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_096" />
         </record>
         <record id="res_municipality_parish_293" model="res.parish">
@@ -1197,7 +1197,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_100" />
         </record>
         <record id="res_municipality_parish_300" model="res.parish">
-          <field name="name">Parroquia General en Jefe Jos&#233; Laurencio Silva </field>
+          <field name="name">Parroquia General en Jefe Jos&#233; Laurencio Silva</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_101" />
         </record>
         <record id="res_municipality_parish_301" model="res.parish">
@@ -1209,15 +1209,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_102" />
         </record>
         <record id="res_municipality_parish_303" model="res.parish">
-          <field name="name">Parroquia Francisco Aniceto Lugo </field>
+          <field name="name">Parroquia Francisco Aniceto Lugo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_102" />
         </record>
         <record id="res_municipality_parish_304" model="res.parish">
-          <field name="name">Parroquia Manuel Renaud </field>
+          <field name="name">Parroquia Manuel Renaud</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_102" />
         </record>
         <record id="res_municipality_parish_305" model="res.parish">
-          <field name="name">Parroquia Padre Barral </field>
+          <field name="name">Parroquia Padre Barral</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_102" />
         </record>
         <record id="res_municipality_parish_306" model="res.parish">
@@ -1225,11 +1225,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_102" />
         </record>
         <record id="res_municipality_parish_307" model="res.parish">
-          <field name="name">Parroquia Imataca </field>
+          <field name="name">Parroquia Imataca</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_103" />
         </record>
         <record id="res_municipality_parish_308" model="res.parish">
-          <field name="name">Parroquia Cinco de Julio </field>
+          <field name="name">Parroquia Cinco de Julio</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_103" />
         </record>
         <record id="res_municipality_parish_309" model="res.parish">
@@ -1241,7 +1241,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_103" />
         </record>
         <record id="res_municipality_parish_311" model="res.parish">
-          <field name="name">Parroquia R&#243;mulo Gallegos </field>
+          <field name="name">Parroquia R&#243;mulo Gallegos</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_103" />
         </record>
         <record id="res_municipality_parish_312" model="res.parish">
@@ -1253,7 +1253,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_104" />
         </record>
         <record id="res_municipality_parish_314" model="res.parish">
-          <field name="name">Parroquia San Jos&#233; </field>
+          <field name="name">Parroquia San Jos&#233;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_105" />
         </record>
         <record id="res_municipality_parish_315" model="res.parish">
@@ -1277,7 +1277,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_105" />
         </record>
         <record id="res_municipality_parish_320" model="res.parish">
-          <field name="name">Parroquia San Rafael </field>
+          <field name="name">Parroquia San Rafael</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_105" />
         </record>
         <record id="res_municipality_parish_321" model="res.parish">
@@ -1305,11 +1305,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_001" />
         </record>
         <record id="res_municipality_parish_327" model="res.parish">
-          <field name="name">Parroquia Coche </field>
+          <field name="name">Parroquia Coche</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_001" />
         </record>
         <record id="res_municipality_parish_328" model="res.parish">
-          <field name="name">Parroquia El Junquito </field>
+          <field name="name">Parroquia El Junquito</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_001" />
         </record>
         <record id="res_municipality_parish_329" model="res.parish">
@@ -1397,7 +1397,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_107" />
         </record>
         <record id="res_municipality_parish_350" model="res.parish">
-          <field name="name">Parroquia La Pe&#241;a </field>
+          <field name="name">Parroquia La Pe&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_107" />
         </record>
         <record id="res_municipality_parish_351" model="res.parish">
@@ -1525,7 +1525,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_115" />
         </record>
         <record id="res_municipality_parish_382" model="res.parish">
-          <field name="name">Parroquia El Pauj&#237; </field>
+          <field name="name">Parroquia El Pauj&#237;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_115" />
         </record>
         <record id="res_municipality_parish_383" model="res.parish">
@@ -1649,11 +1649,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_128" />
         </record>
         <record id="res_municipality_parish_413" model="res.parish">
-          <field name="name">Parroquia El Charal </field>
+          <field name="name">Parroquia El Charal</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_128" />
         </record>
         <record id="res_municipality_parish_414" model="res.parish">
-          <field name="name">Parroquia Las Vegas del Tuy </field>
+          <field name="name">Parroquia Las Vegas del Tuy</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_128" />
         </record>
         <record id="res_municipality_parish_415" model="res.parish">
@@ -1685,7 +1685,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_130" />
         </record>
         <record id="res_municipality_parish_422" model="res.parish">
-          <field name="name">Parroquia Capital Camagu&#225;n </field>
+          <field name="name">Parroquia Capital Camagu&#225;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_131" />
         </record>
         <record id="res_municipality_parish_423" model="res.parish">
@@ -1693,7 +1693,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_131" />
         </record>
         <record id="res_municipality_parish_424" model="res.parish">
-          <field name="name">Parroquia Uverito </field>
+          <field name="name">Parroquia Uverito</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_131" />
         </record>
         <record id="res_municipality_parish_425" model="res.parish">
@@ -1705,7 +1705,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_133" />
         </record>
         <record id="res_municipality_parish_427" model="res.parish">
-          <field name="name">Parroquia Capital San Ger&#243;nimo de Guayabal </field>
+          <field name="name">Parroquia Capital San Ger&#243;nimo de Guayabal</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_143" />
         </record>
         <record id="res_municipality_parish_428" model="res.parish">
@@ -1713,7 +1713,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_143" />
         </record>
         <record id="res_municipality_parish_429" model="res.parish">
-          <field name="name">Parroquia Capital Valle de La Pascua </field>
+          <field name="name">Parroquia Capital Valle de La Pascua</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_140" />
         </record>
         <record id="res_municipality_parish_430" model="res.parish">
@@ -1721,7 +1721,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_140" />
         </record>
         <record id="res_municipality_parish_431" model="res.parish">
-          <field name="name">Parroquia Capital Las Mercedes </field>
+          <field name="name">Parroquia Capital Las Mercedes</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_139" />
         </record>
         <record id="res_municipality_parish_432" model="res.parish">
@@ -1733,15 +1733,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_139" />
         </record>
         <record id="res_municipality_parish_434" model="res.parish">
-          <field name="name">Parroquia Capital El Sombrero </field>
+          <field name="name">Parroquia Capital El Sombrero</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_138" />
         </record>
         <record id="res_municipality_parish_435" model="res.parish">
-          <field name="name">Parroquia Sosa </field>
+          <field name="name">Parroquia Sosa</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_138" />
         </record>
         <record id="res_municipality_parish_436" model="res.parish">
-          <field name="name">Parroquia Capital Calabozo </field>
+          <field name="name">Parroquia Capital Calabozo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_134" />
         </record>
         <record id="res_municipality_parish_437" model="res.parish">
@@ -1757,7 +1757,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_134" />
         </record>
         <record id="res_municipality_parish_440" model="res.parish">
-          <field name="name">Parroquia Capital Altagracia de Orituco </field>
+          <field name="name">Parroquia Capital Altagracia de Orituco</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_136" />
         </record>
         <record id="res_municipality_parish_441" model="res.parish">
@@ -1769,7 +1769,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_136" />
         </record>
         <record id="res_municipality_parish_443" model="res.parish">
-          <field name="name">Parroquia Paso Real de Macaira </field>
+          <field name="name">Parroquia Paso Real de Macaira</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_136" />
         </record>
         <record id="res_municipality_parish_444" model="res.parish">
@@ -1785,7 +1785,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_136" />
         </record>
         <record id="res_municipality_parish_447" model="res.parish">
-          <field name="name">Parroquia Capital Ortiz </field>
+          <field name="name">Parroquia Capital Ortiz</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_142" />
         </record>
         <record id="res_municipality_parish_448" model="res.parish">
@@ -1797,11 +1797,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_142" />
         </record>
         <record id="res_municipality_parish_450" model="res.parish">
-          <field name="name">Parroquia San Lorenzo de Tiznado </field>
+          <field name="name">Parroquia San Lorenzo de Tiznado</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_142" />
         </record>
         <record id="res_municipality_parish_451" model="res.parish">
-          <field name="name">Parroquia Capital Tucupido </field>
+          <field name="name">Parroquia Capital Tucupido</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_135" />
         </record>
         <record id="res_municipality_parish_452" model="res.parish">
@@ -1809,11 +1809,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_135" />
         </record>
         <record id="res_municipality_parish_453" model="res.parish">
-          <field name="name">Parroquia Capital San Juan de Los Morros </field>
+          <field name="name">Parroquia Capital San Juan de Los Morros</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_137" />
         </record>
         <record id="res_municipality_parish_454" model="res.parish">
-          <field name="name">Parroquia Cantagallo </field>
+          <field name="name">Parroquia Cantagallo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_137" />
         </record>
         <record id="res_municipality_parish_455" model="res.parish">
@@ -1825,15 +1825,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_144" />
         </record>
         <record id="res_municipality_parish_457" model="res.parish">
-          <field name="name">Parroquia Capital Santa Mar&#237;a de Ipire </field>
+          <field name="name">Parroquia Capital Santa Mar&#237;a de Ipire</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_145" />
         </record>
         <record id="res_municipality_parish_458" model="res.parish">
-          <field name="name">Parroquia Altamira </field>
+          <field name="name">Parroquia Altamira</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_145" />
         </record>
         <record id="res_municipality_parish_459" model="res.parish">
-          <field name="name">Parroquia Capital Zaraza </field>
+          <field name="name">Parroquia Capital Zaraza</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_141" />
         </record>
         <record id="res_municipality_parish_460" model="res.parish">
@@ -1845,7 +1845,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_146" />
         </record>
         <record id="res_municipality_parish_462" model="res.parish">
-          <field name="name">Parroquia Quebrada Honda de Guache </field>
+          <field name="name">Parroquia Quebrada Honda de Guache</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_146" />
         </record>
         <record id="res_municipality_parish_463" model="res.parish">
@@ -1921,7 +1921,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_149" />
         </record>
         <record id="res_municipality_parish_481" model="res.parish">
-          <field name="name">Parroquia Tintorero </field>
+          <field name="name">Parroquia Tintorero</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_149" />
         </record>
         <record id="res_municipality_parish_482" model="res.parish">
@@ -1929,7 +1929,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_149" />
         </record>
         <record id="res_municipality_parish_483" model="res.parish">
-          <field name="name">Parroquia Coronel Mariano Peraza </field>
+          <field name="name">Parroquia Coronel Mariano Peraza</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_149" />
         </record>
         <record id="res_municipality_parish_484" model="res.parish">
@@ -1973,7 +1973,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_151" />
         </record>
         <record id="res_municipality_parish_494" model="res.parish">
-          <field name="name">Parroquia Agua Viva </field>
+          <field name="name">Parroquia Agua Viva</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_151" />
         </record>
         <record id="res_municipality_parish_495" model="res.parish">
@@ -2045,7 +2045,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_153" />
         </record>
         <record id="res_municipality_parish_512" model="res.parish">
-          <field name="name">Parroquia Heriberto Arroyo </field>
+          <field name="name">Parroquia Heriberto Arroyo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_153" />
         </record>
         <record id="res_municipality_parish_513" model="res.parish">
@@ -2053,7 +2053,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_153" />
         </record>
         <record id="res_municipality_parish_514" model="res.parish">
-          <field name="name">Parroquia Altagracia </field>
+          <field name="name">Parroquia Altagracia</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_153" />
         </record>
         <record id="res_municipality_parish_515" model="res.parish">
@@ -2073,15 +2073,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_154" />
         </record>
         <record id="res_municipality_parish_519" model="res.parish">
-          <field name="name">Parroquia Presidente Betancourt </field>
+          <field name="name">Parroquia Presidente Betancourt</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_155" />
         </record>
         <record id="res_municipality_parish_520" model="res.parish">
-          <field name="name">Parroquia Presidente P&#225;ez  </field>
+          <field name="name">Parroquia Presidente P&#225;ez </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_155" />
         </record>
         <record id="res_municipality_parish_521" model="res.parish">
-          <field name="name">Parroquia Presidente R&#243;mulo Gallegos </field>
+          <field name="name">Parroquia Presidente R&#243;mulo Gallegos</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_155" />
         </record>
         <record id="res_municipality_parish_522" model="res.parish">
@@ -2093,15 +2093,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_155" />
         </record>
         <record id="res_municipality_parish_524" model="res.parish">
-          <field name="name">Parroquia Jos&#233; Nucete Sardi </field>
+          <field name="name">Parroquia Jos&#233; Nucete Sardi</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_155" />
         </record>
         <record id="res_municipality_parish_525" model="res.parish">
-          <field name="name">Parroquia Pulido M&#233;ndez </field>
+          <field name="name">Parroquia Pulido M&#233;ndez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_155" />
         </record>
         <record id="res_municipality_parish_526" model="res.parish">
-          <field name="name">Parroquia Capital Antonio Pinto Salinas  </field>
+          <field name="name">Parroquia Capital Antonio Pinto Salinas </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_157" />
         </record>
         <record id="res_municipality_parish_527" model="res.parish">
@@ -2113,31 +2113,31 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_157" />
         </record>
         <record id="res_municipality_parish_529" model="res.parish">
-          <field name="name">Parroquia Capital Aricagua </field>
+          <field name="name">Parroquia Capital Aricagua</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_158" />
         </record>
         <record id="res_municipality_parish_530" model="res.parish">
-          <field name="name">Parroquia San Antonio </field>
+          <field name="name">Parroquia San Antonio</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_158" />
         </record>
         <record id="res_municipality_parish_531" model="res.parish">
-          <field name="name">Parroquia Capital Arzobispo Chac&#243;n </field>
+          <field name="name">Parroquia Capital Arzobispo Chac&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_159" />
         </record>
         <record id="res_municipality_parish_532" model="res.parish">
-          <field name="name">Parroquia Capur&#237; </field>
+          <field name="name">Parroquia Capur&#237;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_159" />
         </record>
         <record id="res_municipality_parish_533" model="res.parish">
-          <field name="name">Parroquia Chacant&#225; </field>
+          <field name="name">Parroquia Chacant&#225;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_159" />
         </record>
         <record id="res_municipality_parish_534" model="res.parish">
-          <field name="name">Parroquia El Molino </field>
+          <field name="name">Parroquia El Molino</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_159" />
         </record>
         <record id="res_municipality_parish_535" model="res.parish">
-          <field name="name">Parroquia Guaimaral </field>
+          <field name="name">Parroquia Guaimaral</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_159" />
         </record>
         <record id="res_municipality_parish_536" model="res.parish">
@@ -2149,7 +2149,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_159" />
         </record>
         <record id="res_municipality_parish_538" model="res.parish">
-          <field name="name">Parroquia Fern&#225;ndez Pe&#241;a </field>
+          <field name="name">Parroquia Fern&#225;ndez Pe&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_160" />
         </record>
         <record id="res_municipality_parish_539" model="res.parish">
@@ -2177,15 +2177,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_160" />
         </record>
         <record id="res_municipality_parish_545" model="res.parish">
-          <field name="name">Parroquia Capital Caracciolo Parra Olmedo </field>
+          <field name="name">Parroquia Capital Caracciolo Parra Olmedo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_161" />
         </record>
         <record id="res_municipality_parish_546" model="res.parish">
-          <field name="name">Parroquia Florencio Ram&#237;rez </field>
+          <field name="name">Parroquia Florencio Ram&#237;rez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_161" />
         </record>
         <record id="res_municipality_parish_547" model="res.parish">
-          <field name="name">Parroquia Capital Cardenal Quintero </field>
+          <field name="name">Parroquia Capital Cardenal Quintero</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_162" />
         </record>
         <record id="res_municipality_parish_548" model="res.parish">
@@ -2193,27 +2193,27 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_162" />
         </record>
         <record id="res_municipality_parish_549" model="res.parish">
-          <field name="name">Parroquia Capital Guaraque </field>
+          <field name="name">Parroquia Capital Guaraque</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_163" />
         </record>
         <record id="res_municipality_parish_550" model="res.parish">
-          <field name="name">Parroquia Mesa de Quintero </field>
+          <field name="name">Parroquia Mesa de Quintero</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_163" />
         </record>
         <record id="res_municipality_parish_551" model="res.parish">
-          <field name="name">Parroquia R&#237;o Negro </field>
+          <field name="name">Parroquia R&#237;o Negro</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_163" />
         </record>
         <record id="res_municipality_parish_552" model="res.parish">
-          <field name="name">Parroquia Capital Julio C&#233;sar Salas </field>
+          <field name="name">Parroquia Capital Julio C&#233;sar Salas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_164" />
         </record>
         <record id="res_municipality_parish_553" model="res.parish">
-          <field name="name">Parroquia Palmira </field>
+          <field name="name">Parroquia Palmira</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_164" />
         </record>
         <record id="res_municipality_parish_554" model="res.parish">
-          <field name="name">Parroquia Capital Justo Brice&#241;o </field>
+          <field name="name">Parroquia Capital Justo Brice&#241;o</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_165" />
         </record>
         <record id="res_municipality_parish_555" model="res.parish">
@@ -2221,7 +2221,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_165" />
         </record>
         <record id="res_municipality_parish_556" model="res.parish">
-          <field name="name">Parroquia Antonio Spinetti Dini </field>
+          <field name="name">Parroquia Antonio Spinetti Dini</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_557" model="res.parish">
@@ -2229,11 +2229,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_558" model="res.parish">
-          <field name="name">Parroquia Caracciolo Parra P&#233;rez </field>
+          <field name="name">Parroquia Caracciolo Parra P&#233;rez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_559" model="res.parish">
-          <field name="name">Parroquia Domingo Pe&#241;a </field>
+          <field name="name">Parroquia Domingo Pe&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_560" model="res.parish">
@@ -2241,11 +2241,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_561" model="res.parish">
-          <field name="name">Parroquia Gonzalo Pic&#243;n Febres </field>
+          <field name="name">Parroquia Gonzalo Pic&#243;n Febres</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_562" model="res.parish">
-          <field name="name">Parroquia Jacinto Plaza </field>
+          <field name="name">Parroquia Jacinto Plaza</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_563" model="res.parish">
@@ -2253,11 +2253,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_564" model="res.parish">
-          <field name="name">Parroquia Lasso de la Vega </field>
+          <field name="name">Parroquia Lasso de la Vega</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_565" model="res.parish">
-          <field name="name">Parroquia Mariano Pic&#243;n Salas </field>
+          <field name="name">Parroquia Mariano Pic&#243;n Salas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_566" model="res.parish">
@@ -2265,7 +2265,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_567" model="res.parish">
-          <field name="name">Parroquia Osuna Rodr&#237;guez </field>
+          <field name="name">Parroquia Osuna Rodr&#237;guez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_568" model="res.parish">
@@ -2277,11 +2277,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_570" model="res.parish">
-          <field name="name">Parroquia Los Nevados </field>
+          <field name="name">Parroquia Los Nevados</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_166" />
         </record>
         <record id="res_municipality_parish_571" model="res.parish">
-          <field name="name">Parroquia Capital Miranda </field>
+          <field name="name">Parroquia Capital Miranda</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_167" />
         </record>
         <record id="res_municipality_parish_572" model="res.parish">
@@ -2293,11 +2293,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_167" />
         </record>
         <record id="res_municipality_parish_574" model="res.parish">
-          <field name="name">Parroquia Pi&#241;ango </field>
+          <field name="name">Parroquia Pi&#241;ango</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_167" />
         </record>
         <record id="res_municipality_parish_575" model="res.parish">
-          <field name="name">Parroquia Capital Obispo Ramos de Lora </field>
+          <field name="name">Parroquia Capital Obispo Ramos de Lora</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_168" />
         </record>
         <record id="res_municipality_parish_576" model="res.parish">
@@ -2305,15 +2305,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_168" />
         </record>
         <record id="res_municipality_parish_577" model="res.parish">
-          <field name="name">Parroquia San Rafael de Alc&#225;zar </field>
+          <field name="name">Parroquia San Rafael de Alc&#225;zar</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_168" />
         </record>
         <record id="res_municipality_parish_578" model="res.parish">
-          <field name="name">Parroquia Capital Rangel </field>
+          <field name="name">Parroquia Capital Rangel</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_171" />
         </record>
         <record id="res_municipality_parish_579" model="res.parish">
-          <field name="name">Parroquia Cacute </field>
+          <field name="name">Parroquia Cacute</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_171" />
         </record>
         <record id="res_municipality_parish_580" model="res.parish">
@@ -2329,7 +2329,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_171" />
         </record>
         <record id="res_municipality_parish_583" model="res.parish">
-          <field name="name">Parroquia Capital Rivas D&#225;vila </field>
+          <field name="name">Parroquia Capital Rivas D&#225;vila</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_172" />
         </record>
         <record id="res_municipality_parish_584" model="res.parish">
@@ -2337,7 +2337,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_172" />
         </record>
         <record id="res_municipality_parish_585" model="res.parish">
-          <field name="name">Parroquia Capital Sucre </field>
+          <field name="name">Parroquia Capital Sucre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_174" />
         </record>
         <record id="res_municipality_parish_586" model="res.parish">
@@ -2353,7 +2353,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_174" />
         </record>
         <record id="res_municipality_parish_589" model="res.parish">
-          <field name="name">Parroquia Pueblo Nuevo del Sur </field>
+          <field name="name">Parroquia Pueblo Nuevo del Sur</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_174" />
         </record>
         <record id="res_municipality_parish_590" model="res.parish">
@@ -2377,7 +2377,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_175" />
         </record>
         <record id="res_municipality_parish_595" model="res.parish">
-          <field name="name">Parroquia Capital Tulio Febres Cordero </field>
+          <field name="name">Parroquia Capital Tulio Febres Cordero</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_176" />
         </record>
         <record id="res_municipality_parish_596" model="res.parish">
@@ -2393,11 +2393,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_176" />
         </record>
         <record id="res_municipality_parish_599" model="res.parish">
-          <field name="name">Parroquia Capital Zea </field>
+          <field name="name">Parroquia Capital Zea</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_177" />
         </record>
         <record id="res_municipality_parish_600" model="res.parish">
-          <field name="name">Parroquia Ca&#241;o El Tigre </field>
+          <field name="name">Parroquia Ca&#241;o El Tigre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_177" />
         </record>
         <record id="res_municipality_parish_601" model="res.parish">
@@ -2481,7 +2481,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_185" />
         </record>
         <record id="res_municipality_parish_621" model="res.parish">
-          <field name="name">Parroquia Las Brisas </field>
+          <field name="name">Parroquia Las Brisas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_185" />
         </record>
         <record id="res_municipality_parish_622" model="res.parish">
@@ -2493,7 +2493,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_187" />
         </record>
         <record id="res_municipality_parish_624" model="res.parish">
-          <field name="name">Parroquia Altagracia de La Monta&#241;a </field>
+          <field name="name">Parroquia Altagracia de La Monta&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_187" />
         </record>
         <record id="res_municipality_parish_625" model="res.parish">
@@ -2501,7 +2501,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_187" />
         </record>
         <record id="res_municipality_parish_626" model="res.parish">
-          <field name="name">Parroquia El Jarillo </field>
+          <field name="name">Parroquia El Jarillo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_187" />
         </record>
         <record id="res_municipality_parish_627" model="res.parish">
@@ -2553,7 +2553,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_191" />
         </record>
         <record id="res_municipality_parish_639" model="res.parish">
-          <field name="name">Parroquia Paparo </field>
+          <field name="name">Parroquia Paparo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_191" />
         </record>
         <record id="res_municipality_parish_640" model="res.parish">
@@ -2609,7 +2609,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_197" />
         </record>
         <record id="res_municipality_parish_653" model="res.parish">
-          <field name="name">Parroquia Nueva C&#250;a </field>
+          <field name="name">Parroquia Nueva C&#250;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_197" />
         </record>
         <record id="res_municipality_parish_654" model="res.parish">
@@ -2621,7 +2621,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_198" />
         </record>
         <record id="res_municipality_parish_656" model="res.parish">
-          <field name="name">Parroquia Capital Acosta  </field>
+          <field name="name">Parroquia Capital Acosta </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_201" />
         </record>
         <record id="res_municipality_parish_657" model="res.parish">
@@ -2629,7 +2629,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_201" />
         </record>
         <record id="res_municipality_parish_658" model="res.parish">
-          <field name="name">Parroquia Capital Caripe </field>
+          <field name="name">Parroquia Capital Caripe</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_204" />
         </record>
         <record id="res_municipality_parish_659" model="res.parish">
@@ -2653,7 +2653,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_204" />
         </record>
         <record id="res_municipality_parish_664" model="res.parish">
-          <field name="name">Parroquia Capital Cede&#241;o </field>
+          <field name="name">Parroquia Capital Cede&#241;o</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_205" />
         </record>
         <record id="res_municipality_parish_665" model="res.parish">
@@ -2669,7 +2669,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_205" />
         </record>
         <record id="res_municipality_parish_668" model="res.parish">
-          <field name="name">Parroquia Capital Ezequiel Zamora </field>
+          <field name="name">Parroquia Capital Ezequiel Zamora</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_206" />
         </record>
         <record id="res_municipality_parish_669" model="res.parish">
@@ -2677,7 +2677,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_206" />
         </record>
         <record id="res_municipality_parish_670" model="res.parish">
-          <field name="name">Parroquia Capital Libertador </field>
+          <field name="name">Parroquia Capital Libertador</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_207" />
         </record>
         <record id="res_municipality_parish_671" model="res.parish">
@@ -2693,7 +2693,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_207" />
         </record>
         <record id="res_municipality_parish_674" model="res.parish">
-          <field name="name">Parroquia Capital Matur&#237;n </field>
+          <field name="name">Parroquia Capital Matur&#237;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_208" />
         </record>
         <record id="res_municipality_parish_675" model="res.parish">
@@ -2737,7 +2737,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_208" />
         </record>
         <record id="res_municipality_parish_685" model="res.parish">
-          <field name="name">Parroquia Capital Piar </field>
+          <field name="name">Parroquia Capital Piar</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_209" />
         </record>
         <record id="res_municipality_parish_686" model="res.parish">
@@ -2765,7 +2765,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_209" />
         </record>
         <record id="res_municipality_parish_692" model="res.parish">
-          <field name="name">Parroquia Capital Punceres </field>
+          <field name="name">Parroquia Capital Punceres</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_210" />
         </record>
         <record id="res_municipality_parish_693" model="res.parish">
@@ -2773,7 +2773,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_210" />
         </record>
         <record id="res_municipality_parish_694" model="res.parish">
-          <field name="name">Parroquia Capital Sotillo </field>
+          <field name="name">Parroquia Capital Sotillo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_212" />
         </record>
         <record id="res_municipality_parish_695" model="res.parish">
@@ -2781,7 +2781,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_212" />
         </record>
         <record id="res_municipality_parish_696" model="res.parish">
-          <field name="name">Parroquia Capital D&#237;az </field>
+          <field name="name">Parroquia Capital D&#237;az</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_216" />
         </record>
         <record id="res_municipality_parish_697" model="res.parish">
@@ -2789,7 +2789,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_216" />
         </record>
         <record id="res_municipality_parish_698" model="res.parish">
-          <field name="name">Parroquia Capital Garc&#237;a </field>
+          <field name="name">Parroquia Capital Garc&#237;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_217" />
         </record>
         <record id="res_municipality_parish_699" model="res.parish">
@@ -2797,7 +2797,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_217" />
         </record>
         <record id="res_municipality_parish_700" model="res.parish">
-          <field name="name">Parroquia Capital G&#243;mez </field>
+          <field name="name">Parroquia Capital G&#243;mez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_218" />
         </record>
         <record id="res_municipality_parish_701" model="res.parish">
@@ -2817,7 +2817,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_218" />
         </record>
         <record id="res_municipality_parish_705" model="res.parish">
-          <field name="name">Parroquia Capital Maneiro </field>
+          <field name="name">Parroquia Capital Maneiro</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_219" />
         </record>
         <record id="res_municipality_parish_706" model="res.parish">
@@ -2825,7 +2825,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_219" />
         </record>
         <record id="res_municipality_parish_707" model="res.parish">
-          <field name="name">Parroquia Capital Marcano </field>
+          <field name="name">Parroquia Capital Marcano</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_220" />
         </record>
         <record id="res_municipality_parish_708" model="res.parish">
@@ -2833,7 +2833,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_220" />
         </record>
         <record id="res_municipality_parish_709" model="res.parish">
-          <field name="name">Parroquia Capital Pen&#237;nsula de Macanao </field>
+          <field name="name">Parroquia Capital Pen&#237;nsula de Macanao</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_222" />
         </record>
         <record id="res_municipality_parish_710" model="res.parish">
@@ -2841,7 +2841,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_222" />
         </record>
         <record id="res_municipality_parish_711" model="res.parish">
-          <field name="name">Parroquia Capital Tubores </field>
+          <field name="name">Parroquia Capital Tubores</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_223" />
         </record>
         <record id="res_municipality_parish_712" model="res.parish">
@@ -2849,7 +2849,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_223" />
         </record>
         <record id="res_municipality_parish_713" model="res.parish">
-          <field name="name">Parroquia Capital Villalba </field>
+          <field name="name">Parroquia Capital Villalba</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_224" />
         </record>
         <record id="res_municipality_parish_714" model="res.parish">
@@ -2857,7 +2857,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_224" />
         </record>
         <record id="res_municipality_parish_715" model="res.parish">
-          <field name="name">Parroquia Capital Araure </field>
+          <field name="name">Parroquia Capital Araure</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_226" />
         </record>
         <record id="res_municipality_parish_716" model="res.parish">
@@ -2865,7 +2865,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_226" />
         </record>
         <record id="res_municipality_parish_717" model="res.parish">
-          <field name="name">Parroquia Capital Esteller </field>
+          <field name="name">Parroquia Capital Esteller</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_227" />
         </record>
         <record id="res_municipality_parish_718" model="res.parish">
@@ -2873,7 +2873,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_227" />
         </record>
         <record id="res_municipality_parish_719" model="res.parish">
-          <field name="name">Parroquia Capital Guanare </field>
+          <field name="name">Parroquia Capital Guanare</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_228" />
         </record>
         <record id="res_municipality_parish_720" model="res.parish">
@@ -2893,7 +2893,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_228" />
         </record>
         <record id="res_municipality_parish_724" model="res.parish">
-          <field name="name">Parroquia Capital Guanarito </field>
+          <field name="name">Parroquia Capital Guanarito</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_229" />
         </record>
         <record id="res_municipality_parish_725" model="res.parish">
@@ -2905,15 +2905,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_229" />
         </record>
         <record id="res_municipality_parish_727" model="res.parish">
-          <field name="name">Parroquia Capital Mons.Jos&#233; Vicente de Unda </field>
+          <field name="name">Parroquia Capital Mons.Jos&#233; Vicente de Unda</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_230" />
         </record>
         <record id="res_municipality_parish_728" model="res.parish">
-          <field name="name">Parroquia Pe&#241;a Blanca </field>
+          <field name="name">Parroquia Pe&#241;a Blanca</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_230" />
         </record>
         <record id="res_municipality_parish_729" model="res.parish">
-          <field name="name">Parroquia Capital Ospino </field>
+          <field name="name">Parroquia Capital Ospino</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_231" />
         </record>
         <record id="res_municipality_parish_730" model="res.parish">
@@ -2925,7 +2925,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_231" />
         </record>
         <record id="res_municipality_parish_732" model="res.parish">
-          <field name="name">Parroquia Capital P&#225;ez </field>
+          <field name="name">Parroquia Capital P&#225;ez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_232" />
         </record>
         <record id="res_municipality_parish_733" model="res.parish">
@@ -2937,11 +2937,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_232" />
         </record>
         <record id="res_municipality_parish_735" model="res.parish">
-          <field name="name">Parroquia Ram&#243;n Peraza </field>
+          <field name="name">Parroquia Ram&#243;n Peraza</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_232" />
         </record>
         <record id="res_municipality_parish_736" model="res.parish">
-          <field name="name">Parroquia Capital Papel&#243;n </field>
+          <field name="name">Parroquia Capital Papel&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_233" />
         </record>
         <record id="res_municipality_parish_737" model="res.parish">
@@ -2949,7 +2949,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_233" />
         </record>
         <record id="res_municipality_parish_738" model="res.parish">
-          <field name="name">Parroquia Capital San Genaro de Boconoito </field>
+          <field name="name">Parroquia Capital San Genaro de Boconoito</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_234" />
         </record>
         <record id="res_municipality_parish_739" model="res.parish">
@@ -2957,19 +2957,19 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_234" />
         </record>
         <record id="res_municipality_parish_740" model="res.parish">
-          <field name="name">Parroquia Capital San Rafael de Onoto </field>
+          <field name="name">Parroquia Capital San Rafael de Onoto</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_235" />
         </record>
         <record id="res_municipality_parish_741" model="res.parish">
-          <field name="name">Parroquia Santa Fe </field>
+          <field name="name">Parroquia Santa Fe</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_235" />
         </record>
         <record id="res_municipality_parish_742" model="res.parish">
-          <field name="name">Parroquia Thermo Morles </field>
+          <field name="name">Parroquia Thermo Morles</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_235" />
         </record>
         <record id="res_municipality_parish_743" model="res.parish">
-          <field name="name">Parroquia Capital Santa Rosal&#237;a </field>
+          <field name="name">Parroquia Capital Santa Rosal&#237;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_236" />
         </record>
         <record id="res_municipality_parish_744" model="res.parish">
@@ -2977,7 +2977,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_236" />
         </record>
         <record id="res_municipality_parish_745" model="res.parish">
-          <field name="name">Parroquia Capital Sucre </field>
+          <field name="name">Parroquia Capital Sucre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_237" />
         </record>
         <record id="res_municipality_parish_746" model="res.parish">
@@ -2993,7 +2993,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_237" />
         </record>
         <record id="res_municipality_parish_749" model="res.parish">
-          <field name="name">Parroquia San Jos&#233; de Saguaz </field>
+          <field name="name">Parroquia San Jos&#233; de Saguaz</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_237" />
         </record>
         <record id="res_municipality_parish_750" model="res.parish">
@@ -3001,7 +3001,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_237" />
         </record>
         <record id="res_municipality_parish_751" model="res.parish">
-          <field name="name">Parroquia Capital Tur&#233;n </field>
+          <field name="name">Parroquia Capital Tur&#233;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_238" />
         </record>
         <record id="res_municipality_parish_752" model="res.parish">
@@ -3077,7 +3077,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_242" />
         </record>
         <record id="res_municipality_parish_770" model="res.parish">
-          <field name="name">Parroquia Bol&#237;var </field>
+          <field name="name">Parroquia Bol&#237;var</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_243" />
         </record>
         <record id="res_municipality_parish_771" model="res.parish">
@@ -3217,7 +3217,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_251" />
         </record>
         <record id="res_municipality_parish_805" model="res.parish">
-          <field name="name">Parroquia Gran Mariscal  </field>
+          <field name="name">Parroquia Gran Mariscal </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_251" />
         </record>
         <record id="res_municipality_parish_806" model="res.parish">
@@ -3237,7 +3237,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_252" />
         </record>
         <record id="res_municipality_parish_810" model="res.parish">
-          <field name="name">Parroquia Ayacucho </field>
+          <field name="name">Parroquia Ayacucho</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_256" />
         </record>
         <record id="res_municipality_parish_811" model="res.parish">
@@ -3249,7 +3249,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_256" />
         </record>
         <record id="res_municipality_parish_813" model="res.parish">
-          <field name="name">Parroquia Bol&#237;var </field>
+          <field name="name">Parroquia Bol&#237;var</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_257" />
         </record>
         <record id="res_municipality_parish_814" model="res.parish">
@@ -3257,7 +3257,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_257" />
         </record>
         <record id="res_municipality_parish_815" model="res.parish">
-          <field name="name">Parroquia Juan Vicente G&#243;mez </field>
+          <field name="name">Parroquia Juan Vicente G&#243;mez</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_257" />
         </record>
         <record id="res_municipality_parish_816" model="res.parish">
@@ -3265,7 +3265,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_257" />
         </record>
         <record id="res_municipality_parish_817" model="res.parish">
-          <field name="name">Parroquia C&#225;rdenas </field>
+          <field name="name">Parroquia C&#225;rdenas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_258" />
         </record>
         <record id="res_municipality_parish_818" model="res.parish">
@@ -3277,7 +3277,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_258" />
         </record>
         <record id="res_municipality_parish_820" model="res.parish">
-          <field name="name">Parroquia Fern&#225;ndez Feo </field>
+          <field name="name">Parroquia Fern&#225;ndez Feo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_260" />
         </record>
         <record id="res_municipality_parish_821" model="res.parish">
@@ -3289,7 +3289,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_260" />
         </record>
         <record id="res_municipality_parish_823" model="res.parish">
-          <field name="name">Parroquia Garc&#237;a de Hevia </field>
+          <field name="name">Parroquia Garc&#237;a de Hevia</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_262" />
         </record>
         <record id="res_municipality_parish_824" model="res.parish">
@@ -3301,7 +3301,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_262" />
         </record>
         <record id="res_municipality_parish_826" model="res.parish">
-          <field name="name">Parroquia Independencia </field>
+          <field name="name">Parroquia Independencia</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_265" />
         </record>
         <record id="res_municipality_parish_827" model="res.parish">
@@ -3313,7 +3313,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_265" />
         </record>
         <record id="res_municipality_parish_829" model="res.parish">
-          <field name="name">Parroquia J&#225;uregui </field>
+          <field name="name">Parroquia J&#225;uregui</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_266" />
         </record>
         <record id="res_municipality_parish_830" model="res.parish">
@@ -3321,11 +3321,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_266" />
         </record>
         <record id="res_municipality_parish_831" model="res.parish">
-          <field name="name">Parroquia Monse&#241;or Miguel Antonio Salas </field>
+          <field name="name">Parroquia Monse&#241;or Miguel Antonio Salas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_266" />
         </record>
         <record id="res_municipality_parish_832" model="res.parish">
-          <field name="name">Parroquia Jun&#237;n </field>
+          <field name="name">Parroquia Jun&#237;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_267" />
         </record>
         <record id="res_municipality_parish_833" model="res.parish">
@@ -3333,7 +3333,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_267" />
         </record>
         <record id="res_municipality_parish_834" model="res.parish">
-          <field name="name">Parroquia Quinimar&#237; </field>
+          <field name="name">Parroquia Quinimar&#237;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_267" />
         </record>
         <record id="res_municipality_parish_835" model="res.parish">
@@ -3341,7 +3341,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_267" />
         </record>
         <record id="res_municipality_parish_836" model="res.parish">
-          <field name="name">Parroquia Libertad </field>
+          <field name="name">Parroquia Libertad</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_268" />
         </record>
         <record id="res_municipality_parish_837" model="res.parish">
@@ -3349,15 +3349,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_268" />
         </record>
         <record id="res_municipality_parish_838" model="res.parish">
-          <field name="name">Parroquia Manuel Felipe Rugeles </field>
+          <field name="name">Parroquia Manuel Felipe Rugeles</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_268" />
         </record>
         <record id="res_municipality_parish_839" model="res.parish">
-          <field name="name">Parroquia Libertador </field>
+          <field name="name">Parroquia Libertador</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_269" />
         </record>
         <record id="res_municipality_parish_840" model="res.parish">
-          <field name="name">Parroquia Don Emeterio Ochoa </field>
+          <field name="name">Parroquia Don Emeterio Ochoa</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_269" />
         </record>
         <record id="res_municipality_parish_841" model="res.parish">
@@ -3369,7 +3369,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_269" />
         </record>
         <record id="res_municipality_parish_843" model="res.parish">
-          <field name="name">Parroquia Lobatera </field>
+          <field name="name">Parroquia Lobatera</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_270" />
         </record>
         <record id="res_municipality_parish_844" model="res.parish">
@@ -3377,7 +3377,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_270" />
         </record>
         <record id="res_municipality_parish_845" model="res.parish">
-          <field name="name">Parroquia Panamericano </field>
+          <field name="name">Parroquia Panamericano</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_282" />
         </record>
         <record id="res_municipality_parish_846" model="res.parish">
@@ -3385,7 +3385,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_282" />
         </record>
         <record id="res_municipality_parish_847" model="res.parish">
-          <field name="name">Parroquia Pedro Mar&#237;a Ure&#241;a </field>
+          <field name="name">Parroquia Pedro Mar&#237;a Ure&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_272" />
         </record>
         <record id="res_municipality_parish_848" model="res.parish">
@@ -3393,7 +3393,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_272" />
         </record>
         <record id="res_municipality_parish_849" model="res.parish">
-          <field name="name">Parroquia Samuel Dar&#237;o Maldonado </field>
+          <field name="name">Parroquia Samuel Dar&#237;o Maldonado</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_274" />
         </record>
         <record id="res_municipality_parish_850" model="res.parish">
@@ -3437,7 +3437,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_278" />
         </record>
         <record id="res_municipality_parish_860" model="res.parish">
-          <field name="name">Parroquia  Uribante </field>
+          <field name="name">Parroquia  Uribante</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_280" />
         </record>
         <record id="res_municipality_parish_861" model="res.parish">
@@ -3445,7 +3445,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_280" />
         </record>
         <record id="res_municipality_parish_862" model="res.parish">
-          <field name="name">Parroquia Juan Pablo Pe&#241;aloza </field>
+          <field name="name">Parroquia Juan Pablo Pe&#241;aloza</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_280" />
         </record>
         <record id="res_municipality_parish_863" model="res.parish">
@@ -3453,11 +3453,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_280" />
         </record>
         <record id="res_municipality_parish_864" model="res.parish">
-          <field name="name">Parroquia Santa Isabel </field>
+          <field name="name">Parroquia Santa Isabel</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_301" />
         </record>
         <record id="res_municipality_parish_865" model="res.parish">
-          <field name="name">Parroquia Araguaney </field>
+          <field name="name">Parroquia Araguaney</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_301" />
         </record>
         <record id="res_municipality_parish_866" model="res.parish">
@@ -3465,7 +3465,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_301" />
         </record>
         <record id="res_municipality_parish_867" model="res.parish">
-          <field name="name">Parroquia La Esperanza </field>
+          <field name="name">Parroquia La Esperanza</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_301" />
         </record>
         <record id="res_municipality_parish_868" model="res.parish">
@@ -3497,7 +3497,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_302" />
         </record>
         <record id="res_municipality_parish_875" model="res.parish">
-          <field name="name">Parroquia Vega de Guaramacal </field>
+          <field name="name">Parroquia Vega de Guaramacal</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_302" />
         </record>
         <record id="res_municipality_parish_876" model="res.parish">
@@ -3521,7 +3521,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_303" />
         </record>
         <record id="res_municipality_parish_881" model="res.parish">
-          <field name="name">Parroquia Chereg&#252;&#233; </field>
+          <field name="name">Parroquia Chereg&#252;&#233;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_303" />
         </record>
         <record id="res_municipality_parish_882" model="res.parish">
@@ -3569,7 +3569,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_305" />
         </record>
         <record id="res_municipality_parish_893" model="res.parish">
-          <field name="name">Parroquia Panamericana </field>
+          <field name="name">Parroquia Panamericana</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_305" />
         </record>
         <record id="res_municipality_parish_894" model="res.parish">
@@ -3593,11 +3593,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_306" />
         </record>
         <record id="res_municipality_parish_899" model="res.parish">
-          <field name="name">Parroquia El Socorro </field>
+          <field name="name">Parroquia El Socorro</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_307" />
         </record>
         <record id="res_municipality_parish_900" model="res.parish">
-          <field name="name">Parroquia Antonio Jos&#233; de Sucre </field>
+          <field name="name">Parroquia Antonio Jos&#233; de Sucre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_307" />
         </record>
         <record id="res_municipality_parish_901" model="res.parish">
@@ -3605,7 +3605,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_307" />
         </record>
         <record id="res_municipality_parish_902" model="res.parish">
-          <field name="name">Parroquia Campo El&#237;as </field>
+          <field name="name">Parroquia Campo El&#237;as</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_308" />
         </record>
         <record id="res_municipality_parish_903" model="res.parish">
@@ -3613,19 +3613,19 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_308" />
         </record>
         <record id="res_municipality_parish_904" model="res.parish">
-          <field name="name">Parroquia Santa Apolonia </field>
+          <field name="name">Parroquia Santa Apolonia</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_309" />
         </record>
         <record id="res_municipality_parish_905" model="res.parish">
-          <field name="name">Parroquia El Progreso  </field>
+          <field name="name">Parroquia El Progreso </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_309" />
         </record>
         <record id="res_municipality_parish_906" model="res.parish">
-          <field name="name">Parroquia La Ceiba  </field>
+          <field name="name">Parroquia La Ceiba </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_309" />
         </record>
         <record id="res_municipality_parish_907" model="res.parish">
-          <field name="name">Parroquia Tres de Febrero  </field>
+          <field name="name">Parroquia Tres de Febrero </field>
           <field name="municipalities_id" ref="res_country_state_municipalities_309" />
         </record>
         <record id="res_municipality_parish_908" model="res.parish">
@@ -3645,7 +3645,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_310" />
         </record>
         <record id="res_municipality_parish_912" model="res.parish">
-          <field name="name">Parroquia Valerita </field>
+          <field name="name">Parroquia Valerita</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_310" />
         </record>
         <record id="res_municipality_parish_913" model="res.parish">
@@ -3657,7 +3657,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_311" />
         </record>
         <record id="res_municipality_parish_915" model="res.parish">
-          <field name="name">Parroquia Santa Mar&#237;a del Horc&#243;n </field>
+          <field name="name">Parroquia Santa Mar&#237;a del Horc&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_311" />
         </record>
         <record id="res_municipality_parish_916" model="res.parish">
@@ -3693,11 +3693,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_314" />
         </record>
         <record id="res_municipality_parish_924" model="res.parish">
-          <field name="name">Parroquia La Concepci&#243;n </field>
+          <field name="name">Parroquia La Concepci&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_314" />
         </record>
         <record id="res_municipality_parish_925" model="res.parish">
-          <field name="name">Parroquia Pampanito II </field>
+          <field name="name">Parroquia Pampanito II</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_314" />
         </record>
         <record id="res_municipality_parish_926" model="res.parish">
@@ -3709,7 +3709,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_315" />
         </record>
         <record id="res_municipality_parish_928" model="res.parish">
-          <field name="name">Parroquia Los Cedros </field>
+          <field name="name">Parroquia Los Cedros</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_315" />
         </record>
         <record id="res_municipality_parish_929" model="res.parish">
@@ -3725,7 +3725,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_316" />
         </record>
         <record id="res_municipality_parish_932" model="res.parish">
-          <field name="name">Parroquia Campo Alegre </field>
+          <field name="name">Parroquia Campo Alegre</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_316" />
         </record>
         <record id="res_municipality_parish_933" model="res.parish">
@@ -3861,15 +3861,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_200" />
         </record>
         <record id="res_municipality_parish_966" model="res.parish">
-          <field name="name">Parroquia Urimare </field>
+          <field name="name">Parroquia Urimare</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_200" />
         </record>
         <record id="res_municipality_parish_967" model="res.parish">
-          <field name="name">Parroquia Carlos Soublette </field>
+          <field name="name">Parroquia Carlos Soublette</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_200" />
         </record>
         <record id="res_municipality_parish_968" model="res.parish">
-          <field name="name">Parroquia Capital Bruzual </field>
+          <field name="name">Parroquia Capital Bruzual</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_403" />
         </record>
         <record id="res_municipality_parish_969" model="res.parish">
@@ -3877,7 +3877,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_403" />
         </record>
         <record id="res_municipality_parish_970" model="res.parish">
-          <field name="name">Parroquia Capital Nirgua </field>
+          <field name="name">Parroquia Capital Nirgua</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_409" />
         </record>
         <record id="res_municipality_parish_971" model="res.parish">
@@ -3889,7 +3889,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_409" />
         </record>
         <record id="res_municipality_parish_973" model="res.parish">
-          <field name="name">Parroquia Capital Pe&#241;a </field>
+          <field name="name">Parroquia Capital Pe&#241;a</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_410" />
         </record>
         <record id="res_municipality_parish_974" model="res.parish">
@@ -3897,7 +3897,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_410" />
         </record>
         <record id="res_municipality_parish_975" model="res.parish">
-          <field name="name">Parroquia Capital San Felipe </field>
+          <field name="name">Parroquia Capital San Felipe</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_411" />
         </record>
         <record id="res_municipality_parish_976" model="res.parish">
@@ -3909,7 +3909,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_411" />
         </record>
         <record id="res_municipality_parish_978" model="res.parish">
-          <field name="name">Parroquia Capital Veroes </field>
+          <field name="name">Parroquia Capital Veroes</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_414" />
         </record>
         <record id="res_municipality_parish_979" model="res.parish">
@@ -3945,7 +3945,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_502" />
         </record>
         <record id="res_municipality_parish_987" model="res.parish">
-          <field name="name">Parroquia Pueblo Nuevo </field>
+          <field name="name">Parroquia Pueblo Nuevo</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_502" />
         </record>
         <record id="res_municipality_parish_988" model="res.parish">
@@ -3969,15 +3969,15 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_503" />
         </record>
         <record id="res_municipality_parish_993" model="res.parish">
-          <field name="name">Parroquia R&#243;mulo Betancourt </field>
+          <field name="name">Parroquia R&#243;mulo Betancourt</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_503" />
         </record>
         <record id="res_municipality_parish_994" model="res.parish">
-          <field name="name">Parroquia San Benito </field>
+          <field name="name">Parroquia San Benito</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_503" />
         </record>
         <record id="res_municipality_parish_995" model="res.parish">
-          <field name="name">Parroquia Ar&#237;stides Calvani </field>
+          <field name="name">Parroquia Ar&#237;stides Calvani</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_503" />
         </record>
         <record id="res_municipality_parish_996" model="res.parish">
@@ -4021,7 +4021,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_505" />
         </record>
         <record id="res_municipality_parish_1006" model="res.parish">
-          <field name="name">Parroquia Francisco Javier Pulgar </field>
+          <field name="name">Parroquia Francisco Javier Pulgar</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_505" />
         </record>
         <record id="res_municipality_parish_1007" model="res.parish">
@@ -4033,19 +4033,19 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_506" />
         </record>
         <record id="res_municipality_parish_1009" model="res.parish">
-          <field name="name">Parroquia Mariano Parra Le&#243;n </field>
+          <field name="name">Parroquia Mariano Parra Le&#243;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_506" />
         </record>
         <record id="res_municipality_parish_1010" model="res.parish">
-          <field name="name">Parroquia San Jos&#233; </field>
+          <field name="name">Parroquia San Jos&#233;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_506" />
         </record>
         <record id="res_municipality_parish_1011" model="res.parish">
-          <field name="name">Parroquia Jes&#250;s Mar&#237;a Sempr&#250;n </field>
+          <field name="name">Parroquia Jes&#250;s Mar&#237;a Sempr&#250;n</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_507" />
         </record>
         <record id="res_municipality_parish_1012" model="res.parish">
-          <field name="name">Parroquia Bar&#237; </field>
+          <field name="name">Parroquia Bar&#237;</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_507" />
         </record>
         <record id="res_municipality_parish_1013" model="res.parish">
@@ -4097,7 +4097,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_510" />
         </record>
         <record id="res_municipality_parish_1025" model="res.parish">
-          <field name="name">Parroquia R&#237;o Negro </field>
+          <field name="name">Parroquia R&#237;o Negro</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_510" />
         </record>
         <record id="res_municipality_parish_1026" model="res.parish">
@@ -4113,7 +4113,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_511" />
         </record>
         <record id="res_municipality_parish_1029" model="res.parish">
-          <field name="name">Parroquia Las Parcelas </field>
+          <field name="name">Parroquia Las Parcelas</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_511" />
         </record>
         <record id="res_municipality_parish_1030" model="res.parish">
@@ -4129,7 +4129,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_511" />
         </record>
         <record id="res_municipality_parish_1033" model="res.parish">
-          <field name="name">Parroquia Tamare </field>
+          <field name="name">Parroquia Tamare</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_511" />
         </record>
         <record id="res_municipality_parish_1034" model="res.parish">
@@ -4229,7 +4229,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_514" />
         </record>
         <record id="res_municipality_parish_1058" model="res.parish">
-          <field name="name">Parroquia Alta Guajira </field>
+          <field name="name">Parroquia Alta Guajira</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_514" />
         </record>
         <record id="res_municipality_parish_1059" model="res.parish">
@@ -4269,7 +4269,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_517" />
         </record>
         <record id="res_municipality_parish_1068" model="res.parish">
-          <field name="name">Parroquia Los Cortijos </field>
+          <field name="name">Parroquia Los Cortijos</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_517" />
         </record>
         <record id="res_municipality_parish_1069" model="res.parish">
@@ -4277,7 +4277,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_517" />
         </record>
         <record id="res_municipality_parish_1070" model="res.parish">
-          <field name="name">Parroquia Jose Domingo Rus </field>
+          <field name="name">Parroquia Jose Domingo Rus</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_517" />
         </record>
         <record id="res_municipality_parish_1071" model="res.parish">
@@ -4289,7 +4289,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_518" />
         </record>
         <record id="res_municipality_parish_1073" model="res.parish">
-          <field name="name">Parroquia Jos&#233; Cenovio Urribarri </field>
+          <field name="name">Parroquia Jos&#233; Cenovio Urribarri</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_518" />
         </record>
         <record id="res_municipality_parish_1074" model="res.parish">
@@ -4297,11 +4297,11 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_518" />
         </record>
         <record id="res_municipality_parish_1075" model="res.parish">
-          <field name="name">Parroquia Manuel Manrique </field>
+          <field name="name">Parroquia Manuel Manrique</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_519" />
         </record>
         <record id="res_municipality_parish_1076" model="res.parish">
-          <field name="name">Parroquia Rafael Mar&#237;a Baralt </field>
+          <field name="name">Parroquia Rafael Mar&#237;a Baralt</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_519" />
         </record>
         <record id="res_municipality_parish_1077" model="res.parish">
@@ -4313,7 +4313,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_520" />
         </record>
         <record id="res_municipality_parish_1079" model="res.parish">
-          <field name="name">Parroquia El Batey </field>
+          <field name="name">Parroquia El Batey</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_520" />
         </record>
         <record id="res_municipality_parish_1080" model="res.parish">
@@ -4337,7 +4337,7 @@
           <field name="municipalities_id" ref="res_country_state_municipalities_521" />
         </record>
         <record id="res_municipality_parish_1085" model="res.parish">
-          <field name="name">Parroquia Rafael Urdaneta </field>
+          <field name="name">Parroquia Rafael Urdaneta</field>
           <field name="municipalities_id" ref="res_country_state_municipalities_521" />
         </record>
         <record id="res_municipality_parish_1086" model="res.parish">

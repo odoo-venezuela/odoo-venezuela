@@ -129,7 +129,6 @@ class account_invoice_refund(osv.osv_memory):
         res_users_obj = self.pool.get('res.users')
         if context is None:
             context = {}
-
         for form in  self.read(cr, uid, ids, context=context):
             created_inv = []
             date = False
@@ -192,11 +191,13 @@ class account_invoice_refund(osv.osv_memory):
                                             _('No Period found on Invoice!'))
                 
                 refund_id = inv_obj.refund(cr, uid, [inv.id], date, period, description, journal_id)
+                
                 refund = inv_obj.browse(cr, uid, refund_id[0], context=context)
                 #Add parent invoice
-                inv_obj.write(cr, uid, [refund.id], {'date_due': date, 'nro_ctrl': nroctrl,
-                                                'check_total': inv.check_total,'parent_id':inv.id})
+                cr.execute("update account_invoice set date_due='%s', check_total='%s', \
+                            parent_id=%s where id =%s"%(date,inv.check_total,inv.id,refund.id))
                 inv_obj.button_compute(cr, uid, refund_id)
+                
                 created_inv.append(refund_id[0])
                 if mode in ('cancel', 'modify'):
                     movelines = inv.move_id.line_id
@@ -208,6 +209,7 @@ class account_invoice_refund(osv.osv_memory):
                             reconcile_obj.unlink(cr, uid, line.reconcile_id.id)
                     wf_service.trg_validate(uid, 'account.invoice', \
                                         refund.id, 'invoice_open', cr)
+                    
                     refund = inv_obj.browse(cr, uid, refund_id[0], context=context)
                     self.cn_iva_validate(cr,uid,refund,context=context)
                     
@@ -235,7 +237,6 @@ class account_invoice_refund(osv.osv_memory):
                         invoice_lines = inv_obj._refund_cleanup_lines(cr, uid, invoice_lines)
                         tax_lines = inv_tax_obj.read(cr, uid, invoice['tax_line'], context=context)
                         tax_lines = inv_obj._refund_cleanup_lines(cr, uid, tax_lines)
-                         
                         #Add origin value
                         orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
                         invoice.update({
@@ -248,7 +249,7 @@ class account_invoice_refund(osv.osv_memory):
                             'period_id': period,
                             'name': description,
                             'origin': orig,
-                            'nro_ctrl': nroctrl,
+                          
                         })
                         for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
                                 'account_id', 'currency_id', 'payment_term', 'journal_id'):
@@ -284,7 +285,7 @@ class account_invoice_refund(osv.osv_memory):
             if wzd_brw.filter_refund == 'refund':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'description':wzd_brw.description},context=context)
-            
+            cr.execute("update account_invoice set nro_ctrl='%s' where id =%s"%(nroctrl,refund.id))
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
