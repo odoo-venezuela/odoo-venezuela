@@ -63,7 +63,10 @@
         "wizard/l10n_ve_withholding_iva_installer.xml",
     ],
     'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
-    'test': [],
+    'test': [
+            'test/iva.yml',
+            'test/iva_purchase.yml',
+        ],
     'installable': True,
     'active': False,
 }

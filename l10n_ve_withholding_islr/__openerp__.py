@@ -73,6 +73,9 @@
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
     ],
+    'test': [
+            'test/islr_purchase.yml',
+        ],
     "active": False,
     "installable": True
 }

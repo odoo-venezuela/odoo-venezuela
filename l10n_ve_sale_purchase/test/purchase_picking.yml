@@ -1,0 +1,59 @@
+-
+  I create a purchase order (picking)
+-
+  !record {model: purchase.order, id: purchase_picking01}:
+    date_order: !eval time.strftime('%Y-%m-%d')
+    warehouse_id: stock.warehouse0
+    partner_id: base.res_partner_notsotinysarl0
+    pricelist_id: product.list0
+    partner_address_id: base.res_partner_address_3
+    location_id: stock.stock_location_stock
+    invoice_method: 'picking'
+    order_line:
+      - product_id: product.product_product_pc3
+        product_qty: 3
+        product_uom: product.product_uom_unit
+        price_unit: 10
+        name: PC3
+        date_planned: !eval time.strftime('%Y-%m-%d')
+-
+  I check that the purchase order was created and is a draft
+-
+  !assert {model: purchase.order, id: purchase_picking01}:
+    - state == 'draft'
+-
+  I confirm the purchase
+-
+  !workflow {model: purchase.order, action: purchase_confirm, ref: purchase_picking01}
+-
+  I check that the order which was was approved
+-
+  !assert {model: purchase.order, id: purchase_picking01}:
+    - state == 'approved'
+-
+  Check if a record was created in stock picking
+-
+  !assert {model: stock.picking, search: "[('purchase_id', '=', 'purchase_picking01')]"}:
+    - state == 'assigned'
+-
+  Check if the stock picking record and purchase order has the same lines
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("purchase_picking01"))
+    pur_line_obj=self.pool.get('purchase.order.line')
+    
+    pur_line=pur_line_obj.search(cr, uid, [('order_id', '=', po.name) ])
+    assert pur_line, 'Purchase order lines was not created'
+    sp_obj=self.pool.get('stock.picking')
+    sp = sp_obj.search(cr, uid, [('purchase_id', '=', ref("purchase_picking01")) ])
+    
+    sm_obj=self.pool.get('stock.move')
+    sm = sm_obj.search(cr, uid, [('picking_id', '=', sp[0]) ])
+    
+    assert len(sm) == len(pur_line), 'Not the same length'
+-
+  Check if an invoice was not created (as supouse to)
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("purchase_picking01"))
+    assert not po.invoice_ids, 'Invoice was created (It shouldn\'t)'

@@ -1,0 +1,40 @@
+-
+  Find the invoice and check it is in draft state for total validation
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("purchase_order01"))
+    assert po.invoice_ids[0].state == 'open', 'Invoice must be in draft state'
+    am_obj=self.pool.get('account.move')
+    am_ids = am_obj.search(cr, uid, [('name', '=', po.invoice_ids[0].number) ])
+    assert am_ids, 'account.move was not created properly'
+    am_brw = am_obj.browse(cr, uid, am_ids[0])
+    d = 0
+    c = 0
+    for l in am_brw.line_id:
+      d += l.debit
+      c += l.credit
+    assert c == d, 'Don\'t match'
+-
+  Validate stock picking
+-
+  !python {model: stock.picking}: |
+    import netsvc
+    po_obj=self.pool.get('purchase.order')
+    po = po_obj.browse(cr, uid, ref("purchase_order01"))
+    sp_ids = self.search(cr, uid, [('origin', '=', po.invoice_ids[0].name) ])
+    assert sp_ids, 'Stock picking not created'
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'stock.picking',sp_ids[0],'button_done', cr)
+    sp_brw = self.browse(cr, uid, sp_ids[0])
+    assert sp_brw.state=='done', 'Workflow didn\'t work properly'
+-
+  Validate stock moves
+-
+  !python {model: stock.move}: |
+    po_obj=self.pool.get('purchase.order')
+    po = po_obj.browse(cr, uid, ref("purchase_order01"))
+    sm_ids = self.search(cr, uid, [('origin', '=', po.invoice_ids[0].name) ])
+    assert sm_ids, 'Stock moves not created'
+    for sm_id in sm_ids:
+      sm_brw = self.browse(cr, uid, sm_id)
+      assert sm_brw.state=='done', 'Workflow didn\'t work properly'

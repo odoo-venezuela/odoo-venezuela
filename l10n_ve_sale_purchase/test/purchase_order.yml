@@ -1,0 +1,77 @@
+-
+  I create a purchase order (order)
+-
+  !record {model: purchase.order, id: purchase_order01}:
+    company_id: base.main_company
+    date_order: !eval time.strftime('%Y-%m-%d')
+    warehouse_id: stock.warehouse0
+    partner_id: base.res_partner_notsotinysarl0
+    pricelist_id: product.list0
+    partner_address_id: base.res_partner_address_3
+    location_id: stock.stock_location_stock
+    invoice_method: 'order'
+    order_line:
+      - product_id: product.product_product_pc3
+        product_qty: 3
+        product_uom: product.product_uom_unit
+        price_unit: 10
+        name: PC3
+        date_planned: !eval time.strftime('%Y-%m-%d')
+      - product_id: product.product_product_pc2
+        product_qty: 5
+        product_uom: product.product_uom_unit
+        price_unit: 20
+        name: PC2
+        date_planned: !eval time.strftime('%Y-%m-%d')
+-
+  I check that the purchase order was created and is a draft
+-
+  !assert {model: purchase.order, id: purchase_order01}:
+    - state == 'draft'
+-
+  I confirm the purchases
+-
+  !workflow {model: purchase.order, action: purchase_confirm, ref: purchase_order01}
+-
+  I check that the order which was was approved
+-
+  !assert {model: purchase.order, id: purchase_order01}:
+    - state == 'approved'
+-
+  Check if a record was created in stock picking
+-
+  !assert {model: stock.picking, search: "[('purchase_id', '=', 'purchase_order01')]"}:
+    - state == 'assigned'
+-
+  Check if the stock picking record and purchase order has the same lines
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("purchase_order01"))
+    pur_line_obj=self.pool.get('purchase.order.line')
+    pur_line=pur_line_obj.search(cr, uid, [('order_id', '=', po.name) ])
+    assert pur_line, 'Purchase order lines was not created'
+    sp_obj=self.pool.get('stock.picking')
+    sp = sp_obj.search(cr, uid, [('purchase_id', '=', ref("purchase_order01")) ])
+    
+    sm_obj=self.pool.get('stock.move')
+    sm = sm_obj.search(cr, uid, [('picking_id', '=', sp[0]) ])
+    
+    assert len(sm) == len(pur_line), 'Not the same length'
+-
+  Check if an invoice was created
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("purchase_order01"))
+    assert po.invoice_ids, 'Invoice was not created'
+    assert po.invoice_ids[0].state == 'draft', 'Invoice was created, but not properly'
+-
+  Execute workflow for opening the invoice
+-
+  !python {model: purchase.order}: |
+    import netsvc
+    po = self.browse(cr, uid, ref("purchase_order01"))
+    ai_obj=self.pool.get('account.invoice')
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
+    po = self.browse(cr, uid, ref("purchase_order01"))
+    assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
