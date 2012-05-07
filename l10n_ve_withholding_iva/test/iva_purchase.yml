@@ -1,0 +1,143 @@
+-
+  I create a purchase order (order)
+-
+  !record {model: purchase.order, id: test_purchase_iva01}:
+    company_id: base.main_company
+    date_order: !eval time.strftime('%Y-%m-%d')
+    warehouse_id: stock.warehouse0
+    partner_id: base.res_partner_notsotinysarl0
+    pricelist_id: product.list0
+    partner_address_id: base.res_partner_address_3
+    location_id: stock.stock_location_stock
+    invoice_method: 'order'
+    order_line:
+      - product_id: product.product_product_pc3
+        product_qty: 3
+        product_uom: product.product_uom_unit
+        price_unit: 10
+        name: PC3
+        date_planned: !eval time.strftime('%Y-%m-%d')
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_demo2
+        taxes_id:
+        - iva_purchase0
+      - product_id: product.product_product_pc2
+        product_qty: 5
+        product_uom: product.product_uom_unit
+        price_unit: 20
+        name: PC2
+        date_planned: !eval time.strftime('%Y-%m-%d')
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_demo2
+        taxes_id:
+        - iva_purchase0
+-
+  I check that the purchase order was created and is a draft
+-
+  !assert {model: purchase.order, id: test_purchase_iva01}:
+    - state == 'draft'
+-
+  I confirm the purchases
+-
+  !workflow {model: purchase.order, action: purchase_confirm, ref: test_purchase_iva01}
+-
+  I check that the order which was was approved
+-
+  !assert {model: purchase.order, id: test_purchase_iva01}:
+    - state == 'approved'
+-
+  Check if a record was created in stock picking
+-
+  !assert {model: stock.picking, search: "[('purchase_id', '=', 'test_purchase_iva01')]"}:
+    - state == 'assigned'
+-
+  Check if the stock picking record and purchase order has the same lines
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    pur_line_obj=self.pool.get('purchase.order.line')
+    pur_line=pur_line_obj.search(cr, uid, [('order_id', '=', po.name) ])
+    assert pur_line, 'Purchase order lines was not created'
+    sp_obj=self.pool.get('stock.picking')
+    sp = sp_obj.search(cr, uid, [('purchase_id', '=', ref("test_purchase_iva01")) ])
+    
+    sm_obj=self.pool.get('stock.move')
+    sm = sm_obj.search(cr, uid, [('picking_id', '=', sp[0]) ])
+    
+    assert len(sm) == len(pur_line), 'Not the same length'
+-
+  Check if an invoice was created
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    assert po.invoice_ids, 'Invoice was not created'
+    assert po.invoice_ids[0].state == 'draft', 'Invoice was created, but not properly'
+-
+  Execute workflow for opening the invoice
+-
+  !python {model: purchase.order}: |
+    import netsvc
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    ai_obj=self.pool.get('account.invoice')
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
+-
+  Find the invoice and check it is in draft state for total validation and IVA tax
+-
+  !python {model: purchase.order}: |
+    am_obj=self.pool.get('account.move')
+    at_obj=self.pool.get('account.tax')
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    am_ids = am_obj.search(cr, uid, [('ref', '=', po.invoice_ids[0].reference)])
+    assert am_ids, 'account.move was not created properly'
+    am_brw = am_obj.browse(cr, uid, am_ids[0])
+    d = 0
+    c = 0
+    at_brw = at_obj.browse(cr, uid, ref("iva_purchase0"))
+    for l in am_brw.line_id:
+      d += l.debit
+      c += l.credit
+      if l.name == at_brw.name:
+        assert l.debit == 15.6, 'Bad value for iva'
+    assert c == d, 'Don\'t match'
+-
+  Set control number for the invoice
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    ai_obj=self.pool.get('account.invoice')
+    po = ai_obj.write(cr, uid, [po.invoice_ids[0].id], {'nro_ctrl':'iva001'})
+-
+  I will create and post an account voucher of amount 145.6
+-
+  !python {model: account.voucher}: |
+    import netsvc
+
+    po_obj=self.pool.get('purchase.order')
+
+    po = po_obj.browse(cr, uid, ref("test_purchase_iva01"))
+    assert po.invoice_ids, 'Can\'t find invoices'
+
+    vals = {}
+    journal_id = self.default_get(cr, uid, ['journal_id']).get('journal_id',None)
+    res = self.onchange_partner_id(cr, uid, [], ref("base.res_partner_notsotinysarl0"), journal_id, 0.0, 1, ttype='receipt', date=False)
+    vals = {
+        'account_id': ref('account.cash'),
+        'amount': 145.60,
+        'company_id': ref('base.main_company'),
+        'currency_id': ref('base.VEB'),
+        'journal_id': ref('account.bank_journal'),
+        'partner_id': ref('base.res_partner_seagate'),
+        'period_id': ref('account.period_8'),
+        'type': 'receipt',
+        'name':po.invoice_ids[0].name,
+    }
+    if not res['value']['line_cr_ids']:
+      res['value']['line_cr_ids'] = [{'type': 'cr', 'account_id': ref('account.a_recv'),}]
+    res['value']['line_cr_ids'][0]['amount'] = 145.60
+    vals['line_cr_ids'] = [(0,0,i) for i in res['value']['line_cr_ids']]
+    id = self.create(cr, uid, vals)
+    voucher_id = self.browse(cr, uid, id)
+    assert (voucher_id.state=='draft'), "Voucher is not in draft state"
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.voucher', voucher_id.id, 'proforma_voucher', cr)
