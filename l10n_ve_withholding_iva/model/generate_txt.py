@@ -125,12 +125,18 @@ class txt_iva(osv.osv):
             for voucher_lines in voucher.wh_lines:
                 
                 if voucher_lines.invoice_id.state in ['open','paid']:
+                    
+                    if voucher_lines.invoice_id.type in ['in_refund', 'out_refund']:
+                        untaxed = voucher_lines.base_ret * (-1)
+                    else:
+                        untaxed = voucher_lines.base_ret
+                        
                     txt_iva_obj.create(cr,uid,
                     {'partner_id':voucher.partner_id.id,
                     'voucher_id':voucher.id,
                     'invoice_id':voucher_lines.invoice_id.id,
                     'txt_id': txt_brw.id,
-                    'untaxed': voucher_lines.base_ret,
+                    'untaxed': untaxed,
                     'amount_withheld': voucher_lines.amount_tax_ret,
                     })
         return True
