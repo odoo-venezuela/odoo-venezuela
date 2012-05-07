@@ -219,7 +219,7 @@
                 <td>
                 </td>
                 <td>
-                    <para style="TOTALES">[[ formatLang(get_totals(data['form'])[1]) ]]</para>
+                    <para style="TOTALES">[[ formatLang(get_totals_base(data['form'])) ]]</para>
                 </td>
             </tr>
       </blockTable>

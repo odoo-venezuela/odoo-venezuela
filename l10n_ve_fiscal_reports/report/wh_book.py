@@ -49,6 +49,7 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             'get_totals':self._get_totals,
             'get_total_excent':self._get_total_excent,
             'get_total_wh':self._get_total_wh,
+            'get_totals_base': self.get_totals_base,
         })
 
     def _get_partner_addr(self, idp=None):
@@ -100,7 +101,7 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             book_type='fiscal.reports.whs'
         data=[]
         fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)],order='ar_number')
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)], order='ar_number')
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 
@@ -163,7 +164,17 @@ class pur_sal_wh_book(report_sxw.rml_parse):
             total_excent=total_excent+self._get_exc(d.ar_line_id)
         return total_excent
         
-    
+    def get_totals_base(self, form):
+        data = self._get_data(form)
+        total = 0
+        for base in data:
+            for line in base.ar_line_id.tax_line:
+                if line.base:
+                    if base.ai_id.type == 'in_refund':
+                        total += line.base * (-1)
+                    else:
+                        total += line.base
+        return total
       
 report_sxw.report_sxw(
     'report.fiscal.reports.whp.whp_seniat',
