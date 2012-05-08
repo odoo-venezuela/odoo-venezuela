@@ -78,7 +78,7 @@
     ai_obj=self.pool.get('account.invoice')
     ai_obj.write(cr, uid, [po.invoice_ids[0].id], {'nro_ctrl':'iva002', 'journal_id':ref("account.expenses_journal")})
     ai_brw = ai_obj.browse(cr, uid, po.invoice_ids[0].id)
-    assert ai_brw.nro_ctrl=='iva002' and ai_brw.journal_id == ref("account.expenses_journal"), 'Invoice wasn\'t updated properly'
+    assert ai_brw.nro_ctrl=='iva002' and ai_brw.journal_id.id == ref("account.expenses_journal"), 'Invoice wasn\'t updated properly'
 -
   Execute workflow for opening the invoice
 -
@@ -107,3 +107,27 @@
   !python {model: purchase.order}: |
     po = self.browse(cr, uid, ref("test_purchase_iva02"))
     assert po.invoice_ids[0].wh_iva_id, 'Withholding document must be created'
+-
+  Check IVA validations
+-
+  !python {model: account.wh.iva}: |
+    import netsvc, time
+    po_obj=self.pool.get('purchase.order')
+    ap_obj=self.pool.get('account.period')
+    po = po_obj.browse(cr, uid, ref("test_purchase_iva02"))
+    awi = self.search(cr, uid, [('id', '=', po.invoice_ids[0].wh_iva_id.id) ])
+    assert awi, 'Withholding document not found'
+    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')) ])
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi[0], {'period_id':period[0]})
+    awi = self.search(cr, uid, [('id', '=', po.invoice_ids[0].wh_iva_id.id) ])
+    self.compute_amount_wh(cr, uid, awi)
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.wh.iva',awi[0],'wh_iva_confirmed', cr)
+    awi_brw = self.browse(cr, uid, awi[0])
+    assert awi_brw.state == 'confirmed', 'Could not confirm document'
+    wf_service.trg_validate(uid, 'account.wh.iva',awi[0],'wh_iva_done', cr)
+    awi_brw = self.browse(cr, uid, awi[0])
+    assert awi_brw.state == 'done', 'Workflow don\'t work properly'
+    
+    
