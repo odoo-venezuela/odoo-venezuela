@@ -85,21 +85,19 @@
   Find the invoice and check it is in draft state for total validation and IVA tax
 -
   !python {model: purchase.order}: |
-    am_obj=self.pool.get('account.move')
-    at_obj=self.pool.get('account.tax')
+    import netsvc
     po = self.browse(cr, uid, ref("test_purchase_iva01"))
-    am_ids = am_obj.search(cr, uid, [('ref', '=', po.invoice_ids[0].reference)])
-    assert am_ids, 'account.move was not created properly'
-    am_brw = am_obj.browse(cr, uid, am_ids[0])
-    d = 0
-    c = 0
-    at_brw = at_obj.browse(cr, uid, ref("iva_purchase0"))
-    for l in am_brw.line_id:
-      d += l.debit
-      c += l.credit
-      if l.name == at_brw.name:
-        assert l.debit == 15.6, 'Bad value for iva'
-    assert c == d, 'Don\'t match'
+    ai_obj=self.pool.get('account.invoice')
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
+-
+  Check if withhold document was created
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva01"))
+    assert not po.invoice_ids[0].wh_iva_id, 'Withholding document shouldn\'t be created'
 -
   Set control number for the invoice
 -

@@ -7,6 +7,7 @@
     type_tax_use: purchase
     applicable_type: 'true'
     company_id: base.main_company
+    ret: False
 -
   Test if tax was properly created
 -
