@@ -66,6 +66,7 @@
     'test': [
             'test/iva.yml',
             'test/iva_purchase.yml',
+            'test/iva_purchase_wh.yml',
         ],
     'installable': True,
     'active': False,

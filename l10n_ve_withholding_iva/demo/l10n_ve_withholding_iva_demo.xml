@@ -2,6 +2,14 @@
 <openerp>
     <data noupdate='0'>
 
+        <record id="seq_wh_iva_purchase_journal" model="ir.sequence">
+            <field name="name">Retencion de IVA Compra</field>
+            <field name="code">account.journal</field>
+            <field name="prefix">RE:</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+        </record>
+
 <!-- Minimal Account -->	
 
 	 <record id="a_iva" model="account.account">
@@ -26,6 +34,14 @@
             <field ref="account.cli" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.account_type_liability"/>
+        </record>
+
+        <record id="iva_purchase_journal" model="account.journal">
+            <field name="name">DIARIO DE IVA COMPRA</field>
+            <field name="code">IVA</field>
+            <field name="type">iva_purchase</field>
+            <field name="view_id" ref="account.account_journal_view"/>
+            <field name="sequence_id" ref="seq_wh_iva_purchase_journal"/>
         </record>
 
 	<!--Partner -->
