@@ -442,7 +442,7 @@ class islr_wh_doc(osv.osv):
                         raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
                 else:
                     raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
-            break
+            #~ break
         return islr_wh_doc_id
 
 
