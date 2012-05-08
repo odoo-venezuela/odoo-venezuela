@@ -19,8 +19,15 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/group/group" position="after">
-                    <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
+                <xpath expr="/form/notebook/page[@string='Other Info']" position="after">
+                    
+               <page string="Import">
+                     <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>      
+                     <field name="num_import_expe" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" />      
+                     <field name="num_import_form" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" />      
+                     <field name="import_invo" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" />      
+               </page>
+                        
                 </xpath>
                 <xpath expr='//field[@name="date_due"]' position="after">
                     <field name="date_document"/>

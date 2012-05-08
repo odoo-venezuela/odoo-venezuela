@@ -35,6 +35,11 @@ msgid "Sin derecho a Credito Fiscal"
 msgstr "SDCF"
 
 #. module: l10n_ve_fiscal_reports
+#: field:account.invoice,import_invo:0
+msgid "Import Invoice"
+msgstr "Factura Importada"
+
+#. module: l10n_ve_fiscal_reports
 #: report:fiscal.reports.purchase.purchase_seniat:0
 #: report:fiscal.reports.whp.whp_seniat:0
 msgid "Impuesto"
@@ -103,6 +108,11 @@ msgid "Affected Document"
 msgstr "Documento Afectado"
 
 #. module: l10n_ve_fiscal_reports
+#: field:account.invoice,num_import_expe:0
+msgid "Import file number"
+msgstr "Numero de expediente de importación"
+
+#. module: l10n_ve_fiscal_reports
 #: help:adjustment.book,vat_general_add_n:0
 #: help:adjustment.book,vat_general_add_ncf:0
 msgid "Compras/Ventas internas gravadas por alicuota general mas alicuota adicional"
@@ -128,6 +138,11 @@ msgid "CREDITO FISCAL"
 msgstr "CREDITO FISCAL"
 
 #. module: l10n_ve_fiscal_reports
+#: help:account.invoice,num_import_expe:0
+msgid "Import the file number for this invoice"
+msgstr "Numero de expediente de importación"
+
+#. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,rp_retention:0
 msgid "Whitholding Rate"
 msgstr "Tasa de Retención"
@@ -136,6 +151,11 @@ msgstr "Tasa de Retención"
 #: help:adjustment.book.line,doc_affected:0
 msgid "Affected Document for adjustment book"
 msgstr "Documento afectado para el libro de ajuste"
+
+#. module: l10n_ve_fiscal_reports
+#: view:account.invoice:0
+msgid "Import"
+msgstr "Importación"
 
 #. module: l10n_ve_fiscal_reports
 #: report:fiscal.reports.purchase.purchase_seniat:0
@@ -171,6 +191,11 @@ msgstr "Ajustes a los creditos/debitos fiscales de los periodos anteriores"
 #: help:adjustment.book.line,voucher:0
 msgid "Voucher Withholding VAT"
 msgstr "Comp. Retencion IVA"
+
+#. module: l10n_ve_fiscal_reports
+#: field:account.invoice,num_import_form:0
+msgid "Import Form number"
+msgstr "Numero de planilla de Importación"
 
 #. module: l10n_ve_fiscal_reports
 #: help:adjustment.book,amount_untaxed_n_total:0
@@ -294,6 +319,16 @@ msgid "Numero Control"
 msgstr "Numero Control"
 
 #. module: l10n_ve_fiscal_reports
+#: help:account.invoice,import_invo:0
+msgid "Import invoice date"
+msgstr "Fecha de la factura importada"
+
+#. module: l10n_ve_fiscal_reports
+#: field:account.invoice,import_invo:0
+msgid "Import Invoice"
+msgstr "Factura Importada"
+
+#. module: l10n_ve_fiscal_reports
 #: field:adjustment.book.line,control_number:0
 msgid "Invoice Control"
 msgstr "Nro. Control-Factura"
@@ -307,6 +342,11 @@ msgstr "Periodo Fiscal"
 #: report:fiscal.reports.whp.whp_seniat:0
 msgid "WITHOLDING BOOK"
 msgstr "WITHOLDING BOOK"
+
+#. module: l10n_ve_fiscal_reports
+#: help:account.invoice,num_import_form:0
+msgid "Import the form number for this invoice"
+msgstr "Numero de planilla de importación para esta factura"
 
 #. module: l10n_ve_fiscal_reports
 #: view:fiscal.reports.purchase:0
