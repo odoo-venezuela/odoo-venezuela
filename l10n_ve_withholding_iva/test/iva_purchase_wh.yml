@@ -1,4 +1,27 @@
 -
+  Check conditions for creating the document, first main company configuration
+-
+  !assert {model: res.partner, id: base.main_company}:
+    - wh_iva_agent
+    - wh_iva_rate
+    - vat_subjected
+-
+  Check partner configuration
+-
+  !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
+    - wh_iva_agent
+    - wh_iva_rate
+    - vat_subjected
+-
+  Check IVA configuration
+-
+  !assert {model: account.tax, id: iva_purchase1}:
+    - amount
+    - type_tax_use == 'purchase'
+    - ret
+    - wh_vat_collected_account_id
+    - wh_vat_paid_account_id
+-
   I create a purchase order (order)
 -
   !record {model: purchase.order, id: test_purchase_iva02}:

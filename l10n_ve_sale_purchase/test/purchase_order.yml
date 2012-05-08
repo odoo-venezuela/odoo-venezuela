@@ -52,10 +52,8 @@
     assert pur_line, 'Purchase order lines was not created'
     sp_obj=self.pool.get('stock.picking')
     sp = sp_obj.search(cr, uid, [('purchase_id', '=', ref("purchase_order01")) ])
-    
     sm_obj=self.pool.get('stock.move')
     sm = sm_obj.search(cr, uid, [('picking_id', '=', sp[0]) ])
-    
     assert len(sm) == len(pur_line), 'Not the same length'
 -
   Check if an invoice was created
