@@ -100,7 +100,7 @@
     po = self.browse(cr, uid, ref("test_purchase_iva01"))
     assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
 -
-  Check if withhold document was created
+  Check if withhold document was not created
 -
   !python {model: purchase.order}: |
     po = self.browse(cr, uid, ref("test_purchase_iva01"))
