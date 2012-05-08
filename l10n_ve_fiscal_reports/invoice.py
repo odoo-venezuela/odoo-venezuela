@@ -42,5 +42,8 @@ class inherited_invoice(osv.osv):
                                     'paid':[('readonly',True)]},
         help="Keep empty to use the current date\n It represent the date when we did account charge, known as Accounting Date too!"),
         'expedient':fields.boolean('Expediente?', help="Seleccionar solo si la factura de compra es un expediente de importación"),
+        'num_import_expe':fields.char('Import file number',15,help="Import the file number for this invoice"),
+        'num_import_form':fields.char('Import Form number',15,help="Import the form number for this invoice"),
+        'import_invo':fields.date('Import Invoice',help="Import invoice date"),
         }
 inherited_invoice()
