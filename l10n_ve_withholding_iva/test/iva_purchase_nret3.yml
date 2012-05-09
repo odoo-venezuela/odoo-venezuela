@@ -1,0 +1,145 @@
+-
+  I update company information
+-
+  !record {model: res.partner, id: base.main_company}:
+    wh_iva_agent: True
+    wh_iva_rate: 75
+    vat_subjected: True
+
+-
+  Check conditions for creating the document, first main company configuration
+-
+  !assert {model: res.partner, id: base.main_company}:
+    - wh_iva_agent
+    - wh_iva_rate
+    - vat_subjected 
+-
+  I update partner information
+-
+  !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
+    wh_iva_agent: False
+    wh_iva_rate: 0
+    vat_subjected: False
+-
+  Check partner configuration
+-
+  !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
+    - not wh_iva_agent
+    - wh_iva_rate == 0
+    - not vat_subjected
+-
+  Check IVA configuration
+-
+  !assert {model: account.tax, id: iva_purchase1}:
+    - amount
+    - type_tax_use == 'purchase'
+    - ret
+    - wh_vat_collected_account_id
+    - wh_vat_paid_account_id
+-
+  I create a purchase order (order)
+-
+  !record {model: purchase.order, id: test_purchase_iva_nret03}:
+    company_id: base.main_company
+    date_order: !eval time.strftime('%Y-%m-%d')
+    warehouse_id: stock.warehouse0
+    partner_id: base.res_partner_notsotinysarl0
+    pricelist_id: product.list0
+    partner_address_id: base.res_partner_address_3
+    location_id: stock.stock_location_stock
+    invoice_method: 'order'
+    order_line:
+      - product_id: product.product_product_pc3
+        product_qty: 3
+        product_uom: product.product_uom_unit
+        price_unit: 10
+        name: PC3
+        date_planned: !eval time.strftime('%Y-%m-%d')
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        taxes_id:
+        - iva_purchase1
+      - product_id: product.product_product_pc2
+        product_qty: 5
+        product_uom: product.product_uom_unit
+        price_unit: 20
+        name: PC2
+        date_planned: !eval time.strftime('%Y-%m-%d')
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        taxes_id:
+        - iva_purchase1
+-
+  I check that the purchase order was created and is a draft
+-
+  !assert {model: purchase.order, id: test_purchase_iva_nret03}:
+    - state == 'draft'
+-
+  I confirm the purchases
+-
+  !workflow {model: purchase.order, action: purchase_confirm, ref: test_purchase_iva_nret03}
+-
+  I check that the order which was was approved
+-
+  !assert {model: purchase.order, id: test_purchase_iva_nret03}:
+    - state == 'approved'
+-
+  Check if a record was created in stock picking
+-
+  !assert {model: stock.picking, search: "[('purchase_id', '=', 'test_purchase_iva_nret03')]"}:
+    - state == 'assigned'
+-
+  Check if the stock picking record and purchase order has the same lines
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    pur_line_obj=self.pool.get('purchase.order.line')
+    pur_line=pur_line_obj.search(cr, uid, [('order_id', '=', po.name) ])
+    assert pur_line, 'Purchase order lines was not created'
+    sp_obj=self.pool.get('stock.picking')
+    sp = sp_obj.search(cr, uid, [('purchase_id', '=', ref("test_purchase_iva_nret03")) ])
+    
+    sm_obj=self.pool.get('stock.move')
+    sm = sm_obj.search(cr, uid, [('picking_id', '=', sp[0]) ])
+    
+    assert len(sm) == len(pur_line), 'Not the same length'
+-
+  Check if an invoice was created
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    assert po.invoice_ids, 'Invoice was not created'
+    assert po.invoice_ids[0].state == 'draft', 'Invoice was created, but not properly'
+-
+  Execute workflow for opening the invoice
+-
+  !python {model: purchase.order}: |
+    import netsvc
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    ai_obj=self.pool.get('account.invoice')
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
+-
+  Set control number for the invoice
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    ai_obj=self.pool.get('account.invoice')
+    po = ai_obj.write(cr, uid, [po.invoice_ids[0].id], {'nro_ctrl':'iva005'})
+-
+  Find the invoice and check it is in draft state for total validation and IVA tax
+-
+  !python {model: purchase.order}: |
+    import netsvc
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    ai_obj=self.pool.get('account.invoice')
+    wf_service = netsvc.LocalService("workflow")
+    wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
+-
+  Check if withhold document was not created
+-
+  !python {model: purchase.order}: |
+    po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
+    assert not po.invoice_ids[0].wh_iva_id, 'Withholding document shouldn\'t be created'
