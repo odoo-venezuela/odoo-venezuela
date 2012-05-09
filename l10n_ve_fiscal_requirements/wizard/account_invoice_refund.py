@@ -20,7 +20,7 @@
 ##############################################################################
 
 import time
-
+import datetime
 from osv import fields, osv
 from tools.translate import _
 import netsvc
@@ -29,6 +29,23 @@ class account_invoice_refund(osv.osv_memory):
 
     """Refunds invoice"""
     _inherit = 'account.invoice.refund'
+    
+    def default_get(self, cr, uid, fields, context=None):
+        """ Get default values
+        @param fields: List of fields for default value
+        """
+        if context is None:
+            context = {}
+        res = super(account_invoice_refund, self).default_get(cr, uid, fields, context=context)
+        if context.get('active_id'):
+            code = datetime.datetime.today().strftime('%m/%Y')
+            period_obj = self.pool.get('account.period')
+            period_ids = period_obj.search(cr,uid,[('code','=',code)],context=context)
+            period_id = period_ids and period_ids[0]
+            
+            res.update({'period': period_id})
+        return res
+    
     
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, help="Code used for intern invoice control"),    
@@ -62,11 +79,15 @@ class account_invoice_refund(osv.osv_memory):
         """
         Return  default account period value
         """
-        account_period_obj = self.pool.get('account.period')
-        ids = account_period_obj.find(cr, uid, context=context)
-        period_id = False
-        if ids:
-            period_id = ids[0]
+        period_id= False
+        if context.get('active_id',False):
+            invo_obj = self.pool.get('account.invoice')
+            invo_brw = invo_obj.browse(cr,uid,context.get('active_id'),{})
+            period_id = invo_brw and invo_brw.period_id and invo_brw.period_id.id
+        return period_id
+        
+        
+        
         return period_id
 
     def _get_orig(self, cr, uid, inv, ref, context={}):
@@ -280,7 +301,7 @@ class account_invoice_refund(osv.osv_memory):
             
             if wzd_brw.filter_refund == 'cancel':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
-                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':inv.description},context=context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':wzd_brw.description},context=context)
             
             if wzd_brw.filter_refund == 'refund':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
@@ -347,6 +368,14 @@ class account_invoice_refund(osv.osv_memory):
         if context is None:
             context = {}
         inv_obj = self.pool.get('account.invoice')
+        period_obj = self.pool.get('account.period')
+        wzr_brw = self.browse(cr,uid,ids,context=context)[0]
+        date = wzr_brw.date and wzr_brw.date.split('-') 
+        period = wzr_brw and wzr_brw.period and wzr_brw.period.id 
+        period_ids = date and len(date) == 3 and  period_obj.search(cr,uid,[('code','=','%s/%s'%(date[1],date[0]))],context=context)
+        if period not in period_ids:
+            raise osv.except_osv(_('Error !'), \
+                                     _('The date should be chosen to belong to the period'))    
         if not self.validate_wh(cr, uid, context.get('active_ids'), context=context):
             inv= inv_obj.browse(cr,uid,context.get('active_ids'),context=context)[0]
             raise osv.except_osv(_('Error !'), \
