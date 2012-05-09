@@ -103,6 +103,20 @@
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'draft'
 -
+  Before validating let's add the period
+-
+  !python {model: account.wh.iva}: |
+    import time
+    ap_obj=self.pool.get('account.period')
+    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')) ])
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, ref("wh_iva_sale01"), {'period_id':period[0]})
+-
+  I check period was modificated
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - period_id
+-
   Check partner invoices
 -
   !python {model: account.wh.iva}: |
@@ -111,7 +125,6 @@
     ind_id = res['value']['wh_lines'][0]['invoice_id']
     res['value']['wh_lines'][0].update({'retention_id': ref("wh_iva_sale01")})
     wil_id = wil_obj.create(cr, uid, res['value']['wh_lines'][0])
-    print wil_id
     wil_obj.load_taxes(cr, uid, [wil_id])
 -
   I confirm the withholding vat customer
@@ -122,3 +135,41 @@
 -
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'confirmed'
+-
+  I confirm the withholding vat customer
+-
+  !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
+-
+  I check withholding vat is confirmed
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - state == 'confirmed'
+-
+  I mark it as done
+-
+  !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_sale01}
+-
+  I check withholding vat is confirmed
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - state == 'done'
+-
+  I check IVA sale journal entries
+-
+  !python {model: account.wh.iva}: |
+    am_obj=self.pool.get('account.move')
+    ai_obj=self.pool.get('account.invoice')
+    acc_id=ai_obj.browse(cr, uid, ref("test_sale_iva_ret01"))
+    am_ids = am_obj.search(cr, uid, [('ref', '=', acc_id.number)])
+    assert am_ids, 'Not found account move for the document'
+    am_brw = am_obj.browse(cr, uid, am_ids[0])
+    assert len(am_brw.line_id) == 2, 'Must be 2 entries for this journal entry'
+    d = c = 0
+    for l in am_brw.line_id:
+      if l.account_id.id == ref("account.ova"):
+        assert l.debit != 0, 'Account move is wrong for IVA'
+        c += l.debit
+      else:
+        assert l.credit != 0, 'Account move is wrong for expense'
+        d += l.credit
+    assert c==d, 'Totals must match'
