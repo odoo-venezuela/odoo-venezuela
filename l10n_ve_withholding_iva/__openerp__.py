@@ -67,6 +67,7 @@
             'test/iva.yml',
             'test/iva_purchase.yml',
             'test/iva_purchase_wh.yml',
+            'test/iva_purchase_nret1.yml',
         ],
     'installable': True,
     'active': False,
