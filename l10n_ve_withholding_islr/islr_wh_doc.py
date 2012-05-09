@@ -90,6 +90,7 @@ class islr_wh_doc(osv.osv):
             inv_ids = [i.id for i in inv_obj.browse(cr,uid,inv_ids,context={})  if not i.islr_wh_doc_id]
             inv_ids = [i for i in inv_ids if not invoice_obj.search(cr, uid, [('invoice_id', '=', i)])]
             inv_ids = [i.id for i in inv_obj.browse(cr, uid, inv_ids, context={}) for d in i.invoice_line if d.concept_id.withholdable]
+            inv_ids = list(set(inv_ids))
         return inv_ids
     
     _name = "islr.wh.doc"
