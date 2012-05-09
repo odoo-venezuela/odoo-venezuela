@@ -64,7 +64,6 @@
     ],
     'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
     'test': [
-            'test/iva.yml',
             'test/iva_purchase.yml',
             'test/iva_purchase_wh.yml',
             'test/iva_purchase_nret1.yml',
