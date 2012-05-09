@@ -16,14 +16,15 @@
 -
   I update partner information
 -
-  !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
+  !record {model: res.partner, id: l10n_ve_withholding_iva.res_partner_administradoramengimca0}:
     wh_iva_agent: True
+    islr_withholding_agent: True
     wh_iva_rate: 75
     vat_subjected: True
 -
   Test if information was updated properly
 -
-  !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
+  !assert {model: res.partner, id: l10n_ve_withholding_iva.res_partner_administradoramengimca0}:
     - wh_iva_agent
     - wh_iva_rate == 75
     - vat_subjected
