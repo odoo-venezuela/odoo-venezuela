@@ -60,7 +60,6 @@
 -
   !assert {model: account.invoice, id: test_sale_iva_ret01}:
     - state == 'open'
-
 -
   I check that now there is a move attached to the invoice
 -
@@ -153,6 +152,11 @@
 -
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'done'
+-
+  I check that the invoice has the wh document
+-
+  !assert {model: account.invoice, id: test_sale_iva_ret01}:
+    - wh_iva_id
 -
   I check IVA sale journal entries
 -
