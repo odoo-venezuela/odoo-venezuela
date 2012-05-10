@@ -71,6 +71,8 @@
             'test/iva_purchase_nret3.yml',
             'test/iva_sale.yml',
             'test/iva_sale_wh.yml',
+            'test/iva_test_save.yml',
+            'test/iva_test_invoice.yml',
         ],
     'installable': True,
     'active': False,

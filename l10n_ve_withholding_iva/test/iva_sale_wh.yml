@@ -30,7 +30,7 @@
     journal_id: account.sales_journal
     partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
     reference_type: none
-    nro_ctrl: 01010101
+    nro_ctrl: 31010101
 -
   I check that Initially customer invoice is in the "Draft" state
 -
@@ -101,6 +101,11 @@
 -
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'draft'
+-
+  I click on Calculate taxes button
+-
+  !python {model: account.invoice}: |
+    self.button_reset_taxes(cr, uid, [ref("test_sale_iva_ret01")])
 -
   Before validating let's add the period
 -
