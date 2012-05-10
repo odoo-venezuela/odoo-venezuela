@@ -75,6 +75,7 @@
             'test/iva_test_invoice.yml',
             'test/iva_test_wh.yml',
             'test/iva_test_wh_2.yml',
+            'test/iva_test_wh_3.yml',
         ],
     'installable': True,
     'active': False,

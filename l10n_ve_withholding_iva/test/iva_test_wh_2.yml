@@ -26,6 +26,12 @@
 -
   !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_test02}
 -
+  I check period was updated automatically
+-
+  !python {model: account.wh.iva}: |
+    brw = self.browse(cr, uid, ref("wh_iva_test02"))
+    assert brw.period_id.id, 'Period was not generated automatically'
+-
   I check withholding vat is not confirmed
 -
   !assert {model: account.wh.iva, id: wh_iva_test02, string: Could not confirm the wh}:
