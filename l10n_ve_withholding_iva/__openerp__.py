@@ -76,6 +76,7 @@
             'test/iva_test_wh.yml',
             'test/iva_test_wh_2.yml',
             'test/iva_test_wh_3.yml',
+            'test/iva_test_wh_4.yml',
         ],
     'installable': True,
     'active': False,
