@@ -43,8 +43,10 @@ class txt_iva(osv.osv):
         for txt in self.browse(cr,uid,ids,context):
             res[txt.id]=0.0
             for txt_line in txt.txt_ids:
-                res[txt.id] += txt_line.amount_withheld
-                    
+                if txt_line.invoice_id.type in ['out_refund','in_refund']:
+                    res[txt.id] -= txt_line.amount_withheld
+                else:
+                    res[txt.id] += txt_line.amount_withheld
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
@@ -52,7 +54,10 @@ class txt_iva(osv.osv):
         for txt in self.browse(cr,uid,ids,context):
             res[txt.id]= 0.0
             for txt_line in txt.txt_ids:
-                res[txt.id] += txt_line.untaxed
+                if txt_line.invoice_id.type in ['out_refund','in_refund']:
+                    res[txt.id] -= txt_line.untaxed
+                else:
+                    res[txt.id] += txt_line.untaxed
         return res
 
     _columns = {
@@ -124,17 +129,13 @@ class txt_iva(osv.osv):
                 
                 if voucher_lines.invoice_id.state in ['open','paid']:
                     
-                    sign = 1
-                    if voucher_lines.invoice_id.type in ['in_refund', 'out_refund']:
-                        sign = -1
-                        
                     txt_iva_obj.create(cr,uid,
                     {'partner_id':voucher.partner_id.id,
                     'voucher_id':voucher.id,
                     'invoice_id':voucher_lines.invoice_id.id,
                     'txt_id': txt_brw.id,
-                    'untaxed': voucher_lines.base_ret * sign,
-                    'amount_withheld': voucher_lines.amount_tax_ret * sign,
+                    'untaxed': voucher_lines.base_ret,
+                    'amount_withheld': voucher_lines.amount_tax_ret,
                     })
         return True
 
