@@ -164,8 +164,8 @@ class islr_xml_wh_doc(osv.osv):
 
             sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
             FROM islr_xml_wh_line 
-            WHERE period_id= %s and id in %s
-            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id'''%(wh_brw.period_id.id,tuple([i.id for i in wh_brw.xml_ids]))
+            WHERE period_id= %s and id in (%s)
+            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id'''%(wh_brw.period_id.id,', '.join([str(i.id) for i in wh_brw.xml_ids]))
             cr.execute(sql)
             xml_lines=cr.fetchall()
 
