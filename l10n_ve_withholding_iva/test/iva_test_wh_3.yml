@@ -28,7 +28,7 @@
     ap_obj=self.pool.get('account.period')
     period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')) ])
     assert period, 'There aren\'t periods for this date'
-    self.write(cr, uid, ref("wh_iva_test01"), {'period_id':period[0]})
+    self.write(cr, uid, ref("wh_iva_test03"), {'period_id':period[0]})
 -
   I check period was updated
 -

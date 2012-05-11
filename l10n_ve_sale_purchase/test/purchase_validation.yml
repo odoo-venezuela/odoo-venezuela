@@ -1,5 +1,5 @@
 -
-  Find the invoice and check it is in draft state for total validation
+  Find the purchase and check it is in draft state for total validation
 -
   !python {model: purchase.order}: |
     po = self.browse(cr, uid, ref("purchase_order01"))
@@ -38,3 +38,21 @@
     for sm_id in sm_ids:
       sm_brw = self.browse(cr, uid, sm_id)
       assert sm_brw.state=='done', 'Workflow didn\'t work properly'
+-
+  I validate invoice has same products that purchase order
+-
+  !python {model: purchase.order}: |
+    po_brw = self.browse(cr, uid, ref("purchase_order01"))
+    a = [int(l.product_id.id) for l in po_brw.order_line]
+    b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
+    assert a == b, 'Order and invoice does not contain same products'
+-
+  I validate invoice has same taxes that purchase order
+-
+  !python {model: purchase.order}: |
+    po_brw = self.browse(cr, uid, ref("purchase_order01"))
+    for l in po_brw.order_line:
+      print l
+    a = [int(l.product_id.id) for l in po_brw.order_line]
+    b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
+    assert a == b, 'Order and invoice does not contain same products'

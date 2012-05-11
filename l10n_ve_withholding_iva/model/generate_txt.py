@@ -54,7 +54,10 @@ class txt_iva(osv.osv):
         for txt in self.browse(cr,uid,ids,context):
             res[txt.id]= 0.0
             for txt_line in txt.txt_ids:
-                res[txt.id] += txt_line.untaxed
+                if txt_line.invoice_id.type in ['out_refund','in_refund']:
+                    res[txt.id] -= txt_line.untaxed
+                else:
+                    res[txt.id] += txt_line.untaxed
         return res
 
     _columns = {
@@ -125,6 +128,7 @@ class txt_iva(osv.osv):
             for voucher_lines in voucher.wh_lines:
                 
                 if voucher_lines.invoice_id.state in ['open','paid']:
+                    
                     txt_iva_obj.create(cr,uid,
                     {'partner_id':voucher.partner_id.id,
                     'voucher_id':voucher.id,
