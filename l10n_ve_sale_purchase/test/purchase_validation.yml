@@ -47,12 +47,10 @@
     b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
     assert a == b, 'Order and invoice does not contain same products'
 -
-  I validate invoice has same taxes that purchase order
+  I validate invoice has same concepts that purchase order
 -
   !python {model: purchase.order}: |
     po_brw = self.browse(cr, uid, ref("purchase_order01"))
-    for l in po_brw.order_line:
-      print l
-    a = [int(l.product_id.id) for l in po_brw.order_line]
-    b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
-    assert a == b, 'Order and invoice does not contain same products'
+    a = [int(l.concept_id.id) for l in po_brw.order_line]
+    b = [int(l.concept_id.id) for l in po_brw.invoice_ids[0].invoice_line]
+    assert a == b, 'Order and invoice does not contain same concepts'

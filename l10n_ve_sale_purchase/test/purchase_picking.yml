@@ -16,6 +16,7 @@
         price_unit: 10
         name: PC3
         date_planned: !eval time.strftime('%Y-%m-%d')
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
 -
   I check that the purchase order was created and is a draft
 -
