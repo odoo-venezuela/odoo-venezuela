@@ -84,7 +84,9 @@ Automatically on install wizard.
     'demo_xml': [
         'demo/demo_partners.xml',
     ],
-    'test': [],
+    'test': [
+        'test/control_number.yml',
+      ],
     'installable': True,
     'active': False,
 }
