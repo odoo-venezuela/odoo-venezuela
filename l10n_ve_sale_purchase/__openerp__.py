@@ -50,6 +50,7 @@ concept to the invoice. This also works the same way for purchase orders.
         'test/purchase_order.yml',
         'test/purchase_picking.yml',
         'test/purchase_validation.yml',
+        'test/sale_order.yml',
             ],
 
 }
