@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <document filename="test.pdf">
-  <template pageSize="(210.0mm,280.0mm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary='0'>
+  <template pageSize="(216.0mm,280.0mm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary='0'>
     <pageTemplate id="first">
         <pageGraphics>
             <setFont name="Courier-Bold" size="12.0"/>
@@ -144,26 +144,24 @@
       </tr>
     </blockTable>
     <section>
-        <para>[[ repeatIn(list(set([l for l in  o.invoice_ids])),'l')]]</para>
         <section>
             <para>[[ repeatIn(o.concept_ids,'c')]]</para>
             <section>
-                    <para>[[repeatIn([x for x in c.xml_ids if (x.account_invoice_line_id.invoice_id.id == l.invoice_id.id)],'x')]]</para>
 
                     <blockTable colWidths="20.0mm,25.0mm,25.0mm,10.0mm,63.0mm,25.0mm,15.0mm,20.0mm" style="Tabla3">
                       <tr>
-                        <td><para style="TCENTER">[[ formatLang(x.account_invoice_line_id.invoice_id.date_document,date='True') ]]</para></td>   
-                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.reference ]]</para></td>  
-                        <td><para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.nro_ctrl ]]</para></td>
+                        <td><para style="TCENTER">[[ formatLang(c.invoice_id.date_document,date='True') ]]</para></td>   
+                        <td><para style="TCENTER">[[ c.invoice_id.reference ]]</para></td>  
+                        <td><para style="TCENTER">[[ c.invoice_id.nro_ctrl ]]</para></td>
                         <td>
-                            <para style="TCENTER">[[ x.account_invoice_line_id.invoice_id.type and x.account_invoice_line_id.invoice_id.type=='in_refund' and 'N.C.' or removeParentNode('para') ]]</para>
-                            <para style="TCENTER">[[ (x.account_invoice_line_id.invoice_id.type=='in_invoice' and (x.account_invoice_line_id.invoice_id.parent_id and 'N.D.' or removeParentNode('para')) or removeParentNode('para'))]]</para>
-                            <para style="TCENTER">[[(x.account_invoice_line_id.invoice_id.type=='in_invoice' and ((not x.account_invoice_line_id.invoice_id.parent_id) and 'F' or removeParentNode('para'))  or removeParentNode('para')) ]]</para>
+                            <para style="TCENTER">[[ c.invoice_id.type and c.invoice_id.type=='in_refund' and 'N.C.' or removeParentNode('para') ]]</para>
+                            <para style="TCENTER">[[ (c.invoice_id.type=='in_invoice' and (c.invoice_id.parent_id and 'N.D.' or removeParentNode('para')) or removeParentNode('para'))]]</para>
+                            <para style="TCENTER">[[(c.invoice_id.type=='in_invoice' and ((not c.invoice_id.parent_id) and 'F' or removeParentNode('para'))  or removeParentNode('para')) ]]</para>
                         </td>
-                        <td><para style="TLEFT">[[ x.rate_id.concept_id.name ]]</para></td>
-                        <td><para style="TRIGHT">[[ formatLang(x.base) ]]</para></td>
-                        <td><para style="TRIGHT">[[x.porcent_rete]]%</para></td>
-                        <td><para style="TRIGHT">[[ formatLang(x.wh) ]]</para></td>
+                        <td><para style="TLEFT">[[ c.islr_rates_id.concept_id.name ]]</para></td>
+                        <td><para style="TRIGHT">[[ formatLang(c.amount*100/c.retencion_islr) ]]</para></td>
+                        <td><para style="TRIGHT">[[c.retencion_islr]]%</para></td>
+                        <td><para style="TRIGHT">[[ formatLang(c.amount) ]]</para></td>
                       </tr>
                     </blockTable>
             </section>
