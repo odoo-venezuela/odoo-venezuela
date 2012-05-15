@@ -1,0 +1,68 @@
+-
+  In order to test fiscal requirements I create a new customer sale invoice without invoice address
+-
+  !python {model: account.invoice}: |
+    import time, logging
+    inv = {
+      'type': 'out_invoice',
+      'company_id': ref("base.main_company"),
+      'currency_id': ref("base.EUR"),
+      'date_invoice': time.strftime('%Y-%m-%d'),
+      'address_contact_id': ref("base.res_partner_address_3"),
+      'account_id': ref("account.a_recv"),
+      'journal_id': ref("account.sales_journal"),
+      'partner_id': ref("l10n_ve_withholding_iva.res_partner_administradoramengimca0"),
+      'reference_type': 'none',
+      }
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      inv_id = self.create(cr, uid, inv)
+    except Exception:
+      inv_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+    assert not inv_id, 'Invoice shuld not be created'
+-
+  I create a partner
+-
+  !python {model: res.partner}: |
+    import logging
+    part = {
+      'name': 'Partner Test',
+      'supplier': True,
+      'customer': True,
+      'vat': 'VEV012333444',
+      }
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      part_id = self.create(cr, uid, part)
+    except Exception:
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+    assert not part_id, 'Partner should not be created'
+-
+  Check if partner was created
+-
+  !assert {model: res.partner, id: fr_partner01, string: Partner was not created}:
+    - customer == True
+-
+  Add address
+-
+  !record {model: res.partner.address, id: test_partner01_address01}:
+    type: invoice
+    street: Av Siempre Viva
+    phone: "(555) 5555555"
+    fax: "(555) 1111111"
+    email: fakemail@example.com
+    partner_id: test_partner01

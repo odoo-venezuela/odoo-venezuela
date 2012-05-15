@@ -88,6 +88,8 @@ Automatically on install wizard.
         'test/control_number.yml',
         'test/fr_sale_test.yml',
         'test/fr_purchase_test.yml',
+        'test/fr_tax_except.yml',
+        'test/fr_address.yml',
       ],
     'installable': True,
     'active': False,
