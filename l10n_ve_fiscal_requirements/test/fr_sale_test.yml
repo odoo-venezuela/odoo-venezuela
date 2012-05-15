@@ -1,0 +1,47 @@
+-
+  In order to test fiscal requirements I create a new customer sale invoice with tax
+-
+  !record {model: account.invoice, id: test_fr01}:
+    type: out_invoice
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: Fiscal Requirements Sale Invoice
+        account_id: account.a_sale
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        invoice_line_tax_id:
+        - iva_sale1
+    journal_id: account.sales_journal
+    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    reference_type: none
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: test_fr01}:
+    - state == 'draft'
+-
+  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr01}
+-
+  I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: test_fr01}:
+    - state == 'proforma2'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: test_fr01}
+-
+  I check that the invoice state is "Open"
+-
+  !assert {model: account.invoice, id: test_fr01, string: Invoice is not in open state}:
+    - state == 'open'

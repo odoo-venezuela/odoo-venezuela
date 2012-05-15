@@ -86,6 +86,8 @@ Automatically on install wizard.
     ],
     'test': [
         'test/control_number.yml',
+        'test/fr_sale_test.yml',
+        'test/fr_purchase_test.yml',
       ],
     'installable': True,
     'active': False,
