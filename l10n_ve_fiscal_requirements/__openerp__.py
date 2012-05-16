@@ -90,6 +90,7 @@ Automatically on install wizard.
         'test/fr_purchase_test.yml',
         'test/fr_tax_except.yml',
         'test/fr_address.yml',
+        'test/fr_vat_test.yml',
       ],
     'installable': True,
     'active': False,

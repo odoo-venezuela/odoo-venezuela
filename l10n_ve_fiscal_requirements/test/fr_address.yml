@@ -51,18 +51,3 @@
     finally:
       cr.sql_log = l
     assert not part_id, 'Partner should not be created'
--
-  Check if partner was created
--
-  !assert {model: res.partner, id: fr_partner01, string: Partner was not created}:
-    - customer == True
--
-  Add address
--
-  !record {model: res.partner.address, id: test_partner01_address01}:
-    type: invoice
-    street: Av Siempre Viva
-    phone: "(555) 5555555"
-    fax: "(555) 1111111"
-    email: fakemail@example.com
-    partner_id: test_partner01
