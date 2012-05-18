@@ -92,6 +92,7 @@ Automatically on install wizard.
         'test/fr_address.yml',
         'test/fr_vat_test.yml',
         'test/fr_damaged.yml',
+        'test/fr_debit_note.yml',
       ],
     'installable': True,
     'active': False,
