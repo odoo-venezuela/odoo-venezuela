@@ -109,7 +109,6 @@
   !python {model: wizard.invoice.nro.ctrl}: |
     inv_obj = self.pool.get("account.invoice")
     inv_brw = inv_obj.browse(cr, uid, ref("test_fr04"))
-    print 'Los ids ', inv_brw.company_id.acc_id.id
     try:
       rollback = cr.rollback
       cr.rollback = lambda x = None: None

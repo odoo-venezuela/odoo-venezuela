@@ -93,6 +93,7 @@ Automatically on install wizard.
         'test/fr_vat_test.yml',
         'test/fr_damaged.yml',
         'test/fr_debit_note.yml',
+        'test/fr_refund_note.yml',
       ],
     'installable': True,
     'active': False,

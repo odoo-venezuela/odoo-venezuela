@@ -1,0 +1,245 @@
+-
+  In order to test fiscal requirements I create a new customer sale invoice with tax
+-
+  !record {model: account.invoice, id: test_fr05}:
+    type: out_invoice
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: Fiscal Requirements Sale Invoice
+        account_id: account.a_sale
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        invoice_line_tax_id:
+        - iva_sale1
+    journal_id: account.sales_journal
+    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    reference_type: none
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: test_fr05}:
+    - state == 'draft'
+-
+  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr05}
+-
+  I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: test_fr05}:
+    - state == 'proforma2'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: test_fr05}
+-
+  I check that the invoice state is "Open"
+-
+  !assert {model: account.invoice, id: test_fr05, string: Invoice is not in open state}:
+    - state == 'open'
+-
+  I click on the Refund button (modify)
+-
+  !record {model: account.invoice.refund, id: fr_air01}:
+    description: Test refund 1
+    date: !eval time.strftime('%Y-%m-%d')
+    journal_id: account.refund_sales_journal
+    filter_refund: modify
+-
+  Update Refund period
+-
+  !python {model: account.invoice.refund}: |
+    import time
+    ap_obj = self.pool.get('account.period')
+    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')) ])
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, [ref("fr_air01")], {'period':period[0]})
+    aid_brw = self.browse(cr, uid, ref("fr_air01"))
+    assert aid_brw.period, 'Period was not updated for the refund'
+-
+  I click on the Refund button from the wizard
+-
+  !python {model: account.invoice.refund}: |
+    self.invoice_refund(cr, uid, [ref("fr_air01")], {"lang": "en_US", "active_model":
+      "account.invoice", "active_ids": [ref("test_fr05")], "tz": False, "active_id": ref("test_fr05"),
+      })
+-
+  Test if invoice was properly created
+-
+  !python {model: account.invoice}: |
+    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr04")), ('type', '=', 'out_invoice')])
+    assert ai_id, 'Debit Note was not created'
+    ai_brw = self.browse(cr, uid, ai_id[0])
+    assert ai_brw.state == 'draft', 'Debit note was not created properly'
+-
+  In order to test fiscal requirements I create a new customer sale invoice with tax
+-
+  !record {model: account.invoice, id: test_fr06}:
+    type: out_invoice
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: Fiscal Requirements Sale Invoice
+        account_id: account.a_sale
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        invoice_line_tax_id:
+        - iva_sale1
+    journal_id: account.sales_journal
+    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    reference_type: none
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: test_fr06}:
+    - state == 'draft'
+-
+  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr06}
+-
+  I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: test_fr06}:
+    - state == 'proforma2'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: test_fr06}
+-
+  I check that the invoice state is "Open"
+-
+  !assert {model: account.invoice, id: test_fr06, string: Invoice is not in open state}:
+    - state == 'open'
+-
+  I click on the Refund button (refund)
+-
+  !record {model: account.invoice.refund, id: fr_air02}:
+    description: Test refund 2
+    date: !eval time.strftime('%Y-%m-%d')
+    journal_id: account.refund_sales_journal
+    filter_refund: refund
+-
+  Update Refund period
+-
+  !python {model: account.invoice.refund}: |
+    import time
+    ap_obj = self.pool.get('account.period')
+    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')), ('company_id', '=', ref("base.main_company")) ])
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, [ref("fr_air02")], {'period':period[0]})
+    aid_brw = self.browse(cr, uid, ref("fr_air02"))
+    assert aid_brw.period, 'Period was not updated for the refund'
+-
+  I click on the Refund button from the wizard
+-
+  !python {model: account.invoice.refund}: |
+    self.invoice_refund(cr, uid, [ref("fr_air02")], {"lang": "en_US", "active_model":
+      "account.invoice", "active_ids": [ref("test_fr06")], "tz": False, "active_id": ref("test_fr06"),
+      "type": "out_invoice", "journal_type": "sale",
+      })
+-
+  Test if invoice was properly created
+-
+  !python {model: account.invoice}: |
+    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr06")), ('type', '=', 'out_refund')])
+    assert ai_id, 'Refund Note was not created'
+    ai_brw = self.browse(cr, uid, ai_id[0])
+    assert ai_brw.state == 'draft', 'Refund note was not created properly'
+-
+  In order to test fiscal requirements I create a new customer sale invoice with tax
+-
+  !record {model: account.invoice, id: test_fr07}:
+    type: out_invoice
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: Fiscal Requirements Sale Invoice
+        account_id: account.a_sale
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        invoice_line_tax_id:
+        - iva_sale1
+    journal_id: account.sales_journal
+    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    reference_type: none
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: test_fr07}:
+    - state == 'draft'
+-
+  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr07}
+-
+  I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: test_fr07}:
+    - state == 'proforma2'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: test_fr07}
+-
+  I check that the invoice state is "Open"
+-
+  !assert {model: account.invoice, id: test_fr07, string: Invoice is not in open state}:
+    - state == 'open'
+-
+  I click on the Refund button (cancel)
+-
+  !record {model: account.invoice.refund, id: fr_air03}:
+    description: Test refund 3
+    date: !eval time.strftime('%Y-%m-%d')
+    journal_id: account.refund_sales_journal
+    filter_refund: cancel
+-
+  Update Refund period
+-
+  !python {model: account.invoice.refund}: |
+    import time
+    ap_obj = self.pool.get('account.period')
+    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')), ('company_id', '=', ref("base.main_company")) ])
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, [ref("fr_air02")], {'period':period[0]})
+    aid_brw = self.browse(cr, uid, ref("fr_air02"))
+    assert aid_brw.period, 'Period was not updated for the refund'
+-
+  I click on the Refund button from the wizard
+-
+  !python {model: account.invoice.refund}: |
+    self.invoice_refund(cr, uid, [ref("fr_air02")], {"lang": "en_US", "active_model":
+      "account.invoice", "active_ids": [ref("test_fr07")], "tz": False, "active_id": ref("test_fr07"),
+      "type": "out_invoice", "journal_type": "sale",
+      })
+-
+  Test if invoice was properly created
+-
+  !python {model: account.invoice}: |
+    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr07")), ('type', '=', 'out_refund')])
+    assert ai_id, 'Refund Note was not created'
+    ai_brw = self.browse(cr, uid, ai_id[0])
+    assert ai_brw.state == 'draft', 'Refund note was not created properly'
