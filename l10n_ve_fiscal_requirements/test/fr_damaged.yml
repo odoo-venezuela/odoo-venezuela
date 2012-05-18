@@ -89,12 +89,27 @@
   !python {model: account.journal}: |
     self.write(cr, uid, [ref("account.sales_journal")], {'update_posted': True})
 -
+  Verify that the journal was properly updated
+-
+  !assert {model: account.journal, id: account.sales_journal}:
+    - update_posted == True
+-
+  Update company account for damaged paper
+-
+  !python {model: res.company}: |
+    self.write(cr, uid, [ref("base.main_company")], {'acc_id' : ref("account.a_sale")})
+-
+  Verify that the company has proper configuration
+-
+  !assert {model: res.company, id: base.main_company}:
+    - acc_id.id
+-
   I try create a damaged paper again (with good configuration)
 -
   !python {model: wizard.invoice.nro.ctrl}: |
     inv_obj = self.pool.get("account.invoice")
     inv_brw = inv_obj.browse(cr, uid, ref("test_fr04"))
-    self.action_invoice_create(cr, uid, [], None, inv_brw)
+    print 'Los ids ', inv_brw.company_id.acc_id.id
     try:
       rollback = cr.rollback
       cr.rollback = lambda x = None: None
