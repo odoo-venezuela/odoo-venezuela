@@ -1,5 +1,5 @@
 -
-  In order to test fiscal requirements I create a new customer sale invoice with tax
+  1. To test refund notes i create an invoice
 -
   !record {model: account.invoice, id: test_fr05}:
     type: out_invoice
@@ -23,30 +23,30 @@
     partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
     reference_type: none
 -
-  I check that Initially customer invoice is in the "Draft" state
+  1.1 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_fr05}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  1.2 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr05}
 -
-  I check that the invoice state is now "Proforma2"
+  1.3 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr05}:
     - state == 'proforma2'
 -
-  I create invoice by clicking on Create button
+  1.4 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_fr05}
 -
-  I check that the invoice state is "Open"
+  1.5 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_fr05, string: Invoice is not in open state}:
     - state == 'open'
 -
-  I click on the Refund button (modify)
+  1.6 I click on the Refund button (modify)
 -
   !record {model: account.invoice.refund, id: fr_air01}:
     description: Test refund 1
@@ -54,7 +54,7 @@
     journal_id: account.refund_sales_journal
     filter_refund: modify
 -
-  Update Refund period
+  1.7 Update Refund period
 -
   !python {model: account.invoice.refund}: |
     import time
@@ -65,14 +65,14 @@
     aid_brw = self.browse(cr, uid, ref("fr_air01"))
     assert aid_brw.period, 'Period was not updated for the refund'
 -
-  I click on the Refund button from the wizard
+  1.8 I click on the Refund button from the wizard
 -
   !python {model: account.invoice.refund}: |
     self.invoice_refund(cr, uid, [ref("fr_air01")], {"lang": "en_US", "active_model":
       "account.invoice", "active_ids": [ref("test_fr05")], "tz": False, "active_id": ref("test_fr05"),
       })
 -
-  Test if invoice was properly created
+  1.9 Test if invoice was properly created
 -
   !python {model: account.invoice}: |
     ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr04")), ('type', '=', 'out_invoice')])
@@ -80,7 +80,7 @@
     ai_brw = self.browse(cr, uid, ai_id[0])
     assert ai_brw.state == 'draft', 'Debit note was not created properly'
 -
-  In order to test fiscal requirements I create a new customer sale invoice with tax
+  2 In order to test fiscal requirements I create a new customer sale invoice with tax
 -
   !record {model: account.invoice, id: test_fr06}:
     type: out_invoice
@@ -104,30 +104,30 @@
     partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
     reference_type: none
 -
-  I check that Initially customer invoice is in the "Draft" state
+  2.1 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_fr06}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  2.2 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr06}
 -
-  I check that the invoice state is now "Proforma2"
+  2.3 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr06}:
     - state == 'proforma2'
 -
-  I create invoice by clicking on Create button
+  2.4 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_fr06}
 -
-  I check that the invoice state is "Open"
+  2.5 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_fr06, string: Invoice is not in open state}:
     - state == 'open'
 -
-  I click on the Refund button (refund)
+  2.6 I click on the Refund button (refund)
 -
   !record {model: account.invoice.refund, id: fr_air02}:
     description: Test refund 2
@@ -135,7 +135,7 @@
     journal_id: account.refund_sales_journal
     filter_refund: refund
 -
-  Update Refund period
+  2.7 Update Refund period
 -
   !python {model: account.invoice.refund}: |
     import time
@@ -146,7 +146,7 @@
     aid_brw = self.browse(cr, uid, ref("fr_air02"))
     assert aid_brw.period, 'Period was not updated for the refund'
 -
-  I click on the Refund button from the wizard
+  2.8 I click on the Refund button from the wizard
 -
   !python {model: account.invoice.refund}: |
     self.invoice_refund(cr, uid, [ref("fr_air02")], {"lang": "en_US", "active_model":
@@ -154,7 +154,7 @@
       "type": "out_invoice", "journal_type": "sale",
       })
 -
-  Test if invoice was properly created
+  2.9 Test if invoice was properly created
 -
   !python {model: account.invoice}: |
     ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr06")), ('type', '=', 'out_refund')])
@@ -162,7 +162,7 @@
     ai_brw = self.browse(cr, uid, ai_id[0])
     assert ai_brw.state == 'draft', 'Refund note was not created properly'
 -
-  In order to test fiscal requirements I create a new customer sale invoice with tax
+  3 In order to test fiscal requirements I create a new customer sale invoice with tax
 -
   !record {model: account.invoice, id: test_fr07}:
     type: out_invoice
@@ -186,30 +186,30 @@
     partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
     reference_type: none
 -
-  I check that Initially customer invoice is in the "Draft" state
+  3.1 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_fr07}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  3.2 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr07}
 -
-  I check that the invoice state is now "Proforma2"
+  3.3 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr07}:
     - state == 'proforma2'
 -
-  I create invoice by clicking on Create button
+  3.4 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_fr07}
 -
-  I check that the invoice state is "Open"
+  3.5 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_fr07, string: Invoice is not in open state}:
     - state == 'open'
 -
-  I click on the Refund button (cancel)
+  3.6 I click on the Refund button (cancel)
 -
   !record {model: account.invoice.refund, id: fr_air03}:
     description: Test refund 3
@@ -217,7 +217,7 @@
     journal_id: account.refund_sales_journal
     filter_refund: cancel
 -
-  Update Refund period
+  3.7 Update Refund period
 -
   !python {model: account.invoice.refund}: |
     import time
@@ -228,7 +228,7 @@
     aid_brw = self.browse(cr, uid, ref("fr_air02"))
     assert aid_brw.period, 'Period was not updated for the refund'
 -
-  I click on the Refund button from the wizard
+  3.8 I click on the Refund button from the wizard
 -
   !python {model: account.invoice.refund}: |
     self.invoice_refund(cr, uid, [ref("fr_air02")], {"lang": "en_US", "active_model":
@@ -236,7 +236,7 @@
       "type": "out_invoice", "journal_type": "sale",
       })
 -
-  Test if invoice was properly created
+  3.9 Test if invoice was properly created
 -
   !python {model: account.invoice}: |
     ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr07")), ('type', '=', 'out_refund')])
