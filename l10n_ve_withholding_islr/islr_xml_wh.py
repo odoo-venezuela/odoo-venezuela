@@ -159,8 +159,8 @@ class islr_xml_wh_doc(osv.osv):
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
             
-            period = wh_brw.period_id.name.split('/')
-            period2 = period[1]+period[0]
+            period = time.strptime(wh_brw.period_id.date_stop,'%Y-%m-%d')
+            period2 = "%02d%0004d"%(period.tm_mon,period.tm_year)
 
             sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
             FROM islr_xml_wh_line 
@@ -171,7 +171,7 @@ class islr_xml_wh_doc(osv.osv):
 
             root = Element("RelacionRetencionesISLR")
             root.attrib['RifAgente'] = wh_brw.company_id.partner_id.vat[2:]
-            root.attrib['Periodo'] = period2.strip()
+            root.attrib['Periodo'] = period2
             for line in xml_lines:
                 partner_vat,control_number,porcent_rete,concept_code,invoice_number,base,inv_id=line
                 detalle = SubElement(root,"DetalleRetencion")
