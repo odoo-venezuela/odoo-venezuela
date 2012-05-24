@@ -72,6 +72,7 @@ class islr_wh_doc(osv.osv):
         res = {}
         wh_doc_brw = self.browse(cr,uid,ids, context=None)
         for doc in wh_doc_brw:
+            res[doc.id] = False
             if doc.date_ret:
                 period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',doc.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',doc.date_ret or time.strftime('%Y-%m-%d'))])
                 if len(period_ids):
