@@ -22,13 +22,18 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import installer
-import invoice
-import partner
-import res_company
-import seniat_url
-import l10n_ut
-import wizard
-import account_move_line
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from osv import fields, osv
+
+
+class account_move_line(osv.osv):
+    _inherit = 'account.move.line'
+
+
+    _columns = {
+        'ref2': fields.char('Second Reference', size=64, required=False, help="Account entry reference"),
+    }
+
+
+account_move_line()
+

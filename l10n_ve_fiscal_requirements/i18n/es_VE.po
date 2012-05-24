@@ -832,3 +832,15 @@ msgstr "Buscar Unidad Tributaria"
 msgid "Can not make a debit note on a refund invoice."
 msgstr "No puedes crear una nota de débito o credito."
 
+#. module: account_mov_line_ext
+#: field:account.move.line,ref2:0
+msgid "Second Reference"
+msgstr "Segunda Referencia"
+
+
+#. module: account_mov_line_ext
+#: help:account.move.line,ref2:0
+msgid "Account entry reference"
+msgstr "Referencia del apunte contable"
+
+
