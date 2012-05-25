@@ -1,5 +1,7 @@
 -
-  1. To test refund notes i create an invoice
+  1. Testing refunds notes
+-
+  1.0 To test refund notes i create an invoice
 -
   !record {model: account.invoice, id: test_fr05}:
     type: out_invoice

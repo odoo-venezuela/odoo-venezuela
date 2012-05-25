@@ -5,72 +5,7 @@
         <pageGraphics>
             <image x="7.0mm" y="175.0mm" height="25mm" width="96mm">[[o.company_id.logo and o.company_id.logo or removeParentNode('image')]]</image>
             <drawString x="7.0mm" y="175.0mm">[[o.company_id.logo and removeParentNode('para') or o.company_id.name]]</drawString> 
-            <place x="7.0mm"     y="100.0mm"    width="280.0mm"  height="100.0mm">
             
-            <!--TABLA DE TITULOS-->
-            <blockTable colWidths="96mm,170mm" style="TITLE">
-                <tr>
-                    <td><para style="TITLE"></para></td>
-                    <td><para style="TITLE"><b>COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO</b></para></td>
-                </tr>
-            </blockTable>
-            <blockTable colWidths="96mm,56.6mm,56.6mm,56.7mm" style="TITLEGRISCLAROARRIBA">
-                <tr>
-                    <td><para style="ITEMSCENTER"></para></td>
-                    <td><para style="ITEMSCENTER"><b>No. COMPROBANTE</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>FECHA</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>PERIODO FISCAL</b></para></td>
-                </tr>
-            </blockTable>
-            <blockTable colWidths="96mm,56.6mm,56.6mm,56.7mm" style="TITLEGRISWHITE">
-                <tr>
-                    <td><para style="ITEMSCENTER"> </para></td>
-                    <td><para style="ITEMSRIF"><b>[[ o.number]]</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>[[formatLang(o.date_ret,date=True) ]]</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>[[ o.period_id.name]]</b></para></td>
-                </tr>
-            </blockTable>
-            <spacer length="7mm"/>
-            <blockTable colWidths="266mm" style="TITLECENTER">
-                <tr>
-                    <td><para style="TITLE2"><b>AGENTE DE RETENCION</b></para></td>
-                </tr>
-            </blockTable>
-            <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="TITLEGRISCLAROCOMPLETO">
-                <tr>
-                    <td><para style="ITEMSCENTER"><b>NOMBRE O RAZON SOCIAL</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>RIF No.</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>DIRECCION FISCAL</b></para></td>
-                </tr>
-                </blockTable>
-                <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="ITEMSWHITE" rowHeights="15mm">
-                <tr>
-                    <td><para style="ITEMSRIF"><b>[[ o.company_id.partner_id.name ]]</b></para></td>
-                    <td><para style="ITEMSRIF"><b>[[ (o.company_id.partner_id.vat and ('%s-%s-%s'%(o.company_id.partner_id.vat[2:3],o.company_id.partner_id.vat[3:11],o.company_id.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
-                    <td><para style="ITEMSLEFT"><b>[[ get_partner_addr2(o.company_id.partner_id.id) or '' ]]</b></para></td>
-                </tr>
-            </blockTable>
-            <spacer length="3mm"/>
-            <blockTable colWidths="266mm" style="TITLECENTER">
-                <tr>
-                    <td><para style="TITLE2"><b>DATOS DEL BENEFICIARIO</b></para></td>
-                </tr>
-            </blockTable>
-            <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="TITLEGRISCLAROCOMPLETO">
-                <tr>
-                    <td><para style="ITEMSCENTER"><b>NOMBRE O RAZON SOCIAL</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>RIF No.</b></para></td>
-                    <td><para style="ITEMSCENTER"><b>DIRECCION FISCAL</b></para></td>
-                </tr>
-                </blockTable>
-                <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="ITEMSWHITE" rowHeights="16mm">
-                <tr>
-                    <td><para style="ITEMSRIF"><b>[[ o.partner_id.name ]]</b></para></td>
-                    <td><para style="ITEMSRIF"><b>[[ (o.partner_id.vat and ('%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
-                    <td><para style="ITEMSLEFT">[[ get_partner_addr2( o.partner_id.id ) ]]</para></td>
-                </tr>
-            </blockTable>
-            </place>
 <!--TABLA DE ENUNCIADO DE LEY--> 
     <place x="7.0mm" y="-37.0mm"    width="270.0mm"  height="50.0mm">
         <blockTable>
@@ -82,32 +17,9 @@
         </blockTable>
     </place>
 
-<!--TABLA DE FIRMA COMPANY--> 
-  <place x="9.0mm" y="-60.0mm"    width="100.0mm"  height="90.0mm">
-    <blockTable>
-        <tr>
-            <td>
-                <para style="PFIRMA1">___________________________________</para>
-                <para style="PFIRMA1">[[ o.company_id.partner_id.name ]]</para>
-                <para style="PFIRMA1">Firma y Sello</para>
-            </td>
-        </tr>
-    </blockTable>
-    </place>
 
-<!--TABLA DE FIRMA PARTNER ADRRESS--> 
-  <place x="170.0mm" y="-60.0mm"    width="100.0mm"  height="90.0mm">
-    <blockTable>
-        <tr>
-            <td>
-                <para style="P21">___________________________________</para>
-                <para style="PFIRMA1">[[('%s\nFirma y Sello'%(o.partner_id.name))]]</para>
-            </td>
-        </tr>
-    </blockTable>
-    </place>
 </pageGraphics>
-<frame id="first" x1="20.0" y1="100.0" width="753" height="220"/>
+<frame id="first" x1="20.0" y1="100.0" width="753" height="400"/>
 </pageTemplate>
 </template>
 
@@ -194,6 +106,75 @@
       <para style="P5">
       <font color="white"></font>
     </para>
+            
+            <!--TABLA DE TITULOS-->
+            <blockTable colWidths="96mm,170mm" style="TITLE">
+                <tr>
+                    <td><para style="TITLE"></para></td>
+                    <td><para style="TITLE"><b>COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO</b></para></td>
+                </tr>
+            </blockTable>
+            <blockTable colWidths="96mm,56.6mm,56.6mm,56.7mm" style="TITLEGRISCLAROARRIBA">
+                <tr>
+                    <td><para style="ITEMSCENTER"></para></td>
+                    <td><para style="ITEMSCENTER"><b>No. COMPROBANTE</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>FECHA</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>PERIODO FISCAL</b></para></td>
+                </tr>
+            </blockTable>
+            <blockTable colWidths="96mm,56.6mm,56.6mm,56.7mm" style="TITLEGRISWHITE">
+                <tr>
+                    <td><para style="ITEMSCENTER"> </para></td>
+                    <td><para style="ITEMSRIF"><b>[[ o.number]]</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>[[formatLang(o.date_ret,date=True) ]]</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>[[ o.period_id.name]]</b></para></td>
+                </tr>
+            </blockTable>
+            <spacer length="3mm"/>
+            <blockTable colWidths="266mm" style="TITLECENTER">
+                <tr>
+                    <td><para style="TITLE2"><b>AGENTE DE RETENCION</b></para></td>
+                </tr>
+            </blockTable>
+            <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="TITLEGRISCLAROCOMPLETO">
+                <tr>
+                    <td><para style="ITEMSCENTER"><b>NOMBRE O RAZON SOCIAL</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>RIF No.</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>DIRECCION FISCAL</b></para></td>
+                </tr>
+                </blockTable>
+                <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="TITLEGRISCLAROCOMPLETO" rowHeights="15mm">
+                <tr>
+                    <td><para style="ITEMSRIF"><b>[[ o.company_id.partner_id.name ]]</b></para></td>
+                    <td><para style="ITEMSRIF"><b>[[ (o.company_id.partner_id.vat and ('%s-%s-%s'%(o.company_id.partner_id.vat[2:3],o.company_id.partner_id.vat[3:11],o.company_id.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
+                    <td><para style="ITEMSLEFT"><b>[[ get_partner_addr2(o.company_id.partner_id.id) or '' ]]</b></para></td>
+                </tr>
+            </blockTable>
+
+            <spacer length="5mm"/>
+
+
+    <blockTable colWidths="266mm" style="TITLECENTER">
+                <tr>
+                    <td><para style="TITLE2"><b>DATOS DEL BENEFICIARIO</b></para></td>
+                </tr>
+            </blockTable>
+            <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="TITLEGRISCLAROCOMPLETO">
+                <tr>
+                    <td><para style="ITEMSCENTER"><b>NOMBRE O RAZON SOCIAL</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>RIF No.</b></para></td>
+                    <td><para style="ITEMSCENTER"><b>DIRECCION FISCAL</b></para></td>
+                </tr>
+                </blockTable>
+                <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="ITEMSWHITE" >
+                <tr>
+                    <td><para style="ITEMSRIF"><b>[[ o.partner_id.name ]]</b></para></td>
+                    <td><para style="ITEMSRIF"><b>[[ (o.partner_id.vat and ('%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
+                    <td><para style="ITEMSLEFT">[[ get_partner_addr2( o.partner_id.id ) ]]</para></td>
+                </tr>
+    </blockTable>
+    <!--TABLA DE FIRMA COMPANY--> 
+
     <blockTable colWidths="51.0,62.0,74.0,48.0,48.0,36.0,63.0,56.0,58.0,61.0,36.0,59.0,45.0,55.0" style="Tabla3">
         <tr>
             <td><para style="P15">Fecha Factura</para></td>
@@ -243,5 +224,23 @@
             <td><para style="P22BOLD">[[ formatLang(get_tot_gral_retencion()) ]]</para></td>
         </tr>
     </blockTable>
+      <spacer length="12mm"/>
+    
+    <blockTable>
+        <tr>
+            <td>
+                <para style="PFIRMA1">___________________________________</para>
+                <para style="PFIRMA1">[[ o.company_id.partner_id.name ]]</para>
+                <para style="PFIRMA1">Firma y Sello</para>
+            </td>
+             <td>
+                <para style="P21">___________________________________</para>
+                <para style="PFIRMA1">[[('%s\nFirma y Sello'%(o.partner_id.name))]]</para>
+            </td>
+        </tr>
+    </blockTable>
+  
+
+  
   </story>
 </document>
