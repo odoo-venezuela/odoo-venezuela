@@ -1,7 +1,7 @@
 -
   1. Testing refunds notes
 -
-  1.0 To test refund notes i create an invoice
+  1.0 To test refund notes i create an invoice (modify)
 -
   !record {model: account.invoice, id: test_fr05}:
     type: out_invoice
@@ -24,6 +24,7 @@
     journal_id: account.sales_journal
     partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
     reference_type: none
+    name: Test refund 1
 -
   1.1 I check that Initially customer invoice is in the "Draft" state
 -
@@ -74,15 +75,54 @@
       "account.invoice", "active_ids": [ref("test_fr05")], "tz": False, "active_id": ref("test_fr05"),
       })
 -
-  1.9 Test if invoice was properly created
+  1.9 I check that the invoice state is now "paid"
+-
+  !assert {model: account.invoice, id: test_fr05}:
+    - state == 'paid'
+-
+  1.10 Test if customer refund was properly created
 -
   !python {model: account.invoice}: |
-    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr04")), ('type', '=', 'out_invoice')])
+    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr05"))])
     assert ai_id, 'Debit Note was not created'
     ai_brw = self.browse(cr, uid, ai_id[0])
-    assert ai_brw.state == 'draft', 'Debit note was not created properly'
+    assert ai_brw.state == 'paid', 'Debit note was not created properly'
 -
-  2 In order to test fiscal requirements I create a new customer sale invoice with tax
+  1.11 Test if invoice was properly created in draft state
+-
+  !python {model: account.invoice}: |
+    parent_brw = self.browse(cr, uid, ref("test_fr05"))
+    ai_id = self.search(cr, uid, [('name', '=', parent_brw.name), ('state', '=', 'draft'), ('type', '=', 'out_invoice')])
+    assert ai_id, 'Debit Note was not created'
+-
+  1.12 Test if wh concept and taxes were created in the new invoice
+-
+  !python {model: account.invoice}: |
+    parent_brw = self.browse(cr, uid, ref("test_fr05"))
+    ai_id = self.search(cr, uid, [('name', '=', parent_brw.name), ('state', '=', 'draft'), ('type', '=', 'out_invoice')])
+    rf_brw = self.browse(cr, uid, ref("test_fr05"))
+    tax1 = []
+    whc1 = []
+    for line in rf_brw.invoice_line:
+      whc1.append(line.concept_id)
+      for tax in line.invoice_line_tax_id:
+        tax1.append(tax.id)
+    rf_brw = self.browse(cr, uid, ai_id[0])
+    tax2 = []
+    whc2 = []
+    for line in rf_brw.invoice_line:
+      whc2.append(line.concept_id)
+      for tax in line.invoice_line_tax_id:
+        tax2.append(tax.id)
+    tax1 = set(tax1)
+    tax2 = set(tax2)
+    assert tax1 == tax2, 'Both invoices has not the same taxes'
+
+    whc1 = set(whc1)
+    whc2 = set(whc2)
+    assert whc1 == whc2, 'Both invoices has not the same wh concepts'
+-
+  2.0 To test refund notes i create an invoice (refund)
 -
   !record {model: account.invoice, id: test_fr06}:
     type: out_invoice
@@ -164,6 +204,33 @@
     ai_brw = self.browse(cr, uid, ai_id[0])
     assert ai_brw.state == 'draft', 'Refund note was not created properly'
 -
+  2.10 Test if wh concept and taxes were created in the new invoice
+-
+  !python {model: account.invoice}: |
+    parent_brw = self.browse(cr, uid, ref("test_fr06"))
+    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr06"))])
+    rf_brw = self.browse(cr, uid, ref("test_fr06"))
+    tax1 = []
+    whc1 = []
+    for line in rf_brw.invoice_line:
+      whc1.append(line.concept_id)
+      for tax in line.invoice_line_tax_id:
+        tax1.append(tax.id)
+    rf_brw = self.browse(cr, uid, ai_id[0])
+    tax2 = []
+    whc2 = []
+    for line in rf_brw.invoice_line:
+      whc2.append(line.concept_id)
+      for tax in line.invoice_line_tax_id:
+        tax2.append(tax.id)
+    tax1 = set(tax1)
+    tax2 = set(tax2)
+    assert tax1 == tax2, 'Both invoices has not the same taxes'
+
+    whc1 = set(whc1)
+    whc2 = set(whc2)
+    assert whc1 == whc2, 'Both invoices has not the same wh concepts'
+-
   3 In order to test fiscal requirements I create a new customer sale invoice with tax
 -
   !record {model: account.invoice, id: test_fr07}:
@@ -244,4 +311,32 @@
     ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr07")), ('type', '=', 'out_refund')])
     assert ai_id, 'Refund Note was not created'
     ai_brw = self.browse(cr, uid, ai_id[0])
-    assert ai_brw.state == 'draft', 'Refund note was not created properly'
+    print ai_id
+    assert ai_brw.state == 'paid', 'Refund note was not created properly'
+-
+  3.10 Test if wh concept and taxes were created in the new invoice
+-
+  !python {model: account.invoice}: |
+    parent_brw = self.browse(cr, uid, ref("test_fr07"))
+    ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr07"))])
+    rf_brw = self.browse(cr, uid, ref("test_fr07"))
+    tax1 = []
+    whc1 = []
+    for line in rf_brw.invoice_line:
+      whc1.append(line.concept_id)
+      for tax in line.invoice_line_tax_id:
+        tax1.append(tax.id)
+    rf_brw = self.browse(cr, uid, ai_id[0])
+    tax2 = []
+    whc2 = []
+    for line in rf_brw.invoice_line:
+      whc2.append(line.concept_id)
+      for tax in line.invoice_line_tax_id:
+        tax2.append(tax.id)
+    tax1 = set(tax1)
+    tax2 = set(tax2)
+    assert tax1 == tax2, 'Both invoices has not the same taxes'
+
+    whc1 = set(whc1)
+    whc2 = set(whc2)
+    assert whc1 == whc2, 'Both invoices has not the same wh concepts'
