@@ -1,7 +1,8 @@
 -
   I create a sale order (order)
 -
-  !record {model: sale.order, id: sale_order01}:
+  !record {model: sale.order, id: sp_sale_order01}:
+    name: Sale order (sale purchase)
     company_id: base.main_company
     date_order: !eval time.strftime('%Y-%m-%d')
     partner_id: base.res_partner_notsotinysarl0
@@ -25,26 +26,26 @@
 -
   I check that the sale order was created and is a draft
 -
-  !assert {model: sale.order, id: sale_order01}:
+  !assert {model: sale.order, id: sp_sale_order01}:
     - state == 'draft'
 -
   I confirm the sales
 -
-  !workflow {model: sale.order, action: order_confirm, ref: sale_order01}
+  !workflow {model: sale.order, action: order_confirm, ref: sp_sale_order01}
 -
   I check that the order which was was approved
 -
-  !assert {model: sale.order, id: sale_order01}:
+  !assert {model: sale.order, id: sp_sale_order01}:
     - state == 'manual'
 -
   I create the final invoice
 -
-  !workflow {model: sale.order, action: manual_invoice, ref: sale_order01}
+  !workflow {model: sale.order, action: manual_invoice, ref: sp_sale_order01}
 -
   Check if an invoice was created
 -
   !python {model: sale.order}: |
-    so_brw = self.browse(cr, uid, ref("sale_order01"))
+    so_brw = self.browse(cr, uid, ref("sp_sale_order01"))
     assert so_brw.invoice_ids, 'Sale order was not created'
     assert so_brw.invoice_ids[0].state == 'draft', 'Sale order was created, but not properly'
 -
@@ -52,9 +53,9 @@
 -
   !python {model: sale.order}: |
     import netsvc
-    po = self.browse(cr, uid, ref("sale_order01"))
+    po = self.browse(cr, uid, ref("sp_sale_order01"))
     ai_obj=self.pool.get('account.invoice')
     wf_service = netsvc.LocalService("workflow")
     wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
-    po = self.browse(cr, uid, ref("sale_order01"))
+    po = self.browse(cr, uid, ref("sp_sale_order01"))
     assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'

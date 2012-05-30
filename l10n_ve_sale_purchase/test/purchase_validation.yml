@@ -47,10 +47,19 @@
     b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
     assert a == b, 'Order and invoice does not contain same products'
 -
-  I validate invoice has same concepts that purchase order
+  Check if invoice has same wh than purchase order
 -
   !python {model: purchase.order}: |
     po_brw = self.browse(cr, uid, ref("purchase_order01"))
-    a = [int(l.concept_id.id) for l in po_brw.order_line]
-    b = [int(l.concept_id.id) for l in po_brw.invoice_ids[0].invoice_line]
-    assert a == b, 'Order and invoice does not contain same concepts'
+    assert po_brw.invoice_ids, 'Invoice was not created'
+    whc1 = []
+    for line in po_brw.invoice_ids[0].invoice_line:
+      whc1.append(line.concept_id)
+
+    whc2 = []
+    for line in po_brw.order_line:
+      whc2.append(line.concept_id)
+
+    whc1 = set(whc1)
+    whc2 = set(whc2)
+    assert whc1 == whc2, 'Both invoices has not the same wh concepts'

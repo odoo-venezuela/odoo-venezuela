@@ -2,7 +2,7 @@
   Find the sale and check it is in draft state for total validation
 -
   !python {model: sale.order}: |
-    po = self.browse(cr, uid, ref("sale_order01"))
+    po = self.browse(cr, uid, ref("sp_sale_order01"))
     assert po.invoice_ids[0].state == 'open', 'Order must be in draft state'
     am_obj=self.pool.get('account.move')
     am_ids = am_obj.search(cr, uid, [('name', '=', po.invoice_ids[0].number) ])
@@ -18,15 +18,24 @@
   I validate invoice has same products that sale order
 -
   !python {model: sale.order}: |
-    po_brw = self.browse(cr, uid, ref("sale_order01"))
+    po_brw = self.browse(cr, uid, ref("sp_sale_order01"))
     a = [int(l.product_id.id) for l in po_brw.order_line]
     b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
     assert a == b, 'Order and invoice does not contain same products'
 -
-  I validate invoice has same concepts that sale order
+  Check if invoice has same wh than sale order
 -
   !python {model: sale.order}: |
-    po_brw = self.browse(cr, uid, ref("sale_order01"))
-    a = [int(l.concept_id.id) for l in po_brw.order_line]
-    b = [int(l.concept_id.id) for l in po_brw.invoice_ids[0].invoice_line]
-    assert a == b, 'Order and invoice does not contain same concepts'
+    po_brw = self.browse(cr, uid, ref("sp_sale_order01"))
+    assert po_brw.invoice_ids, 'Invoice was not created'
+    whc1 = []
+    for line in po_brw.invoice_ids[0].invoice_line:
+      whc1.append(line.concept_id)
+
+    whc2 = []
+    for line in po_brw.order_line:
+      whc2.append(line.concept_id)
+
+    whc1 = set(whc1)
+    whc2 = set(whc2)
+    assert whc1 == whc2, 'Both invoices has not the same wh concepts'
