@@ -81,7 +81,6 @@ Automatically on install wizard.
         'wizard/account_invoice_parent_view.xml',
         'wizard/search_info_partner_seniat.xml',
         'account_invoice_view.xml',
-        'account_view.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
