@@ -254,6 +254,8 @@
     journal_id: account.sales_journal
     partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
     reference_type: none
+    comment: Test FR, this invoice should be cancelled
+    name: Test refund 3
 -
   3.1 I check that Initially customer invoice is in the "Draft" state
 -
@@ -281,7 +283,7 @@
   3.6 I click on the Refund button (cancel)
 -
   !record {model: account.invoice.refund, id: fr_air03}:
-    description: Test refund 3
+    description: Test refund 3 cancel
     date: !eval time.strftime('%Y-%m-%d')
     journal_id: account.refund_sales_journal
     filter_refund: cancel
@@ -293,14 +295,14 @@
     ap_obj = self.pool.get('account.period')
     period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')), ('company_id', '=', ref("base.main_company")) ])
     assert period, 'There aren\'t periods for this date'
-    self.write(cr, uid, [ref("fr_air02")], {'period':period[0]})
-    aid_brw = self.browse(cr, uid, ref("fr_air02"))
+    self.write(cr, uid, [ref("fr_air03")], {'period':period[0]})
+    aid_brw = self.browse(cr, uid, ref("fr_air03"))
     assert aid_brw.period, 'Period was not updated for the refund'
 -
   3.8 I click on the Refund button from the wizard
 -
   !python {model: account.invoice.refund}: |
-    self.invoice_refund(cr, uid, [ref("fr_air02")], {"lang": "en_US", "active_model":
+    self.invoice_refund(cr, uid, [ref("fr_air03")], {"lang": "en_US", "active_model":
       "account.invoice", "active_ids": [ref("test_fr07")], "tz": False, "active_id": ref("test_fr07"),
       "type": "out_invoice", "journal_type": "sale",
       })
@@ -311,7 +313,6 @@
     ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr07")), ('type', '=', 'out_refund')])
     assert ai_id, 'Refund Note was not created'
     ai_brw = self.browse(cr, uid, ai_id[0])
-    print ai_id
     assert ai_brw.state == 'paid', 'Refund note was not created properly'
 -
   3.10 Test if wh concept and taxes were created in the new invoice
