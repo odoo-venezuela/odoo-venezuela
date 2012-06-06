@@ -62,6 +62,9 @@
         "invoice_view.xml",
         "adjustment_book.xml",
     ],
+    "test" : [
+		"test/purchase_report_test.yml"
+    ],
     "active": False,
     "installable": True,
 }
