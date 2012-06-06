@@ -1,0 +1,36 @@
+-
+  Create wizard
+-  
+  !record {model: wh.book.wizard, id: wh_wiz01}:
+    date_start: !eval time.strftime('%Y-%m-01')
+    date_end: !eval time.strftime('%Y-%m-28')
+    model: 'wh_p'
+-
+  Print wh purchase report
+-
+  !python {model: wh.book.wizard}: |
+    import time
+    ctx={}
+    ctx.update({'lang': u'en_US', 'active_model': 'ir.ui.menu', 'tz': False, 'active_ids': [ref("wh_wiz01"),], 'active_id': ref("wh_wiz01")})
+    data_dict = {'date_start':time.strftime('%Y-%m-01'), 'date_end': time.strftime('%Y-%m-28'), 'model': 'wh_p'}
+    wiz_buttons = ['check_report']
+    from tools import test_reports
+    test_reports.try_report_action(cr, uid, 'wh_book_wizard_act', wiz_data=data_dict, context=ctx, wiz_buttons=wiz_buttons, our_module='l10n_ve_fiscal_reports')
+-
+  Create wizard for sales
+-  
+  !record {model: wh.book.wizard, id: wh_wiz02}:
+    date_start: !eval time.strftime('%Y-%m-01')
+    date_end: !eval time.strftime('%Y-%m-28')
+    model: 'wh_s'
+-
+  Print wh sales Report
+-
+  !python {model: wh.book.wizard}: |
+    import time
+    ctx={}
+    ctx.update({'lang': u'en_US', 'active_model': 'ir.ui.menu', 'tz': False, 'active_ids': [ref("wh_wiz02"),], 'active_id': ref("wh_wiz02")})
+    data_dict = {'date_start':time.strftime('%Y-%m-01'), 'date_end': time.strftime('%Y-%m-28'), 'model': 'wh_s'}
+    wiz_buttons = ['check_report']
+    from tools import test_reports
+    test_reports.try_report_action(cr, uid, 'wh_book_wizard_act', wiz_data=data_dict, context=ctx, wiz_buttons=wiz_buttons, our_module='l10n_ve_fiscal_reports')
