@@ -19,7 +19,7 @@
 
 
 </pageGraphics>
-<frame id="first" x1="20.0" y1="100.0" width="753" height="400"/>
+<frame id="first" x1="20.0" y1="85.0" width="753" height="500"/>
 </pageTemplate>
 </template>
 
@@ -143,7 +143,7 @@
                     <td><para style="ITEMSCENTER"><b>DIRECCION FISCAL</b></para></td>
                 </tr>
                 </blockTable>
-                <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="TITLEGRISCLAROCOMPLETO" rowHeights="15mm">
+                <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="ITEMSWHITE" rowHeights="15mm">
                 <tr>
                     <td><para style="ITEMSRIF"><b>[[ o.company_id.partner_id.name ]]</b></para></td>
                     <td><para style="ITEMSRIF"><b>[[ (o.company_id.partner_id.vat and ('%s-%s-%s'%(o.company_id.partner_id.vat[2:3],o.company_id.partner_id.vat[3:11],o.company_id.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
@@ -173,6 +173,7 @@
                     <td><para style="ITEMSLEFT">[[ get_partner_addr2( o.partner_id.id ) ]]</para></td>
                 </tr>
     </blockTable>
+    <spacer length="5mm"/>
     <!--TABLA DE FIRMA COMPANY--> 
 
     <blockTable colWidths="51.0,62.0,74.0,48.0,48.0,36.0,63.0,56.0,58.0,61.0,36.0,59.0,45.0,55.0" style="Tabla3">
@@ -209,7 +210,7 @@
           <td><para style="P14">[[ formatLang(l['iva_ret']) ]] </para></td>          
         </tr>
     </blockTable>
-    <blockTable colWidths="51.0,62.0,77.0,48.0,48.0,36.0,63.0,56.0,58.0,198.0,55.0" style="Tablatotalgeneral">
+    <blockTable colWidths="51.0,62.0,74.0,48.0,48.0,36.0,63.0,56.0,58.0,201.0,55.0" style="Tablatotalgeneral">
         <tr>
             <td><para style="P22"><font color="white"></font></para></td>
             <td><para style="P22"><font color="white"></font></para></td>
@@ -221,10 +222,10 @@
             <td><para style="P22"><font color="white"></font></para></td>
             <td><para style="P22BOLD"><font color="white"></font></para></td>
             <td><para style="P22BOLD">TOTAL IMPUESTO RETENIDO</para></td>
-            <td><para style="P22BOLD">[[ formatLang(get_tot_gral_retencion()) ]]</para></td>
+            <td><para style="P22BOLD">[[ formatLang(get_tot_gral_retencion())]]</para></td>
         </tr>
     </blockTable>
-      <spacer length="12mm"/>
+      <spacer length="25mm"/>
     
     <blockTable>
         <tr>

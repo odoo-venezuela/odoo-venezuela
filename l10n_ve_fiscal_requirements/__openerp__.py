@@ -46,7 +46,6 @@ Automatically on install wizard.
     --Add wizard to assign, modify or unlink source invoice (parent invoice) to another one.
     --Automatically unreconciles paid invoices when making a refund of type modify or cancel.
     --Validate automatically the withholding of debit notes.
-    --Add a new field to be use as a reference in account move line (ref2).
 
     -------------------------------------------------------------------------------------------
     For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
@@ -82,7 +81,6 @@ Automatically on install wizard.
         'wizard/account_invoice_parent_view.xml',
         'wizard/search_info_partner_seniat.xml',
         'account_invoice_view.xml',
-        'account_view.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
