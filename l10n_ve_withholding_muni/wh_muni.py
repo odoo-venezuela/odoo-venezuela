@@ -139,17 +139,19 @@ class account_wh_munici(osv.osv):
         return True
 
 
-    def action_move_create(self, cr, uid, ids, *args):
+    def action_move_create(self, cr, uid, ids, context=None):
         inv_obj = self.pool.get('account.invoice')
-        context = {}
-
+        if context is None: context = {}
+        context.update({'muni_wh':True})
         for ret in self.browse(cr, uid, ids):
             for line in ret.munici_line_ids:
                 if line.move_id or line.invoice_id.wh_local:
+                    print 'paseeeeee por aqui',line.move_id
+                    print 'paseeeeee por aqui 2',line.invoice_id.wh_local
                     raise osv.except_osv(_('Invoice already withhold !'),_("You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
                     return False
 
-            acc_id = ret.account_id.id
+            acc_id = ret.partner_id.property_wh_munici_payable.id
             if not ret.date_ret:
                 self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
 
@@ -161,16 +163,16 @@ class account_wh_munici(osv.osv):
                     period_id = period_ids[0]
                 else:
                     raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
-
             if ret.munici_line_ids:
                 for line in ret.munici_line_ids:
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount
                     name = 'COMP. RET. MUN ' + ret.number
+                    print 'ACCOUNT ID', acc_id
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, ret.date_ret, name, context)
+                            period_id, writeoff_journal_id, ret.date_ret, name,line,context)
 
                     # make the retencion line point to that move
                     rl = {

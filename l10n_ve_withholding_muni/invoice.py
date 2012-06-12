@@ -31,12 +31,56 @@ from osv import fields, osv
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
+                            pay_journal_id, writeoff_acc_id, 
+                            writeoff_period_id, writeoff_journal_id, date, 
+                            name, context=None):
+        if context is None: context = {}
+        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
+                            pay_journal_id, writeoff_acc_id, 
+                            writeoff_period_id, writeoff_journal_id, date, 
+                            name, context=context)
+        if context.get('muni_wh',False):
+            invoice = self.browse(cr, uid, ids[0])
+            types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
+            direction = types[invoice.type]
+            res.append((0,0,{
+                'debit': direction * to_wh.amount<0 and - direction * to_wh.amount,
+                'credit': direction * to_wh.amount>0 and direction * to_wh.amount,
+                'partner_id': invoice.partner_id.id,
+                'ref':invoice.number,
+                'date': date,
+                'currency_id': False,
+                'name':name,
+                'account_id': to_wh.retention_id.account_id.id,
+            }))
+        print 'res',res
+        return res
+
 
     def _retenida_munici(self, cr, uid, ids, name, args, context):
         res = {}
         for id in ids:
-            res[id] = self.test_retenida(cr, uid, [id], 'retmun')
+            res[id] = self.test_retenida_muni(cr, uid, [id], 'retmun')
         return res
+
+
+    def test_retenida_muni(self, cr, uid, ids, *args):     
+        type2journal = {'out_invoice': 'mun_sale', 'in_invoice': 'mun_purchase', 'out_refund': 'mun_sale', 'in_refund': 'mun_purchase'}
+        type_inv = self.browse(cr, uid, ids[0]).type
+        type_journal = type2journal.get(type_inv, 'mun_purchase')      
+        res = self.ret_payment_get(cr, uid, ids)
+        if not res:
+            return False
+        ok = True
+
+        cr.execute('select \
+                l.id \
+            from account_move_line l \
+                inner join account_journal j on (j.id=l.journal_id) \
+            where l.id in ('+','.join(map(str,res))+') and j.type='+ '\''+type_journal+'\'')
+        ok = ok and  bool(cr.fetchone())
+        return ok
 
 
     def _get_inv_munici_from_line(self, cr, uid, ids, context={}):
@@ -73,7 +117,8 @@ class account_invoice(osv.osv):
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, None, 50),
                 'account.move.line': (_get_inv_munici_from_line, None, 50),
                 'account.move.reconcile': (_get_inv_munici_from_reconcile, None, 50),
-            }, help="The account moves of the invoice have been withheld with account moves of the payment(s)."),
+            },
+            help="The account moves of the invoice have been withheld with account moves of the payment(s)."),
 
     }
     
