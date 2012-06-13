@@ -54,7 +54,6 @@ class account_invoice(osv.osv):
                 'name':name,
                 'account_id': to_wh.retention_id.account_id.id,
             }))
-        print 'res',res
         return res
 
 
@@ -119,6 +118,7 @@ class account_invoice(osv.osv):
                 'account.move.reconcile': (_get_inv_munici_from_reconcile, None, 50),
             },
             help="The account moves of the invoice have been withheld with account moves of the payment(s)."),
+        'wh_muni_id': fields.many2one('account.wh.munici', 'Wh. Municipality', readonly=True, help="Withholding muni."), 
 
     }
     

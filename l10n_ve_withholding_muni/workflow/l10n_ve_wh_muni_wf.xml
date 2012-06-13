@@ -16,16 +16,16 @@
 
         <record id="act_confirmed" model="workflow.activity">
             <field name="wkf_id" ref="wh_muni_order"/>
-            <field name="action">action_confirm()
-                write({'state':'confirmed'})</field>
+            <field name="action">write({'state':'confirmed'})</field>
             <field name="kind">function</field>
             <field name="name">confirmed</field>
         </record>
 
         <record id="act_done" model="workflow.activity">
             <field name="wkf_id" ref="wh_muni_order"/>
-            <field name="action">action_done()
-                write({'state':'done'})</field>
+            <field name="action">action_number()
+            action_move_create()
+            write({'state':'done'})</field>
             <field name="kind">function</field>
             <field name="name">done</field>
         </record>

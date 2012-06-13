@@ -46,12 +46,12 @@ class account_invoice(osv.osv):
                             name, to_wh, context=None):
         if context is None:
             context = {}
-        print 'LLEGUE A ACCOUNT_ID', pay_account_id
+        
         #TODO check if we can use different period for payment and the writeoff line
         assert len(ids)==1, "Can only pay one invoice at a time"
         invoice = self.browse(cr, uid, ids[0])
         src_account_id = invoice.account_id.id
-        print 'OTRA CUENTA', src_account_id
+       
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
         direction = types[invoice.type]
@@ -66,13 +66,13 @@ class account_invoice(osv.osv):
             'name':name
         }
         lines = [(0, 0, l1)]
-        print 'l1', l1
+        
         l2 = self._get_move_lines(cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=context)
         
-        print 'l2',l2
+       
         if not l2:
             raise osv.except_osv(_('Warning !'), _('No accounting moves were created.\n Please, Check if there are Taxes/Concepts to withhold in the Invoices!'))
         lines += l2

@@ -32,6 +32,7 @@ import decimal_precision as dp
 
 
 class account_wh_munici(osv.osv):
+    
 
     def _get_type(self, cr, uid, context=None):
         if context is None:
@@ -103,8 +104,6 @@ class account_wh_munici(osv.osv):
       ('ret_num_uniq', 'unique (number)', 'number must be unique !')
     ] 
 
-
-
     def action_confirm(self, cr, uid, ids, context={}):
         obj=self.pool.get('account.wh.munici').browse(cr,uid,ids)
         total=0
@@ -146,8 +145,6 @@ class account_wh_munici(osv.osv):
         for ret in self.browse(cr, uid, ids):
             for line in ret.munici_line_ids:
                 if line.move_id or line.invoice_id.wh_local:
-                    print 'paseeeeee por aqui',line.move_id
-                    print 'paseeeeee por aqui 2',line.invoice_id.wh_local
                     raise osv.except_osv(_('Invoice already withhold !'),_("You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
                     return False
 
@@ -169,7 +166,6 @@ class account_wh_munici(osv.osv):
                     writeoff_journal_id = False
                     amount = line.amount
                     name = 'COMP. RET. MUN ' + ret.number
-                    print 'ACCOUNT ID', acc_id
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, ret.date_ret, name,line,context)
@@ -180,7 +176,7 @@ class account_wh_munici(osv.osv):
                     }
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'munici_line_ids':lines, 'period_id':period_id})
-
+                    inv_obj.write(cr, uid, [line.invoice_id.id], {'wh_muni_id':ret.id})
         return True
 
 
