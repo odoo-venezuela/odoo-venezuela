@@ -32,6 +32,7 @@ import decimal_precision as dp
 
 
 class account_wh_munici(osv.osv):
+    
 
     def _get_type(self, cr, uid, context=None):
         if context is None:
@@ -103,8 +104,6 @@ class account_wh_munici(osv.osv):
       ('ret_num_uniq', 'unique (number)', 'number must be unique !')
     ] 
 
-
-
     def action_confirm(self, cr, uid, ids, context={}):
         obj=self.pool.get('account.wh.munici').browse(cr,uid,ids)
         total=0
@@ -139,17 +138,17 @@ class account_wh_munici(osv.osv):
         return True
 
 
-    def action_move_create(self, cr, uid, ids, *args):
+    def action_move_create(self, cr, uid, ids, context=None):
         inv_obj = self.pool.get('account.invoice')
-        context = {}
-
+        if context is None: context = {}
+        context.update({'muni_wh':True})
         for ret in self.browse(cr, uid, ids):
             for line in ret.munici_line_ids:
                 if line.move_id or line.invoice_id.wh_local:
                     raise osv.except_osv(_('Invoice already withhold !'),_("You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
                     return False
 
-            acc_id = ret.account_id.id
+            acc_id = ret.partner_id.property_wh_munici_payable.id
             if not ret.date_ret:
                 self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
 
@@ -161,7 +160,6 @@ class account_wh_munici(osv.osv):
                     period_id = period_ids[0]
                 else:
                     raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
-
             if ret.munici_line_ids:
                 for line in ret.munici_line_ids:
                     writeoff_account_id = False
@@ -170,7 +168,7 @@ class account_wh_munici(osv.osv):
                     name = 'COMP. RET. MUN ' + ret.number
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, ret.date_ret, name, context)
+                            period_id, writeoff_journal_id, ret.date_ret, name,line,context)
 
                     # make the retencion line point to that move
                     rl = {
@@ -178,7 +176,7 @@ class account_wh_munici(osv.osv):
                     }
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'munici_line_ids':lines, 'period_id':period_id})
-
+                    inv_obj.write(cr, uid, [line.invoice_id.id], {'wh_muni_id':ret.id})
         return True
 
 
