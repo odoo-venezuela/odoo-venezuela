@@ -171,7 +171,6 @@ class account_wh_src(osv.osv):
         res = 0.0
         for i in line_ids:
             res+=i.wh_amount
-        #~ if not res== brw.wh_amount:
         if abs(res - brw.wh_amount) > 0.0001:
             raise osv.except_osv(_('Procedimiento invalido!'),_("Verificar la suma de las retenciones"))
         
