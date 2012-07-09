@@ -160,7 +160,7 @@ class islr_xml_wh_doc(osv.osv):
             wh_brw = self.browse(cr,uid,id)
             
             period = time.strptime(wh_brw.period_id.date_stop,'%Y-%m-%d')
-            period2 = "%02d%0004d"%(period.tm_mon,period.tm_year)
+            period2 = "%0004d%02d"%(period.tm_year, period.tm_mon)
 
             sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
             FROM islr_xml_wh_line 
