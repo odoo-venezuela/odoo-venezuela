@@ -42,21 +42,27 @@ class wizard_url_seniat(osv.osv_memory):
     def _get_url2(self,cr,uid,ids,context=None):
         url_obj = self._get_url(cr,uid,ids,context)
         return url_obj.url_seniat
+        
+    def _get_url3(self,cr,uid,ids,context=None):
+        url_obj = self._get_url(cr,uid,ids,context)
+        return url_obj.url_seniat2
     
     def update_url(self,cr,uid,ids,context=None):
         data= self.pool.get('wizard.seniat.url').read(cr, uid, ids)[0]
         url_obj = self._get_url(cr,uid,ids,context)
-        url_obj.write({'name':data['url1'],'url_seniat':data['url2']})
+        url_obj.write({'name':data['url1'],'url_seniat':data['url2'],'url_seniat2':data['url3']})
         return {}
 
     _name = "wizard.seniat.url"
     _columns = {
-        'url1':fields.char('URL1',64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
-        'url2':fields.char('URL2',64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner'),
+        'url1':fields.char('URL1',255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
+        'url2':fields.char('URL2',255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner (RIF)'),
+        'url3':fields.char('URL3',255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner (CI or Passport)'),
     }
     _defaults = {
         'url1': _get_url1,
         'url2': _get_url2,
+        'url3': _get_url3,
     }
 wizard_url_seniat()
 

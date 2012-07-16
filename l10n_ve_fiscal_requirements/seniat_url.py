@@ -30,6 +30,7 @@ from tools import config
 import urllib
 from xml.dom.minidom import parseString
 import netsvc
+import re
 
 class seniat_url(osv.osv):
     """
@@ -39,8 +40,9 @@ class seniat_url(osv.osv):
     _name = 'seniat.url'
     _description = __doc__
     _columns = {
-        'name':fields.char('URL Seniat for Partner Information',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
-        'url_seniat':fields.char('URL Seniat for Retention Rate',size=64, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner'),
+        'name':fields.char('URL Seniat for Partner Information',size=255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
+        'url_seniat':fields.char('URL Seniat for Retention Rate',size=255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner (RIF)'),
+        'url_seniat2':fields.char('URL Seniat for Retention Rate',size=255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner (CI or Passport)'),
     }
     
     #    Update Partner Information 
@@ -75,15 +77,20 @@ class seniat_url(osv.osv):
             return float(pct)
         else:
             return 0.0
-    
-    def _parse_dom(self,dom,rif,url_seniat):
-        name = dom.childNodes[0].childNodes[0].firstChild.data 
+
+    def _parse_dom(self,dom,rif,url_seniat,context={}):
+        rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
+        name = dom.childNodes[0].childNodes[0].firstChild.data
+        wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_subjected = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
-        res= {'name': name,'vat_subjected': vat_subjected,}  
+        if context.get('spf_info'):
+            res= {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux,'wh_iva_agent':wh_agent}  
+        else:
+            res= {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux}  
         return res
 
     def _print_error(self, error, msg):
@@ -97,7 +104,6 @@ class seniat_url(osv.osv):
                 self._print_error(_('Vat Error !'),_('Invalid VAT!'))
             elif xml_data.find('452')>=0 and not vat.find('452')>=0:
                 self._print_error(_('Vat Error !'),_('Unregistered VAT!'))
-                
             elif xml_data.find("404")>=0 and not vat.find('404')>=0:
                 self._print_error(_('No Connection !'),_("Could not connect! Check the URL "))
             else:
@@ -108,11 +114,21 @@ class seniat_url(osv.osv):
             else:
                 return False
 
-    def _dom_giver(self, url1, url2, context, vat):
+    def _dom_giver(self, url1, url2, url3, vat, context):
+        if context.get('ci_pas'):
+            xml_data = self._load_url(3,url3 % vat)
+            match = re.search(r'No existe el contribuyente solicitado', xml_data)
+            vat = '0'*(8-len(vat))+vat
+            match2 = re.search(r'[VJEG]'+vat+'[0-9]{1}', xml_data)
+            if match:
+                return False
+            elif match2:
+                vat = match2.group(0)
         xml_data = self._load_url(3,url1 % vat)
+        
         if not self._eval_seniat_data(xml_data,vat,context):
             dom = parseString(xml_data)
-            return self._parse_dom(dom, vat, url2)
+            return self._parse_dom(dom, vat, url2,context=context)
         else:
             return False
 
@@ -123,33 +139,41 @@ class seniat_url(osv.osv):
     def update_rif(self, cr, uid, ids, context={}):
         aux=[]
         rp_obj = self.pool.get('res.partner')
+        addr_obj = self.pool.get('res.partner.address')
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
+        url3 = url_obj.url_seniat2 + '%s'
         if context.get('exec_wizard'):
-            res = self._dom_giver(url1, url2, context, context['vat'])
+            res = self._dom_giver(url1, url2, url3, context['vat'],context)
             if res:
                 self._update_partner(cr, uid, ids, context)
                 return res
             else:
                 return False
-        
         for partner in rp_obj.browse(cr,uid,ids):
+            rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
             if partner.vat:
-                vat_country, vat_number = rp_obj._split_vat(partner.vat)
-                if vat_country.upper() == 'VE':
-                    if len(partner.vat[2:])==10:
-                        xml_data = self._load_url(3,url1 %partner.vat[2:])
-                        if not self._eval_seniat_data(xml_data,partner.vat[2:],context):
-                            dom = parseString(xml_data)
-                            res = rp_obj.write(cr,uid,partner.id,self._parse_dom(dom,partner.vat[2:],url2))
-                            if res:
-                                self._update_partner(cr, uid, partner.id, context)  
+                partner_id =partner.id
+                code = addr_obj.browse(cr,uid,addr_obj.search(cr,uid,[('partner_id','=',partner_id),('type','=','invoice')]))[0].country_id.code
+                if code == 'VE':
+                    if rp_obj.check_vat_ve(partner.vat[2:],context):
+                        res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
+                        if res:
+                            rp_obj.write(cr,uid,partner.id,res)
+                            self._update_partner(cr, uid, partner.id, context)
                         else:
                             if not context.get('all_rif'):
                                 return False
+                                #~ self._print_error(_('Error'),_("Does not exist the contributor requested"))
                     else:
+                        if not context.get('all_rif'):
+                            return False
+                            #~ self._print_error(_('Error'),_("The RIF, CI or passport are not well constructed, please check \n The format of the RIF should be for example J1234567890,CI should be 12345678, and passports must be D123456789"))
+                else:
+                    if not context.get('all_rif'):
                         return False
+                        #~ self._print_error(_('Error'),_("The country in invoice address is not Venezuela, can not establish connection with sSENIAT"))
             else:
                 if partner.address:
                     invoices_addr_country = [i.country_id and i.country_id.code or False  for i in partner.address if i.type == 'invoice']
