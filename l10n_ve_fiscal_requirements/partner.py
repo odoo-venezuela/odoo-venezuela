@@ -32,6 +32,7 @@
 
 from osv import fields, osv
 from tools.translate import _
+import re
 
 class res_partner_address(osv.osv):
     _inherit='res.partner.address'
@@ -88,13 +89,11 @@ class res_partner(osv.osv):
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE':
             if hasattr(partner_obj, 'address'):
                 res = [addr for addr in partner_obj.address if addr.type == 'invoice']
-
                 if res:
                     return True
                 else:
                     return False
             else:
-
                 return True
         return True
 
@@ -138,17 +137,22 @@ class res_partner(osv.osv):
         else:
             return super(res_partner,self).vat_change(cr, uid, ids, value, context=context)
 
-    def check_vat_ve(self, vat):
+    def check_vat_ve(self, vat, context = None):
         '''
         Check Venezuelan VAT number, locally caled RIF.
         RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
         '''
-        if len(vat) != 10:
-            return False
-        if vat[0] not in ('J', 'V', 'E', 'G'):
-            return False
-        return True
-    
+        
+        if context is None:
+            context={}
+        if re.search(r'^[VJEG][0-9]{9}$', vat):
+            context.update({'ci_pas':False})
+            return True
+        if re.search(r'^([0-9]{1,8}|[D][0-9]{9})$', vat):
+            context.update({'ci_pas':True})    
+            return True
+        return False
+        
     def update_rif(self, cr, uid, ids, context=None):
         if context is None:
             context = {}

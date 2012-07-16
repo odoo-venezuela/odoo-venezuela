@@ -53,8 +53,6 @@ class seniat_url(osv.osv):
     _inherit = 'seniat.url'
     
     def _parse_dom(self,dom,rif,url_seniat):
-        su_obj = self.pool.get('seniat.url')
-        wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         wh_rate = su_obj._buscar_porcentaje(rif,url_seniat)
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)

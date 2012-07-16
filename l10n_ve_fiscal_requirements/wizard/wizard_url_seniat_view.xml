@@ -10,8 +10,11 @@
                     <separator string="URL Seniat for Partner Information" colspan="4"/>
                     <field name="url1"/>
                     <newline/>
-                    <separator string="URL Seniat for Retention Rate" colspan="4"/>
+                    <separator string="URL Seniat for Retention Rate (Rif)" colspan="4"/>
                     <field name="url2"/>
+                    <newline/>
+                    <separator string="URL Seniat for Retention Rate (CI or Passport)" colspan="4"/>
+                    <field name="url3"/>
                     <separator string="Are you sure you want to do this?" colspan="4"/>
                      <group colspan="8" col="8">
                             <button icon="gtk-ok" name="update_url" string="Yes" type="object"/>

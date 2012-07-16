@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <openerp>
-  <data noupdate="1">
+  <data noupdate="0">
     <record id="seniat_url_2011" model="seniat.url">
     <field name="name">http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=</field>
     <field name="url_seniat">http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=</field>
+    <field name="url_seniat2">http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_cedula=</field>
     </record>
   </data>
 </openerp>

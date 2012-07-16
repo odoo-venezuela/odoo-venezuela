@@ -29,7 +29,7 @@ class search_info_partner_seniat(osv.osv_memory):
     
     _name = "search.info.partner.seniat"
     _columns = {
-        'vat':fields.char('Numero de RIF', size=64, help='El RIF debe poseer el formato J1234567890',required=True),
+        'vat':fields.char('Numero de RIF, Cedula o Pasaporte', size=64, help='El RIF debe poseer el formato J1234567890, la cedula 12345678 y el Pasaporte D123456789',required=True),
         'name':fields.char('Empresa / Persona', size=256, help='Nombre de la Empresa'),
         'wh_iva_agent':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
         'wh_iva_rate':fields.float('Porcentaje de Retencion', help='Porcentaje de Retencion Aplicable'),
@@ -39,17 +39,24 @@ class search_info_partner_seniat(osv.osv_memory):
     def search_partner_seniat(self, cr, uid, vat, context=None):
         if context is None:
             context={}
+        aux = ''
         su_obj = self.pool.get('seniat.url')
         rp_obj = self.pool.get('res.partner')
         url_obj = su_obj.browse(cr, uid, su_obj.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
+        url3 = url_obj.url_seniat2 + '%s'
         var_vat = self.read(cr,uid,vat,['vat'])
         if var_vat:
             aux = var_vat[0]['vat']
-        res = su_obj._dom_giver(url1, url2, context, aux)
-        res.update({'wh_iva_rate':su_obj._buscar_porcentaje(aux,url2)})
-        self.write(cr,uid,vat,res)
+        if rp_obj.check_vat_ve(aux,context):
+            context.update({'spf_info':True})
+            res = su_obj._dom_giver(url1,url2,url3, aux,context)
+            if res:
+                res.update({'wh_iva_rate':su_obj._buscar_porcentaje(aux,url2)})
+            else:
+                raise osv.except_osv(_('Error'),_("Does not exist the contributor requested"))
+            self.write(cr,uid,vat,res)
         
         return False
         
