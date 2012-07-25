@@ -52,11 +52,11 @@ class seniat_url(osv.osv):
 
     _inherit = 'seniat.url'
     
-    def _parse_dom(self,dom,rif,url_seniat):
+    def _parse_dom(self,dom,rif,url_seniat,context=None):
         wh_rate = su_obj._buscar_porcentaje(rif,url_seniat)
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
         data = {'wh_iva_agent':wh_agent,'wh_iva_rate':wh_rate}
-        return dict(data.items() + super(seniat_url,self)._parse_dom(dom,rif,url_seniat).items())
+        return dict(data.items() + super(seniat_url,self)._parse_dom(dom,rif,url_seniat,context=context).items())
     
 seniat_url()
