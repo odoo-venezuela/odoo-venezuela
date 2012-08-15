@@ -19,7 +19,7 @@
                 </form>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="sales_book_wizard_act">
+        <record model="ir.actions.act_window" id="sales_book_v3_wizard_act">
             <field name="name">Sales Book Report</field>
             <field name="res_model">sales.book.wizard</field>
             <field name="type">ir.actions.act_window</field>
@@ -28,7 +28,7 @@
             <field name="view_id" ref="sales_book_wizard_form"/>
             <field name="target">new</field>
         </record>
-        <menuitem name="Print Sales Fiscal Report" id="sales_book_wizard_menu" 
-            parent="menu_fr_main" action="sales_book_wizard_act" />
+        <menuitem name="Print Sales Fiscal Report V3" id="sales_book_v3_wizard_menu" 
+            parent="menu_fr_main" action="sales_book_v3_wizard_act" />
     </data>
 </openerp>
