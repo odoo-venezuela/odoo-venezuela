@@ -56,7 +56,7 @@
             <field name="model">fiscal.reports.purchase</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="List of Purchases." editable="top/bottom">
+                <tree string="List of Purchases.">
                         <field name="ai_date_invoice"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
