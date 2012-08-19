@@ -88,7 +88,6 @@ Automatically on install wizard.
     'test': [],
     'installable': True,
     'active': False,
-    'doc':'doc',
 }
 
 
