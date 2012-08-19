@@ -113,7 +113,6 @@ We now have a configuration wizard after this module install.""",
     'test': [],
     'installable': True,
     'active': False,
-    'doc':'doc',
 }
 
 
