@@ -32,25 +32,16 @@
     "author" : "Vauxoo",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
-    "description": '''
-                    ----------Automatically Calculated Withholding Income------------
+    "description": '''Automatically Calculated Withholding Income
+ -Generate the voucher of withholding income to validate the invoice.
+ -Generate the report of voucher of withholding income.
+ -Generate the file .xml required by the Venezuelan laws, for agent of withholding income specials.
+ -Generate view for load the concepts of wittholding whith their rates.
+ -Generate view for visualize the withholding income for suppilers and customers.
+ -Load data of the 86 concepts of wittholdings whith their rates.
 
-                    What make this module?
-                    
-                    --Generate the voucher of withholding income to validate the invoice.
-                    --Generate the report of voucher of withholding income.
-                    --Generate the file .xml required by the Venezuelan laws, for agent
-                      of withholding income specials.
-                    --Generate view for load the concepts of wittholding whith their rates.
-                    --Generate view for visualize the withholding income for suppilers and 
-                      customers.
-                    --Load data of the 86 concepts of wittholdings whith their rates.
-
-                    Impromevents
-                    
-                    --For include the functionality of the withholding income to sales, 
-                      purchases and stock you should installer the module: l10n_ve_sale_purchase.
-                   ''',
+If you want be able to propose withholding concepts from sales anad purchases you must install extra module l10n_ve_sale_purchase.
+''',
     "depends" : ["account", "l10n_ve_withholding", "product"],
     "init_xml" : [],
     "demo_xml":[

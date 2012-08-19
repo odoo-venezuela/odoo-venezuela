@@ -27,15 +27,12 @@
     "version" : "0.3",
     "depends" : ["base","l10n_ve_fiscal_requirements"],
     "author" : "Vauxoo",
-    "description" : """
-    What do this module:
-        This module handles the topology according to the sectors of a city.
-        
-	Obtain information and managed all states, municipalities, parishes and sectors of Venezuela
-    with their zip codes and city codes.
+    "description" : """This module handles the topology according to the sectors of a city.
 
-	Adds new information sectors of the state, municipality, parish and city to which he belongs. 
-			""",
+Obtain information and managed all states, municipalities, parishes and sectors of Venezuela with their zip codes and city codes.
+
+Adds new information sectors of the state, municipality, parish and city to which he belongs. 
+""",
     "website" : "http://vauxoo.com",
     "category" : "Generic Modules/Localization",
     "init_xml" : [
