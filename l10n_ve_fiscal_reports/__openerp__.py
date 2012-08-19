@@ -34,13 +34,10 @@
     "version" : "0.3",
     "depends" : ["account","l10n_ve_withholding_iva","l10n_ve_fiscal_requirements",],
     "author" : "Vauxoo",
-    "description" : """
-    What this module does:
-    Build all Fiscal Reports for Law in Venezuela.
-    -- Purchase Report.
-    -- Sales Report.
-    -- Withholding Report.
-        Sales, Purchase, ISLR and Munic.
+    "description" : """Build all Fiscal Reports for Law in Venezuela.
+ - Purchase Book.
+ - Sales Book.
+ - Withholding Book.
     """,
     "website" : "http://openerp.com.ve",
     "category" : "Generic Modules/Accounting",
