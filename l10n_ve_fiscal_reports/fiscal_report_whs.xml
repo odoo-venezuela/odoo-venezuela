@@ -55,7 +55,7 @@
             <field name="model">fiscal.reports.whs</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="List of Purchases." editable="top/bottom">
+                <tree string="List of Purchases.">
                         <field name="ar_date_ret"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
