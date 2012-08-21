@@ -143,7 +143,7 @@ class sales_book_wizard(osv.osv_memory):
 
 
     def _print_report(self, cr, uid, ids, data, context=None):
-        return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.purchase.purchase_seniat', 'datas': data}
+        return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.sale.sale_seniat', 'datas': data}
     _columns = {
             "date_start": fields.date("Start Date", required=True),
             "date_end": fields.date("End Date", required=True),

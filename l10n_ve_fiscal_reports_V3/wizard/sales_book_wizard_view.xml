@@ -29,6 +29,6 @@
             <field name="target">new</field>
         </record>
         <menuitem name="Print Sales Fiscal Report V3" id="sales_book_v3_wizard_menu" 
-            parent="menu_fr_main" action="sales_book_v3_wizard_act" />
+            parent="l10n_ve_fiscal_reports.menu_fr_main" action="sales_book_v3_wizard_act" />
     </data>
 </openerp>

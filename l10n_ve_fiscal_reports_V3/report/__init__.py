@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
-#                    Javier Duran <javier@vauxoo.com>
+# Copyright (c) 2011 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Luis Escobar <luis@vauxoo.com>
+#                    Tulio Ruiz <tulio@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -28,5 +29,4 @@
 #
 ##############################################################################
 
-import sales_book_wizard
-#import wh_book_wizard
+import book
