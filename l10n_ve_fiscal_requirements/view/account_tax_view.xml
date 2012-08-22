@@ -10,14 +10,14 @@
         =====================================================
         -->
 
-        <record id="account_tax_applicability" model="ir.ui.view">
+        <record id="account_tax_applicability_2" model="ir.ui.view">
             <field name="name">account.tax.applicability</field>
             <field name="model">account.tax</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_tax_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/group/field[@name='active']" position="after">
-                    <field name="appl_type" groups="l10n_ve_withholding_iva.group_account_wh_iva_user,l10n_ve_withholding_iva.group_account_wh_iva_manager"/>
+                    <field name="appl_type" groups="account.group_account_manager"/>
                 </xpath>
             </field>
         </record>
