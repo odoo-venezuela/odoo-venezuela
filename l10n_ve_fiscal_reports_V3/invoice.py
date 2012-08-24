@@ -36,7 +36,8 @@ class inherited_invoice(osv.osv):
             ret.update({i:''})
         if res:
             for r in res:
-                ret.update({r.id : r.date_document})
+                if not r.get_is_imported:
+                    ret.update({r.id : r.date_document})
 #                ret =r.date_document
         return ret
 
@@ -48,6 +49,18 @@ class inherited_invoice(osv.osv):
         if res:
             for r in res:
                 ret.update({r.id : r.date_invoice})
+#                ret =r.date_document
+        return ret
+
+    def _get_date_invoiced(self,cr,uid,ids,name,args,context=None):
+        res = self.browse(cr, uid, ids)
+        ret = {}
+        for i in ids:
+            ret.update({i:''})
+        if res:
+            for r in res:
+                if not r.get_is_imported:
+                    ret.update({r.id : r.date_invoice})
 #                ret =r.date_document
         return ret
             
@@ -77,6 +90,16 @@ class inherited_invoice(osv.osv):
         if res:
             for r in res:
                 ret.update({r.id : r.number and r.number or ''})
+        return ret
+
+    def _get_reference(self,cr,uid,ids,name,args,context=None):
+        res = self.browse(cr, uid, ids)
+        ret = {}
+        for i in ids:
+            ret.update({i:''})
+        if res:
+            for r in res:
+                ret.update({r.id : r.reference and r.reference or ''})
         return ret
 
     def _get_control_number(self,cr,uid,ids,name,args,context=None):
@@ -161,6 +184,8 @@ class inherited_invoice(osv.osv):
     def _get_parent(self,cr,uid,ids,name,args,context=None):
         res = self.browse(cr, uid, ids)
         ret = {}
+        for i in ids:
+            ret.update({i:None})
         if res:
             for r in res:
                 ret.update({r.id:r.parent_id.number})
@@ -268,9 +293,9 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i:''})
         for r in res:
-            if hasattr(r, 'nro_inport_form'):
-                if r.nro_inport_form:
-                    ret.pudate({r.id : r.nro_inport_form})
+            if hasattr(r, 'num_import_form'):
+                if r.num_import_form:
+                    ret.pudate({r.id : r.num_import_form})
         return ret
 
     def _get_nro_inport_expe(self, cr, uid,ids, name, args, context=None):
@@ -279,9 +304,9 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i:''})
         for r in res:
-            if hasattr(r, 'nro_inport_expe'):
+            if hasattr(r, 'num_import_expe'):
                 print 'Tiene el campo'
-                if r.nro_inport_expe:
+                if r.num_import_expe:
                     print 'Hay value'
                     ret.pudate({r.id : r.nro_inport_expe})
         return ret
@@ -336,6 +361,37 @@ class inherited_invoice(osv.osv):
                 ret.update({r.id : ''})
         return ret
 
+    def _get_is_imported(self, cr, uid, ids, name, args, context=None):
+        res = self.browse(cr, uid, ids)
+        ret = {}
+        for i in ids:
+            ret.update({i:False})
+        for r in res:
+            if r.company_id.partner_id.country.id != r.partner_id.country.id:
+                ret.update({r.id : True})
+        return ret
+
+    def _get_date_imported(self, cr, uid, ids, name, args, context=None):
+        res = self.browse(cr, uid, ids)
+        ret = {}
+        for i in ids:
+            ret.update({i:''})
+        for r in res:
+            if r.get_is_imported:
+                ret.update({r.id : r.get_date_invoice})
+        return ret
+
+    def _get_import_spreadsheets(self, cr, uid, ids, name, args, context=None):
+        ret = {}
+        for i in ids:
+            ret.update({i:None})
+        for inv in ids:
+            isp_ids = self.search(cr, uid, [('affected_invoice', '=', inv)])
+            if isp_ids:
+                res = self.browse(cr, uid, ids)
+                ret.update({inv: res})
+        return ret
+                
         
 
     _columns = {
@@ -385,6 +441,18 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_credit_affected': fields.function(_get_credit_affected, method=True, string='kind of document', type='char',
                             help=""),
+        'get_import_form': fields.function(_get_reference, method=True, string='kind of document', type='char',
+                            help=""),
+        'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
+                            help=""),
+        'get_is_imported': fields.function(_get_is_imported, method=True, string='kind of document', type='boolean',
+                            help=""),
+        'get_date_imported': fields.function(_get_date_imported, method=True, string='Document date', type='date',
+                            help=""),    
+        'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Document date', type='date',
+                            help=""),    
+        'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Document date', type='date',
+                            help=""),    
         }
         
 inherited_invoice()

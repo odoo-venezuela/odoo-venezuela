@@ -30,6 +30,6 @@
 ##############################################################################
 
 import invoice
-import l10n_ve_fiscal_reports_V3
+#import l10n_ve_fiscal_reports_V3
 import report
 import wizard

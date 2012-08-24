@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record model="ir.ui.view" id="sales_book_wizard_form">
-            <field name="name">sales.book.wizard.form</field>
-            <field name="model">sales.book.wizard</field>
+        <record model="ir.ui.view" id="sales_book_wizard_formv3">
+            <field name="name">sales.book.wizard.formv3</field>
+            <field name="model">sales.book.wizardv3</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Sales Book Report">
@@ -21,11 +21,11 @@
         </record>
         <record model="ir.actions.act_window" id="sales_book_v3_wizard_act">
             <field name="name">Sales Book Report</field>
-            <field name="res_model">sales.book.wizard</field>
+            <field name="res_model">sales.book.wizardv3</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="sales_book_wizard_form"/>
+            <field name="view_id" ref="sales_book_wizard_formv3"/>
             <field name="target">new</field>
         </record>
         <menuitem name="Print Sales Fiscal Report V3" id="sales_book_v3_wizard_menu" 

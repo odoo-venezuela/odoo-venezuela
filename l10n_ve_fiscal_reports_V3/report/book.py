@@ -121,6 +121,7 @@ class sal_book(report_sxw.rml_parse):
         criteria = [('date_invoice', '<=', form['date_end']), 
                                 ('date_invoice', '>=', form['date_start']),
                                 ('state', 'in',[ 'done', 'paid', 'open']),
+                                ('import_spreadsheet', '=', False),
                                 ('company_id', '=', self._company_id)]
         if form['type'] == 'sale':
             criteria.append(('type', 'in', ['out_refund', 'out_invoice']))
@@ -131,15 +132,34 @@ class sal_book(report_sxw.rml_parse):
                                criteria, order='date_invoice,nro_ctrl')
         if len(fr_ids)>0:
             res = fr_obj.browse(self.cr, self.uid, fr_ids)
+            self._invs_ids = fr_ids
             self._data = res
         return res
         
     def _get_data_wh(self,form):
+#        data=[]
+#        d1=form['date_start']
+#        d2=form['date_end']
+#        fr_obj = self.pool.get('fiscal.reports.whs')
+#        fr_ids = fr_obj.search(self.cr,self.uid,
+#                                  [ ('ar_date_ret', '<=', d2), 
+#                                    ('ar_date_ret', '>=',d1),
+#                                    ('ar_date_document','<=',d1),
+#                                    ('ai_company', '=', self._company_id)], order='ar_date_ret')
+#        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+
+
         data=[]
         d1=form['date_start']
         d2=form['date_end']
-        fr_obj = self.pool.get('fiscal.reports.whs')
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=',d1),('ar_date_document','<=',d1),('ai_company', '=', self._company_id)], order='ar_date_ret')
+        fr_obj = self.pool.get('account.wh.iva')
+        fr_ids = fr_obj.search(self.cr,self.uid,
+                                  [ ('date_ret', '<=', d2), 
+                                    ('date_ret', '>=',d1),
+                                    ('date','<=',d1),
+                                    ('state', '=', 'done'),
+                                    ('wh_lines.invoice_id.type', 'in', ['out_invoice', 'out_refund']),
+                                    ('wh_lines.invoice_id.company_id.id', '=', self._company_id)], order='ar_date_ret')
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
         
@@ -225,7 +245,7 @@ class sal_book(report_sxw.rml_parse):
     def _get_amount_withheld(self, form, inv):
         wil_obj = self.pool.get('account.wh.iva.line')
         wil_ids = wil_obj.search(self.cr, self.uid, [('invoice_id', '=', inv.id)])
-        amount = ''
+        amount = 0.0
         if wil_ids:
             data = wil_obj.browse(self.cr, self.uid, wil_ids)[0]
             if data.retention_id:
@@ -279,23 +299,43 @@ class sal_book(report_sxw.rml_parse):
                             amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
                             amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
                     else:
-                        amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
-                        amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
+                        if nationality == 'nacional' and not d.get_is_imported:
+                            print 'Nacional'
+                            amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
+                            amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
+                        elif nationality == 'internacional' and d.get_is_imported:
+                            print 'internacional'
+                            amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
+                            amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
+                        elif nationality == 'all' or not nationality:
+                            amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
+                            amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
         return (amount_untaxed, amount_tax)
 
     def _get_wh_actual(self,form):
         total=0
         data=[]
         book_type= self._get_book_type_wh(form)
-        fr_obj = self.pool.get(book_type)
+        fr_obj = self.pool.get('account.wh.iva')
         
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']),('ar_date_ret', '>=', form['date_start']),('ai_date_inv','>=',form['date_start']),('ai_date_inv','<=',form['date_end']), ('ai_company', '=', self._company_id)])
+#        fr_ids = fr_obj.search(self.cr,self.uid,
+#                               [('date_ret', '<=', form['date_end']),
+#                                ('date_ret', '>=', form['date_start']),
+#                                ('wh_lines.invoice_id.date_invoice','>=',form['date_start']),
+#                                ('wh_lines.invoice_id.date_invoice','<=',form['date_end']),
+#                                ('wh_lines.invoice_id.company_id.id', '=', self._company_id)])
+        fr_ids = fr_obj.search(self.cr,self.uid,
+                               [('date_ret', '<=', form['date_end']),
+                                ('date_ret', '>=', form['date_start']),
+                                ('wh_lines.invoice_id.id','in',self._invs_ids)])
+        print 'los ids ', fr_ids
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         for wh in data:
-            if wh.ai_id.type in ['in_refund', 'out_refund']:
-                total+= wh.ar_line_id.amount_tax_ret * (-1)
-            else:
-                total+= wh.ar_line_id.amount_tax_ret
+            for wh_line in wh.wh_lines:
+                if wh_line.invoice_id.type in ['in_refund', 'out_refund']:
+                    total+= wh_line.amount_tax_ret * (-1)
+                else:
+                    total+= wh_line.amount_tax_ret
         return total
 
     def _get_id(self,form,idh,type=None):
@@ -349,9 +389,18 @@ class sal_book(report_sxw.rml_parse):
         return [amount_untaxed,amount_tax]
 
 report_sxw.report_sxw(
-    'report.fiscal.reports.sale.sale_seniat',
-    'fiscal.reports.sale',
+    'report.fiscal.reports.sale.sale_seniat_v3',
+    'account.invoice',
     'addons/l10n_ve_fiscal_reports_V3/report/sales_book.rml',
     parser=sal_book,
     header=False
 )      
+
+report_sxw.report_sxw(
+    'report.fiscal.reports.purchase.purchase_seniat_v3',
+    'account.invoice',
+    'addons/l10n_ve_fiscal_reports_V3/report/purchases_book.rml',
+    parser=sal_book,
+    header=False
+)      
+

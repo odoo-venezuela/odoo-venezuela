@@ -31,11 +31,11 @@ import sys
 from tools.translate import _
 import time
 
-class sales_book_wizard(osv.osv_memory):
+class sales_book_wizardv3(osv.osv_memory):
     """
     Sales book wizard implemented using the osv_memory wizard system
     """
-    _name = "sales.book.wizard"
+    _name = "sales.book.wizardv3"
 
 
     def _get_account_period(self, cr, uid, dt=None, context=None):
@@ -143,7 +143,9 @@ class sales_book_wizard(osv.osv_memory):
 
 
     def _print_report(self, cr, uid, ids, data, context=None):
-        return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.sale.sale_seniat', 'datas': data}
+        if data['form']['type']=='sale':
+            return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.sale.sale_seniat_v3', 'datas': data}
+        return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.purchase.purchase_seniat_v3', 'datas': data}
     _columns = {
             "date_start": fields.date("Start Date", required=True),
             "date_end": fields.date("End Date", required=True),
@@ -160,4 +162,4 @@ class sales_book_wizard(osv.osv_memory):
         'date_end': lambda *a: time.strftime('%Y-%m-%d'),
         'type': lambda *a: 'sale',
     }
-sales_book_wizard()
+sales_book_wizardv3()
