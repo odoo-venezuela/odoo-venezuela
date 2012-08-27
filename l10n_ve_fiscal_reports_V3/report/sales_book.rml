@@ -95,9 +95,9 @@
     <paraStyle name="P4" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
     <paraStyle name="P5" fontName="Times-Roman" fontSize="7.0" leading="8"/>
      <paraStyle name="TITULO_AJUSTE" fontName="Times-Roman" fontSize="10.0" alignment="CENTER"/>
-    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="2.5" leading="3.0" alignment="CENTER" topPadding="0.5" bottomPadding="0.5"/>
-    <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="2.5" leading="3.0" alignment="RIGHT" topPadding="0.5" bottomPadding="0.5"/>
-    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="2.5" leading="3.0" alignment="LEFT" topPadding="0.5" bottomPadding="0.5"/>
+    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="5.0" leading="5.5" alignment="CENTER" topPadding="0.5" bottomPadding="0.7"/>
+    <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="5.0" leading="5.5" alignment="RIGHT" topPadding="0.5" bottomPadding="0.7"/>
+    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="5.0" leading="5.5" alignment="LEFT" topPadding="0.5" bottomPadding="0.7"/>
      <paraStyle name="OBSERVACIONES" fontName="Times-Roman" fontSize="9.0"  alignment="LEFT"/>
      <paraStyle name="HEADERDOC" fontName="Times-Bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
     <paraStyle name="HEADER" fontName="Helvetica" fontSize="4.0" leading="6" alignment="CENTER"/>
@@ -141,17 +141,16 @@
           <!-- ****************************************-->
 
     <section>
-        <blockTable colWidths="422.0,153.0,153.0,25.0" style="ENCANBEZADO_SINCOLUM_2">
+        <blockTable colWidths="439.0,179.0,179.0" style="ENCANBEZADO_SINCOLUM_2">
             <tr>
                 <td></td>
                 <td vAlign="MIDDLE"><para style="HEADER">CONTRIBUYENTE</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">NO CONTRIBUYENTE</para></td>
-                <td></td>
             </tr>
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,29.0,150.0,29.0,150.0,40.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
@@ -171,7 +170,7 @@
             <td><para style="HEADER">SDCF</para></td>
             <td>
                 <section>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">Exento</para></td>
                         <td><para style="HEADER">Base Imponible</para></td>
@@ -183,7 +182,7 @@
             </td>
             <td><para style="HEADER">SDCF</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">Exento</para></td>
                         <td><para style="HEADER">Base Imponible</para></td>
@@ -217,7 +216,7 @@
             <td><para style="CONTENIDO">0.00</para></td>
             <td><para style="CONTENIDO">SDCF</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="CONTENIDO">Exento</para></td>
                         <td><para style="CONTENIDO">0.00</para></td>
@@ -229,7 +228,7 @@
             <td><para style="CONTENIDO">SDCF</para></td>
             <td>
                 <section>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="CONTENIDO">Exento</para></td>
                         <td><para style="CONTENIDO">0.00</para></td>
@@ -248,7 +247,7 @@
    <!-- ************ SALE BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable rowHeights="6.0" colWidths="1.0,15.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable rowHeights="6.0" colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,29.0,150.0,29.0,150.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
@@ -270,7 +269,7 @@
             <td>
                 <section>
                     <para>[[ repeatIn(l.get_taxes and l.get_taxes or [0.0],'s')]]</para>
-                    <blockTable colWidths="29.0,40.0,15.0,35.0" style="INTERNALTABLE">
+                    <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                         <tr>
                             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(s.invoice_id.partner_id.vat_subjected and l.get_v_exent or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(s.invoice_id.partner_id.vat_subjected and get_tax_line(s) or 0.0) ]]</para></td>
@@ -284,7 +283,7 @@
             <td>
             <section>
             <para>[[ repeatIn(l.get_taxes and l.get_taxes or [0.0],'t')]]</para>
-                <blockTable colWidths="29.0,40.0,15.0,35.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not s.invoice_id.partner_id.vat_subjected) and l.get_v_exent or 0.0) ]]</para></td>
                         <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not s.invoice_id.partner_id.vat_subjected) and get_tax_line(s) or 0.0) ]]</para></td>
@@ -304,7 +303,7 @@
         <!-- ************ TOTALS SALE PARCIALES************-->
     <section>
 
-        <blockTable colWidths="1.0,15.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,29.0,150.0,29.0,150.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td>
@@ -324,7 +323,7 @@
             <td><para style="HEADER">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0])]]</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'], 'EXENTO', 'all', exempt=True)[0]) ]]</para></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','all', exempt=True)[0]+get_amount_untaxed_tax(data['form'],'8','all', exempt=True)[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','all', exempt=True)[0]) ]]</para></td>
@@ -335,7 +334,7 @@
             </td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0])]]</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'EXENTO','all', exempt=False)[0])]]</para></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','all', exempt=False)[0]+get_amount_untaxed_tax(data['form'],'8','all', exempt=False)[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','all', exempt=False)[0]) ]]</para></td>
