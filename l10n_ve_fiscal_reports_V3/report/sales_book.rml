@@ -141,7 +141,7 @@
           <!-- ****************************************-->
 
     <section>
-        <blockTable colWidths="439.0,179.0,179.0" style="ENCANBEZADO_SINCOLUM_2">
+        <blockTable colWidths="464.0,179.0,179.0" style="ENCANBEZADO_SINCOLUM_2">
             <tr>
                 <td></td>
                 <td vAlign="MIDDLE"><para style="HEADER">CONTRIBUYENTE</para></td>
@@ -150,7 +150,7 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,29.0,150.0,29.0,150.0,40.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,29.0,150.0,29.0,150.0,40.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
@@ -167,6 +167,7 @@
             <td><para style="HEADER">Nota de Credito Afectada</para></td>
             <td><para style="HEADER">Documento Afectado</para></td>
             <td><para style="HEADER">Total con IVA</para></td>
+            <td><para style="HEADER">Ventas Exportacion</para></td>
             <td><para style="HEADER">SDCF</para></td>
             <td>
                 <section>
@@ -247,7 +248,7 @@
    <!-- ************ SALE BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable rowHeights="6.0" colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,29.0,150.0,29.0,150.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable rowHeights="6.0" colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,29.0,150.0,29.0,150.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
@@ -265,6 +266,7 @@
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_credit_affected ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_parent ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(l.get_total) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(0.0) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(l.get_vat_subjected and l.get_v_sdcf or 0.0) ]]</para></td>
             <td>
                 <section>
@@ -303,7 +305,7 @@
         <!-- ************ TOTALS SALE PARCIALES************-->
     <section>
 
-        <blockTable colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,29.0,150.0,29.0,150.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,15.0,35.0,20.0,35.0,130.0,25.0,40.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,29.0,150.0,29.0,150.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td>
@@ -321,6 +323,7 @@
             <td></td>
             <td></td>
             <td><para style="HEADER">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
+            <td><para style="HEADER">[[ formatLang(0.0) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0])]]</para></td>
             <td>
                 <blockTable colWidths="29.0,45.0,25.0,45.0" style="INTERNALTABLE">
