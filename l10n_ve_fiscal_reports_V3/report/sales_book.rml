@@ -94,10 +94,10 @@
     <paraStyle name="P3" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
     <paraStyle name="P4" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
     <paraStyle name="P5" fontName="Times-Roman" fontSize="7.0" leading="8"/>
-    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="3.0" leading="4.5" alignment="CENTER"/>
      <paraStyle name="TITULO_AJUSTE" fontName="Times-Roman" fontSize="10.0" alignment="CENTER"/>
-    <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="3.0" leading="4.5" trailing="3" alignment="RIGHT"/>
-    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="3.0" leading="4.5" alignment="LEFT"/>
+    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="2.5" leading="3.0" alignment="CENTER" topPadding="0.5" bottomPadding="0.5"/>
+    <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="2.5" leading="3.0" alignment="RIGHT" topPadding="0.5" bottomPadding="0.5"/>
+    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="2.5" leading="3.0" alignment="LEFT" topPadding="0.5" bottomPadding="0.5"/>
      <paraStyle name="OBSERVACIONES" fontName="Times-Roman" fontSize="9.0"  alignment="LEFT"/>
      <paraStyle name="HEADERDOC" fontName="Times-Bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
     <paraStyle name="HEADER" fontName="Helvetica" fontSize="4.0" leading="6" alignment="CENTER"/>
@@ -262,9 +262,9 @@
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_nro_inport_form ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_nro_inport_expe ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_papel_anulado ]]</para></td>
-            <td vAlign="MIDDLE"><para style="HEADER">[[ l.get_debit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="HEADER">[[ l.get_credit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="HEADER">[[ l.get_parent ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_debit_affected ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_credit_affected ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_parent ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(l.get_total) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(l.get_vat_subjected and l.get_v_sdcf or 0.0) ]]</para></td>
             <td>
