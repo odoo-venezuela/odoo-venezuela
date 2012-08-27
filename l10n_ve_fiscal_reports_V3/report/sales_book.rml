@@ -117,7 +117,7 @@
   <images/>
 
   <story>
-    <blockTable colWidths="450.0,190.0,260.0" style="HEADERTABLE">
+    <blockTable colWidths="427.0,190.0,260.0" style="HEADERTABLE">
       <tr>
         [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
         <td>
@@ -141,7 +141,7 @@
           <!-- ****************************************-->
 
     <section>
-        <blockTable colWidths="445.0,153.0,153.0,25.0" style="ENCANBEZADO_SINCOLUM_2">
+        <blockTable colWidths="422.0,153.0,153.0,25.0" style="ENCANBEZADO_SINCOLUM_2">
             <tr>
                 <td></td>
                 <td vAlign="MIDDLE"><para style="HEADER">CONTRIBUYENTE</para></td>
@@ -151,12 +151,11 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
             <td><para style="HEADER">Fecha Cont.</para></td>
-            <td><para style="HEADER">Fecha Exportada</para></td>
             <td><para style="HEADER">T. Doc.</para></td>
             <td><para style="HEADER">RIF</para></td>
             <td><para style="HEADER">Razon Social</para></td>
@@ -249,13 +248,12 @@
    <!-- ************ SALE BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable rowHeights="6.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable rowHeights="6.0" colWidths="1.0,15.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ get_id(data['form'],l.id,'book') ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y',time.strptime(l.get_date_invoice,'%Y-%m-%d')) ]]</para></td>
-            <td vAlign="MIDDLE"></td>
             <td><para style="CONTENIDO">[[ l.get_t_doc ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_partner_vat ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOLEFT">[[ l.get_partner_name ]]</para></td>
@@ -306,10 +304,9 @@
         <!-- ************ TOTALS SALE PARCIALES************-->
     <section>
 
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,15.0,23.0,15.0,25.0,130.0,25.0,30.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,29.0,124.0,40.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
