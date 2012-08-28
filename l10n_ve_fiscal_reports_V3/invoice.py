@@ -30,6 +30,9 @@ class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
     
     def _get_date_document(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get date document if it is not an import
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -42,6 +45,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_date_invoice(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Date Invoce 
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -53,6 +59,10 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_date_invoiced(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get The date invoiced if the document is not an import
+        '''
+        
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -65,6 +75,9 @@ class inherited_invoice(osv.osv):
         return ret
             
     def _get_vat(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Partner vat without two first letters
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -75,6 +88,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_name(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Partner Name
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         if res:
@@ -83,6 +99,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_number(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Invoice Number
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -93,6 +112,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_reference(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Invoice reference
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -103,6 +125,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_control_number(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Invoice Control Number
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         if res:
@@ -111,6 +136,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_total(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Total Invoice Amount
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -121,9 +149,11 @@ class inherited_invoice(osv.osv):
         return ret
         
     def _get_wh_number(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Wh Number if any
+        '''
         whl_obj = self.pool.get('account.wh.iva.line')
 
-#        res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
             ret.update({i:''})
@@ -182,6 +212,9 @@ class inherited_invoice(osv.osv):
         return ret
         
     def _get_parent(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Parent Invoice
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -192,6 +225,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_v_sdcf(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get SDCF Amount
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -210,6 +246,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_v_exent(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Amount Exempt
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -228,6 +267,9 @@ class inherited_invoice(osv.osv):
         return ret
     
     def _get_tax_line(self, s):
+        '''
+        Get Tax Line
+        '''
         name = s.name
         cont = 0
         if name.find('SDCF')>=0:
@@ -238,7 +280,9 @@ class inherited_invoice(osv.osv):
         return s.base_amount
 
     def _get_taxes(self,cr,uid,ids,name,args,context=None):
-        
+        '''
+        Get Invoice Taxes
+        '''
         tax_obj = self.pool.get('account.invoice.tax')
         ret = {}
         for inv in ids:
@@ -263,6 +307,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_papel_anulado(self, cr, uid,ids, name, args, context=None):
+        '''
+        Get Operation Type
+        '''
         tipo = '03-ANU'
         data = '01-REG'
         res = self.browse(cr, uid, ids)
@@ -280,6 +327,9 @@ class inherited_invoice(osv.osv):
         return ret
         
     def _get_lang(self,cr,uid,ids,name,args,context=None):
+        '''
+        Get Lang from partner
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         if res:
@@ -310,6 +360,9 @@ class inherited_invoice(osv.osv):
         return ret
         
     def _get_vat_subjected(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get if partner is vat subjected
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -321,6 +374,9 @@ class inherited_invoice(osv.osv):
         return ret
         
     def _get_debit_affected(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get invoice affected 
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for r in res:
@@ -331,6 +387,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_credit_affected(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get invoice affected 
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for r in res:
@@ -349,6 +408,10 @@ class inherited_invoice(osv.osv):
 #                    doc_type = "FACT"
 
     def _get_invoice_affected(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get Invoice affected if parente invoice is an invoice else return empty
+        '''
+        
         res = self.browse(cr, uid, ids)
         ret = {}
         for r in res:
@@ -359,6 +422,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_is_imported(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get If document is an import
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -369,6 +435,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_date_imported(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get Date Imported if it is imported, else an empty string is returned
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -379,6 +448,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_import_spreadsheets(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get Import Spreadsheets
+        '''
         ret = {}
         for i in ids:
             ret.update({i:None})
@@ -390,6 +462,9 @@ class inherited_invoice(osv.osv):
         return ret
                 
     def _get_invoice_printer(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get Fiscal Printer Invoice Number
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
@@ -399,6 +474,9 @@ class inherited_invoice(osv.osv):
         return ret
 
     def _get_fiscal_printer(self, cr, uid, ids, name, args, context=None):
+        '''
+        Get Fiscal Machine Number
+        '''
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
