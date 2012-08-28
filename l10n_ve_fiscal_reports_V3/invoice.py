@@ -49,6 +49,7 @@ class inherited_invoice(osv.osv):
         if res:
             for r in res:
                 ret.update({r.id : r.date_invoice})
+                print r.date_invoice
 #                ret =r.date_document
         return ret
 
@@ -392,8 +393,24 @@ class inherited_invoice(osv.osv):
                 ret.update({inv: res})
         return ret
                 
-        
+    def _get_invoice_printer(self, cr, uid, ids, name, args, context=None):
+        res = self.browse(cr, uid, ids)
+        ret = {}
+        for i in ids:
+            ret.update({i:''})
+        for r in res:
+            ret.update({r.id : r.invoice_printer})
+        return ret
 
+    def _get_fiscal_printer(self, cr, uid, ids, name, args, context=None):
+        res = self.browse(cr, uid, ids)
+        ret = {}
+        for i in ids:
+            ret.update({i:''})
+        for r in res:
+            ret.update({r.id : r.fiscal_printer})
+        return ret
+        
     _columns = {
         'get_date_document': fields.function(_get_date_document, method=True, string='Document date', type='date',
                             help=""),    
@@ -452,6 +469,10 @@ class inherited_invoice(osv.osv):
         'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Document date', type='date',
                             help=""),    
         'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Document date', type='date',
+                            help=""),    
+        'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Document date', type='char',
+                            help=""),    
+        'get_fiscal_printer': fields.function(_get_fiscal_printer, method=True, string='Document date', type='char',
                             help=""),    
         }
         
