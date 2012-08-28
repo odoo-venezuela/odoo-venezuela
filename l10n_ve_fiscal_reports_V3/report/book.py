@@ -300,11 +300,9 @@ class sal_book(report_sxw.rml_parse):
                             amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
                     else:
                         if nationality == 'nacional' and not d.get_is_imported:
-                            print 'Nacional'
                             amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
                             amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
                         elif nationality == 'internacional' and d.get_is_imported:
-                            print 'internacional'
                             amount_untaxed+= self._get_amount_untaxed_tax2(d.type,tax)[0]
                             amount_tax+= self._get_amount_untaxed_tax2(d.type,tax)[1]
                         elif nationality == 'all' or not nationality:
@@ -328,7 +326,6 @@ class sal_book(report_sxw.rml_parse):
                                [('date_ret', '<=', form['date_end']),
                                 ('date_ret', '>=', form['date_start']),
                                 ('wh_lines.invoice_id.id','in',self._invs_ids)])
-        print 'los ids ', fr_ids
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         for wh in data:
             for wh_line in wh.wh_lines:

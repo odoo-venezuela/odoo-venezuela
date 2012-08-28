@@ -49,7 +49,6 @@ class inherited_invoice(osv.osv):
         if res:
             for r in res:
                 ret.update({r.id : r.date_invoice})
-                print r.date_invoice
 #                ret =r.date_document
         return ret
 
@@ -306,16 +305,13 @@ class inherited_invoice(osv.osv):
             ret.update({i:''})
         for r in res:
             if hasattr(r, 'num_import_expe'):
-                print 'Tiene el campo'
                 if r.num_import_expe:
-                    print 'Hay value'
                     ret.pudate({r.id : r.nro_inport_expe})
         return ret
         
     def _get_vat_subjected(self, cr, uid, ids, name, args, context=None):
         res = self.browse(cr, uid, ids)
         ret = {}
-#        print "El el metodo ", res
         for i in ids:
             ret.update({i:False})
 #        if not res:
@@ -414,7 +410,7 @@ class inherited_invoice(osv.osv):
     _columns = {
         'get_date_document': fields.function(_get_date_document, method=True, string='Document date', type='date',
                             help=""),    
-        'get_date_invoice': fields.function(_get_date_invoice, method=True, string='Document date', type='date',
+        'get_date_invoice': fields.function(_get_date_invoice, method=True, string='Invoice date', type='date',
                             help=""),    
         'get_partner_name': fields.function(_get_name, method=True, string='Partner Name', type='char',
                             help=""),    
@@ -428,51 +424,51 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
                             help=""),
-        'get_doc': fields.function(_get_doc, method=True, string='kind of document', type='char',
+        'get_doc': fields.function(_get_doc, method=True, string='Transaction Type', type='char',
                             help=""),
-        'get_t_doc': fields.function(_get_t_doc, method=True, string='kind of document', type='char',
+        'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
                             help=""),
-        'get_parent': fields.function(_get_invoice_affected, method=True, string='kind of document', type='char',
+        'get_parent': fields.function(_get_invoice_affected, method=True, string='Parent invoice', type='char',
                             help=""),
-        'get_v_sdcf': fields.function(_get_v_sdcf, method=True, string='kind of document', type='float',
+        'get_v_sdcf': fields.function(_get_v_sdcf, method=True, string='SDCF', type='float',
                             help=""),
-        'get_v_exent': fields.function(_get_v_exent, method=True, string='kind of document', type='float',
+        'get_v_exent': fields.function(_get_v_exent, method=True, string='Amount excempt', type='float',
                             help=""),
-        'get_tax_line': fields.function(_get_tax_line, method=True, string='kind of document', type='char',
+        'get_tax_line': fields.function(_get_tax_line, method=True, string='Tax line', type='char',
                             help=""),
-        'get_parent': fields.function(_get_parent, method=True, string='kind of document', type='char',
+#        'get_parent': fields.function(_get_parent, method=True, string='kind of document', type='char',
+#                            help=""),
+        'get_lang': fields.function(_get_lang, method=True, string='Language', type='char',
                             help=""),
-        'get_lang': fields.function(_get_lang, method=True, string='kind of document', type='char',
+        'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
                             help=""),
-        'get_taxes': fields.function(_get_taxes, method=True, string='kind of document', type='char',
+        'get_papel_anulado': fields.function(_get_papel_anulado, method=True, string='Transaction type', type='char',
                             help=""),
-        'get_papel_anulado': fields.function(_get_papel_anulado, method=True, string='kind of document', type='char',
+        'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='Import form number', type='char',
                             help=""),
-        'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='kind of document', type='char',
+        'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
                             help=""),
-        'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
+        'get_vat_subjected': fields.function(_get_vat_subjected, method=True, string='Vat subjected', type='boolean',
                             help=""),
-        'get_vat_subjected': fields.function(_get_vat_subjected, method=True, string='kind of document', type='boolean',
+        'get_debit_affected': fields.function(_get_debit_affected, method=True, string='Debit notes affected', type='char',
                             help=""),
-        'get_debit_affected': fields.function(_get_debit_affected, method=True, string='kind of document', type='char',
-                            help=""),
-        'get_credit_affected': fields.function(_get_credit_affected, method=True, string='kind of document', type='char',
+        'get_credit_affected': fields.function(_get_credit_affected, method=True, string='Credit notes affected', type='char',
                             help=""),
         'get_import_form': fields.function(_get_reference, method=True, string='kind of document', type='char',
                             help=""),
         'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
                             help=""),
-        'get_is_imported': fields.function(_get_is_imported, method=True, string='kind of document', type='boolean',
+        'get_is_imported': fields.function(_get_is_imported, method=True, string='Is an import', type='boolean',
                             help=""),
-        'get_date_imported': fields.function(_get_date_imported, method=True, string='Document date', type='date',
+        'get_date_imported': fields.function(_get_date_imported, method=True, string='Imported date', type='date',
                             help=""),    
-        'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Document date', type='date',
+        'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Invoiced date', type='date',
                             help=""),    
-        'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Document date', type='date',
+        'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
                             help=""),    
-        'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Document date', type='char',
+        'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Fiscal printer invoice number', type='char',
                             help=""),    
-        'get_fiscal_printer': fields.function(_get_fiscal_printer, method=True, string='Document date', type='char',
+        'get_fiscal_printer': fields.function(_get_fiscal_printer, method=True, string='Fiscal machine number', type='char',
                             help=""),    
         }
         
