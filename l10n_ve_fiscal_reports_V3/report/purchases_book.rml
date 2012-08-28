@@ -94,14 +94,14 @@
     <paraStyle name="P3" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
     <paraStyle name="P4" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
     <paraStyle name="P5" fontName="Times-Roman" fontSize="7.0" leading="8"/>
-    <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="3.0" leading="4.5" alignment="CENTER"/>
      <paraStyle name="TITULO_AJUSTE" fontName="Times-Roman" fontSize="10.0" alignment="CENTER"/>
-    <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="3.0" leading="4.5" trailing="3" alignment="RIGHT"/>
-    <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="3.0" leading="4.5" alignment="LEFT"/>
+    <paraStyle name="CONTENIDO" fontName="Times-Roman" fontSize="4.5" leading="4.7" alignment="CENTER" topPadding="0.5" bottomPadding="0.7"/>
+    <paraStyle name="CONTENIDOINT" fontName="Times-Roman" fontSize="4.5" leading="5.0" alignment="RIGHT" topPadding="0.5" bottomPadding="0.7"/>
+    <paraStyle name="CONTENIDOLEFT" fontName="Times-Roman" fontSize="4.5" leading="4.7" alignment="LEFT"/>
      <paraStyle name="OBSERVACIONES" fontName="Times-Roman" fontSize="9.0"  alignment="LEFT"/>
      <paraStyle name="HEADERDOC" fontName="Times-Bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
-    <paraStyle name="HEADER" fontName="Helvetica" fontSize="4.0" leading="6" alignment="CENTER"/>
-    <paraStyle name="HEADERLEFT" fontName="Helvetica" fontSize="4.0" leading="6" alignment="LEFT"/>
+    <paraStyle name="HEADER" fontName="Times-Roman" fontSize="4.0" leading="6" alignment="CENTER"/>
+    <paraStyle name="HEADERLEFT" fontName="Times-Roman" fontSize="4.0" leading="6" alignment="LEFT"/>
     <paraStyle name="CONTENIDOLEFT_BOLD" fontName="Times-Bold" fontSize="7.0" leading="6" alignment="LEFT"/>
     <paraStyle name="P7" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER"/>
     <paraStyle name="P8" fontName="Times-Roman" fontSize="7.0" leading="8" alignment="CENTER" textColor="#ffffff"/>
@@ -141,7 +141,7 @@
           <!-- ****************************************-->
 
     <section>
-        <blockTable colWidths="484.0,190.0,190.0" style="ENCANBEZADO_SINCOLUM_2">
+        <blockTable colWidths="517.0,180.0,180.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
             <tr>
                 <td></td>
                 <td vAlign="MIDDLE"><para style="HEADER">IMPORTACIONES</para></td>
@@ -150,11 +150,11 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,130.0,40.0,30.0,36.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,37.0,29.0,124.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,114.0,37.0,29.0,114.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
-            <td><para style="HEADER">Fecha Cont.</para></td>
+            <td><para style="HEADER">Fecha Doc.</para></td>
             <td><para style="HEADER">Fecha Importada</para></td>
             <td><para style="HEADER">T. Doc.</para></td>
             <td><para style="HEADER">RIF</para></td>
@@ -164,7 +164,7 @@
             <td><para style="HEADER">Expediente Importacion</para></td>
             <td><para style="HEADER">Numero de Factura</para></td>
             <td><para style="HEADER">Numero Control</para></td>
-            <td><para style="HEADER">T. Doc.</para></td>
+            <td><para style="HEADER">T. Trans.</para></td>
             <td><para style="HEADER">Nota de Debito Afectada</para></td>
             <td><para style="HEADER">Nota de Credito Afectada</para></td>
             <td><para style="HEADER">Documento Afectado</para></td>
@@ -172,7 +172,7 @@
             <td><para style="HEADER">SDCF</para></td>
             <td>
                 <section>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">Exento</para></td>
                         <td><para style="HEADER">Base Imponible</para></td>
@@ -185,7 +185,7 @@
             <td><para style="HEADER">Total con IVA</para></td>
             <td><para style="HEADER">SDCF</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">Exento</para></td>
                         <td><para style="HEADER">Base Imponible</para></td>
@@ -210,7 +210,7 @@
             <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
             <td><para style="CONTENIDO">[[ wh.get_t_doc ]]</para></td>
             <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
-            <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
+            <td  blockLeftPadding="0.5"><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
             <td><para style="CONTENIDO">-----</para></td>
             <td><para style="CONTENIDO">-----</para></td>
             <td><para style="CONTENIDO">0.00</para></td>
@@ -218,7 +218,7 @@
             <td><para style="CONTENIDO">0.00</para></td>
             <td><para style="CONTENIDO">SDCF</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="CONTENIDO">Exento</para></td>
                         <td><para style="CONTENIDO">0.00</para></td>
@@ -231,7 +231,7 @@
             <td><para style="CONTENIDO">SDCF</para></td>
             <td>
                 <section>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="CONTENIDO">Exento</para></td>
                         <td><para style="CONTENIDO">0.00</para></td>
@@ -250,7 +250,7 @@
    <!-- ************ PURCHASE BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable rowHeights="6.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,130.0,40.0,30.0,36.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,37.0,29.0,124.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable rowHeights="6.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,114.0,37.0,29.0,114.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
@@ -258,13 +258,13 @@
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y',time.strptime(l.get_date_invoiced,'%Y-%m-%d')) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y',time.strptime(l.get_date_imported,'%Y-%m-%d')) ]]</para></td>
             <td><para style="CONTENIDO">[[ l.get_t_doc ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_partner_vat and l.get_partner_vat or 'N/A' ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDOLEFT">[[ l.get_partner_name ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ l.get_partner_vat ]]</para></td>
+            <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ l.get_partner_name ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ get_ret(data['form'], l.id) ]]</para></td>
             <td vAlign="MIDDLE">
                 <section>
-                <para>[[ repeatIn(l.get_import_spreadsheets and l.get_import_spreadsheets or [],'ish')]]</para>
-                    <blockTable colWidths="30">
+                    <blockTable colWidths="25" style="INTERNALTABLE" repeatRows="2">
+                        <para>[[ repeatIn(l.get_import_spreadsheets and l.get_import_spreadsheets or [],'ish')]]</para>
                         <tr>
                             <td vAlign="MIDDLE">
                                 <para style="CONTENIDO">[[ ish.get_reference ]]</para>
@@ -276,7 +276,7 @@
             <td vAlign="MIDDLE">
                 <section>
                 <para>[[ repeatIn(l.get_import_spreadsheets and l.get_import_spreadsheets or [],'ish2')]]</para>
-                    <blockTable colWidths="30">
+                    <blockTable colWidths="25" style="INTERNALTABLE">
                         <tr>
                             <td vAlign="MIDDLE">
                                 <para style="CONTENIDO">[[ ish2.import_spreadsheet_name ]]</para>
@@ -296,7 +296,7 @@
             <td>
                 <section>
                     <para>[[ repeatIn(l.get_taxes and l.get_taxes or [0.0],'s')]]</para>
-                    <blockTable colWidths="29.0,40.0,15.0,35.0" style="INTERNALTABLE">
+                    <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                         <tr>
                             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(l.get_is_imported and l.get_v_exent or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(l.get_is_imported and get_tax_line(s) or 0.0) ]]</para></td>
@@ -311,7 +311,7 @@
             <td>
             <section>
             <para>[[ repeatIn(l.get_taxes and l.get_taxes or [0.0],'t')]]</para>
-                <blockTable colWidths="29.0,40.0,15.0,35.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not l.get_is_imported) and l.get_v_exent or 0.0) ]]</para></td>
                         <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not l.get_is_imported) and get_tax_line(s) or 0.0) ]]</para></td>
@@ -330,7 +330,7 @@
         <!-- ************ TOTALS PURCHASE PARCIALES************-->
     <section>
 
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,130.0,40.0,30.0,36.0,36.0,36.0,15.0,33.0,33.0,33.0,37.0,29.0,124.0,37.0,29.0,124.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,114.0,37.0,29.0,114.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td>
@@ -352,7 +352,7 @@
             <td><para style="HEADER">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','internacional')[0])]]</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'], 'EXENTO', 'internacional')[0]) ]]</para></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[0]+get_amount_untaxed_tax(data['form'],'8','internacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[0]) ]]</para></td>
@@ -364,7 +364,7 @@
             <td><para style="HEADER">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0])]]</para></td>
             <td>
-                <blockTable colWidths="29.0,40.0,15.0,40.0" style="INTERNALTABLE">
+                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'EXENTO','nacional')[0])]]</para></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'8','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]) ]]</para></td>
@@ -395,19 +395,19 @@
         [['.']]
         <blockTable colWidths="70mm,40mm" style="TOTALS_TABLE" repeatRows="2">
             <tr>
-                <td><para style="HEADER">[['RESUMEN RETENCIONES']]</para></td>
+                <td><para style="HEADER">RESUMEN RETENCIONES</para></td>
                 <td><para style="HEADER">RET. DEBITO FISCAL</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">[['RETENCIONES PERIODOS ANTERIORES']]</para></td>
+                <td><para style="CONTENIDOLEFT">RETENCIONES PERIODOS ANTERIORES</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])-get_wh_actual(data['form'])) ]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">[['RETENCIONES DEL PERIODO'</para></td>
+                <td><para style="CONTENIDOLEFT">RETENCIONES DEL PERIODO</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_wh_actual(data['form'])) ]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT_BOLD">[['TOTAL RETENCIONES']]</para></td>
+                <td><para style="CONTENIDOLEFT_BOLD">TOTAL RETENCIONES</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
             </tr>
         </blockTable>

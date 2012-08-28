@@ -116,7 +116,7 @@ class sal_book(report_sxw.rml_parse):
         
     def _get_data(self, form):
         book_type=self._get_book_type(form)
-        res = False
+        res = []
         fr_obj = self.pool.get('account.invoice')
         criteria = [('date_invoice', '<=', form['date_end']), 
                                 ('date_invoice', '>=', form['date_start']),
@@ -134,6 +134,9 @@ class sal_book(report_sxw.rml_parse):
             res = fr_obj.browse(self.cr, self.uid, fr_ids)
             self._invs_ids = fr_ids
             self._data = res
+        else:
+            self._invs_ids = []
+            self._data = []
         return res
         
     def _get_data_wh(self,form):

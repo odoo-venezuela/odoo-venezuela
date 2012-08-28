@@ -81,10 +81,11 @@ class inherited_invoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         for i in ids:
-            ret.update({i:''})
+            ret.update({i:'N/A'})
         if res:
             for r in res:
-                ret.update({r.id : r.partner_id.vat[2:]})
+                if r.partner_id.vat:
+                    ret.update({r.id : r.partner_id.vat[2:]})
         return ret
 
     def _get_name(self,cr,uid,ids,name,args,context=None):
@@ -453,12 +454,15 @@ class inherited_invoice(osv.osv):
         '''
         ret = {}
         for i in ids:
-            ret.update({i:None})
+            ret.update({i:[]})
         for inv in ids:
-            isp_ids = self.search(cr, uid, [('affected_invoice', '=', inv)])
+            isp_ids = self.search(cr, uid, [('affected_invoice', '=', inv),
+                                            ('state', 'in',[ 'done', 'paid', 'open'])])
+#            print isp_ids
             if isp_ids:
-                res = self.browse(cr, uid, ids)
+                res = self.browse(cr, uid, isp_ids)
                 ret.update({inv: res})
+#                print ret
         return ret
                 
     def _get_invoice_printer(self, cr, uid, ids, name, args, context=None):
