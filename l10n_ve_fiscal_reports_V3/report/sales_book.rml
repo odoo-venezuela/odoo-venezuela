@@ -131,7 +131,7 @@
           <para style="HEADERDOC">[[data['form'] and ('Hasta: %s'%formatLang( data['form']['date_end'], date=True)) or '']]</para>
         </td>
         <td>
-          <para style="HEADERDOC" fontName="Times-Roman">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
+          <para style="HEADERDOC" fontName="Times-Roman">Según Articulo 77 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
         </td>
       </tr>
     </blockTable>
