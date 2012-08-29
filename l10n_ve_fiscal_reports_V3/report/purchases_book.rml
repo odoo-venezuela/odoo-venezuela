@@ -267,7 +267,7 @@
                         <para>[[ repeatIn(l.get_import_spreadsheets and l.get_import_spreadsheets or [],'ish')]]</para>
                         <tr>
                             <td vAlign="MIDDLE">
-                                <para style="CONTENIDO">[[ ish.get_reference ]]</para>
+                                <para style="CONTENIDO">[[ ish.get_import_form ]]</para>
                             </td>
                         </tr>
                     </blockTable>

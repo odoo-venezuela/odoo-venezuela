@@ -457,7 +457,8 @@ class inherited_invoice(osv.osv):
             ret.update({i:[]})
         for inv in ids:
             isp_ids = self.search(cr, uid, [('affected_invoice', '=', inv),
-                                            ('state', 'in',[ 'done', 'paid', 'open'])])
+                                            ('state', 'in',[ 'done', 'paid', 'open'])
+                                            ])
 #            print isp_ids
             if isp_ids:
                 res = self.browse(cr, uid, isp_ids)

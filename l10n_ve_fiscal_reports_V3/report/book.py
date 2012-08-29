@@ -129,7 +129,7 @@ class sal_book(report_sxw.rml_parse):
             criteria.append(('type', 'in', ['in_refund', 'in_invoice']))
             
         fr_ids = fr_obj.search(self.cr, self.uid, 
-                               criteria, order='date_invoice,nro_ctrl')
+                               criteria, order='date_invoice,nro_ctrl,number')
         if len(fr_ids)>0:
             res = fr_obj.browse(self.cr, self.uid, fr_ids)
             self._invs_ids = fr_ids
