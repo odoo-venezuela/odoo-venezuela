@@ -78,7 +78,6 @@ We now have a configuration wizard after this module install.
         'wizard/account_invoice_debit_view.xml',
         'wizard/account_invoice_parent_view.xml',
         'wizard/search_info_partner_seniat.xml',
-        'account_invoice_view.xml',
         'view/account_tax_view.xml',
     ],
     'demo_xml': [
