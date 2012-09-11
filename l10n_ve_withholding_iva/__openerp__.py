@@ -58,7 +58,7 @@
         'report/txt_wh_report.xml',
         "workflow/wh_iva_workflow.xml",
         "workflow/account_workflow.xml",        
-        "wizard/l10n_ve_withholding_iva_installer.xml",
+#        "wizard/l10n_ve_withholding_iva_installer.xml",
     ],
     'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
     'test': [],
