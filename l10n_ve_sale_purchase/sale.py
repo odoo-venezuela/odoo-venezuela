@@ -39,20 +39,20 @@ class sale_order_line(osv.osv):
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False),
     }
     
-    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,uom=False, qty_uos=0, uos=False, name='', partner_id=False,lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False):
-        def get_concept():
-            concept_obj = self.pool.get('islr.wh.concept')
-            concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)])
-            return concept_id and concept_id[0] or False
-        res = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,uom, qty_uos, uos, name, partner_id,lang, update_tax, date_order, packaging, fiscal_position, flag)
-        if not product:
-            concept_id = get_concept()
-            if concept_id:
-                res['value']['concept_id']=concept_id
-            return res
-        prod_brw = self.pool.get('product.product').browse(cr, uid, product)
-        res['value']['concept_id'] = prod_brw.concept_id and prod_brw.concept_id.id or get_concept()
-        return res
+#    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,uom=False, qty_uos=0, uos=False, name='', partner_id=False,lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False):
+#        def get_concept():
+#            concept_obj = self.pool.get('islr.wh.concept')
+#            concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)])
+#            return concept_id and concept_id[0] or False
+#        res = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty,uom, qty_uos, uos, name, partner_id,lang, update_tax, date_order, packaging, fiscal_position, flag)
+#        if not product:
+#            concept_id = get_concept()
+#            if concept_id:
+#                res['value']['concept_id']=concept_id
+#            return res
+#        prod_brw = self.pool.get('product.product').browse(cr, uid, product)
+#        res['value']['concept_id'] = prod_brw.concept_id and prod_brw.concept_id.id or get_concept()
+#        return res
 
     #~metodo que agrega al original el concepto en las lineas de retencion de venta, es llamado por action_invoice_create() en sale.order
     def invoice_line_create(self, cr, uid, ids, context={}):
