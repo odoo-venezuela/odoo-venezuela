@@ -30,9 +30,8 @@
     "category": 'Generic Modules/Accounting',
     "description": """Management  local withholding for Venezuelan tax laws
     """,
-    'init_xml': [],
     "depends" : ["l10n_ve_withholding"],
-    'update_xml': [
+    'data': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
         'account_invoice_view.xml',

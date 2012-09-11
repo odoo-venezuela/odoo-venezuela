@@ -16,14 +16,14 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
-                <xpath expr="//separator[@string='rsep']" position="after">
+                <xpath expr="//separator[3]" position="after">
                     <newline/>
                     <group col="6" colspan="4">
                         <field name="wh_local"/>
                         <field name="wh_muni_id"/>
                     </group>
                 </xpath>
-                <xpath expr='//separator[@string="rsep"]' position='attributes'>
+                <xpath expr='//separator[3]' position='attributes'>
                     <attribute name="string">Withholdings Muni</attribute>
                 </xpath>
             </field>
@@ -36,14 +36,14 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
             <field name="arch" type="xml">
-                <xpath expr="//separator[@string='rsep']" position="after">
+                <xpath expr="//separator[3]" position="after">
                     <newline/>
                     <group col="6" colspan="4">
                         <field name="wh_local"/>
                         <field name="wh_muni_id"/>
                     </group>
                 </xpath>
-                <xpath expr='//separator[@string="rsep"]' position='attributes'>
+                <xpath expr='//separator[3]' position='attributes'>
                     <attribute name="string">Withholdings Muni</attribute>
                 </xpath>
             </field>
