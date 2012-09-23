@@ -3,6 +3,13 @@
     <data>
 
         <!--BEGIN ADDRESSES -->
+        <record id="res_partner_address_A" model="res.partner.address">
+            <field name="type">invoice</field>
+            <field name="street">Carretera Panamericana, KM1, Edif 1, piso 3, local C</field>
+            <field name="street2">Urb. Delgado Chalbaud</field>
+            <field name="country_id" ref="base.ve" />
+            <field name="zip">1090</field>
+        </record>
         <record id="res_partner_address_1" model="res.partner.address">
             <field name="type">invoice</field>
             <field name="street">Carretera Panamericana, KM1, Edif 1, piso 3, local C</field>
@@ -75,9 +82,14 @@
         </record>
         <!--END ADDRESSES -->
         <!--BEGIN PARTNERS -->
+        <record id="f_req_partner_A" model="res.partner">
+            <field name="name">Vauxoo, C.A.</field>
+            <field name="vat">VEJ317520882</field>
+            <field name="address" eval="[(4, ref('res_partner_address_A'))]"/>
+        </record>
         <record id="f_req_partner_1" model="res.partner">
             <field name="name">Comercializadora M321, C.A.</field>
-            <field name="vat" eval="'VEJ299868647'" />
+            <field name="vat">VEJ299868647</field>
             <field name="address" eval="[(4, ref('res_partner_address_1'))]"/>
         </record>
         <record id="f_req_partner_2" model="res.partner">
@@ -123,6 +135,11 @@
         <record id="f_req_partner_10" model="res.partner">
             <field name="name">Bárbara Rojas</field>
             <field name="vat">VEV018143205</field>
+            <field name="address" eval="[(4, ref('res_partner_address_10'))]"/>
+        </record>
+        <record id="f_req_partner_10" model="res.partner">
+            <field name="name">Nhomar Hernández</field>
+            <field name="vat">VEV147744443</field>
             <field name="address" eval="[(4, ref('res_partner_address_10'))]"/>
         </record>
         <!--END PARTNERS -->
