@@ -359,7 +359,7 @@ class account_wh_iva(osv.osv):
         res = cr.dictfetchone()
         if res:
             if res['number_next']:
-                return pool_seq._process(res['prefix']) + '%%0%sd' % res['padding'] % res['number_next'] + pool_seq._process(res['suffix'])
+                return pool_seq._next(cr, uid, [res['id']])
             else:
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
