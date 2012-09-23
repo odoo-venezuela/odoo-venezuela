@@ -435,10 +435,11 @@
     <record id="chart_11220" model="account.account.template">
       <field name="code">11220</field>
       <field name="name">Cuentas por cobrar</field>
-      <field name="type">view</field>
+      <field name="type">receivable</field>
       <field eval="False" name="reconcile"/>
       <field name="user_type" ref="account_type_view"/>
       <field name="parent_id" ref="chart_112"/>
+      <field name="note"></field>
     </record>
     <record id="chart_1122010" model="account.account.template">
       <field name="code">1122010</field>
