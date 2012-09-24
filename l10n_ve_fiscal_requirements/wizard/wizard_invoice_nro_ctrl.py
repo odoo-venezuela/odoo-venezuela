@@ -90,9 +90,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         return result
 
     def create_invoice(self, cr, uid, ids, context=None):
+        if context==None:
+            context={}
         wizard_brw = self.browse(cr, uid, ids, context=None)
         wizard_deli_obj = self.pool.get('wz.picking.delivery.note')
-        inv_id = context['active_id']
+        inv_id = context.get('active_id')
         #~ if context['menu']:
             #~ invoice_obj = self.pool.get('account.invoice')
             #~ inv_brw = invoice_obj.browse(cr, uid, invoice_obj.search(cr, uid, [], limit=1), context)

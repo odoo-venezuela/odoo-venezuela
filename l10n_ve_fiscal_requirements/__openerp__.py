@@ -62,7 +62,7 @@ We now have a configuration wizard after this module install.
         'data/l10n_ut_data.xml',
         'data/seniat_url_data.xml',
     ],
-    "depends" : ["base_vat", "account", "account_accountant","account_voucher"],
+    "depends" : ["base_vat", "account", "account_accountant","account_voucher","account_cancel"],
     'update_xml': [
         'installer_view.xml',
         'security/ir.model.access.csv',
