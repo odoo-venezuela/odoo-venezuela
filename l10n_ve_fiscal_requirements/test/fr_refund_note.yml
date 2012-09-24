@@ -63,7 +63,6 @@
     ap_obj = self.pool.get('account.period')
     period = ap_obj.search(cr, uid, [('code', '=', time.strftime('%m/%Y')) ])
     assert period, 'There aren\'t periods for this date'
-    print period[0]
     self.write(cr, uid, [ref("fr_air01")], {'period':period[0]})
     aid_brw = self.browse(cr, uid, ref("fr_air01"))
     assert aid_brw.period, 'Period was not updated for the refund'
@@ -179,7 +178,7 @@
   !python {model: account.invoice.refund}: |
     import time
     ap_obj = self.pool.get('account.period')
-    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')), ('company_id', '=', ref("base.main_company")) ])
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     assert period, 'There aren\'t periods for this date'
     self.write(cr, uid, [ref("fr_air02")], {'period':period[0]})
     aid_brw = self.browse(cr, uid, ref("fr_air02"))
@@ -287,7 +286,7 @@
   !python {model: account.invoice.refund}: |
     import time
     ap_obj = self.pool.get('account.period')
-    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')), ('company_id', '=', ref("base.main_company")) ])
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     assert period, 'There aren\'t periods for this date'
     self.write(cr, uid, [ref("fr_air03")], {'period':period[0]})
     aid_brw = self.browse(cr, uid, ref("fr_air03"))
