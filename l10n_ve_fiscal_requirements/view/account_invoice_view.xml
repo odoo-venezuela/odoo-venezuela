@@ -13,33 +13,49 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="sin_cred" />
-                </xpath>
                 <xpath expr="/form/notebook/page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes">
-                    <field name="parent_id" attrs="{'required':[('type','=','out_refund')]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]" colspan="6"/>
                         <newline/>
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                     </page>
                 </xpath>
-                <xpath expr="//field[@name='payment_term']" position="after">
+                <xpath expr="//field[@name='user_id']" position="after">
                     <group colspan="2" >
+                        <field name="sin_cred" />
+                        <field name="parent_id" 
+                               attrs="{'required':[('type','=','out_refund')]}" 
+                               domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field  name="nro_ctrl" />
-                        <button name="%(action_wiz_nroctrl)d" type='action' string='Change control number' icon="gtk-execute" />
+                        <button name="%(action_wiz_nroctrl)d" 
+                                type='action' 
+                                string='Change control number' 
+                                icon="gtk-execute" />
                     </group>
                 </xpath>
                 <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
-                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund' states='open,paid' icon="gtk-execute"/>
+                    <button name="%(account.action_account_invoice_refund)d" 
+                            type='action' 
+                            string='Refund' 
+                            states='open,paid' 
+                            icon="gtk-execute"/>
                 </xpath>
                 <xpath expr="//field[@name='address_invoice_id']" position="replace">
                     <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund']" position="after">
-                    <button name="%(action_account_invoice_debit)d" type='action' string='Debit Note' icon="gtk-execute" attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
+                    <button name="%(action_account_invoice_debit)d" 
+                            type='action' 
+                            string='Debit Note' 
+                            icon="gtk-execute" 
+                            attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund']" position="after">
-                    <button name="%(action_account_invoice_parent)d" type='action' string='Parent Invoice' states='open,paid' icon="gtk-execute" attrs="{'invisible':[('type','!=','out_refund')]}"/>
+                    <button name="%(action_account_invoice_parent)d" 
+                            type='action' 
+                            string='Parent Invoice' 
+                            states='open,paid' 
+                            icon="gtk-execute" 
+                            attrs="{'invisible':[('type','!=','out_refund')]}"/>
                 </xpath>
             </field>
         </record>
@@ -78,11 +94,16 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="after">
                     <group colspan="2">
-                    <field name="sin_cred" />
-                    <field name="parent_id" attrs="{'required':[('type','=','out_refund')]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
-                    <field   name="nro_ctrl" required="1"/>
-                    <button  name="%(action_wiz_nroctrl)d" type='action' string='Change control number' icon="gtk-execute" />
-                </group>
+                        <field name="sin_cred" />
+                        <field name="parent_id" 
+                               attrs="{'required':[('type','=','out_refund')]}" 
+                               domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
+                        <field   name="nro_ctrl" required="1"/>
+                        <button  name="%(action_wiz_nroctrl)d" 
+                                 type='action' 
+                                 string='Change control number' 
+                                 icon="gtk-execute" />
+                    </group>
                 </xpath>
                 <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
                     <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund' states='open,paid' icon="gtk-execute"/>
@@ -92,18 +113,26 @@
                 </xpath>
                 <xpath expr="/form/notebook/page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes">
-                        <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
+                        <field name="child_ids" 
+                               nolabel="1" 
+                               widget="many2many" 
+                               domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
                     </page>
                 </xpath>
-                <xpath expr="/form/group/group" position="after">
-                    <newline/>
-                    <field name="parent_id" attrs="{'required':[('type','=','in_refund')]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
+                <xpath expr="//button[@string='Refund']" position="after">
+                    <button name="%(action_account_invoice_debit)d" 
+                            type='action' 
+                            string='Debit Note' 
+                            icon="gtk-execute" 
+                            attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund']" position="after">
-                    <button name="%(action_account_invoice_debit)d" type='action' string='Debit Note' icon="gtk-execute" attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
-                </xpath>
-                <xpath expr="//button[@string='Refund']" position="after">
-                    <button name="%(action_account_invoice_parent)d" type='action' string='Parent Invoice' states='open,paid' icon="gtk-execute" attrs="{'invisible':[('type','!=','in_refund')]}"/>
+                    <button name="%(action_account_invoice_parent)d" 
+                            type='action' 
+                            string='Parent Invoice' 
+                            states='open,paid' 
+                            icon="gtk-execute" 
+                            attrs="{'invisible':[('type','!=','in_refund')]}"/>
                 </xpath>
             </field>
         </record>
