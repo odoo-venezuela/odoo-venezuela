@@ -46,7 +46,7 @@ class account_invoice(osv.osv):
         return True
 
 
-    _inherit = 'account.invoice'    
+    _inherit = 'account.invoice'
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Code used for intern invoice control"),
         'sin_cred': fields.boolean('Tax-exempt?', readonly=False, help="Set it true if the invoice is V.A.T. exempt"),

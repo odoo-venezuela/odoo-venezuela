@@ -631,6 +631,15 @@
 		<field name="name">Honorarios Profesionales</field>
 	</record>
 
+	<record id="chart5611" model="account.account.template">
+		<field name="code">5611</field>
+		<field name="reconcile" eval="False"/>
+		<field name="parent_id" ref="chart5000"/>
+		<field name="type">other</field>
+		<field name="user_type" ref="account_type_expense"/>
+		<field name="name">GASTOS DEDUCIBLES</field>
+	</record>
+
 	<record id="chart5615" model="account.account.template">
 		<field name="code">5615</field>
 		<field name="reconcile" eval="False"/>
@@ -748,7 +757,7 @@
 	    <field name="bank_account_view_id" ref="ve_a_cash"/>
 	    <field name="property_account_receivable" ref="chart1210"/>
         <field name="property_account_payable" ref="chart2100"/>
-        <field name="property_account_expense_categ" ref="chart5610"/>
+        <field name="property_account_expense_categ" ref="chart5611"/>
         <field name="property_account_income_categ" ref="ve_a_income"/>
 	</record>
 	
