@@ -131,7 +131,8 @@ account_invoice()
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
-        'tax_id': fields.many2one('account.tax', 'Tax', required=True, ondelete='set null', help="Tax"),
+        'tax_id': fields.many2one('account.tax', 'Tax', required=False, ondelete='set null', 
+        help="Tax relation to original tax, to be able to take off all data from invoices."),
     }
 
     def compute(self, cr, uid, invoice_id, context=None):

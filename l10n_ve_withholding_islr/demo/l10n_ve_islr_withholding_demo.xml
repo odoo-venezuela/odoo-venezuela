@@ -6,27 +6,27 @@
         Minimal Account
         -->
         <record id="a_islr" model="account.account">
-            <field name="code">X2002</field>
+            <field name="code">XX2002</field>
             <field name="name">Servicios de analistas, programadores y soporte</field>
             <field ref="account.rev" name="parent_id"/>
             <field name="type">other</field>
-            <field name="user_type" ref="account.account_type_income"/>
+            <field name="user_type" ref="account.data_account_type_income"/>
         </record>
 
         <record id="islr_rec" model="account.account">
-            <field name="code">X11006</field>
+            <field name="code">XX11006</field>
             <field name="name">Impuestos sobre la Renta por Cobrar(ISLR)</field>
             <field ref="account.cas" name="parent_id"/>
             <field name="type">other</field>
-            <field name="user_type" ref="account.account_type_asset"/>
+            <field name="user_type" ref="account.data_account_type_asset"/>
         </record>
         
         <record id="islr_pay" model="account.account">
-            <field name="code">X1114</field>
+            <field name="code">XX1114</field>
             <field name="name">Impuestos sobre la Renta por Pagar(ISLR)</field>
             <field ref="account.cli" name="parent_id"/>
             <field name="type">other</field>
-            <field name="user_type" ref="account.account_type_liability"/>
+            <field name="user_type" ref="account.data_account_type_liability"/>
         </record>
 
     <!--Concepts -->
@@ -118,12 +118,12 @@
        <!--Sequence-->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
             <field name="name">Retencion de ISLR Compra</field>
-            <field name="code">account.journal</field>
+            <field name="code">account.journal.islr.purchase</field>
         </record>
 
         <record id="seq_wh_islr_purchase_journal" model="ir.sequence">
             <field name="name">Retencion de ISLR Compra</field>
-            <field name="code">account.journal</field>
+            <field name="code">account.journal.islr.purchase</field>
             <field name="prefix">RE:</field>
             <field name="padding">6</field>
             <field name="number_increment">1</field>
@@ -131,12 +131,12 @@
 
         <record id="seq_wh_islr_sale_type" model="ir.sequence.type">
             <field name="name">Retencion de ISLR Venta</field>
-            <field name="code">account.journal</field>
+            <field name="code">account.journal.islr.sale</field>
         </record>
 
         <record id="seq_wh_islr_sale_journal" model="ir.sequence">
             <field name="name">Retencion de ISLR Venta</field>
-            <field name="code">account.journal</field>
+            <field name="code">account.journal.islr.sale</field>
             <field name="prefix">RE:</field>
             <field name="padding">6</field>
             <field name="number_increment">1</field>
@@ -167,7 +167,7 @@
 
         <record id="res_partner_address_0" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-299.09.01&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-268.18.31&quot;&quot;&quot;" name="phone"/>
@@ -177,7 +177,7 @@
         
         <record id="res_partner_address_1" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV CUCHILLITO EDF SAN JUAN PISO 10. GUARENAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-888.09.11&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-999.18.31&quot;&quot;&quot;" name="phone"/>
@@ -187,7 +187,7 @@
         
         <record id="res_partner_address_2" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-555.09.01&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-777.18.31&quot;&quot;&quot;" name="phone"/>
@@ -197,7 +197,7 @@
         
         <record id="res_partner_address_3" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
@@ -263,7 +263,7 @@
 
         <record id="res_partner_address_4" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV LECUNA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-111.09.01&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-111.18.31&quot;&quot;&quot;" name="phone"/>
@@ -273,7 +273,7 @@
         
         <record id="res_partner_address_5" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV SAN JUAN EDF CUCHILLITO PISO 10. PETARES&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-222.09.11&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-222.18.31&quot;&quot;&quot;" name="phone"/>
@@ -283,7 +283,7 @@
         
         <record id="res_partner_address_6" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV CARACAS EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-123.09.01&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-321.18.31&quot;&quot;&quot;" name="phone"/>
@@ -293,7 +293,7 @@
         
         <record id="res_partner_address_7" model="res.partner.address">
             <field eval="&quot;&quot;&quot;AV MARIA QUIEN SABE EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.ve"/>
+            <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-234.19.01&quot;&quot;&quot;" name="fax"/>
             <field eval="&quot;&quot;&quot;0212-432.28.31&quot;&quot;&quot;" name="phone"/>
@@ -365,7 +365,7 @@
         <record id="account_invoice_0" model="account.invoice">
             <field eval="700000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
-            <field name="currency_id" ref="base.VEB"/>
+            <field name="currency_id" ref="base.VEF"/>
             <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_0"/>
             <field name="nro_ctrl">00-786347</field>
             <field eval="0" name="sin_cred"/>
@@ -401,7 +401,7 @@
         <record id="account_invoice_2" model="account.invoice">
             <field eval="1180000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
-            <field name="currency_id" ref="base.VEB"/>
+            <field name="currency_id" ref="base.VEF"/>
             <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_1"/>
             <field name="nro_ctrl">00-65323</field>
             <field eval="0" name="sin_cred"/>
@@ -436,7 +436,7 @@
         <record id="account_invoice_3" model="account.invoice">
             <field eval="2424000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
-            <field name="currency_id" ref="base.VEB"/>
+            <field name="currency_id" ref="base.VEF"/>
             <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_3"/>
             <field name="nro_ctrl">00-0003873298</field>
             <field eval="0" name="sin_cred"/>
@@ -471,7 +471,7 @@
         <record id="account_invoice_4" model="account.invoice">
             <field eval="1568000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
-            <field name="currency_id" ref="base.VEB"/>
+            <field name="currency_id" ref="base.VEF"/>
             <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_2"/>
             <field name="nro_ctrl">00-00084787</field>
             <field eval="0" name="sin_cred"/>
@@ -505,132 +505,132 @@
         
 
 
-		<record id="account_invoice_5" model="account.invoice">
-			<field name="currency_id" ref="base.VEB"/>
+        <record id="account_invoice_5" model="account.invoice">
+            <field name="currency_id" ref="base.VEF"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_6"/>
-			<field name="nro_ctrl">00-562115613156</field>
-			<field eval="0" name="sin_cred"/>
-			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_6"/>
-			<field name="reference_type">none</field>
-			<field name="company_id" ref="base.main_company"/>
-			<field name="state">draft</field>
-			<field name="type">out_invoice</field>
-			<field name="status">no_pro</field>
-			<field name="account_id" ref="account.a_recv"/>
-			<field eval="0" name="reconciled"/>
-			<field eval="6000000.0" name="amount_untaxed"/>
-			<field eval="6000000.0" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
-		</record>
-		<record id="account_invoice_line_domiciliado0" model="account.invoice.line">
-			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
-			<field name="invoice_id" ref="account_invoice_5"/>
-			<field eval="3000000.0" name="price_unit"/>
-			<field eval="6000000.0" name="price_subtotal"/>
-			<field name="company_id" ref="base.main_company"/>
-			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
-			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
-			<field name="name">Factura4 CU.Persona Juridica No Domiciliado</field>
-		</record>
-		<record id="account_invoice_6" model="account.invoice">
-			<field name="currency_id" ref="base.VEB"/>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_6"/>
+            <field name="nro_ctrl">00-562115613156</field>
+            <field eval="0" name="sin_cred"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_6"/>
+            <field name="reference_type">none</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="status">no_pro</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field eval="0" name="reconciled"/>
+            <field eval="6000000.0" name="amount_untaxed"/>
+            <field eval="6000000.0" name="amount_total"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
+        </record>
+        <record id="account_invoice_line_domiciliado0" model="account.invoice.line">
+            <field eval="0" name="apply_wh"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
+            <field name="invoice_id" ref="account_invoice_5"/>
+            <field eval="3000000.0" name="price_unit"/>
+            <field eval="6000000.0" name="price_subtotal"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
+            <field name="name">Factura4 CU.Persona Juridica No Domiciliado</field>
+        </record>
+        <record id="account_invoice_6" model="account.invoice">
+            <field name="currency_id" ref="base.VEF"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_4"/>
-			<field name="nro_ctrl">00-8975452</field>
-			<field eval="0" name="sin_cred"/>
-			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_4"/>
-			<field name="reference_type">none</field>
-			<field name="company_id" ref="base.main_company"/>
-			<field name="state">draft</field>
-			<field name="type">out_invoice</field>
-			<field name="status">no_pro</field>
-			<field name="account_id" ref="account.a_recv"/>
-			<field eval="0" name="reconciled"/>
-			<field eval="1370000.65" name="amount_untaxed"/>
-			<field eval="1370000.65" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
-		</record>
-		<record id="account_invoice_line_factura6" model="account.invoice.line">
-			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
-			<field name="invoice_id" ref="account_invoice_6"/>
-			<field eval="685000.0" name="price_unit"/>
-			<field eval="1370000.65" name="price_subtotal"/>
-			<field name="company_id" ref="base.main_company"/>
-			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
-			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
-			<field name="name">Fact3 CUS. Persona Juridica Domiciliada</field>
-		</record>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_4"/>
+            <field name="nro_ctrl">00-8975452</field>
+            <field eval="0" name="sin_cred"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_4"/>
+            <field name="reference_type">none</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="status">no_pro</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field eval="0" name="reconciled"/>
+            <field eval="1370000.65" name="amount_untaxed"/>
+            <field eval="1370000.65" name="amount_total"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
+        </record>
+        <record id="account_invoice_line_factura6" model="account.invoice.line">
+            <field eval="0" name="apply_wh"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
+            <field name="invoice_id" ref="account_invoice_6"/>
+            <field eval="685000.0" name="price_unit"/>
+            <field eval="1370000.65" name="price_subtotal"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
+            <field name="name">Fact3 CUS. Persona Juridica Domiciliada</field>
+        </record>
               
-		<record id="account_invoice_7" model="account.invoice">
-			<field name="currency_id" ref="base.VEB"/>
+        <record id="account_invoice_7" model="account.invoice">
+            <field name="currency_id" ref="base.VEF"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_7"/>
-			<field name="nro_ctrl">00-545413165</field>
-			<field eval="0" name="sin_cred"/>
-			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_7"/>
-			<field name="reference_type">none</field>
-			<field name="company_id" ref="base.main_company"/>
-			<field name="state">draft</field>
-			<field name="type">out_invoice</field>
-			<field name="status">no_pro</field>
-			<field name="account_id" ref="account.a_recv"/>
-			<field eval="0" name="reconciled"/>
-			<field eval="6000000.0" name="amount_untaxed"/>
-			<field eval="6000000.0" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
-		</record>
-		<record id="account_invoice_line_factura2" model="account.invoice.line">
-			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
-			<field name="invoice_id" ref="account_invoice_7"/>
-			<field eval="3000000.0" name="price_unit"/>
-			<field eval="6000000.0" name="price_subtotal"/>
-			<field name="company_id" ref="base.main_company"/>
-			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
-			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
-			<field name="name">Factura 2 Customer. Persona Natural No Residenciada</field>
-		</record>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_7"/>
+            <field name="nro_ctrl">00-545413165</field>
+            <field eval="0" name="sin_cred"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_7"/>
+            <field name="reference_type">none</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="status">no_pro</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field eval="0" name="reconciled"/>
+            <field eval="6000000.0" name="amount_untaxed"/>
+            <field eval="6000000.0" name="amount_total"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
+        </record>
+        <record id="account_invoice_line_factura2" model="account.invoice.line">
+            <field eval="0" name="apply_wh"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
+            <field name="invoice_id" ref="account_invoice_7"/>
+            <field eval="3000000.0" name="price_unit"/>
+            <field eval="6000000.0" name="price_subtotal"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
+            <field name="name">Factura 2 Customer. Persona Natural No Residenciada</field>
+        </record>
 
-		<record id="account_invoice_8" model="account.invoice">
-			<field name="currency_id" ref="base.VEB"/>
+        <record id="account_invoice_8" model="account.invoice">
+            <field name="currency_id" ref="base.VEF"/>
             <field name="journal_id" ref="account.sales_journal"/>
-			<field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_5"/>
-			<field name="nro_ctrl">00-5642165</field>
-			<field eval="0" name="sin_cred"/>
-			<field name="user_id" ref="base.user_admin"/>
-			<field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_5"/>
-			<field name="reference_type">none</field>
-			<field name="company_id" ref="base.main_company"/>
-			<field name="state">draft</field>
-			<field name="type">out_invoice</field>
-			<field name="status">no_pro</field>
-			<field name="account_id" ref="account.a_recv"/>
-			<field eval="0" name="reconciled"/>
-			<field eval="3999999.4" name="amount_untaxed"/>
-			<field eval="3999999.4" name="amount_total"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
-		</record>
-		<record id="account_invoice_line_factura3" model="account.invoice.line">
-			<field eval="0" name="apply_wh"/>
-			<field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
-			<field name="invoice_id" ref="account_invoice_8"/>
-			<field eval="2000000.0" name="price_unit"/>
-			<field eval="3999999.4" name="price_subtotal"/>
-			<field name="company_id" ref="base.main_company"/>
-			<field eval="2.0" name="quantity"/>
-			<field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
-			<field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
-			<field name="name">Factura 1 Customer. Persona Natural Residenciada</field>
-		</record>
+            <field name="address_invoice_id" ref="l10n_ve_withholding_islr.res_partner_address_5"/>
+            <field name="nro_ctrl">00-5642165</field>
+            <field eval="0" name="sin_cred"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="address_contact_id" ref="l10n_ve_withholding_islr.res_partner_address_5"/>
+            <field name="reference_type">none</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="status">no_pro</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field eval="0" name="reconciled"/>
+            <field eval="3999999.4" name="amount_untaxed"/>
+            <field eval="3999999.4" name="amount_total"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
+        </record>
+        <record id="account_invoice_line_factura3" model="account.invoice.line">
+            <field eval="0" name="apply_wh"/>
+            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
+            <field name="invoice_id" ref="account_invoice_8"/>
+            <field eval="2000000.0" name="price_unit"/>
+            <field eval="3999999.4" name="price_subtotal"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
+            <field name="name">Factura 1 Customer. Persona Natural Residenciada</field>
+        </record>
 
 
 
