@@ -47,14 +47,14 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         tax_obj=self.pool.get('account.invoice.tax')
         invoice={}
         invoice_line ={}
-        
-#~  cancelar asioento en la factura
-#~ debe y haber en 0
-        invoice.update({
-            'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or '') ,
-            'state':'paid',
-            'tax_line':[],
-            })
+        if inv_brw.nro_ctrl:
+            invoice.update({
+                'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or '') ,
+                'state':'paid',
+                'tax_line':[],
+                })
+        else:
+            raise osv.except_osv(_('Validation error!'), _("You can run this process just if the invoice have Control Number, please verify the invoice and try again."))
         invoice_obj.write(cr,uid,[inv_brw.id],invoice,context=context)
         for line in inv_brw.invoice_line:
             invoice_line_obj.write(cr,uid,[line.id],{'quantity':0.0,'invoice_line_tax_id':[],'price_unit':0.0},context=context)
@@ -90,9 +90,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         return result
 
     def create_invoice(self, cr, uid, ids, context=None):
+        if context==None:
+            context={}
         wizard_brw = self.browse(cr, uid, ids, context=None)
         wizard_deli_obj = self.pool.get('wz.picking.delivery.note')
-        inv_id = context['active_id']
+        inv_id = context.get('active_id')
         #~ if context['menu']:
             #~ invoice_obj = self.pool.get('account.invoice')
             #~ inv_brw = invoice_obj.browse(cr, uid, invoice_obj.search(cr, uid, [], limit=1), context)
@@ -102,11 +104,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         #~ inv_brw = inv_brw[0]
         for wizard in wizard_brw:
             if not wizard.sure:
-                raise osv.except_osv(_("Error!"), _("Please confirm that you know what you're doing by checking the option bellow!"))
+                raise osv.except_osv(_("Validation error!"), _("Please confirm that you know what you're doing by checking the option bellow!"))
             if wizard.invoice_id and wizard.invoice_id.company_id.jour_id and wizard.invoice_id and wizard.invoice_id.company_id.acc_id:
                 inv_id = self.action_invoice_create(cr,uid,ids,wizard,wizard.invoice_id,context)
             else:
-                raise osv.except_osv(_('Error!'), _("You must go to the company form and configure a journal and an account for damaged invoices"))
+                raise osv.except_osv(_('Validation error!'), _("You must go to the company form and configure a journal and an account for damaged invoices"))
         return self.new_open_window(cr,uid,ids,[inv_id],'action_invoice_tree1','account')
 
 wizard_invoice_nro_ctrl()
