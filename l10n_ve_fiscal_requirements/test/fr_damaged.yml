@@ -132,6 +132,21 @@
       pass
     finally:
       cr.sql_log = l
+-
+  Create wizard for adding control number
+-  
+  !record {model: wiz.nroctrl, id: wizard_nro_ctrl}:
+    name: '112233'
+    sure: True
+-
+  Execute wizard for control number
+-
+  !python {model: wiz.nroctrl}: |
+    import time
+    ctx={}
+    ctx.update({'lang': u'en_US', 'active_model': 'ir.ui.menu', 'tz': False, 'active_ids': [ref("test_fr04"),], 'active_id': ref("test_fr04")})
+    data_dict = {'name':time.strftime('%m/%Y'), 'sure': True, 'model': 'wh_p'}
+    self.set_noctrl(cr, uid, [ref("wizard_nro_ctrl")], ctx)
 
 -
   I try create a damaged paper again (with good configuration)
