@@ -16,11 +16,10 @@
         price_unit: 20
         name: Fiscal Requirements Sale Invoice
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    partner_id: f_req_partner_2
     reference_type: none
 -
   I check that Initially customer invoice is in the "Draft" state

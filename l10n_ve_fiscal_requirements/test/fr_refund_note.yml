@@ -18,11 +18,10 @@
         price_unit: 20
         name: Fiscal Requirements Sale Invoice
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    partner_id: f_req_partner_2
     reference_type: none
     name: Test refund 1
 -
@@ -104,14 +103,12 @@
     tax1 = []
     whc1 = []
     for line in rf_brw.invoice_line:
-      whc1.append(line.concept_id)
       for tax in line.invoice_line_tax_id:
         tax1.append(tax.id)
     rf_brw = self.browse(cr, uid, ai_id[0])
     tax2 = []
     whc2 = []
     for line in rf_brw.invoice_line:
-      whc2.append(line.concept_id)
       for tax in line.invoice_line_tax_id:
         tax2.append(tax.id)
     tax1 = set(tax1)
@@ -139,11 +136,10 @@
         price_unit: 20
         name: Fiscal Requirements Sale Invoice
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    partner_id: f_req_partner_2
     reference_type: none
 -
   2.1 I check that Initially customer invoice is in the "Draft" state
@@ -213,14 +209,12 @@
     tax1 = []
     whc1 = []
     for line in rf_brw.invoice_line:
-      whc1.append(line.concept_id)
       for tax in line.invoice_line_tax_id:
         tax1.append(tax.id)
     rf_brw = self.browse(cr, uid, ai_id[0])
     tax2 = []
     whc2 = []
     for line in rf_brw.invoice_line:
-      whc2.append(line.concept_id)
       for tax in line.invoice_line_tax_id:
         tax2.append(tax.id)
     tax1 = set(tax1)
@@ -248,11 +242,10 @@
         price_unit: 20
         name: Fiscal Requirements Sale Invoice
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    partner_id: f_req_partner_2
     reference_type: none
     comment: Test FR, this invoice should be cancelled
     name: Test refund 3
@@ -324,14 +317,12 @@
     tax1 = []
     whc1 = []
     for line in rf_brw.invoice_line:
-      whc1.append(line.concept_id)
       for tax in line.invoice_line_tax_id:
         tax1.append(tax.id)
     rf_brw = self.browse(cr, uid, ai_id[0])
     tax2 = []
     whc2 = []
     for line in rf_brw.invoice_line:
-      whc2.append(line.concept_id)
       for tax in line.invoice_line_tax_id:
         tax2.append(tax.id)
     tax1 = set(tax1)

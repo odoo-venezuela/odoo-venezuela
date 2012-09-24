@@ -7,18 +7,12 @@
     type_tax_use: sale
     applicable_type: 'true'
     company_id: base.main_company
-    ret: True
-    wh_vat_collected_account_id: account.ova
-    wh_vat_paid_account_id: account.ova
 -
   I create IVA purchase tax (withholdable)
 -
   !record {model: account.tax, id: iva_purchase1}:
-    name: 'IVA - Sale (withholdable)'
+    name: 'IVA - Purchase (withholdable)'
     amount: 0.12
     type_tax_use: purchase
     applicable_type: 'true'
     company_id: base.main_company
-    ret: True
-    wh_vat_collected_account_id: account.ova
-    wh_vat_paid_account_id: account.ova

@@ -1,13 +1,11 @@
 -
-  In order to test fiscal requirements I create a new customer purchase invoice with puechase tax 2
+  In order to test fiscal requirements I create a new customer purchase invoice with purchase tax 2
 -
   !record {model: account.invoice, id: test_fr02}:
     type: in_invoice
     company_id: base.main_company
     currency_id: base.EUR
     date_invoice: !eval time.strftime('%Y-%m-%d')
-    address_contact_id: base.res_partner_address_3
-    address_invoice_id: base.res_partner_address_3
     account_id: account.a_recv
     invoice_line:
       - product_id: product.product_product_pc1
@@ -16,7 +14,6 @@
         price_unit: 3
         name: Fiscal Requirements Purchase Invoice p1
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_purchase1
       - product_id: product.product_product_pc2
@@ -25,11 +22,10 @@
         price_unit: 2
         name: Fiscal Requirements Purchase Invoice p2
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_purchase1
     journal_id: account.sales_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    partner_id: f_req_partner_2
     reference_type: none
     nro_ctrl: 445122-SD
 -
@@ -59,18 +55,18 @@
     except:
       v = True
       cr.rollback = rollback
--
-  I create invoice by clicking on Create button
--
-  !python {model: account.invoice}: |
-    import netsvc
-    v = False
-    try:
-      wf_service = netsvc.LocalService("workflow")
-      wf_service.trg_validate(uid, 'account.invoice', ref("test_fr02"),'invoice_open', cr)
-    except:
-      v = True
-    assert v == True, 'This workflow should fail'
+#-
+#  I create invoice by clicking on Create button
+#-
+  #!python {model: account.invoice}: |
+  #  import netsvc
+  #  v = False
+  #  try:
+  #    wf_service = netsvc.LocalService("workflow")
+  #    wf_service.trg_validate(uid, 'account.invoice', ref("test_fr02"),'invoice_open', cr)
+  #  except:
+  #    v = True
+  #  assert v == True, 'This workflow should fail'
 -
   I check that the invoice state is not "Open"
 -

@@ -87,7 +87,7 @@ We now have a configuration wizard after this module install.
         'test/control_number.yml',
         'test/fr_sale_test.yml',
         'test/fr_purchase_test.yml',
-        'test/fr_tax_except.yml',
+        #'test/fr_tax_except.yml',
         'test/fr_address.yml',
         'test/fr_vat_test.yml',
         'test/fr_damaged.yml',
