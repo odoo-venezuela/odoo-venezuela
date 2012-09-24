@@ -29,16 +29,16 @@ from tools.translate import _
 from tools import config
 import urllib
 from xml.dom.minidom import parseString
-import netsvc
 import re
+import logging
 
 class seniat_url(osv.osv):
     """
     OpenERP Model : seniat_url
     """
-    logger = netsvc.Logger()
     _name = 'seniat.url'
-    _description = __doc__
+    _description = "Seniat config needed to run auto-config partner"
+    logger = logging.getLogger('res.partner')
     _columns = {
         'name':fields.char('URL Seniat for Partner Information',size=255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the fiscal information from partner'),
         'url_seniat':fields.char('URL Seniat for Retention Rate',size=255, required=True, readonly=False,help='In this field enter the URL from Seniat for search the retention rate from partner (RIF)'),
@@ -55,12 +55,10 @@ class seniat_url(osv.osv):
                 r = s.read()
                 ok = not('404 Not Found' in r)
                 if ok:
-                    self.logger.notifyChannel("info", netsvc.LOG_INFO,
-            "Url Loaded correctly %s" % url)
+                    self.logger.info("Url Loaded correctly %s" % url)
                     return r
             except:
-                self.logger.notifyChannel("warning", netsvc.LOG_WARNING,
-            "Url could not be loaded %s" % str_error)
+                self.logger.warning("Url could not be loaded %s" % str_error)
                 pass
             retries -= 1
         return str_error
@@ -83,8 +81,7 @@ class seniat_url(osv.osv):
         name = dom.childNodes[0].childNodes[0].firstChild.data
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_subjected = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
-        self.logger.notifyChannel("info", netsvc.LOG_INFO,
-            "RIF: %s Found" % rif)
+        self.logger.info("RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
         if context.get('spf_info'):
