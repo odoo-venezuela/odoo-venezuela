@@ -1,0 +1,125 @@
+-
+  In order to test fiscal requirements I create a new customer sale invoice with tax
+-
+  !record {model: account.invoice, id: test_fr04}:
+    type: out_invoice
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: Fiscal Requirements Sale Invoice
+        account_id: account.a_sale
+        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
+        invoice_line_tax_id:
+        - iva_sale1
+    journal_id: account.sales_journal
+    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    reference_type: none
+-
+  I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: test_fr04}:
+    - state == 'draft'
+-
+  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr04}
+-
+  I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: test_fr04}:
+    - state == 'proforma2'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: test_fr04}
+-
+  I check that the invoice state is "Open"
+-
+  !assert {model: account.invoice, id: test_fr04, string: Invoice is not in open state}:
+    - state == 'open'
+-
+  I try create a damaged paper
+-
+  !python {model: wizard.invoice.nro.ctrl}: |
+    inv_obj = self.pool.get("account.invoice")
+    inv_brw = inv_obj.browse(cr, uid, ref("test_fr04"))
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      self.action_invoice_create(cr, uid, [], None, inv_brw)
+      assert False, 'Should not create damaged paper without an account for that'
+    except Exception:
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+-
+  I try create a damaged paper again
+-
+  !python {model: wizard.invoice.nro.ctrl}: |
+    inv_obj = self.pool.get("account.invoice")
+    inv_brw = inv_obj.browse(cr, uid, ref("test_fr04"))
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      self.action_invoice_create(cr, uid, [], None, inv_brw)
+      assert False, 'Should not create damaged paper if account is not configured for allow cancelations'
+    except Exception:
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+-
+  Update journal to allow cancelation
+-
+  !python {model: account.journal}: |
+    self.write(cr, uid, [ref("account.sales_journal")], {'update_posted': True})
+-
+  Verify that the journal was properly updated
+-
+  !assert {model: account.journal, id: account.sales_journal}:
+    - update_posted == True
+-
+  Update company account for damaged paper
+-
+  !python {model: res.company}: |
+    self.write(cr, uid, [ref("base.main_company")], {'acc_id' : ref("account.a_sale")})
+-
+  Verify that the company has proper configuration
+-
+  !assert {model: res.company, id: base.main_company}:
+    - acc_id.id
+-
+  I try create a damaged paper again (with good configuration)
+-
+  !python {model: wizard.invoice.nro.ctrl}: |
+    inv_obj = self.pool.get("account.invoice")
+    inv_brw = inv_obj.browse(cr, uid, ref("test_fr04"))
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      self.action_invoice_create(cr, uid, [], None, inv_brw)
+    except Exception:
+      assert False, 'Should create damaged paper'
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+  

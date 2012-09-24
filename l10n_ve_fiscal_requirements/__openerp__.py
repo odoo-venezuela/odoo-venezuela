@@ -83,7 +83,17 @@ We now have a configuration wizard after this module install.
     'demo_xml': [
         'demo/demo_partners.xml',
     ],
-    'test': [],
+    'test': [
+        'test/control_number.yml',
+        'test/fr_sale_test.yml',
+        'test/fr_purchase_test.yml',
+        'test/fr_tax_except.yml',
+        'test/fr_address.yml',
+        'test/fr_vat_test.yml',
+        'test/fr_damaged.yml',
+        'test/fr_debit_note.yml',
+        'test/fr_refund_note.yml',
+      ],
     'installable': True,
     'active': False,
 }

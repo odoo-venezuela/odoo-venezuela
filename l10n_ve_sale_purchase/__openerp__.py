@@ -42,4 +42,12 @@ Because of that this module was created. This module adds the withholding income
     'demo' : [],
     'active' : False,
     'installable': True,
+    'test': [
+        'test/purchase_order.yml',
+        'test/purchase_picking.yml',
+        'test/purchase_validation.yml',
+        'test/sale_order.yml',
+        'test/sale_validation.yml',
+            ],
+
 }

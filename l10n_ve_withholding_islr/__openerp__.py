@@ -64,6 +64,9 @@ If you want be able to propose withholding concepts from sales and purchases you
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
     ],
+    'test': [
+            'test/islr_purchase.yml',
+        ],
     "active": False,
     "installable": True
 }

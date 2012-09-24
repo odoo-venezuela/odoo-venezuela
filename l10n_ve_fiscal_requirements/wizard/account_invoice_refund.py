@@ -380,7 +380,6 @@ class account_invoice_refund(osv.osv_memory):
             inv= inv_obj.browse(cr,uid,context.get('active_ids'),context=context)[0]
             raise osv.except_osv(_('Error !'), \
                                      _('There are non-valid withholds for the document %s which refund is being processed!' % inv and inv.wh_iva_id.code or "vacio" ))
-                                     
         self.unreconcile_paid_invoices(cr, uid, context.get('active_ids'), context=context)
         data_refund = self.browse(cr, uid, ids, context=context)[0].filter_refund
         return self.compute_refund(cr, uid, ids, data_refund, context=context)

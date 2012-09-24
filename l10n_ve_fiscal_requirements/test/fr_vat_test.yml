@@ -1,0 +1,36 @@
+-
+  Add address
+-
+  !record {model: res.partner.address, id: test_fr_add01}:
+    type: invoice
+    street: Av Siempre Viva
+    phone: "(555) 5555555"
+    fax: "(555) 1111111"
+    email: fakemail@example.com
+-
+  I create a partner with wrong vat
+-
+  !python {model: res.partner}: |
+    import logging
+    part = {
+      'name': 'Partner Test Fiscal Requirements',
+      'supplier': True,
+      'customer': True,
+      'vat': 'VEV333',
+      'address':[(6, 0, [ref("test_fr_add01")])]
+      }
+    part_id = False
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      part_id = self.create(cr, uid, part)
+      print part_id
+    except Exception:
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+    assert not part_id, 'Partner should not be created'

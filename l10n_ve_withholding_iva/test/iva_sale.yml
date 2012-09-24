@@ -1,0 +1,61 @@
+-
+  I create IVA sale tax
+-
+  !record {model: account.tax, id: iva_sale0}:
+    name: 'IVA - Sale'
+    amount: 0.12
+    type_tax_use: sale
+    applicable_type: 'true'
+    company_id: base.main_company
+    ret: False
+-
+  Test if sale tax was properly created
+-
+  !assert {model: account.tax, id: iva_purchase0}:
+    - name
+-
+  I update partner information
+-
+  !record {model: res.partner, id: l10n_ve_withholding_iva.res_partner_administradoramengimca0}:
+    wh_iva_agent: True
+    islr_withholding_agent: True
+    wh_iva_rate: 75
+    vat_subjected: True
+-
+  Test if information was updated properly
+-
+  !assert {model: res.partner, id: l10n_ve_withholding_iva.res_partner_administradoramengimca0}:
+    - wh_iva_agent
+    - wh_iva_rate == 75
+    - vat_subjected
+-
+  I update company information
+-
+  !record {model: res.partner, id: base.main_company}:
+    wh_iva_agent: True
+    wh_iva_rate: 75
+    vat_subjected: True
+-
+  Test if company information was updated properly
+-
+  !assert {model: res.partner, id: base.main_company}:
+    - wh_iva_agent
+    - wh_iva_rate == 75
+    - vat_subjected
+-
+  I create IVA sale tax (withholdable)
+-
+  !record {model: account.tax, id: iva_sale1}:
+    name: 'IVA - Sale (withholdable)'
+    amount: 0.12
+    type_tax_use: sale
+    applicable_type: 'true'
+    company_id: base.main_company
+    ret: True
+    wh_vat_collected_account_id: account.ova
+    wh_vat_paid_account_id: account.ova
+-
+  Test if tax was properly created
+-
+  !assert {model: account.tax, id: iva_sale1}:
+    - name
