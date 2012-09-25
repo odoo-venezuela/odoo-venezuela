@@ -4,4 +4,6 @@
 "access_account_seniat_url_3","seniat.url","model_seniat_url","account.group_account_manager",1,1,1,1
 "access_account_seniat_url_4","seniat.url","model_seniat_url","base.group_erp_manager",1,1,1,1
 "access_account_seniat_url_5","seniat.url","model_seniat_url","base.group_partner_manager",1,0,0,0
+"access_parameter_fiscal_printer_user","parameter.fiscal.printer.user","model_account_invoice","l10n_ve_fiscal_requirements.group_parameters_fiscal_printer_user",1,0,0,0
+"access_parameter_fiscal_printer_manager","parameter.fiscal.printer.manager","model_account_invoice","l10n_ve_fiscal_requirements.group_parameters_fiscal_printer_manager",1,1,1,1
 

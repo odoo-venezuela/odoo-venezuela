@@ -33,9 +33,13 @@
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                     </page>
                 </xpath>
-                <xpath expr="//field[@name='user_id']" position="after">
+                <xpath expr="//separator[@string='Additional Information']" position="before">
+                      
                     <group colspan="2" >
+                     <separator colspan="6" string="Fiscal Information"/>
                         <field name="sin_cred" />
+                        <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                        <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         <field name="parent_id" 
                                attrs="{'required':[('type','=','out_refund')]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
@@ -43,7 +47,8 @@
                         <button name="%(action_wiz_nroctrl)d" 
                                 type='action' 
                                 string='Change control number' 
-                                icon="gtk-execute" />
+                                icon="gtk-execute"
+                                colspan="6" />
                     </group>
                 </xpath>
                 <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
@@ -119,6 +124,7 @@
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <group colspan="2">
+                       <separator colspan="6" string="Fiscal Information"/>
                         <field name="sin_cred" />
                         <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="parent_id" 
@@ -128,7 +134,8 @@
                         <button  name="%(action_wiz_nroctrl)d" 
                                  type='action' 
                                  string='Change control number' 
-                                 icon="gtk-execute" />
+                                 icon="gtk-execute" 
+                                 colspan="6"/>
                     </group>
                 </xpath>
                 <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
