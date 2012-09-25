@@ -29,17 +29,3 @@
 from osv import osv
 from osv import fields
 
-class inherited_invoice(osv.osv):
-    _inherit = "account.invoice"
-    _columns = {
-        'date_document': fields.date("Document Date", 
-                                help="Administrative date", 
-                                        select=True),
-        'date_invoice': fields.date('Fecha Contable', 
-                                    states={'open':[('readonly',True)],
-                                    'close':[('readonly',True)],
-                                    'paid':[('readonly',True)]},
-        help="Keep empty to use the current date\n It represent the date when we did account charge, known as Accounting Date too!"),
-        'expedient':fields.boolean('Expediente?', help="Seleccionar solo si la factura de compra es un expediente de importación"),
-        }
-inherited_invoice()
