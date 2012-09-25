@@ -45,7 +45,7 @@ class account_invoice_line(osv.osv):
         'apply_wh': lambda *a: False,
     }
 
-    def product_id_change(self, cr, uid, ids, product, uom=0, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
+    def product_id_change(self, cr, uid, ids, product, uom=0, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=None):
         '''
         onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
         '''
