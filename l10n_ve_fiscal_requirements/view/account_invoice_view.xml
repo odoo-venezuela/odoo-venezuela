@@ -92,6 +92,11 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
+                  <xpath expr="/form/notebook/page[@string='Invoice']/field[@name='invoice_line']" position="before">
+                    <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                    <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                </xpath>
+                
                 <xpath expr="//field[@name='user_id']" position="after">
                     <group colspan="2">
                         <field name="sin_cred" />
