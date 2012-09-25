@@ -50,7 +50,7 @@ class account_invoice(osv.osv):
                     })
                     # take the id part of the tuple returned for many2one fields
                     for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
-                            'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id'):
+                            'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id','user_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
                     
                     if hasattr(inv,'sale_ids'):
