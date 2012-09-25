@@ -33,9 +33,10 @@
                 <form string="Withholding Lines">
                     <notebook>
                         <page string="Withheld Invoice">
-                            <field name="invoice_id"  colspan="2" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
-                            <field colspan="2" name="name" select="1"/>
-                            <group col="1" colspan="4">
+                            <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+                            <field name="name"/>
+                            <field name="move_id"/>
+                            <group colspan="4">
                                 <field name="tax_line" nolabel="1">
                                     <tree string="Taxes" editable='top'>
                                         <field name="name"/>
@@ -55,16 +56,12 @@
                             </group>
                             <separator colspan='4'/>
                             <field name="wh_iva_rate" colspan='2' invisible='True'/>
-                            <group col="2" colspan="2">
-                                <label
-                                    string='Please, if there are not taxes loaded, Click on Load Taxes'
-                                    colspan='2'
-                                     />
-                                <vpaned/>
-                                <field colspan='2' name="move_id"/>
-                            </group>
-                            <group col="2" colspan="2">
                                 <group col="2" colspan="2">
+                                    <field name="amount_tax_ret"/>
+                                    <field name="base_ret"/>
+                                </group>
+                                <group col="4" colspan="4">
+                                    <separator string="Please, if there are not taxes loaded, Click on Load Taxes" colspan="4"/>
                                     <button
                                         name="load_taxes" 
                                         string="Load Taxes" 
@@ -73,12 +70,6 @@
                                         colspan='2'
                                         />
                                 </group>
-                                <separator/>
-                                <group col="2" colspan="2">
-                                    <field name="amount_tax_ret" colspan='2'/>
-                                    <field name="base_ret" colspan='2' />
-                                </group>
-                            </group>
                         </page>
                     </notebook>
                 </form>

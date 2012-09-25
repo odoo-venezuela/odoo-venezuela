@@ -30,10 +30,13 @@
 -
   I update company information
 -
-  !record {model: res.partner, id: base.main_company}:
-    wh_iva_agent: True
-    wh_iva_rate: 75
-    vat_subjected: True
+  !python {model: res.partner }: |
+    vals = {
+        'wh_iva_agent': True,
+        'wh_iva_rate': 75,
+        'vat_subjected': True
+        }
+    self.write(cr, uid, [ref("base.main_company")], vals)
 -
   Test if company information was updated properly
 -
@@ -42,19 +45,12 @@
     - wh_iva_rate == 75
     - vat_subjected
 -
-  I create IVA tax (withholdable)
+  I update IVA tax (withholdable)
 -
-  !record {model: account.tax, id: iva_purchase1}:
-    name: 'IVA - Purchase (withholdable)'
-    amount: 0.12
-    type_tax_use: purchase
-    applicable_type: 'true'
-    company_id: base.main_company
-    ret: True
-    wh_vat_collected_account_id: account.ova
-    wh_vat_paid_account_id: account.ova
--
-  Test if tax was properly created
--
-  !assert {model: account.tax, id: iva_purchase1}:
-    - name
+  !python {model: account.tax }: |
+    vals = {
+        'ret': True,
+        'wh_vat_collected_account_id': ref("account.ova"),
+        'wh_vat_paid_account_id': ref("account.ova")
+        }
+    self.write(cr, uid, [ref("l10n_ve_fiscal_requirements.iva_purchase1")], vals)
