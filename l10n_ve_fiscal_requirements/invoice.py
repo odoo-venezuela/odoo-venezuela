@@ -54,6 +54,9 @@ class account_invoice(osv.osv):
         'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
         'date_document': fields.date("Document Date", help="Administrative date, generally is the date printed on invoice, this date is used to show in the Purchase Fiscal book", select=True),
         'expedient':fields.boolean('Dossier', help="If it is true, it means this is a landindg form"),
+        'invoice_printer' : fields.char('Fiscal printer invoice number', size=64, required=False,help="Fiscal printer invoice number"),
+        'fiscal_printer' : fields.char('Fiscal printer number', size=64, required=False,help="Fiscal printer number"),
+
     }
 
     _constraints = [

@@ -1,0 +1,92 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#   * l10n_ve_imex
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.4\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-08-22 21:02+0000\n"
+"PO-Revision-Date: 2012-08-22 21:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ve_imex
+#: field:res.company,product_ids:0
+msgid "unknown"
+msgstr "unknown"
+
+#. module: l10n_ve_imex
+#: field:account.invoice,import_spreadsheet:0
+msgid "Import Spreadsheet"
+msgstr "Documento de importación"
+
+#. module: l10n_ve_imex
+#: constraint:account.invoice:0
+msgid "The Document you have been entering for this Partner has already been recorded"
+msgstr "El documento que esta intentando ingresar ya ha sido grabado en el sistema "
+
+#. module: l10n_ve_imex
+#: view:res.company:0
+msgid "Products to Importation"
+msgstr "Productos importados"
+
+#. module: l10n_ve_imex
+#: model:ir.model,name:l10n_ve_imex.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: l10n_ve_imex
+#: constraint:res.company:0
+msgid "Error! You can not create recursive companies."
+msgstr "¡Error! No puede crear compañías recursivas."
+
+#. module: l10n_ve_imex
+#: field:account.invoice,affected_invoice:0
+msgid "Affected Invoice"
+msgstr "Factura relacionada"
+
+#. module: l10n_ve_imex
+#: field:account.invoice,import_spreadsheet_name:0
+msgid "Number"
+msgstr "Número"
+
+#. module: l10n_ve_imex
+#: help:res.company,product_ids:0
+msgid "Product list to use in the importation compute"
+msgstr "Lista de productos que sera usado para el calculo de importación y la generacion del libro de compra y venta"
+
+#. module: l10n_ve_imex
+#: model:ir.model,name:l10n_ve_imex.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_ve_imex
+#: help:account.invoice,import_spreadsheet:0
+msgid "Indicates if this invoice is a document import"
+msgstr "Indica si esta factura es un documento de importación"
+
+#. module: l10n_ve_imex
+#: help:account.invoice,affected_invoice:0
+msgid "Select the invoice affectd by this document"
+msgstr "Seleccione la factura involucrada en este documento"
+
+#. module: l10n_ve_imex
+#: view:account.invoice:0
+msgid "Importation"
+msgstr "Importación"
+
+#. module: l10n_ve_imex
+#: view:res.company:0
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: l10n_ve_imex
+#: help:account.invoice,import_spreadsheet_name:0
+msgid "Import Spreadsheet Number"
+msgstr "Numero del documento de importación"
+

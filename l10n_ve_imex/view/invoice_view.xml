@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record model="ir.ui.view" id="inherited_account_invoice_supplier_form_expedient">
+      <field name="name">account.invoice.inherit.expedient2</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_supplier_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//separator[@string='Additional Information']" position="before">
+          <group colspan="2">
+          <newline/>
+            <separator colspan="6" string="Landing Information"/>
+            <field name="import_spreadsheet" />
+            <newline/>
+            <field name="affected_invoice" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])],'required':[('import_spreadsheet','=',True)]}" />
+            <field name="import_spreadsheet_name" attrs="{'readonly':[('import_spreadsheet','=',False)],'required':[('import_spreadsheet','=',True)]}" />
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</openerp>
