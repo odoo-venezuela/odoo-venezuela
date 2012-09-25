@@ -150,7 +150,7 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,25.0,16.0,35.0,130.0,25.0,40.0,30.0,30.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,25.0,119.0,25.0,119.0,35.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,25.0,16.0,35.0,128.0,31.0,36.0,30.0,30.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,25.0,119.0,25.0,119.0,35.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
@@ -203,7 +203,7 @@
     <!-- ************ WITHHOLDING VAT BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
-        <blockTable colWidths="1.0,18.0,36.0,39.0,155.0,47.0,42.0,38.0,15.0,37.0,187.0,187.0,44.0,60.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,18.0,36.0,39.0,153.0,51.0,40.0,38.0,15.0,37.0,187.0,187.0,44.0,60.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(company.partner_id.lang) ]]
             <td><para style="CONTENIDO"></para></td>
@@ -250,7 +250,7 @@
    <!-- ************ SALE BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable rowHeights="6.0" colWidths="1.0,15.0,25.0,16.0,35.0,130.0,25.0,40.0,30.0,30.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,25.0,119.0,25.0,119.0,35.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable rowHeights="6.0" colWidths="1.0,15.0,25.0,16.0,35.0,128.0,31.0,36.0,30.0,30.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,25.0,119.0,25.0,119.0,35.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
@@ -309,7 +309,7 @@
         <!-- ************ TOTALS SALE PARCIALES************-->
     <section>
 
-        <blockTable colWidths="1.0,15.0,25.0,16.0,35.0,130.0,25.0,40.0,30.0,30.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,25.0,119.0,25.0,119.0,35.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,15.0,25.0,16.0,35.0,128.0,31.0,36.0,30.0,30.0,36.0,36.0,20.0,33.0,33.0,33.0,37.0,25.0,25.0,119.0,25.0,119.0,35.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td>
@@ -469,7 +469,7 @@ get_amount_untaxed_tax(data['form'],'8')[1]
 
      <section>
         <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">
+        <blockTable colWidths="1.0,33.0,37.0,175.0,53.0,34.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">
         <tr>
             <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
             <td></td>
@@ -532,7 +532,7 @@ get_amount_untaxed_tax(data['form'],'8')[1]
 
     <section>
     <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[1] or [],'a')]]</para>
-    <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+    <blockTable colWidths="1.0,33.0,37.0,175.0,53.0,34.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
     <tr>
         <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
         [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
@@ -572,7 +572,7 @@ get_amount_untaxed_tax(data['form'],'8')[1]
 
     <section>
         <para>[[repeatIn( get_data_adjustment( data['form'] )[0],'al')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,33.0,37.0,175.0,53.0,34.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
             <tr>
                 <para>
                 [[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
