@@ -13,6 +13,20 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="replace">
+                    <group colspan="6" cols="2">
+                        <field name="date_invoice"/>
+                        <label align="0.0" 
+                               string="(keep empty to use the current date, this will be date used in accounting and Fiscal moves)"/>
+                    </group>
+                    <newline/>
+                    <group colspan="6" cols="2">
+                        <field name="date_document"/>
+                        <label align="0.0" 
+                               string="(Put here the date when Sale Invoice was delivered to customer)"/>
+                    </group>
+                    <newline/>
+                </xpath>
                 <xpath expr="/form/notebook/page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes">
                         <newline/>
@@ -76,9 +90,6 @@
                 <xpath expr="/tree/field[@name='origin']" position="after">
                     <field name="parent_id"/>
                 </xpath>
-                <xpath expr="/tree/field[@name='name']" position="after">
-                    <field name="reference" />
-                </xpath>
             </field>
         </record>
     <!-- 
@@ -92,14 +103,24 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                  <xpath expr="/form/notebook/page[@string='Invoice']/field[@name='invoice_line']" position="before">
-                    <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
-                    <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                <xpath expr="//field[@name='date_invoice']" position="replace">
+                    <group colspan="6" cols="2">
+                        <field name="date_invoice"/>
+                        <label align="0.0" 
+                               string="(keep empty to use the current date, this will be date used in accounting and Fiscal moves)"/>
+                   </group>
+                    <newline/>
+                    <group colspan="6" cols="2">
+                        <field name="date_document"/>
+                        <label align="0.0" 
+                               string="(Put here the date when Purchase Invoice was generated for the supplier)"/>
+                    </group>
+                   <newline/>
                 </xpath>
-                
                 <xpath expr="//field[@name='user_id']" position="after">
                     <group colspan="2">
                         <field name="sin_cred" />
+                        <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="parent_id" 
                                attrs="{'required':[('type','=','out_refund')]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
@@ -138,23 +159,6 @@
                             states='open,paid' 
                             icon="gtk-execute" 
                             attrs="{'invisible':[('type','!=','in_refund')]}"/>
-                </xpath>
-            </field>
-        </record>
-    <!-- 
-    =====================================================
-    Invoices Extension SEARCH
-    =====================================================
-    -->
-        
-        <record id="account_inv_ext_search_ref" model="ir.ui.view">
-            <field name="name">invoice_ext.search.ref</field>
-            <field name="model">account.invoice</field>
-            <field name="type">search</field>
-            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='number']" position="after">
-                    <field name="reference"/>
                 </xpath>
             </field>
         </record>
