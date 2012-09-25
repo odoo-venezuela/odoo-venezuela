@@ -387,10 +387,12 @@ class account_wh_iva(osv.osv):
 
     def action_move_create(self, cr, uid, ids, context=None):
         inv_obj = self.pool.get('account.invoice')
+        user_obj = self.pool.get('res.users')
+        per_obj = self.pool.get('account.period')
         if context is None: context = {}
         
-        context.update({'vat_wh':True})
-        
+        context.update({'vat_wh':True,
+                        'company_id':user_obj.get_current_company(cr, uid)[0][0]})
         ret = self.browse(cr, uid, ids[0], context)
         for line in ret.wh_lines:
             if line.move_id or line.invoice_id.wh_iva:
@@ -403,13 +405,10 @@ class account_wh_iva(osv.osv):
         period_id = ret.period_id and ret.period_id.id or False
         journal_id = ret.journal_id.id
         if not period_id:
-            per_obj = self.pool.get('account.period')
-            period_id = per_obj.find(cr, uid,ret.date_ret or time.strftime('%Y-%m-%d'))
-            period_id = per_obj.search(cr,uid,[('id','in',period_id),('special','=',False)])
+            period_id = per_obj.find(cr, uid, ret.date_ret or time.strftime('%Y-%m-%d'), context=context)
             if not period_id:
-                raise osv.except_osv(_('Missing Periods!'),\
-                _("There are not Periods created for the pointed day: %s!") %\
-                (ret.date_ret or time.strftime('%Y-%m-%d')))
+                message = _("There are not Periods availables for the pointed day, two options you must verify, 1.- The period is closed, 2.- The period is not created yet for your company")
+                raise osv.except_osv(_('Missing Periods!'), message)
             period_id = period_id[0]
         if period_id:
             if ret.wh_lines:
