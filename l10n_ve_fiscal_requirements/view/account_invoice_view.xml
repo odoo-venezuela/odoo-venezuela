@@ -36,6 +36,8 @@
                 <xpath expr="//field[@name='user_id']" position="after">
                     <group colspan="2" >
                         <field name="sin_cred" />
+                        <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                        <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         <field name="parent_id" 
                                attrs="{'required':[('type','=','out_refund')]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
