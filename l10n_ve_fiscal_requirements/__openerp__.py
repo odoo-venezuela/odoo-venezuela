@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 {
-    "name" : "Fiscal requirements Venezuelan laws",
+    "name" : "Requirements for Venezuela",
     "version" : "0.2",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
@@ -62,9 +62,13 @@ We now have a configuration wizard after this module install.
         'data/l10n_ut_data.xml',
         'data/seniat_url_data.xml',
     ],
-    "depends" : ["base_vat", "account", "account_accountant","account_voucher","account_cancel"],
+    "depends" : ["account", 
+                 "base_vat",
+                 "account_accountant",
+                 "account_voucher",
+                 "account_cancel"],
     'update_xml': [
-        'installer_view.xml',
+        'security/security_view.xml',
         'security/ir.model.access.csv',
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_url_seniat_view.xml',
@@ -73,12 +77,12 @@ We now have a configuration wizard after this module install.
         'wizard/account_invoice_parent_view.xml',
         'wizard/search_info_partner_seniat.xml',
         'wizard/wizard_nro_ctrl_view.xml',
-        'view/account_invoice_view.xml',
         'view/res_company_view.xml',
         'view/l10n_ut_view.xml',
         'view/partner_view.xml',
         'view/account_inv_refund_nctrl_view.xml',
         'view/account_tax_view.xml',
+        'view/account_invoice_view.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
