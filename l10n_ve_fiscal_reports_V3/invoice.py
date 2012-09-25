@@ -109,7 +109,7 @@ class inherited_invoice(osv.osv):
             ret.update({i:''})
         if res:
             for r in res:
-                ret.update({r.id : r.number and r.number or ''})
+                ret.update({r.id : r.number and str(r.number) or ''})
         return ret
 
     def _get_reference(self,cr,uid,ids,name,args,context=None):
@@ -499,9 +499,9 @@ class inherited_invoice(osv.osv):
                             help=""),    
         'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
                             help=""),
-        'get_reference': fields.function(_get_number, method=True, string='Invoice number', type='integer',
+        'get_reference': fields.function(_get_number, method=True, string='Invoice number', type='char',
                             help=""),
-        'get_number': fields.function(_get_control_number, method=True, string='Control number', type='integer',
+        'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
                             help=""),
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
