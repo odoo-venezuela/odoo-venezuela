@@ -87,9 +87,9 @@
   Set control number for the invoice
 -
   !python {model: account.invoice}: |
-    self.write(cr, uid, [ref("test_purchase_iva_nret02")], {'nro_ctrl':'iva002', 'journal_id':ref("account.expenses_journal")})
+    self.write(cr, uid, [ref("test_purchase_iva_nret02")], {'nro_ctrl':'iva003', 'journal_id':ref("account.expenses_journal")})
     ai_brw = self.browse(cr, uid, ref("test_purchase_iva_nret02"))
-    assert ai_brw.nro_ctrl=='iva002' and ai_brw.journal_id.id == ref("account.expenses_journal"), 'Invoice wasn\'t updated properly'
+    assert ai_brw.nro_ctrl=='iva003' and ai_brw.journal_id.id == ref("account.expenses_journal"), 'Invoice wasn\'t updated properly'
 -
   Check if withhold document was not created
 -
