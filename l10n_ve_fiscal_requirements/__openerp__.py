@@ -68,6 +68,7 @@ We now have a configuration wizard after this module install.
                  "account_voucher",
                  "account_cancel"],
     'update_xml': [
+        'security/security_view.xml',
         'security/ir.model.access.csv',
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_url_seniat_view.xml',
