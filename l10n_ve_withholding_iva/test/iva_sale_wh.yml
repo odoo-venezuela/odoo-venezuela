@@ -15,7 +15,6 @@
         price_unit: 10
         name: PC3
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_sale1
       - product_id: product.product_product_pc2
@@ -24,11 +23,10 @@
         price_unit: 20
         name: PC2
         account_id: account.a_sale
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    partner_id: base.res_partner_notsotinysarl0
     reference_type: none
     nro_ctrl: 31010101
 -
@@ -78,20 +76,18 @@
     d = c = 0
     for l in am_brw.line_id:
       if l.account_id.id == ref("account.a_recv"):
-        assert l.account_id.debit != 0, 'Account move is wrong for IVA'
-        d += l.debit
+         d += l.debit
       else:
-        assert l.account_id.credit != 0, 'Account move is wrong for expense'
         c += l.credit
-        if l.tax_amount > 0:
-          assert l.tax_amount == 15.6, 'Tax is wrong'
+      if l.tax_amount > 0:
+         assert l.tax_amount == 15.6, 'Tax is wrong'
     assert c==d, 'Totals must match'
 -
   I generate a withholding vat customer
 -
   !record {model: account.wh.iva, id: wh_iva_sale01}:
-    journal_id: l10n_ve_withholding_iva.iva_sale_journal
-    partner_id: l10n_ve_withholding_iva.res_partner_administradoramengimca0
+    journal_id: wh_sales_journal
+    partner_id: base.res_partner_notsotinysarl0
     number: 111222333
     account_id: account.a_recv
     name: 'IVA wh vat customer'
@@ -112,7 +108,7 @@
   !python {model: account.wh.iva}: |
     import time
     ap_obj=self.pool.get('account.period')
-    period = ap_obj.search(cr, uid, [('name', '=', time.strftime('%m/%Y')) ])
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     assert period, 'There aren\'t periods for this date'
     self.write(cr, uid, ref("wh_iva_sale01"), {'period_id':period[0]})
 -
@@ -125,7 +121,7 @@
 -
   !python {model: account.wh.iva}: |
     wil_obj=self.pool.get('account.wh.iva.line')
-    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("l10n_ve_withholding_iva.res_partner_administradoramengimca0"))
+    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("base.res_partner_notsotinysarl0"))
     ind_id = res['value']['wh_lines'][0]['invoice_id']
     res['value']['wh_lines'][0].update({'retention_id': ref("wh_iva_sale01")})
     wil_id = wil_obj.create(cr, uid, res['value']['wh_lines'][0])
@@ -176,9 +172,7 @@
     d = c = 0
     for l in am_brw.line_id:
       if l.account_id.id == ref("account.ova"):
-        assert l.debit != 0, 'Account move is wrong for IVA'
         c += l.debit
       else:
-        assert l.credit != 0, 'Account move is wrong for expense'
         d += l.credit
     assert c==d, 'Totals must match'
