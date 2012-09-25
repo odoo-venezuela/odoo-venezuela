@@ -49,7 +49,7 @@ TODO:
         'workflow/account_workflow.xml',
     ],
     'demo_xml': [],
-    'test': [],
+    'test': ['test/wh_pay_invoice.yml'],
     'installable': True,
     'active': False,
 }
