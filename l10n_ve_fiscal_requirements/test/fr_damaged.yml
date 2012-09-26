@@ -1,5 +1,7 @@
 -
-  Before creating the invoice let's open the period
+  6. Fiscal requirements damaged paper tests
+-
+  6.1 Before creating the invoice let's open the period
 -
   !python {model: account.period}: |
     import time
@@ -10,7 +12,7 @@
     for ap in inv_brw:
         assert ap.state == 'draft', 'Period couldn\'t be oppened'
 -
-  In order to test fiscal requirements I create a new customer sale invoice with tax
+  6.2 In order to test fiscal requirements I create a new customer sale invoice with tax
 -
   !record {model: account.invoice, id: test_fr04}:
     type: out_invoice
@@ -33,30 +35,30 @@
     partner_id: f_req_partner_2
     reference_type: none
 -
-  I check that Initially customer invoice is in the "Draft" state
+  6.3 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_fr04}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  6.4 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr04}
 -
-  I check that the invoice state is now "Proforma2"
+  6.5 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr04}:
     - state == 'proforma2'
 -
-  I create invoice by clicking on Create button
+  6.6 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_fr04}
 -
-  I check that the invoice state is "Open"
+  6.7 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_fr04, string: Invoice is not in open state}:
     - state == 'open'
 -
-  I try create a damaged paper without correct company configuration
+  6.8 I try create a damaged paper without correct company configuration
 -
   !python {model: wizard.invoice.nro.ctrl}: |
     inv_obj = self.pool.get("account.invoice")
@@ -75,17 +77,17 @@
     finally:
       cr.sql_log = l
 -
-  Update company account for damaged paper
+  6.9 Update company account for damaged paper
 -
   !python {model: res.company}: |
     self.write(cr, uid, [ref("base.main_company")], {'acc_id' : ref("account.a_sale")})
 -
-  Verify that the company has proper configuration
+  6.10 Verify that the company has proper configuration
 -
   !assert {model: res.company, id: base.main_company}:
     - acc_id.id
 -
-  I try create a damaged paper again
+  6.11 I try create a damaged paper again
 -
   !python {model: wizard.invoice.nro.ctrl}: |
     inv_obj = self.pool.get("account.invoice")
@@ -104,17 +106,17 @@
     finally:
       cr.sql_log = l
 -
-  Update journal to allow cancelation
+  6.12 Update journal to allow cancelation
 -
   !python {model: account.journal}: |
     self.write(cr, uid, [ref("account.sales_journal")], {'update_posted': True})
 -
-  Verify that the journal was properly updated
+  6.13 Verify that the journal was properly updated
 -
   !assert {model: account.journal, id: account.sales_journal}:
     - update_posted == True
 -
-  I try create a damaged paper again (without control number)
+  6.14 I try create a damaged paper again (without control number)
 -
   !python {model: wizard.invoice.nro.ctrl}: |
     inv_obj = self.pool.get("account.invoice")
@@ -133,13 +135,13 @@
     finally:
       cr.sql_log = l
 -
-  Create wizard for adding control number
+  6.15 Create wizard for adding control number
 -  
   !record {model: wiz.nroctrl, id: wizard_nro_ctrl}:
     name: '112233'
     sure: True
 -
-  Execute wizard for control number
+  6.16 Execute wizard for control number
 -
   !python {model: wiz.nroctrl}: |
     import time
@@ -149,7 +151,7 @@
     self.set_noctrl(cr, uid, [ref("wizard_nro_ctrl")], ctx)
 
 -
-  I try create a damaged paper again (with good configuration)
+  6.17 I try create a damaged paper again (with good configuration)
 -
   !python {model: wizard.invoice.nro.ctrl}: |
     inv_obj = self.pool.get("account.invoice")
