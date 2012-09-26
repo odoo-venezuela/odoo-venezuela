@@ -1,5 +1,7 @@
 -
-  Before creating the invoice let's open the period
+  1. Control number tests
+-
+  1.1 Before creating the invoice let's open the period
 -
   !python {model: account.period}: |
     import time
@@ -10,7 +12,7 @@
     for ap in inv_brw:
         assert ap.state == 'draft', 'Period couldn\'t be oppened'
 -
-  I create IVA sale tax (withholdable)
+  1.2 I create IVA sale tax (withholdable)
 -
   !record {model: account.tax, id: iva_sale1}:
     name: 'IVA - Sale (withholdable)'
@@ -19,7 +21,7 @@
     applicable_type: 'true'
     company_id: base.main_company
 -
-  I create IVA purchase tax (withholdable)
+  1.3 I create IVA purchase tax (withholdable)
 -
   !record {model: account.tax, id: iva_purchase1}:
     name: 'IVA - Purchase (withholdable)'

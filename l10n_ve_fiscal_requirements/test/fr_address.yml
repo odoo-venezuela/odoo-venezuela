@@ -1,5 +1,7 @@
 -
-  In order to test fiscal requirements I create a new customer sale invoice without invoice address
+  4. Fiscal requirements address tests
+-
+  4.1 In order to test fiscal requirements I create a new customer sale invoice without invoice address
 -
   !python {model: account.invoice}: |
     import time, logging
@@ -28,7 +30,7 @@
       cr.sql_log = l
     assert not inv_id, 'Invoice shuld not be created'
 -
-  I create a partner
+  4.2 I create a partner
 -
   !python {model: res.partner}: |
     import logging

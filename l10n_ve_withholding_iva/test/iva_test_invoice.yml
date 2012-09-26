@@ -1,5 +1,7 @@
 -
-  In order to test account invoice I create a new customer sale invoice with puechase tax
+  8. Test iva sale
+-
+  8.1 In order to test account invoice I create a new customer sale invoice with puechase tax
 -
   !record {model: account.invoice, id: test_iva01}:
     company_id: base.main_company
@@ -30,37 +32,37 @@
     reference_type: none
     nro_ctrl: 56778211
 -
-  I check that Initially customer invoice is in the "Draft" state
+  8.2 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_iva01}:
     - state == 'draft'
 -
-  I click on Calculate taxes button
+  8.3 I click on Calculate taxes button
 -
   !python {model: account.invoice}: |
     acc_brw=self.browse(cr, uid, ref("test_iva01"))
     self.button_reset_taxes(cr, uid, [ref("test_iva01")])
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  8.4 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_iva01}
 -
-  I check that the invoice state is now "Proforma2"
+  8.5 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_iva01}:
     - state == 'proforma2'
 -
-  I check that there is no move attached to the invoice
+  8.6 I check that there is no move attached to the invoice
 -
   !python {model: account.invoice}: |
     acc_id=self.browse(cr, uid, ref("test_iva01"))
     assert (not acc_id.move_id), "Move falsely created at pro-forma"
 -
-  I create invoice by clicking on Create button
+  8.7 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_iva01}
 -
-  I check that the invoice state is "Open"
+  8.8 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_sale_iva_ret01, string: Sale invoice has purchase tax, cannot be in open state}:
     - state != 'open'

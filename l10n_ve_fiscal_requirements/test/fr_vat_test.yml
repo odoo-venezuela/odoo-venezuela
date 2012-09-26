@@ -1,5 +1,7 @@
 -
-  Add address
+  5. Fiscal requirements Vat tests
+-
+  5.1 Add address
 -
   !record {model: res.partner.address, id: test_fr_add01}:
     type: invoice
@@ -8,7 +10,7 @@
     fax: "(555) 1111111"
     email: fakemail@example.com
 -
-  I create a partner with wrong vat
+  5.2 I create a partner with wrong vat
 -
   !python {model: res.partner}: |
     import logging

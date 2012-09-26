@@ -1,5 +1,7 @@
 -
-  I create IVA sale tax
+  6. Iva tests sale wh
+-
+  6.1 I create IVA sale tax
 -
   !record {model: account.tax, id: iva_sale0}:
     name: 'IVA - Sale'
@@ -9,12 +11,12 @@
     company_id: base.main_company
     ret: False
 -
-  Test if sale tax was properly created
+  6.2 Test if sale tax was properly created
 -
   !assert {model: account.tax, id: iva_purchase0}:
     - name
 -
-  I update partner information
+  6.3 I update partner information
 -
   !python {model: res.partner}: |
     vals = {
@@ -24,14 +26,14 @@
         }
     self.write(cr, uid, ref('base.res_partner_notsotinysarl0'), vals)
 -
-  Test if information was updated properly
+  6.4 Test if information was updated properly
 -
   !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
     - wh_iva_agent
     - wh_iva_rate == 75
     - vat_subjected
 -
-  I update company information
+  6.5 I update company information
 -
   !python {model: res.partner}: |
     vals = {
@@ -41,17 +43,14 @@
         }
     self.write(cr, uid, ref('base.main_company'), vals )
 -
-  Test if company information was updated properly
+  6.6 Test if company information was updated properly
 -
   !assert {model: res.partner, id: base.main_company}:
     - wh_iva_agent
     - wh_iva_rate == 75
     - vat_subjected
 -
-  I create IVA sale tax (withholdable)
--
--
-  I create IVA sale tax (withholdable)
+  6.7 I create IVA sale tax (withholdable)
 -
   !record {model: account.tax, id: iva_sale1}:
     name: 'IVA - Sale (withholdable) 1'
@@ -63,7 +62,7 @@
     wh_vat_collected_account_id: account.ova
     wh_vat_paid_account_id: account.ova
 -
-  Test if tax was properly created
+  6.8 Test if tax was properly created
 -
   !assert {model: account.tax, id: iva_sale1}:
     - name
