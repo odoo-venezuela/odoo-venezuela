@@ -1,5 +1,7 @@
 -
-  I click on the Debit Note button
+  7. Fiscal requirements debit note tests
+-
+  7.1 I click on the Debit Note button
 -
   !record {model: account.invoice.debit, id: fr_aid01}:
     description: Test debit note
@@ -7,14 +9,14 @@
     journal_id: account.sales_journal
     comment: Debit note for unit test
 -
-  I click on the Debit Note button from the wizard
+  7.2 I click on the Debit Note button from the wizard
 -
   !python {model: account.invoice.debit}: |
     self.invoice_debit(cr, uid, [ref("fr_aid01")], {"lang": "en_US", "active_model":
       "account.invoice", "active_ids": [ref("test_fr04")], "tz": False, "active_id": ref("test_fr04"),
       })
 -
-  Test if debit note was properly created
+  7.3 Test if debit note was properly created
 -
   !python {model: account.invoice}: |
     ai_id = self.search(cr, uid, [('parent_id', '=', ref("test_fr04")), ('type', '=', 'out_invoice')])

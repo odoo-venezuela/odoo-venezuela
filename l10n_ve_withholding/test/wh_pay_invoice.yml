@@ -1,5 +1,7 @@
 -
-  I will create and post an account voucher for testing wh module
+  1. Tests for wh pay invoice
+-
+  1.1 I will create and post an account voucher for testing wh module
 -
   !python {model: account.voucher}: |
     import netsvc
@@ -34,7 +36,7 @@
     wf_service.trg_validate(uid, 'account.voucher', voucher_id.id, 'proforma_voucher', cr)
 
 -
-  I check that the invoice state is "Open"
+  1.2 I check that the invoice state is "Open"
 -
   !python {model: account.voucher}: |
     inv_obj = self.pool.get("account.invoice")

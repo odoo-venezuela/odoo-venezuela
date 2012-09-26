@@ -1,5 +1,7 @@
 -
-  In order to test fiscal requirements I create a new customer sale invoice with tax
+  2. Fiscal requirements sale tests
+-
+  2.1 In order to test fiscal requirements I create a new customer sale invoice with tax
 -
   !record {model: account.invoice, id: test_fr01}:
     type: out_invoice
@@ -22,25 +24,25 @@
     partner_id: f_req_partner_2
     reference_type: none
 -
-  I check that Initially customer invoice is in the "Draft" state
+  2.2 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_fr01}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  2.3 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr01}
 -
-  I check that the invoice state is now "Proforma2"
+  2.4 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr01}:
     - state == 'proforma2'
 -
-  I create invoice by clicking on Create button
+  2.5 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_fr01}
 -
-  I check that the invoice state is "Open"
+  2.6 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_fr01, string: Invoice is not in open state}:
     - state == 'open'

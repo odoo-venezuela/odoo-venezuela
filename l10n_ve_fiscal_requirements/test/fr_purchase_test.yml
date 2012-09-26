@@ -1,5 +1,7 @@
 -
-  In order to test fiscal requirements I create a new customer purchase invoice with purchase tax 2
+  3. Fiscal requirements purchase tests
+-
+  3.1 In order to test fiscal requirements I create a new customer purchase invoice with purchase tax 2
 -
   !record {model: account.invoice, id: test_fr02}:
     type: in_invoice
@@ -29,21 +31,21 @@
     reference_type: none
     nro_ctrl: 445122-SD
 -
-  I check that Initially customer invoice is in the "Draft" state
+  3.2 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_fr02}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  3.3 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr02}
 -
-  I check that the invoice state is now "Proforma2"
+  3.4 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr02}:
     - state == 'proforma2'
 -
-  Click on reset taxes button
+  3.5 Click on reset taxes button
 -
   !python {model: account.invoice}: |
     v = False
@@ -68,7 +70,7 @@
   #    v = True
   #  assert v == True, 'This workflow should fail'
 -
-  I check that the invoice state is not "Open"
+  3.6 I check that the invoice state is not "Open"
 -
   !assert {model: account.invoice, id: test_fr02, string: Invoice is not in open state}:
     - state != 'open'

@@ -1,12 +1,14 @@
 -
-  I update partner information
+  10. Test not withholdeable iva
+-
+  10.1 I update partner information
 -
   !record {model: res.partner, id: base.res_partner_agrolait}:
     wh_iva_agent: True
     wh_iva_rate: 75
     vat_subjected: True
 -
-  I generate a withholding vat customer
+  10.2 I generate a withholding vat customer
 -
   !record {model: account.wh.iva, id: wh_iva_test02}:
     journal_id: wh_sales_journal
@@ -16,25 +18,25 @@
     name: 'IVA wh vat customer Agrolait test 2'
     type: out_invoice
 -
-  I check withholding vat customer
+  10.3 I check withholding vat customer
 -
   !assert {model: account.wh.iva, id: wh_iva_test02, string: Wh was not saved}:
     - state == 'draft'
 -
-  I confirm the withholding vat customer
+  10.4 I confirm the withholding vat customer
 -
   !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_test02}
 -
-  I check withholding vat is not confirmed
+  10.5 I check withholding vat is not confirmed
 -
   !assert {model: account.wh.iva, id: wh_iva_test02, string: Could not confirm the wh}:
     - state != 'confirmed'
 -
-  I try to mark it as done
+  10.6 I try to mark it as done
 -
   !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_test01}
 -
-  I check withholding vat is not done
+  10.7 I check withholding vat is not done
 -
   !assert {model: account.wh.iva, id: wh_iva_test01, string: Wh cannot be in done state}:
     - state != 'done'
