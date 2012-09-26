@@ -3,7 +3,7 @@
     <data noupdate='1'>
 <!-- Minimal Accounts for demo -->
         <record id="iva_rec" model="account.account">
-            <field name="code">X11007</field>
+            <field name="code">X11010</field>
             <field name="name">IVA retenido por Clientes</field>
             <field ref="account.cas" name="parent_id"/>
             <field name="type">other</field>
