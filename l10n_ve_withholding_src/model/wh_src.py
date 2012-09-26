@@ -77,8 +77,7 @@ class account_wh_src(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'wh_amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
-        'move_id':fields.many2one('account.move', 'Account Entry'),
-
+     
 
     } 
     
