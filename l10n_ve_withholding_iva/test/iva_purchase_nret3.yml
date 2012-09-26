@@ -1,5 +1,7 @@
 -
-  I update company information
+  5. Iva tests purchase wh, wh should not be validated (test fails conditions)
+-
+  5.1 I update company information
 -
   !python {model: res.partner}: |
     vals = {
@@ -9,14 +11,14 @@
         }
     self.write(cr, uid, ref("base.main_company"), vals)
 -
-  Check conditions for creating the document, first main company configuration
+  5.2 Check conditions for creating the document, first main company configuration
 -
   !assert {model: res.partner, id: base.main_company}:
     - wh_iva_agent
     - wh_iva_rate
     - vat_subjected 
 -
-  I update partner information
+  5.3 I update partner information
 -
   !python {model: res.partner}: |
     vals = {
@@ -26,14 +28,14 @@
         }
     self.write(cr, uid, ref("base.res_partner_notsotinysarl0"), vals)
 -
-  Check partner configuration
+  5.4 Check partner configuration
 -
   !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
     - not wh_iva_agent
     - wh_iva_rate == 0
     - not vat_subjected
 -
-  Check IVA configuration
+  5.5 Check IVA configuration
 -
   !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase1}:
     - amount
@@ -42,7 +44,7 @@
     - wh_vat_collected_account_id
     - wh_vat_paid_account_id
 -
-  I create a purchase invoice
+  5.6 I create a purchase invoice
 -
   !record {model: account.invoice, id: test_purchase_iva_nret03}:
     type: out_invoice
@@ -70,37 +72,37 @@
         invoice_line_tax_id:
         - l10n_ve_fiscal_requirements.iva_purchase1
 -
-  I check that Initially customer invoice is in the "Draft" state
+  5.7 I check that Initially customer invoice is in the "Draft" state
 -
   !assert {model: account.invoice, id: test_purchase_iva_nret03}:
     - state == 'draft'
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  5.8 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_purchase_iva_nret03}
 -
-  I check that the invoice state is now "Proforma2"
+  5.9 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_purchase_iva_nret03}:
     - state == 'proforma2'
 -
-  I create invoice by clicking on Create button
+  5.10 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_purchase_iva_nret03}
 -
-  I check that the invoice state is "Open"
+  5.11 I check that the invoice state is "Open"
 -
   !assert {model: account.invoice, id: test_purchase_iva_nret03, string: Invoice is not in open state}:
     - state == 'open'
 -
-  Set control number for the invoice
+  5.12 Set control number for the invoice
 -
   !python {model: account.invoice}: |
     self.write(cr, uid, [ref("test_purchase_iva_nret03")], {'nro_ctrl':'iva004', 'journal_id':ref("account.expenses_journal")})
     ai_brw = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
     assert ai_brw.nro_ctrl=='iva004' and ai_brw.journal_id.id == ref("account.expenses_journal"), 'Invoice wasn\'t updated properly'
 -
-  Check if withhold document was not created
+  5.13 Check if withhold document was not created
 -
   !python {model: account.invoice}: |
     po = self.browse(cr, uid, ref("test_purchase_iva_nret03"))
