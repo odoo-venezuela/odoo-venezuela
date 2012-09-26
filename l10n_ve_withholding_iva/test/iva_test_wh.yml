@@ -48,7 +48,7 @@
 -
   !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_test01}
 -
-  I check withholding vat is confirmed
+  I check withholding vat is not done
 -
   !assert {model: account.wh.iva, id: wh_iva_test01, string: Wh cannot be in done state}:
-    - state == 'done'
+    - state != 'done'
