@@ -4,8 +4,7 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    author.name@company.com
-#
+#    This module is developed by Vauxoo
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -29,11 +28,11 @@ class search_info_partner_seniat(osv.osv_memory):
     
     _name = "search.info.partner.seniat"
     _columns = {
-        'vat':fields.char('Numero de RIF, Cedula o Pasaporte', size=64, help='El RIF debe poseer el formato J1234567890, la cedula 12345678 y el Pasaporte D123456789',required=True),
-        'name':fields.char('Empresa / Persona', size=256, help='Nombre de la Empresa'),
-        'wh_iva_agent':fields.boolean('Agente de Retencion', help='Es Agente de Retencion'),
-        'wh_iva_rate':fields.float('Porcentaje de Retencion', help='Porcentaje de Retencion Aplicable'),
-        'vat_subjected':fields.boolean('Contribuyente Formal', help='Es Contribuyente'),
+        'vat':fields.char('ID Number (Cedula, Passport, VAT Number)', size=64, help='The VAT number must be in this format J1234567890, if you are looking for a cedula 12345678 and passport D123456789',required=True),
+        'name':fields.char('Partner', size=256, help='Partner name'),
+        'wh_iva_agent':fields.boolean('Withholding Agent', help='It is withholding agent'),
+        'wh_iva_rate':fields.float('Percent of withholding', help='What is the percentil of withholding that you must to apply to this supplier if you are withholding agent'),
+        'vat_subjected':fields.boolean('Pay VAY', help='Pay VAT, in spanish known as : Contribuyente formal'),
     }
 
     def search_partner_seniat(self, cr, uid, vat, context=None):
