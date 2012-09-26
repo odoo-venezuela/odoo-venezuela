@@ -167,7 +167,7 @@ class account_invoice(osv.osv):
             
             ret_line.append(self.wh_iva_line_create(cr, uid, inv))
             ret_iva = {
-                'name':wh_iva_obj.wh_iva_seq_get(cr, uid),
+                'name':_('ORIGIN %s'%(inv.number)),
                 'type': wh_type,
                 'account_id': acc_id,
                 'partner_id': inv.partner_id.id,
