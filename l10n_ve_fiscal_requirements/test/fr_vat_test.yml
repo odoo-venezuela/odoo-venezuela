@@ -10,7 +10,7 @@
     fax: "(555) 1111111"
     email: fakemail@example.com
 -
-  5.2 I create a partner with wrong vat
+  5.2 I try to create a partner with wrong vat
 -
   !python {model: res.partner}: |
     import logging
@@ -29,6 +29,71 @@
       cr.sql_log = logger.isEnabledFor(logging.OFF)
       part_id = self.create(cr, uid, part)
       print part_id
+    except Exception:
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+    assert not part_id, 'Partner should not be created'
+-
+  5.3 I create a partner
+-
+  !python {model: res.partner}: |
+    #~ import logging
+    part = {
+      'name': 'Partner Unique Test Fiscal Requirements',
+      'supplier': True,
+      'customer': True,
+      'vat': 'VEJ112223330',
+      'address': [(6, 0, [ref("test_fr_add01")])],
+      }
+    part_id = self.create(cr, uid, part)
+    assert part_id, 'Partner should be created'
+-
+  5.3 I create a partner with the same vat and different name than 5.2 previous and this sould fail
+-
+  !python {model: res.partner}: |
+    import logging
+    part = {
+      'name': 'Partner Duplicate Vat',
+      'supplier': True,
+      'customer': True,
+      'vat': 'VEJ112223330',
+      'address': [(6, 0, [ref("test_fr_add01")])],
+      }
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      part_id = self.create(cr, uid, part)
+    except Exception:
+      part_id = False
+      cr.rollback = rollback
+      pass
+    finally:
+      cr.sql_log = l
+    assert not part_id, 'Partner should not be created'
+
+-
+  5.4 I create a partner with the same name and different than 5.2 previous and this sould fail
+-
+  !python {model: res.partner}: |
+    import logging
+    part = {
+      'name': 'Partner Unique Test Fiscal Requirements',
+      'supplier': True,
+      'customer': True,
+      'vat': 'VEJ223334445',
+      'address': [(6, 0, [ref("test_fr_add01")])],
+      }
+    try:
+      rollback = cr.rollback
+      cr.rollback = lambda x = None: None
+      l = cr.sql_log
+      cr.sql_log = logger.isEnabledFor(logging.OFF)
+      part_id = self.create(cr, uid, part)
     except Exception:
       part_id = False
       cr.rollback = rollback
