@@ -124,24 +124,6 @@ class account_invoice(osv.osv):
         return ok
 
 
-    def ret_payment_get(self, cr, uid, ids, *args):
-        for invoice in self.browse(cr, uid, ids):
-            moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
-            src = []
-            lines = []
-            for m in self.pool.get('account.move.line').browse(cr, uid, moves):
-                temp_lines = []#Added temp list to avoid duplicate records
-                if m.reconcile_id:
-                    temp_lines = map(lambda x: x.id, m.reconcile_id.line_id)
-                elif m.reconcile_partial_id:
-                    temp_lines = map(lambda x: x.id, m.reconcile_partial_id.line_partial_ids)
-                lines += [x for x in temp_lines if x not in lines]
-                src.append(m.id)
-                
-            lines = filter(lambda x: x not in src, lines)
-
-        return lines
-
     def wh_iva_line_create(self, cr, uid, inv):
         wh_iva_rate = inv.type in ('in_invoice', 'in_refund') and inv.partner_id.wh_iva_rate or inv.type in ('out_invoice', 'out_refund') and inv.company_id.partner_id.wh_iva_rate
         return (0, False, {
@@ -185,7 +167,7 @@ class account_invoice(osv.osv):
             
             ret_line.append(self.wh_iva_line_create(cr, uid, inv))
             ret_iva = {
-                'name':wh_iva_obj.wh_iva_seq_get(cr, uid),
+                'name':_('ORIGIN %s'%(inv.number)),
                 'type': wh_type,
                 'account_id': acc_id,
                 'partner_id': inv.partner_id.id,

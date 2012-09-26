@@ -1,0 +1,58 @@
+-
+  1. Iva ourchase test
+-
+  1.1 I create IVA tax
+-
+  !record {model: account.tax, id: iva_purchase0}:
+    name: 'IVA - Purchase'
+    amount: 0.12
+    type_tax_use: purchase
+    applicable_type: 'true'
+    company_id: base.main_company
+    ret: False
+-
+  1.2 Test if tax was properly created
+-
+  !assert {model: account.tax, id: iva_purchase0}:
+    - name
+-
+  1.3 I update partner information
+-
+  !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
+    wh_iva_agent: True
+    wh_iva_rate: 75
+    vat_subjected: True
+-
+  1.4 Test if information was updated properly
+-
+  !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
+    - wh_iva_agent
+    - wh_iva_rate == 75
+    - vat_subjected
+-
+  1.5 I update company information
+-
+  !python {model: res.partner }: |
+    vals = {
+        'wh_iva_agent': True,
+        'wh_iva_rate': 75,
+        'vat_subjected': True
+        }
+    self.write(cr, uid, [ref("base.main_company")], vals)
+-
+  1.6 Test if company information was updated properly
+-
+  !assert {model: res.partner, id: base.main_company}:
+    - wh_iva_agent
+    - wh_iva_rate == 75
+    - vat_subjected
+-
+  1.7 I update IVA tax (withholdable)
+-
+  !python {model: account.tax }: |
+    vals = {
+        'ret': True,
+        'wh_vat_collected_account_id': ref("account.ova"),
+        'wh_vat_paid_account_id': ref("account.ova")
+        }
+    self.write(cr, uid, [ref("l10n_ve_fiscal_requirements.iva_purchase1")], vals)

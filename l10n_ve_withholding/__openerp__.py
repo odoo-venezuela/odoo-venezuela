@@ -39,7 +39,7 @@ TODO:
 - 
     """,
     'init_xml': [],
-    "depends" : ["l10n_ve_fiscal_requirements", "account", "account_accountant","account_voucher"],
+    "depends" : ["l10n_ve_fiscal_requirements"],
     'update_xml': [
         'security/withholding_security.xml',
         'security/ir.model.access.csv',    
@@ -49,7 +49,7 @@ TODO:
         'workflow/account_workflow.xml',
     ],
     'demo_xml': [],
-    'test': [],
+    'test': ['test/wh_pay_invoice.yml'],
     'installable': True,
     'active': False,
 }

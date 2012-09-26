@@ -20,7 +20,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='Invoice']" position="after">
+                <xpath expr="//notebook/page[@string='Invoice']" position="after">
                    <page string="Withholdings" >
                         <separator colspan='4' string="vsep"/>
                         <separator colspan='4' string="isep"/>

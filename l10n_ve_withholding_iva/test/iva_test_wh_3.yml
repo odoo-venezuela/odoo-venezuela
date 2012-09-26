@@ -1,0 +1,55 @@
+-
+  11. Test not withholdeable iva
+-
+  11.1 I update partner information
+-
+  !record {model: res.partner, id: base.res_partner_agrolait}:
+    wh_iva_agent: True
+    wh_iva_rate: 75
+    vat_subjected: True
+-
+  11.2 I generate a withholding vat customer
+-
+  !record {model: account.wh.iva, id: wh_iva_test03}:
+    journal_id: wh_sales_journal
+    partner_id: base.res_partner_agrolait
+    account_id: account.a_recv
+    name: 'IVA wh vat customer Agrolait test 3'
+    type: out_invoice
+-
+  11.3 I check withholding vat customer
+-
+  !assert {model: account.wh.iva, id: wh_iva_test03, string: Wh was not saved}:
+    - state == 'draft'
+-
+  11.4 Before validating let's add the period
+-
+  !python {model: account.wh.iva}: |
+    import time
+    ap_obj=self.pool.get('account.period')
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), {'company_id':ref('base.main_company')})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, ref("wh_iva_test03"), {'period_id':period[0]})
+-
+  11.5 I check period was updated
+-
+  !assert {model: account.wh.iva, id: wh_iva_test01, string: Period was not updated}:
+    - period_id
+-
+  11.6 I confirm the withholding vat customer
+-
+  !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_test03}
+-
+  11.7 I check withholding vat is not confirmed
+-
+  !assert {model: account.wh.iva, id: wh_iva_test03, string: Could not confirm the wh}:
+    - state != 'confirmed'
+-
+  11.8 I try to mark it as done
+-
+  !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_test01}
+-
+  11.9 I check withholding vat is not done
+-
+  !assert {model: account.wh.iva, id: wh_iva_test01, string: Wh cannot be in done state}:
+    - state != 'done'

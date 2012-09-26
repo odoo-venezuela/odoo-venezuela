@@ -1,0 +1,58 @@
+-
+  I create IVA sale tax with wrong values amount > 1 for type = percent
+-
+  !python {model: account.tax}: |
+    vals = {
+      'name': 'Iva sale a',
+      'amount': 10.12,
+      'type_tax_use': 'sale',
+      'applicable_type': 'true',
+      'company_id': ref("base.main_company"),
+      'ret': False,
+      'type': 'percent'
+    }
+    try:
+      at_id = self.create(cr, uid, vals)
+    except Exception as e:
+      at_id = -1
+      pass
+    assert at_id == -1 or not at_id, 'Tax must not be saved because amount > 1 and type = percent'
+-
+  I create IVA sale tax with wrong values amount < 0 for type = percent
+-
+  !python {model: account.tax}: |
+    vals = {
+      'name': 'Iva sale B',
+      'amount': -10.12,
+      'type_tax_use': 'sale',
+      'applicable_type': 'true',
+      'company_id': ref("base.main_company"),
+      'ret': False,
+      'type': 'percent'
+    }
+    try:
+      at_id = self.create(cr, uid, vals)
+    except Exception as e:
+      at_id = -1
+      pass
+    assert at_id == -1 or not at_id, 'Tax must not be saved because amount < 0 and type = percent'
+-
+  I create IVA sale tax with wrong values Withholdeable but not tax accounts
+-
+  !python {model: account.tax}: |
+    vals = {
+      'name': 'Iva sale C',
+      'amount': 0.12,
+      'type_tax_use': 'sale',
+      'applicable_type': 'true',
+      'company_id': ref("base.main_company"),
+      'ret': True,
+      'type': 'percent'
+    }
+    at_id = -1
+    try:
+      at_id = self.create(cr, uid, vals)
+    except Exception as e:
+      at_id = -1
+      pass
+    assert at_id == -1 or not at_id, 'Tax must not be saved because has not accounts'

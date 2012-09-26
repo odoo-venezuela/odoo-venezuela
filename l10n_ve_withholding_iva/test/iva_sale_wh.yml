@@ -1,0 +1,180 @@
+-
+  7. Iva tests sale wh
+-
+  7.1 In order to test account invoice I create a new customer invoice
+-
+  !record {model: account.invoice, id: test_sale_iva_ret01}:
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc3
+        quantity: 3
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: PC3
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - iva_sale1
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: PC2
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - iva_sale1
+    journal_id: account.sales_journal
+    partner_id: base.res_partner_notsotinysarl0
+    reference_type: none
+    nro_ctrl: 31010101
+-
+  7.2 I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: test_sale_iva_ret01}:
+    - state == 'draft'
+-
+  7.3 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: test_sale_iva_ret01}
+-
+  7.4 I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: test_sale_iva_ret01}:
+    - state == 'proforma2'
+-
+  7.5 I check that there is no move attached to the invoice
+-
+  !python {model: account.invoice}: |
+    acc_id=self.browse(cr, uid, ref("test_sale_iva_ret01"))
+    assert (not acc_id.move_id), "Move falsely created at pro-forma"
+-
+  7.6 I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: test_sale_iva_ret01}
+-
+  7.7 I check that the invoice state is "Open"
+-
+  !assert {model: account.invoice, id: test_sale_iva_ret01}:
+    - state == 'open'
+-
+  7.8 I check that now there is a move attached to the invoice
+-
+  !python {model: account.invoice}: |
+    acc_id=self.browse(cr, uid, ref("test_sale_iva_ret01"))
+    assert acc_id.move_id, "Move not created for open invoice"
+-
+  7.9 I check journal entries for the invoice
+-
+  !python {model: account.invoice}: |
+    am_obj=self.pool.get('account.move')
+    ai = self.browse(cr, uid, ref("test_sale_iva_ret01"))
+    am_ids = am_obj.search(cr, uid, [('name', '=', ai.number)])
+    assert am_ids, 'Not found account move for the document'
+    am_brw = am_obj.browse(cr, uid, am_ids[0])
+    d = c = 0
+    for l in am_brw.line_id:
+      if l.account_id.id == ref("account.a_recv"):
+         d += l.debit
+      else:
+        c += l.credit
+      if l.tax_amount > 0:
+         assert l.tax_amount == 15.6, 'Tax is wrong'
+    assert c==d, 'Totals must match'
+-
+  7.10 I generate a withholding vat customer
+-
+  !record {model: account.wh.iva, id: wh_iva_sale01}:
+    journal_id: wh_sales_journal
+    partner_id: base.res_partner_notsotinysarl0
+    number: 111222333
+    account_id: account.a_recv
+    name: 'IVA wh vat customer'
+    type: out_invoice
+-
+  7.11 I check withholding vat customer
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - state == 'draft'
+-
+  7.12 I click on Calculate taxes button
+-
+  !python {model: account.invoice}: |
+    self.button_reset_taxes(cr, uid, [ref("test_sale_iva_ret01")])
+-
+  7.13 Before validating let's add the period
+-
+  !python {model: account.wh.iva}: |
+    import time
+    ap_obj=self.pool.get('account.period')
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, ref("wh_iva_sale01"), {'period_id':period[0]})
+-
+  7.14 I check period was modificated
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - period_id
+-
+  7.15 Check partner invoices
+-
+  !python {model: account.wh.iva}: |
+    wil_obj=self.pool.get('account.wh.iva.line')
+    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("base.res_partner_notsotinysarl0"))
+    ind_id = res['value']['wh_lines'][0]['invoice_id']
+    res['value']['wh_lines'][0].update({'retention_id': ref("wh_iva_sale01")})
+    wil_id = wil_obj.create(cr, uid, res['value']['wh_lines'][0])
+    wil_obj.load_taxes(cr, uid, [wil_id])
+-
+  7.16 I confirm the withholding vat customer
+-
+  !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
+-
+  7.17 I check withholding vat is confirmed
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - state == 'confirmed'
+-
+  7.18 I confirm the withholding vat customer
+-
+  !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
+-
+  7.19 I check withholding vat is confirmed
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - state == 'confirmed'
+-
+  7.20 I mark it as done
+-
+  !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_sale01}
+-
+  7.21 I check withholding vat is confirmed
+-
+  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+    - state == 'done'
+-
+  7.22 I check that the invoice has the wh document
+-
+  !assert {model: account.invoice, id: test_sale_iva_ret01}:
+    - wh_iva_id
+-
+  7.23 I check IVA sale journal entries
+-
+  !python {model: account.wh.iva}: |
+    am_obj=self.pool.get('account.move')
+    ai_obj=self.pool.get('account.invoice')
+    acc_id=ai_obj.browse(cr, uid, ref("test_sale_iva_ret01"))
+    am_ids = am_obj.search(cr, uid, [('ref', '=', acc_id.number)])
+    assert am_ids, 'Not found account move for the document'
+    am_brw = am_obj.browse(cr, uid, am_ids[0])
+    assert len(am_brw.line_id) == 2, 'Must be 2 entries for this journal entry'
+    d = c = 0
+    for l in am_brw.line_id:
+      if l.account_id.id == ref("account.ova"):
+        c += l.debit
+      else:
+        d += l.credit
+    assert c==d, 'Totals must match'

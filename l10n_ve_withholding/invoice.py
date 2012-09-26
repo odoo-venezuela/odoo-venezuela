@@ -100,7 +100,30 @@ class account_invoice(osv.osv):
         self.pool.get('account.invoice').write(cr, uid, ids, {}, context=context)
         return {'move_id': move_id}
 
+    
+    def ret_payment_get(self, cr, uid, ids, *args):
+        for invoice in self.browse(cr, uid, ids):
+            moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
+            src = []
+            lines = []
+            
+            for m in self.pool.get('account.move.line').browse(cr, uid, moves):
+                temp_lines = []#Added temp list to avoid duplicate records
+                if m.reconcile_id:
+                    temp_lines = [i.id for i in m.reconcile_id.line_id]
+                elif m.reconcile_partial_id:
+                    temp_lines = [i.id for i in m.reconcile_partial_id.line_partial_ids]
+               
+                lines = list(set(temp_lines))
+                src.append(m.id)
+                
+            lines = filter(lambda x: x not in src, lines)
 
+        return lines
+    
+    
+    
+    
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
         if not inv.tax_line:
             for tax in compute_taxes.values():
@@ -131,7 +154,8 @@ account_invoice()
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
-        'tax_id': fields.many2one('account.tax', 'Tax', required=True, ondelete='set null', help="Tax"),
+        'tax_id': fields.many2one('account.tax', 'Tax', required=False, ondelete='set null', 
+        help="Tax relation to original tax, to be able to take off all data from invoices."),
     }
 
     def compute(self, cr, uid, invoice_id, context=None):
