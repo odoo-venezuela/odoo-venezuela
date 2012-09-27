@@ -1,5 +1,7 @@
 -
-  Find the purchase and check it is in draft state for total validation
+  3. Purchase validation
+-
+  3.1 Find the purchase and check it is in draft state for total validation
 -
   !python {model: purchase.order}: |
     po = self.browse(cr, uid, ref("purchase_order01"))
@@ -15,7 +17,7 @@
       c += l.credit
     assert c == d, 'Don\'t match'
 -
-  Validate stock picking
+  3.2 Validate stock picking
 -
   !python {model: stock.picking}: |
     import netsvc
@@ -28,7 +30,7 @@
     sp_brw = self.browse(cr, uid, sp_ids[0])
     assert sp_brw.state=='done', 'Workflow didn\'t work properly'
 -
-  Validate stock moves
+  3.3 Validate stock moves
 -
   !python {model: stock.move}: |
     po_obj=self.pool.get('purchase.order')
@@ -39,7 +41,7 @@
       sm_brw = self.browse(cr, uid, sm_id)
       assert sm_brw.state=='done', 'Workflow didn\'t work properly'
 -
-  I validate invoice has same products that purchase order
+  3.4 I validate invoice has same products that purchase order
 -
   !python {model: purchase.order}: |
     po_brw = self.browse(cr, uid, ref("purchase_order01"))
@@ -47,19 +49,23 @@
     b = [int(l.product_id.id) for l in po_brw.invoice_ids[0].invoice_line]
     assert a == b, 'Order and invoice does not contain same products'
 -
-  Check if invoice has same wh than purchase order
+  3.5 Check if invoice has same wh than purchase order
 -
   !python {model: purchase.order}: |
+    import logging
+    logger = logging.getLogger('purchase.order')
     po_brw = self.browse(cr, uid, ref("purchase_order01"))
     assert po_brw.invoice_ids, 'Invoice was not created'
     whc1 = []
     for line in po_brw.invoice_ids[0].invoice_line:
-      whc1.append(line.concept_id)
+      whc1.append(line.concept_id.id)
 
     whc2 = []
     for line in po_brw.order_line:
-      whc2.append(line.concept_id)
+      whc2.append(line.concept_id.id)
 
     whc1 = set(whc1)
     whc2 = set(whc2)
-    assert whc1 == whc2, 'Both invoices has not the same wh concepts'
+    logger.warning(whc1)
+    logger.warning(whc2)
+    assert whc1 == whc2, 'Both invoices has not the same wh concepts po: %s invoice: %s'%(str(whc2), str(whc1))
