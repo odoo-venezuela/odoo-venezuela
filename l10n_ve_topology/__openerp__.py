@@ -25,7 +25,7 @@
 {
     "name" : "Topology for Venezuela",
     "version" : "0.3",
-    "depends" : ["base","l10n_ve_fiscal_requirements"],
+    "depends" : ["base",],
     "author" : "Vauxoo",
     "description" : """This module handles the topology according to the sectors of a city.
 
