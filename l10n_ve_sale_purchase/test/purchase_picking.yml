@@ -1,5 +1,7 @@
 -
-  I create a purchase order (picking)
+  2. Purchase order from picking tests
+-
+  2.1 I create a purchase order (picking)
 -
   !record {model: purchase.order, id: purchase_picking01}:
     date_order: !eval time.strftime('%Y-%m-%d')
@@ -18,26 +20,26 @@
         date_planned: !eval time.strftime('%Y-%m-%d')
         concept_id: l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
 -
-  I check that the purchase order was created and is a draft
+  2.2 I check that the purchase order was created and is a draft
 -
   !assert {model: purchase.order, id: purchase_picking01}:
     - state == 'draft'
 -
-  I confirm the purchase
+  2.3 I confirm the purchase
 -
   !workflow {model: purchase.order, action: purchase_confirm, ref: purchase_picking01}
 -
-  I check that the order which was was approved
+  2.4 I check that the order which was was approved
 -
   !assert {model: purchase.order, id: purchase_picking01}:
     - state == 'approved'
 -
-  Check if a record was created in stock picking
+  2.5 Check if a record was created in stock picking
 -
   !assert {model: stock.picking, search: "[('purchase_id', '=', 'purchase_picking01')]"}:
     - state == 'assigned'
 -
-  Check if the stock picking record and purchase order has the same lines
+  2.5 Check if the stock picking record and purchase order has the same lines
 -
   !python {model: purchase.order}: |
     po = self.browse(cr, uid, ref("purchase_picking01"))
@@ -53,7 +55,7 @@
     
     assert len(sm) == len(pur_line), 'Not the same length'
 -
-  Check if an invoice was not created (as supouse to)
+  2.7 Check if an invoice was not created (as supouse to)
 -
   !python {model: purchase.order}: |
     po = self.browse(cr, uid, ref("purchase_picking01"))
