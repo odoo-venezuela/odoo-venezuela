@@ -1,0 +1,153 @@
+-
+  1. Split invoice test
+-
+-
+  1.1 I update the lines quantity
+-
+  !record {model: res.company, id: base.main_company}:
+    lines_invoice: 3
+-
+  1.2 I create sale tax
+-
+  !record {model: account.tax, id: spl_tax01}:
+    name: 'Spl - Sale tax'
+    amount: 0.12
+    type_tax_use: sale
+    applicable_type: 'true'
+    company_id: base.main_company
+-
+  1.3 In order to test account invoice I create a new customer sale invoice with puechase tax
+-
+  !record {model: account.invoice, id: spl_test01}:
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc3
+        quantity: 3
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: spl01
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+      - product_id: product.product_product_pc2
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 20
+        name: spl02
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+      - product_id: product.product_product_pc1
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: spl03
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+      - product_id: product.product_product_0
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: spl04
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+      - product_id: product.product_product_1
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: spl05
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+      - product_id: product.product_product_pc3
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: spl06
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+      - product_id: product.product_product_pc4
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 10
+        name: spl07
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - spl_tax01
+    journal_id: account.sales_journal
+    partner_id: base.res_partner_notsotinysarl0
+    reference_type: none
+-
+  1.4 I update the period
+-
+  !python {model: account.invoice }: |
+    import time
+    ap = self.pool.get('account.period')
+    period = ap.find(cr, uid, time.strftime('%Y-%m-%d'), context={'company_id':ref("base.main_company")})
+    assert period, "No period found for the current date"
+    ap_brw = ap.browse(cr, uid, period[0])
+    if ap_brw.state == 'done':
+        ap.action_draft(cr, uid, period)
+        ap_brw = ap.browse(cr, uid, period[0])
+    assert ap_brw.state == 'draft', 'Period is not open as it should be'
+    self.write(cr, uid, [ref("spl_test01")], {'period_id': period[0]})
+-
+  1.5 I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: spl_test01}:
+    - state == 'draft'
+-
+  1.6 I click on Calculate taxes button
+-
+  !python {model: account.invoice}: |
+    acc_brw=self.browse(cr, uid, ref("spl_test01"))
+    self.button_reset_taxes(cr, uid, [ref("spl_test01")])
+-
+  1.7 I check that there is no move attached to the invoice
+-
+  !python {model: account.invoice}: |
+    acc_id=self.browse(cr, uid, ref("spl_test01"))
+    assert (not acc_id.move_id), "Move falsely created at pro-forma"
+-
+  1.8 I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: spl_test01}
+-
+  1.9 I check that Initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: spl_test01}:
+    - state == 'open'
+-
+  1.10 I check the lines are correct
+-
+  !python {model: account.invoice}: |
+    rc_obj = self.pool.get('res.company')
+    rc_brw = rc_obj.browse(cr, uid, ref("base.main_company"))
+    acc_brw=self.browse(cr, uid, ref("spl_test01"))
+    assert len(acc_brw.invoice_line) == rc_brw.lines_invoice, "The lines number does not match"
+-
+  1.11 I check the taxes
+-
+  !python {model: account.invoice}: |
+    ait_obj = self.pool.get('account.invoice.tax')
+    ait_ids = ait_obj.search(cr, uid, [('invoice_id','=',ref("spl_test01"))])
+    assert ait_ids, 'Taxes not created'
+    ait_brw = ait_obj.browse(cr, uid, ait_ids[0])
+    acc_brw=self.browse(cr, uid, ref("spl_test01"))
+    total = 0
+    for line in acc_brw.invoice_line:
+      total += line.price_unit*line.quantity
+    assert ait_brw.base == total, 'Base amount does not match'
+    at_obj = self.pool.get('account.tax')
+    at_brw = at_obj.browse(cr, uid, ref('spl_tax01'))
+    amount = float(total*at_brw.amount)
+    amount_tax = float(ait_brw.amount)
+    assert abs(amount_tax-amount) < 0.0001, 'Amount does not match'

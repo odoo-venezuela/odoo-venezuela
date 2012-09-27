@@ -48,24 +48,25 @@ class account_invoice(osv.osv):
 
     _inherit = 'account.invoice'
     _columns = {
-        'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Code used for intern invoice control"),
-        'sin_cred': fields.boolean('Tax Excempt', readonly=False, help="Set it true if the invoice is V.A.T. exempt"),
-        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', readonly=True, states={'draft':[('readonly',False)]}, help='When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note.'),
-        'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}),
+        'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Number used to manage pre-printed invoices, by law you will need to put here this number to be able to declarate on Fiscal reports correctly."),
+        'sin_cred': fields.boolean('Tax Excempt', readonly=False, help="Set it true if the invoice is VAT excempt"),
+        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', readonly=True, states={'draft':[('readonly',False)]}, help='When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note. if you are in a refund document, this field must be loaded, if you are in a out_invoice document plus this data filled it means this is a debit note'),
+        'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}, help='This field is to know when it applyies what Credit Notes and Debit Notes are related to it'),
         'date_document': fields.date("Document Date", help="Administrative date, generally is the date printed on invoice, this date is used to show in the Purchase Fiscal book", select=True),
-        'expedient':fields.boolean('Dossier', help="If it is true, it means this is a landindg form"),
-        'invoice_printer' : fields.char('Fiscal printer invoice number', size=64, required=False,help="Fiscal printer invoice number"),
-        'fiscal_printer' : fields.char('Fiscal printer number', size=64, required=False,help="Fiscal printer number"),
+        'expedient':fields.boolean('Dossier', help="If it is true, it means this is a landindg form, you will need to load this format as an purchase invoice to declarate on Book"),
+        'invoice_printer' : fields.char('Fiscal printer invoice number', size=64, required=False,help="Fiscal printer invoice number, is the number of the invoice on the fiscal printer"),
+        #TODO": maybe it must be a many2one to declared FiscalPrinter when FiscalV is ready
+        'fiscal_printer' : fields.char('Fiscal printer number', size=64, required=False,help="Fiscal printer number, generally is the id number of the printer."),
 
     }
 
     _constraints = [
-          (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Numero de Control (nro_ctrl)','Referencia (reference)']),
+          (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
          ]
      
     def _refund_cleanup_lines(self, cr, uid, lines):
         """
-        Metodo created to clean invoice lines
+        Method created to clean invoice lines
         """
         for line in lines:
             del line['id']
