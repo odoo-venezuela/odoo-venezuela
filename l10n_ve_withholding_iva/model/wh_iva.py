@@ -359,10 +359,8 @@ class account_wh_iva(osv.osv):
         res = cr.dictfetchone()
         if res:
             if res['number_next']:
-                print ' nexttttt iva' 
                 return pool_seq._next(cr, uid, [res['id']])
             else:
-                print 'wh_iva_seq_get' 
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
 
@@ -375,14 +373,11 @@ class account_wh_iva(osv.osv):
                     'WHERE id IN ('+','.join(map(str,ids))+')')
 
             for (id, number) in cr.fetchall():
-                print 'obj_ret.type',obj_ret.type
-                print 'numeber',number
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva.%s' % obj_ret.type)
                     
                 cr.execute('UPDATE account_wh_iva SET number=%s ' \
                         'WHERE id=%s', (number, id))
-        print 'action numbre iva'
         return True
     
     def action_date_ret(self,cr,uid,ids,context=None):
