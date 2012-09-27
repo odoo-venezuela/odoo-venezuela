@@ -102,7 +102,7 @@
 -
   1.5 I check that Initially customer invoice is in the "Draft" state
 -
-  !assert {model: account.invoice, id: spl_test01}:
+  !assert {model: account.invoice, id: spl_test01, string: Invoice was nor created or is not in draft state}:
     - state == 'draft'
 -
   1.6 I click on Calculate taxes button
