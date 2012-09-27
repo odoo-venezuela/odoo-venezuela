@@ -53,11 +53,11 @@ class account_invoice(osv.osv):
                             'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id','user_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
                     
-                    if hasattr(inv,'sale_ids'):
-                        if self.browse(cr,uid,inv.id,context={}).sale_ids:
-                            invoice.update({
-                                'sale_ids':[(6,0,[i.id for i in self.browse(cr,uid,inv.id,context={}).sale_ids])]
-                            })
+                    #~ if hasattr(inv,'sale_ids'):
+                        #~ if self.browse(cr,uid,inv.id,context={}).sale_ids:
+                            #~ invoice.update({
+                                #~ 'sale_ids':[(6,0,[i.id for i in self.browse(cr,uid,inv.id,context={}).sale_ids])]
+                            #~ })
                         
                     inv_id = self.create(cr, uid, invoice)
                     cont = 0
