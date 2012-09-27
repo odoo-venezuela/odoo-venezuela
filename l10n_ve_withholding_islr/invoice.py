@@ -346,7 +346,7 @@ class account_invoice(osv.osv):
 
     def _get_wh(self,cr, uid, subtract,concept, wh_dict, dict_rate, apply,context=None):
         '''
-        Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
+        Returns a dictionary containing all the values ​​of the retention of an invoice line.
         '''
         if context is None:
             context={}
@@ -402,7 +402,7 @@ class account_invoice(osv.osv):
 
     def _get_wh_apply(self,cr,uid,dict_rate,wh_dict,nature,context=None):
         '''
-        Retorna el diccionario completo con todos los datos para realizar la retencion, cada elemento es una linea de la factura.
+        Returns a dictionary containing all data for the withholding. Each item is an invoice line.
         '''
         if context is None:
             context={}
@@ -427,7 +427,7 @@ class account_invoice(osv.osv):
 
     def _get_amount(self,cr,uid,dict):
         '''
-        Funcion para obtener, la suma del monto retenido por concepto.
+        Get the sum of the withholding amount by concept.
         '''
         dict_concept = {}
         for key in dict:
@@ -442,7 +442,7 @@ class account_invoice(osv.osv):
 
     def _get_dict_concepts(self,cr,uid,dict):
         '''
-        Funcion para obtener, el dicccionario agrupado por concepto:  
+        Get a dictionary grouped by concept:  
         {1:[{64: {'control': '', 'perc': 0.050000000000000003, 'concept': 1, 'number': False, 'wh': 0.0, 'code': u'A', 'rate_id': 1, 'apply': True, 'subtotal': 500.0, 'vat': u'J123456789'}}, 
             {65: {'control': '', 'perc': 0.050000000000000003, 'concept': 1, 'number': False, 'wh': 0.0, 'code': u'A', 'rate_id': 1, 'apply': True, 'subtotal': 300.0, 'vat': u'J123456789'}}
            ], 
@@ -465,8 +465,7 @@ class account_invoice(osv.osv):
 
     def get_journal(self,cr,uid,inv_brw):
         '''
-        Funcion para asignar el diario correspondiente de acuerdo a cada tipo de retencion(compra, venta)
-        los tipos de diario son creados en retencion_iva
+        Assign the corresponding journal according to each type of withholding (purchase, sale). The journal types are created in retencion_iva
         '''
         tipo='Sale'
         tipo2='islr_sale'
@@ -488,7 +487,7 @@ class account_invoice(osv.osv):
 
     def _create_islr_wh_doc(self,cr,uid,inv_brw,dict):
         '''
-        Funcion para crear en el modelo islr_wh_doc
+        To create in the islr_wh_doc model
         '''
         islr_wh_doc_id=0 
         wh_doc_obj = self.pool.get('islr.wh.doc')
@@ -514,7 +513,7 @@ class account_invoice(osv.osv):
 
     def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dictt,dictc):
         '''
-        Funcion para crear en el modelo islr_wh_doc_line
+        To create in the islr_wh_doc_line model
         '''
         doc_line_obj = self.pool.get('islr.wh.doc.line')
         rate_obj = self.pool.get('islr.rates')
@@ -534,7 +533,7 @@ class account_invoice(osv.osv):
 
     def _create_doc_invoices(self,cr,uid,key,islr_wh_doc_id):
         '''
-        Funcion para crear en el modelo islr_wh_doc_invoices
+        To create in the islr_wh_doc_invoices model
         '''
         doc_inv_obj = self.pool.get('islr.wh.doc.invoices')
         inv_id = key
@@ -543,7 +542,7 @@ class account_invoice(osv.osv):
 
     def _write_wh_xml(self,cr,uid,key,islr_wh_doc_line_id):
         '''
-        Funcion para escribir en el modelo xml_wh_line
+        Write in the xml_wh_line model
         '''
         inv_obj =self.pool.get('account.invoice.line')
         xml_obj = self.pool.get('islr.xml.wh.line')
@@ -553,7 +552,7 @@ class account_invoice(osv.osv):
 
     def _get_inv_id(self,cr,uid,dict):
         '''
-        Funcion para obtener el objeto_browse de la factura
+        Get the invoice obj_browse
         '''
         inv_obj =self.pool.get('account.invoice.line')
         line_ids = [key for key in dict if dict[key]['apply']]
@@ -563,7 +562,7 @@ class account_invoice(osv.osv):
 
     def _logic_create(self,cr,uid,dict,wh_doc_id):
         '''
-        Manejo de toda la logica para la generarion de lineas en los modelos.
+        Handling of all the logic for generating lines on models.
         '''
         dictc = self._get_dict_concepts(cr,uid,dict)
         inv_brw = self._get_inv_id(cr,uid,dict)
