@@ -34,7 +34,7 @@ import netsvc
 
 class account_invoice_line(osv.osv):
     '''
-    Se agrega un campo donde se determina, si una linea ha sido retenida o no.
+    It adds a field that determines if a line has been retained or not
     '''
     _inherit = "account.invoice.line"
     _columns = {
@@ -47,7 +47,7 @@ class account_invoice_line(osv.osv):
 
     def product_id_change(self, cr, uid, ids, product, uom=0, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=None):
         '''
-        onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
+        Onchange to show the concept of retention associated with the product at once in the line of the bill
         '''
         if context is None:
             context = {}
@@ -127,7 +127,7 @@ class account_invoice(osv.osv):
 
     def _get_partners(self, cr, uid, invoice):
         '''
-        Se obtiene: el id del vendedor, el id del comprador de la factura y el campo booleano que determina si el comprador es agente de retencion.
+        Get the seller id, the buyer id from the invoice, and the boolean field that determines whether the buyer is the withholding agent
         '''
         if invoice.type == 'in_invoice' or invoice.type == 'in_refund':
             vendor = invoice.partner_id
@@ -139,7 +139,7 @@ class account_invoice(osv.osv):
 
     def _get_concepts(self, cr, uid, invoice):
         '''
-        Se obtienen una lista de Conceptos(concept_id), de las lineas en la factura
+        Gets a list of concepts (cocenpt_id) from the invoice lines
         '''
         service_list = []
         for invoice_line in invoice.invoice_line:
@@ -151,15 +151,12 @@ class account_invoice(osv.osv):
         
     def _get_service_wh(self, cr, uid, invoice, concept_list):
         '''
-        Obtiene todas las lineas de factura del vendedor, filtrando por el periodo de la factura actual y el estado de la factura = done, open.
-        Las lineas son almacenadas en un diccionario, donde la primera clave es la lista de lineas obtenidas, la segunda es el campo que indica si alguna de esas lineas
-        fue retenida y el tercer campo es la suma de la base de todas las lineas que no se les ha aplicado retencion.
-        La busqueda de las lineas, se realiza buscando lineas que tengan conceptos de retencion igual a los de la factura actual.
-        Esto se hace con el fin de verificar:
-            1.-Si existe el mismo concepto en otra linea de factura que no se ha retenido porque no ha superado el monto minimo, se toma para realizar la suma y verificar 
-               si con el nuevo monto si supera, en consecuencia se realiza la retencion en las facturas asociadas.
-            2.-Se verifica si es la primera vez que se realiza retencion sobre ese concepto, de ser la primera vez se debe aplicar el sustraendo. Esto se hace con el 
-               segundo campo del diccionario "wh"
+        Gets all the vendor invoice lines, filtering by the period of the current invoice and the invoice state equal to {done, onpen}
+        The lines are stored in a dictionary, where the first key is the list of lines obtained, the second key is the field that indicates wheter any of these line was withholding, and the third key is the sum of the base of all the lines that have not withholding applied
+        A search in the lines is done seeking for lines that have withholding concepts equals to the current invoice. This is done to verify:
+            1.- If exist the same concepts in another invoice line that have not been withholding cause the amount have no exceeded the minimum value therefore this amount its taken to perform the sum and verification. If the amount exceeds the minimun then withholding is applied to the associated invoices.
+            2.- Verify if is the first time that a withholding is applied on that concept, If is true then the subtrahend is applied in the second key "wf" of the dictionary
+
         '''
         dict={}
         for key in concept_list:
@@ -182,7 +179,7 @@ class account_invoice(osv.osv):
 
     def _get_country_fiscal(self,cr, uid, partner_id):
         '''
-        Se obtiene el pais de el vendedor o comprador, depende del parametro. A partir de de la direccion fiscal.
+        Gets depending on the parameters the country of the seller or buyer from the fiscal address.
         '''
         for i in partner_id.address:
             if i.type == 'invoice':
@@ -196,8 +193,8 @@ class account_invoice(osv.osv):
 
     def _get_residence(self, cr, uid, vendor, buyer):
         '''
-        Se determina si la direccion fiscal del comprador es la misma que la del vendedor, con el fin de luego obtener la tasa asociada.
-        Retorna True si es una persona domiciliada o residente. Retorna False si es, no Residente o No Domicialiado.
+        Determines whether the buyer fiscal address is the same that the seller. with the objective of later get the associated rate.
+        Return True if is a domiciled or resident person, False if is not
         '''
         vendor_address = self._get_country_fiscal(cr, uid, vendor)
         buyer_address = self._get_country_fiscal(cr, uid, buyer)
@@ -210,7 +207,7 @@ class account_invoice(osv.osv):
 
     def _get_nature(self, cr, uid, partner_id):
         '''
-        Se obtiene la naturaleza del vendedor a partir del RIF, retorna True si es persona de tipo natural, y False si es juridica.
+        Gets the nature of the seller from RIF. Return True if is a natural person type, False if is a legal entity.
         '''
         if not partner_id.vat:
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat associated!") % (partner_id.name))
@@ -223,9 +220,9 @@ class account_invoice(osv.osv):
 
     def _get_rate(self, cr, uid, concept_id, residence, nature,context):
         '''
-        Se obtiene la tasa del concepto de retencion, siempre y cuando exista uno asociado a las especificaciones:
-           La naturaleza del vendedor coincida con una tasa.
-           La residencia del vendedor coindica con una tasa.
+        Gets the withholding concept rate, provided if is associated to the below specifications:
+           - the nature of the seller match with a rate
+           - the residence of the seller match with a rate
         '''
         ut_obj = self.pool.get('l10n.ut')
         rate_brw_lst = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id).rate_ids
@@ -239,7 +236,7 @@ class account_invoice(osv.osv):
     
     def _get_rate_dict(self, cr, uid, concept_list, residence, nature,context):
         '''
-        Devuelve un diccionario con la tasa de cada concepto de retencion.
+        Returns a dictionary with the rate of each withholding concept.
         '''
         dict = {}
         cont = 0
@@ -254,8 +251,7 @@ class account_invoice(osv.osv):
 
     def _pop_dict(self,cr,uid,concept_list,dict_rate,wh_dict):
         '''
-        Funcion para eliminar del diccionario de conceptos con tasas y del diccionario de lineas de facturas, todos aquellos elementos donde el concepto de retencion no 
-        posee una tasa asociada.
+        Method to delete all the elements where the withholding concept does not have a rate associated, in the dictionary of concept with rates and in the dictionary of invoice lines.
         '''
         for concept in concept_list:
             if not dict_rate[concept]:
@@ -282,7 +278,7 @@ class account_invoice(osv.osv):
 
     def _get_inv_data(self,cr, uid, line):
         '''
-        Se obtiene el rif de proveedor, el numero de la factura y el numero de control de la factura. Datos necesarios para el XML, entre otros.
+        Gets the RIF of the supplier, the invoice number and the control number of the invoice. Data required for XML, among others.
         '''
         inv_brw = self.pool.get('account.invoice.line').browse(cr, uid, line).invoice_id
         vat = inv_brw.partner_id.vat[2:]
@@ -307,12 +303,12 @@ class account_invoice(osv.osv):
 
     def _write_wh_apply(self,cr, uid,line,dict,apply,type):
         '''
-        Si el campo wh_xml_id en la linea de la factura tiene un id de xml asociado:
-            Se escribe sobre el campo booleano de la linea de la factura True o False, dependiendo si se retiene o no.
-            Se escribe sobre la linea de xmls el valor de la retencion. Esto sucede porque se pudo haber creado la linea xml, pero con retencion 0, porque no aplicaba, si llega a superar en otra factura, se debe sobreescribir el valor al nuevo monto de retencion.
-        De lo contrario:
-            Se crea una nueva linea de xml.
-            Se escribe en la linea de la factura, True o False y se asigna el xml_id que resulta del create.
+        If wh_xml_id field in the invoice line has an associated xml id:
+            Write over the boolean field in the invoice line True o False depending on whether it holds withholding or not.
+            Write over the xml line the value of the withholding. This happens because it could be created the xml line with a 0.0 withholding (doesnt apply at that time) but if the amount of the withholding exceeds in another invoice, will be override the value with the new withholding amount.
+        Otherwise:
+            Create a new xml line.
+            Write True or False value on the invoice line, and assigns the xml id created in the previuos step.
         '''
         il_ids = self.pool.get('account.invoice.line').browse(cr, uid,line)
 
@@ -329,7 +325,7 @@ class account_invoice(osv.osv):
                 
     def _create_islr_xml_wh_line(self,cr, uid, line, dict):
         '''
-        Se crea una linea de xml
+        Create a new xml line
         '''
         inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id
         return self.pool.get('islr.xml.wh.line').create(cr, uid, {'name': dict['name_rate'],
