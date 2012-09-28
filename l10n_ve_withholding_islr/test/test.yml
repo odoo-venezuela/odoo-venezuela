@@ -22,7 +22,8 @@
   !python {model: res.partner }: |
     vals = {
         'islr_withholding_agent': True,
-        'address':[(6, 0, [ref("addr_main")])]
+        'address':[(6, 0, [ref("addr_main")])],
+        'vat':'VEJ346780983',
         }
     self.write(cr, uid, [ref('base.main_company')], vals)
 -
@@ -32,7 +33,7 @@
     supplier: True
     customer: True
     islr_withholding_agent: True
-    vat: VEJ123456789
+    vat: VEJ783458904
 -
   1.5 I create a purchase invoice
 -
