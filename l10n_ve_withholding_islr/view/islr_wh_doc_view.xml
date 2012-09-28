@@ -106,6 +106,7 @@
                     <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
+                    <field name="state" invisible="1"/>
                 </tree>
             </field>
         </record>
