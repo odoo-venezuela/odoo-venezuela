@@ -1,13 +1,13 @@
 -
-  Test a purchase invoice
+  1. Test a purchase invoice
 -
-  I update wh concept for adding journals
+  1.1 I update wh concept for adding journals
 -
   !record {model: islr.wh.concept, id: islr_wh_concept_comisiones_venta_inmuebles}:
     property_retencion_islr_payable: islr_pay
     property_retencion_islr_receivable: islr_rec
 -
-  I create a fiscal address for the main company
+  1.2 I create a fiscal address for the main company
 -
   !record {model: res.partner.address, id: addr_main}:
     type: invoice
@@ -17,7 +17,7 @@
     email: fakemail@example.com
     country_id: 240
 -
-  I update company information so it become a wh agent
+  1.3 I update company information so it become a wh agent
 -
   !python {model: res.partner }: |
     vals = {
@@ -26,7 +26,7 @@
         }
     self.write(cr, uid, [ref('base.main_company')], vals)
 -
-  I update partner
+  1.4 I update partner
 -
   !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
     supplier: True
@@ -34,7 +34,7 @@
     islr_withholding_agent: True
     vat: VEJ123456789
 -
-  I create a purchase invoice
+  1.5 I create a purchase invoice
 -
   !record {model: account.invoice, id: islr_inv01}:
     company_id: base.main_company
@@ -50,7 +50,7 @@
         price_unit: 1000
         name: islrprod01
         account_id: account.a_sale
-        concept_id: islr_wh_concept_comisiones_venta_inmuebles
+        concept_id: islr_wh_concept_demo2
         invoice_line_tax_id:
         - account.tax10
       - product_id: product.product_product_pc4
@@ -58,7 +58,7 @@
         uos_id: product.product_uom_unit
         price_unit: 2000
         name: islrprod02
-        concept_id: islr_wh_concept_comisiones_venta_inmuebles
+        concept_id: islr_wh_concept_demo2
         account_id: account.a_sale
         invoice_line_tax_id:
         - account.tax10
@@ -68,59 +68,34 @@
     reference: isrlref123
     type: in_invoice
 -
-  I click on Calculate taxes button
+  1.6 I click on Calculate taxes button
 -
   !python {model: account.invoice}: |
     acc_brw=self.browse(cr, uid, ref("islr_inv01"))
     self.button_reset_taxes(cr, uid, [ref("islr_inv01")])
 -
-  I update check total before validating the invoice
+  1.7 I update check total before validating the invoice
 -
   !record {model: account.invoice, id: islr_inv01}:
     check_total: 16800.0
 -
-  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  1.8 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: islr_inv01}
 -
-  I check that the invoice state is now "Proforma2"
--
-  !assert {model: account.invoice, id: islr_inv01}:
-    - state == 'proforma2'
--
-  I create invoice by clicking on Create button
+  1.9 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: islr_inv01}
 -
-  Search for the tax lines
+  1.10 I check that the invoice has any wh doc (must have)
+-
+  !assert {model: account.invoice, id: islr_inv01}:
+    - islr_wh_doc_id.id
+-
+  1.11 Search for the wh lines
 -
   !python {model: account.invoice}: |
     import netsvc
     import time
-    wh_line_obj=self.pool.get('account.wh.iva.line')
-    wh_obj=self.pool.get('account.wh.iva')
-    wf_service = netsvc.LocalService("workflow")
-    ap_obj = self.pool.get('account.period')
-    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
-    assert period, 'Thres is not period for the given date'
-    ap_brw = ap_obj.browse(cr, uid, period[0])
-    if ap_brw.state == 'done':
-        ap_obj.action_draft(cr, uid, period)
-        ap_brw = ap_obj.browse(cr, uid, period[0])
-    assert ap_brw.state == 'draft', 'Period is not open as it should be'
-    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
-    
-    wh_obj.write(cr, uid, [acc_brw.wh_iva_id.id], {'period_id':period[0], 'date': time.strftime('%Y/%m/%d')})
-    l = []
-    for line in acc_brw.wh_iva_id.wh_lines:
-      l.append(line.id)
-    assert l, 'Thres are not wh lines for the given invoice'
-    wh_line_obj.load_taxes(cr, uid, l, context=context)
-    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
-    assert acc_brw.wh_iva_id.state == 'draft', 'Wh doc must be in draft state'
-    wf_service.trg_validate(uid, 'account.wh.iva', acc_brw.wh_iva_id.id, 'wh_iva_confirmed', cr)
-    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
-    assert acc_brw.wh_iva_id.state == 'confirmed', 'Wh doc must be in confirmed state'
-    wf_service.trg_validate(uid, 'account.wh.iva', acc_brw.wh_iva_id.id, 'wh_iva_done', cr)
-    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
-    assert acc_brw.wh_iva_id.state == 'done', 'Wh doc must be in done state'
+    ai_brw = self.browse(cr, uid, ref("islr_inv01"))
+    assert ai_brw.islr_wh_doc_id.amount_total_ret == 750.0, "Bad value for retention amount"
