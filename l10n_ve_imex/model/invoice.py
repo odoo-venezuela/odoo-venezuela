@@ -34,7 +34,6 @@ import datetime
 import decimal_precision as dp
 
 class invoice_inherit(osv.osv):
-    """ """
     
     _inherit='account.invoice'
 

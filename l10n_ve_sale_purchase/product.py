@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -47,7 +47,7 @@ class product_product(osv.osv):
 
     _inherit = "product.product"
     '''
-    Funcion que agrega un concepto por defecto para los productos que no son de servicios
+    Function that adds a default concept for products that are not service
     '''
     def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
         domain = {}
@@ -55,7 +55,7 @@ class product_product(osv.osv):
             concept_obj = self.pool.get('islr.wh.concept')
             concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)],context=context)
             if concept_id:
-                return {'value' : {'concept_id':concept_id[0]}} 
+                return {'value' : {'concept_id':concept_id[0]}}
             else:
                 raise osv.except_osv(_('Invalid action !'),_("Must create the concept of withholding income"))
         return {'value' : {'concept_id':False} ,

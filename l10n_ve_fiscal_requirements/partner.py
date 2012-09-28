@@ -140,7 +140,7 @@ class res_partner(osv.osv):
     def check_vat_ve(self, vat, context = None):
         '''
         Check Venezuelan VAT number, locally called RIF.
-        RIF: JXXXXXXXXX RIF CEDULA VENEZOLANO: VXXXXXXXXX CEDULA EXTRANJERO: EXXXXXXXXX
+        RIF: JXXXXXXXXX RIF VENEZOLAN IDENTIFICATION CARD: VXXXXXXXXX FOREIGN IDENTIFICATION CARD: EXXXXXXXXX
         '''
         
         if context is None:
