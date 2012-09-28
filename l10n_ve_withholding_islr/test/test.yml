@@ -1,0 +1,110 @@
+-
+  Test a purchase invoice
+-
+  I update wh concept for adding journals
+-
+  !record {model: islr.wh.concept, id: islr_wh_concept_comisiones_venta_inmuebles}:
+    property_retencion_islr_payable: islr_pay
+    property_retencion_islr_receivable: islr_rec
+-
+  I update company information so it become a wh agent
+-
+  !record {model: res.partner, id: base.main_company}:
+    wh_iva_agent: True
+    wh_iva_rate: 50 
+    vat_subjected: True
+-
+  I update partner
+-
+  !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
+    supplier: True
+    customer: True
+    wh_iva_agent: True
+    islr_withholding_agent: True
+    wh_iva_rate: 75
+    vat_subjected: True
+-
+  I create a purchase invoice
+-
+  !record {model: account.invoice, id: islr_inv01}:
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_recv
+    invoice_line:
+      - product_id: product.product_product_pc3
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 1000
+        name: islrprod01
+        account_id: account.a_sale
+        concept_id: islr_wh_concept_comisiones_venta_inmuebles
+        invoice_line_tax_id:
+        - l10n_ve_withholding_filcal_requirements.iva_purchase1
+      - product_id: product.product_product_pc4
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 2000
+        name: islrprod02
+        concept_id: islr_wh_concept_comisiones_venta_inmuebles
+        account_id: account.a_sale
+        invoice_line_tax_id:
+        - l10n_ve_withholding_filcal_requirements.iva_purchase1
+    journal_id: account.sales_journal
+    partner_id: base.res_partner_notsotinysarl0
+    reference_type: none
+    nro_ctrl: islr123
+    type: in_invoice
+-
+  I click on Calculate taxes button
+-
+  !python {model: account.invoice}: |
+    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
+    self.button_reset_taxes(cr, uid, [ref("islr_inv01")])
+-
+  I update check total before validating the invoice
+-
+  !record {model: account.invoice, id: islr_inv01}:
+    check_total: 16800.0
+-
+  I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: islr_inv01}
+-
+  I check that the invoice state is now "Proforma2"
+-
+  !assert {model: account.invoice, id: islr_inv01}:
+    - state == 'proforma2'
+-
+  I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: islr_inv01}
+-
+  Search for the tax lines
+-
+  !python {model: account.invoice}: |
+    import netsvc
+    import datetime
+    wh_line_obj=self.pool.get('account.wh.iva.line')
+    wh_obj=self.pool.get('account.wh.iva')
+    wf_service = netsvc.LocalService("workflow")
+    ap_obj=self.pool.get('account.period')
+    period_id = ap_obj.search(cr, uid, [('name', '=', datetime.datetime.now().strftime("%m/%Y")), ('company_id','=',ref("base.main_company"))])
+    assert period_id, 'Thres is not period for the given date'
+    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
+    wh_obj.write(cr, uid, [acc_brw.wh_iva_id.id], {'period_id':period_id[0], 'date': datetime.datetime.now().strftime("%Y/%m/%d")})
+    l = []
+    for line in acc_brw.wh_iva_id.wh_lines:
+      l.append(line.id)
+    assert l, 'Thres are not wh lines for the given invoice'
+    wh_line_obj.load_taxes(cr, uid, l, context=context)
+    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
+    assert acc_brw.wh_iva_id.state == 'draft', 'Wh doc must be in draft state'
+    wf_service.trg_validate(uid, 'account.wh.iva', acc_brw.wh_iva_id.id, 'wh_iva_confirmed', cr)
+    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
+    assert acc_brw.wh_iva_id.state == 'confirmed', 'Wh doc must be in confirmed state'
+    wf_service.trg_validate(uid, 'account.wh.iva', acc_brw.wh_iva_id.id, 'wh_iva_done', cr)
+    acc_brw=self.browse(cr, uid, ref("islr_inv01"))
+    assert acc_brw.wh_iva_id.state == 'done', 'Wh doc must be in done state'
