@@ -35,7 +35,7 @@ import decimal_precision as dp
 
 class islr_rates(osv.osv):
     '''
-    Modulo para crear las tasas de los Conceptos de Retencion
+    The module to create the rates of the withholding concepts
     '''
     _name='islr.rates'
     _description = 'Rates'
@@ -43,7 +43,7 @@ class islr_rates(osv.osv):
 
     def _get_name(self,cr,uid,ids, field_name, arg, context):
         '''
-        Funcion para obtener el nombre de la tasa del concepto de retencion
+        Get the name of the withholding concept rate
         '''
         res={}
         for rate in self.browse(cr,uid,ids):

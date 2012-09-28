@@ -35,7 +35,7 @@ import datetime
 
 class islr_wh_concept(osv.osv):
     '''
-    Modulo para crear los Conceptos de Retencion
+    Model to create the withholding concepts
     '''
     _name='islr.wh.concept'
     _description = 'Withholding Income Concept'
