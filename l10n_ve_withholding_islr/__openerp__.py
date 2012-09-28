@@ -66,6 +66,7 @@ If you want be able to propose withholding concepts from sales and purchases you
     ],
     'test': [
             'test/test.yml',
+            'test/test_sale.yml',
         ],
     "active": False,
     "installable": True
