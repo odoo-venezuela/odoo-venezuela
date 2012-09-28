@@ -7,22 +7,32 @@
     property_retencion_islr_payable: islr_pay
     property_retencion_islr_receivable: islr_rec
 -
+  I create a fiscal address for the main company
+-
+  !record {model: res.partner.address, id: addr_main}:
+    type: invoice
+    street: Av Siempre Viva
+    phone: "(555) 5555555"
+    fax: "(555) 1111111"
+    email: fakemail@example.com
+    country_id: 240
+-
   I update company information so it become a wh agent
 -
-  !record {model: res.partner, id: base.main_company}:
-    wh_iva_agent: True
-    wh_iva_rate: 50 
-    vat_subjected: True
+  !python {model: res.partner }: |
+    vals = {
+        'islr_withholding_agent': True,
+        'address':[(6, 0, [ref("addr_main")])]
+        }
+    self.write(cr, uid, [ref('base.main_company')], vals)
 -
   I update partner
 -
   !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
     supplier: True
     customer: True
-    wh_iva_agent: True
     islr_withholding_agent: True
-    wh_iva_rate: 75
-    vat_subjected: True
+    vat: VEJ123456789
 -
   I create a purchase invoice
 -
@@ -42,7 +52,7 @@
         account_id: account.a_sale
         concept_id: islr_wh_concept_comisiones_venta_inmuebles
         invoice_line_tax_id:
-        - l10n_ve_withholding_filcal_requirements.iva_purchase1
+        - account.tax10
       - product_id: product.product_product_pc4
         quantity: 5
         uos_id: product.product_uom_unit
@@ -51,11 +61,11 @@
         concept_id: islr_wh_concept_comisiones_venta_inmuebles
         account_id: account.a_sale
         invoice_line_tax_id:
-        - l10n_ve_withholding_filcal_requirements.iva_purchase1
+        - account.tax10
     journal_id: account.sales_journal
     partner_id: base.res_partner_notsotinysarl0
-    reference_type: none
     nro_ctrl: islr123
+    reference: isrlref123
     type: in_invoice
 -
   I click on Calculate taxes button
@@ -86,15 +96,21 @@
 -
   !python {model: account.invoice}: |
     import netsvc
-    import datetime
+    import time
     wh_line_obj=self.pool.get('account.wh.iva.line')
     wh_obj=self.pool.get('account.wh.iva')
     wf_service = netsvc.LocalService("workflow")
-    ap_obj=self.pool.get('account.period')
-    period_id = ap_obj.search(cr, uid, [('name', '=', datetime.datetime.now().strftime("%m/%Y")), ('company_id','=',ref("base.main_company"))])
-    assert period_id, 'Thres is not period for the given date'
+    ap_obj = self.pool.get('account.period')
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
+    assert period, 'Thres is not period for the given date'
+    ap_brw = ap_obj.browse(cr, uid, period[0])
+    if ap_brw.state == 'done':
+        ap_obj.action_draft(cr, uid, period)
+        ap_brw = ap_obj.browse(cr, uid, period[0])
+    assert ap_brw.state == 'draft', 'Period is not open as it should be'
     acc_brw=self.browse(cr, uid, ref("islr_inv01"))
-    wh_obj.write(cr, uid, [acc_brw.wh_iva_id.id], {'period_id':period_id[0], 'date': datetime.datetime.now().strftime("%Y/%m/%d")})
+    
+    wh_obj.write(cr, uid, [acc_brw.wh_iva_id.id], {'period_id':period[0], 'date': time.strftime('%Y/%m/%d')})
     l = []
     for line in acc_brw.wh_iva_id.wh_lines:
       l.append(line.id)
