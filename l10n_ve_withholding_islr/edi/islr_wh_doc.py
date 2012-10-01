@@ -126,34 +126,6 @@ class islr_wh_doc(osv.osv, EDIMixin):
 
         return partner_id
 
-    def _edi_get_pricelist(self, cr, uid, partner_id, currency, context=None):
-        # TODO: refactor into common place for purchase/sale, e.g. into product module
-        partner_model = self.pool.get('res.partner')
-        partner = partner_model.browse(cr, uid, partner_id, context=context)
-        pricelist = partner.property_product_pricelist
-        if not pricelist:
-            pricelist = self.pool.get('ir.model.data').get_object(cr, uid, 'product', 'list0', context=context)
-
-        if not pricelist.currency_id == currency:
-            # look for a pricelist with the right type and currency, or make a new one
-            pricelist_type = 'sale'
-            product_pricelist = self.pool.get('product.pricelist')
-            match_pricelist_ids = product_pricelist.search(cr, uid,[('type','=',pricelist_type),
-                                                                    ('currency_id','=',currency.id)])
-            if match_pricelist_ids:
-                pricelist_id = match_pricelist_ids[0]
-            else:
-                pricelist_name = _('EDI Pricelist (%s)') % (currency.name,)
-                pricelist_id = product_pricelist.create(cr, uid, {'name': pricelist_name,
-                                                                  'type': pricelist_type,
-                                                                  'currency_id': currency.id,
-                                                                 })
-                self.pool.get('product.pricelist.version').create(cr, uid, {'name': pricelist_name,
-                                                                            'pricelist_id': pricelist_id})
-            pricelist = product_pricelist.browse(cr, uid, pricelist_id)
-
-        return self.edi_m2o(cr, uid, pricelist, context=context)
-
     def edi_import(self, cr, uid, edi_document, context=None):
         self._edi_requires_attributes(('company_id','company_address','order_line','date_order','currency'), edi_document)
 
