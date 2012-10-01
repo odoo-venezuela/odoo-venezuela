@@ -26,7 +26,7 @@ from osv import fields, osv, orm
 from edi import EDIMixin
 from tools import DEFAULT_SERVER_DATE_FORMAT
 
-SALE_ORDER_LINE_EDI_STRUCT = {
+ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,
     'name': True,
     #custom: 'date_planned'
@@ -41,7 +41,7 @@ SALE_ORDER_LINE_EDI_STRUCT = {
     'price_subtotal': True,
 }
 
-SALE_ORDER_EDI_STRUCT = {
+ISLR_WH_DOC_EDI_STRUCT = {
     'name': True,
     'origin': True,
     'company_id': True, # -> to be changed into partner
@@ -50,7 +50,7 @@ SALE_ORDER_EDI_STRUCT = {
     'partner_id': True,
     #custom: 'partner_address'
     #custom: 'notes'
-    'order_line': SALE_ORDER_LINE_EDI_STRUCT,
+    'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
 
     # fields used for web preview only - discarded on import
     'amount_total': True,
@@ -61,12 +61,12 @@ SALE_ORDER_EDI_STRUCT = {
     'user_id': True,
 }
 
-class sale_order(osv.osv, EDIMixin):
-    _inherit = 'sale.order'
+class islr_wh_doc(osv.osv, EDIMixin):
+    _name = 'islr.wh.doc'
 
     def edi_export(self, cr, uid, records, edi_struct=None, context=None):
-        """Exports a Sale order"""
-        edi_struct = dict(edi_struct or SALE_ORDER_EDI_STRUCT)
+        """Exports a ISLR WH DOC"""
+        edi_struct = dict(edi_struct or ISLR_WH_DOC_EDI_STRUCT)
         res_company = self.pool.get('res.company')
         res_partner_address = self.pool.get('res.partner.address')
         edi_doc_list = []
@@ -75,7 +75,7 @@ class sale_order(osv.osv, EDIMixin):
             self._edi_generate_report_attachment(cr, uid, order, context=context)
 
             # Get EDI doc based on struct. The result will also contain all metadata fields and attachments.
-            edi_doc = super(sale_order,self).edi_export(cr, uid, [order], edi_struct, context)[0]
+            edi_doc = super(islr_wh_doc,self).edi_export(cr, uid, [order], edi_struct, context)[0]
             edi_doc.update({
                     # force trans-typing to purchase.order upon import
                     '__import_model': 'purchase.order',
@@ -193,18 +193,18 @@ class sale_order(osv.osv, EDIMixin):
 
             # discard web preview fields, if present
             order_line.pop('price_subtotal', None)
-        return super(sale_order,self).edi_import(cr, uid, edi_document, context=context)
+        return super(islr_wh_doc,self).edi_import(cr, uid, edi_document, context=context)
 
-class sale_order_line(osv.osv, EDIMixin):
-    _inherit='sale.order.line'
+class islr_wh_doc_line(osv.osv, EDIMixin):
+    _name = "islr.wh.doc.line"
 
     def edi_export(self, cr, uid, records, edi_struct=None, context=None):
         """Overridden to provide sale order line fields with the expected names
            (sale and purchase orders have different column names)"""
-        edi_struct = dict(edi_struct or SALE_ORDER_LINE_EDI_STRUCT)
+        edi_struct = dict(edi_struct or ISLR_WH_DOC_LINE_EDI_STRUCT)
         edi_doc_list = []
         for line in records:
-            edi_doc = super(sale_order_line,self).edi_export(cr, uid, [line], edi_struct, context)[0]
+            edi_doc = super(islr_wh_doc_line,self).edi_export(cr, uid, [line], edi_struct, context)[0]
             edi_doc['__import_model'] = 'purchase.order.line'
             edi_doc['product_qty'] = line.product_uom_qty
             if line.product_uos:
