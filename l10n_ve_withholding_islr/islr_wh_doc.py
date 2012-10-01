@@ -474,6 +474,20 @@ account_invoice()
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
     _description = 'Document and Invoice Withheld Income'
+
+    def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+        res = {}
+        for ret_line in self.browse(cr, uid, ids, context):
+            res[ret_line.id] = {
+                'amount_islr_ret': 0.0,
+                'base_ret': 0.0
+            }
+            for line in ret_line.islr_xml_id:
+                res[ret_line.id]['amount_islr_ret'] += line.wh
+                res[ret_line.id]['base_ret'] += line.base
+
+        return res
+
     _columns= {
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'invoice_id':fields.many2one('account.invoice','Invoice', help="Withheld invoice"),
