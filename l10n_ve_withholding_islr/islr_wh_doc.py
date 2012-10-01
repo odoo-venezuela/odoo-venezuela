@@ -477,6 +477,9 @@ class islr_wh_doc_invoices(osv.osv):
     _columns= {
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'invoice_id':fields.many2one('account.invoice','Invoice', help="Withheld invoice"),
+        'islr_xml_id':fields.one2many('islr.xml.wh.line','islr_wh_doc_inv_id','Retenciones'),
+        'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
+        'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
     }
     _rec_rame = 'invoice_id'
 islr_wh_doc_invoices()
