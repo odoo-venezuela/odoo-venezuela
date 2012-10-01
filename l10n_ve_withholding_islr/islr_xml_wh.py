@@ -65,7 +65,7 @@ class islr_xml_wh_doc(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Voucher state"),
-        'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
+        'period_id':fields.many2one('account.period','Period',required=False, help="Period when the accounts entries were done"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding Income Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}),
@@ -209,6 +209,7 @@ class islr_xml_wh_line(osv.osv):
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
         'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner object of withholding"),
         'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute= dp.get_precision('Withhold ISLR')),
+        'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
     _rec_name = 'partner_id'
     
