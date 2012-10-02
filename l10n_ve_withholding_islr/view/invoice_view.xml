@@ -18,7 +18,6 @@
                     <newline/>
                     <group col="6" colspan="4">
                         <field name="status" colspan='2'/>
-                        <field name="islr_wh_doc_name" colspan='2'/>
                         <field name="islr_wh_doc_id" colspan='2'/>
                         <newline/>
 <!--                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>-->
@@ -40,7 +39,6 @@
                     <newline/>
                     <group col="6" colspan="4">
                         <field name="status" colspan='2'/>
-                        <field name="islr_wh_doc_name" colspan='2'/>
                         <field name="islr_wh_doc_id" colspan='2'/>
                         <newline/>
 <!--                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>-->
