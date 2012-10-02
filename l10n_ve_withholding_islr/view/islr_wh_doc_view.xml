@@ -148,8 +148,6 @@
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
-                                    <field name="amount_islr_ret"/>
-                                    <field name="base_ret"/>
                                 <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                         <group col="4" colspan="2">
@@ -291,8 +289,6 @@
                             <notebook colspan="6">
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
-                                    <field name="amount_islr_ret"/>
-                                    <field name="base_ret"/>
                                 </page>
                                 <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
