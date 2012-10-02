@@ -300,6 +300,9 @@
                                     <field name="invoice_ids" nolabel="1">
                                         <tree string="Invoices Withhelds">
                                             <field name="invoice_id"/>
+                                            <field name="islr_xml_id"/>
+                                            <field name="amount_islr_ret"/>
+                                            <field name="base_ret"/>
                                         </tree>
                                     </field>
                                 </page>
