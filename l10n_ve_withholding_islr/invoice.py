@@ -40,7 +40,6 @@ class account_invoice_line(osv.osv):
     _columns = {
         'apply_wh': fields.boolean('Withheld',help="Indicates whether a line has been retained or not, to accumulate the amount to withhold next month, according to the lines that have not been retained."),
         'concept_id': fields.many2one('islr.wh.concept','Withholding  Concept',help="Concept of Withholding Income asociate this rate",required=False),
-        'islr_wh_doc_name': fields.char('Documento de Retencion',size=128,readonly=True),
     }
     _defaults = {
         'apply_wh': lambda *a: False,
@@ -90,6 +89,7 @@ class account_invoice(osv.osv):
             help=' * The \'Processed withholding, xml Line generated\' state is used when a user is a withhold income is processed. \
             \n* The \'Withholding no processed\' state is when user create a invoice and withhold income is no processed. \
             \n* The \'Not exceed the rate,xml Line generated\' state is used when user create invoice,a invoice no exceed the minimun rate.')
+        'islr_wh_doc_name': fields.char('Documento de Retencion',size=128,readonly=True),
     }
     _defaults = {
         'status': lambda *a: "no_pro",
