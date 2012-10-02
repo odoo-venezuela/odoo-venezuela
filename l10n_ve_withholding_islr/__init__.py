@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 ###########################################################################
-#    Module Writen to OpenERP, Open Source Management Solution
+#    Module Written to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
+#    Coded by: Humberto Arocha           <hbto@vauxoo.com>
 #              María Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
@@ -35,3 +35,4 @@ import partner
 import product
 import report
 import wizard
+import edi
