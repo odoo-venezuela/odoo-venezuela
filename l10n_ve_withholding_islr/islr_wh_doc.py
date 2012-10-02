@@ -454,7 +454,7 @@ islr_wh_doc()
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Retention income tax generated from this bill"),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Withholding Income tax generated from this bill"),
     }
     _defaults = {
         'islr_wh_doc_id': lambda *a: 0,
