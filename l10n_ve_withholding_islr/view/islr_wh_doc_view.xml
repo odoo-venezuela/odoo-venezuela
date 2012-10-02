@@ -8,7 +8,22 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Invoices">
-                    <field name="invoice_id" domain="[('partner_id','=',parent.partner_id)]"/>
+                    <field
+                        name="invoice_id"
+                        domain="[('partner_id','=',parent.partner_id),('islr_wh_doc_id', '=', False),('state', '=', 'open'),('invoice_line.concept_id.withholdable', '=', True)]"
+                        colspan='6'/>
+                    <newline/>
+                    <field name="islr_xml_id" nolabel="1"  colspan='4'>
+                        <tree string="Detail of the Concept of Withholding Income">
+                            <field name="rate_id"/>
+                            <field name="wh"/>
+                            <field name="porcent_rete"/>
+                            <field name="base"/>
+                        </tree>
+                    </field>
+                    <field name="amount_islr_ret"/>
+                    <field name="base_ret"/>
+                    <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
                 </form>
             </field>
         </record>
@@ -133,6 +148,8 @@
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
+                                    <field name="amount_islr_ret"/>
+                                    <field name="base_ret"/>
                                 <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                         <group col="4" colspan="2">
@@ -274,6 +291,8 @@
                             <notebook colspan="6">
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
+                                    <field name="amount_islr_ret"/>
+                                    <field name="base_ret"/>
                                 </page>
                                 <page string="Concept of Withholding Income">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
