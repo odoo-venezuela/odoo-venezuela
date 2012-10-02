@@ -65,7 +65,7 @@ class islr_xml_wh_doc(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Voucher state"),
-        'period_id':fields.many2one('account.period','Period',required=False, help="Period when the accounts entries were done"),
+        'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding Income Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}),
@@ -194,7 +194,7 @@ class islr_xml_wh_line(osv.osv):
     
     _columns = {
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=True, ondelete='cascade'),
-        'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
+        'period_id':fields.many2one('account.period','Period',required=False, help="Period when the accounts entries were done"),
         'partner_vat': fields.char('VAT', size=10, required=True, help="Partner VAT"),
         'invoice_number': fields.char('Invoice Number',size=10,required=True, help="Number of invoice"),
         'control_number': fields.char('Control Number',size=8,required=True, help="Reference"),
