@@ -194,7 +194,7 @@ class islr_xml_wh_line(osv.osv):
     
     _columns = {
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=True, ondelete='cascade'),
-        'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
+        'period_id':fields.many2one('account.period','Period',required=False, help="Period when the accounts entries were done"),
         'partner_vat': fields.char('VAT', size=10, required=True, help="Partner VAT"),
         'invoice_number': fields.char('Invoice Number',size=10,required=True, help="Number of invoice"),
         'control_number': fields.char('Control Number',size=8,required=True, help="Reference"),
@@ -209,6 +209,7 @@ class islr_xml_wh_line(osv.osv):
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
         'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner object of withholding"),
         'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute= dp.get_precision('Withhold ISLR')),
+        'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
     _rec_name = 'partner_id'
     

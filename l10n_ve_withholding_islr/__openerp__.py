@@ -38,11 +38,11 @@
  - Generate view for load the concepts of wittholding whith their rates.
  - Generate view for visualize the withholding income for suppilers and customers.
  - Load data of the 86 concepts of wittholdings whith their rates.
-
+ - Send an email to supplier with approved withholdings, if not opt_out in the partner
 If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',
-    "depends" : ["account", "l10n_ve_withholding", "product"],
+    "depends" : ["account", "l10n_ve_withholding", "product","edi"],
     "init_xml" : [],
     "demo_xml":[
             "demo/l10n_ve_islr_withholding_demo.xml",
@@ -63,9 +63,11 @@ If you want be able to propose withholding concepts from sales and purchases you
             "islr_xml_wh.xml",
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
+            "edi/islr_wh_doc_action_data.xml"
     ],
     'test': [
-            'test/islr_purchase.yml',
+            'test/test.yml',
+            'test/test_sale.yml',
         ],
     "active": False,
     "installable": True

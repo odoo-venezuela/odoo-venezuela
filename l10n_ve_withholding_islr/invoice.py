@@ -88,7 +88,7 @@ class account_invoice(osv.osv):
             ],'Status',readonly=True,
             help=' * The \'Processed withholding, xml Line generated\' state is used when a user is a withhold income is processed. \
             \n* The \'Withholding no processed\' state is when user create a invoice and withhold income is no processed. \
-            \n* The \'Not exceed the rate,xml Line generated\' state is used when user create invoice,a invoice no exceed the minimun rate.')
+            \n* The \'Not exceed the rate,xml Line generated\' state is used when user create invoice,a invoice no exceed the minimun rate.'),
     }
     _defaults = {
         'status': lambda *a: "no_pro",

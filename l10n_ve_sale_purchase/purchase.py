@@ -64,13 +64,11 @@ purchase_order_line()
 class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     
-    def inv_line_create(self, cr, uid, a, ol):
-        ''' 
-        This method adds the withholding concept to an invoice.
-        '''
-        data = super(purchase_order, self).inv_line_create(cr, uid, a, ol)
-        data[2]['concept_id'] = ol.concept_id.id 
+    def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
+        data = super(purchase_order, self)._prepare_inv_line( cr, uid, account_id, order_line, context=context)
+        data.update({'concept_id':order_line and order_line.concept_id and order_line.concept_id.id   })
         return data
+    
 
 purchase_order()
 
