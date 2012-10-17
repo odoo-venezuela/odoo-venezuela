@@ -25,7 +25,7 @@
 {
     "name" : "Topology for Venezuela",
     "version" : "0.3",
-    "depends" : ["base","sale"],
+    "depends" : ["base"],
     "author" : "Vauxoo",
     "description" : """This module handles the topology according to the sectors of a city.
 
