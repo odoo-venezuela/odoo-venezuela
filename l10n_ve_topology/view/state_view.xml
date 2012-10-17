@@ -20,18 +20,5 @@
                 </xpath>
             </field>
         </record>
-
-        <record id="view_municipalities_tree_state" model="ir.ui.view">
-            <field name="name">res.municipality.tree</field>
-            <field name="model">res.municipality</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="municipalities">
-                    <field name="name"/>
-                    <field name="code"/>
-                </tree>
-            </field>
-        </record>
-
     </data>
 </openerp>

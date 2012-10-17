@@ -34,6 +34,7 @@ class sector(osv.osv):
     _name = 'res.sector'
     _description = 'Sector'
     _columns = {
+        'code': fields.char('Code', size=2, help="In this field enter the code of the Sector"),
         'name': fields.char('Sector', size=128, help="In this field enter the name of the Sector"),
         'city':fields.related('city_id',type="many2one",relation='res.partner.address',help="In this field you enter the city to which the sector is associated"),
         'municipality':fields.related('municipality_id',type="many2one",relation='res.partner.address', help="In this field enter the name of the municipality which is associated with the parish"),

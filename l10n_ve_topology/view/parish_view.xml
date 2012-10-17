@@ -12,7 +12,6 @@
                     <separator orientation="horizontal"/>
                     <field name="municipalities_id" select="1"/>
                     <field name="name" select="1"/>
-                    <field name="sector_ids" select="1"/>
                 </group>
                 <newline/>
                 <group expand="0" string="Group By.">
@@ -55,7 +54,9 @@
                     <field name="name"/>
                     <field name="municipalities_id"/>
                     <newline/>
+<!--
                     <field name="sector_ids" colspan="4" nolabel="1" context="{'tree_view_ref':'view_sector_parish_tree'}"/>
+-->
                 </form>
             </field>
         </record>
