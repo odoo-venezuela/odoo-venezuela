@@ -43,17 +43,6 @@ class sector(osv.osv):
         'state':fields.related('state_id',type="many2one", relation='res.partner.address',help="In this field enter the name of state associated with the country"),
         'country':fields.related('country_id',type="many2one", relation='res.partner.address',help="In this field enter the name of Country"),
     }
-    
-    def _check_code_uniqueness(self, cr, uid, ids, context={}):
-        sector_obj = self.pool.get('res.sector')
-        sector_code = sector_obj.read(cr, uid, ids, ['code'])[0]
-        if sector_code and sector_obj.search(cr, uid, [('code', '=', sector_code['code'])]):
-            return False
-        return True
-        
-    _constraints = [
-        (_check_code_uniqueness, _("Error ! Sector's code must be a unique value"), []),
-    ]
 
 sector()
 
