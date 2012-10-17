@@ -34,8 +34,8 @@ class sector(osv.osv):
     _name = 'res.sector'
     _description = 'Sector'
     _columns = {
-        'code': fields.char('Code', size=2, help="In this field enter the code of the Sector"),
-        'name': fields.char('Sector', size=128, help="In this field enter the name of the Sector"),
+        'code': fields.char('Code', size=10,required=True, help="In this field enter the code of the Sector"),
+        'name': fields.char('Sector', size=128,required=True, help="In this field enter the name of the Sector"),
         'city':fields.related('city_id',type="many2one",relation='res.partner.address',help="In this field you enter the city to which the sector is associated"),
         'municipality':fields.related('municipality_id',type="many2one",relation='res.partner.address', help="In this field enter the name of the municipality which is associated with the parish"),
         'parish':fields.related('parish_id',type="many2one",relation='res.partner.address',help="In this field you enter the parish to which the sector is associated"),
@@ -43,6 +43,17 @@ class sector(osv.osv):
         'state':fields.related('state_id',type="many2one", relation='res.partner.address',help="In this field enter the name of state associated with the country"),
         'country':fields.related('country_id',type="many2one", relation='res.partner.address',help="In this field enter the name of Country"),
     }
+    
+    def _check_code_uniqueness(self, cr, uid, ids, context={}):
+        sector_obj = self.pool.get('res.sector')
+        sector_code = sector_obj.read(cr, uid, ids, ['code'])[0]
+        if sector_code and sector_obj.search(cr, uid, [('code', '=', sector_code['code'])]):
+            return False
+        return True
+        
+    _constraints = [
+        (_check_code_uniqueness, _("Error ! Sector's code must be a unique value"), []),
+    ]
 
 sector()
 
