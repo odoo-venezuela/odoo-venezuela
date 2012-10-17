@@ -25,7 +25,7 @@
 {
     "name" : "Topology for Venezuela",
     "version" : "0.3",
-    "depends" : ["base",],
+    "depends" : ["base","sale"],
     "author" : "Vauxoo",
     "description" : """This module handles the topology according to the sectors of a city.
 
@@ -40,6 +40,7 @@ Adds new information sectors of the state, municipality, parish and city to whic
                     "data/city_ve_data.xml",
                     "data/municipality_data.xml",
                     "data/parish_ve_data.xml",
+                    "data/zip_code_data.xml"
         ],
     "demo_xml" : [    ],
     "test": [
@@ -53,7 +54,6 @@ Adds new information sectors of the state, municipality, parish and city to whic
                     "view/sector_view.xml",
                     "view/state_view.xml",
                     "security/ir.model.access.csv",
-                    "data/zip_code_data.xml"
                     ],
     "active": False,
     "installable": True,

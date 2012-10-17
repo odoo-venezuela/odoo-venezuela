@@ -20,6 +20,7 @@
 					<field name="city_id" invisible="False"  attrs= "{'readonly':[('state_id','=',False)]}"/>
 					<field name="municipality_id" invisible="False" attrs= "{'readonly':[('city_id','=',False)]}"/>
 					<field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+                    <field name="sector_id" invisible="False" attrs= "{'readonly':[('state_id','=',False)]}"/>
 				</group>
 			</xpath>
         </field>
@@ -43,6 +44,7 @@
 					<field name="city_id" invisible="False"  attrs= "{'readonly':[('state_id','=',False)]}"/>
 					<field name="municipality_id" invisible="False" attrs= "{'readonly':[('city_id','=',False)]}"/>
 					<field name="parish_id" invisible="False" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+					<field name="sector_id" />
 				</group>
 			</xpath>
         </field>
@@ -59,17 +61,12 @@
         <field name="arch" type="xml">
             <search string="Search Sectors">
                 <group>
-                    <separator orientation="horizontal"/>
+                    <field name="code"/>
                     <field name="name"/>
-                    <field name="city"/>
-                    <field name="parish"/>
-                    <field name="zipcode"/>
                 </group>
                 <newline/>
                 <group expand="1" string="Group By.">
-                    <filter string="City" context="{'group_by': 'city'}" icon="terp-stock_effects-object-colorize"/>
-                    <filter string="Parish" context="{'group_by': 'parish'}" icon="terp-stock_effects-object-colorize"/>
-                    <filter string="Zip Code" context="{'group_by': 'zipcode'}" icon="terp-stock_effects-object-colorize"/>
+                    <filter string="Code" context="{'group_by': 'code'}" icon="terp-stock_effects-object-colorize"/>
                 </group>
             </search>
         </field>
@@ -81,15 +78,8 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Sector">
+                <field name="code"/>
                 <field name="name"/>
-<!--
-                <field name="country" invisible="True"/>
-                <field name="state" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
-                <field name="municipality" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
-                <field name="parish" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
-                <field name="city" invisible="True" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
-                <field name="zipcode" invisible="True"/>
--->
             </tree>
         </field>
     </record>
@@ -100,15 +90,8 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Sector">
+                <field name="code"/>
                 <field name="name"/>
-<!--
-                <field name="country" invisible="True"/>
-                <field name="state" invisible="True" domain= "[('country_id','=',country)]" attrs= "{'readonly':[('country','=',False)]}"/>
-                <field name="municipality" invisible="True" domain= "[('state_id','=',state)]" attrs= "{'readonly':[('state','=',False)]}"/>
-                <field name="parish" invisible="True" domain= "[('municipalities_id','=',municipality)]" attrs= "{'readonly':[('municipality','=',False)]}"/>
-                <field name="city" invisible="True" domain= "[('state_ids','=',state)]" attrs= "{'readonly':[('parish','=',False)]}"/>
-                <field name="zipcode" invisible="True"/>
--->
             </form>
         </field>
     </record>
@@ -119,11 +102,8 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Sector">
+                <field name="code"/>
                 <field name="name"/>
-<!--
-                <field name="city"/>
-                <field name="zipcode"/>
--->
             </tree>
         </field>
     </record>
@@ -134,9 +114,6 @@
         <field name="res_model">res.sector</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="view_sector_tree"/>
-<!--
-        <field name="search_view_id" ref="view_sector_filter"/>
--->
         <field name="help">Sector is a name for a city subdivision</field>
     </record>
 
