@@ -27,6 +27,7 @@
                  "l10n_ve_split_invoice", 
                  "l10n_ve_withholding", 
                  "l10n_ve_withholding_iva" ,
+                 "l10n_ve_withholding_islr" ,
                  "l10n_ve_withholding_muni",
                  "l10n_ve_withholding_src",
                  "l10n_ve_fiscal_reports_V3",
