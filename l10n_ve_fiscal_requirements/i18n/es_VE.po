@@ -457,12 +457,12 @@ msgstr "Error !"
 #. module: l10n_ve_fiscal_requirements
 #: selection:account.tax,appl_type:0
 msgid "General Aliquot"
-msgstr "Alicuota General"
+msgstr "Alícuota General"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wiz.nroctrl:0
 msgid "Changing the Control Number"
-msgstr "Cambiando el Número de Control"
+msgstr "Cambiando el número de control"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.seniat.url:0
@@ -472,12 +472,12 @@ msgstr "URL Seniat for Retention Rate (Rif)"
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,fiscal_printer:0
 msgid "Fiscal printer number"
-msgstr "Fiscal printer number"
+msgstr "Número de impresora fiscal"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice.parent,partner_id:0
 msgid "Customer or supplier who owns the invoice"
-msgstr "Customer or supplier who owns the invoice"
+msgstr "Cliente o proveedor a quien pertenece de ésta factura"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:account.invoice.debit:0
@@ -519,17 +519,17 @@ msgstr "Configuración"
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice.debit,journal_id:0
 msgid "Debits Journal"
-msgstr "Debits Journal"
+msgstr "Diario de débitos"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_tax
 msgid "account.tax"
-msgstr "contabilidad.impuesto"
+msgstr "account.tax"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:res.partner,seniat_updated:0
 msgid "This field indicates if partner was updated using SENIAT button"
-msgstr "Esto campo indica si la empresa fue actualizada usando el boton de actualizacio de SENIAT"
+msgstr "Esto campo indica si la empresa fue actualizada usando el boton de 'actualización de SENIAT'"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice,date_document:0
