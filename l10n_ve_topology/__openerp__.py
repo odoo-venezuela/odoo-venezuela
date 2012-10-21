@@ -40,19 +40,18 @@ Adds new information sectors of the state, municipality, parish and city to whic
                     "data/city_ve_data.xml",
                     "data/municipality_data.xml",
                     "data/parish_ve_data.xml",
-                    "data/zip_code_data.xml"
+                    "data/sectores_ve_data.xml"
         ],
     "demo_xml" : [    ],
     "test": [
     ],
     "update_xml" : [
-                    
                     "view/municipality_view.xml",
                     "view/city_view.xml",
                     "view/parish_view.xml",
-                    "view/zipcode_view.xml",
                     "view/sector_view.xml",
                     "view/state_view.xml",
+                    "view/res_partner_view.xml",
                     "security/ir.model.access.csv",
                     ],
     "active": False,

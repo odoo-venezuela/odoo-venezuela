@@ -26,5 +26,5 @@ import city
 import municipality
 import state
 import parish
-import zipcode
 import sector
+import res_partner

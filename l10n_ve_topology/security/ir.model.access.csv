@@ -7,5 +7,3 @@
 "access_parish_group_user","parish group_user","model_res_parish","base.group_partner_manager",1,1,1,1
 "access_sector_group_all","sector group_user_all","model_res_sector","base.group_user",1,1,0,0
 "access_sector_group_user","sector group_user","model_res_sector","base.group_partner_manager",1,1,1,1
-"access_zipcode_group_all","zipcode group_user_all","model_res_zipcode","base.group_user",1,1,0,0
-"access_zipcode_group_user","zipcode group_user","model_res_zipcode","base.group_partner_manager",1,1,1,1
