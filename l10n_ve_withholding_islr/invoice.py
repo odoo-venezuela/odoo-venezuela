@@ -238,15 +238,15 @@ class account_invoice(osv.osv):
         '''
         Returns a dictionary with the rate of each withholding concept.
         '''
-        dict = {}
+        dictd = {}
         cont = 0
         for concept_id in concept_list:
-            dict[concept_id] = self._get_rate(cr, uid, concept_id, residence, nature,context)
-            if dict[concept_id]:
+            dictd[concept_id] = self._get_rate(cr, uid, concept_id, residence, nature,context)
+            if dictd[concept_id]:
                 cont += 1
         if not cont:
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the Concept of Withholding associated with type line is not withheld!"))
-        return dict
+        return dictd
 
 
     def _pop_dict(self,cr,uid,concept_list,dict_rate,wh_dict):
