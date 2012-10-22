@@ -1,7 +1,7 @@
 -
   4. Test a purchase invoice w/o taxes in invoice lines
 -
-  4.5 I create a purchase invoice
+  4.1 I create a purchase invoice
 -
   !record {model: account.invoice, id: islr_inv03}:
     company_id: base.main_company
@@ -31,31 +31,31 @@
     reference: isrlref123NOTAX
     type: in_invoice
 -
-  4.6 I click on Calculate taxes button
+  4.2 I click on Calculate taxes button
 -
   !python {model: account.invoice}: |
     acc_brw=self.browse(cr, uid, ref("islr_inv03"))
     self.button_reset_taxes(cr, uid, [ref("islr_inv03")])
 -
-  4.7 I update check total before validating the invoice
+  4.3 I update check total before validating the invoice
 -
   !record {model: account.invoice, id: islr_inv03}:
     check_total: 16800.0
 -
-  4.8 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  4.4 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: islr_inv03}
 -
-  4.9 I create invoice by clicking on Create button
+  4.5 I create invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: islr_inv03}
 -
-  4.10 I check that the invoice has any wh doc (must have)
+  4.6 I check that the invoice has any wh doc (must have)
 -
   !assert {model: account.invoice, id: islr_inv03}:
     - islr_wh_doc_id.id
 -
-  4.11 Search for the wh lines
+  4.7 Search for the wh lines
 -
   !python {model: account.invoice}: |
     import netsvc
