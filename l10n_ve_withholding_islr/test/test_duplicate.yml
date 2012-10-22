@@ -19,5 +19,8 @@
                 'type': 'out_invoice'}
     invoice_id = self.copy(cr, uid, ref("islr_inv01"), default=None, context=None)
     assert invoice_id, "Invoice was not duplicated (should)"
-    self.write(cr, uid, [invoice_id], {'journal_id': ref("account.expenses_journal"), 'nro_ctrl':'DUPLINV00'})
+    self.write(cr, uid, [invoice_id], 
+            {'journal_id': ref("account.expenses_journal"), 
+             'nro_ctrl':'DUPLINV00',
+               'reference':'110011'})
     
