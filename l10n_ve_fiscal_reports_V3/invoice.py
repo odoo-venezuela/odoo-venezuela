@@ -99,7 +99,7 @@ class inherited_invoice(osv.osv):
                 ret.update({r.id:  r.partner_id.name})
         return ret
 
-    def _get_number(self,cr,uid,ids,name,args,context=None):
+    def _get_inv_number(self,cr,uid,ids,name,args,context=None):
         '''
         Get Invoice Number
         '''
@@ -267,7 +267,7 @@ class inherited_invoice(osv.osv):
             ret.update({r.id : amount})
         return ret
     
-    def _get_tax_line(self, s):
+    def _get_inv_tax_line(self, s):
         '''
         Get Tax Line
         '''
@@ -499,7 +499,7 @@ class inherited_invoice(osv.osv):
                             help=""),    
         'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
                             help=""),
-        'get_reference': fields.function(_get_number, method=True, string='Invoice number', type='char',
+        'get_reference': fields.function(_get_inv_number, method=True, string='Invoice number', type='char',
                             help=""),
         'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
                             help=""),
@@ -517,7 +517,7 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_v_exent': fields.function(_get_v_exent, method=True, string='Amount excempt', type='float',
                             help=""),
-        'get_tax_line': fields.function(_get_tax_line, method=True, string='Tax line', type='char',
+        'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
                             help=""),
 #        'get_parent': fields.function(_get_parent, method=True, string='kind of document', type='char',
 #                            help=""),
