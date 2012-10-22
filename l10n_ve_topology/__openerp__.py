@@ -32,6 +32,9 @@
 Obtain information and managed all states, municipalities, parishes and sectors of Venezuela with their zip codes and city codes.
 
 Adds new information sectors of the state, municipality, parish and city to which he belongs. 
+
+Sectors information was obtained from the following address: www.ipostel.gob.ve/pdf/Zonas_Postales.pdf
+
 """,
     "website" : "http://vauxoo.com",
     "category" : "Generic Modules/Localization",
