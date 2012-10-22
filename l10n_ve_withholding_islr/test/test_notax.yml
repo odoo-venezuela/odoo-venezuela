@@ -1,0 +1,64 @@
+-
+  4. Test a purchase invoice w/o taxes in invoice lines
+-
+  4.5 I create a purchase invoice
+-
+  !record {model: account.invoice, id: islr_inv03}:
+    company_id: base.main_company
+    currency_id: base.EUR
+    date_invoice: !eval time.strftime('%Y-%m-%d')
+    address_contact_id: base.res_partner_address_3
+    address_invoice_id: base.res_partner_address_3
+    account_id: account.a_expense
+    invoice_line:
+      - product_id: product.product_product_pc3
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 1000
+        name: islrprod01_notax
+        account_id: account.a_expense
+        concept_id: islr_wh_concept_demo2
+      - product_id: product.product_product_pc4
+        quantity: 5
+        uos_id: product.product_uom_unit
+        price_unit: 2000
+        name: islrprod02_notax
+        concept_id: islr_wh_concept_demo2
+        account_id: account.a_expense
+    journal_id: account.expenses_journal
+    partner_id: l10n_ve_fiscal_requirements.f_req_partner_10
+    nro_ctrl: islr123NOTAX
+    reference: isrlref123NOTAX
+    type: in_invoice
+-
+  4.6 I click on Calculate taxes button
+-
+  !python {model: account.invoice}: |
+    acc_brw=self.browse(cr, uid, ref("islr_inv03"))
+    self.button_reset_taxes(cr, uid, [ref("islr_inv03")])
+-
+  4.7 I update check total before validating the invoice
+-
+  !record {model: account.invoice, id: islr_inv03}:
+    check_total: 16800.0
+-
+  4.8 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+-
+  !workflow {model: account.invoice, action: invoice_proforma2, ref: islr_inv03}
+-
+  4.9 I create invoice by clicking on Create button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: islr_inv03}
+-
+  4.10 I check that the invoice has any wh doc (must have)
+-
+  !assert {model: account.invoice, id: islr_inv03}:
+    - islr_wh_doc_id.id
+-
+  4.11 Search for the wh lines
+-
+  !python {model: account.invoice}: |
+    import netsvc
+    import time
+    ai_brw = self.browse(cr, uid, ref("islr_inv03"))
+    assert ai_brw.islr_wh_doc_id.amount_total_ret == 222.3, "Bad value for retention amount"

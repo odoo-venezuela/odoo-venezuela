@@ -245,7 +245,7 @@ class account_invoice(osv.osv):
             if dictd[concept_id]:
                 cont += 1
         if not cont:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the Concept of Withholding associated with type line is not withheld!"))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the Concept of Withholding associated with the line has not rate for the type of customer!"))
         return dictd
 
 
