@@ -1,0 +1,21 @@
+-
+  3 . Test duplacate invoice with withholding
+-
+  3.1 Check if invoice was created in previous tests and has a wh document
+-
+  !assert {model: account.invoice, id: islr_inv01}:
+    - id
+    - islr_wh_doc_id.id
+-
+  3.2 Duplicate the invoice
+-
+  !python {model: account.invoice}: |
+    default = {'islr_wh_doc_id': 0}
+    context =  {'lang': 'en_US', 
+                'tz': False, 
+                'uid': uid, 
+                'journal_type': 'sale', 
+                'default_type': 'out_invoice', 
+                'type': 'out_invoice'}
+    a = self.copy(cr, uid, ref("islr_inv01"), default=None, context=None)
+    print a
