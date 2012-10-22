@@ -101,8 +101,7 @@ class account_invoice(osv.osv):
         
         if context is None :
             context = {}
-        print '*****  El contexto ', context
-        print '*****  Defauls ', default
+            
         default = default.copy()
         default.update({'islr_wh_doc':0,
                         'status': 'no_pro',

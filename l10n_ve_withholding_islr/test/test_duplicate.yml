@@ -7,7 +7,7 @@
     - id
     - islr_wh_doc_id.id
 -
-  3.2 Duplicate the invoice
+  3.2 Duplicate the invoice from an open invoice
 -
   !python {model: account.invoice}: |
     default = {'islr_wh_doc_id': 0}
@@ -17,5 +17,7 @@
                 'journal_type': 'sale', 
                 'default_type': 'out_invoice', 
                 'type': 'out_invoice'}
-    a = self.copy(cr, uid, ref("islr_inv01"), default=None, context=None)
-    print a
+    invoice_id = self.copy(cr, uid, ref("islr_inv01"), default=None, context=None)
+    assert invoice_id, "Invoice was not duplicated (should)"
+    self.write(cr, uid, [invoice_id], {'journal_id': ref("account.expenses_journal"), 'nro_ctrl':'DUPLINV00'})
+    
