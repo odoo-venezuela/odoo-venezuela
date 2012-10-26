@@ -33,9 +33,6 @@ from osv import fields
 class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
     _columns = {
-        'date_document': fields.date("Document Date", 
-                                help="Administrative date", 
-                                        select=True),
         'date_invoice': fields.date('Fecha Contable', 
                                     states={'open':[('readonly',True)],
                                     'close':[('readonly',True)],
