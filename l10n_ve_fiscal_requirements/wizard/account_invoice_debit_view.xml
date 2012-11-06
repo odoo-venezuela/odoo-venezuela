@@ -7,7 +7,7 @@
             <field name="model">account.invoice.debit</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Debit Note">
+                <form string="Debit Note" version="7.0">
                     <separator string="Debit Note Options" colspan="4"/>
                     <group colspan="4" >
                          <field name="description"/>
@@ -35,6 +35,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
            <field name="view_id" ref="view_account_invoice_debit"/>
+           <field name="context">{}</field> 
            <field name="target">new</field>
         </record>
 

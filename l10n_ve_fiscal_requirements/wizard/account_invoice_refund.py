@@ -62,6 +62,10 @@ class account_invoice_refund(osv.osv_memory):
         return journal and journal[0] or False
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
+        
+        if context is None:
+            context = {}
+        
         journal_obj = self.pool.get('account.journal')
         res = super(account_invoice_refund,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         type = context.get('journal_type', 'sale_refund')

@@ -6,7 +6,7 @@
       <field name="model">account.invoice</field>
       <field name="inherit_id" ref="account.invoice_supplier_form" />
       <field name="arch" type="xml">
-        <xpath expr="//separator[@string='Additional Information']" position="before">
+        <xpath expr="//separator[@string='Other Info']" position="before">
           <group colspan="2">
           <newline/>
             <separator colspan="6" string="Landing Information"/>

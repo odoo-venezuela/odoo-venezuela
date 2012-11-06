@@ -8,7 +8,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_account_invoice_refund"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/group/field[@name='period']" position="after">
+                <xpath expr="//field[@name='period']" position="after">
                      <field name="nro_ctrl"/>
                 </xpath>
             </field>

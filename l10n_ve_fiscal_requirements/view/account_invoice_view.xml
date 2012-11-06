@@ -27,7 +27,7 @@
                     </group>
                     <newline/>
                 </xpath>
-                <xpath expr="/form/notebook/page[@string='Payments']" position="after">
+                <xpath expr="//page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes">
                         <newline/>
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
@@ -51,7 +51,7 @@
                                 colspan="6" />
                     </group>
                 </xpath>
-                <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
+                <xpath expr="//button[@string='Refund']" position="replace">
                     <button name="%(account.action_account_invoice_refund)d" 
                             type='action' 
                             string='Refund' 
@@ -92,7 +92,7 @@
             <field name="type">tree</field>
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="/tree/field[@name='origin']" position="after">
+                <xpath expr="//field[@name='origin']" position="after">
                     <field name="parent_id"/>
                 </xpath>
             </field>
@@ -108,6 +108,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
+<!--
                 <xpath expr="//field[@name='date_invoice']" position="replace">
                     <group colspan="6" cols="2">
                         <field name="date_invoice"/>
@@ -138,13 +139,17 @@
                                  colspan="6"/>
                     </group>
                 </xpath>
-                <xpath expr="/form/notebook/page/group/group/button[@string='Refund']" position="replace">
+
+                <xpath expr="//button[@string='Ask Refund']" position="replace">
                     <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund' states='open,paid' icon="gtk-execute"/>
-                </xpath>
-                <xpath expr="//field[@name='address_invoice_id']" position="replace">
+                </xpath>-->
+
+<!--
+                <xpath expr="//field[@name='supplier_invoice_number']" position="after">
                     <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
                 </xpath>
-                <xpath expr="/form/notebook/page[@string='Payments']" position="after">
+-->
+<!--                <xpath expr="//page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes">
                         <field name="child_ids" 
                                nolabel="1" 
@@ -152,14 +157,14 @@
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
                     </page>
                 </xpath>
-                <xpath expr="//button[@string='Refund']" position="after">
+                <xpath expr="//button[@string='Ask Refund']" position="after">
                     <button name="%(action_account_invoice_debit)d" 
                             type='action' 
                             string='Debit Note' 
                             icon="gtk-execute" 
                             attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
                 </xpath>
-                <xpath expr="//button[@string='Refund']" position="after">
+                <xpath expr="//button[@string='Ask Refund']" position="after">
                     <button name="%(action_account_invoice_parent)d" 
                             type='action' 
                             string='Parent Invoice' 
@@ -167,7 +172,10 @@
                             icon="gtk-execute" 
                             attrs="{'invisible':[('type','!=','in_refund')]}"/>
                 </xpath>
+-->
             </field>
         </record>
+        
+ 
     </data>
 </openerp>
