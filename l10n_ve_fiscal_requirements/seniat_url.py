@@ -136,7 +136,6 @@ class seniat_url(osv.osv):
     def update_rif(self, cr, uid, ids, context={}):
         aux=[]
         rp_obj = self.pool.get('res.partner')
-        addr_obj = self.pool.get('res.partner.address')
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
@@ -150,9 +149,9 @@ class seniat_url(osv.osv):
                 return False
         for partner in rp_obj.browse(cr,uid,ids):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
-            if partner.vat:
+            if partner.vat and partner.type == 'invoice':
                 partner_id =partner.id
-                code = addr_obj.browse(cr,uid,addr_obj.search(cr,uid,[('partner_id','=',partner_id),('type','=','invoice')]))[0].country_id.code
+                code = partner.country_id and partner.country_id.code
                 if code == 'VE':
                     if rp_obj.check_vat_ve(partner.vat[2:],context):
                         res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
@@ -172,8 +171,8 @@ class seniat_url(osv.osv):
                         return False
                         #~ self._print_error(_('Error'),_("The country in invoice address is not Venezuela, can not establish connection with sSENIAT"))
             else:
-                if partner.address:
-                    invoices_addr_country = [i.country_id and i.country_id.code or False  for i in partner.address if i.type == 'invoice']
+                if partneri and partner.type == 'invoice':
+                    invoices_addr_country = partner.country_id and [partner.country_id.code]
                     if invoices_addr_country:
                         country = [j for j in invoices_addr_country if j]
                         if country and 'VE' in country and not context.get('all_rif',False):
