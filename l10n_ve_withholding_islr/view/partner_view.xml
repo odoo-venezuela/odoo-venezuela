@@ -18,6 +18,8 @@
                     <newline/>
                         <group col="4" colspan="2">
                             <field name="islr_withholding_agent"/>
+                            <field name="spn"/>
+                            <field name="islr_exempt"/>
                         </group>
                 </xpath>
                 <xpath expr='//separator[@string="vsep"]' position='attributes'>

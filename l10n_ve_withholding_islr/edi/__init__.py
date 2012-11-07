@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 ###########################################################################
-#    Module Writen to OpenERP, Open Source Management Solution
+#    Module Written to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
-#    Planified by: Nhomar Hernandez
-#    Audited by: Vauxoo C.A.
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>           
+#    Planified by: Rafael Silva <rsilvam@vauxoo.com>
+#    Audited by: Nhomar Hernandez <nhomar@vauxoo.com>
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -22,16 +22,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-from osv import osv
-from osv import fields
-from tools.translate import _
 
-class zipcode(osv.osv):
-    '''
-    Model added to manipulate separately the Zip Code on Partner address.
-    '''
-    _name = 'res.zipcode'
-    _columns = {
-        'name': fields.char('Zip Code', size=128, required=True, select=1, help="The ZipCode written as four numbers, Example: 1010\n"),
-    }
-zipcode()
+import islr_wh_doc
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

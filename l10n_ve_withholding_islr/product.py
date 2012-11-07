@@ -47,7 +47,7 @@ class product_product(osv.osv):
 
     _inherit = "product.product"
     '''
-    Funcion que agrega un concepto por defecto para los productos que no son de servicios
+    Add a default concept for products that are not service type
     '''
     def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
         concept_id = False

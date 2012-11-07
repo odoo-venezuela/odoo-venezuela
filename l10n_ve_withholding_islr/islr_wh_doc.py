@@ -199,7 +199,7 @@ class islr_wh_doc(osv.osv):
         res = cr.dictfetchone()
         if res:
             if res['number_next']:
-                return pool_seq._process(res['prefix']) + '%%0%sd' % res['padding'] % res['number_next'] + pool_seq._process(res['suffix'])
+                return pool_seq._next(cr, uid, [res['id']])
             else:
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
@@ -454,7 +454,7 @@ islr_wh_doc()
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Retention income tax generated from this bill"),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Withholding Income tax generated from this bill"),
     }
     _defaults = {
         'islr_wh_doc_id': lambda *a: 0,
@@ -474,9 +474,26 @@ account_invoice()
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
     _description = 'Document and Invoice Withheld Income'
+
+    def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+        res = {}
+        for ret_line in self.browse(cr, uid, ids, context):
+            res[ret_line.id] = {
+                'amount_islr_ret': 0.0,
+                'base_ret': 0.0
+            }
+            for line in ret_line.islr_xml_id:
+                res[ret_line.id]['amount_islr_ret'] += line.wh
+                res[ret_line.id]['base_ret'] += line.base
+
+        return res
+
     _columns= {
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'invoice_id':fields.many2one('account.invoice','Invoice', help="Withheld invoice"),
+        'islr_xml_id':fields.one2many('islr.xml.wh.line','islr_wh_doc_inv_id','Withholding'),
+        'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
+        'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
     }
     _rec_rame = 'invoice_id'
 islr_wh_doc_invoices()
@@ -509,9 +526,3 @@ class islr_wh_doc_line(osv.osv):
     }
 
 islr_wh_doc_line()
-
-
-
-
-
-

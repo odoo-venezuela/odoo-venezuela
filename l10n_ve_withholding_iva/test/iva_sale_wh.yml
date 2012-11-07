@@ -30,7 +30,6 @@
     journal_id: account.sales_journal
     partner_id: base.res_partner_notsotinysarl0
     reference_type: none
-    nro_ctrl: 31010101
 -
   7.2 I check that Initially customer invoice is in the "Draft" state
 -
@@ -112,6 +111,12 @@
     ap_obj=self.pool.get('account.period')
     period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     assert period, 'There aren\'t periods for this date'
+    ap_brw = ap.browse(cr, uid, period[0])
+    if ap_brw.state == 'done':
+        ap.action_draft(cr, uid, period)
+        ap_brw = ap.browse(cr, uid, period[0])
+    assert ap_brw.state == 'draft', 'Period is not open as it should be'
+
     self.write(cr, uid, ref("wh_iva_sale01"), {'period_id':period[0]})
 -
   7.14 I check period was modificated
@@ -129,39 +134,59 @@
     wil_id = wil_obj.create(cr, uid, res['value']['wh_lines'][0])
     wil_obj.load_taxes(cr, uid, [wil_id])
 -
-  7.16 I confirm the withholding vat customer
+  7.16 I try to confirm the withholding vat customer
 -
   !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
 -
-  7.17 I check withholding vat is confirmed
+  7.17 I check withholding vat not is confirmed because invoice has not control number
 -
-  !assert {model: account.wh.iva, id: wh_iva_sale01}:
-    - state == 'confirmed'
+  !assert {model: account.wh.iva, id: wh_iva_sale01, string: Vat document cannot be in confirmed state}:
+    - state != 'confirmed'
 -
-  7.18 I confirm the withholding vat customer
+  7.18 Create wizard for adding control number
+- 
+  !record {model: wiz.nroctrl, id: wizard_nro_ctrl}:
+    name: '31010101'
+    sure: True
+-
+  7.19 Execute wizard for control number
+-
+  !python {model: wiz.nroctrl}: |
+    import time
+    ctx={}
+    ctx.update({'lang': u'en_US', 'active_model': 'ir.ui.menu', 'tz': False, 'active_ids': [ref("test_sale_iva_ret01"),], 'active_id': ref("test_sale_iva_ret01")})
+    data_dict = {'name':time.strftime('%m/%Y'), 'sure': True, 'model': 'wh_p'}
+    self.set_noctrl(cr, uid, [ref("wizard_nro_ctrl")], ctx)
+-
+  7.20 Check if control number was properly updated
+-
+  !assert {model: account.invoice, id: test_sale_iva_ret01, string: Control number was not propely updated}:
+    - nro_ctrl
+-
+  7.21 I confirm the withholding vat customer after updater control number
 -
   !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
 -
-  7.19 I check withholding vat is confirmed
+  7.22 I check withholding vat is confirmed
 -
-  !assert {model: account.wh.iva, id: wh_iva_sale01}:
+  !assert {model: account.wh.iva, id: wh_iva_sale01, string: Wh documment eas not properly validated}:
     - state == 'confirmed'
 -
-  7.20 I mark it as done
+  7.23 I mark it as done
 -
   !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_sale01}
 -
-  7.21 I check withholding vat is confirmed
+  7.24 I check withholding vat is confirmed
 -
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'done'
 -
-  7.22 I check that the invoice has the wh document
+  7.25 I check that the invoice has the wh document
 -
   !assert {model: account.invoice, id: test_sale_iva_ret01}:
     - wh_iva_id
 -
-  7.23 I check IVA sale journal entries
+  7.26 I check IVA sale journal entries
 -
   !python {model: account.wh.iva}: |
     am_obj=self.pool.get('account.move')

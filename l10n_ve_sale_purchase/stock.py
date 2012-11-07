@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -34,8 +34,7 @@ import time
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
     '''
-    Funcion que agrega a la invoice_lines el concepto de retencion a partir de una orden de compra u orden de venta, 
-    con metodo de facturacion a partir de albaran
+    Function that adds the concept of retention to the invoice_lines from a purchase order or sales order with billing method from picking list
     '''
     def action_invoice_create(self, cursor, user, ids, journal_id=False,group=False, type='out_invoice', context=None):
         if context is None:
@@ -48,12 +47,12 @@ class stock_picking(osv.osv):
         invoice_line_obj = self.pool.get('account.invoice.line')
         for l in invoice_brw.invoice_line:
             invoice_line_obj.write(cursor, user, l.id, {'concept_id':
-                l.product_id and l.product_id.concept_id and l.product_id.concept_id.id or False})       
-        return data 
+                l.product_id and l.product_id.concept_id and l.product_id.concept_id.id or False})
+        return data
 
     _columns = {
         'nro_ctrl': fields.char('Invoice ref.', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Invoice reference"),
-    }   
+    }
 
-    
+
 stock_picking()

@@ -8,7 +8,22 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Invoices">
-                    <field name="invoice_id" domain="[('partner_id','=',parent.partner_id)]"/>
+                    <field
+                        name="invoice_id"
+                        domain="[('partner_id','=',parent.partner_id),('islr_wh_doc_id', '=', False),('state', '=', 'open'),('invoice_line.concept_id.withholdable', '=', True)]"
+                        colspan='6'/>
+                    <newline/>
+                    <field name="islr_xml_id" nolabel="1"  colspan='4'>
+                        <tree string="Detail of the Concept of Withholding Income">
+                            <field name="rate_id"/>
+                            <field name="wh"/>
+                            <field name="porcent_rete"/>
+                            <field name="base"/>
+                        </tree>
+                    </field>
+                    <field name="amount_islr_ret"/>
+                    <field name="base_ret"/>
+                    <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
                 </form>
             </field>
         </record>
@@ -106,6 +121,7 @@
                     <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
+                    <field name="state" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -208,6 +224,7 @@
                     <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
+                    <field name="state" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -283,6 +300,9 @@
                                     <field name="invoice_ids" nolabel="1">
                                         <tree string="Invoices Withhelds">
                                             <field name="invoice_id"/>
+                                            <field name="islr_xml_id"/>
+                                            <field name="amount_islr_ret"/>
+                                            <field name="base_ret"/>
                                         </tree>
                                     </field>
                                 </page>

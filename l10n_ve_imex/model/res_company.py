@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -34,13 +34,12 @@ import datetime
 import decimal_precision as dp
 
 class res_company_inherit(osv.osv):
-    """ """
-    
+
     _inherit='res.company'
 
     _columns={
     'product_ids':fields.many2many('product.product','product_import_rel','company_id','product_id',help='Product list to use in the importation compute'),
-    
+
     }
 
 

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <!-- Partner -->
+    <record model="ir.ui.view" id="partners_form_add_location">
+      <field name="name">partners_form_add_location</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form" />
+      <field name="arch" type="xml">
+        <xpath expr="/form/notebook/page/field[@name='address']/form/group[2]" position="replace">
+          <group colspan="2" col="2">
+            <separator string="Postal Address" colspan="4" col="4" />
+            <field name="type" />
+            <field name="country_id" />
+            <field name="state_id" domain= "[('country_id','=',country_id)]"  attrs= "{'readonly':[('country_id','=',False)]}"/>
+            <field  name="city_id" attrs= "{'readonly':[('state_id','=',False)]}"/>
+            <field  name="municipality_id" attrs= "{'readonly':[('city_id','=',False)]}"/>
+            <field  name="parish_id" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+            <field name="sector_id" attrs= "{'readonly':[('state_id','=',False)]}"/>
+            <field name="street" />
+            <field name="street2" />
+          </group>
+        </xpath>
+      </field>
+    </record>
+    <!-- Partner Address -->
+    <record model="ir.ui.view" id="partner_address_form1">
+      <field name="name">partner_address_form1</field>
+      <field name="model">res.partner.address</field>
+      <field name="inherit_id" ref="base.view_partner_address_form1" />
+      <field name="arch" type="xml">
+        <xpath expr="/form/group[2]" position="replace">
+          <group colspan="2" col="2">
+            <separator string="Postal Address" colspan="4" col="4" />
+            <field name="type" />
+            <field name="country_id" />
+            <field name="state_id" domain= "[('country_id','=',country_id)]"  attrs= "{'readonly':[('country_id','=',False)]}"/>
+            <field  name="city_id" attrs= "{'readonly':[('state_id','=',False)]}"/>
+            <field  name="municipality_id" attrs= "{'readonly':[('city_id','=',False)]}"/>
+            <field  name="parish_id" attrs= "{'readonly':[('municipality_id','=',False)]}"/>
+            <field  name="sector_id" />
+            <field name="street" />
+            <field name="street2" />
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</openerp>

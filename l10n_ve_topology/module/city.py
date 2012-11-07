@@ -36,8 +36,7 @@ class city(osv.osv):
     _columns = {
         'state_id': fields.many2one('res.country.state','State', required=True, help="This field selects the states to which this city is associated \n"),
         'name': fields.char('City Name', size=64, required=True, help="In this field enter the name of the City \n"),
-        'code': fields.char('City Code', size=3,
-            help='The city code in three chars, Example: CCS for Caracas .\n', required=True),
+        'code': fields.char('City Code', size=3,help='The city code in three chars, Example: CCS for Caracas .\n', required=True),
     }
     def name_search(self, cr, user, name='', args=None, operator='ilike',
             context=None, limit=80):
