@@ -81,9 +81,9 @@ class res_partner(osv.osv):
         if not current_vat or current_vat.strip()=='':
             return True # Accept empty VAT's
             
-        duplicates = partner_obj.read(cr, uid, partner_obj.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
+        duplicates = self.read(cr, uid, self.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
 
-        return not current_vat in [p['vat'] for p in duplicates if p['id'] != current_partner['id']]
+        return not current_vat in [p['vat'] for p in duplicates if p['id'] != partner_brw[0].id]
 
     _constraints = [
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
