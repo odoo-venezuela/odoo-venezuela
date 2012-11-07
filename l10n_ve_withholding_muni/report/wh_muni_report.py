@@ -37,16 +37,15 @@ class rep_wh_muni(report_sxw.rml_parse):
             'get_rif': self._get_rif
         })
 
-    def _get_partner_addr(self, idp=None):
+    def _get_partner_addr(self, idp=False`):
         if not idp:
             return []
 
-        addr_obj = self.pool.get('res.partner.address')
+        addr_obj = self.pool.get('res.partner')
         addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
-        addr_ids = addr_obj.search(self.cr,self.uid,[('partner_id','=',idp), ('type','=','invoice')])
-        if addr_ids:                
-            addr = addr_obj.browse(self.cr,self.uid, addr_ids[0])
-            addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
+        if idp:                
+            addr = addr_obj.browse(self.cr,self.uid, idp)
+            addr_inv =addr.type == 'invoice' and  (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
         return addr_inv 
 
 
