@@ -19,11 +19,10 @@ class wh_src_report(report_sxw.rml_parse):
         
 
     def get_empresa(self, partner_id):
-        obj_addr = self.pool.get('res.partner.address')
-        addr_id =obj_addr.search(self.cr, self.uid, [('type','=','invoice'),('partner_id','=',partner_id)])
+        obj_addr = self.pool.get('res.partner')
         res = {}
-        for row in obj_addr.browse(self.cr, self.uid, addr_id):
-            res = {
+        for row in obj_addr.browse(self.cr, self.uid, partner_id):
+            res = row.type == 'invoice' and {
             'street':row.street,
             'phone':row.phone,
             'fax':row.fax,

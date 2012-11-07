@@ -56,7 +56,7 @@
                 <field name="type">form</field>
                 <field name="inherit_id" ref="account.invoice_supplier_form"/>
                 <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='quantity']" position="before">
+                <xpath expr="//field[@name='quantity']" position="before">
                     <field name="concept_id" required="1"/>
                 </xpath>
                 </field>

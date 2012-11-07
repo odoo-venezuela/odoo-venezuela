@@ -167,7 +167,7 @@ class account_invoice_tax(osv.osv):
         company_currency = inv.company_id.currency_id.id
 
         for line in inv.invoice_line:
-            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id)['taxes']:
+            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity,line.product_id, inv.partner_id)['taxes']:
                 val={}
                 val['invoice_id'] = inv.id
                 val['name'] = tax['name']

@@ -16,7 +16,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_tax_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='active']" position="after">
+                <xpath expr="/form/group/field[@name='active']" position="after">
                     <field name="appl_type" groups="account.group_account_manager"/>
                 </xpath>
             </field>

@@ -49,22 +49,15 @@ class fiscal_requirements_config(osv.osv_memory):
         '''
         wiz_data = self.browse(cr, uid, ids[0])
         partner = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id
-        address_obj = self.pool.get('res.partner.address')
         #Data on res partner address - Invoice
-        address_ids = address_obj.search(cr,uid,[('partner_id','=',partner.id),('type','like','invoice')])
-        if address_ids:
-            address_obj.write(cr, uid,address_ids, {'partner_id':partner.id,
-                    'type':'invoice',
+        partner and partner.type == 'invoice' and self.pool.get('res.partner').write(cr, uid,[partner.id], {
                     'street':wiz_data.add,
-                    'country_id':self.pool.get("res.country").search(cr,uid,[('code','=','VE')])[0]})
-        else:
-            address_obj.create(cr, uid,{'partner_id':partner.id,
-                    'type':'invoice',
-                    'street':wiz_data.add,
-                    'country_id':self.pool.get("res.country").search(cr,uid,[('code','=','VE')])[0]})
-        #Data on res.partner
-        data = {'name': wiz_data.name, 'vat': "VE%s" % wiz_data.vat.upper(), 'vat_subjected': wiz_data.vat_subjected,}
-        self.pool.get('res.partner').write(cr, uid, [partner.id], data)
+                    'country_id':self.pool.get("res.country").search(cr,uid,[('code','=','VE')])[0],
+                    'name': wiz_data.name,
+                    'vat': "VE%s" % wiz_data.vat.upper(),
+                    'vat_subjected': wiz_data.vat_subjected,
+                    
+                    })
 
     _columns = {
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),

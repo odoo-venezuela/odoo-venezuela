@@ -8,7 +8,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/group[@name='properties']" position="after">
+                <xpath expr="//group[@name='properties']" position="after">
                     <newline/>
                     <separator string="Concept of Withholding Income"/>
                     <newline/>
@@ -33,7 +33,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/group/field[@name='type']" position="replace">
+                <xpath expr="//field[@name='type']" position="replace">
                     <field name="type" on_change="onchange_product_type(type)"/>
                 </xpath>
             </field>
@@ -46,7 +46,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/group/field[@name='type']" position="replace">
+                <xpath expr="//field[@name='type']" position="replace">
                     <field name="type" on_change="onchange_product_type(type)"/>
                 </xpath>
             </field>

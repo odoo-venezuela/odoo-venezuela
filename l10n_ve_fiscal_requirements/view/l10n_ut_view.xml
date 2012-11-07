@@ -7,7 +7,7 @@
             <field name="model">l10n.ut</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
-                <search string="Search Tax Unit">
+                <search string="Search Tax Unit" version="7.0">
                    <group col="10" colspan="4">
                         <field name="name"/>
                         <field name="date"/>
@@ -26,7 +26,7 @@
             <field name="model">l10n.ut</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Tax Unit">
+                <form string="Tax Unit" version="7.0">
                     <group col="6" colspan="4">
                         <field name="name" select="1" colspan="4"/>
                         <newline/>
@@ -43,7 +43,7 @@
             <field name="arch" type="xml">
                 <tree string="Tax Unit per date" editable="top">
                     <field name="name"/>
-                    <newline/>
+                   
                     <field name="date"/>
                     <field name="amount"/>
                 </tree>
