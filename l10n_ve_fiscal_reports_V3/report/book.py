@@ -72,16 +72,14 @@ class sal_book(report_sxw.rml_parse):
         '''
         Obtains the address of partner
         '''
-        addr_obj = self.pool.get('res.partner.address')
+        addr_obj = self.pool.get('res.partner')
         addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
-        addr_ids = addr_obj.search(self.cr, self.uid, [('partner_id', '=', self._company_id), 
-                                                     ('type', '=', 'invoice')])
-        if addr_ids:
-            addr = addr_obj.browse(self.cr,self.uid, addr_ids[0])
-            addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+ \
+        if self._company_id:
+            addr = addr_obj.browse(self.cr,self.uid, self._company_id)
+            addr_inv = addr.type == 'invoice' and (addr.street or '')+' '+(addr.street2 or '')+' '+ \
                         (addr.zip or '')+ ' '+(addr.city or '')+ ' '+  \
                         (addr.country_id and addr.country_id.name or '')+  \
-                        ', TELF.:'+(addr.phone or '')
+                        ', TELF.:'+(addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
         return addr_inv
 
     def _get_book_type(self,form):
@@ -99,12 +97,11 @@ class sal_book(report_sxw.rml_parse):
         if not idp:
             return []
 
-        addr_obj = self.pool.get('res.partner.address')
+        addr_obj = self.pool.get('res.partner')
         a_id = 1000
-        a_ids = addr_obj.search(self.cr,self.uid,[('partner_id','=',idp), ('type','=','invoice')])
-        if a_ids:
-            a = addr_obj.browse(self.cr,self.uid, a_ids[0])
-            a_id = a.country_id.id
+        if idp:
+            a = addr_obj.browse(self.cr,self.uid, idp)
+            a_id = addr.type == 'invoice' and a.country_id.id or 1000
         return a_id 
 
     def _get_book_type_wh(self, form):

@@ -41,7 +41,7 @@ class account_invoice(osv.osv):
             if inv.type in ["out_invoice","out_refund"]:
                 if len(inv.invoice_line)> inv.company_id.lines_invoice:
                     lst = []
-                    invoice = self.read(cr, uid, inv.id, ['name', 'type', 'number', 'reference', 'comment', 'date_due', 'partner_id', 'address_contact_id', 'address_invoice_id', 'partner_contact', 'partner_insite', 'partner_ref', 'payment_term', 'account_id', 'currency_id', 'invoice_line', 'tax_line', 'journal_id', 'period_id', "user_id"])
+                    invoice = self.read(cr, uid, inv.id, ['name', 'type', 'number', 'reference', 'comment', 'date_due', 'partner_id',   'partner_contact', 'partner_insite', 'partner_ref', 'payment_term', 'account_id', 'currency_id', 'invoice_line', 'tax_line', 'journal_id', 'period_id', "user_id"])
                     invoice.update({
                         'state': 'draft',
                         'number': False,
@@ -49,7 +49,7 @@ class account_invoice(osv.osv):
                         'tax_line': [],
                     })
                     # take the id part of the tuple returned for many2one fields
-                    for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
+                    for field in ( 'partner_id',
                             'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id','user_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
                     

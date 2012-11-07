@@ -34,32 +34,6 @@ from osv import fields, osv
 from tools.translate import _
 import re
 
-class res_partner_address(osv.osv):
-    _inherit='res.partner.address'
-
-    '''
-    Invoice Address uniqueness check
-    '''
-    def _check_addr_invoice(self,cr,uid,ids,context={}):
-        obj_addr = self.browse(cr,uid,ids[0])
-        if obj_addr.partner_id.vat and obj_addr.partner_id.vat[:2].upper() == 'VE':
-            if obj_addr.type == 'invoice':
-                cr.execute('select id,type from res_partner_address where partner_id=%s and type=%s', (obj_addr.partner_id.id, obj_addr.type))
-                res=dict(cr.fetchall())
-                if (len(res) == 1):
-                    res.pop(ids[0],False)
-                if res:
-                    return False
-        return True
-
-
-    _constraints = [
-        (_check_addr_invoice, _('Error ! The partner already has an invoice address.'), [])
-    ]
-
-res_partner_address()
-
-
 class res_partner(osv.osv):
     _inherit = 'res.partner'
    
@@ -72,14 +46,14 @@ class res_partner(osv.osv):
     }
 
     def name_search(self,cr,uid,name='',args=[],operator='ilike',context=None,limit=80):
-	if context is None: 
-	    context={}
-	ids= []
-	if len(name) >= 2:
-	    ids = self.search(cr, uid, [('vat',operator,name)] + args, limit=limit, context=context)
-	if not ids:
-	    ids = self.search(cr,uid,[('name',operator,name)] + args, limit=limit, context=context)
-	return self.name_get(cr,uid,ids,context=context)
+	    if context is None: 
+	        context={}
+	    ids= []
+	    if len(name) >= 2:
+	        ids = self.search(cr, uid, [('vat',operator,name)] + args, limit=limit, context=context)
+	    if not ids:
+	        ids = self.search(cr,uid,[('name',operator,name)] + args, limit=limit, context=context)
+	    return self.name_get(cr,uid,ids,context=context)
     
     '''
     Required Invoice Address
@@ -87,36 +61,33 @@ class res_partner(osv.osv):
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         partner_obj = self.browse(cr,uid,ids[0])
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE':
-            if hasattr(partner_obj, 'address'):
-                res = [addr for addr in partner_obj.address if addr.type == 'invoice']
+                res = partner_obj.type == 'invoice'
                 if res:
                     return True
                 else:
                     return False
-            else:
+        else:
                 return True
         return True
 
     def _check_vat_uniqueness(self, cr, uid, ids, context={}):
-        partner_obj = self.pool.get('res.partner')
         #Check if its possible to use 'browse' in this 'read'
-        current_partner = partner_obj.read(cr, uid, ids, ['vat', 'address'])[0]
-
-        if not 'VE' in [a.country_id.code for a in self.pool.get('res.partner.address').browse(cr, uid, current_partner['address'])]:
+        partner_brw = self.browse(cr, uid,ids)
+        if not 'VE' in [a.country_id.code for a in partner_brw ]:
             return True
 
-        current_vat = current_partner['vat']
+        current_vat = partner_brw[0].vat
 
         if not current_vat or current_vat.strip()=='':
             return True # Accept empty VAT's
             
-        duplicates = partner_obj.read(cr, uid, partner_obj.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
+        duplicates = self.read(cr, uid, self.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
 
-        return not current_vat in [p['vat'] for p in duplicates if p['id'] != current_partner['id']]
+        return not current_vat in [p['vat'] for p in duplicates if p['id'] != partner_brw[0].id]
 
     _constraints = [
-        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]
 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):

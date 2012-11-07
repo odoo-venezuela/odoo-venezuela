@@ -40,7 +40,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='Invoice']" position="after">
+                <xpath expr="//page[@string='Invoice Lines']" position="after">
                    <page string="Withholdings" >
                         <separator colspan='4' string="vsep"/>
                         <separator colspan='4' string="isep"/>
@@ -60,7 +60,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='Notes']" position="after">
+                <xpath expr="//page[@string='Internal Notes']" position="after">
                    <page string="Withholdings" >
                         <separator colspan='4' string="vsep"/>
                         <newline/>
