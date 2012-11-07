@@ -46,14 +46,14 @@ class res_partner(osv.osv):
     }
 
     def name_search(self,cr,uid,name='',args=[],operator='ilike',context=None,limit=80):
-	if context is None: 
-	    context={}
-	ids= []
-	if len(name) >= 2:
-	    ids = self.search(cr, uid, [('vat',operator,name)] + args, limit=limit, context=context)
-	if not ids:
-	    ids = self.search(cr,uid,[('name',operator,name)] + args, limit=limit, context=context)
-	return self.name_get(cr,uid,ids,context=context)
+	    if context is None: 
+	        context={}
+	    ids= []
+	    if len(name) >= 2:
+	        ids = self.search(cr, uid, [('vat',operator,name)] + args, limit=limit, context=context)
+	    if not ids:
+	        ids = self.search(cr,uid,[('name',operator,name)] + args, limit=limit, context=context)
+	    return self.name_get(cr,uid,ids,context=context)
     
     '''
     Required Invoice Address
@@ -76,7 +76,7 @@ class res_partner(osv.osv):
         if not 'VE' in [a.country_id.code for a in partner_brw ]:
             return True
 
-        current_vat = partner_brw.vat
+        current_vat = partner_brw[0].vat
 
         if not current_vat or current_vat.strip()=='':
             return True # Accept empty VAT's

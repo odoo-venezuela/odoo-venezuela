@@ -175,7 +175,6 @@ class account_invoice_debit(osv.osv_memory):
                 invoice = inv_obj.read(cr, uid, [inv.id],
                             ['name', 'type', 'number', 'reference',
                             'comment', 'date_due', 'partner_id',
-                            'address_contact_id', 'address_invoice_id',
                             'partner_insite', 'partner_contact',
                             'partner_ref', 'payment_term', 'account_id',
                             'currency_id', 'invoice_line', 'tax_line',
@@ -200,7 +199,7 @@ class account_invoice_debit(osv.osv_memory):
                     'comment':form['comment']
                 })
                 #take the id part of the tuple returned for many2one fields
-                for field in ('address_contact_id', 'address_invoice_id', 'partner_id',
+                for field in ('partner_id',
                         'account_id', 'currency_id', 'payment_term', 'journal_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
                 # create the new invoice
