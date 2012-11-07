@@ -93,7 +93,6 @@ class wh_iva_config(osv.osv_memory):
         defaults = super(wh_iva_config, self)\
               .default_get(cr, uid, fields_list=fields_list, context=context)
         user=self.pool.get('res.users').browse(cr,uid,[uid],context)
-        pa_obj=self.pool.get('res.partner.address')
         #Set Vauxoo logo on config Window.
         logo = open(addons.get_module_resource('l10n_ve_withholding_iva',
                                             'images', 'angelfalls.jpg'),'rb')
@@ -126,7 +125,6 @@ class wh_iva_config(osv.osv_memory):
         user=self.pool.get('res.users').browse(cr,uid,[uid],context)
         wiz_data=self.read(cr,uid,ids[0],context)
         p_obj=self.pool.get('res.partner')
-        pa_obj=self.pool.get('res.partner.address')
         partner_id=user[0].company_id.partner_id.id
         
         
