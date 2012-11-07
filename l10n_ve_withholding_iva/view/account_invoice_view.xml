@@ -48,9 +48,11 @@
                             <field name="wh_iva_id"/>
                         </group>
                 </xpath>
+<!--
                <xpath expr="//field[@name='address_invoice_id']" position="after">
                     <field name="vat_apply"/>
                 </xpath>
+-->
                
                 <xpath expr='//separator[@string="isep"]' position='attributes'>
                     <attribute name="string">Withholdings Vat</attribute>

@@ -37,7 +37,7 @@ class rep_wh_muni(report_sxw.rml_parse):
             'get_rif': self._get_rif
         })
 
-    def _get_partner_addr(self, idp=False`):
+    def _get_partner_addr(self, idp=False):
         if not idp:
             return []
 

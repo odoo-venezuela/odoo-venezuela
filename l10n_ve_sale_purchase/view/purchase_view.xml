@@ -27,7 +27,7 @@
                 <field name="type">form</field>
                 <field name="inherit_id" ref="purchase.purchase_order_form"/>
                 <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="before">
+                <xpath expr="//field[@name='product_qty']" position="before">
                     <field name="concept_id" required='1'/>
                 </xpath>
                 </field>

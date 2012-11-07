@@ -66,7 +66,7 @@ class res_partner(osv.osv):
                     return True
                 else:
                     return False
-            else:
+        else:
                 return True
         return True
 

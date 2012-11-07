@@ -33,7 +33,7 @@
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                     </page>
                 </xpath>
-                <xpath expr="//separator[@string='Other Info']" position="before">
+                <xpath expr="//page[@string='Other Info']/group/group[2]" position="after">
                       
                     <group colspan="2" >
                      <separator colspan="6" string="Fiscal Information"/>
