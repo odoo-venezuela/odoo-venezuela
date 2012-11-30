@@ -85,10 +85,10 @@ class res_partner(osv.osv):
 
         return not current_vat in [p['vat'] for p in duplicates if p['id'] != partner_brw[0].id]
 
-    _constraints = [
-        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
-        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
-    ]
+#    _constraints = [
+#        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+#        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
+#    ]
 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
         if context is None:
