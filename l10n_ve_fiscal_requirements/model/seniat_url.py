@@ -171,12 +171,10 @@ class seniat_url(osv.osv):
                         return False
                         #~ self._print_error(_('Error'),_("The country in invoice address is not Venezuela, can not establish connection with sSENIAT"))
             else:
-                if partneri and partner.type == 'invoice':
-                    invoices_addr_country = partner.country_id and [partner.country_id.code]
-                    if invoices_addr_country:
-                        country = [j for j in invoices_addr_country if j]
-                        if country and 'VE' in country and not context.get('all_rif',False):
-                                self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                if partner and partner.type in ('invoice', 'default'):
+                    country = partner.country_id and [partner.country_id.code]
+                    if country and 'VE' in country and not context.get('all_rif',False):
+                        self._print_error(_('Vat Error !'),_('The field vat is empty'))
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
