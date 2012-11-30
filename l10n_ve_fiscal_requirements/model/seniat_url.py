@@ -149,7 +149,7 @@ class seniat_url(osv.osv):
                 return False
         for partner in rp_obj.browse(cr,uid,ids):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
-            if partner.vat and partner.type == 'invoice':
+            if partner.vat and partner.type in ('invoice', 'default'):
                 partner_id =partner.id
                 code = partner.country_id and partner.country_id.code
                 if code == 'VE':
