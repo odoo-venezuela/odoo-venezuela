@@ -130,5 +130,9 @@ class res_partner(osv.osv):
         su_obj = self.pool.get('seniat.url')
         return su_obj.update_rif(cr, uid, ids, context=context)
 
+    def button_check_vat(self, cr, uid, ids, context=None):
+        if context is None: context = {}
+        context.update({'update_fiscal_information':True})
+        return super(res_partner, self).button_check_vat(cr, uid, ids, context=context)
 res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
