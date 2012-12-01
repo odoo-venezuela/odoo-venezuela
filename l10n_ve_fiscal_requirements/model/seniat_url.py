@@ -148,6 +148,8 @@ class seniat_url(osv.osv):
             else:
                 return False
         for partner in rp_obj.browse(cr,uid,ids):
+            if not partner.vat or partner.vat[:2]!='VE':
+                continue
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
             res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
             if res:
