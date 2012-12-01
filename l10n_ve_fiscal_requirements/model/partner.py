@@ -117,10 +117,8 @@ class res_partner(osv.osv):
         if context is None:
             context={}
         if re.search(r'^[VJEG][0-9]{9}$', vat):
-            context.update({'ci_pas':False})
             return True
         if re.search(r'^([VE][0-9]{1,8}|[D][0-9]{9})$', vat):
-            context.update({'ci_pas':True})    
             return True
         return False
         
