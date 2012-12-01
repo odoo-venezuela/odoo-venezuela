@@ -149,20 +149,14 @@ class seniat_url(osv.osv):
                 return False
         for partner in rp_obj.browse(cr,uid,ids):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
-            if partner.vat and partner.type in ('invoice', 'default'):
-                res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
-                if res:
-                    rp_obj.write(cr,uid,partner.id,res)
-                    self._update_partner(cr, uid, partner.id, context)
-                else:
-                    if not context.get('all_rif'):
-                        return False
-                        #~ self._print_error(_('Error'),_("The RIF, CI or passport are not well constructed, please check \n The format of the RIF should be for example J1234567890,CI should be 12345678, and passports must be D123456789"))
+            res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
+            if res:
+                rp_obj.write(cr,uid,partner.id,res)
+                self._update_partner(cr, uid, partner.id, context)
             else:
-                if partner and partner.type in ('invoice', 'default'):
-                    country = partner.country_id and [partner.country_id.code]
-                    if country and 'VE' in country and not context.get('all_rif',False):
-                        self._print_error(_('Vat Error !'),_('The field vat is empty'))
+                if not context.get('all_rif'):
+                    return False
+                    #~ self._print_error(_('Error'),_("The RIF, CI or passport are not well constructed, please check \n The format of the RIF should be for example J1234567890,CI should be 12345678, and passports must be D123456789"))
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
