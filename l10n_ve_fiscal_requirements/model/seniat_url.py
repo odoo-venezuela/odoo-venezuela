@@ -150,15 +150,10 @@ class seniat_url(osv.osv):
         for partner in rp_obj.browse(cr,uid,ids):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
             if partner.vat and partner.type in ('invoice', 'default'):
-                if rp_obj.check_vat_ve(partner.vat[2:],context):
-                    res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
-                    if res:
-                        rp_obj.write(cr,uid,partner.id,res)
-                        self._update_partner(cr, uid, partner.id, context)
-                    else:
-                        if not context.get('all_rif'):
-                            return False
-                            #~ self._print_error(_('Error'),_("Does not exist the contributor requested"))
+                res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
+                if res:
+                    rp_obj.write(cr,uid,partner.id,res)
+                    self._update_partner(cr, uid, partner.id, context)
                 else:
                     if not context.get('all_rif'):
                         return False
