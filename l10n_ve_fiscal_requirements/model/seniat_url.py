@@ -150,25 +150,19 @@ class seniat_url(osv.osv):
         for partner in rp_obj.browse(cr,uid,ids):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
             if partner.vat and partner.type in ('invoice', 'default'):
-                code = partner.country_id and partner.country_id.code
-                if code == 'VE':
-                    if rp_obj.check_vat_ve(partner.vat[2:],context):
-                        res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
-                        if res:
-                            rp_obj.write(cr,uid,partner.id,res)
-                            self._update_partner(cr, uid, partner.id, context)
-                        else:
-                            if not context.get('all_rif'):
-                                return False
-                                #~ self._print_error(_('Error'),_("Does not exist the contributor requested"))
+                if rp_obj.check_vat_ve(partner.vat[2:],context):
+                    res = self._dom_giver(url1, url2, url3,partner.vat[2:],context)
+                    if res:
+                        rp_obj.write(cr,uid,partner.id,res)
+                        self._update_partner(cr, uid, partner.id, context)
                     else:
                         if not context.get('all_rif'):
                             return False
-                            #~ self._print_error(_('Error'),_("The RIF, CI or passport are not well constructed, please check \n The format of the RIF should be for example J1234567890,CI should be 12345678, and passports must be D123456789"))
+                            #~ self._print_error(_('Error'),_("Does not exist the contributor requested"))
                 else:
                     if not context.get('all_rif'):
                         return False
-                        #~ self._print_error(_('Error'),_("The country in invoice address is not Venezuela, can not establish connection with sSENIAT"))
+                        #~ self._print_error(_('Error'),_("The RIF, CI or passport are not well constructed, please check \n The format of the RIF should be for example J1234567890,CI should be 12345678, and passports must be D123456789"))
             else:
                 if partner and partner.type in ('invoice', 'default'):
                     country = partner.country_id and [partner.country_id.code]
