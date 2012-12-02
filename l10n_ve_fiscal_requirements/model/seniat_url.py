@@ -114,9 +114,13 @@ class seniat_url(osv.osv):
             dom = parseString(xml_data)
             return self._parse_dom(dom, vat, url2,context=context)
 
-    def _dom_giver(self, url1, url2, url3, vat, context=None):
+    def _dom_giver(self, cr, uid, vat, context=None):
         if context is None: context={}
 
+        url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
+        url1 = url_obj.name + '%s'
+        url2 = url_obj.url_seniat + '%s'
+        url3 = url_obj.url_seniat2 + '%s'
         if re.search(r'^[VJEG][0-9]{9}$', vat):
             '''Checked vat is a RIF'''
             return self._get_rif(vat, url1, url2, context=context)
@@ -144,12 +148,8 @@ class seniat_url(osv.osv):
     def update_rif(self, cr, uid, ids, context={}):
         aux=[]
         rp_obj = self.pool.get('res.partner')
-        url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
-        url1 = url_obj.name + '%s'
-        url2 = url_obj.url_seniat + '%s'
-        url3 = url_obj.url_seniat2 + '%s'
         if context.get('exec_wizard'):
-            res = self._dom_giver(url1, url2, url3, context['vat'],context=context)
+            res = self._dom_giver(cr, uid, context['vat'],context=context)
             if res:
                 self._update_partner(cr, uid, ids, context=context)
                 return res
@@ -159,7 +159,7 @@ class seniat_url(osv.osv):
             if not partner.vat or partner.vat[:2]!='VE':
                 continue
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
-            res = self._dom_giver(url1, url2, url3,partner.vat[2:],context=context)
+            res = self._dom_giver(cr, uid, partner.vat[2:],context=context)
             if res:
                 rp_obj.write(cr,uid,partner.id,res)
                 self._update_partner(cr, uid, partner.id, context)
