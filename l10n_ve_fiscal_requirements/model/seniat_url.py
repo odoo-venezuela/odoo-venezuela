@@ -84,11 +84,7 @@ class seniat_url(osv.osv):
         self.logger.info("RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
-        if context.get('spf_info'):
-            res= {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux,'wh_iva_agent':wh_agent}  
-        else:
-            res= {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux}  
-        return res
+        return {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux,'wh_iva_agent':wh_agent}  
 
     def _print_error(self, error, msg):
         raise osv.except_osv(error,msg)
