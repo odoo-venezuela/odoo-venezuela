@@ -14,6 +14,7 @@
 #                   Miguel Delgado <miguel@openerp.com.ve>
 #                   Israel Fermín Montilla <israel@openerp.com.ve>
 #                   Juan Márquez <jmarquez@tecvemar.com.ve>
+#                   Humberto Arocha <hbto@vauxoo.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
