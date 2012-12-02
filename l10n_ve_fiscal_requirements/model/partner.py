@@ -133,7 +133,10 @@ class res_partner(osv.osv):
         if context is None: context = {}
         context.update({'update_fiscal_information':True})
         super(res_partner, self).button_check_vat(cr, uid, ids, context=context)
-        self.update_rif(cr, uid, ids, context=context)
+        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        if user_company.vat_check_vies:
+            # force full VIES online check
+            self.update_rif(cr, uid, ids, context=context)
         return True 
 res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
