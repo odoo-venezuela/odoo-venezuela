@@ -63,7 +63,9 @@ class seniat_url(osv.osv):
             retries -= 1
         return str_error
     
-    def _buscar_porcentaje(self,rif,url):
+    def _buscar_porcentaje(self, cr, uid, rif):
+        url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
+        url = url_obj.url_seniat + '%s'
         context={}
         html_data = self.pool.get('seniat.url')._load_url(3,url %rif)
         html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
