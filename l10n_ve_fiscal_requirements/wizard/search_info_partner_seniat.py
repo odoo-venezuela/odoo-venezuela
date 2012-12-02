@@ -35,28 +35,31 @@ class search_info_partner_seniat(osv.osv_memory):
         'vat_subjected':fields.boolean('Pay VAY', help='Pay VAT, in spanish known as : Contribuyente formal'),
     }
 
-    def search_partner_seniat(self, cr, uid, vat, context=None):
+    def search_partner_seniat(self, cr, uid, ids, context=None):
         if context is None:
             context={}
-        aux = ''
+        this = self.browse(cr, uid, ids)[0]
         su_obj = self.pool.get('seniat.url')
         rp_obj = self.pool.get('res.partner')
-        url_obj = su_obj.browse(cr, uid, su_obj.search(cr, uid, []))[0]
-        url1 = url_obj.name + '%s'
-        url2 = url_obj.url_seniat + '%s'
-        url3 = url_obj.url_seniat2 + '%s'
-        var_vat = self.read(cr,uid,vat,['vat'])
-        if var_vat:
-            aux = var_vat[0]['vat']
-        if rp_obj.check_vat_ve(aux,context):
-            context.update({'spf_info':True})
-            res = su_obj._dom_giver(url1,url2,url3, aux,context)
+        vat = this.vat.upper()
+        res={'name': _('The requested contributor does not exist'),'vat_subjected': False,'vat':vat,'wh_iva_agent':False, 'wh_iva_rate': 0.0}
+
+        if 'VE' in vat:
+            vat = vat[2:]
+
+        if rp_obj.check_vat_ve(vat,context=context):
+            res = su_obj._dom_giver(cr, uid, vat,context)
             if res:
-                res.update({'wh_iva_rate':su_obj._buscar_porcentaje(aux,url2)})
-            else:
-                raise osv.except_osv(_('Error'),_("Does not exist the contributor requested"))
-            self.write(cr,uid,vat,res)
+                res.update({'wh_iva_rate':su_obj._buscar_porcentaje(cr, uid, vat)})
+        self.write(cr,uid,ids,res)
         
-        return False
-        
+        return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'search.info.partner.seniat',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_id': this.id,
+                'views': [(False, 'form')],
+                'target': 'new',
+                }
 search_info_partner_seniat()
