@@ -68,7 +68,7 @@
                             type='action' 
                             string='Debit Note' 
                             icon="gtk-execute" 
-                            attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
+                            attrs="{'invisible':['|','|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund Invoice']" position="after">
                     <button name="%(action_account_invoice_parent)d" 
