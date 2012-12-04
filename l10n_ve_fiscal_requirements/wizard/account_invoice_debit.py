@@ -81,10 +81,12 @@ class account_invoice_debit(osv.osv_memory):
                 res['fields'][field]['selection'] = journal_select
         return res
 
-    def _get_period(self, cr, uid, context={}):
+    def _get_period(self, cr, uid, context=None):
         """
         Return  default account period value
         """
+        if context is None:
+            context = {}
         account_period_obj = self.pool.get('account.period')
         ids = account_period_obj.find(cr, uid, context=context)
         period_id = False
@@ -92,10 +94,12 @@ class account_invoice_debit(osv.osv_memory):
             period_id = ids[0]
         return period_id
 
-    def _get_orig(self, cr, uid, inv, ref, context={}):
+    def _get_orig(self, cr, uid, inv, ref, context=None):
         """
         Return  default origin value
         """
+        if context is None:
+            context = {}
         nro_ref = ref
         if inv.type == 'out_invoice':
             nro_ref = inv.number
@@ -234,6 +238,8 @@ class account_invoice_debit(osv.osv_memory):
             return result
 
     def invoice_debit(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
         return self.compute_debit(cr, uid, ids, context=context)
 
 
