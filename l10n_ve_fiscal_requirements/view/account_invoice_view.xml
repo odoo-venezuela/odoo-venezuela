@@ -187,7 +187,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field eval="False" name="view_id"/>
-            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="domain">[('type','=','out_invoice'),('parent_id','!=',False)]</field>
             <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale_debit'}</field>
             <field name="search_view_id" ref="account.view_account_invoice_filter"/>
             <field name="help" type="html">
@@ -228,7 +228,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
             <field eval="False" name="view_id"/>
-            <field name="domain">[('type','=','in_invoice')]</field>
+            <field name="domain">[('type','=','in_invoice'),('parent_id','!=',False)]</field>
             <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase_debit'}</field>
             <field name="search_view_id" ref="account.view_account_invoice_filter"/>
             <field name="help" type="html">
@@ -255,8 +255,15 @@
             <field name="act_window_id" ref="action_purchase_debit_tree"/>
         </record>
 
-
         <menuitem action="action_purchase_debit_tree" id="menu_action_purchase_debit_tree" parent="account.menu_finance_payables"/>
-    
+
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="domain">[('type','=','in_invoice'),('parent_id','=',False)]</field>
+        </record>
+
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="domain">[('type','=','out_invoice'),('parent_id','=',False)]</field>
+        </record>
+
     </data>
 </openerp>
