@@ -86,9 +86,41 @@ class res_partner(osv.osv):
 
         return not current_vat in [p['vat'] for p in duplicates if p['id'] != partner_brw[0].id]
 
+    def _check_vat_mandatory(self, cr, uid, ids, context={}):
+        
+        partner_brw = self.browse(cr, uid,ids)
+        current_vat = partner_brw[0].vat
+        current_parent_id = partner_brw[0].parent_id
+        
+        
+        if not 'VE' in [a.country_id.code for a in partner_brw ]:
+            return True
+        
+        if (currrent_is_company) and (current_parent_id):
+            return False
+        
+        if ('VE' in [a.country_id.code for a in partner_brw ]) and (not current_vat or current_vat.strip()=='') and (not current_parent_id or current_parent_id.strip()==''):
+            return False
+        
+        current_type = partner_brw[0].type
+        currrent_is_company =partner_brw[0].is_company
+        
+        if ('VE' in [a.country_id.code for a in partner_brw ] ) and ('invoice' in current_type) and (not current_vat or current_vat.strip()=='') and (current_parent_id) and (not currrent_is_company):
+            return False       
+        
+        
+        
+        return True
+    
+    _constraints = [
+        (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
+        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+    ]
+    
 #    _constraints = [
-#        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+#        
 #        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
+#       
 #    ]
 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
