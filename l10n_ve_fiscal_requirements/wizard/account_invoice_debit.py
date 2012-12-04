@@ -43,11 +43,16 @@ class account_invoice_debit(osv.osv_memory):
         obj_journal = self.pool.get('account.journal')
         if context is None:
             context = {}
-        journal = obj_journal.search(cr, uid, [('type', '=', 'sale')])
-        if context.get('type', False):
-            if context['type'] in ('in_invoice', 'in_refund'):
-                journal = obj_journal.search(cr, uid, [('type', '=', 'purchase')])
-        return journal and journal[0] or False
+        journal = []
+        company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
+        company_id = context.get('company_id', company_id)
+        if context.get('type', False) in ('out_invoice', 'out_refund'):
+            journal = obj_journal.search(cr, uid, [('type', '=', 'sale_debit'),('company_id','=',company_id)])
+        elif context.get('type', False) in ('in_invoice', 'in_refund'):
+            journal = obj_journal.search(cr, uid, [('type', '=', 'purchase_debit'),('company_id','=',company_id)])
+        if not journal:
+            raise osv.except_osv(_('No Debit Journal !'),_("You must define a debit journal")) 
+        return journal[0]
 
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
