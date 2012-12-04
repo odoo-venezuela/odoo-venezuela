@@ -125,117 +125,117 @@ class account_invoice_debit(osv.osv_memory):
         if context is None:
             context = {}
 
-        for form in  self.read(cr, uid, ids, context=context):
-            created_inv = []
-            date = False
-            period = False
-            description = False
-            company = res_users_obj.browse(cr, uid, uid, context=context).company_id
-            journal_id = form.get('journal_id', False)
-            for inv in inv_obj.browse(cr, uid, context.get('active_ids'), context=context):
-                if inv.state in ['draft', 'proforma2', 'cancel']:
-                    raise osv.except_osv(_('Error !'), _('Can not create a debit note from draft/proforma/cancel invoice.'))
-                if inv.reconciled in ('cancel', 'modify'):
-                    raise osv.except_osv(_('Error !'), _('Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice'))
-                if inv.type not in ['in_invoice', 'out_invoice']:
-                    raise osv.except_osv(_('Error !'), _('Can not make a debit note on a refund invoice.'))
-                if form['period']:
-                    period = form['period']
-                else:
-                    #Take period from the current date
-                    #period = inv.period_id and inv.period_id.id or False
-                    period = self._get_period(cr, uid, context)
+        form = self.browse(cr, uid, ids[0], context = context)
+        created_inv = []
+        date = False
+        period = False
+        description = False
+        company = res_users_obj.browse(cr, uid, uid, context=context).company_id
+        journal_id = form.journal_id and  form.journal_id.id or False
+        inv = inv_obj.browse(cr, uid, context.get('active_ids')[0], context=context)
+        if inv.state in ['draft', 'proforma2', 'cancel']:
+            raise osv.except_osv(_('Error !'), _('Can not create a debit note from draft/proforma/cancel invoice.'))
+        if inv.reconciled in ('cancel', 'modify'):
+            raise osv.except_osv(_('Error !'), _('Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice'))
+        if inv.type not in ['in_invoice', 'out_invoice']:
+            raise osv.except_osv(_('Error !'), _('Can not make a debit note on a refund invoice.'))
+        if form.period:
+            period = form.period.id
+        else:
+            #Take period from the current date
+            #period = inv.period_id and inv.period_id.id or False
+            period = self._get_period(cr, uid, context)
 
-                if not journal_id:
-                    journal_id = inv.journal_id.id
+        if not journal_id:
+            journal_id = inv.journal_id.id
 
-                if form['date']:
-                    date = form['date']
-                    if not form['period']:
-                            cr.execute("select name from ir_model_fields \
-                                            where model = 'account.period' \
-                                            and name = 'company_id'")
-                            result_query = cr.fetchone()
-                            if result_query:
-                                #in multi company mode
-                                cr.execute("""select p.id from account_fiscalyear y, account_period p where y.id=p.fiscalyear_id \
-                                    and date(%s) between p.date_start AND p.date_stop and y.company_id = %s limit 1""", (date, company.id,))
-                            else:
-                                #in mono company mode
-                                cr.execute("""SELECT id
-                                        from account_period where date(%s)
-                                        between date_start AND  date_stop  \
-                                        limit 1 """, (date,))
-                            res = cr.fetchone()
-                            if res:
-                                period = res[0]
-                else:
-                    #Take current date
-                    #date = inv.date_invoice
-                    date = time.strftime('%Y-%m-%d')
-                if form['description']:
-                    description = form['description']
-                else:
-                    description = inv.name
+        if form.date:
+            date = form.date
+            if not form.period.id:
+                    cr.execute("select name from ir_model_fields \
+                                    where model = 'account.period' \
+                                    and name = 'company_id'")
+                    result_query = cr.fetchone()
+                    if result_query:
+                        #in multi company mode
+                        cr.execute("""select p.id from account_fiscalyear y, account_period p where y.id=p.fiscalyear_id \
+                            and date(%s) between p.date_start AND p.date_stop and y.company_id = %s limit 1""", (date, company.id,))
+                    else:
+                        #in mono company mode
+                        cr.execute("""SELECT id
+                                from account_period where date(%s)
+                                between date_start AND  date_stop  \
+                                limit 1 """, (date,))
+                    res = cr.fetchone()
+                    if res:
+                        period = res[0]
+        else:
+            #Take current date
+            #date = inv.date_invoice
+            date = time.strftime('%Y-%m-%d')
+        if form.description:
+            description = form.description
+        else:
+            description = inv.name
 
-                if not period:
-                    raise osv.except_osv(_('Data Insufficient !'), \
-                                            _('No Period found on Invoice!'))
+        if not period:
+            raise osv.except_osv(_('Data Insufficient !'), \
+                                    _('No Period found on Invoice!'))
 
-                #we get original data of invoice to create a new invoice that is the copy of the original
-                invoice = inv_obj.read(cr, uid, [inv.id],
-                            ['name', 'type', 'number', 'reference',
-                            'comment', 'date_due', 'partner_id',
-                            'partner_insite', 'partner_contact',
-                            'partner_ref', 'payment_term', 'account_id',
-                            'currency_id', 'invoice_line', 'tax_line',
-                            'journal_id', 'period_id'], context=context)
-                invoice = invoice[0]
-                del invoice['id']
-                invoice_lines = []
-                tax_lines = []
-                #Add origin, parent and comment values
-                orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
-                invoice.update({
-                    'type': inv.type,
-                    'date_invoice': date,
-                    'state': 'draft',
-                    'number': False,
-                    'invoice_line': invoice_lines,
-                    'tax_line': tax_lines,
-                    'period_id': period,
-                    'parent_id':inv.id,
-                    'name': description,
-                    'origin': orig,
-                    'comment':form['comment']
-                })
-                #take the id part of the tuple returned for many2one fields
-                for field in ('partner_id',
-                        'account_id', 'currency_id', 'payment_term', 'journal_id'):
-                        invoice[field] = invoice[field] and invoice[field][0]
-                # create the new invoice
-                inv_id = inv_obj.create(cr, uid, invoice, {})
-                # we compute due date
-                if inv.payment_term.id:
-                    data = inv_obj.onchange_payment_term_date_invoice(cr, uid, [inv_id], inv.payment_term.id, date)
-                    if 'value' in data and data['value']:
-                        inv_obj.write(cr, uid, [inv_id], data['value'])
-                created_inv.append(inv_id)
-            #we get the view id
-            if inv.type in ('out_invoice', 'out_refund'):
-                xml_id = 'action_invoice_tree1'
-            else:
-                xml_id = 'action_invoice_tree2'
-            #we get the model
-            result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
-            id = result and result[1] or False
-            # we read the act window
-            result = act_obj.read(cr, uid, id, context=context)
-            # we add the new invoices into domain list
-            invoice_domain = eval(result['domain'])
-            invoice_domain.append(('id', 'in', created_inv))
-            result['domain'] = invoice_domain
-            return result
+        #we get original data of invoice to create a new invoice that is the copy of the original
+        invoice = inv_obj.read(cr, uid, [inv.id],
+                    ['name', 'type', 'number', 'reference',
+                    'comment', 'date_due', 'partner_id',
+                    'partner_insite', 'partner_contact',
+                    'partner_ref', 'payment_term', 'account_id',
+                    'currency_id', 'invoice_line', 'tax_line',
+                    'journal_id', 'period_id'], context=context)
+        invoice = invoice[0]
+        del invoice['id']
+        invoice_lines = []
+        tax_lines = []
+        #Add origin, parent and comment values
+        orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
+        invoice.update({
+            'type': inv.type,
+            'date_invoice': date,
+            'state': 'draft',
+            'number': False,
+            'invoice_line': invoice_lines,
+            'tax_line': tax_lines,
+            'period_id': period,
+            'parent_id':inv.id,
+            'name': description,
+            'origin': orig,
+            'comment':form.comment
+        })
+        #take the id part of the tuple returned for many2one fields
+        for field in ('partner_id',
+                'account_id', 'currency_id', 'payment_term', 'journal_id'):
+                invoice[field] = invoice[field] and invoice[field][0]
+        # create the new invoice
+        inv_id = inv_obj.create(cr, uid, invoice, {})
+        # we compute due date
+        if inv.payment_term.id:
+            data = inv_obj.onchange_payment_term_date_invoice(cr, uid, [inv_id], inv.payment_term.id, date)
+            if 'value' in data and data['value']:
+                inv_obj.write(cr, uid, [inv_id], data['value'])
+        created_inv.append(inv_id)
+        #we get the view id
+        if inv.type in ('out_invoice', 'out_refund'):
+            xml_id = 'action_invoice_tree1'
+        else:
+            xml_id = 'action_invoice_tree2'
+        #we get the model
+        result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
+        id = result and result[1] or False
+        # we read the act window
+        result = act_obj.read(cr, uid, id, context=context)
+        # we add the new invoices into domain list
+        invoice_domain = eval(result['domain'])
+        invoice_domain.append(('id', 'in', created_inv))
+        result['domain'] = invoice_domain
+        return result
 
     def invoice_debit(self, cr, uid, ids, context=None):
         if context is None:
