@@ -207,11 +207,12 @@ class account_invoice_debit(osv.osv_memory):
             'parent_id':inv.id,
             'name': description,
             'origin': orig,
-            'comment':form.comment
+            'comment':form.comment,
+            'journal_id':journal_id
         })
         #take the id part of the tuple returned for many2one fields
         for field in ('partner_id',
-                'account_id', 'currency_id', 'payment_term', 'journal_id'):
+                'account_id', 'currency_id', 'payment_term'):
                 invoice[field] = invoice[field] and invoice[field][0]
         # create the new invoice
         inv_id = inv_obj.create(cr, uid, invoice, {})
