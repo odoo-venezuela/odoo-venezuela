@@ -27,6 +27,22 @@ from osv import fields, osv
 from tools.translate import _
 class account_invoice(osv.osv):
 
+    def _get_journal(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        journal_type_inv = context.get('journal_type', 'sale')
+        if journal_type_inv in ('sale_debit', 'purchase_debit'):
+            user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+            company_id = context.get('company_id', user.company_id.id)
+            journal_obj = self.pool.get('account.journal')
+            res = journal_obj.search(cr, uid, [('type', '=',journal_type_inv),
+                                               ('company_id', '=', company_id)],
+                                                    limit=1)
+            return res and res[0] or False
+        else:
+            return super(account_invoice, self)._get_journal(cr, uid, context=context)
+        
+
 
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
         if context is None: context={}
