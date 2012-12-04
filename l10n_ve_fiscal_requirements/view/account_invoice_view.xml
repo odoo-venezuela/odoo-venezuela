@@ -181,9 +181,49 @@
             </field>
         </record>
         
+        <record id="action_sale_debit_tree" model="ir.actions.act_window">
+            <field name="name">Customer Debit Notes</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale_debit'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a customer debit note.
+              </p><p>
+                OpenERP's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>
+            </field>
+        </record>
         
-        
-        
- 
-    </data>
+        <record id="action_purchase_debit_tree" model="ir.actions.act_window">
+            <field name="name">Supplier Debit Notes</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_invoice')]</field>
+            <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase_debit'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record a new supplier debit note.
+              </p><p>
+                You can control the invoice from your supplier according to
+                what you purchased or received. OpenERP can also generate
+                draft invoices automatically from purchase orders or receipts.
+              </p>
+            </field>
+        </record>
+
+   </data>
 </openerp>

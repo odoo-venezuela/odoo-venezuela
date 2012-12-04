@@ -224,11 +224,11 @@ class account_invoice_debit(osv.osv_memory):
         created_inv.append(inv_id)
         #we get the view id
         if inv.type in ('out_invoice', 'out_refund'):
-            xml_id = 'action_invoice_tree1'
+            xml_id = 'action_sale_debit_tree'
         else:
-            xml_id = 'action_invoice_tree2'
+            xml_id = 'action_purchase_debit_tree'
         #we get the model
-        result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
+        result = mod_obj.get_object_reference(cr, uid, 'l10n_ve_fiscal_requirements', xml_id)
         id = result and result[1] or False
         # we read the act window
         result = act_obj.read(cr, uid, id, context=context)
