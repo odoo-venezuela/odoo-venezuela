@@ -70,12 +70,14 @@ class account_invoice_debit(osv.osv_memory):
         #type = context.get('journal_type', 'sale_refund')
         type = context.get('journal_type', 'sale')
         if type in ('sale', 'sale_refund'):
-            type = 'sale'
+            type = 'sale_debit'
         else:
-            type = 'purchase'
+            type = 'purchase_debit'
+        company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
+        company_id = context.get('company_id', company_id)
         for field in res['fields']:
             if field == 'journal_id':
-                journal_select = journal_obj._name_search(cr, uid, '', [('type', '=', type)], context=context, limit=None, name_get_uid=1)
+                journal_select = journal_obj._name_search(cr, uid, '', [('type', '=', type),('company_id','=',company_id)], context=context, limit=None, name_get_uid=1)
                 res['fields'][field]['selection'] = journal_select
         return res
 
