@@ -71,39 +71,21 @@ class res_partner(osv.osv):
                 return True
         return True
 
-    def _check_vat_uniqueness_root(self, cr, uid, obj, name, partner_obj, args, context=None):
-        
-        if( partner_obj.parent_id is None ):
-            return partner_obj
-
-        return _check_vat_uniqueness_root(cr, uid, obj, name, partner_brw.parent_id, args, context=context)
-
-    def _check_vat_uniqueness_tree(self, cr, uid, obj, name, partner_root, list_node_tree ,args, context=None):
-               
-        list_node_tree.append(partner_root)
-        list_adjacent_node = partner_root.child_ids
-        
-        for node in list_adjacent_node:
-            _check_vat_uniqueness_tree(cr, uid, obj, name, node, list_node_tree ,args, context=context)
-
-        return list_node_tree
-
-    def _check_vat_uniqueness_def(self, cr, uid, obj, name, current_vat,list_node_tree, args, context=None):
-        nodes = self.browse(cr, uid, self.search(cr, uid, [('vat', '=', current_vat)]) )
-        
-        for node in nodes:
-            if(node not in list_node_tree):
-                return False
-        
-        return True
+    def _check_vat_uniqueness_def(self, cr, uid, ids, current_vat,list_node_tree, context=None):
+        nodes = self.search(cr, uid, [] )
+        nodes = list( set(nodes) - set(list_node_tree) )
+        print nodes
+        nodes = self.search(cr, uid, [('vat','=',current_vat),('id','in',nodes)] )
+        return not nodes
 
     def _check_vat_uniqueness(self, cr, uid, ids, context={}):
-        #Check if its possible to use 'browse' in this 'read'
+       
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
-                
+        
+        #User must be of VE        
         if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code != 'VE':
             return True
-
+       
         partner_brw = self.browse(cr, uid,ids)
         current_vat = partner_brw[0].vat
         current_parent_id = partner_brw[0].parent_id
@@ -111,57 +93,58 @@ class res_partner(osv.osv):
         if not current_vat:
             return True # Accept empty VAT's
         
-        #Case b y d
+        #Partners without parent, must have RIF uniqueness
         if not current_parent_id:
-            duplicates = self.browse(cr, uid, self.search(cr, uid, [('vat', '=', current_vat),('parent_id','=',None)]))
-            return duplicates is None
-        
+            duplicates = self.browse(cr, uid, self.search(cr, uid, [('vat', '=', current_vat),('parent_id','=',None),('id','!=',partner_brw[0].id)]))
+            return not duplicates
+                
         currrent_is_company =partner_brw[0].is_company
         
-        #Case c
+        #Partners not are company type and have parent, can't have partners' RIF that are not part of its brothers or parent 
         if(current_parent_id and not currrent_is_company):
-            partner_root = _check_vat_uniqueness_root(cr, uid, obj, name, partner_brw[0], args, context=context)
-            list_partner_tree = _check_vat_uniqueness_tree(cr, uid, obj, name, partner_root, [] ,args, context=context)
-            return _check_vat_uniqueness_def(cr, uid, obj, name, current_vat,list_partner_tree ,args, context=context)
-
+            list_nodes = current_parent_id.child_ids
+            list_nodes = map(lambda x: x.id, list_nodes)
+            list_nodes.append(current_parent_id)
+            return self._check_vat_uniqueness_def(cr, uid, ids, current_vat, list_nodes , context=context)
+        print "4"
+        
         return True    
 
     def _check_vat_mandatory(self, cr, uid, ids, context={}):
         
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         
+        #User must be of VE
         if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code != 'VE':
             return True
-
+        
         partner_brw = self.browse(cr, uid,ids)
         current_vat = partner_brw[0].vat
         current_parent_id = partner_brw[0].parent_id
         current_is_company =partner_brw[0].is_company
         
+        #Partners company type and with parent, not exists
         if (current_is_company and current_parent_id):
             return False
         
+        #Partners with parent must have vat 
         if not current_vat and not current_parent_id:
             return False
         
         current_type = partner_brw[0].type
        
+        #Partners invoice type that not be company and have parent, must have vat 
         if ('invoice' in current_type and not current_vat and not current_is_company and current_parent_id):
             return False       
         
-        <return True
+        return True
     
     _constraints = [
         (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+        #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]
-    
-#    _constraints = [
-#        
-#        (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
-#       
-#    ]
-
+ 
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
         if context is None:
             context={}
