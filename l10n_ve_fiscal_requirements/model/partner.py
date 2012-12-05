@@ -71,46 +71,85 @@ class res_partner(osv.osv):
                 return True
         return True
 
+    def _check_vat_uniqueness_root(self, cr, uid, obj, name, partner_obj, args, context=None):
+        
+        if( partner_obj.parent_id is None ):
+            return partner_obj
+
+        return _check_vat_uniqueness_root(cr, uid, obj, name, partner_brw.parent_id, args, context=context)
+
+    def _check_vat_uniqueness_tree(self, cr, uid, obj, name, partner_root, list_node_tree ,args, context=None):
+               
+        list_node_tree.append(partner_root)
+        list_adjacent_node = partner_root.child_ids
+        
+        for node in list_adjacent_node:
+            _check_vat_uniqueness_tree(cr, uid, obj, name, node, list_node_tree ,args, context=context)
+
+        return list_node_tree
+
+    def _check_vat_uniqueness_def(self, cr, uid, obj, name, current_vat,list_node_tree, args, context=None):
+        nodes = self.browse(cr, uid, self.search(cr, uid, [('vat', '=', current_vat)]) )
+        
+        for node in nodes:
+            if(node not in list_node_tree):
+                return False
+        
+        return True
+
     def _check_vat_uniqueness(self, cr, uid, ids, context={}):
         #Check if its possible to use 'browse' in this 'read'
-        partner_brw = self.browse(cr, uid,ids)
-        if not 'VE' in [a.country_id.code for a in partner_brw ]:
+        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+                
+        if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code != 'VE':
             return True
 
-        current_vat = partner_brw[0].vat
-
-        if not current_vat or current_vat.strip()=='':
-            return True # Accept empty VAT's
-            
-        duplicates = self.read(cr, uid, self.search(cr, uid, [('vat', '=', current_vat)]), ['vat'])
-
-        return not current_vat in [p['vat'] for p in duplicates if p['id'] != partner_brw[0].id]
-
-    def _check_vat_mandatory(self, cr, uid, ids, context={}):
-        
         partner_brw = self.browse(cr, uid,ids)
         current_vat = partner_brw[0].vat
         current_parent_id = partner_brw[0].parent_id
         
+        if not current_vat:
+            return True # Accept empty VAT's
         
-        if not 'VE' in [a.country_id.code for a in partner_brw ]:
+        #Case b y d
+        if not current_parent_id:
+            duplicates = self.browse(cr, uid, self.search(cr, uid, [('vat', '=', current_vat),('parent_id','=',None)]))
+            return duplicates is None
+        
+        currrent_is_company =partner_brw[0].is_company
+        
+        #Case c
+        if(current_parent_id and not currrent_is_company):
+            partner_root = _check_vat_uniqueness_root(cr, uid, obj, name, partner_brw[0], args, context=context)
+            list_partner_tree = _check_vat_uniqueness_tree(cr, uid, obj, name, partner_root, [] ,args, context=context)
+            return _check_vat_uniqueness_def(cr, uid, obj, name, current_vat,list_partner_tree ,args, context=context)
+
+        return True    
+
+    def _check_vat_mandatory(self, cr, uid, ids, context={}):
+        
+        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        
+        if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code != 'VE':
             return True
+
+        partner_brw = self.browse(cr, uid,ids)
+        current_vat = partner_brw[0].vat
+        current_parent_id = partner_brw[0].parent_id
+        current_is_company =partner_brw[0].is_company
         
-        if (currrent_is_company) and (current_parent_id):
+        if (current_is_company and current_parent_id):
             return False
         
-        if ('VE' in [a.country_id.code for a in partner_brw ]) and (not current_vat or current_vat.strip()=='') and (not current_parent_id or current_parent_id.strip()==''):
+        if not current_vat and not current_parent_id:
             return False
         
         current_type = partner_brw[0].type
-        currrent_is_company =partner_brw[0].is_company
-        
-        if ('VE' in [a.country_id.code for a in partner_brw ] ) and ('invoice' in current_type) and (not current_vat or current_vat.strip()=='') and (current_parent_id) and (not currrent_is_company):
+       
+        if ('invoice' in current_type and not current_vat and not current_is_company and current_parent_id):
             return False       
         
-        
-        
-        return True
+        <return True
     
     _constraints = [
         (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
