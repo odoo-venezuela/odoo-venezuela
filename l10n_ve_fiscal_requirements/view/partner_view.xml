@@ -18,8 +18,24 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+<!--
+        <xpath expr="//field[@name='name']" position="replace">
+            <field name="name" on_change='onchange_uid()' />
+        </xpath>
+-->
           <xpath expr='//field[@name="lang"]' position='after'>
-              <field name="vat" colspan="2"/>
+<!--
+              <field name="vat" on_change="vat_change_fiscal_requirements(vat)" colspan="2"/>
+-->
+              
+              <field name="vat" colspan="2" attrs="{'required':[('uid_country','=','VE')]}" />
+              <field name="uid_country" colspan="2" invisible="1"/>
+<!--
+              <field name="vat" colspan="2" attrs="{'required':[('uid.company_id.partner_id.country_id.code','=','VE')]}"/>
+-->
+
+              
+              
               <button name="update_rif" string="Update Fiscal Information" type="object" icon="gtk-execute" colspan="2"/>
           </xpath>
         </field>

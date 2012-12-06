@@ -15,6 +15,7 @@
 #                   Israel Fermín Montilla <israel@openerp.com.ve>
 #                   Juan Márquez <jmarquez@tecvemar.com.ve>
 #                   Humberto Arocha <hbto@vauxoo.com>
+#                   Yanina Aular <yanina.aular@vauxoo.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -37,11 +38,19 @@ import re
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
-   
+
+    def default_get(self, cr, uid, fields, context=None):
+        res = super(res_partner, self).default_get(cr, uid, fields, context=context)
+        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE':
+            res.update({'uid_country': 'VE'})
+        return res
+
     _columns = {
         'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
+        'uid_country': fields.char("uid_country", size=20,readonly=True),
     }
-
+    
     _default = {
         'seniat_updated': False,
     }
@@ -61,7 +70,7 @@ class res_partner(osv.osv):
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         partner_obj = self.browse(cr,uid,ids[0])
-        if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE':
+        if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE' and not partner_obj.parent_id:
                 res = partner_obj.type == 'invoice'
                 if res:
                     return True
@@ -72,14 +81,18 @@ class res_partner(osv.osv):
         return True
 
     def _check_vat_uniqueness_def(self, cr, uid, ids, current_vat,list_node_tree, context=None):
+        if context is None: context = {}
         nodes = self.search(cr, uid, [] )
         nodes = list( set(nodes) - set(list_node_tree) )
         print nodes
         nodes = self.search(cr, uid, [('vat','=',current_vat),('id','in',nodes)] )
         return not nodes
 
-    def _check_vat_uniqueness(self, cr, uid, ids, context={}):
-       
+    def _check_vat_uniqueness(self, cr, uid, ids, context=None):
+        if context is None: context = {}
+        
+        print context
+        
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         
         #User must be of VE        
@@ -110,8 +123,8 @@ class res_partner(osv.osv):
         
         return True    
 
-    def _check_vat_mandatory(self, cr, uid, ids, context={}):
-        
+    def _check_vat_mandatory(self, cr, uid, ids, context=None):
+        if context is None: context = {}
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         
         #User must be of VE
@@ -140,8 +153,8 @@ class res_partner(osv.osv):
         return True
     
     _constraints = [
-        (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
-        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+        (lambda s, *a, **k: s._check_vat_mandatory(*a, **k), _("Error ! VAT is mandatory"), []),
+        (lambda s, *a, **k: s._check_vat_uniqueness(*a, **k), _("Error ! Partner's VAT must be a unique value or empty"), []),
         #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]
  
