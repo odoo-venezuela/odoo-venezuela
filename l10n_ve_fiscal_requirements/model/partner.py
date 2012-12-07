@@ -91,8 +91,6 @@ class res_partner(osv.osv):
     def _check_vat_uniqueness(self, cr, uid, ids, context=None):
         if context is None: context = {}
         
-        print context
-        
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         
         #User must be of VE        
@@ -119,8 +117,7 @@ class res_partner(osv.osv):
             list_nodes = map(lambda x: x.id, list_nodes)
             list_nodes.append(current_parent_id)
             return self._check_vat_uniqueness_def(cr, uid, ids, current_vat, list_nodes , context=context)
-        print "4"
-        
+              
         return True    
 
     def _check_vat_mandatory(self, cr, uid, ids, context=None):
@@ -145,7 +142,7 @@ class res_partner(osv.osv):
             return False
         
         current_type = partner_brw[0].type
-       
+
         #Partners invoice type that not be company and have parent, must have vat 
         if ('invoice' in current_type and not current_vat and not current_is_company and current_parent_id):
             return False       
@@ -153,8 +150,9 @@ class res_partner(osv.osv):
         return True
     
     _constraints = [
-        (lambda s, *a, **k: s._check_vat_mandatory(*a, **k), _("Error ! VAT is mandatory"), []),
-        (lambda s, *a, **k: s._check_vat_uniqueness(*a, **k), _("Error ! Partner's VAT must be a unique value or empty"), []),
+    #~ lambda s, *a, **k: s._check_vat_uniqueness(*a, **k)
+        (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
+        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
         #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]
  
