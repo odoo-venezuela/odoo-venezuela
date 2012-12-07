@@ -31,18 +31,12 @@ __HELP__= " Select 'Sale Debit' for customer debit note journals. Select 'Purcha
 class account_journal(osv.osv):
     _inherit = 'account.journal'
 
-    def _get_model_help(self, cr, uid, context=None):
-        return super(account_journal, self)._columns['type'].help + __HELP__
-
-    def _get_model_type(self, cr, uid, context=None):
-        '''Take the previous values for the selection field
-        and adds new ones to the same fields, without need 
-        for rewriting the previous ones en the field definition'''
-        
-        return super(account_journal, self)._columns['type'].selection + __TYPES__
-
     _columns = {
-        'type': fields.selection(_get_model_type,'Type', size=32, required=True, 
+'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), 
+    ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), 
+    ('cash', 'Cash'), ('bank', 'Bank and Cheques'), ('general', 'General'), 
+    ('situation', 'Opening/Closing Situation'),('sale_debit', 'Sale Debit'), 
+    ('purchase_debit', 'Purchase Debit')], 'Type', size=32, required=True,
             help =  "Select 'Sale' for customer invoices journals."\
                     " Select 'Purchase' for supplier invoices journals."\
                     " Select 'Cash' or 'Bank' for journals that are used in customer or supplier payments."\
