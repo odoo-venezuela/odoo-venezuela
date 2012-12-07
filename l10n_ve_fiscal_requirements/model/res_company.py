@@ -40,7 +40,6 @@ class res_company(osv.osv):
         
     def create(self, cr, uid, vals, context=None):
         if context is None: context = {}
-        print "*********************CREATE COMPANY"
         context.update({'create_company':True})
         return super(res_company, self).create(cr, uid, vals, context=context)
         
