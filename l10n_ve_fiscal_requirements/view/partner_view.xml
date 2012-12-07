@@ -18,21 +18,33 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-<!--
-        <xpath expr="//field[@name='name']" position="replace">
-            <field name="name" on_change='onchange_uid()' />
-        </xpath>
--->
-          <xpath expr='//field[@name="lang"]' position='after'>
+
+          <xpath expr='//field[@name="parent_id"]' position='before'>
+
+          <field name="vat"  placeholder="TIN" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
 <!--
               <field name="vat" on_change="vat_change_fiscal_requirements(vat)" colspan="2"/>
 -->
-
-              <field name="vat" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
-           
-              <field name="uid_country" colspan="2" invisible="1"/>
-                    
+           <field name="uid_country" colspan="2" invisible="1"/>
+               
           </xpath>
+
+          <xpath expr='//field[@name="street"]' position='replace'>
+          <field name="street"  placeholder="Street" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
+              
+          </xpath>
+          
+          <xpath expr='//field[@name="city"]' position='replace'>
+          <field name="city"  placeholder="City" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
+              
+          </xpath>
+          
+          <xpath expr='//field[@name="country_id"]' position='replace'>
+          <field name="country_id"  placeholder="Country" class="oe_no_button" options='{"no_open": True}' colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
+              
+          </xpath>
+
+
         </field>
     </record>
 
@@ -45,7 +57,7 @@
             <field name="seniat_updated" invisible="1" />
             <field name="name" attrs="{'readonly': [('seniat_updated', '!=', False)]}" />
         </xpath>
-      </field>
+    </field>
     </record>
   </data>
 </openerp>
