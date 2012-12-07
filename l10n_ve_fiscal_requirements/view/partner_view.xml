@@ -27,16 +27,11 @@
 <!--
               <field name="vat" on_change="vat_change_fiscal_requirements(vat)" colspan="2"/>
 -->
-              
-              <field name="vat" colspan="2" attrs="{'required':[('uid_country','=','VE')]}" />
-              <field name="uid_country" colspan="2" invisible="1"/>
-<!--
-              <field name="vat" colspan="2" attrs="{'required':[('uid.company_id.partner_id.country_id.code','=','VE')]}"/>
--->
 
-              
-              
-              <button name="update_rif" string="Update Fiscal Information" type="object" icon="gtk-execute" colspan="2"/>
+              <field name="vat" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
+           
+              <field name="uid_country" colspan="2" invisible="1"/>
+                    
           </xpath>
         </field>
     </record>
