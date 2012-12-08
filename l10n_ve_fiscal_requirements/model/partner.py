@@ -84,7 +84,6 @@ class res_partner(osv.osv):
         if context is None: context = {}
         nodes = self.search(cr, uid, [] )
         nodes = list( set(nodes) - set(list_node_tree) )
-        print nodes
         nodes = self.search(cr, uid, [('vat','=',current_vat),('id','in',nodes)] )
         return not nodes
 
@@ -94,7 +93,7 @@ class res_partner(osv.osv):
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         
         #User must be of VE        
-        if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code != 'VE':
+        if not (user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE'):
             return True
        
         partner_brw = self.browse(cr, uid,ids)
@@ -121,11 +120,24 @@ class res_partner(osv.osv):
         return True    
 
     def _check_vat_mandatory(self, cr, uid, ids, context=None):
+        '''This method will check the vat mandatoriness in partners
+        for those user logged on with a Venezuelan Company
+        
+        The method will return True when:
+            *) The user's company is not from Venezuela
+            *) The partner being created is the one for the a company being created [TODO]
+        
+        The method will return False when:
+            *) The user's company is from Venezuela AND the vat field is empty AND:
+                +) partner is_company=True AND parent_id is not NULL
+                +) partner with parent_id is NULL 
+                +) partner with parent_id is NOT NULL AND type of address is invoice   
+            '''
         if context is None: context = {}
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         
         #Check if the user is not from a VE Company
-        if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code != 'VE':
+        if not (user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE'):
             return True
         
         partner_brw = self.browse(cr, uid,ids)
@@ -133,12 +145,12 @@ class res_partner(osv.osv):
         current_parent_id = partner_brw[0].parent_id
         current_is_company =partner_brw[0].is_company
         current_type = partner_brw[0].type
-        
+
         #Partners company type and with parent, not exists
         if (current_is_company and current_parent_id):
             return False
         
-        #Partners with parent must have vat 
+        #Partners without parent must have vat 
         if not current_vat and not current_parent_id:
             return False
 
@@ -149,7 +161,6 @@ class res_partner(osv.osv):
         return True
     
     _constraints = [
-    #~ lambda s, *a, **k: s._check_vat_uniqueness(*a, **k)
         (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
         #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
