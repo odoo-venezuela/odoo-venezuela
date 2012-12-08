@@ -32,6 +32,7 @@
 #
 ##############################################################################
 
+from openerp.osv.orm import except_orm
 from osv import fields, osv
 from tools.translate import _
 import re
@@ -134,8 +135,13 @@ class res_partner(osv.osv):
                 +) partner with parent_id is NOT NULL AND type of address is invoice   
             '''
         if context is None: context = {}
-        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        # Avoiding Egg-Chicken Syndrome
+        # TODO: Refine this approach this is big exception
+        # One that can be handle be end user, I hope so!!!
+        if context.get('create_company',False):
+            return True
         
+        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         #Check if the user is not from a VE Company
         if not (user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE'):
             return True
@@ -159,7 +165,42 @@ class res_partner(osv.osv):
             return False       
         
         return True
-    
+
+    def _validate(self, cr, uid, ids, context=None):
+        #In the original orm.py openerp does not allow using
+        #context within the constraint because we have to yield 
+        # the same result always,
+        # we have overridden this behaviour 
+        # TO ALLOW PASSING CONTEXT TO THE RESTRICTION IN RES.PARTNER
+        context = context or {}
+        lng = context.get('lang')
+        trans = self.pool.get('ir.translation')
+        error_msgs = []
+        for constraint in self._constraints:
+            fun, msg, fields = constraint
+            # We don't pass around the context here: validation code
+            # must always yield the same results.
+            if not fun(self, cr, uid, ids, context=context):
+                # Check presence of __call__ directly instead of using
+                # callable() because it will be deprecated as of Python 3.0
+                if hasattr(msg, '__call__'):
+                    tmp_msg = msg(self, cr, uid, ids, context=context)
+                    if isinstance(tmp_msg, tuple):
+                        tmp_msg, params = tmp_msg
+                        translated_msg = tmp_msg % params
+                    else:
+                        translated_msg = tmp_msg
+                else:
+                    translated_msg = trans._get_source(cr, uid, self._name, 'constraint', lng, msg)
+                error_msgs.append(
+                        _("Error occurred while validating the field(s) %s: %s") % (','.join(fields), translated_msg)
+                )
+                self._invalids.update(fields)
+        if error_msgs:
+            raise except_orm('ValidateError', '\n'.join(error_msgs))
+        else:
+            self._invalids.clear()
+
     _constraints = [
         (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
