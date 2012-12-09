@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 {
-    "name" : "Requirements for Venezuela",
+    "name" : "Venezuelan Fiscal Requirements",
     "version" : "0.2",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",

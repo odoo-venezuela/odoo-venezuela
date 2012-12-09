@@ -56,7 +56,8 @@ class l10n_ut(osv.osv):
             rate=cr.fetchall()[0][0]
         return rate
 
-    def compute(self, cr, uid, from_amount, date=False, context={}):
+    def compute(self, cr, uid, from_amount, date=False, context=None):
+        if context is None: context ={}
         result = 0.0
         ut = self.get_amount_ut(cr, uid, date=False)
         if ut:
@@ -64,7 +65,8 @@ class l10n_ut(osv.osv):
 
         return result
 
-    def compute_ut_to_money(self, cr, uid, amount_ut, date=False, context={}):
+    def compute_ut_to_money(self, cr, uid, amount_ut, date=False, context=None):
+        if context is None: context ={}
         money = 0.0
         ut = self.get_amount_ut(cr, uid, date)
         if ut:
