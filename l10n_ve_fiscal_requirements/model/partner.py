@@ -40,16 +40,26 @@ import re
 class res_partner(osv.osv):
     _inherit = 'res.partner'
 
+    def _get_country_code(self, cr, uid, context=None):
+        context = context or {}
+        user_company = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id
+        return user_company.partner_id and user_company.partner_id.country_id \
+                and user_company.partner_id.country_id.code or 'XX'
+
     def default_get(self, cr, uid, fields, context=None):
+        context = context or {}
         res = super(res_partner, self).default_get(cr, uid, fields, context=context)
-        user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
-        if user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE':
-            res.update({'uid_country': 'VE'})
+        res.update({'uid_country': self._get_country_code(cr,uid,context=context)})
         return res
 
+    def _get_uid_country(self, cr, uid, ids, field_name, args, context=None):
+        context = context or {}
+        res= {}.fromkeys(ids,self._get_country_code(cr,uid,context=context))
+        return res
+    
     _columns = {
         'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
-        'uid_country': fields.char("uid_country", size=20,readonly=True),
+        'uid_country': fields.function(_get_uid_country, type='char', string="uid_country", size=20),
     }
     
     _default = {
