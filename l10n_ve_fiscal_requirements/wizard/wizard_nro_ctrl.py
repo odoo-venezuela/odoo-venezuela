@@ -32,7 +32,7 @@ class wiz_nroctrl(osv.osv_memory):
     _description = "Wizard that changes the invoice control number"
 
     def set_noctrl(self, cr, uid, ids, context=None):
-        if context==None:
+        if context is None:
             context={}
         data = self.pool.get('wiz.nroctrl').read(cr, uid, ids)[0]
         if not data['sure']:
@@ -41,8 +41,6 @@ class wiz_nroctrl(osv.osv_memory):
         n_ctrl = data['name']
         
         invoice = inv_obj.browse(cr, uid, context['active_id'])
-        if invoice.state == 'draft':
-            raise osv.except_osv(_("Error!"), _("You cannot change the state of a Draft invoice"))
 
         inv_obj.write(cr, uid, context.get('active_id'), {'nro_ctrl': n_ctrl}, context=context)
         return {}
