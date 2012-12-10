@@ -37,7 +37,7 @@ class res_partner(osv.osv):
         'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
     }
     _defaults = {
-        'wh_iva_rate': lambda *a: 0,
+        'wh_iva_rate': lambda *a: 100.0,
     }
     
     def update_rif(self, cr, uid, ids, context=None):
