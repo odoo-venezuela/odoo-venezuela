@@ -39,12 +39,6 @@ class res_partner(osv.osv):
     _defaults = {
         'wh_iva_rate': lambda *a: 100.0,
     }
-    
-    def update_rif(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        su_obj = self.pool.get('seniat.url')
-        return su_obj.update_rif(cr, uid, ids, context=context)
 
 res_partner()
 
