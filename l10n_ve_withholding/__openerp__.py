@@ -43,9 +43,9 @@ TODO:
     'update_xml': [
         'security/withholding_security.xml',
         'security/ir.model.access.csv',    
-        'l10n_ve_withholding_data.xml',    
-        'l10n_ve_withholding_view.xml',
-        'account_view.xml',
+        'data/l10n_ve_withholding_data.xml',    
+        'view/l10n_ve_withholding_view.xml',
+        'view/account_view.xml',
         'workflow/account_workflow.xml',
     ],
     'demo_xml': [],
