@@ -393,7 +393,7 @@ class account_wh_iva(osv.osv):
         if context is None: context = {}
         
         context.update({'vat_wh':True,
-                        'company_id':user_obj.get_current_company(cr, uid)[0][0]})
+                        'company_id': user_obj.browse(cr, uid, uid, context=context).company_id.id})
         ret = self.browse(cr, uid, ids[0], context)
         for line in ret.wh_lines:
             if line.move_id or line.invoice_id.wh_iva:
