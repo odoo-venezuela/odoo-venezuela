@@ -24,6 +24,7 @@ import time
 from osv import fields, osv
 from tools.translate import _
 import netsvc
+import pdb
 
 class account_invoice_debit(osv.osv_memory):
 
@@ -81,19 +82,6 @@ class account_invoice_debit(osv.osv_memory):
                 res['fields'][field]['selection'] = journal_select
         return res
 
-    def _get_period(self, cr, uid, context=None):
-        """
-        Return  default account period value
-        """
-        if context is None:
-            context = {}
-        account_period_obj = self.pool.get('account.period')
-        ids = account_period_obj.find(cr, uid, context=context)
-        period_id = False
-        if ids:
-            period_id = ids[0]
-        return period_id
-
     def _get_orig(self, cr, uid, inv, ref, context=None):
         """
         Return  default origin value
@@ -130,45 +118,39 @@ class account_invoice_debit(osv.osv_memory):
         date = False
         period = False
         description = False
-        company = res_users_obj.browse(cr, uid, uid, context=context).company_id
+
         journal_id = form.journal_id and  form.journal_id.id or False
         inv = inv_obj.browse(cr, uid, context.get('active_ids')[0], context=context)
+        #~ TODOK: no seria mejor ids=context.get(active_id)
+
+        company_id = inv.company_id.id
+        context.update({'company_id':company_id})
+
         if inv.state in ['draft', 'proforma2', 'cancel']:
             raise osv.except_osv(_('Error !'), _('Can not create a debit note from draft/proforma/cancel invoice.'))
         if inv.reconciled in ('cancel', 'modify'):
             raise osv.except_osv(_('Error !'), _('Can not create a debit note from invoice which is already reconciled, invoice should be unreconciled first. You can only Refund or Debit this invoice'))
         if inv.type not in ['in_invoice', 'out_invoice']:
             raise osv.except_osv(_('Error !'), _('Can not make a debit note on a refund invoice.'))
+
+        #Check for the form fields
+
         if form.period:
             period = form.period.id
         else:
             #Take period from the current date
-            #period = inv.period_id and inv.period_id.id or False
-            period = self._get_period(cr, uid, context)
+            period = self.pool.get('account.period').find(cr, uid, context=context)
+            period = period and period[0] or False
+            if not period:
+                raise osv.except_osv(_('No Pediod Defined'), \
+                                        _('You have been left empty the period field that automatically fill with the current period. However there is not period defined for the current company. Please check in Accounting/Configuration/Periods'))
+            self.write(cr, uid, ids, {'period': period }, context=context) 
 
         if not journal_id:
             journal_id = inv.journal_id.id
 
         if form.date:
             date = form.date
-            if not form.period.id:
-                    cr.execute("select name from ir_model_fields \
-                                    where model = 'account.period' \
-                                    and name = 'company_id'")
-                    result_query = cr.fetchone()
-                    if result_query:
-                        #in multi company mode
-                        cr.execute("""select p.id from account_fiscalyear y, account_period p where y.id=p.fiscalyear_id \
-                            and date(%s) between p.date_start AND p.date_stop and y.company_id = %s limit 1""", (date, company.id,))
-                    else:
-                        #in mono company mode
-                        cr.execute("""SELECT id
-                                from account_period where date(%s)
-                                between date_start AND  date_stop  \
-                                limit 1 """, (date,))
-                    res = cr.fetchone()
-                    if res:
-                        period = res[0]
         else:
             #Take current date
             #date = inv.date_invoice
@@ -178,9 +160,12 @@ class account_invoice_debit(osv.osv_memory):
         else:
             description = inv.name
 
-        if not period:
-            raise osv.except_osv(_('Data Insufficient !'), \
-                                    _('No Period found on Invoice!'))
+        print '----------------------------------------------------'
+        print 'ids ' + str(ids)
+        print 'context ' + str(context)
+        print "form " + str(form)
+        print "period " + str(period)
+        #~ pdb.set_trace()
 
         #we get original data of invoice to create a new invoice that is the copy of the original
         invoice = inv_obj.read(cr, uid, [inv.id],
