@@ -24,7 +24,6 @@ import time
 from osv import fields, osv
 from tools.translate import _
 import netsvc
-import pdb
 
 class account_invoice_debit(osv.osv_memory):
 
@@ -159,13 +158,6 @@ class account_invoice_debit(osv.osv_memory):
             description = form.description
         else:
             description = inv.name
-
-        print '----------------------------------------------------'
-        print 'ids ' + str(ids)
-        print 'context ' + str(context)
-        print "form " + str(form)
-        print "period " + str(period)
-        #~ pdb.set_trace()
 
         #we get original data of invoice to create a new invoice that is the copy of the original
         invoice = inv_obj.read(cr, uid, [inv.id],
