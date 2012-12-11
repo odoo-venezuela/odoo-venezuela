@@ -8,12 +8,12 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <page string="Configuration" position="inside">
+                <xpath expr='//page[@string="Configuration"]/group/group[@name="account_grp"]' position="after">
                     <separator string="Data used by default for invoices damaged" colspan="4"/>
                     <field name="jour_id"/>
                     <field name="acc_id"/>
                     <newline/>
-                </page>
+                </xpath>
             </field>
         </record>
     </data>
