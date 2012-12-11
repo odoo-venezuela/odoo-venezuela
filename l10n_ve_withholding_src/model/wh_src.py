@@ -208,7 +208,7 @@ class account_wh_src(osv.osv):
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
         
-        context.update({'src_wh':True})
+        context.update({'wh_src':True})
         
         ret = self.browse(cr, uid, ids[0], context)
 

@@ -84,7 +84,7 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=context)
-        if context.get('src_wh',False):
+        if context.get('wh_src',False):
             invoice = self.browse(cr, uid, ids[0])
             
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
