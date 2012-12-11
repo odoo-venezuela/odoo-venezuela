@@ -59,7 +59,7 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         'view/company_view.xml',
         'workflow/l10n_ve_wh_src_wf.xml',
         'data/data.xml',
-        'wh_src_report.xml',
+        'report/wh_src_report.xml',
     ],
     "active": False,
     "installable": True
