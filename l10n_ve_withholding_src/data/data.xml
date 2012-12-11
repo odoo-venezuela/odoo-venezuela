@@ -8,7 +8,7 @@
         </record>
 
         <record id="seq_type_account_wh_iva_purchase" model="ir.sequence.type">
-            <field name="name">Withholding src  supplier</field>
+            <field name="name">Withholding src supplier</field>
             <field name="code">wh.src.in</field>
         </record>
     
@@ -20,7 +20,7 @@
             <field name="number_increment">1</field>
         </record>
 
-        <record id="seq_account_retencion_src_customer" model="ir.sequence">
+        <record id="seq_account_retencion_src_purchase" model="ir.sequence">
             <field name="name">Withholding src purchase</field>
             <field name="code">wh.src.in</field>
             <field name="prefix">%(year)s-%(month)s-</field>
