@@ -8,14 +8,14 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='currency_id']" position="after">
+                <xpath expr="//separator[@string='rsep']" position="after">
                     <newline/>
                         <group col="6" colspan="4">
                             <field name="wh_src_rate"/>
                             <field name="wh_src_id"/>
                         </group>
                 </xpath>
-                <xpath expr="//field[@name='account_id']" position='attributes'>
+                <xpath expr="//separator[@string='rsep']" position='attributes'>
                     <attribute name="string">SRC Withholdings</attribute>
                 </xpath>
             </field>
