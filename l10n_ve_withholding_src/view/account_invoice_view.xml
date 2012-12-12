@@ -14,6 +14,11 @@
                             <field name="wh_src_rate"/>
                             <field name="wh_src_id"/>
                         </group>
+                        <button   
+                                 type='action' 
+                                 string='Change retention' 
+                                 icon="gtk-execute" 
+                                 colspan="6"/>
                 </xpath>
                 <xpath expr="//separator[@string='rsep']" position='attributes'>
                     <attribute name="string">SRC Withholdings</attribute>
