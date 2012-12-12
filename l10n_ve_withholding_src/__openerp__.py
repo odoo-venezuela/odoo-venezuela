@@ -54,12 +54,14 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
     "update_xml" : [
         'security/wh_src_security.xml',
         'security/ir.model.access.csv',
+        'wizard/wizard_retention_view.xml',
         'view/wh_src_view.xml',
         'view/account_invoice_view.xml',
         'view/company_view.xml',
         'workflow/l10n_ve_wh_src_wf.xml',
         'data/data.xml',
         'report/wh_src_report.xml',
+        
     ],
     "active": False,
     "installable": True
