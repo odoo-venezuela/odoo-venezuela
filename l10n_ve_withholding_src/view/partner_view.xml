@@ -10,12 +10,11 @@
     =====================================================
 -->
 
-        <record id="partner_wh_src" model="ir.ui.view">
+    <record id="partner_wh_src" model="ir.ui.view">
             <field name="name">res.partner.form.wh.src</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
-
                 <xpath expr="//page[@string='Withholdings']" position="after">
                     <page string="Local Withholdings">
                         <group col="4" colspan="2">
@@ -24,10 +23,7 @@
                         </group>
                     </page>
                 </xpath>
-
-
             </field>
         </record>
-
     </data>
 </openerp>
