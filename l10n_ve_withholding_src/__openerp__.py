@@ -58,6 +58,7 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         'view/wh_src_view.xml',
         'view/account_invoice_view.xml',
         'view/company_view.xml',
+        'view/partner_view.xml',
         'workflow/l10n_ve_wh_src_wf.xml',
         'data/data.xml',
         'report/wh_src_report.xml',
