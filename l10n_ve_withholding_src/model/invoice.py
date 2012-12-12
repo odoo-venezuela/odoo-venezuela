@@ -66,6 +66,20 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
     
+    def _check_retention(self, cr, uid, ids, context=None):
+        '''This method will check the retention value will be maximum 5%   
+            '''
+        if context is None: context = {}
+        
+        invoice_brw = self.browse(cr, uid,ids)
+        
+        ret = invoice_brw[0].wh_src_rate
+    
+        if ret and ret > 5:
+            return False
+            
+        return True
+    
     _columns = {
         'wh_src': fields.boolean('Social Responsibility Commitment Withheld'),
         'wh_src_rate': fields.float('SRC Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Social Responsibility Commitment Withholding Rate"),
@@ -74,6 +88,10 @@ class account_invoice(osv.osv):
     _defaults={
         'wh_src': False,
     }
+
+    _constraints = [
+        (_check_retention, _("Error ! Maximum retention is 5%"), []),
+    ]
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
