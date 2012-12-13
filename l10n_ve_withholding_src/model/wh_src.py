@@ -51,6 +51,49 @@ class account_wh_src(osv.osv):
             res.append((move.id, name))
         return res
 
+    def _get_uid_wh_agent(self, cr, uid, context=None):
+        context = context or {}
+        user_wh_agent = self.pool.get('res.partner').browse(cr, uid, uid, context=context).wh_src_agent
+        return user_wh_agent
+
+    def default_get(self, cr, uid, fields, context=None):
+        context = context or {}
+        res = super(account_wh_src, self).default_get(cr, uid, fields, context=context)
+        res.update({'uid_wh_agent': self._get_uid_wh_agent(cr,uid,context=context) })
+        return res
+
+    def _get_wh_agent(self, cr, uid, ids, field_name, args, context=None):
+        context = context or {}
+        res= {}.fromkeys(ids,self._get_uid_wh_agent(cr,uid,context=context))
+        return res 
+        
+    def _get_partner_src(self, cr, uid, ids, field_name, arg, context):
+        context = context or {}
+        
+        wh_obj = self.pool.get('account.wh.src').browse(cr, uid, ids[0])
+        print "************************ %s" % wh_obj.type
+        #~ for i in ids:
+            #~ 
+            #~ sql_req= """
+            #~ SELECT f.id AS func_id
+            #~ FROM hr_contract c
+              #~ LEFT JOIN res_partner_function f ON (f.id = c.function)
+            #~ WHERE
+              #~ (c.employee_id = %d)
+            #~ """ % (i,)
+#~ 
+            #~ cr.execute(sql_req)
+            #~ sql_res = cr.dictfetchone()
+#~ 
+            #~ if sql_res: #The employee has one associated contract
+                #~ res[i] = sql_res['func_id']
+            #~ else:
+                #~ #res[i] must be set to False and not to None because of XML:RPC
+                #~ # "cannot marshal None unless allow_none is enabled"
+                #~ res[i] = False
+        res = []
+        return res       
+
     _name = "account.wh.src"
     _description = "Social Responsibility Commitment Withholding"
     _columns = {
@@ -77,8 +120,9 @@ class account_wh_src(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'wh_amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
-     
-
+        
+        'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", size=20),
+        'partner_2' : fields.function(_get_partner_src, type='many2one', obj="res.partner", method=True, string='Lista', store=False),
     } 
     
     def _diario(self, cr, uid, model, context=None):

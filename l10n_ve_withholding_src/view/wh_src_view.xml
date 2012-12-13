@@ -111,7 +111,9 @@
                         <field name="journal_id"/>
                         <field name="type" readonly="1"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" attrs="{'readonly':['&amp;',('uid_wh_agent','=',False),('type','=','in_invoice')]}"/>
+                        
+                        <field name="uid_wh_agent" invisible="1"/>
                         <field name="currency_id"/>
                         <field name="date_ret"/>
                         <field name="account_id"/>
