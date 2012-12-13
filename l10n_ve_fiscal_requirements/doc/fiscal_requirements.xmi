@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI verified="false" xmi.version="1.2" timestamp="2012-12-01T15:25:02" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
+ <XMI.header>
+  <XMI.documentation>
+   <XMI.exporter>umbrello uml modeller http://uml.sf.net</XMI.exporter>
+   <XMI.exporterVersion>1.5.8</XMI.exporterVersion>
+   <XMI.exporterEncoding>UnicodeUTF8</XMI.exporterEncoding>
+  </XMI.documentation>
+  <XMI.metamodel xmi.version="1.3" href="UML.xml" xmi.name="UML"/>
+ </XMI.header>
+ <XMI.content>
+  <UML:Model isSpecification="false" isAbstract="false" isLeaf="false" xmi.id="m1" isRoot="false" name="UML Model">
+   <UML:Namespace.ownedElement>
+    <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="folder" name="folder"/>
+    <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="datatype" name="datatype"/>
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical View" name="Logical View">
+     <UML:Namespace.ownedElement>
+      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
+       <UML:Namespace.ownedElement>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Hhr1p6xuKJbV" name="int"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="se8bAs3OdVm5" name="char"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="LoKxVQWk5Mjs" name="bool"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="QgnlyMEo0MP9" name="float"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="CSVpvHsE4AAX" name="double"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="bgHg00XReKAc" name="short"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="eOPdjomtFFhA" name="long"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="UZPYkZ3JDKxE" name="unsigned int"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="IUdxmlXR9w4q" name="unsigned short"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="joky3R6XyV4g" name="unsigned long"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="27xGSvSiN3f8" name="string"/>
+       </UML:Namespace.ownedElement>
+      </UML:Package>
+     </UML:Namespace.ownedElement>
+     <XMI.extension xmi.extender="umbrello">
+      <diagrams>
+       <diagram showopsig="1" linecolor="#ff0000" snapx="10" showattribassocs="1" snapy="10" linewidth="0" showattsig="1" isopen="0" showpackage="1" showpubliconly="1" showstereotype="1" name="class diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="537" canvaswidth="811" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#000000" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="DnSQSq2Hcg6b" documentation="" showscope="1" snapgrid="0" showatts="1" type="1">
+        <widgets/>
+        <messages/>
+        <associations/>
+       </diagram>
+       <diagram showopsig="1" linecolor="#ff0000" snapx="10" showattribassocs="1" snapy="10" linewidth="0" showattsig="1" isopen="0" showpackage="1" showpubliconly="1" showstereotype="1" name="base_vat" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="537" canvaswidth="811" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#000000" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="oBZv5bkoPSkS" documentation="" showscope="1" snapgrid="0" showatts="1" type="1">
+        <widgets/>
+        <messages/>
+        <associations/>
+       </diagram>
+       <diagram showopsig="1" linecolor="#ff0000" snapx="10" showattribassocs="1" snapy="10" linewidth="0" showattsig="1" isopen="1" showpackage="1" showpubliconly="1" showstereotype="1" name="activity diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="709" canvaswidth="794" localid="-1" snapcsgrid="0" showgrid="1" showops="1" griddotcolor="#808080" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="trxpM1WN9Tbb" documentation="" showscope="1" snapgrid="0" showatts="1" type="6">
+        <widgets>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="324" showstereotype="1" y="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="28" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="M3Ji4xqq6NjB" postcondition="" documentation="" activitytype="0" height="28" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="295" showstereotype="1" y="53" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="126" isinstance="0" usefillcolor="1" fillcolor="none" activityname="button_check_vat" xmi.id="yTyNvinmZkau" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="283" showstereotype="1" y="460" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="20" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="m4HvVsUqtlYv" postcondition="" documentation="" activitytype="4" height="20" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="110" showstereotype="1" y="675" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="30" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="gMlmjSwhwu2p" postcondition="" documentation="" activitytype="2" height="30" precondition=""/>
+         <notewidget width="60" showstereotype="1" x="542" noteType="0" usesdiagramusefillcolor="1" y="501" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="30" linecolor="none" xmi.id="cpaCXA4JCJCh" usefillcolor="1" linewidth="none" font="Sans Serif,9,-1,0,50,0,0,0,0,0" text=""/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="228" showstereotype="1" y="551" text="Failed vat validity" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="113" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="9eX2O5v4Rgp8" height="18"/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="70" showstereotype="1" y="573" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="120" isinstance="0" usefillcolor="1" fillcolor="none" activityname="Message Error!!!" xmi.id="8lp2frqHeORC" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <regionwidget width="339" showstereotype="1" x="42" usesdiagramusefillcolor="1" y="157" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="362" linecolor="none" regionname="" xmi.id="BR7opZyL2R3p" usefillcolor="1" documentation="" linewidth="none" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="156" showstereotype="1" y="131" text="check_vat" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="68" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="3RkKMgyKWfi3" height="18"/>
+         <notewidget width="60" showstereotype="1" x="173" noteType="0" usesdiagramusefillcolor="1" y="161" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="30" linecolor="none" xmi.id="9FeMZFEkhMWW" usefillcolor="1" linewidth="none" font="Sans Serif,9,-1,0,50,0,0,0,0,0" text=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="134" showstereotype="1" y="176" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="110" isinstance="0" usefillcolor="1" fillcolor="none" activityname="vat_check_vies" xmi.id="tUstutixKRHe" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="118" showstereotype="1" y="261" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="20" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="7Gzdtfe1uGNT" postcondition="" documentation="" activitytype="4" height="20" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="252" showstereotype="1" y="270" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="110" isinstance="0" usefillcolor="1" fillcolor="none" activityname="vies_vat_check" xmi.id="WaCBughnBXe5" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="80" showstereotype="1" y="364" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="126" isinstance="0" usefillcolor="1" fillcolor="none" activityname="simple_vat_check" xmi.id="RL2jmKOtYLUP" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="91" showstereotype="1" y="460" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="101" isinstance="0" usefillcolor="1" fillcolor="none" activityname="check_vat_ve" xmi.id="09QvNmMtMW2G" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="156" showstereotype="1" y="258" text="rc.check_vies = True" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="131" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="Dk1MFdReyROk" height="18"/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="283" showstereotype="1" y="365" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="20" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="lkbH56h3D7ya" postcondition="" documentation="" activitytype="4" height="20" precondition=""/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="237" showstereotype="1" y="355" text="failed" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="41" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="tJSDnUR0CSMS" height="18"/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="332" showstereotype="1" y="452" text="successed" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="70" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="4l42DQnyAMED" height="18"/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="57" showstereotype="1" y="304" text="rc.check_vies = False" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="136" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="6XIJxdj1On2b" height="18"/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="427" showstereotype="1" y="462" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="20" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="EnYM9maafrBf" postcondition="" documentation="" activitytype="4" height="20" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="416" showstereotype="1" y="346" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="81" isinstance="0" usefillcolor="1" fillcolor="none" activityname="update_rif" xmi.id="2NXZzbr667N1" postcondition="" documentation="" activitytype="1" height="24" precondition=""/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="422" showstereotype="1" y="413" text="VE vat" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="47" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="k619r3i5qGSx" height="18"/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="513" showstereotype="1" y="451" text="NOn VE vat" font="Sans Serif,9,-1,0,50,0,0,0,0,0" pretext="" role="700" width="77" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="00XfrjJt4oQ4" height="18"/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="647" showstereotype="1" y="640" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="15" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="NF8TNVT7ZUEQ" postcondition="" documentation="" activitytype="2" height="15" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" usesdiagramusefillcolor="1" x="642" showstereotype="1" y="465" font="Sans Serif,9,-1,0,50,0,0,0,0,0" width="20" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="XxWLBwICwopl" postcondition="" documentation="" activitytype="4" height="20" precondition=""/>
+        </widgets>
+        <messages/>
+        <associations>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="yTyNvinmZkau" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="M3Ji4xqq6NjB" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="2" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="336" starty="28"/>
+           <endpoint endx="336" endy="53"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="8lp2frqHeORC" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="m4HvVsUqtlYv" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="0" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="295" starty="480"/>
+           <endpoint endx="190" endy="575"/>
+           <point x="295" y="575"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="gMlmjSwhwu2p" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="8lp2frqHeORC" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="0" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="128" starty="597"/>
+           <endpoint endx="128" endy="675"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="BR7opZyL2R3p" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="yTyNvinmZkau" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="99" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="297" starty="77"/>
+           <endpoint endx="297" endy="157"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="7Gzdtfe1uGNT" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="tUstutixKRHe" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="185" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="138" starty="200"/>
+           <endpoint endx="138" endy="261"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="WaCBughnBXe5" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="7Gzdtfe1uGNT" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="0" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="138" starty="276"/>
+           <endpoint endx="252" endy="276"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="138" widgetbid="09QvNmMtMW2G" indexb="1" linewidth="none" usesdiagramusefillcolor="10" totalcounta="2" totalcountb="2" widgetaid="RL2jmKOtYLUP" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="72" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="132" starty="388"/>
+           <endpoint endx="132" endy="460"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="32" widgetbid="lkbH56h3D7ya" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="WaCBughnBXe5" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="10" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="292" starty="294"/>
+           <endpoint endx="292" endy="365"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="RL2jmKOtYLUP" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="lkbH56h3D7ya" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="0" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="283" starty="375"/>
+           <endpoint endx="206" endy="375"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="m4HvVsUqtlYv" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="lkbH56h3D7ya" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="51" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="292" starty="385"/>
+           <endpoint endx="292" endy="460"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="m4HvVsUqtlYv" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="09QvNmMtMW2G" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="137" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="192" starty="470"/>
+           <endpoint endx="283" endy="470"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="RL2jmKOtYLUP" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="7Gzdtfe1uGNT" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="141" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="118" starty="281"/>
+           <endpoint endx="118" endy="364"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="EnYM9maafrBf" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="m4HvVsUqtlYv" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="21" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="303" starty="471"/>
+           <endpoint endx="427" endy="471"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="161" widgetbid="2NXZzbr667N1" indexb="1" linewidth="none" usesdiagramusefillcolor="10" totalcounta="2" totalcountb="2" widgetaid="EnYM9maafrBf" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="168" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="437" starty="462"/>
+           <endpoint endx="437" endy="370"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="XxWLBwICwopl" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="2NXZzbr667N1" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="198" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="497" starty="364"/>
+           <endpoint endx="652" endy="465"/>
+           <point x="653" y="364"/>
+           <point x="652" y="435"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="82" widgetbid="NF8TNVT7ZUEQ" indexb="1" linewidth="none" usesdiagramusefillcolor="8" totalcounta="2" totalcountb="2" widgetaid="XxWLBwICwopl" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="16" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="653" starty="485"/>
+           <endpoint endx="653" endy="640"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget indexa="1" roleBdoc="" linecolor="none" usesdiagramfillcolor="0" widgetbid="XxWLBwICwopl" indexb="1" linewidth="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="EnYM9maafrBf" roleAdoc="" visibilityA="0" visibilityB="0" usefillcolor="198" fillcolor="#000000" changeabilityA="900" changeabilityB="900" documentation="" type="515">
+          <linepath>
+           <startpoint startx="447" starty="476"/>
+           <endpoint endx="642" endy="476"/>
+          </linepath>
+         </assocwidget>
+        </associations>
+       </diagram>
+      </diagrams>
+     </XMI.extension>
+    </UML:Model>
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use Case View" name="Use Case View">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component View" name="Component View">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment View" name="Deployment View">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity Relationship Model" name="Entity Relationship Model">
+     <UML:Namespace.ownedElement/>
+    </UML:Model>
+   </UML:Namespace.ownedElement>
+  </UML:Model>
+ </XMI.content>
+ <XMI.extensions xmi.extender="umbrello">
+  <docsettings viewid="trxpM1WN9Tbb" uniqueid="XxWLBwICwopl" documentation=""/>
+  <listview>
+   <listitem open="1" type="800" id="Views">
+    <listitem open="1" type="821" id="Component View"/>
+    <listitem open="1" type="827" id="Deployment View"/>
+    <listitem open="1" type="836" id="Entity Relationship Model"/>
+    <listitem open="1" type="801" id="Logical View">
+     <listitem open="0" type="809" id="trxpM1WN9Tbb" label="activity diagram"/>
+     <listitem open="0" type="807" id="oBZv5bkoPSkS" label="base_vat"/>
+     <listitem open="0" type="807" id="DnSQSq2Hcg6b" label="class diagram"/>
+     <listitem open="0" type="830" id="Datatypes">
+      <listitem open="1" type="829" id="LoKxVQWk5Mjs"/>
+      <listitem open="1" type="829" id="se8bAs3OdVm5"/>
+      <listitem open="1" type="829" id="CSVpvHsE4AAX"/>
+      <listitem open="1" type="829" id="QgnlyMEo0MP9"/>
+      <listitem open="1" type="829" id="Hhr1p6xuKJbV"/>
+      <listitem open="1" type="829" id="eOPdjomtFFhA"/>
+      <listitem open="1" type="829" id="bgHg00XReKAc"/>
+      <listitem open="1" type="829" id="27xGSvSiN3f8"/>
+      <listitem open="1" type="829" id="UZPYkZ3JDKxE"/>
+      <listitem open="1" type="829" id="joky3R6XyV4g"/>
+      <listitem open="1" type="829" id="IUdxmlXR9w4q"/>
+     </listitem>
+    </listitem>
+    <listitem open="1" type="802" id="Use Case View"/>
+   </listitem>
+  </listview>
+  <codegeneration>
+   <codegenerator language="C++"/>
+  </codegeneration>
+ </XMI.extensions>
+</XMI>
