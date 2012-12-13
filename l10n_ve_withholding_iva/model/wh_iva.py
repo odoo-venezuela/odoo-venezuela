@@ -336,6 +336,9 @@ class account_wh_iva(osv.osv):
         return True
 
     def _check_partner(self, cr, uid, ids, context={}):
+        '''
+        Determine if a given partner is a VAT Withholding Agent
+        '''
         agt = False
         obj = self.browse(cr, uid, ids[0])
         if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
