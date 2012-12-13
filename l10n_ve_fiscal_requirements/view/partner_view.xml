@@ -24,23 +24,21 @@
             <field name="uid_country" colspan="2" invisible="1"/>
           </xpath>
 
-
           <xpath expr='//field[@name="street"]' position='replace'>
-          <field name="street"  placeholder="Street" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
-              
+          <field name="street"  placeholder="Av. Siempre Viva" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
           </xpath>
           
           <xpath expr='//field[@name="city"]' position='replace'>
-          <field name="city"  placeholder="City" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
-              
+          <field name="city"  placeholder="Caracas" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
           </xpath>
           
           <xpath expr='//field[@name="country_id"]' position='replace'>
-          <field name="country_id"  placeholder="Country" class="oe_no_button" options='{"no_open": True}' colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
-              
+          <field name="country_id"  placeholder="Venezuela" class="oe_no_button" options='{"no_open": True}' colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
           </xpath>
 
-
+          <xpath expr='//field[@name="phone"]' position='replace'>
+          <field name="phone"  placeholder="+58 414 432 27 20" class="oe_no_button" options='{"no_open": True}' colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
+          </xpath>
         </field>
     </record>
 

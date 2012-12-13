@@ -5,14 +5,24 @@
         <record id="il_company_invoice_damaged" model="ir.ui.view">
             <field name="name">il_company_invoice_damaged</field>
             <field name="model">res.company</field>
-            <field name="type">form</field>
+            <field name="priority">24</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
+<<<<<<< TREE
                 <xpath expr='//page[@string="Configuration"]/group/group[@name="account_grp"]' position="after">
                     <separator string="Data used by default for invoices damaged" colspan="4"/>
+=======
+                <xpath expr="//group[@name='account_grp']" position="after">
+                    <group name='fr1_grp' string='Damaged Invoices Info'>
+>>>>>>> MERGE-SOURCE
                     <field name="jour_id"/>
+<<<<<<< TREE
                     <field name="acc_id"/>
                     <newline/>
+=======
+                    <field name="acc_id" domain="[('type','in',('other','receivable','payable'))]"/>
+                    </group>
+>>>>>>> MERGE-SOURCE
                 </xpath>
             </field>
         </record>
