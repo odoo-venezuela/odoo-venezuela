@@ -20,7 +20,6 @@
                         <field name="status" colspan='2'/>
                         <field name="islr_wh_doc_id" colspan='2'/>
                         <newline/>
-<!--                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>-->
                     </group>
                 </xpath>
                 <xpath expr='//separator[@string="vsep"]' position='attributes'>
@@ -41,7 +40,6 @@
                         <field name="status" colspan='2'/>
                         <field name="islr_wh_doc_id" colspan='2'/>
                         <newline/>
-<!--                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>-->
                     </group>
                 </xpath>
                 <xpath expr='//separator[@string="vsep"]' position='attributes'>
