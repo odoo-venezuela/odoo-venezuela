@@ -51,48 +51,67 @@ class account_wh_src(osv.osv):
             res.append((move.id, name))
         return res
 
+    def _get_partner_src(self, cr, uid, ids, field_name, arg, context=None):
+        context = context or {}
+        res = {}
+        obj_partner = self.pool.get('res.partner')
+        ids_partners = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
+        
+        print ids_partners
+        
+        for emp in self.browse(cr, uid, ids, context=context):
+            if emp.type in ('out_invoice'):
+                partner_ids = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
+                res[emp.id] = partner_ids
+                print "OUTTTTTTTTTTTTTTTTTTTTTTT"
+            else:
+                partner_ids = obj_partner.search(cr, uid, [])
+                res[emp.id] = partner_ids
+                print "INNNNNNNNNNNNNNNNNNNNNNNNNN"
+        
+        print res        
+        
+        
+        return ids_partners
+
     def _get_uid_wh_agent(self, cr, uid, context=None):
         context = context or {}
         user_wh_agent = self.pool.get('res.partner').browse(cr, uid, uid, context=context).wh_src_agent
         return user_wh_agent
 
+    def _get_partner_agent(self, cr, uid, context=None):
+        context = context or {}
+        
+        obj_partner = self.pool.get('res.partner')
+        
+        if context.get('type') in ('out_invoice'):
+            partner_ids = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
+            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
+        else:
+            partner_ids = obj_partner.search(cr, uid, [])
+            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
+        
+        l = map(lambda x: x.id, partner_brw)
+        
+        return l
+
     def default_get(self, cr, uid, fields, context=None):
         context = context or {}
         res = super(account_wh_src, self).default_get(cr, uid, fields, context=context)
         res.update({'uid_wh_agent': self._get_uid_wh_agent(cr,uid,context=context) })
+        res.update({'partner_list': self._get_partner_agent(cr,uid,context=context) })
+        
         return res
+
+    def _get_p_agent(self, cr, uid, ids, field_name, args, context=None):
+        context = context or {}
+        res= {}.fromkeys(ids,self._get_partner_agent(cr,uid,context=context))
+        return res 
 
     def _get_wh_agent(self, cr, uid, ids, field_name, args, context=None):
         context = context or {}
         res= {}.fromkeys(ids,self._get_uid_wh_agent(cr,uid,context=context))
         return res 
-        
-    def _get_partner_src(self, cr, uid, ids, field_name, arg, context):
-        context = context or {}
-        
-        wh_obj = self.pool.get('account.wh.src').browse(cr, uid, ids[0])
-        print "************************ %s" % wh_obj.type
-        #~ for i in ids:
-            #~ 
-            #~ sql_req= """
-            #~ SELECT f.id AS func_id
-            #~ FROM hr_contract c
-              #~ LEFT JOIN res_partner_function f ON (f.id = c.function)
-            #~ WHERE
-              #~ (c.employee_id = %d)
-            #~ """ % (i,)
-#~ 
-            #~ cr.execute(sql_req)
-            #~ sql_res = cr.dictfetchone()
-#~ 
-            #~ if sql_res: #The employee has one associated contract
-                #~ res[i] = sql_res['func_id']
-            #~ else:
-                #~ #res[i] must be set to False and not to None because of XML:RPC
-                #~ # "cannot marshal None unless allow_none is enabled"
-                #~ res[i] = False
-        res = []
-        return res       
 
     _name = "account.wh.src"
     _description = "Social Responsibility Commitment Withholding"
@@ -121,8 +140,9 @@ class account_wh_src(osv.osv):
         'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'wh_amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
         
-        'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", size=20),
-        'partner_2' : fields.function(_get_partner_src, type='many2one', obj="res.partner", method=True, string='Lista', store=False),
+        'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", store=False),
+        'partner_list' : fields.function(_get_p_agent, type='char', string='Lista', store=False, method=False),
+
     } 
     
     def _diario(self, cr, uid, model, context=None):
