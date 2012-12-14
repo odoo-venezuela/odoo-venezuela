@@ -51,29 +51,6 @@ class account_wh_src(osv.osv):
             res.append((move.id, name))
         return res
 
-    def _get_partner_src(self, cr, uid, ids, field_name, arg, context=None):
-        context = context or {}
-        res = {}
-        obj_partner = self.pool.get('res.partner')
-        ids_partners = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
-        
-        print ids_partners
-        
-        for emp in self.browse(cr, uid, ids, context=context):
-            if emp.type in ('out_invoice'):
-                partner_ids = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
-                res[emp.id] = partner_ids
-                print "OUTTTTTTTTTTTTTTTTTTTTTTT"
-            else:
-                partner_ids = obj_partner.search(cr, uid, [])
-                res[emp.id] = partner_ids
-                print "INNNNNNNNNNNNNNNNNNNNNNNNNN"
-        
-        print res        
-        
-        
-        return ids_partners
-
     def _get_uid_wh_agent(self, cr, uid, context=None):
         context = context or {}
         user_wh_agent = self.pool.get('res.partner').browse(cr, uid, uid, context=context).wh_src_agent
