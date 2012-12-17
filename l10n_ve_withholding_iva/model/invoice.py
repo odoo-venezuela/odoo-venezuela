@@ -41,6 +41,7 @@ class account_invoice(osv.osv):
 
 
     def _get_inv_from_line(self, cr, uid, ids, context={}):
+        context = context or {}
         move = {}
         for line in self.pool.get('account.move.line').browse(cr, uid, ids):
             if line.reconcile_partial_id:
@@ -55,6 +56,7 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
+        context = context or {}
         move = {}
         for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
             for line in r.line_partial_ids:
@@ -93,6 +95,7 @@ class account_invoice(osv.osv):
 
 
     def create(self, cr, uid, vals, context={}):
+        context = context or {}
         partner_id = vals.get('partner_id',False)
         if partner_id:
             partner = self.pool.get('res.partner').browse(cr, uid,partner_id)
@@ -100,6 +103,7 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).create(cr, uid, vals, context)
 
     def copy(self, cr, uid, id, default=None, context=None):
+        context = context or {}
         if default is None:
             default = {}
         default = default.copy()
@@ -192,6 +196,7 @@ class account_invoice(osv.osv):
         return True
 
     def button_reset_taxes(self, cr, uid, ids, context=None):
+        context = context or {}
         super(account_invoice, self).button_reset_taxes(cr, uid, ids, context)
         self.button_reset_taxes_ret(cr, uid, ids, context)
         
@@ -289,6 +294,7 @@ class account_invoice(osv.osv):
         return: True: the wh vat is validated.
                 False: the wh vat is not validated.
         """
+        context = context or {}
         for inv in self.browse(cr, uid, ids, context=context):
             if inv.type in ('out_invoice', 'out_refund') and not inv.wh_iva_id:
                 riva = True
@@ -310,6 +316,7 @@ class account_invoice_tax(osv.osv):
     }
 
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
+        context = context or {}
         res = {}
         inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
 
