@@ -103,7 +103,8 @@ class account_invoice(osv.osv):
         if default is None:
             default = {}
         default = default.copy()
-        default.update({'wh_iva_id':False})
+        #TODO: PROPERLY CALL THE WH_IVA_RATE
+        default.update({'wh_iva':False, 'wh_iva_id':False, 'vat_apply': False})
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def test_retenida(self, cr, uid, ids, *args):     
