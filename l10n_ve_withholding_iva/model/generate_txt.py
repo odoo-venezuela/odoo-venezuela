@@ -85,7 +85,7 @@ class txt_iva(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
-        'type': lambda *a:'True',
+        'type': lambda *a:True,
         'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
         'name':lambda self,cr,uid,context : 'Withholding Vat '+time.strftime('%m/%Y')
         }
