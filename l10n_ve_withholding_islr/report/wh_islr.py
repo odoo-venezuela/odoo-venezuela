@@ -56,7 +56,7 @@ class rep_comprobante_islr(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.islr.wh.doc',
     'islr.wh.doc',
-    'addons/l10n_ve_withholding_islr/report/wh_islr_report.rml',
+    rml='l10n_ve_withholding_islr/report/wh_islr_report.rml',
     parser=rep_comprobante_islr,
     header=False
 )

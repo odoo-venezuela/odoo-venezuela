@@ -49,7 +49,6 @@ If you want be able to propose withholding concepts from sales and purchases you
                ],
     "update_xml" : [
             "view/installer.xml",
-            "view/islr_wh_report.xml",
             "security/wh_islr_security.xml",
             "security/ir.model.access.csv",
             "data/l10n_ve_islr_withholding_data.xml",
@@ -63,7 +62,8 @@ If you want be able to propose withholding concepts from sales and purchases you
             "view/islr_xml_wh.xml",
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
-            "edi/islr_wh_doc_action_data.xml"
+            "edi/islr_wh_doc_action_data.xml",
+            "report/islr_wh_report.xml",
     ],
     'test': [
             'test/test.yml',
