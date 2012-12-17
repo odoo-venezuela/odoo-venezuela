@@ -14,10 +14,7 @@
                 <search string="Search Concept of Withholding Income">
                    <group col="10" colspan="4">
                         <filter name="withholdable" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
-                        <field name="name"/>
-                        <field name="user_id" select="1" widget="selection" string="Salesman">
                         <filter domain="[('user_id','=',uid)]" help="My Withholding Income" separator="1"/>
-                        </field>
                     </group>
                </search>
             </field>
