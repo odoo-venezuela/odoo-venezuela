@@ -90,7 +90,7 @@ class txt_iva(osv.osv):
         'name':lambda self,cr,uid,context : 'Withholding Vat '+time.strftime('%m/%Y')
         }
 
-    def period_return(self,cr,uid,contex=None):
+    def period_return(self,cr,uid,context=None):
         context = context or {}
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
