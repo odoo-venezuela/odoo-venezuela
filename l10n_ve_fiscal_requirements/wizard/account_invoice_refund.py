@@ -354,7 +354,7 @@ class account_invoice_refund(osv.osv_memory):
                     if moveline.reconcile_partial_id:
                         rec += [moveline.reconcile_partial_id.id]
                 movelines = moveline_obj.search(cr, uid, [('|'),('reconcile_id','in',rec),('reconcile_partial_id','in',rec)],context=context)
-                for mids in moveline_obj.browse(cr, uid, movelines, ['move_id']):
+                for mids in moveline_obj.browse(cr, uid, movelines, context=context):
                     mid +=[mids.move_id.id]
                 voucherids = voucher_pool.search(cr, uid,[('move_id','in',mid)])
             if voucherids:
