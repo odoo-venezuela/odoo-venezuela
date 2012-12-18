@@ -2,6 +2,12 @@
 <openerp>
     <data>
 
+<!-- 
+    =====================================================
+    Averiguar para que funciona esta vista
+    =====================================================
+    -->
+
         <record id="view_islr_wh_doc_invoices_form_" model="ir.ui.view">
             <field name="name">islr.wh.doc.invoices_form</field>
             <field name="model">islr.wh.doc.invoices</field>
