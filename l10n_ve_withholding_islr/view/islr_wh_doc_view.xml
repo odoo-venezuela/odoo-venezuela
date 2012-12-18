@@ -52,20 +52,7 @@
                         <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Withholding Income"/>
                         <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Withholding Income"/>
                         <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Income"/>
-                        <separator orientation="vertical"/>
-                        <field name="code"/>
-                        <field name="partner_id"/>
-                        <field name="journal_id"  select="1" widget="selection" string="Journal"/>
-                        <field name="user_id" select="1" widget="selection" string="Salesman">
-                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
-                        </field>
                     </group>
-                    <newline/>
-                    <group col="10" colspan="4">
-                        <field name="date_ret" string="Fecha Contable"/>
-                        <field name="date_uid" string="Fecha Comprobante"/>
-                    </group>
-                    <newline/>
                     <group expand="1" string="Group By...">
                         <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <separator orientation="vertical"/>
