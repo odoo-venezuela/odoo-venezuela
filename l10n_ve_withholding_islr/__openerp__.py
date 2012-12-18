@@ -56,6 +56,7 @@ If you want be able to propose withholding concepts from sales and purchases you
             "view/wh_islr_view.xml",
             "view/invoice_view.xml",
             "view/partner_view.xml",
+            "report/islr_wh_report.xml",
             "view/islr_wh_doc_view.xml",
             "view/islr_wh_concept_view.xml",
             "view/product_view.xml",
@@ -63,7 +64,7 @@ If you want be able to propose withholding concepts from sales and purchases you
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
             "edi/islr_wh_doc_action_data.xml",
-            "report/islr_wh_report.xml",
+            
     ],
     'test': [
             'test/test.yml',
