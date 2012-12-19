@@ -32,5 +32,17 @@
             <field name="number_increment">1</field>
         </record>
 
+        <record forcecreate="1" id="purchase_wh_iva_journal" model="account.journal">
+            <field name="name">Purchase WH VAT Journal</field>
+            <field name="code">PWVAT</field>
+            <field name="type">iva_purchase</field>
+        </record>
+
+        <record forcecreate="1" id="sale_wh_iva_journal" model="account.journal">
+            <field name="name">Sale WH VAT Journal</field>
+            <field name="code">SWVAT</field>
+            <field name="type">iva_sale</field>
+        </record>
+
     </data>
 </openerp>
