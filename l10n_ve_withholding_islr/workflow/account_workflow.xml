@@ -3,10 +3,11 @@
 <data>
 
 
-        #----------------------------------------------
-        # Activity
-        #----------------------------------------------
-
+<!-- 
+    =====================================================
+    Activity
+    =====================================================
+    -->
 
         <!-- Added-->
         <record id="act_withold_islr" model="workflow.activity">
@@ -30,10 +31,12 @@
             <field name="kind">function</field>
             <field name="action">action_islr_xml()</field>
         </record>        
-        #----------------------------------------------
-        # Transitions
-        #----------------------------------------------
 
+<!-- 
+    =====================================================
+    Transitions
+    =====================================================
+    -->
         <record id="trans_wh_router_wh_islr" model="workflow.transition">
             <field name="act_from" ref="l10n_ve_withholding.act_wh_router"/>
             <field name="act_to" ref="act_islr_router"/>
