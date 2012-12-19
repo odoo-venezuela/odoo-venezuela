@@ -25,7 +25,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-import model 
-import report
-import wizard
-import edi
+import installer
+import islr_wh_concept
+import rates
+import invoice
+import islr_wh_doc
+import islr_xml_wh
+import partner
+import product
