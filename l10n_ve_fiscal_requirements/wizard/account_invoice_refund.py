@@ -79,21 +79,6 @@ class account_invoice_refund(osv.osv_memory):
                 res['fields'][field]['selection'] = journal_select
         return res
 
-    def _get_period(self, cr, uid, context={}):
-        """
-        Return  default account period value
-        """
-        period_id= False
-        if context.get('active_id',False):
-            invo_obj = self.pool.get('account.invoice')
-            invo_brw = invo_obj.browse(cr,uid,context.get('active_id'),{})
-            period_id = invo_brw and invo_brw.period_id and invo_brw.period_id.id
-        return period_id
-        
-        
-        
-        return period_id
-
     def _get_orig(self, cr, uid, inv, ref, context={}):
         """
         Return  default origin value
@@ -165,8 +150,15 @@ class account_invoice_refund(osv.osv_memory):
                     raise osv.except_osv(_('Error !'), _('Can not %s draft/proforma/cancel invoice.') % (mode))
                 if inv.reconciled and mode in ('cancel', 'modify'):
                     raise osv.except_osv(_('Error !'), _('Can not %s invoice which is already reconciled, invoice should be unreconciled first. You can only Refund this invoice') % (mode))
-                #Take period from the current date
-                period = form.get('period') and form.get('period')[0] or self._get_period(cr, uid, context)
+                period = form.get('period') and form.get('period')[0] or False
+                if not period:
+	                #Take period from the current date
+                    period = self.pool.get('account.period').find(cr, uid, context=context)
+                    period = period and period[0] or False
+                    if not period:
+                        raise osv.except_osv(_('No Pediod Defined'), \
+                                _('You have been left empty the period field that automatically fill with the current period. However there is not period defined for the current company. Please check in Accounting/Configuration/Periods'))
+                    self.write(cr, uid, ids, {'period': period }, context=context)
 
                 if not journal_brw:
                     journal_id = inv.journal_id.id
