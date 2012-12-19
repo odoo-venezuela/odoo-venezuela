@@ -78,7 +78,7 @@ class seniat_url(osv.osv):
         else:
             return 0.0
 
-    def _parse_dom(self,dom,rif,url_seniat,context={}):
+    def _parse_dom(self,cr,uid,dom,rif,url_seniat,context={}):
         rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
         name = dom.childNodes[0].childNodes[0].firstChild.data
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
@@ -108,13 +108,13 @@ class seniat_url(osv.osv):
                 return True
             else:
                 return False
-    def _get_rif(self, vat, url1, url2, context=None):
+    def _get_rif(self, cr, uid,  vat, url1, url2, context=None):
         if context is None: context={}
 
         xml_data = self._load_url(3,url1 % vat)
         if not self._eval_seniat_data(xml_data,vat,context=context):
             dom = parseString(xml_data)
-            return self._parse_dom(dom, vat, url2,context=context)
+            return self._parse_dom(cr, uid, dom, vat, url2,context=context)
 
     def _dom_giver(self, cr, uid, vat, context=None):
         if context is None: context={}
@@ -125,7 +125,7 @@ class seniat_url(osv.osv):
         url3 = url_obj.url_seniat2 + '%s'
         if re.search(r'^[VJEG][0-9]{9}$', vat):
             '''Checked vat is a RIF'''
-            return self._get_rif(vat, url1, url2, context=context)
+            return self._get_rif(cr, uid, vat, url1, url2, context=context)
 
         elif re.search(r'^([D][0-9]{9})$', vat):
             '''Checked vat is a Passport'''
@@ -141,7 +141,7 @@ class seniat_url(osv.osv):
                 return False
             elif match2:
                 vat = match2.group(0)
-                return self._get_rif(vat, url1, url2, context=context)
+                return self._get_rif(cr, uid, vat, url1, url2, context=context)
 
     def _update_partner(self, cr, uid, id, context=None):
         rp_obj = self.pool.get('res.partner')

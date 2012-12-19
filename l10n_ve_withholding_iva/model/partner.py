@@ -37,14 +37,8 @@ class res_partner(osv.osv):
         'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
     }
     _defaults = {
-        'wh_iva_rate': lambda *a: 0,
+        'wh_iva_rate': lambda *a: 100.0,
     }
-    
-    def update_rif(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        su_obj = self.pool.get('seniat.url')
-        return su_obj.update_rif(cr, uid, ids, context=context)
 
 res_partner()
 
@@ -52,12 +46,12 @@ class seniat_url(osv.osv):
 
     _inherit = 'seniat.url'
     
-    def _parse_dom(self,dom,rif,url_seniat,context=None):
+    def _parse_dom(self,cr,uid,dom,rif,url_seniat,context=None):
         su_obj = self.pool.get('seniat.url')
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
-        wh_rate = su_obj._buscar_porcentaje(rif,url_seniat)
+        wh_rate = su_obj._buscar_porcentaje(cr, uid, rif)
         self.logger.info("RIF: %s Found" % rif)
         data = {'wh_iva_agent':wh_agent,'wh_iva_rate':wh_rate}
-        return dict(data.items() + super(seniat_url,self)._parse_dom(dom,rif,url_seniat,context=context).items())
+        return dict(data.items() + super(seniat_url,self)._parse_dom(cr,uid,dom,rif,url_seniat,context=context).items())
     
 seniat_url()
