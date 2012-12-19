@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
+#    Coded by: Yanina Gabriela Aular Osorio  <yanina.aular@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -24,5 +24,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import wh_islr
-import list_wh_islr
+from report import report_sxw
+from osv import osv
+
+class list_wh_islr(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(list_wh_islr, self).__init__(cr, uid, name, context=context)    
+
+
+report_sxw.report_sxw(
+    'report.islr.xml.wh.doc',
+    'islr.xml.wh.doc',
+    rml='l10n_ve_withholding_islr/report/list_wh_islr_report.rml',
+    parser=list_wh_islr,
+    header=False
+)
