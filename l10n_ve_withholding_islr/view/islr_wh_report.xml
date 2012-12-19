@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="voucher_report_withholding_islr" 
+            model="islr.wh.doc"
+            name="islr.wh.doc"
+            rml="addons/l10n_ve_withholding_islr/report/wh_islr_report.rml" 
+            string="Voucher Withholding Income"
+            auto="False"
+            header="False"
+            menu="False"
+            />
+
+        <report
+            id="list_report_withholding_islr" 
+            menu="True"
+            model="islr.xml.wh.doc" 
+            name="list.wh.islr" 
+            rml="addons/l10n_ve_withholding_islr/report/list_wh_islr_report.rml" 
+            string="Withholding Income"
+            auto = "True"
+            header="False"/>
+
+    </data>
+</openerp>
