@@ -5,9 +5,12 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
-#    Planified by: Nhomar Hernandez
-#    Audited by: Vauxoo C.A.
+#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
+#              María Gabriela Quilarque  <gabriela@vauxoo.com>
+#              Nhomar Hernandez          <nhomar@vauxoo.com>
+#    Planified by: Humberto Arocha
+#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
+#    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +24,25 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
-import account 
-import invoice
-import partner
-import res_users
-import res_company
-import seniat_url
-import l10n_ut
-import account_tax
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+##############################################################################
+
+from osv import fields, osv
+import tools
+from tools.translate import _
+from tools import config
+
+class res_users(osv.osv):
+    _inherit = 'res.users'
+        
+    def create(self, cr, uid, vals, context=None):
+        if context is None: context = {}
+        context.update({'create_company':True})
+        return super(res_users, self).create(cr, uid, vals, context=context)
+        
+    def write(self, cr, uid, ids, values, context=None):
+        context = context or {}
+        self.cache_restart(cr)
+        context.update({'create_company':True})
+        return super(res_users, self).write(cr, uid, ids, values, context=context)
+
+res_users()

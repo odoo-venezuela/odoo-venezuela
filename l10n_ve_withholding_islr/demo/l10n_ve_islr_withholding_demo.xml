@@ -8,7 +8,7 @@
         <record id="a_islr" model="account.account">
             <field name="code">XX2002</field>
             <field name="name">Servicios de analistas, programadores y soporte</field>
-            <field ref="account.rev" name="parent_id"/>
+            <field ref="account.account.rev" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_income"/>
         </record>
