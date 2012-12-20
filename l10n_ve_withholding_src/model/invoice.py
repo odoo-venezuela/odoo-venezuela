@@ -30,6 +30,23 @@ import decimal_precision as dp
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
+     
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
+            date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
+        
+        p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+        c = self.pool.get('res.partner').browse(cr, uid, uid)
+        res = super(account_invoice,self).onchange_partner_id(cr, uid, ids, type, \
+        partner_id, date_invoice,payment_term,partner_bank_id,company_id)
+        
+        if p.wh_src_agent and type in ('out_invoice') and not p.supplier:
+            res['value']['wh_src_rate'] = p.wh_src_rate
+        elif c.wh_src_agent and type in ('in_invoice') and p.supplier:
+            res['value']['wh_src_rate'] = c.wh_src_rate
+        else:
+            res['value']['wh_src_rate'] = 0
+            
+        return res
     
     def _retenida(self, cr, uid, ids, name, args, context):
         res = {}
@@ -66,6 +83,20 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
     
+    def _check_retention(self, cr, uid, ids, context=None):
+        '''This method will check the retention value will be maximum 5%   
+            '''
+        if context is None: context = {}
+        
+        invoice_brw = self.browse(cr, uid,ids)
+        
+        ret = invoice_brw[0].wh_src_rate
+    
+        if ret and ret > 5:
+            return False
+            
+        return True
+    
     _columns = {
         'wh_src': fields.boolean('Social Responsibility Commitment Withheld'),
         'wh_src_rate': fields.float('SRC Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Social Responsibility Commitment Withholding Rate"),
@@ -74,6 +105,10 @@ class account_invoice(osv.osv):
     _defaults={
         'wh_src': False,
     }
+
+    _constraints = [
+        (_check_retention, _("Error ! Maximum retention is 5%"), []),
+    ]
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
@@ -84,7 +119,7 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=context)
-        if context.get('src_wh',False):
+        if context.get('wh_src',False):
             invoice = self.browse(cr, uid, ids[0])
             
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
