@@ -8,12 +8,12 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <page string="Configuration" position="inside">
-                    <separator string="Social Responsability Commitment Accounts" colspan="4"/>
+                <xpath expr='//page[@string="Configuration"]/group/group[@name="account_grp"]' position="after">
+                    <separator string="Social Responsability Commitment Accounts" colspan="2"/>
                         <field name="wh_src_collected_account_id" required='1'/>
                         <field name="wh_src_paid_account_id" required='1'/>
                     <newline/>
-                </page>
+                </xpath>
             </field>
         </record>
 
