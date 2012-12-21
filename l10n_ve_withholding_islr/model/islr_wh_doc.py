@@ -147,15 +147,15 @@ class islr_wh_doc(osv.osv):
         if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
             return True
 
-    def action_process(self,cr,uid,ids, *args):
+    def action_process(self,cr,uid,ids, context=None):
         inv_obj=self.pool.get('account.invoice')
-        context = {}
-        wh_doc_brw = self.browse(cr, uid, ids, context=None)
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        wh_doc_brw = self.browse(cr, uid, ids[0], context=context)
         inv_ids = []
         
-        for wh_doc in wh_doc_brw:
-            for wh_doc_line in wh_doc.islr_wh_doc_id: 
-                inv_ids.append(wh_doc_line.id)
+        for wh_doc_line in wh_doc_brw.islr_wh_doc_id: 
+            inv_ids.append(wh_doc_line.id)
         context["wh_doc_id"]=ids[0]
         inv_obj.action_ret_islr(cr, uid, inv_ids,context)
         return True
