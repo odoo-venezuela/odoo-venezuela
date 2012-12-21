@@ -125,6 +125,77 @@ class account_invoice(osv.osv):
         invoice = self.browse(cr, uid, ids[0], context=context)
         return self._get_concepts(cr, uid, invoice)
 
+    def get_journal(self,cr,uid,inv_brw, context=None):
+        '''
+        Assign the corresponding journal according to each type of withholding (purchase, sale). The journal types are created in retencion_iva
+        '''
+        #TODO: THIS METHOD SHOW BE MOVED TO THE ISLR.WH.DOC MODEL
+        #BESIDES THIS METHOD SHOULD BE REFACTORED
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        tipo='Sale'
+        tipo2='islr_sale'
+        journal_id = None
+        journal_obj = self.pool.get('account.journal')
+        if inv_brw.type == 'out_invoice' or inv_brw.type =='out_refund':
+            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_sale')], limit=1)
+        else:
+            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_purchase')], limit=1)
+            tipo = 'Purchase'
+            tipo2 = 'islr_purchase'
+        if not journal_id:
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
+        
+        return journal_id[0] or None
+
+    def _create_doc_invoices(self,cr,uid,ids,islr_wh_doc_id,context=None):
+        '''
+        This method link the invoices to be withheld 
+        with the withholding document.
+        '''
+        #TODO: CHECK IF THIS METHOD SHOULD BE HERE OR IN THE ISLR WH DOC
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        doc_inv_obj = self.pool.get('islr.wh.doc.invoices')
+        iwhdi_ids=[] 
+        for inv_id in ids:
+            iwhdi_ids.append(doc_inv_obj.create(cr,uid,
+                {'invoice_id':inv_id,'islr_wh_doc_id':islr_wh_doc_id}))
+        return iwhdi_ids
+
+    def _create_islr_wh_doc(self,cr,uid,ids):
+        '''
+        Funcion para crear en el modelo islr_wh_doc
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        
+        doc_line_obj = self.pool.get('islr.wh.doc.line')
+        wh_doc_obj = self.pool.get('islr.wh.doc')
+        inv_obj =self.pool.get('account.invoice.line')
+        rate_obj = self.pool.get('islr.rates')
+        
+        row = self.browse(cr,uid,ids[0],context=context)
+        wh_ret_code = wh_doc_obj.retencion_seq_get(cr, uid)
+        
+        if wh_ret_code:
+            islr_wh_doc_id = wh_doc_obj.create(cr,uid,
+            {'name': wh_ret_code,
+            'partner_id': row.partner_id.id,
+            'invoice_id': row.id,
+            'period_id': row.period_id.id,
+            'account_id': row.account_id.id,
+            'type': row.type,
+            'journal_id': self.get_journal(cr,uid,row),})
+            self._create_doc_invoices(cr,uid,row.id,islr_wh_doc_id)
+        else:
+            raise osv.except_osv(_('Invalid action !'),_("No se ha encontrado el numero de secuencia!"))
+
+        self.write(cr,uid,ids,{'islr_wh_doc_id':islr_wh_doc_id,'islr_wh_doc_name':wh_ret_code})
+
+        #wf_service = netsvc.LocalService("workflow")
+        #wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id, 'button_confirm', cr)
+        return islr_wh_doc_id
 ## END OF REWRITING ISLR
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -485,53 +556,8 @@ class account_invoice(osv.osv):
         return dict_concepts
 
 
-    def get_journal(self,cr,uid,inv_brw):
-        '''
-        Assign the corresponding journal according to each type of withholding (purchase, sale). The journal types are created in retencion_iva
-        '''
-        tipo='Sale'
-        tipo2='islr_sale'
-        journal_id = None
-        journal_obj = self.pool.get('account.journal')
-        if inv_brw.type == 'out_invoice' or inv_brw.type =='out_refund':
-            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_sale')], limit=1)
-        else:
-            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_purchase')], limit=1)
-            tipo = 'Purchase'
-            tipo2 = 'islr_purchase'
-        if not journal_id:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
-        
-        return journal_id[0] or None
-
     def button_confirm(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'confirmed'})
-
-    def _create_islr_wh_doc(self,cr,uid,inv_brw,dict):
-        '''
-        To create in the islr_wh_doc model
-        '''
-        islr_wh_doc_id=0 
-        wh_doc_obj = self.pool.get('islr.wh.doc')
-        inv_obj =self.pool.get('account.invoice.line')
-        inv_brw = inv_brw.invoice_id
-        inv_brw2 = inv_obj.browse(cr,uid,dict.keys())
-        islr_wh_doc_id = wh_doc_obj.create(cr,uid,
-        {'name': wh_doc_obj.retencion_seq_get(cr, uid),
-        'partner_id': inv_brw.partner_id.id,
-        'invoice_id': inv_brw.id,
-        'period_id': inv_brw.period_id.id,
-        'account_id': inv_brw.account_id.id,
-        'type': inv_brw.type,
-        'journal_id': self.get_journal(cr,uid,inv_brw),
-        'islr_wh_doc_id': [(6,0,[i.invoice_id.id for i in inv_brw2])]
-        })
-        
-        wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id, 'button_confirm', cr)
-#        wf_service.trg_write(uid, 'islr.wh.doc', islr_wh_doc_id, cr)
-        return islr_wh_doc_id
-
 
     def _create_doc_line(self,cr,uid, inv_brw,key2,islr_wh_doc_id,dictt,dictc):
         '''
@@ -552,14 +578,6 @@ class account_invoice(osv.osv):
         'amount':dict_concept[key2],})
 
         return islr_wh_doc_line_id
-
-    def _create_doc_invoices(self,cr,uid,key,islr_wh_doc_id):
-        '''
-        To create in the islr_wh_doc_invoices model
-        '''
-        doc_inv_obj = self.pool.get('islr.wh.doc.invoices')
-        inv_id = key
-        islr_wh_doc_invoices_id = doc_inv_obj.create(cr,uid,{'invoice_id':inv_id,'islr_wh_doc_id':islr_wh_doc_id})
 
 
     def _write_wh_xml(self,cr,uid,key,islr_wh_doc_line_id):
