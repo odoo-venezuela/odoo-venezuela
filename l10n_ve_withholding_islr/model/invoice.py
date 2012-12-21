@@ -132,6 +132,7 @@ class account_invoice(osv.osv):
         #TODO: THIS METHOD SHOW BE MOVED TO THE ISLR.WH.DOC MODEL
         #BESIDES THIS METHOD SHOULD BE REFACTORED
         context = context or {}
+        ids = inv_brw.id 
         ids = isinstance(ids, (int, long)) and [ids] or ids
         tipo='Sale'
         tipo2='islr_sale'
