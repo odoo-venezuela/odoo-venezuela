@@ -93,6 +93,18 @@ class account_invoice(osv.osv):
     _defaults = {
         'status': lambda *a: "no_pro",
     }
+## BEGIN OF REWRITING ISLR
+
+    def check_invoice_type(self, cr, uid, ids, context=None):
+        '''
+        This method check if the given invoice record is from a supplier
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_brw = self.browse(cr, uid, ids[0],context=context)
+        return inv_brw.type in ('in_invoice', 'in_refund')
+
+## END OF REWRITING ISLR
 
     def copy(self, cr, uid, id, default=None, context=None):
         
@@ -678,18 +690,6 @@ class account_invoice(osv.osv):
             self._check_do_wh(cr, uid, ids, invoice, vendor, buyer, concept_list, context=context)
             
         return True
-
-    def check_invoice_type(self, cr, uid, ids, context=None):
-        '''
-        This method test the invoice types to create a new withholding document
-        '''
-        #TODO: change on workflow
-        if context is None:
-            context={}
-        obj = self.browse(cr, uid, ids[0],context=context)
-        if obj.type in ('in_invoice', 'in_refund'):
-            return True 
-        return False
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):
         """
