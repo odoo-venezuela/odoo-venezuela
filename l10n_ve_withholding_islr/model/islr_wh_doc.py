@@ -494,6 +494,20 @@ class islr_wh_doc_invoices(osv.osv):
     }
     _rec_rame = 'invoice_id'
     
+    def _get_concepts(self, cr, uid, ids, context=None):
+        '''
+        Gets a list of withholdable concepts (concept_id) from the invoice lines
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_obj = self.pool.get('account.invoice')
+        concept_set = set()
+        inv_brw = inv_obj.browse(cr, uid, ids[0], context=context)
+        for ail in inv_brw.invoice_line:
+            if ail.concept_id and ail.concept_id.withholdable:
+                concept_set.add(ail.concept_id.id)
+        return list(concept_set)
+
     def load_taxes(self, cr, uid, ids, context=None):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
