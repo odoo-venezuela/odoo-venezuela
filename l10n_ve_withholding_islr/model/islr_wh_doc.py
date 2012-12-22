@@ -573,19 +573,18 @@ class islr_wh_doc_invoices(osv.osv):
                 return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract,rate_brw.code,rate_brw.id,rate_brw.name)
         return ()
 
-    def _get_country_fiscal(self,cr, uid, partner_id):
+    def _get_country_fiscal(self,cr, uid, partner_id,context=None):
         '''
-        Se obtiene el pais de el vendedor o comprador, depende del parametro. A partir de de la direccion fiscal.
+        Get the country of the partner
         '''
-        for i in partner_id.address:
-            if i.type == 'invoice':
-                if not i.country_id:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' country has not defined direction in fiscal!") % (partner_id.name))
-                    return False
-                else:
-                    return i.country_id.id
-        raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
-        return False
+        #TODO: THIS METHOD SHOULD BE IMPROVED
+        #DUE TO OPENER HAS CHANGED THE WAY PARTNER
+        #ARE USED FOR ACCOUNT_MOVE
+        context = context or {}
+        if not partner_id.country_id:
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' country has not been defined in the address!") % (partner_id.name))
+        else:
+            return partner_id.country_id.id
         
     def _get_xml_lines(self, cr, uid, ail_brw, context=None):
         context = context or {}
