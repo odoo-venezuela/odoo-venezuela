@@ -8,10 +8,22 @@
     =====================================================
     -->
 
+        <record id="view_islr_wh_doc_invoices_tree_" model="ir.ui.view">
+            <field name="name">islr.wh.doc.invoices_tree</field>
+            <field name="model">islr.wh.doc.invoices</field>
+            <field name="arch" type="xml">
+                <tree string="Withheld Invoices">
+                    <field name="invoice_id"/>
+                    <field name="islr_xml_id"/>
+                    <field name="amount_islr_ret"/>
+                    <field name="base_ret"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="view_islr_wh_doc_invoices_form_" model="ir.ui.view">
             <field name="name">islr.wh.doc.invoices_form</field>
             <field name="model">islr.wh.doc.invoices</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Invoices">
                     <field
@@ -138,6 +150,9 @@
                         <field name="date_uid"/>
                     </group>
                             <notebook colspan="6">
+                                <page string="Invoices to Be Withheld">
+                                    <field name='invoice_ids' nolabel='1'/>
+                                </page>
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
@@ -273,6 +288,9 @@
                         <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
+                                <page string="Invoices to Be Withheld">
+                                    <field name="invoice_ids" nolabel='1'/>
+                                </page>
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
@@ -281,16 +299,6 @@
                                         <group col="4" colspan="2">
                                             <field name="amount_total_ret"/>
                                         </group>
-                                </page>
-                                <page string="Invoices" invisible="1">
-                                    <field name="invoice_ids" nolabel="1">
-                                        <tree string="Invoices Withhelds">
-                                            <field name="invoice_id"/>
-                                            <field name="islr_xml_id"/>
-                                            <field name="amount_islr_ret"/>
-                                            <field name="base_ret"/>
-                                        </tree>
-                                    </field>
                                 </page>
                                <page string="Other Information">
                                     <field name="company_id"/>
