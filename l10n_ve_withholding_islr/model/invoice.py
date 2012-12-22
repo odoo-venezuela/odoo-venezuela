@@ -640,6 +640,7 @@ class account_invoice(osv.osv):
         return islr_wh_doc_id
 
     def action_ret_islr(self, cr, uid, ids, context={}):
+        #TODO: TO BE ERASE THIS IS JUST AND ACCESSOR
         return self.pool.get('islr.wh.doc').action_ret_islr(cr,uid,ids,context)
 
     def _check_wh_islr(self, cr, uid, ids, context=None):
