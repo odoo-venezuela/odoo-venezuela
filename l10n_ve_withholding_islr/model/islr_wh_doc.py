@@ -498,14 +498,22 @@ class islr_wh_doc_invoices(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         ixwl_obj = self.pool.get('islr.xml.wh.line')
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
         for ret_line in self.browse(cr, uid, ids, context=context):
             lines = []
             if ret_line.invoice_id:
-                #~ Buscando las lineas xml de la factura actual y las desvincula  
-                xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)])
+                #~ Searching & Unlinking for xml lines from the current invoice
+                xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
                 if xml_lines:
                     ixwl_obj.unlink(cr, uid, xml_lines)
-                
+
+                #~ Searching & Unlinking for concept lines from the current invoice  
+                iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
+                if iwdl_ids:
+                    iwdl_obj.unlink(cr, uid, iwdl_ids)
+
+                #TODO: INCLUDE THE DELETION & CREATION OF THE REGARDING 
+                # CONCEPT LINES FOR THIS INVOICE
                 wh_xml_ids = [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
                 for i in wh_xml_ids:
                     values = self._get_xml_lines(cr, uid, i, context=context)
