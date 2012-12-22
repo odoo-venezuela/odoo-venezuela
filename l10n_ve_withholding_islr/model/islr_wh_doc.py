@@ -474,7 +474,7 @@ account_invoice()
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
     _description = 'Document and Invoice Withheld Income'
-
+    
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
@@ -496,6 +496,125 @@ class islr_wh_doc_invoices(osv.osv):
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
     }
     _rec_rame = 'invoice_id'
+    
+    def load_taxes(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        ixwl_obj = self.pool.get('islr.xml.wh.line')
+        for ret_line in self.browse(cr, uid, ids, context=context):
+            lines = []
+            if ret_line.invoice_id:
+                #~ Buscando las lineas xml de la factura actual y las desvincula  
+                xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)])
+                if xml_lines:
+                    ixwl_obj.unlink(cr, uid, xml_lines)
+                
+                wh_xml_ids = [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
+                for i in wh_xml_ids:
+                    values = self._get_xml_lines(cr, uid, i, context=context)
+                    values.update({'islr_wh_doc_inv_id':ret_line.id,})
+                    #~ Vuelve a crear las lineas
+                    lines.append(ixwl_obj.create(cr, uid, values, context=context))
+        return True
+        
+    def _get_partners(self, cr, uid, invoice):
+        '''
+        Se obtiene: el id del vendedor, el id del comprador de la factura y el campo booleano que determina si el comprador es agente de retencion.
+        '''
+        if invoice.type == 'in_invoice' or invoice.type == 'in_refund':
+            vendor = invoice.partner_id
+            buyer = invoice.company_id.partner_id
+            ret_code = invoice
+        else:
+            buyer = invoice.partner_id
+            vendor = invoice.company_id.partner_id
+        return (vendor, buyer, buyer.islr_withholding_agent)
+        
+    def _get_residence(self, cr, uid, vendor, buyer):
+        '''
+        Se determina si la direccion fiscal del comprador es la misma que la del vendedor, con el fin de luego obtener la tasa asociada.
+        Retorna True si es una persona domiciliada o residente. Retorna False si es, no Residente o No Domicialiado.
+        '''
+        vendor_address = self._get_country_fiscal(cr, uid, vendor)
+        buyer_address = self._get_country_fiscal(cr, uid, buyer)
+        if vendor_address and buyer_address:
+            if vendor_address ==  buyer_address:
+                return True
+            else:
+                return False
+        return False
+
+    def _get_nature(self, cr, uid, partner_id):
+        '''
+        Se obtiene la naturaleza del vendedor a partir del RIF, retorna True si es persona de tipo natural, y False si es juridica.
+        '''
+        if not partner_id.vat:
+            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat associated!") % (partner_id.name))
+            return False
+        else:
+            if partner_id.vat[2:3] in 'VvEe':
+                return True
+            else:
+                return False
+
+    def _get_rate(self, cr, uid, concept_id, residence, nature,context):
+        '''
+        Se obtiene la tasa del concepto de retencion, siempre y cuando exista uno asociado a las especificaciones:
+            La naturaleza del vendedor coincida con una tasa.
+            La residencia del vendedor coindica con una tasa.
+        '''
+        ut_obj = self.pool.get('l10n.ut')
+        rate_brw_lst = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id).rate_ids
+        for rate_brw in rate_brw_lst:
+            if rate_brw.nature == nature and rate_brw.residence == residence:
+                #~ (base,min,porc,sust,codigo,id_rate,name_rate)
+                rate_brw_minimum = ut_obj.compute_ut_to_money(cr, uid, rate_brw.minimum, False, context)#metodo que transforma los UVT en pesos
+                rate_brw_subtract = ut_obj.compute_ut_to_money(cr, uid, rate_brw.subtract, False, context)#metodo que transforma los UVT en pesos
+                return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract,rate_brw.code,rate_brw.id,rate_brw.name)
+        return ()
+
+    def _get_country_fiscal(self,cr, uid, partner_id):
+        '''
+        Se obtiene el pais de el vendedor o comprador, depende del parametro. A partir de de la direccion fiscal.
+        '''
+        for i in partner_id.address:
+            if i.type == 'invoice':
+                if not i.country_id:
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' country has not defined direction in fiscal!") % (partner_id.name))
+                    return False
+                else:
+                    return i.country_id.id
+        raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not fiscal direction set!.") % (partner_id.name))
+        return False
+        
+    def _get_xml_lines(self, cr, uid, ail_brw, context=None):
+        context = context or {}
+        vendor, buyer, wh_agent = self._get_partners(cr, uid, ail_brw.invoice_id)
+        residence = self._get_residence(cr, uid, vendor, buyer)
+        nature = self._get_nature(cr, uid, vendor)
+        rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name = self._get_rate(cr, uid, ail_brw.concept_id.id, residence, nature,context=context)
+        
+        wh = ((rate_base * ail_brw.price_subtotal /100) * rate_wh_perc)/100.0
+        
+        return {
+            'account_invoice_id':ail_brw.invoice_id.id,
+            'islr_wh_doc_line_id':False,
+            'islr_xml_wh_doc':False,
+            'wh':wh, # Debo buscarlo
+            'base':ail_brw.price_subtotal, # La consigo tambien pero desde el rate
+            'period_id':False, # Debemos revisar la definicion porque esta en NOT NULL
+            'invoice_number':ail_brw.invoice_id.reference,
+            'rate_id':rate_id, # La consigo tambien pero desde el rate
+            'partner_id':ail_brw.invoice_id.partner_id.id, #Warning Depende de si es cliente o proveedor
+            'concept_id':ail_brw.concept_id.id,
+            'partner_vat':vendor.vat[2:12], #Warning Depende si es cliente o proveedor
+            'porcent_rete':rate_wh_perc, # La consigo tambien pero desde el rate
+            'control_number':ail_brw.invoice_id.nro_ctrl,
+            'sustract':rate_subtract,# La consigo tambien pero desde el rate
+            'account_invoice_line_id':ail_brw.id,
+            'concept_code':rate_code,# La consigo tambien pero desde el rate
+        }
+
 islr_wh_doc_invoices()
 
 
