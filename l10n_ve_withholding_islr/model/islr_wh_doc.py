@@ -581,8 +581,8 @@ class islr_wh_doc_invoices(osv.osv):
                 ixwl_obj.unlink(cr, uid, xml_lines)
 
             #~ Creating xml lines from the current invoices again
-            wh_xml_ids = [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
-            for i in wh_xml_ids:
+            ail_brws= [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
+            for i in ail_brws:
                 values = self._get_xml_lines(cr, uid, i, context=context)
                 values.update({'islr_wh_doc_inv_id':ret_line.id,})
                 #~ Vuelve a crear las lineas
