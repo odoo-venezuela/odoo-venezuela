@@ -508,60 +508,32 @@ class islr_wh_doc_invoices(osv.osv):
                 concept_set.add(ail.concept_id.id)
         return list(concept_set)
 
-    def _get_wh(self,cr, uid, subtract,concept, wh_dict, dict_rate, apply,context=None):
+    def _get_wh(self, cr, uid, ids, concept_id, residence, nature, apply, context=None):
         '''
         Returns a dictionary containing all the values ​​of the retention of an invoice line.
         '''
-        if context is None:
-            context={}
-        res= {}
-        inv_obj= self.pool.get('account.invoice')
-        if apply: # Si se va a aplicar retencion.
-            for line in wh_dict[concept]['lines']:
-                wh_calc, subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept]) # Obtengo el monto de retencion y el monto base sobre el cual se retiene
+        context= context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        ixwl_obj= self.pool.get('islr.xml.wh.line')
+        iwdl_obj= self.pool.get('islr.wh.doc.line')
+        iwdl_brw = iwdl_obj.browse(cr, uid, ids[0], context=context)
+
+        #rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name 
+        rate_tuple = self._get_rate(cr, uid, concept_id, residence, nature,context=context)
+        wh = 0.0
+        subtract = apply and rate_tuple[3] or 0.0
+        for line in iwdl_brw.xml_ids:
+            if apply: 
+                wh_calc = rate_tuple[2]*line.account_invoice_line_id.price_subtotal
                 if subtract >= wh_calc:
                     wh = 0.0
                     subtract -= wh_calc
                 else:
                     wh = wh_calc - subtract
-                    subtract_write= subtract
                     subtract=0.0
-                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
-                type = inv_obj.browse(cr,uid,inv_id).type
-                res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
-                            'number': self._get_inv_data(cr, uid, line)[1],
-                            'control': self._get_inv_data(cr, uid, line)[2],
-                            'concept': concept, 
-                            'code':dict_rate[concept][4],
-                            'subtotal': subtotal, 
-                            'perc':dict_rate[concept][2],
-                            'wh':wh,
-                            'apply':apply,
-                            'rate_id':dict_rate[concept][5],
-                            'name_rate': dict_rate[concept][6]}
-                if not context.get('test_from_wkf',False):
-                    self._write_wh_apply(cr,uid,line,res[line],apply,type)
-                    inv_obj.write(cr, uid, inv_id, {'status': 'pro'})
-        else: # Si no aplica retencion
-            for line in wh_dict[concept]['lines']:
-                subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
-                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
-                type = inv_obj.browse(cr,uid,inv_id).type
-                res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
-                            'number': self._get_inv_data(cr, uid, line)[1],
-                            'control': self._get_inv_data(cr, uid, line)[2],
-                            'concept': concept, 
-                            'code':dict_rate[concept][4],
-                            'subtotal': subtotal, 
-                            'perc':dict_rate[concept][2],
-                            'wh':0.0,
-                            'apply':apply,
-                            'rate_id':dict_rate[concept][5],
-                            'name_rate': dict_rate[concept][6]}
-                if not context.get('test_from_wkf',False):
-                    self._write_wh_apply(cr,uid,line,res[line],apply,type)
-                    inv_obj.write(cr, uid, inv_id, {'status': 'pro'})
-        return res
+            ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'subtract':subtract},
+                    context=context)
+        return True 
 
 
     def load_taxes(self, cr, uid, ids, context=None):
