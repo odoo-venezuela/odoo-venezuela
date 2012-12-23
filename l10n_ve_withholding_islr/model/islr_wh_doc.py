@@ -513,38 +513,38 @@ class islr_wh_doc_invoices(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         iwdl_obj = self.pool.get('islr.wh.doc.line')
-        for ret_line in self.browse(cr, uid, ids, context=context):
-            lines = []
-            if ret_line.invoice_id:
-                #~ Searching & Unlinking for xml lines from the current invoice
-                xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
-                if xml_lines:
-                    ixwl_obj.unlink(cr, uid, xml_lines)
+        ret_line = self.browse(cr, uid, ids[0], context=context)
+        lines = []
+        if ret_line.invoice_id:
+            #~ Searching & Unlinking for xml lines from the current invoice
+            xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
+            if xml_lines:
+                ixwl_obj.unlink(cr, uid, xml_lines)
 
-                #~ Creating xml lines from the current invoices again
-                wh_xml_ids = [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
-                for i in wh_xml_ids:
-                    values = self._get_xml_lines(cr, uid, i, context=context)
-                    values.update({'islr_wh_doc_inv_id':ret_line.id,})
-                    #~ Vuelve a crear las lineas
-                    lines.append(ixwl_obj.create(cr, uid, values, context=context))
+            #~ Creating xml lines from the current invoices again
+            wh_xml_ids = [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
+            for i in wh_xml_ids:
+                values = self._get_xml_lines(cr, uid, i, context=context)
+                values.update({'islr_wh_doc_inv_id':ret_line.id,})
+                #~ Vuelve a crear las lineas
+                lines.append(ixwl_obj.create(cr, uid, values, context=context))
 
-                #~ Searching & Unlinking for concept lines from the current invoice  
-                iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
-                if iwdl_ids:
-                    iwdl_obj.unlink(cr, uid, iwdl_ids)
-                    iwdl_ids=[]
-                #~ Creating concept lines for the current invoice
-                concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
-                for concept_id in concept_list:
-                    iwdl_ids.append(iwdl_obj.create(cr,uid,
-                            {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
-                            'concept_id':concept_id,
-                            #'islr_rates_id':rate_id, #TODO:TO BE SOUGHT
-                            'invoice_id': ret_line.invoice_id.id,
-                            #'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc, #TODO: TO BE SOUGHT
-                            #'amount':dict_concept[key2], #TODO: TO BE SOUGHT
-                            }, context=context))
+            #~ Searching & Unlinking for concept lines from the current invoice  
+            iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
+            if iwdl_ids:
+                iwdl_obj.unlink(cr, uid, iwdl_ids)
+                iwdl_ids=[]
+            #~ Creating concept lines for the current invoice
+            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
+            for concept_id in concept_list:
+                iwdl_ids.append(iwdl_obj.create(cr,uid,
+                        {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                        'concept_id':concept_id,
+                        #'islr_rates_id':rate_id, #TODO:TO BE SOUGHT
+                        'invoice_id': ret_line.invoice_id.id,
+                        #'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc, #TODO: TO BE SOUGHT
+                        #'amount':dict_concept[key2], #TODO: TO BE SOUGHT
+                        }, context=context))
         return True
         
     def _get_partners(self, cr, uid, invoice):
