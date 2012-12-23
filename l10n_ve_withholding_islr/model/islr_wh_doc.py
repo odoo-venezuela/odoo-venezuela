@@ -515,6 +515,8 @@ class islr_wh_doc_invoices(osv.osv):
         iwdl_obj = self.pool.get('islr.wh.doc.line')
         ret_line = self.browse(cr, uid, ids[0], context=context)
         lines = []
+        rates = {}
+        wh_perc= {}
         if ret_line.invoice_id:
             #~ Searching & Unlinking for xml lines from the current invoice
             xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
@@ -528,6 +530,9 @@ class islr_wh_doc_invoices(osv.osv):
                 values.update({'islr_wh_doc_inv_id':ret_line.id,})
                 #~ Vuelve a crear las lineas
                 lines.append(ixwl_obj.create(cr, uid, values, context=context))
+                #~ Keeps a log of the rate & percentage for a concept
+                rates[i.concept_id.id]=values['rate_id']
+                wh_perc[i.concept_id.id]=values['porcent_rete']
 
             #~ Searching & Unlinking for concept lines from the current invoice  
             iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
@@ -540,9 +545,9 @@ class islr_wh_doc_invoices(osv.osv):
                 iwdl_ids.append(iwdl_obj.create(cr,uid,
                         {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
                         'concept_id':concept_id,
-                        #'islr_rates_id':rate_id, #TODO:TO BE SOUGHT
+                        'islr_rates_id':rates[concept_id], 
                         'invoice_id': ret_line.invoice_id.id,
-                        #'retencion_islr': rate_obj.browse(cr,uid,rate_id).wh_perc, #TODO: TO BE SOUGHT
+                        'retencion_islr':wh_perc[concept_id], 
                         #'amount':dict_concept[key2], #TODO: TO BE SOUGHT
                         }, context=context))
         return True
