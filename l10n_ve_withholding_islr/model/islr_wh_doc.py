@@ -508,7 +508,7 @@ class islr_wh_doc_invoices(osv.osv):
                 concept_set.add(ail.concept_id.id)
         return list(concept_set)
 
-    def _get_wh(self, cr, uid, ids, concept_id, residence, nature, apply, context=None):
+    def _get_wh(self, cr, uid, ids, concept_id, context=None):
         '''
         Returns a dictionary containing all the values ​​of the retention of an invoice line.
         '''
@@ -518,20 +518,31 @@ class islr_wh_doc_invoices(osv.osv):
         iwdl_obj= self.pool.get('islr.wh.doc.line')
         iwdl_brw = iwdl_obj.browse(cr, uid, ids[0], context=context)
 
+        vendor, buyer, wh_agent = self._get_partners(cr, uid, iwdl_brw.invoice_id)
+        apply = not vendor.islr_exempt
+        residence = self._get_residence(cr, uid, vendor, buyer)
+        nature = self._get_nature(cr, uid, vendor)
+
         #rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name 
-        rate_tuple = self._get_rate(cr, uid, concept_id, residence, nature,context=context)
+        rate_tuple = self._get_rate(cr, uid, concept_id, residence, nature, context=context)
+        base = 0
+        for line in iwdl_brw.xml_ids:
+            base += line.account_invoice_line_id.price_subtotal
+        apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
         wh = 0.0
         subtract = apply and rate_tuple[3] or 0.0
+        subtract_write=0.0
         for line in iwdl_brw.xml_ids:
             if apply: 
-                wh_calc = rate_tuple[2]*line.account_invoice_line_id.price_subtotal
+                wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*line.account_invoice_line_id.price_subtotal/100.0
                 if subtract >= wh_calc:
                     wh = 0.0
                     subtract -= wh_calc
                 else:
                     wh = wh_calc - subtract
+                    subtract_write= subtract
                     subtract=0.0
-            ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'subtract':subtract},
+            ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
                     context=context)
         return True 
 
@@ -576,7 +587,7 @@ class islr_wh_doc_invoices(osv.osv):
             #~ Creating concept lines for the current invoice
             concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
             for concept_id in concept_list:
-                iwdl_ids.append(iwdl_obj.create(cr,uid,
+                iwdl_id=iwdl_obj.create(cr,uid,
                         {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
                         'concept_id':concept_id,
                         'islr_rates_id':rates[concept_id], 
@@ -584,7 +595,8 @@ class islr_wh_doc_invoices(osv.osv):
                         'retencion_islr':wh_perc[concept_id], 
                         'xml_ids': [(6,0,xmls[concept_id])],
                         #'amount':dict_concept[key2], #TODO: TO BE SOUGHT
-                        }, context=context))
+                        }, context=context)
+                self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         return True
         
     def _get_partners(self, cr, uid, invoice):
