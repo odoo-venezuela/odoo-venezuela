@@ -587,7 +587,7 @@ class islr_wh_doc_invoices(osv.osv):
             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat associated!") % (partner_id.name))
             return False
         else:
-            if partner_id.vat[2:3] in 'VvEe':
+            if partner_id.vat[2:3] in 'VvEe' or partner_id.spn:
                 return True
             else:
                 return False
