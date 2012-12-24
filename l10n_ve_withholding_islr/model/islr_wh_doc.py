@@ -310,7 +310,7 @@ class islr_wh_doc(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         inv_id = None
         doc_brw = None
-        
+        ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
         if not ret.date_uid:
             self.write(cr, uid, [ret.id], {'date_uid':time.strftime('%Y-%m-%d')})
@@ -361,15 +361,12 @@ class islr_wh_doc(osv.osv):
             if lines:
                 message = _("Withholding income voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
                 self.log(cr, uid, ids[0], message) 
-          
-            for line in ret.concept_ids:
-                for xml in line.xml_ids:
-                    if xml.islr_xml_wh_doc.state!='done':
-                        if xml.period_id.id != period_id:
-                            self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id, 'islr_xml_wh_doc':None})
-                    else:
-                        raise osv.except_osv(_('Invalid action !'),_("Impossible change the period accountig to a withholding that has already been declared."))
-#                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
+        
+        xml_ids = []  
+        for line in ret.concept_ids:
+            xml_ids += [xml.id for xml in line.xml_ids]
+        ixwl_obj.write(cr,uid,xml_ids,{'period_id':period_id},context=context)
+
         return True
 
 
