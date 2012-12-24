@@ -532,6 +532,8 @@ class islr_wh_doc_invoices(osv.osv):
         wh = 0.0
         subtract = apply and rate_tuple[3] or 0.0
         subtract_write=0.0
+        wh_concept = 0.0
+        sb_concept = subtract 
         for line in iwdl_brw.xml_ids:
             if apply: 
                 wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*line.account_invoice_line_id.price_subtotal/100.0
@@ -544,6 +546,8 @@ class islr_wh_doc_invoices(osv.osv):
                     subtract=0.0
             ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
                     context=context)
+            wh_concept+=wh
+        iwdl_obj.write(cr, uid, ids[0],{'amount':wh_concept},context=context)
         return True 
 
 
