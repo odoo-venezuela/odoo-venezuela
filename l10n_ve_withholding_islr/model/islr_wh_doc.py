@@ -547,7 +547,8 @@ class islr_wh_doc_invoices(osv.osv):
             ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
                     context=context)
             wh_concept+=wh
-        iwdl_obj.write(cr, uid, ids[0],{'amount':wh_concept},context=context)
+        iwdl_obj.write(cr, uid, ids[0],{'amount':wh_concept,
+            'subtract':sb_concept, 'base_amount': base},context=context)
         return True 
 
 
@@ -719,9 +720,11 @@ class islr_wh_doc_line(osv.osv):
     _columns= {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', help="Invoice to withhold"),
-        'amount':fields.float('Amount', digits_compute= dp.get_precision('Withhold ISLR'), help="Withheld amount"),
+        'amount':fields.float('Withheld Amount', digits_compute= dp.get_precision('Withhold ISLR'), help="Withheld amount"),
+        'base_amount':fields.float('Base Amount', digits_compute= dp.get_precision('Withhold ISLR'), help="Base amount"),
+        'subtract':fields.float('Subtract', digits_compute= dp.get_precision('Withhold ISLR'), help="Subtract"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept', help="Withhold concept associated with this rate"),
+        'concept_id': fields.many2one('islr.wh.concept','Withholding Concept', help="Withholding concept associated with this rate"),
         'retencion_islr':fields.float('Percentage', digits_compute= dp.get_precision('Withhold ISLR'), help="Withholding percentage"),
         'retention_rate': fields.function(_retention_rate, method=True, string='Withholding Rate', type='float', help="Withhold rate has been applied to the invoice", digits_compute= dp.get_precision('Withhold ISLR')),
         'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
