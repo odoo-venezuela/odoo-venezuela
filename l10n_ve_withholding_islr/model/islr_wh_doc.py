@@ -142,6 +142,23 @@ class islr_wh_doc(osv.osv):
         'user_id': lambda s, cr, u, c: u,
     }
 
+    def check_income_wh(self, cr, uid, ids, context=None):
+        context = context or {}      
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        obj = self.browse(cr, uid, ids[0],context=context)
+        res = {}
+        for wh_line in obj.invoice_ids:
+            if not wh_line.islr_xml_id:
+                res[wh_line.id] = (wh_line.invoice_id.name, 
+                    wh_line.invoice_id.number, wh_line.invoice_id.reference)
+        if res:
+            note = _('The Following Invoices Have not yet been withheld:\n\n')
+            for i in res:
+                note += '* %s, %s, %s\n'%res[i]
+            note += _('\nPlease, Load the Taxes to be withheld and Try Again')
+            raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
+        return True
+
     def compute_amount_wh(self, cr, uid, ids, context=None):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
