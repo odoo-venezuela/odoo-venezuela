@@ -255,7 +255,7 @@
                                 <page string="Invoices to Be Withheld">
                                     <field name="invoice_ids" nolabel='1'/>
                                 </page>
-                                <page string="Invoices">
+                                <page string="Invoices" invisible='1'>
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
                                 <page string="Concept of Withholding Income">
