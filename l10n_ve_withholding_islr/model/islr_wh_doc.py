@@ -260,21 +260,12 @@ class islr_wh_doc(osv.osv):
                     'WHERE id=%s', (number, id))
         return True
 
-    def action_done1(self, cr, uid, ids, context={}):
-        self.action_number(cr, uid, ids)
-        self.action_move_create(cr, uid, ids)
-        self.write(cr, uid, ids, {'state':'done'})
-        return True
-
     def action_cancel(self,cr,uid,ids,context={}):
         #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
             #~ return True
         self.cancel_move(cr,uid,ids)
         self.action_cancel_process(cr,uid,ids,context=context)
         return True
-        
-    
-
 
     def cancel_move (self,cr,uid,ids, *args):
         context={}
