@@ -583,6 +583,8 @@ class islr_wh_doc_invoices(osv.osv):
                 values.update({'islr_wh_doc_inv_id':ret_line.id,})
                 #~ Vuelve a crear las lineas
                 xml_id = ixwl_obj.create(cr, uid, values, context=context)
+                #~ Write back the new xml_id into the account_invoice_line
+                i.write({'wh_xml_id':xml_id},context=context)
                 lines.append(xml_id)
                 #~ Keeps a log of the rate & percentage for a concept
                 rates[i.concept_id.id]=values['rate_id']
