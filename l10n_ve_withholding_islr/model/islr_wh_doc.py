@@ -243,9 +243,10 @@ class islr_wh_doc(osv.osv):
         vals['code'] = code
         return super(islr_wh_doc, self).create(cr, uid, vals, context)
 
-    def action_confirm1(self, cr, uid, ids, context={}):
-        return self.write(cr, uid, ids, {'state':'confirmed'})
-
+    def action_confirm(self, cr, uid, ids, context=None):
+        context = context or {}      
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        return self.write(cr, uid, ids[0], {'state':'confirmed'})
 
     def action_number(self, cr, uid, ids, *args):
         obj_ret = self.browse(cr, uid, ids)[0]
