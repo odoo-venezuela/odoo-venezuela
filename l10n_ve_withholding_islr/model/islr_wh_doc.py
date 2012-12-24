@@ -304,9 +304,9 @@ class islr_wh_doc(osv.osv):
         self.write(cr, uid, ids, {'state':'draft'})
         return True
 
-    def action_move_create(self, cr, uid, ids, *args):
+    def action_move_create(self, cr, uid, ids, context=None):
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
-        context = {}
+        context = context or {}
         inv_id = None
         doc_brw = None
         
