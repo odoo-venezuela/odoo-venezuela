@@ -601,44 +601,6 @@ class account_invoice(osv.osv):
         return line_ids and inv_obj.browse(cr,uid,line_ids[-1]) or False
 
 
-    def _logic_create(self,cr,uid,dict,wh_doc_id):
-        '''
-        Handling of all the logic for generating lines on models.
-        '''
-        dictc = self._get_dict_concepts(cr,uid,dict)
-        inv_brw = self._get_inv_id(cr,uid,dict)
-        inv_obj =self.pool.get('account.invoice.line')
-        islr_wh_doc_id=None
-
-        if inv_brw:
-            if dictc and not wh_doc_id:
-                islr_wh_doc_id = self._create_islr_wh_doc(cr,uid,inv_brw,dict)
-            else:
-                islr_wh_doc_id = wh_doc_id
-            key_lst = []
-            if islr_wh_doc_id:
-                for key2 in dictc:
-                    inv_line_id = dictc[key2][0].keys()[0]
-                    islr_wh_doc_line_id = self._create_doc_line(cr,uid,inv_brw,key2,islr_wh_doc_id,dict,dictc)
-                    for line in dictc[key2]:
-                        inv_line_id2 = dictc[key2][0].keys()[0]
-                        for key in line:
-                            key_lst.append(inv_obj.browse(cr,uid,key).invoice_id.id)
-                            if not wh_doc_id:
-                                self._write_wh_xml(cr,uid,key,islr_wh_doc_line_id)
-                for key in set(key_lst):
-                    self._create_doc_invoices(cr,uid,key,islr_wh_doc_id)
-                        
-                self.pool.get('account.invoice').write(cr,uid,inv_brw.invoice_id.id,{'islr_wh_doc_id':islr_wh_doc_id})
-                
-                message = _("Withholding income voucher '%s' generated.") % self.pool.get('islr.wh.doc').browse(cr,uid,islr_wh_doc_id).name
-                self.log(cr, uid, islr_wh_doc_id, message)
-            else:
-                pass
-        else:
-            pass
-        return islr_wh_doc_id
-
     def action_ret_islr(self, cr, uid, ids, context={}):
         #TODO: TO BE ERASE THIS IS JUST AND ACCESSOR
         return self.pool.get('islr.wh.doc').action_ret_islr(cr,uid,ids,context)
