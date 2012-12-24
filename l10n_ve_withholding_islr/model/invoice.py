@@ -113,30 +113,6 @@ class account_invoice(osv.osv):
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
         return iwdi_obj._get_concepts(cr, uid, ids, context=context)
 
-    def get_journal(self,cr,uid,inv_brw, context=None):
-        '''
-        Assign the corresponding journal according to each type of withholding (purchase, sale). The journal types are created in retencion_iva
-        '''
-        #TODO: THIS METHOD SHOW BE MOVED TO THE ISLR.WH.DOC MODEL
-        #BESIDES THIS METHOD SHOULD BE REFACTORED
-        context = context or {}
-        ids = inv_brw.id 
-        ids = isinstance(ids, (int, long)) and [ids] or ids
-        tipo='Sale'
-        tipo2='islr_sale'
-        journal_id = None
-        journal_obj = self.pool.get('account.journal')
-        if inv_brw.type == 'out_invoice' or inv_brw.type =='out_refund':
-            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_sale')], limit=1)
-        else:
-            journal_id = journal_obj.search(cr, uid, [('type', '=', 'islr_purchase')], limit=1)
-            tipo = 'Purchase'
-            tipo2 = 'islr_purchase'
-        if not journal_id:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the journal of withholding income for the '%s' has not been created with the type '%s'") % (tipo,tipo2))
-        
-        return journal_id[0] or None
-
     def _create_doc_invoices(self,cr,uid,ids,islr_wh_doc_id,context=None):
         '''
         This method link the invoices to be withheld 
@@ -165,6 +141,7 @@ class account_invoice(osv.osv):
         rate_obj = self.pool.get('islr.rates')
         
         row = self.browse(cr,uid,ids[0],context=context)
+        context['type']=row.type
         wh_ret_code = wh_doc_obj.retencion_seq_get(cr, uid)
         
         if wh_ret_code:
@@ -175,7 +152,7 @@ class account_invoice(osv.osv):
             'period_id': row.period_id.id,
             'account_id': row.account_id.id,
             'type': row.type,
-            'journal_id': self.get_journal(cr,uid,row),})
+            'journal_id': wh_doc_obj._get_journal(cr,uid,context=context),})
             self._create_doc_invoices(cr,uid,row.id,islr_wh_doc_id)
         else:
             raise osv.except_osv(_('Invalid action !'),_("No se ha encontrado el numero de secuencia!"))

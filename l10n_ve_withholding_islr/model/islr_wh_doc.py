@@ -41,13 +41,14 @@ class islr_wh_doc(osv.osv):
         type = context.get('type', 'in_invoice')
         return type
 
-    def _get_journal(self, cr, uid, context):
+    def _get_journal(self, cr, uid, context=None):
         if context is None:
             context = {}
-        type_inv = context.get('type')
-        type2journal = {'out_invoice': 'retislrSale', 'in_invoice': 'retislrPurchase', 'out_refund': 'retislrSale', 'in_refund': 'retislrPurchase'}
         journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislrPurchase'))], limit=1)
+        if context.get('type') in ('out_invoice', 'out_refund'):
+            res = journal_obj.search(cr, uid, [('type', '=', 'islr_sale')], limit=1)
+        else:
+            res = journal_obj.search(cr, uid, [('type', '=', 'islr_purchase')], limit=1)
         if res:
             return res[0]
         else:
