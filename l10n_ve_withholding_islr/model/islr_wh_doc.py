@@ -332,7 +332,7 @@ class islr_wh_doc(osv.osv):
                     if ret.type in ('in_invoice', 'in_refund'):
                         if line.concept_id.property_retencion_islr_payable:
                             acc_id = line.concept_id.property_retencion_islr_payable.id
-                            inv_id = ret.invoice_id.id
+                            inv_id = line.invoice_id.id
                         else:
                             raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
                     else:
