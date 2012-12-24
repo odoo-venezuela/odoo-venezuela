@@ -170,8 +170,7 @@
                         <group colspan="6" col="2">
                         <group col="1">
                             <field name="state"/>
-                            <button name="act_progress" string="Progress" states="draft" icon="gtk-go-forward"/>
-                            <button name="act_confirmed" string="Confirmed" states="progress" icon="gtk-go-forward"/>
+                            <button name="act_confirm" string="Confirmed" states="draft" icon="gtk-go-forward"/>
                             <button name="act_done" string="Done" states="confirmed" icon="gtk-execute" />
                             <button name="%(voucher_report_withholding_islr)d" string="Print Withholding Income" states="done" colspan="3" type="action" icon="gtk-execute"/>
                             <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done"  icon="gtk-cancel"  />
@@ -303,8 +302,7 @@
                         <group colspan="6" col="2">
                         <group col="1">
                             <field name="state"/>
-                            <button name="act_progress" string="Progress" states="draft" type="workflow"  icon="gtk-go-forward"/>
-                            <button name="act_confirmed" string="Confirmed" states="progress" type="workflow"  icon="gtk-go-forward"/>
+                            <button name="act_confirm" string="Confirm" states="draft" type="workflow"  icon="gtk-go-forward"/>
                             <button name="act_done" string="Done" states="confirmed" type="workflow"  icon="gtk-go-forward"/>
                             <button name="%(voucher_report_withholding_islr)d" string="Print Withholding Income" colspan="3" states="done" type="action" icon="gtk-execute"/>
                             <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done" type="workflow"   icon="gtk-go-forward"/>
