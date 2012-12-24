@@ -173,16 +173,8 @@ class islr_wh_doc(osv.osv):
             return True
 
     def action_process(self,cr,uid,ids, context=None):
-        inv_obj=self.pool.get('account.invoice')
-        context = context or {}
-        ids = isinstance(ids, (int, long)) and [ids] or ids
-        wh_doc_brw = self.browse(cr, uid, ids[0], context=context)
-        inv_ids = []
-        
-        for wh_doc_line in wh_doc_brw.islr_wh_doc_id: 
-            inv_ids.append(wh_doc_line.id)
-        context["wh_doc_id"]=ids[0]
-        inv_obj.action_ret_islr(cr, uid, inv_ids,context)
+        # TODO: ERASE THE REGARDING NODE IN THE WORKFLOW
+        # METHOD HAVE BEEN LEFT FOR BACKWARD COMPATIBILITY
         return True
 
     def action_cancel_process(self,cr,uid,ids,context=None):
@@ -436,36 +428,6 @@ class islr_wh_doc(osv.osv):
         # Update the stored value (fields.function), so we write to trigger recompute
         self.pool.get('account.invoice').write(cr, uid, invoice_id, {}, context=context)
         return {'move_id': move_id}
-
-
-    def action_ret_islr(self, cr, uid, ids, context={}):
-        #TODO: :
-        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
-        inv_obj = self.pool.get('account.invoice')
-        invoices_brw = inv_obj.browse(cr, uid, ids, context)
-        wh_doc_list = []
-        for invoice in invoices_brw:
-            wh_dict={}
-            dict_rate={}
-            dict_completo={}
-            vendor, buyer, apply_wh = inv_obj._get_partners(cr,uid,invoice) # Se obtiene el (vendedor, el comprador, si el comprador es agente de retencion)
-            concept_list = inv_obj._get_concepts(cr,uid,invoice)# Se obtiene la lista de conceptos de las lineas de la factura actual.
-            if concept_list:  # 2.- Si existe algun concepto de retencion en las lineas de la factura.
-                if apply_wh:  # 3.- Si el comprador es agente de retencion
-                    wh_dict = inv_obj._get_service_wh(cr, uid, invoice, concept_list) # Se obtiene un dic con la lista de lineas de factura, si se aplico retencion alguna vez, el monto base total de las lineas.
-                    residence = iwdi_obj._get_residence(cr, uid, vendor, buyer) # Retorna el tipo de residencia del vendedor
-                    nature = iwdi_obj._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
-                    dict_rate = inv_obj._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
-                    inv_obj._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
-                    dict_completo = inv_obj._get_wh_apply(cr,uid,dict_rate,wh_dict,nature) # Retorna el dict con todos los datos de la retencion por linea de factura.
-                    islr_wh_doc_id=inv_obj._logic_create(cr,uid,dict_completo,context.get('wh_doc_id',False))# Se escribe y crea en todos los modelos asociados al islr.
-                else:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the supplier '%s' withholding agent is not!") % (buyer.name))
-            else:
-                raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the lines of the invoice has not concept withholding!"))
-            #~ break
-        return islr_wh_doc_id
-
 
 islr_wh_doc()
 
