@@ -193,17 +193,17 @@ class islr_xml_wh_line(osv.osv):
     _description = 'Generate XML Lines'
     
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=True, ondelete='cascade'),
-        'period_id':fields.many2one('account.period','Period',required=False, help="Period when the accounts entries were done"),
+        'concept_id': fields.many2one('islr.wh.concept','Withholding Concept',help="Withholding concept associated with this rate",required=True, ondelete='cascade'),
+        'period_id':fields.many2one('account.period','Period',required=False, help="Period when the journal entries were done"),
         'partner_vat': fields.char('VAT', size=10, required=True, help="Partner VAT"),
         'invoice_number': fields.char('Invoice Number',size=10,required=True, help="Number of invoice"),
         'control_number': fields.char('Control Number',size=8,required=True, help="Reference"),
         'concept_code': fields.char('Concept Code', size=10, required=True, help="Concept code"),
-        'base': fields.float('Without Tax Amount', required=True, help="Taxable", digits_compute= dp.get_precision('Withhold ISLR')),
-        'porcent_rete': fields.float('% Withhold', required=True, help="Percentage of Withhold", digits_compute= dp.get_precision('Withhold ISLR')),
+        'base': fields.float('Base Amount', required=True, help="Amount where a withholding is going to be computed from", digits_compute= dp.get_precision('Withhold ISLR')),
+        'porcent_rete': fields.float('Withholding Rate', required=True, help="Withholding Rate", digits_compute= dp.get_precision('Withhold ISLR')),
         'wh':fields.float('Withheld Amount',required=True, help="Withheld amount to partner", digits_compute= dp.get_precision('Withhold ISLR')),
         'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True, help="Person type"),
-        'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withholding Income Document', help="Withhold income document"),
+        'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withholding Income Document', help="Withholding Income Document"),
         'account_invoice_line_id':fields.many2one('account.invoice.line','Invoice Line', help="Invoice line to Withhold"),
         'account_invoice_id':fields.many2one('account.invoice','Invoice', help="Invoice to Withhold"),
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
