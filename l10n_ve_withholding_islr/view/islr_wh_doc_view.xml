@@ -258,9 +258,9 @@
                                 <page string="Invoices" invisible='1'>
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
-                                <page string="Concept of Withholding Income">
+                                <page string="Withholding Income Concepts">
                                     <field colspan="6" name="concept_ids" nolabel="1">
-                                        <tree string="Lines Withholding Income">
+                                        <tree string="Withholding Income Concepts">
                                             <field name="name" invisible='1'/>
                                             <field name="invoice_id"/>
                                             <field name="concept_id"/>
@@ -270,7 +270,7 @@
                                             <field name="amount"/>
                                             <field name="move_id"/>
                                         </tree>
-                                        <form string="Lines Withholding Income">
+                                        <form string="Withholding Income Concepts">
                                             <field name="invoice_id"/>
                                             <newline/>
                                             <field name="concept_id"  colspan='6'/>
