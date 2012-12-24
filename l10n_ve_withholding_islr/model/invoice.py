@@ -104,26 +104,14 @@ class account_invoice(osv.osv):
         inv_brw = self.browse(cr, uid, ids[0],context=context)
         return inv_brw.type in ('in_invoice', 'in_refund')
 
-    def _get_concepts(self, cr, uid, invoice,context=None):
-        '''
-        Gets a list of withholdable concepts (concept_id) from the invoice lines
-        '''
-        #TODO: SEND THIS METHOD TO ISLR_WH_DOC AND PUT HERE AND ACCESSOR
-        context = context or {}
-        service_list = []
-        for invoice_line in invoice.invoice_line:
-            if invoice_line.concept_id and invoice_line.concept_id.withholdable:
-                service_list.append(invoice_line.concept_id.id)
-        return list(set(service_list))
-
     def check_withholdable_concept(self, cr, uid, ids, context=None):
         '''
         Check if the given invoice record is ISLR Withholdable 
         '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        invoice = self.browse(cr, uid, ids[0], context=context)
-        return self._get_concepts(cr, uid, invoice)
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        return iwdi_obj._get_concepts(cr, uid, ids, context=context)
 
     def get_journal(self,cr,uid,inv_brw, context=None):
         '''
