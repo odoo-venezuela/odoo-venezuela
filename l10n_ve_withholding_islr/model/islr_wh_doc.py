@@ -307,68 +307,68 @@ class islr_wh_doc(osv.osv):
     def action_move_create(self, cr, uid, ids, context=None):
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
         inv_id = None
         doc_brw = None
         
-        for ret in self.browse(cr, uid, ids):
-            if not ret.date_uid:
-                self.write(cr, uid, [ret.id], {'date_uid':time.strftime('%Y-%m-%d')})
+        ret = self.browse(cr, uid, ids[0], context=context)
+        if not ret.date_uid:
+            self.write(cr, uid, [ret.id], {'date_uid':time.strftime('%Y-%m-%d')})
 
-            if not ret.date_ret:
-                self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
-            
-            period_id = ret.period_id and ret.period_id.id or False
-            journal_id = ret.journal_id.id
-            
-            if not period_id:
-                period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
-                if len(period_ids):
-                    period_id = period_ids[0]
+        if not ret.date_ret:
+            self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
+        
+        period_id = ret.period_id and ret.period_id.id or False
+        journal_id = ret.journal_id.id
+        
+        if not period_id:
+            period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',ret.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',ret.date_ret or time.strftime('%Y-%m-%d'))])
+            if len(period_ids):
+                period_id = period_ids[0]
+            else:
+                raise osv.except_osv(_('Warning !'), _("Not found a fiscal period to date: '%s' please check!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
+
+        for line in ret.concept_ids:
+            if ret.type in ('in_invoice', 'in_refund'):
+                if line.concept_id.property_retencion_islr_payable:
+                    acc_id = line.concept_id.property_retencion_islr_payable.id
+                    inv_id = line.invoice_id.id
                 else:
-                    raise osv.except_osv(_('Warning !'), _("Not found a fiscal period to date: '%s' please check!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
+            else:
+                if  line.concept_id.property_retencion_islr_receivable:
+                    acc_id = line.concept_id.property_retencion_islr_receivable.id
+                    inv_id = line.invoice_id.id
+                else:
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
 
-            if ret.concept_ids:
-                for line in ret.concept_ids:
-                    if ret.type in ('in_invoice', 'in_refund'):
-                        if line.concept_id.property_retencion_islr_payable:
-                            acc_id = line.concept_id.property_retencion_islr_payable.id
-                            inv_id = line.invoice_id.id
-                        else:
-                            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
+            writeoff_account_id = False
+            writeoff_journal_id = False
+            amount = line.amount
+
+            ret_move = self.wh_and_reconcile(cr, uid, [ret.id], inv_id,
+                    amount, acc_id, period_id, journal_id, writeoff_account_id,
+                    period_id, writeoff_journal_id, context)
+
+            # make the retencion line point to that move
+            rl = {
+                'move_id': ret_move['move_id'],
+            }
+            #lines = [(op,id,values)] escribir en un one2many
+            lines = [(1, line.id, rl)]
+            self.write(cr, uid, [ret.id], {'concept_ids':lines})
+          
+            if lines:
+                message = _("Withholding income voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
+                self.log(cr, uid, ids[0], message) 
+          
+            for line in ret.concept_ids:
+                for xml in line.xml_ids:
+                    if xml.islr_xml_wh_doc.state!='done':
+                        if xml.period_id.id != period_id:
+                            self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id, 'islr_xml_wh_doc':None})
                     else:
-                        if  line.concept_id.property_retencion_islr_receivable:
-                            acc_id = line.concept_id.property_retencion_islr_receivable.id
-                            inv_id = line.invoice_id.id
-                        else:
-                            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
-
-                    writeoff_account_id = False
-                    writeoff_journal_id = False
-                    amount = line.amount
-
-                    ret_move = self.wh_and_reconcile(cr, uid, [ret.id], inv_id,
-                            amount, acc_id, period_id, journal_id, writeoff_account_id,
-                            period_id, writeoff_journal_id, context)
-
-                    # make the retencion line point to that move
-                    rl = {
-                        'move_id': ret_move['move_id'],
-                    }
-                    #lines = [(op,id,values)] escribir en un one2many
-                    lines = [(1, line.id, rl)]
-                    self.write(cr, uid, [ret.id], {'concept_ids':lines})
-                  
-                    if lines:
-                        message = _("Withholding income voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
-                        self.log(cr, uid, ids[0], message) 
-                  
-                    for line in ret.concept_ids:
-                        for xml in line.xml_ids:
-                            if xml.islr_xml_wh_doc.state!='done':
-                                if xml.period_id.id != period_id:
-                                    self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id, 'islr_xml_wh_doc':None})
-                            else:
-                                raise osv.except_osv(_('Invalid action !'),_("Impossible change the period accountig to a withholding that has already been declared."))
+                        raise osv.except_osv(_('Invalid action !'),_("Impossible change the period accountig to a withholding that has already been declared."))
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
         return True
 
