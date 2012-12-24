@@ -277,6 +277,7 @@
                                             <newline/>
                                             <field name="xml_ids" nolabel="1"  colspan='4'>
                                                 <tree string="Detail of the Concept of Withholding Income">
+                                                    <field name="concept_code"/>
                                                     <field name="rate_id"/>
                                                     <field name="wh"/>
                                                     <field name="porcent_rete"/>
