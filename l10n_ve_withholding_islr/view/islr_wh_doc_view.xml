@@ -298,6 +298,7 @@
                             </notebook>
                         <group col="4" colspan="2">
                             <field name="amount_total_ret"/>
+                            <button colspan="2" name="compute_amount_wh" string="Compute Income Withholding" type="object" icon="terp-stock_format-scientific"/>
                         </group>
                         <group colspan="6" col="2">
                         <group col="1">
