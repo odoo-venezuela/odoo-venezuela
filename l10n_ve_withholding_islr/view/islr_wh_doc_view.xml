@@ -290,14 +290,14 @@
                                             <field name="move_id"  colspan='6'/>
                                         </form>
                                     </field>
-                                        <group col="4" colspan="2">
-                                            <field name="amount_total_ret"/>
-                                        </group>
                                 </page>
                                <page string="Other Information">
                                     <field name="company_id"/>
                                 </page>
                             </notebook>
+                        <group col="4" colspan="2">
+                            <field name="amount_total_ret"/>
+                        </group>
                         <group colspan="6" col="2">
                         <group col="1">
                             <field name="state"/>
