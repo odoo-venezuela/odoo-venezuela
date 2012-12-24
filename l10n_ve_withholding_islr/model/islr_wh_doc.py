@@ -68,18 +68,6 @@ class islr_wh_doc(osv.osv):
                 res[rete.id] += line.amount
         return res
 
-    def _get_period(self,cr,uid,ids,name,args,context={}):
-        res = {}
-        wh_doc_brw = self.browse(cr,uid,ids, context=None)
-        for doc in wh_doc_brw:
-            res[doc.id] = False
-            if doc.date_ret:
-                period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',doc.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',doc.date_ret or time.strftime('%Y-%m-%d'))])
-                if len(period_ids):
-                    period_id = period_ids[0]
-                res[doc.id] = period_id
-        return res
-
     def filter_lines_invoice(self,cr,uid,partner_id,context):
         inv_obj = self.pool.get('account.invoice')
         invoice_obj = self.pool.get('islr.wh.doc.invoices')
@@ -116,7 +104,7 @@ class islr_wh_doc(osv.osv):
             ],'State', readonly=True, help="Voucher state"),
         'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
         'date_uid': fields.date('Withhold Date', readonly=True, states={'draft':[('readonly',False)]}, help="Voucher date"),
-        'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Period', help="Period when the accounts entries were done"),
+        'period_id': fields.many2one('account.period', 'Period', help="Period when the accounts entries were done"),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Account Receivable or Account Payable of partner"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Partner object of withholding"),
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency in which the transaction takes place"),
@@ -350,7 +338,7 @@ class islr_wh_doc(osv.osv):
         for line in ret.concept_ids:
             xml_ids += [xml.id for xml in line.xml_ids]
         ixwl_obj.write(cr,uid,xml_ids,{'period_id':period_id},context=context)
-
+        self.write(cr,uid,ids,{'period_id':period_id},context=context)
         return True
 
 
