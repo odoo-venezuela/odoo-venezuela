@@ -32,7 +32,7 @@
                         colspan='6'/>
                     <newline/>
                     <field name="islr_xml_id" nolabel="1"  colspan='4'>
-                        <tree string="Detail of the Concept of Withholding Income">
+                        <tree string="Detail of the Concept of Income Withholding">
                             <field name="concept_code"/>
                             <field name="rate_id"/>
                             <field name="wh"/>
@@ -57,13 +57,13 @@
             <field name="name">islr.wh.doc.search</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <search string="Search Withholding Income">
+                <search string="Search Income Withholding">
                    <group col="10" colspan="4">
-                        <filter name="to_process" string="To Process" domain="[('state','=','to_process')]" help="To Process Withholding Income"/>
-                        <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Withholding Income"/>
-                        <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Withholding Income"/>
-                        <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Withholding Income"/>
-                        <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Income"/>
+                        <filter name="to_process" string="To Process" domain="[('state','=','to_process')]" help="To Process Income Withholding"/>
+                        <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Income Withholding"/>
+                        <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Income Withholding"/>
+                        <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Income Withholding"/>
+                        <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Income Withholding"/>
                     </group>
                     <group expand="1" string="Group By...">
                         <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
@@ -80,7 +80,7 @@
             <field name="name">islr.wh.doc_line_tree</field>
             <field name="model">islr.wh.doc.line</field>
             <field name="arch" type="xml">
-                <tree string="Lines Withholding Income" editable="bottom" >
+                <tree string="Lines Income Withholding" editable="bottom" >
                     <field name="name"/>
                     <field name="concept_id"/>
                     <field name="retencion_islr"/>
@@ -94,12 +94,12 @@
             <field name="name">islr.wh.doc.line_form</field>
             <field name="model">islr.wh.doc.line</field>
             <field name="arch" type="xml">
-                <form string="Lines Withholding Income">
+                <form string="Lines Income Withholding">
                     <field name="concept_id"  colspan='6'/>
                     <field name="move_id"  colspan='6'/>
                     <newline/>
                     <field name="xml_ids" nolabel="1"  colspan='4'>
-                        <tree string="Detail of the Concept of Withholding Income">
+                        <tree string="Detail of the Concept of Income Withholding">
                             <field name="rate_id"/>
                             <field name="wh"/>
                             <field name="porcent_rete"/>
@@ -114,7 +114,7 @@
             <field name="name">islr.wh.doc_tree_customers</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state=='draft'" string="Customer Withholding Income">
+                <tree colors="blue:state=='draft'" string="Customer Income Withholding">
                     <field name="partner_id"/>
                     <field name="date_ret"/>
                     <field name="period_id"/>
@@ -132,7 +132,7 @@
             <field name="name">islr.wh.doc_form_customers</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <form string="Customer Withholding Income">
+                <form string="Customer Income Withholding">
                     <group colspan="4" col="6">
                         <field name="journal_id" domain="[('type','=','islr_sale')]"/>
                         <field name="type"/>
@@ -152,7 +152,7 @@
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
-                                <page string="Concept of Withholding Income">
+                                <page string="Concept of Income Withholding">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                         <group col="4" colspan="2">
                                             <field name="amount_total_ret"/>
@@ -167,7 +167,7 @@
                             <field name="state"/>
                             <button name="act_confirm" string="Confirmed" states="draft" icon="gtk-go-forward"/>
                             <button name="act_done" string="Done" states="confirmed" icon="gtk-execute" />
-                            <button name="%(voucher_report_withholding_islr)d" string="Print Withholding Income" states="done" colspan="3" type="action" icon="gtk-execute"/>
+                            <button name="%(voucher_report_withholding_islr)d" string="Print Income Withholding" states="done" colspan="3" type="action" icon="gtk-execute"/>
                             <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done"  icon="gtk-cancel"  />
                             <button name="act_draft" colspan="2" string="Set to draft" states="cancel" icon="gtk-go-forward"/>
                         </group>
@@ -186,12 +186,12 @@
             <field name="name">islr.wh.doc.search</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <search string="Search Withholding Income">
+                <search string="Search Income Withholding">
                    <group col="10" colspan="4">
-                        <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Withholding Income"/>
-                        <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Withholding Income"/>
-                        <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Withholding Income"/>
-                        <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Income"/>
+                        <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Income Withholding"/>
+                        <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Income Withholding"/>
+                        <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Income Withholding"/>
+                        <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Income Withholding"/>
                     </group>
                     <newline/>
                     <group expand="1" string="Group By...">
@@ -209,7 +209,7 @@
             <field name="name">islr.wh.doc_tree_suppliers</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state=='draft'" string="Supplier Withholding Income">
+                <tree colors="blue:state=='draft'" string="Supplier Income Withholding">
                     <field name="partner_id"/>
                     <field name="date_ret"/>
                     <field name="period_id"/>
@@ -227,7 +227,7 @@
             <field name="name">islr.wh.doc_form_suppliers</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <form string="Supplier Withholding Income">
+                <form string="Supplier Income Withholding">
                     <group colspan="4" col="6">
                         <field name="journal_id" domain="[('type','=','islr_purchase')]"/>
                         <field name="type"/>
@@ -249,9 +249,9 @@
                                 <page string="Invoices" invisible='1'>
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
-                                <page string="Withholding Income Concepts">
+                                <page string="Income Withholding Concepts">
                                     <field colspan="6" name="concept_ids" nolabel="1">
-                                        <tree string="Withholding Income Concepts">
+                                        <tree string="Income Withholding Concepts">
                                             <field name="name" invisible='1'/>
                                             <field name="invoice_id"/>
                                             <field name="concept_id"/>
@@ -261,13 +261,13 @@
                                             <field name="amount"/>
                                             <field name="move_id"/>
                                         </tree>
-                                        <form string="Withholding Income Concepts">
+                                        <form string="Income Withholding Concepts">
                                             <field name="invoice_id"/>
                                             <newline/>
                                             <field name="concept_id"  colspan='6'/>
                                             <newline/>
                                             <field name="xml_ids" nolabel="1"  colspan='4'>
-                                                <tree string="Detail of the Concept of Withholding Income">
+                                                <tree string="Detail of the Concept of Income Withholding">
                                                     <field name="concept_code"/>
                                                     <field name="rate_id"/>
                                                     <field name="wh"/>
@@ -296,7 +296,7 @@
                             <field name="state"/>
                             <button name="act_confirm" string="Confirm" states="draft" type="workflow"  icon="gtk-go-forward"/>
                             <button name="act_done" string="Done" states="confirmed" type="workflow"  icon="gtk-go-forward"/>
-                            <button name="%(voucher_report_withholding_islr)d" string="Print Withholding Income" colspan="3" states="done" type="action" icon="gtk-execute"/>
+                            <button name="%(voucher_report_withholding_islr)d" string="Print Income Withholding" colspan="3" states="done" type="action" icon="gtk-execute"/>
                             <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done" type="workflow"   icon="gtk-go-forward"/>
                             <button name="act_draft"  colspan="2"  string="Set to draft" states="cancel" type="workflow"  icon="gtk-go-forward"/>
                         </group>
@@ -307,7 +307,7 @@
 
 
         <record model="ir.actions.act_window" id="action_wh_islr_customer">
-            <field name="name">Customer Withholding Income</field>
+            <field name="name">Customer Income Withholding</field>
             <field name="res_model">islr.wh.doc</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -332,12 +332,12 @@
 
         <menuitem
             id="menu_action_wh_islr_customer"
-            name="Customer Withholding Income"
+            name="Customer Income Withholding"
             parent="account.menu_finance_receivables"
             action="action_wh_islr_customer"/>
 
         <record model="ir.actions.act_window" id="action_wh_islr_supplier">
-            <field name="name">Supplier Withholding Income</field>
+            <field name="name">Supplier Income Withholding</field>
             <field name="res_model">islr.wh.doc</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -345,7 +345,7 @@
             <field name="domain">[('type','=','in_invoice')]</field>
             <field name="context">{'type':'in_invoice', 'search_default_draft': 1}</field>
             <field name="search_view_id" ref="view_wh_islr_filter_suppliers"/>
-            <field name="help">With Supplier Withholding  you can manage document withholding issued to your suppliers. OpenERP can Just generate document withholding for purchase process automatically from invoices. To generate the withholding income and all accounting process you must confirm and validate the document withholding.</field>
+            <field name="help">With Supplier Withholding  you can manage document withholding issued to your suppliers. OpenERP can Just generate document withholding for purchase process automatically from invoices. To generate the Income Withholding and all accounting process you must confirm and validate the document withholding.</field>
 
         </record>
         <record model="ir.actions.act_window.view" id="action_wh_islr_tree">
@@ -363,7 +363,7 @@
 
         <menuitem
             id="menu_action_wh_islr_supplier"
-            name="Supplier Withholding Income" 
+            name="Supplier Income Withholding" 
             parent="account.menu_finance_payables"
             action="action_wh_islr_supplier"/>
 
