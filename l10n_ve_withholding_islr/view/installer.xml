@@ -14,7 +14,7 @@
             <xpath expr='//group[@string="res_config_contents"]' position='before'>
                  <group colspan="4" col="8">
                    <group colspan="1" width="220">
-                    <label align="0.0" string="Configure your company's withholding income" width="200" colspan="2"/>
+                    <label align="0.0" string="Configure your company's income withholding" width="200" colspan="2"/>
                    </group>
                    <separator orientation="vertical" colspan="1" rowspan="15"/>
                    <group colspan="6">
