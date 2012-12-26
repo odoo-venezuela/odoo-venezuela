@@ -28,7 +28,7 @@
                 <form string="Invoices">
                     <field
                         name="invoice_id"
-                        domain="[('partner_id','=',parent.partner_id),('islr_wh_doc_id', '=', False),('state', '=', 'open'),('invoice_line.concept_id.withholdable', '=', True)]"
+                        domain="[('partner_id','=',parent.partner_id),('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
                         colspan='6'/>
                     <newline/>
                     <field name="islr_xml_id" nolabel="1"  colspan='4'>

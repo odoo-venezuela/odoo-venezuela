@@ -57,6 +57,17 @@
                 </field>
             </record>
 
+            <record model="ir.ui.view" id="view_account_invoice_form_concept_islr_customer">
+                <field name="name">account.invoice.concept.islr.customer</field>
+                <field name="model">account.invoice</field>
+                <field name="inherit_id" ref="account.invoice_form"/>
+                <field name="arch" type="xml">
+                <xpath expr="//field[@name='quantity']" position="before">
+                    <field name="concept_id" required="1"/>
+                </xpath>
+                </field>
+            </record>
+
         <record model="ir.ui.view" id="view_invoice_line_form_islr">
             <field name="name">account_invoice_line_concept_islr</field>
             <field name="model">account.invoice.line</field>
@@ -81,9 +92,3 @@
     
     </data>
 </openerp>
-
-
-
-
-
-
