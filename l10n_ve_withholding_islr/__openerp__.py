@@ -27,7 +27,7 @@
 ##############################################################################
 
 {
-    "name" : "Automatically Calculation Withholding Income",
+    "name" : "Automatically Calculation Income Withholding",
     "version" : "0.1",
     "author" : "Vauxoo",
     "category" : "General",

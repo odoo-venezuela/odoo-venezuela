@@ -84,7 +84,7 @@ class islr_wh_doc(osv.osv):
         return inv_ids
     
     _name = "islr.wh.doc"
-    _description = 'Document Withholding Income'
+    _description = 'Document Income Withholding'
     _columns= {
         'name': fields.char('Description', size=64,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Voucher description"),
         'code': fields.char('Code', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Voucher reference"),
@@ -112,7 +112,7 @@ class islr_wh_doc(osv.osv):
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal where accounting entries are recorded"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, string='Amount Total', type='float', digits_compute= dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
-        'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Withholding Income Concept', readonly=True, states={'draft':[('readonly',False)]}),
+        'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Income Withholding Concept', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withheld Invoices'),
         'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
         'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
@@ -307,13 +307,13 @@ class islr_wh_doc(osv.osv):
                     acc_id = line.concept_id.property_retencion_islr_payable.id
                     inv_id = line.invoice_id.id
                 else:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible income withholding, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
             else:
                 if  line.concept_id.property_retencion_islr_receivable:
                     acc_id = line.concept_id.property_retencion_islr_receivable.id
                     inv_id = line.invoice_id.id
                 else:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
+                    raise osv.except_osv(_('Invalid action !'),_("Impossible income withholding, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
 
             writeoff_account_id = False
             writeoff_journal_id = False
@@ -416,7 +416,7 @@ islr_wh_doc()
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Withholding Income tax generated from this bill"),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Withhold Document',readonly=True,help="Document Income Withholding tax generated from this bill"),
     }
     _defaults = {
         'islr_wh_doc_id': lambda *a: 0,
@@ -602,7 +602,7 @@ class islr_wh_doc_invoices(osv.osv):
         Se obtiene la naturaleza del vendedor a partir del RIF, retorna True si es persona de tipo natural, y False si es juridica.
         '''
         if not partner_id.vat:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' has not vat associated!") % (partner_id.name))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible income withholding, because the partner '%s' has not vat associated!") % (partner_id.name))
             return False
         else:
             if partner_id.vat[2:3] in 'VvEe' or partner_id.spn:
@@ -635,7 +635,7 @@ class islr_wh_doc_invoices(osv.osv):
         #ARE USED FOR ACCOUNT_MOVE
         context = context or {}
         if not partner_id.country_id:
-            raise osv.except_osv(_('Invalid action !'),_("Impossible withholding income, because the partner '%s' country has not been defined in the address!") % (partner_id.name))
+            raise osv.except_osv(_('Invalid action !'),_("Impossible income withholding, because the partner '%s' country has not been defined in the address!") % (partner_id.name))
         else:
             return partner_id.country_id.id
         
@@ -672,7 +672,7 @@ islr_wh_doc_invoices()
 
 class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
-    _description = 'Lines of Document Withholding Income'
+    _description = 'Lines of Document Income Withholding'
 
     def _retention_rate(self, cr, uid, ids, name, args, context=None):
         res = {}

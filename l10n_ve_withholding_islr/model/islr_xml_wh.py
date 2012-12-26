@@ -57,7 +57,7 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     _columns = {
-        'name':fields.char('Description',128, required=True, select=True, help = "Description about statement of withholding income"),
+        'name':fields.char('Description',128, required=True, select=True, help = "Description about statement of income withholding"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'state': fields.selection([
             ('draft','Draft'),
@@ -66,7 +66,7 @@ class islr_xml_wh_doc(osv.osv):
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Voucher state"),
         'period_id':fields.many2one('account.period','Period',required=True, help="Period when the accounts entries were done"),
-        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding Income Amount Total', help="Amount Total of withholding"),
+        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Income Withholding Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
@@ -79,7 +79,7 @@ class islr_xml_wh_doc(osv.osv):
         'user_id': lambda s, cr, u, c: u,
 
         'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
-        'name':lambda self,cr,uid,context : 'Withholding Income '+time.strftime('%m/%Y')
+        'name':lambda self,cr,uid,context : 'Income Withholding '+time.strftime('%m/%Y')
     }
 
     def period_return(self,cr,uid,context=None):
@@ -203,7 +203,7 @@ class islr_xml_wh_line(osv.osv):
         'porcent_rete': fields.float('Withholding Rate', required=True, help="Withholding Rate", digits_compute= dp.get_precision('Withhold ISLR')),
         'wh':fields.float('Withheld Amount',required=True, help="Withheld amount to partner", digits_compute= dp.get_precision('Withhold ISLR')),
         'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True, help="Person type"),
-        'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Withholding Income Document', help="Withholding Income Document"),
+        'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Income Withholding Document', help="Income Withholding Document"),
         'account_invoice_line_id':fields.many2one('account.invoice.line','Invoice Line', help="Invoice line to Withhold"),
         'account_invoice_id':fields.many2one('account.invoice','Invoice', help="Invoice to Withhold"),
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','ISLR XML Document', help="Income tax XML Doc"),
