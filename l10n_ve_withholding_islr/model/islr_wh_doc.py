@@ -332,7 +332,7 @@ class islr_wh_doc(osv.osv):
             self.write(cr, uid, [ret.id], {'concept_ids':lines})
           
             if lines:
-                message = _("Withholding income voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
+                message = _("Income withholding voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
                 self.log(cr, uid, ids[0], message) 
         
         xml_ids = []  

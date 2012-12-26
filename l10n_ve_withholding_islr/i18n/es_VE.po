@@ -1431,7 +1431,7 @@ msgstr "Imposible realizar retención de ISLR, porque las lineas de la factura n
 
 #. module: l10n_ve_withholding_islr
 #: view:wh.islr.config:0
-msgid "Withholding income Configuration"
+msgid "Income withholding Configuration"
 msgstr "Configuración de la Retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
