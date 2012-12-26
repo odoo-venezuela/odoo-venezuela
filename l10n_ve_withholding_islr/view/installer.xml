@@ -4,7 +4,6 @@
     <record id="wh_islr_config_view" model="ir.ui.view">
         <field name="name">Configure your ISLR Withholdings</field>
         <field name="model">wh.islr.config</field>
-        <field name="type">form</field>
         <field name="inherit_id" ref="base.res_config_view_base"/>
         <field name="arch" type="xml">
           <data>

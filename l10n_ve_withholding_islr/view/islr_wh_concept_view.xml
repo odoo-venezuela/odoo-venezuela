@@ -9,7 +9,6 @@
         <record id="view_wh_concept_filter" model="ir.ui.view">
             <field name="name">islr.wh.concept.search</field>
             <field name="model">islr.wh.concept</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Concept of Withholding Income">
                    <group col="10" colspan="4">
@@ -23,7 +22,6 @@
         <record id="view_wh_islr_rate_form" model="ir.ui.view">
             <field name="name">tasas_form</field>
             <field name="model">islr.rates</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Rates">
                     <field name="name" colspan="4"/>
@@ -43,7 +41,6 @@
         <record id="view_wh_islr_rate_tree" model="ir.ui.view">
             <field name="name">tasas_tree</field>
             <field name="model">islr.rates</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Rates">
                     <field name="name"/>
@@ -61,7 +58,6 @@
         <record id="view_wh_concept_islr_tree" model="ir.ui.view">
             <field name="name">islr.wh.concept_tree</field>
             <field name="model">islr.wh.concept</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Concept of Withholding Income">
                     <field name="name"/>
@@ -73,7 +69,6 @@
         <record id="view_wh_concept_islr_form" model="ir.ui.view">
             <field name="name">islr.wh.concept_form</field>
             <field name="model">islr.wh.concept</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Concept of Withholding Income">
                     <group colspan="4" col="4">

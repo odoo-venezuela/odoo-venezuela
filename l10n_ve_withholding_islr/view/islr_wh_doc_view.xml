@@ -56,7 +56,6 @@
         <record id="view_wh_islr_filter_customer" model="ir.ui.view">
             <field name="name">islr.wh.doc.search</field>
             <field name="model">islr.wh.doc</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Withholding Income">
                    <group col="10" colspan="4">
@@ -80,7 +79,6 @@
         <record id="view_islr_line_tree" model="ir.ui.view">
             <field name="name">islr.wh.doc_line_tree</field>
             <field name="model">islr.wh.doc.line</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Lines Withholding Income" editable="bottom" >
                     <field name="name"/>
@@ -95,7 +93,6 @@
         <record id="view_islr_line_form" model="ir.ui.view">
             <field name="name">islr.wh.doc.line_form</field>
             <field name="model">islr.wh.doc.line</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Lines Withholding Income">
                     <field name="concept_id"  colspan='6'/>
@@ -116,7 +113,6 @@
         <record id="view_islr_tree_customers" model="ir.ui.view">
             <field name="name">islr.wh.doc_tree_customers</field>
             <field name="model">islr.wh.doc</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state=='draft'" string="Customer Withholding Income">
                     <field name="partner_id"/>
@@ -135,7 +131,6 @@
         <record id="view_islr_form_customers" model="ir.ui.view">
             <field name="name">islr.wh.doc_form_customers</field>
             <field name="model">islr.wh.doc</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Customer Withholding Income">
                     <group colspan="4" col="6">
@@ -190,7 +185,6 @@
         <record id="view_wh_islr_filter_suppliers" model="ir.ui.view">
             <field name="name">islr.wh.doc.search</field>
             <field name="model">islr.wh.doc</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Withholding Income">
                    <group col="10" colspan="4">
@@ -214,7 +208,6 @@
         <record id="view_wh_islr_tree_suppliers" model="ir.ui.view">
             <field name="name">islr.wh.doc_tree_suppliers</field>
             <field name="model">islr.wh.doc</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state=='draft'" string="Supplier Withholding Income">
                     <field name="partner_id"/>
@@ -233,7 +226,6 @@
         <record id="view_wh_islr_form_suppliers" model="ir.ui.view">
             <field name="name">islr.wh.doc_form_suppliers</field>
             <field name="model">islr.wh.doc</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Supplier Withholding Income">
                     <group colspan="4" col="6">
