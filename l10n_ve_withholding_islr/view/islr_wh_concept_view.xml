@@ -10,10 +10,10 @@
             <field name="name">islr.wh.concept.search</field>
             <field name="model">islr.wh.concept</field>
             <field name="arch" type="xml">
-                <search string="Search Concept of Withholding Income">
+                <search string="Search Concept of Income Withholding">
                    <group col="10" colspan="4">
                         <filter name="withholdable" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
-                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" separator="1"/>
+                        <filter domain="[('user_id','=',uid)]" help="My Income Withholding" separator="1"/>
                     </group>
                </search>
             </field>
@@ -59,7 +59,7 @@
             <field name="name">islr.wh.concept_tree</field>
             <field name="model">islr.wh.concept</field>
             <field name="arch" type="xml">
-                <tree string="Concept of Withholding Income">
+                <tree string="Concept of Income Withholding">
                     <field name="name"/>
                     <field name="withholdable"/>
                 </tree>
@@ -70,7 +70,7 @@
             <field name="name">islr.wh.concept_form</field>
             <field name="model">islr.wh.concept</field>
             <field name="arch" type="xml">
-                <form string="Concept of Withholding Income">
+                <form string="Concept of Income Withholding">
                     <group colspan="4" col="4">
                         <field name="name"/>
                         <field name="withholdable"/>
@@ -87,13 +87,13 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_wh_islr_concept">
-            <field name="name">Concept of Withholding Income</field>
+            <field name="name">Concept of Income Withholding</field>
             <field name="res_model">islr.wh.concept</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_wh_concept_filter"/>
-            <field name="help">With "Concept of Withholding Income" you can create and manage the concept of wittholding income. For each concept is to create and manage rates associated.</field>
+            <field name="help">With "Concept of Income Withholding" you can create and manage the concept of wittholding income. For each concept is to create and manage rates associated.</field>
         </record>
         
         <record model="ir.actions.act_window.view" id="action_wh_islr_concept_tree">
@@ -109,7 +109,7 @@
             <field name="act_window_id" ref="action_wh_islr_concept"/>
         </record>
         
-        <menuitem name="Concept of Withholding Income" 
+        <menuitem name="Concept of Income Withholding" 
             id="menu_action_concept_retention" 
             parent="menu_wh_configuration_islr"
             action="action_wh_islr_concept"/>

@@ -21,7 +21,7 @@
                         <field name="partner_vat"/>
                     </group>
                     <newline/>
-                    <separator string="Concept of Withholding Income" colspan="6"/>
+                    <separator string="Concept of Income Withholding" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="concept_id" colspan="4" />
@@ -114,7 +114,7 @@
                         <separator orientation="vertical"/>
                         <field name="company_id"/>
                         <field name="user_id" select="1" widget="selection" string="Salesman">
-                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
+                        <filter domain="[('user_id','=',uid)]" help="My Income Withholding" icon="terp-personal" separator="1"/>
                         </field>
                     </group>
                     <newline/>
