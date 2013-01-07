@@ -13,12 +13,8 @@
             <field name="arch" type="xml">
                 <search string="Search Concept of Withholding Income">
                    <group col="10" colspan="4">
-                        <filter name="withholdable" icon="terp-camera_test" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
-                        <separator orientation="vertical"/>
-                        <field name="name"/>
-                        <field name="user_id" select="1" widget="selection" string="Salesman">
-                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
-                        </field>
+                        <filter name="withholdable" string="Withhold" domain="[('withholdable','=','True')]" help="Concept withholding withheld"/>
+                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" separator="1"/>
                     </group>
                </search>
             </field>
@@ -100,7 +96,7 @@
             <field name="res_model">islr.wh.concept</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_wh_concept_filter"/>
             <field name="help">With "Concept of Withholding Income" you can create and manage the concept of wittholding income. For each concept is to create and manage rates associated.</field>
         </record>
