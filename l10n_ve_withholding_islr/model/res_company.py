@@ -1,15 +1,12 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 ###########################################################################
-#    Module Written to OpenERP, Open Source Management Solution
+#    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <hbto@vauxoo.com>
-#              María Gabriela Quilarque  <gabriela@vauxoo.com>
-#              Javier Duran              <javier@vauxoo.com>
-#    Planified by: Nhomar Hernandez
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
+#    Coded by: Yanina Aular           <yanina.aular@vauxoo.com>
+#    Planified by: Humberto Arocha
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
@@ -25,12 +22,24 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-import installer
-import islr_wh_concept
-import rates
-import invoice
-import islr_wh_doc
-import islr_xml_wh
-import partner
-import product
-import res_company
+from osv import osv
+from osv import fields
+from tools.translate import _
+from tools import config
+import time
+import datetime
+
+class res_company(osv.osv):
+    _name = 'res.company'
+    _inherit = 'res.company'
+
+    _columns = {
+        'automatic_income_wh':fields.boolean('Automatic Income Withhold'),
+    }
+    
+    defaults = {
+        'automatic_income_wh': False,
+    }
+    
+res_company()
+

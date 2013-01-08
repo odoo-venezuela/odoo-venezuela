@@ -56,6 +56,7 @@ If you want be able to propose withholding concepts from sales and purchases you
             "view/wh_islr_view.xml",
             "view/invoice_view.xml",
             "view/partner_view.xml",
+            "view/res_company_view.xml",
             "report/islr_wh_report.xml",
             "view/islr_wh_doc_view.xml",
             "view/islr_wh_concept_view.xml",
