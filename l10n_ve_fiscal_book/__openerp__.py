@@ -30,8 +30,8 @@
 ##############################################################################
 
 {
-    "name" : "Fiscal Report For Venezuela V3",
-    "version" : "0.4",
+    "name" : "Fiscal Report For Venezuela",
+    "version" : "0.5",
     "depends" : ["account","l10n_ve_withholding_iva","l10n_ve_fiscal_requirements","l10n_ve_imex"],
     "author" : "Vauxoo",
     "description" : """
