@@ -30,9 +30,10 @@ class fiscal_book(orm.Model):
     _columns={
         'name':fields.char('Description', size=256, required=True),
         'period_id':fields.many2one('account.period','Period',
-            help="Book's Fiscal Period"),
+            help="Book's Fiscal Period",required=True),
         'type': fields.selection([('sale','Sale Book'),
             ('purchase','Purchase Book')],
-            help='Select Sale for Customers and Purchase for Suppliers'),
+            help='Select Sale for Customers and Purchase for Suppliers',
+            string='Book Type', required=True)
     }
 
