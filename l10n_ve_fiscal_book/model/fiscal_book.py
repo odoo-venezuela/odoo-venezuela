@@ -34,6 +34,8 @@ class fiscal_book(orm.Model):
         'type': fields.selection([('sale','Sale Book'),
             ('purchase','Purchase Book')],
             help='Select Sale for Customers and Purchase for Suppliers',
-            string='Book Type', required=True)
+            string='Book Type', required=True),
+        'invoice_ids':fields.one2many('account.invoice', 'fb_id', 'Invoice',
+            help='Invoice being recorded in a Fiscal book'),
     }
 
