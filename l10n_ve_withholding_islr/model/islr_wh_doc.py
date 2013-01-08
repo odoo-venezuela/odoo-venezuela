@@ -156,6 +156,7 @@ class islr_wh_doc(osv.osv):
         for iwdi_brw in iwd_brw.invoice_ids:
             iwdi_obj.load_taxes(cr, uid, iwdi_brw.id, context=context)    
         return True
+        
     def validate(self, cr,uid,ids,*args):
 
         if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
@@ -253,6 +254,8 @@ class islr_wh_doc(osv.osv):
     def action_cancel(self,cr,uid,ids,context={}):
         #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
             #~ return True
+        self.pool.get('islr.wh.doc'). write(cr,uid,ids,{'automatic_income_wh':False})
+       
         self.cancel_move(cr,uid,ids)
         self.action_cancel_process(cr,uid,ids,context=context)
         return True
