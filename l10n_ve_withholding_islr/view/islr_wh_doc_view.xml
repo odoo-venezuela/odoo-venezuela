@@ -144,7 +144,7 @@
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="date_uid"/>
-                        <field name="automatic_wh" />
+                        <field name="automatic_income_wh" />
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
