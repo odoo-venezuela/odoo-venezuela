@@ -79,31 +79,6 @@ class account_invoice(osv.osv):
     _constraints = [
           (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
          ]
-     
-    def _refund_cleanup_lines(self, cr, uid, lines, context=None):
-        """
-        Method created to clean invoice lines
-        """
-        clean_lines = []
-        for line in lines:
-            clean_line = {}
-            clean_line['id'] = line['id']
-            clean_line['invoice_id'] = line['invoice_id'].id
-            for field in ['company_id', 'partner_id', 'account_id', 
-                'product_id', 'uos_id', 'account_analytic_id', 
-                'invoice_line_tax_id']:
-                if line._all_columns[field].column._type == 'many2one':
-                    clean_line[field] = line[field].id
-                elif line._all_columns[field].column._type not in ['many2many','one2many']:
-                    clean_line[field] = line[field]
-                elif field == 'invoice_line_tax_id':
-                    tax_list = []
-                    for tax in line[field]:
-                        tax_list.append(tax.id)
-                    clean_line[field] = [(6,0, tax_list)]
-            clean_lines.append(clean_line)
-
-        return map(lambda x: (0,0,x), clean_lines)
 
     def copy(self, cr, uid, id, default={}, context=None):
         if context is None:
