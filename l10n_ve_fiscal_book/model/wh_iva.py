@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 ###########################################################################
@@ -25,33 +26,9 @@
 from  openerp.osv import orm, fields
 from tools.translate import _
 
-class fiscal_book(orm.Model):
-
-    def _get_type(self, cr, uid, context=None):
-        context = context or {}
-        return context.get('type', 'purchase')
-
-    _description = "Venezuela's Sale & Purchase Fiscal Books"
-    _name='fiscal.book'
-    _columns={
-        'name':fields.char('Description', size=256, required=True),
-        'company_id':fields.many2one('res.company','Company',
-            help='Company',required=True),
-        'period_id':fields.many2one('account.period','Period',
-            help="Book's Fiscal Period",required=True),
-        'type': fields.selection([('sale','Sale Book'),
-            ('purchase','Purchase Book')],
-            help='Select Sale for Customers and Purchase for Suppliers',
-            string='Book Type', required=True),
-        'invoice_ids':fields.one2many('account.invoice', 'fb_id', 'Invoices',
-            help='Invoices being recorded in a Fiscal Book'),
-        'iwdl_ids':fields.one2many('account.wh.iva.line', 'fb_id', 'Vat Withholdings',
-            help='Vat Withholdings being recorded in a Fiscal Book'),
+class account_wh_iva_line(orm.Model):
+    _inherit= "account.wh.iva.line"
+    _columns = {
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this line is related to'),
     }
-
-    _defaults = {
-        'type': _get_type,
-        'company_id': lambda s,c,u,ctx: \
-            s.pool.get('res.users').browse(c,u,u,context=ctx).company_id.id,
-    }
-

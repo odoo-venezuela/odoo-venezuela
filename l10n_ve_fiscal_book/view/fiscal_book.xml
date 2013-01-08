@@ -92,6 +92,9 @@
                         <page string="Fiscal Book Invoices">
                             <field name="invoice_ids" nolabel="1" colspan='4'/>
                         </page>
+                        <page string="Fiscal Book Vat Withholdings">
+                            <field name="iwdl_ids" nolabel="1" colspan='4'/>
+                        </page>
                     </notebook>
                 </form>
             </field>
