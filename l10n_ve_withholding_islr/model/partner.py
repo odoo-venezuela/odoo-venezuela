@@ -42,6 +42,9 @@ class res_partner(osv.osv):
         'islr_exempt': fields.boolean('Is it exempt from income withholding?'),
     }
     
+    _defaults = {
+        'islr_withholding_agent': lambda *a: True,
+    }
 res_partner()
 
 
