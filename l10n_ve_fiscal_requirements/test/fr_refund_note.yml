@@ -230,7 +230,7 @@
     date_invoice: !eval time.strftime('%Y-%m-%d')
     account_id: account.a_recv
     invoice_line:
-      - product_id: product.product_product_p3
+      - product_id: product.product_product_4
         quantity: 5
         uos_id: product.product_uom_unit
         price_unit: 20
