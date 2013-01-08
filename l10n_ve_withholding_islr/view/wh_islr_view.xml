@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_wh_configuration_islr" name="Withholding Income" parent="l10n_ve_withholding.menu_wh_configuration"/>
+        <menuitem id="menu_wh_configuration_islr" name="Income Withholding" parent="l10n_ve_withholding.menu_wh_configuration"/>
 
     </data>
 </openerp>
