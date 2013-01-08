@@ -153,8 +153,12 @@ class account_invoice(osv.osv):
             'account_id': row.account_id.id,
             'type': row.type,
             'journal_id': wh_doc_obj._get_journal(cr,uid,context=context),
-            'automatic_income_wh': True})
+            'automatic_income_wh': True
+            })
             self._create_doc_invoices(cr,uid,row.id,islr_wh_doc_id)
+            
+            self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid, [islr_wh_doc_id], context=context )
+        
         else:
             raise osv.except_osv(_('Invalid action !'),_("No se ha encontrado el numero de secuencia!"))
 
