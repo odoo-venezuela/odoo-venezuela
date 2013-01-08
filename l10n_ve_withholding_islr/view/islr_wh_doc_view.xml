@@ -241,6 +241,7 @@
                         <field name="period_id"/>
                         <field name="number"/>
                         <field name="date_uid" />
+                        <field name="automatic_income_wh" />
                         <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
