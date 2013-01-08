@@ -41,7 +41,7 @@
         </record>
 
         <record id="trans_islr_xml_paid" model="workflow.transition">
-            <field name="act_from" ref="act_islr_xml"/>
+            <field name="act_from" ref="act_withold_islr"/>
             <field name="act_to" ref="account.act_paid"/>
             <field name="trigger_model">account.move.line</field>
             <field name="trigger_expr_id">move_line_id_payment_get()</field>
