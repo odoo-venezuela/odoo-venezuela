@@ -117,6 +117,7 @@ class islr_wh_doc(osv.osv):
         'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
         'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
+        'automatic_wh' : fields.boolean('Automatic Withhold'),
     }
 
     _defaults = {
