@@ -11,7 +11,6 @@
         <record id="res_partner_wh_islr" model="ir.ui.view">
             <field name="name">res.partner.wh.islr</field>
             <field name="model">res.partner</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
                 <xpath expr="//separator[@string='vsep']" position="after">
