@@ -29,6 +29,5 @@
 #
 ##############################################################################
 
-import model 
-import report
-import wizard
+import invoice 
+import adjustment_book
