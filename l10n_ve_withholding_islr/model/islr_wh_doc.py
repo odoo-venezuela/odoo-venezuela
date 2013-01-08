@@ -96,8 +96,6 @@ class islr_wh_doc(osv.osv):
             ('out_refund','Customer Invoice Refund'),
             ],'Type', readonly=True, help="Voucher type"),
         'state': fields.selection([
-            ('to_process','To Process'),
-            ('progress','Progress'),
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
