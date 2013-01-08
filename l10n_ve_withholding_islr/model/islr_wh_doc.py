@@ -130,6 +130,7 @@ class islr_wh_doc(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
+        'automatic_wh' : False,
     }
 
     def check_income_wh(self, cr, uid, ids, context=None):
