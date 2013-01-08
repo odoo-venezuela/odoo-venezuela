@@ -26,9 +26,16 @@ from  openerp.osv import orm, fields
 from tools.translate import _
 
 class fiscal_book(orm.Model):
+
+    def _get_type(self, cr, uid, context=None):
+        context = context or {}
+        return context.get('type', 'purchase')
+
     _name='fiscal.book'
     _columns={
         'name':fields.char('Description', size=256, required=True),
+        'company_id':fields.many2one('res.company','Company',
+            help='Company',required=True),
         'period_id':fields.many2one('account.period','Period',
             help="Book's Fiscal Period",required=True),
         'type': fields.selection([('sale','Sale Book'),
@@ -37,5 +44,11 @@ class fiscal_book(orm.Model):
             string='Book Type', required=True),
         'invoice_ids':fields.one2many('account.invoice', 'fb_id', 'Invoice',
             help='Invoice being recorded in a Fiscal book'),
+    }
+
+    _defaults = {
+        'type': _get_type,
+        'company_id': lambda s,c,u,ctx: \
+            s.pool.get('res.users').browse(c,u,u,context=ctx).company_id.id,
     }
 
