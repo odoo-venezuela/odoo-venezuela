@@ -111,7 +111,7 @@ class fiscal_book_taxes(orm.Model):
         'tax_amount':fields.float('Taxed Amount',help='Taxed Amount on Taxing Base'),
     }
 
-class adjustment_book_line(osv.osv):
+class adjustment_book_line(orm.Model):
     
     _name='adjustment.book.line'
     _columns={
@@ -163,7 +163,6 @@ class adjustment_book_line(osv.osv):
             help="Amount withheld VAT total"),
         'voucher': fields.char('Voucher Withholding VAT', size=256,
             required=True,help="Voucher Withholding VAT"),
-        'adjustment_id':fields.many2one('adjustment.book','Adjustment Book'),
     }
     _rec_rame = 'partner'
     

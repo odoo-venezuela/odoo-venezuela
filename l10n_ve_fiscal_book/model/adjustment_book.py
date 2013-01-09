@@ -68,7 +68,6 @@ class adjustment_book(osv.osv):
     _columns={
         'name':fields.char('Description', size=256,required=True,help="Description of adjustment book"),
         'period_id':fields.many2one('account.period','Period',required=True,help="Period of adjustment book"),
-        'adjustment_ids': fields.one2many('adjustment.book.line','adjustment_id','Adjustment Book Line'),
         'note': fields.text('Note',required=True),
         'type': fields.selection([
             ('sale','Sale'),
