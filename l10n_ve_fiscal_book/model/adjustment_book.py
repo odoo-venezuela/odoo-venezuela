@@ -152,39 +152,3 @@ class adjustment_book(osv.osv):
     
     
 adjustment_book()
-
-
-class adjustment_book_line(osv.osv):
-    
-    _name='adjustment.book.line'
-    _columns={
-        'date_accounting': fields.date('Date Accounting', required=True,help="Date accounting for adjustment book"),
-        'date_admin': fields.date('Date Administrative',required=True, help="Date administrative for adjustment book"),
-        'vat':fields.char('Vat', size=10,required=True,help="Vat of partner for adjustment book"),
-        'partner':fields.char('Partner', size=256,required=True,help="Partner for adjustment book"),
-        'invoice_number':fields.char('Invoice Number', size=256,required=True,help="Invoice number for adjustment book"),
-        'control_number':fields.char('Invoice Control', size=256,required=True,help="Invoice control for adjustment book"),        
-        'amount':fields.float('Amount Document at Withholding VAT', digits_compute=dp.get_precision('Account'),required=True,help="Amount document for adjustment book"),
-        'type_doc': fields.selection([
-            ('F','Invoice'),
-            ('ND', 'Debit Note'),
-            ('NC', 'Credit Note'),
-            ],'Document Type', select=True, required=True, help="Type of Document for adjustment book: -Invoice(F),-Debit Note(dn),-Credit Note(cn)"),
-        'doc_affected':fields.char('Affected Document', size=256,required=True,help="Affected Document for adjustment book"),
-        'uncredit_fiscal':fields.float('Sin derecho a Credito Fiscal', digits_compute=dp.get_precision('Account'),required=True,help="Sin derechoa credito fiscal"),
-        'amount_untaxed_n': fields.float('Amount Untaxed', digits_compute=dp.get_precision('Account'),required=True,help="Amount untaxed for national operations"),
-        'percent_with_vat_n': fields.float('% Withholding VAT', digits_compute=dp.get_precision('Account'),required=True,help="Percent(%) VAT for national operations"),
-        'amount_with_vat_n': fields.float('Amount Withholding VAT', digits_compute=dp.get_precision('Account'),required=True,help="Percent(%) VAT for national operations"),
-        'amount_untaxed_i': fields.float('Amount Untaxed', digits_compute=dp.get_precision('Account'),required=True,help="Amount untaxed for international operations"),
-        'percent_with_vat_i': fields.float('% Withholding VAT', digits_compute=dp.get_precision('Account'),required=True,help="Percent(%) VAT for international operations"),
-        'amount_with_vat_i': fields.float('Amount Withholding VAT', digits_compute=dp.get_precision('Account'),required=True,help="Amount withholding VAT for international operations"),
-        'amount_with_vat': fields.float('Amount Withholding VAT Total', digits_compute=dp.get_precision('Account'),required=True,help="Amount withheld VAT total"),
-        'voucher': fields.char('Voucher Withholding VAT', size=256,required=True,help="Voucher Withholding VAT"),
-        'adjustment_id':fields.many2one('adjustment.book','Adjustment Book')
-    }
-    _rec_rame = 'partner'
-    
-adjustment_book_line()
-
-
-

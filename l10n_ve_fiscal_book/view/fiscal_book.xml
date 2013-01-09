@@ -89,7 +89,7 @@
             <field name="name">fiscal.book.form</field>
             <field name="model">fiscal.book</field>
             <field name="arch" type="xml">
-                <form string="fiscal Book">
+                <form string="Fiscal Book">
                     <group>
                         <field name="name"/>
                         <field name="type" readonly='1'/>
