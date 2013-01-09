@@ -276,7 +276,7 @@ class account_invoice_refund(osv.osv_memory):
                         
                         new_inv_brw = inv_obj.browse(cr,uid,created_inv[1],context=context)
                         inv_obj.write(cr,uid,created_inv[0],{'name':wzd_brw.description,'origin':new_inv_brw.origin},context=context)
-                        inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'description':''},context=context)
+                        inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'name':''},context=context)
             if inv.type in ('out_invoice', 'out_refund'):
                 xml_id = 'action_invoice_tree3'
                 if hasattr(inv, 'sale_ids'):
@@ -293,11 +293,11 @@ class account_invoice_refund(osv.osv_memory):
             
             if wzd_brw.filter_refund == 'cancel':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
-                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':wzd_brw.description},context=context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'name':wzd_brw.description},context=context)
             
             if wzd_brw.filter_refund == 'refund':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
-                inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'description':wzd_brw.description},context=context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'name':wzd_brw.description},context=context)
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
