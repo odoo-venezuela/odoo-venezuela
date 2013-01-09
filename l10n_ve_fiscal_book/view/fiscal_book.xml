@@ -40,6 +40,18 @@
             </field>
         </record>-->
 
+        <record id="view_fiscal_book_taxes_tree" model="ir.ui.view">
+            <field name="name">fiscal.book.taxes.tree</field>
+            <field name="model">fiscal.book.taxes</field>
+            <field name="arch" type="xml">
+                <tree string="Fiscal Taxes">
+                        <field name="name"/>
+                        <field name="base_amount"/>
+                        <field name="tax_amount"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="view_fiscal_book_tree" model="ir.ui.view">
             <field name="name">fiscal.book.tree</field>
             <field name="model">fiscal.book</field>
@@ -89,6 +101,12 @@
                         <field name="company_id" invisible='1'/>
                     </group>
                     <notebook colspan="8">
+                        <page string="Fiscal Book Lines">
+                            <field name="fbl_ids" nolabel="1" colspan='4'/>
+                        </page>
+                        <page string="Fiscal Book Taxes">
+                            <field name="fbt_ids" nolabel="1" colspan='4'/>
+                        </page>
                         <page string="Fiscal Book Invoices">
                             <field name="invoice_ids" nolabel="1" colspan='4'/>
                         </page>

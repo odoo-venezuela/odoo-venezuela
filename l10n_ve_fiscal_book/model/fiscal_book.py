@@ -43,6 +43,10 @@ class fiscal_book(orm.Model):
             ('purchase','Purchase Book')],
             help='Select Sale for Customers and Purchase for Suppliers',
             string='Book Type', required=True),
+        'fbl_ids':fields.one2many('fiscal.book.lines', 'fb_id', 'Book Lines',
+            help='Lines being recorded in a Fiscal Book'),
+        'fbt_ids':fields.one2many('fiscal.book.taxes', 'fb_id', 'Tax Lines',
+            help='Taxes being recorded in a Fiscal Book'),
         'invoice_ids':fields.one2many('account.invoice', 'fb_id', 'Invoices',
             help='Invoices being recorded in a Fiscal Book'),
         'iwdl_ids':fields.one2many('account.wh.iva.line', 'fb_id', 'Vat Withholdings',
@@ -55,3 +59,29 @@ class fiscal_book(orm.Model):
             s.pool.get('res.users').browse(c,u,u,context=ctx).company_id.id,
     }
 
+class fiscal_book_lines(orm.Model):
+
+    _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
+    _name='fiscal.book.lines'
+    _rec_name='rank'
+    _columns={
+        'rank':fields.integer('Line Position', required=True),
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this line is related to'),
+        'invoice_id':fields.many2one('fiscal.book','Invoice',
+            help='Fiscal Book where this line is related to'),
+        'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
+            help='Fiscal Book where this line is related to'),
+    }
+
+class fiscal_book_taxes(orm.Model):
+
+    _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
+    _name='fiscal.book.taxes'
+    _columns={
+        'name':fields.char('Description', size=256, required=True),
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this line is related to'),
+        'base_amount':fields.float('Taxable Amount',help='Amount used as Taxing Base'),
+        'tax_amount':fields.float('Taxed Amount',help='Taxed Amount on Taxing Base'),
+    }
