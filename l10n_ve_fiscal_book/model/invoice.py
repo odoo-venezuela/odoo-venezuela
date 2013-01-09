@@ -48,13 +48,10 @@ class inherited_invoice(osv.osv):
         '''
         Get Date Invoce 
         '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        if res:
-            for r in res:
-                ret.update({r.id : r.date_invoice})
+        context = context or {}
+        ret = {}.fromkeys(ids,'')
+        for r in self.browse(cr, uid, ids,context=context):
+            ret.update({r.id : r.date_invoice})
 #                ret =r.date_document
         return ret
 
