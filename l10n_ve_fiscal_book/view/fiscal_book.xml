@@ -64,30 +64,26 @@
             </field>
         </record>
 
-        <!--        <record id="view_fiscal_book_line_tree" model="ir.ui.view">
-            <field name="name">fiscal.book.line.tree</field>
-            <field name="model">fiscal.book.line</field>
+        <record id="view_fiscal_book_lines_tree" model="ir.ui.view">
+            <field name="name">fiscal.book.lines.tree</field>
+            <field name="model">fiscal.book.lines</field>
             <field name="arch" type="xml">
-                <tree string="fiscal Book Line">
-                    <field name="date_accounting"/>
-                    <field name="date_admin"/>
-                    <field name="vat"/>
-                    <field name="partner"/>
-                    <field name="invoice_number"/>
-                    <field name="control_number"/>
-                    <field name="amount"/>
-                    <field name="type_doc"/>
-                    <field name="uncredit_fiscal"/>
-                    <field name="doc_affected"/>
-                    <field name="amount_untaxed_n"/>
-                    <field name="percent_with_vat_n"/>
-                    <field name="amount_with_vat_n"/>
-                    <field name="amount_untaxed_i"/>
-                    <field name="percent_with_vat_i"/>
-                    <field name="amount_with_vat_i"/>
+                <tree string="Fiscal Book Lines">
+                    <field name='rank'/>
+                    <field name='get_date_imported'/>
+                    <field name='get_date_invoiced'/>
+                    <field name='get_t_doc'/>
+                    <field name='get_partner_vat'/>
+                    <field name='get_partner_name'/>
+                    <field name='get_reference'/>
+                    <field name='get_number'/>
+                    <field name='get_doc'/>
+                    <field name='get_debit_affected'/>
+                    <field name='get_credit_affected'/>
+                    <field name='get_parent'/>
                 </tree>
             </field>
-        </record>-->
+        </record>
 
         <record id="view_fiscal_bookr_form" model="ir.ui.view">
             <field name="name">fiscal.book.form</field>
