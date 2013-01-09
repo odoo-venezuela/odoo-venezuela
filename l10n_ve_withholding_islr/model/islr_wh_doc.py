@@ -148,6 +148,12 @@ class islr_wh_doc(osv.osv):
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
 
+    def check_auto_wh(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        obj = self.browse(cr, uid, ids[0],context=context)
+        return obj.automatic_income_wh or False
+
     def compute_amount_wh(self, cr, uid, ids, context=None):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
