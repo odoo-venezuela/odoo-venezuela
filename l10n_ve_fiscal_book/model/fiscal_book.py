@@ -43,6 +43,8 @@ class fiscal_book(orm.Model):
             ('purchase','Purchase Book')],
             help='Select Sale for Customers and Purchase for Suppliers',
             string='Book Type', required=True),
+        'base_amount':fields.float('Taxable Amount',help='Amount used as Taxing Base'),
+        'tax_amount':fields.float('Taxed Amount',help='Taxed Amount on Taxing Base'),
         'fbl_ids':fields.one2many('fiscal.book.lines', 'fb_id', 'Book Lines',
             help='Lines being recorded in a Fiscal Book'),
         'fbt_ids':fields.one2many('fiscal.book.taxes', 'fb_id', 'Tax Lines',

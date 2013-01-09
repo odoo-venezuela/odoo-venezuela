@@ -114,6 +114,10 @@
                             <field name="iwdl_ids" nolabel="1" colspan='4'/>
                         </page>
                     </notebook>
+                    <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
+                        <field name="base_amount"/>
+                        <field name="tax_amount"/>
+                    </group>
                 </form>
             </field>
         </record>
