@@ -111,6 +111,70 @@
                         </page>
                         <page string="Fiscal Book Adjustments">
                             <field name="abl_ids" nolabel="1" colspan='4'/>
+                            <group col="8" colspan="8">
+                                <field name="amount_total"/>
+                                <field name="uncredit_fiscal_total"/>
+                                <field name="amount_with_vat_total"/>
+                                <field name="amount_untaxed_n_total"/>
+                                <field name="amount_with_vat_n_total"/>
+                                <field name="amount_untaxed_i_total"/>
+                                <field name="amount_with_vat_i_total"/>
+                            </group>
+                            <group col="4" colspan="4">
+                                <separator string="Explanation about this adjustment"/>
+                                <newline/>
+                                <field name="note" nolabel="1"/>
+                            </group>
+                        </page>
+                        <page string="Adjustment Summary">
+                            <notebook colspan="8">
+                                <page string="Base Imponible" >
+                                    <field name="no_grav" colspan="4"/>
+                                    <group colspan="4" col="6">
+                                        <group colspan="4" col="2">
+                                        <separator string="Internacionales" colspan="4"/>
+                                        <field name="vat_general_i" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_general_add_i" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_reduced_i" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="sale_export" attrs="{'readonly':[('type','=','purchase')]}"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Nacionales" colspan="2"/>
+                                        <field name="vat_general_n"/>
+                                        <field name="vat_general_add_n"/>
+                                        <field name="vat_reduced_n"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Total y Ajuste" colspan="2"/>
+                                        <field name="adjustment" colspan="4"/>
+                                        <field name="amount_base_total" colspan="4"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Porcentaje Fiscal" >
+                                    <field name="no_grav" colspan="4"/>
+                                    <group colspan="4" col="6">
+                                        <group colspan="4" col="2">
+                                        <separator string="Internacionales" colspan="4"/>
+                                        <field name="vat_general_icf" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_general_add_icf" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_reduced_icf" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="sale_export_cf" attrs="{'readonly':[('type','=','purchase')]}"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Nacionales" colspan="2"/>
+                                        <field name="vat_general_ncf"/>
+                                        <field name="vat_general_add_ncf"/>
+                                        <field name="vat_reduced_ncf"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Total y Ajuste" colspan="2"/>
+                                        <field name="adjustment_cf" colspan="4"/>
+                                        <field name="amount_percent_total" colspan="4"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
                         </page>
                     </notebook>
                     <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
