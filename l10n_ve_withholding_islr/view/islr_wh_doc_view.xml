@@ -21,19 +21,21 @@
             </field>
         </record>
 
-        <record id="view_islr_wh_doc_invoices_form_" model="ir.ui.view">
-            <field name="name">islr.wh.doc.invoices_form</field>
+<!--
+        <record id="view_islr_wh_doc_invoices_form_customer" model="ir.ui.view">
+            <field name="name">islr.wh.doc.invoices_customer_form</field>
             <field name="model">islr.wh.doc.invoices</field>
             <field name="arch" type="xml">
                 <form string="Invoices">
                     <field
                         name="invoice_id"
 
-                        domain="[('partner_id','=',parent.partner_id),('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
+                        domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
+
                         colspan='6'/>
                     <newline/>
  
-                    <field name="islr_wh_concept_ids" nolabel="1"  colspan='4'>
+                    <field name="islr_wh_concept_ids" nolabel="1" colspan='4' > 
                         <tree string="Detail of the Concept of Income Withholding">
                             <field name="name"/>
                             <field name="withholdable"/>
@@ -48,6 +50,39 @@
                 </form>
             </field>
         </record>
+-->
+<!--
+        
+        <record id="view_islr_wh_doc_invoices_form_supplier" model="ir.ui.view">
+            <field name="name">islr.wh.doc.invoices_supplier_form</field>
+            <field name="model">islr.wh.doc.invoices</field>
+            <field name="arch" type="xml">
+                <form string="Invoices">
+                    <field
+                        name="invoice_id"
+
+                        domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
+
+                        colspan='6'/>
+                    <newline/>
+ 
+                    <field name="islr_xml_id" nolabel="1"  colspan='4' > 
+                        <tree string="Detail of the Concept of Income Withholding">
+                            <field name="concept_code"/>
+                            <field name="rate_id"/>
+                            <field name="wh"/>
+                            <field name="porcent_rete"/>
+                            <field name="base"/>
+                        </tree>
+                    </field>
+                    
+                    <field name="amount_islr_ret"/>
+                    <field name="base_ret"/>
+                    <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                </form>
+            </field>
+        </record>
+-->
 
     <!-- 
     =====================================================
@@ -150,7 +185,26 @@
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
-                                    <field name='invoice_ids' nolabel='1'/>
+                                    <field name='invoice_ids' nolabel='1'>
+                                        <form string="Invoices">
+                                            <field
+                                                name="invoice_id"
+                                                domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
+                                                colspan='6'/>
+                                            <newline/>
+                                            <field name="islr_wh_concept_ids" nolabel="1" colspan='4' > 
+                                                <tree string="Detail of the Concept of Income Withholding">
+                                                    <field name="name"/>
+                                                    <field name="withholdable"/>
+                                                    <field name="property_retencion_islr_payable"/>
+                                                    <field name="property_retencion_islr_receivable"/>
+                                                </tree>
+                                            </field>
+                                            <field name="amount_islr_ret"/>
+                                            <field name="base_ret"/>
+                                            <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                        </form>
+                                    </field>
                                 </page>
                                 <page string="Invoices">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
@@ -248,7 +302,29 @@
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
-                                    <field name="invoice_ids" nolabel='1'/>
+                                    <field name="invoice_ids" nolabel='1'>
+                                        <form string="Invoices">
+                                            <field
+                                                name="invoice_id"
+                                                domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
+                                                colspan='6'/>
+                                            <newline/>
+                         
+                                            <field name="islr_xml_id" nolabel="1"  colspan='4' > 
+                                                <tree string="Detail of the Concept of Income Withholding">
+                                                    <field name="concept_code"/>
+                                                    <field name="rate_id"/>
+                                                    <field name="wh"/>
+                                                    <field name="porcent_rete"/>
+                                                    <field name="base"/>
+                                                </tree>
+                                            </field>
+                                            
+                                            <field name="amount_islr_ret"/>
+                                            <field name="base_ret"/>
+                                            <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                        </form>
+                                    </field>
                                 </page>
                                 <page string="Invoices" invisible='1'>
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
