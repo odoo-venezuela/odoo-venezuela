@@ -465,6 +465,8 @@ class islr_wh_doc_invoices(osv.osv):
         'islr_xml_id':fields.one2many('islr.xml.wh.line','islr_wh_doc_inv_id','Withholding Lines'),
         'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
+    
+        'islr_wh_concept_ids':fields.one2many('islr.wh.concept','islr_wh_doc_id','Concept Withholding Lines'),
     }
     _rec_rame = 'invoice_id'
     
