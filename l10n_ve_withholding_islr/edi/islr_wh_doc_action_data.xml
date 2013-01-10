@@ -8,7 +8,7 @@ if not object.partner_id.opt_out: object.edi_export_and_email(template_ext_id='l
             </field>
             <field name="state">code</field>
             <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="l10n_ve_withholding_islr.model_islr_wh_doc"/>
+            <field name="model_id" ref="model_islr_wh_doc"/>
             <field name="condition">True</field>
             <field name="name">Auto-email confirmed islr wh docs</field>
         </record>
@@ -53,7 +53,7 @@ if not object.partner_id.opt_out: object.edi_export_and_email(template_ext_id='l
             <field name="subject">${object.company_id.name} Order (Ref ${object.name or 'n/a' })</field>
             <field name="email_to">${object.partner_id.email}</field>
             <field name="model_id" ref="l10n_ve_withholding_islr.model_islr_wh_doc"/>
-            <field name="report_template" ref="l10n_ve_withholding_islr.voucher_report_withholding_islr"/>
+            <field name="report_template" ref="voucher_report_withholding_islr"/>
             <field name="auto_delete" eval="True"/>
             <field name="lang">${object.partner_id.lang}</field>
             <field name="body_html"><![CDATA[
