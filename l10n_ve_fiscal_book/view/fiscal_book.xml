@@ -89,7 +89,11 @@
             <field name="name">fiscal.book.form</field>
             <field name="model">fiscal.book</field>
             <field name="arch" type="xml">
-                <form string="Fiscal Book">
+                <form string="Fiscal Book" version="7.0">
+                    <header>
+                        <button name='method' type='object' string='Click on Me!!!'/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
+                    </header>
                     <group>
                         <field name="name"/>
                         <field name="type" readonly='1'/>
@@ -181,6 +185,10 @@
                         <field name="base_amount"/>
                         <field name="tax_amount"/>
                     </group>
+                    <div class="oe_chatter">
+<!--                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>-->
+                    </div>
                 </form>
             </field>
         </record>

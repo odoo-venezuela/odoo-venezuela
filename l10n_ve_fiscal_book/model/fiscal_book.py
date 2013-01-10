@@ -73,6 +73,9 @@ class fiscal_book(orm.Model):
             help='Company',required=True),
         'period_id':fields.many2one('account.period','Period',
             help="Book's Fiscal Period",required=True),
+        'state': fields.selection([('draft','Getting Ready'),
+            ('open','Approved by Manager'),('done','Seniat Submitted')],
+            string='Status', required=True),
         'type': fields.selection([('sale','Sale Book'),
             ('purchase','Purchase Book')],
             help='Select Sale for Customers and Purchase for Suppliers',
@@ -185,6 +188,7 @@ class fiscal_book(orm.Model):
     }
 
     _defaults = {
+        'state': 'draft',
         'type': _get_type,
         'company_id': lambda s,c,u,ctx: \
             s.pool.get('res.users').browse(c,u,u,context=ctx).company_id.id,
