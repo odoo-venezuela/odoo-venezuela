@@ -1,44 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!--<record id="view_fiscal_book_line_line_form" model="ir.ui.view">
-            <field name="name">fiscal.book.line.form</field>
-            <field name="model">fiscal.book.line</field>
+        <record id="view_fiscal_book_lines_form" model="ir.ui.view">
+            <field name="name">fiscal.book.lines.form</field>
+            <field name="model">fiscal.book.lines</field>
             <field name="arch" type="xml">
-                <form string="fiscal Book Line">
-                    <group col="4" colspan="4">
-                        <field name="date_accounting" select="1"/>
-                        <field name="date_admin" select="1"/>
-                        <field name="vat" select="1"/>
-                        <field name="partner" select="1"/>
-                        <field name="invoice_number" select="1"/>
-                        <field name="control_number" select="1"/>
-                        <field name="amount"/>
-                        <field name="type_doc"/>
-                        <field name="doc_affected"/>
-                        <field name="uncredit_fiscal"/>
-                        <field name="amount_with_vat"/>
-                        <field name="voucher"/>
-                    </group>
-                    <newline/>
-                    <separator string="National Operations" colspan="6"/>
-                    <newline/>
-                    <group col="4" colspan="4">
-                        <field name="amount_untaxed_n"/>
-                        <field name="percent_with_vat_n"/>
-                        <field name="amount_with_vat_n"/>
-                    </group>
-                    <newline/>
-                    <separator string="International Operations" colspan="6"/>
-                    <newline/>
-                    <group col="4" colspan="4">
-                        <field name="amount_untaxed_i"/>
-                        <field name="percent_with_vat_i"/>
-                        <field name="amount_with_vat_i"/>
-                    </group>
+                <form string="Fiscal Book Lines">
+                    <field name='rank'/>
+                    <field name='get_date_imported'/>
+                    <field name='get_date_invoiced'/>
+                    <field name='get_t_doc'/>
+                    <field name='get_partner_vat'/>
+                    <field name='get_partner_name'/>
+                    <field name='get_reference'/>
+                    <field name='get_number'/>
+                    <field name='get_doc'/>
+                    <field name='get_debit_affected'/>
+                    <field name='get_credit_affected'/>
+                    <field name='get_parent'/>
+                    <field name='fblt_ids'/>
                 </form>
             </field>
-        </record>-->
+        </record>
 
         <record id="view_fiscal_book_taxes_tree" model="ir.ui.view">
             <field name="name">fiscal.book.taxes.tree</field>
@@ -81,6 +64,7 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
+                    <field name='fblt_ids'/>
                 </tree>
             </field>
         </record>

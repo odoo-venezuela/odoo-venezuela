@@ -234,6 +234,18 @@ class fiscal_book_lines(orm.Model):
             string='Affected Credit Notes',help=''),
         'get_parent':fields.related('invoice_id','get_parent',
             string='Affected Document',help=''),
+        'fblt_ids':fields.one2many('fiscal.book.lines.taxes', 'fbl_id', 'Tax Lines',
+            help='Tax Lines being recorded in a Fiscal Book'),
+    }
+
+class fiscal_book_lines_taxes(orm.Model):
+
+    _name='fiscal.book.lines.taxes'
+    _rec_name='ait_id'
+    _columns={
+        'ait_id':fields.many2one('account.invoice.tax','Invoice Taxes'),
+        'fbl_id':fields.many2one('fiscal.book.lines','Fiscal Book Lines',
+            help='Fiscal Book Lines where this line is related to'),
     }
 
 class fiscal_book_taxes(orm.Model):
