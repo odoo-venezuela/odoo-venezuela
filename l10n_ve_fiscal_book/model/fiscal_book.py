@@ -54,6 +54,8 @@ class fiscal_book(orm.Model):
             help='Invoices being recorded in a Fiscal Book'),
         'iwdl_ids':fields.one2many('account.wh.iva.line', 'fb_id', 'Vat Withholdings',
             help='Vat Withholdings being recorded in a Fiscal Book'),
+        'abl_ids':fields.one2many('adjustment.book.line', 'fb_id', 'Adjustment Lines',
+            help='Adjustment Lines being recorded in a Fiscal Book'),
     }
 
     _defaults = {
@@ -163,6 +165,8 @@ class adjustment_book_line(orm.Model):
             help="Amount withheld VAT total"),
         'voucher': fields.char('Voucher Withholding VAT', size=256,
             required=True,help="Voucher Withholding VAT"),
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this line is related to'),
     }
     _rec_rame = 'partner'
     
