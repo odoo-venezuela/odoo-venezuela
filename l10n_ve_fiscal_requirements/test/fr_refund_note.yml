@@ -103,10 +103,10 @@
     for line in rf_brw.invoice_line:
       for tax in line.invoice_line_tax_id:
         tax1.append(tax.id)
-    rf_brw = self.browse(cr, uid, ai_id[0])
+    rf_brw = ai_id and self.browse(cr, uid, ai_id[0])
     tax2 = []
     whc2 = []
-    for line in rf_brw.invoice_line:
+    for line in rf_brw and rf_brw.invoice_line:
       for tax in line.invoice_line_tax_id:
         tax2.append(tax.id)
     tax1 = set(tax1)
