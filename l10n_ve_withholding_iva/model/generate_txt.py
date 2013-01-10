@@ -39,6 +39,7 @@ class txt_iva(osv.osv):
     _name = "txt.iva"
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
+        context = context or {}
         res = {}
         for txt in self.browse(cr,uid,ids,context):
             res[txt.id]=0.0
@@ -50,6 +51,7 @@ class txt_iva(osv.osv):
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
+        context = context or {}
         res = {}
         for txt in self.browse(cr,uid,ids,context):
             res[txt.id]= 0.0
@@ -83,12 +85,13 @@ class txt_iva(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
-        'type': lambda *a:'True',
+        'type': lambda *a:True,
         'period_id': lambda self,cr,uid,context: self.period_return(cr,uid,context),
         'name':lambda self,cr,uid,context : 'Withholding Vat '+time.strftime('%m/%Y')
         }
 
-    def period_return(self,cr,uid,contex=None):
+    def period_return(self,cr,uid,context=None):
+        context = context or {}
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
         period_id = period_obj.search(cr,uid,[('code','=',fecha)])
@@ -97,19 +100,23 @@ class txt_iva(osv.osv):
         else:
             return False
     
-    def name_get(self, cr, uid, ids, context={}):
+    def name_get(self, cr, uid, ids, context=None):
+        context = context or {}
         if not len(ids):
             return []
         res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
         return res 
 
-    def action_anular(self, cr, uid, ids, context={}):
+    def action_anular(self, cr, uid, ids, context=None):
+        context = context or {}
         return self.write(cr, uid, ids, {'state':'draft'})
 
-    def action_confirm(self, cr, uid, ids, context={}):
+    def action_confirm(self, cr, uid, ids, context=None):
+        context = context or {}
         return self.write(cr, uid, ids, {'state':'confirmed'})
 
-    def action_generate_lines_txt(self,cr,uid,ids,context={}):
+    def action_generate_lines_txt(self,cr,uid,ids,context=None):
+        context = context or {}
         voucher_obj = self.pool.get('account.wh.iva')
         txt_iva_obj = self.pool.get('txt.iva.line')
         voucher_ids=''
@@ -139,7 +146,8 @@ class txt_iva(osv.osv):
                     })
         return True
 
-    def action_done(self, cr, uid, ids, context={}):
+    def action_done(self, cr, uid, ids, context=None):
+        context = context or {}
         root = self.generate_txt(cr,uid,ids)
         self._write_attachment(cr,uid,ids,root,context)
         self.write(cr, uid, ids, {'state':'done'})
@@ -154,7 +162,8 @@ class txt_iva(osv.osv):
             type= '02'
         return type
 
-    def get_document_affected(self,cr,uid,txt_line,context={}):
+    def get_document_affected(self,cr,uid,txt_line,context=None):
+        context = context or {}
         number='0'
         if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
             number = txt_line.invoice_id.parent_id.reference
@@ -175,7 +184,8 @@ class txt_iva(osv.osv):
                     result = i + result
         return result[::-1].strip()
 
-    def get_document_number(self,cr,uid,ids,txt_line,inv_type,context={}):
+    def get_document_number(self,cr,uid,ids,txt_line,inv_type,context=None):
+        context = context or {}
         number=0
         if txt_line.invoice_id.type in ['in_invoice','in_refund']:
             if not txt_line.invoice_id.reference:
@@ -218,7 +228,8 @@ class txt_iva(osv.osv):
                 list.append(0)
         return max(list)
 
-    def generate_txt(self,cr,uid,ids,context={}):
+    def generate_txt(self,cr,uid,ids,context=None):
+        context = context or {}
         txt_string = ''
         for txt in self.browse(cr,uid,ids,context):
             vat = txt.company_id.partner_id.vat[2:]
@@ -246,7 +257,8 @@ class txt_iva(osv.osv):
                  +'\n'
         return txt_string
         
-    def _write_attachment(self, cr,uid,ids,root,context={}):
+    def _write_attachment(self, cr,uid,ids,root,context=None):
+        context = context or {}
         '''
         Encrypt txt, save it to the db and view it on the client as an attachment
         '''

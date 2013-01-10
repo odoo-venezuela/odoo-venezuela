@@ -29,7 +29,7 @@ from osv import fields, osv
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     _columns = {
-        'ret': fields.boolean('Withholdable', help="Indicate if the tax must be withholded"),
+        'ret': fields.boolean('Withholdable', help="Indicate if the tax must be withheld"),
         'wh_vat_collected_account_id': fields.many2one(
             'account.account',
             type='many2one',
