@@ -67,6 +67,7 @@ class fiscal_book(orm.Model):
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
+    _inherit = ['mail.thread']
     _columns={
         'name':fields.char('Description', size=256, required=True),
         'company_id':fields.many2one('res.company','Company',
