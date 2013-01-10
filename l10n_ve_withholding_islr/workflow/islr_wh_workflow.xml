@@ -24,8 +24,7 @@ write({'state':'progress'})</field>
 
         <record id="act_confirmed" model="workflow.activity">
             <field name="wkf_id" ref="wh_islr_order"/>
-            <field name="action">action_number()
-write({'state':'confirmed'})</field>
+            <field name="action">action_confirm()</field>
             <field name="kind">function</field>
             <field name="name">confirmed</field>
         </record>
@@ -34,7 +33,8 @@ write({'state':'confirmed'})</field>
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="kind">function</field>
             <field name="name">done</field>
-            <field name="action">action_move_create()
+            <field name="action">action_number()
+action_move_create()
 write({'state':'done'})</field>
         </record>
         
@@ -63,7 +63,8 @@ write({'state':'cancel'})</field>
         <record id="trans_draft_confirmed" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_confirmed"/>
-            <field name="condition">validate(type,concept_ids,invoice_ids)</field>
+            <field name="condition">check_income_wh()</field>
+            <field name="signal">act_confirm</field>
         </record>
         
         <record id="trans_draft_progress" model="workflow.transition">
@@ -82,7 +83,8 @@ write({'state':'cancel'})</field>
         <record id="trans_progress_confirmed" model="workflow.transition">
             <field name="act_from" ref="act_progress"/>
             <field name="act_to" ref="act_confirmed"/>
-            <field name="signal">act_confirmed</field>
+            <field name="condition">True</field>
+            <field name="signal"></field>
         </record>
 
         <record id="trans_confirmed_cancel" model="workflow.transition">

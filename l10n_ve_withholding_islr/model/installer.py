@@ -74,24 +74,24 @@ class wh_islr_config(osv.osv_memory):
             self._set_wh_agent(cr, uid)
 
     _columns = {
-        'journal_purchase': fields.char("Journal Wh Income Purchase", 64, help="Journal for purchase operations involving Withholding Income"),
-        'journal_sale': fields.char("Journal Wh Income Sale", 64, help="Journal for sale operations involving Withholding Income"),
+        'journal_purchase': fields.char("Journal Wh Income Purchase", 64, help="Journal for purchase operations involving Income Withholding"),
+        'journal_sale': fields.char("Journal Wh Income Sale", 64, help="Journal for sale operations involving Income Withholding"),
         'account_purchase': fields.many2one(
             "account.account",
-            "Account Withholding Income Purchase",
-            help="Account for purchase operations involving Withholding Income"
+            "Account Income Withholding Purchase",
+            help="Account for purchase operations involving Income Withholding"
         ),
         'account_sale': fields.many2one(
             "account.account",
-            "Account Withholding Income Sale",
-            help="Account for sale operations involving Withholding Income",
+            "Account Income Withholding Sale",
+            help="Account for sale operations involving Income Withholding",
         ),
-        'wh_agent': fields.boolean("Withholding Income Agent", help="Check if this company is a withholding income agent"),
+        'wh_agent': fields.boolean("Income Withholding Agent", help="Check if this company is a income withholding agent"),
     }
 
     _defaults = {
-        'journal_purchase': _("Journal Withholding Income Purchase"),
-        'journal_sale': _("Journal Withholding Income Sale"),
+        'journal_purchase': _("Journal Income Withholding Purchase"),
+        'journal_sale': _("Journal Income Withholding Sale"),
     }
 
 wh_islr_config()

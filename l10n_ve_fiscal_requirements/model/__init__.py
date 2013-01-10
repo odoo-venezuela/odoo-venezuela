@@ -25,6 +25,7 @@
 import account 
 import invoice
 import partner
+import res_users
 import res_company
 import seniat_url
 import l10n_ut
