@@ -66,44 +66,8 @@ class adjustment_book(osv.osv):
 
     _name='adjustment.book'
     _columns={
-        'name':fields.char('Description', size=256,required=True,help="Description of adjustment book"),
-        'period_id':fields.many2one('account.period','Period',required=True,help="Period of adjustment book"),
-        'note': fields.text('Note',required=True),
-        'type': fields.selection([
-            ('sale','Sale'),
-            ('purchase', 'Purchase'),
-            ],'Type', select=True, required=True, help="Type of adjustment book: Sale or Purchase"),
-        'amount_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Amount Total Withholding VAT',readonly=True,help="Amount Total for adjustment book of invoice"),
-        'amount_untaxed_n_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Amount Untaxed National',readonly=True,help="Amount Total Untaxed for adjustment book of nacional operations"),
-        'amount_with_vat_n_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Amount Withheld National',readonly=True,help="Amount Total Withheld for adjustment book of national operations"),
-        'amount_untaxed_i_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Amount Untaxed International',readonly=True,help="Amount Total Untaxed for adjustment book of internacional operations"),
-        'amount_with_vat_i_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Amount Withheld International',readonly=True,help="Amount Total Withheld for adjustment book of international operations"),
-        'uncredit_fiscal_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Sin derecho a credito fiscal',readonly=True,help="Sin derecho a credito fiscal"),
-        'amount_with_vat_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Amount Withholding VAT Total',readonly=True,help="Amount Total Withholding VAT for adjustment book"),
-        'no_grav': fields.float('Compras/Ventas no Gravadas y/o SDCF',  digits_compute=dp.get_precision('Account'),help="Compras/Ventas no gravadas y/o sin derecho a credito fiscal/ Ventas Internas no grabadas"),
-        'vat_general_i': fields.float('Alicuota general',  digits_compute=dp.get_precision('Account'), help="Importaciones gravadas por alicuota general"),
-        'vat_general_add_i': fields.float('Alicuota general + Alicuota adicional',  digits_compute=dp.get_precision('Account'),help="Importaciones gravadas por alicuota general mas alicuota adicional"),
-        'vat_reduced_i': fields.float('Alicuota Reducida',  digits_compute=dp.get_precision('Account'),help="Importaciones gravadas por alicuota reducida"),
-        'vat_general_n': fields.float('Alicuota general',  digits_compute=dp.get_precision('Account'),help="Compras gravadas por alicuota general/Ventas internas gravadas por alicuota general"),
-        'vat_general_add_n': fields.float('Alicuota general + Alicuota adicional',  digits_compute=dp.get_precision('Account'),help="Compras/Ventas internas gravadas por alicuota general mas alicuota adicional"),
-        'vat_reduced_n': fields.float('Alicuota Reducida',  digits_compute=dp.get_precision('Account'),help="Compras/Ventas Internas gravadas por alicuota reducida"),
-        'adjustment': fields.float('Ajustes',  digits_compute=dp.get_precision('Account'),help="Ajustes a los creditos/debitos fiscales de los periodos anteriores"),
-        'vat_general_icf': fields.float('Alicuota general',  digits_compute=dp.get_precision('Account'), help="Importaciones gravadas por alicuota general"),
-        'vat_general_add_icf': fields.float('Alicuota general + Alicuota adicional',  digits_compute=dp.get_precision('Account'),help="Importaciones gravadas por alicuota general mas alicuota adicional"),
-        'vat_reduced_icf': fields.float('Alicuota Reducida',  digits_compute=dp.get_precision('Account'),help="Importaciones gravadas por alicuota reducida"),
-        'vat_general_ncf': fields.float('Alicuota general',  digits_compute=dp.get_precision('Account'),help="Compras gravadas por alicuota general/Ventas internas gravadas por alicuota general"),
-        'vat_general_add_ncf': fields.float('Alicuota general + Alicuota adicional',  digits_compute=dp.get_precision('Account'),help="Compras/Ventas internas gravadas por alicuota general mas alicuota adicional"),
-        'vat_reduced_ncf': fields.float('Alicuota Reducida',  digits_compute=dp.get_precision('Account'),help="Compras/Ventas Internas gravadas por alicuota reducida"),
-        'adjustment_cf': fields.float('Ajustes',  digits_compute=dp.get_precision('Account'),help="Ajustes a los creditos/debitos fiscales de los periodos anteriores"),
-        'amount_base_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Total Base Imponible',readonly=True,help="TOTAL COMPRAS DEL PERIODO/TOTAL VENTAS PARA EFECTOS DE DETERMINACION"),
-        'amount_percent_total':fields.function(_get_amount_total,multi='all',method=True, digits_compute=dp.get_precision('Account'),string='Total % Fiscal',readonly=True,help="TOTALCREDITOS FISCALES DEL PERIODO/TOTAL DEBITOS FISCALES PARA EFECTOS DE DETERMINACION"),
-        'sale_export':fields.float('Ventas de Exportacion',  digits_compute=dp.get_precision('Account'),help="Ventas de Exportacion"),
-        'sale_export_cf':fields.float('Ventas de Exportacion',  digits_compute=dp.get_precision('Account'),help="Ventas de Exportacion"),
     }
 
-    _sql_constraints = [
-        ('period_id_type_uniq', 'unique (period_id,type)', 'The period and type combination must be unique!')
-    ]
     
     
     #~ def action_set_totals(self,cr,uid,ids, *args):
