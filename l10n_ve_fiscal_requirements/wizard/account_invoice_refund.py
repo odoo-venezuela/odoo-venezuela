@@ -279,9 +279,9 @@ class account_invoice_refund(osv.osv_memory):
                         inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'name':''},context=context)
             if inv.type in ('out_invoice', 'out_refund'):
                 xml_id = 'action_invoice_tree3'
-                if hasattr(inv, 'sale_ids'):
-                    for i in inv.sale_ids:
-                        cr.execute('insert into sale_order_invoice_rel (order_id,invoice_id) values (%s,%s)', (i.id, refund_id[0]))
+                #~ if hasattr(inv, 'sale_ids'):
+                    #~ for i in inv.sale_ids:
+                        #~ cr.execute('insert into sale_order_invoice_rel (order_id,invoice_id) values (%s,%s)', (i.id, refund_id[0]))
             else:
                 xml_id = 'action_invoice_tree4'
             result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
