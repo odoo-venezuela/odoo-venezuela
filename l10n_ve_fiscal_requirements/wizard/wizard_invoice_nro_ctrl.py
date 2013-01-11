@@ -63,7 +63,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         tax = tax_obj.search(cr,uid,[('invoice_id','=',inv_brw and inv_brw.id)],context=context)
         tax and tax_obj.write(cr,uid,tax[0],{'invoice_id':[]},context=context)
         tax_id=tax_obj.create(cr,uid,{'name':'SDCF',
-                         'tax_code_id': tax_ids and tax_ids[0],
+                         'tax_id': tax_ids and tax_ids[0],
                          'amount':0.00,
                          'tax_amount':0.00,
                          'base':0.00,
