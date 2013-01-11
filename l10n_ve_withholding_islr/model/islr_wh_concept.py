@@ -38,7 +38,7 @@ class islr_wh_concept(osv.osv):
     Model to create the withholding concepts
     '''
     _name='islr.wh.concept'
-    _description = 'Withholding Income Concept'
+    _description = 'Income Withholding Concept'
 
     _columns={
         'name':fields.char('Withholding Concept', translate=True,size=256,required=True,help="Name of Withholding Concept,  Example: Honorarios Profesionales, Comisiones a..."),

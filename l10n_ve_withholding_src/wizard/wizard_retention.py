@@ -5,11 +5,10 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
-#    Planified by: Humberto Arocha / Nhomar Hernandez
+#    Coded by: Vauxoo C.A.           
+#    Planified by: Humberto Arocha
 #    Audited by: Vauxoo C.A.
 #############################################################################
-#    Copyright (c) 2009 Latinux Inc (http://www.latinux.com/) All Rights Reserved.
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -24,19 +23,37 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-from osv import fields, osv
+import wizard
+from osv import osv
+from osv import fields
 from tools.translate import _
-import decimal_precision as dp
-import netsvc
 
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    logger = netsvc.Logger()
+class wiz_retention(osv.osv_memory):
+    _name = 'wiz.retention'
+    _description = "Wizard that changes the retention value"
+
+    def set_retention(self, cr, uid, ids, context=None):
+        if context is None:
+            context={}
+        data = self.pool.get('wiz.retention').read(cr, uid, ids)[0]
+        if not data['sure']:
+            raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
+        
+        inv_obj = self.pool.get('account.invoice')
+        n_retention = data['name']
+                
+        if n_retention and n_retention > 5:
+            raise osv.except_osv(_("Error!"), _("Maximum retention is 5%"))
+        else:
+            invoice = inv_obj.browse(cr, uid, context['active_id'])
+            inv_obj.write(cr, uid, context.get('active_id'), {'wh_src_rate': n_retention}, context=context)
+        
+        return {}
+
     _columns = {
-        'wh_src_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
-        'wh_src_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
+        'name': fields.float('Retention Value', required=True),
+        'sure': fields.boolean('Are you sure?'),
     }
-    _defaults = {
-        'wh_src_rate': lambda *a: 0,
-    }
-res_partner()
+    
+wiz_retention()
+

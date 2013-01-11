@@ -26,4 +26,5 @@
 import wh_src
 import invoice
 import res_company
+import partner
 

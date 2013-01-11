@@ -51,6 +51,45 @@ class account_wh_src(osv.osv):
             res.append((move.id, name))
         return res
 
+    def _get_uid_wh_agent(self, cr, uid, context=None):
+        context = context or {}
+        user_wh_agent = self.pool.get('res.partner').browse(cr, uid, uid, context=context).wh_src_agent
+        return user_wh_agent
+
+    def _get_partner_agent(self, cr, uid, context=None):
+        context = context or {}
+        
+        obj_partner = self.pool.get('res.partner')
+        
+        if context.get('type') in ('out_invoice'):
+            partner_ids = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
+            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
+        else:
+            partner_ids = obj_partner.search(cr, uid, [])
+            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
+        
+        l = map(lambda x: x.id, partner_brw)
+        
+        return l
+
+    def default_get(self, cr, uid, fields, context=None):
+        context = context or {}
+        res = super(account_wh_src, self).default_get(cr, uid, fields, context=context)
+        res.update({'uid_wh_agent': self._get_uid_wh_agent(cr,uid,context=context) })
+        res.update({'partner_list': self._get_partner_agent(cr,uid,context=context) })
+        
+        return res
+
+    def _get_p_agent(self, cr, uid, ids, field_name, args, context=None):
+        context = context or {}
+        res= {}.fromkeys(ids,self._get_partner_agent(cr,uid,context=context))
+        return res 
+
+    def _get_wh_agent(self, cr, uid, ids, field_name, args, context=None):
+        context = context or {}
+        res= {}.fromkeys(ids,self._get_uid_wh_agent(cr,uid,context=context))
+        return res 
+
     _name = "account.wh.src"
     _description = "Social Responsibility Commitment Withholding"
     _columns = {
@@ -77,7 +116,9 @@ class account_wh_src(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'wh_amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
-     
+        
+        'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", store=False),
+        'partner_list' : fields.function(_get_p_agent, type='char', string='Lista', store=False, method=False),
 
     } 
     
@@ -208,7 +249,7 @@ class account_wh_src(osv.osv):
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
         
-        context.update({'src_wh':True})
+        context.update({'wh_src':True})
         
         ret = self.browse(cr, uid, ids[0], context)
 
