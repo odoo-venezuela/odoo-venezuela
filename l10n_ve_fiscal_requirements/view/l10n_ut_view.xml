@@ -5,7 +5,6 @@
         <record id="view_l10n_ut_filter" model="ir.ui.view">
             <field name="name">l10n.ut.search</field>
             <field name="model">l10n.ut</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Tax Unit" version="7.0">
                    <group col="10" colspan="4">
@@ -24,7 +23,6 @@
         <record model="ir.ui.view" id="view_l10n_ut_form">
             <field name="name">l10n.ut.form</field>
             <field name="model">l10n.ut</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Tax Unit" version="7.0">
                     <group col="6" colspan="4">
@@ -39,7 +37,6 @@
         <record model="ir.ui.view" id="view_l10n_ut_tree">
             <field name="name">l10n.ut.tree</field>
             <field name="model">l10n.ut</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Tax Unit per date" editable="top">
                     <field name="name"/>

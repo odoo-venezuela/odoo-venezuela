@@ -79,21 +79,6 @@ class account_invoice_refund(osv.osv_memory):
                 res['fields'][field]['selection'] = journal_select
         return res
 
-    def _get_period(self, cr, uid, context={}):
-        """
-        Return  default account period value
-        """
-        period_id= False
-        if context.get('active_id',False):
-            invo_obj = self.pool.get('account.invoice')
-            invo_brw = invo_obj.browse(cr,uid,context.get('active_id'),{})
-            period_id = invo_brw and invo_brw.period_id and invo_brw.period_id.id
-        return period_id
-        
-        
-        
-        return period_id
-
     def _get_orig(self, cr, uid, inv, ref, context={}):
         """
         Return  default origin value
@@ -165,8 +150,15 @@ class account_invoice_refund(osv.osv_memory):
                     raise osv.except_osv(_('Error !'), _('Can not %s draft/proforma/cancel invoice.') % (mode))
                 if inv.reconciled and mode in ('cancel', 'modify'):
                     raise osv.except_osv(_('Error !'), _('Can not %s invoice which is already reconciled, invoice should be unreconciled first. You can only Refund this invoice') % (mode))
-                #Take period from the current date
-                period = form.get('period') and form.get('period')[0] or self._get_period(cr, uid, context)
+                period = form.get('period') and form.get('period')[0] or False
+                if not period:
+	                #Take period from the current date
+                    period = self.pool.get('account.period').find(cr, uid, context=context)
+                    period = period and period[0] or False
+                    if not period:
+                        raise osv.except_osv(_('No Pediod Defined'), \
+                                _('You have been left empty the period field that automatically fill with the current period. However there is not period defined for the current company. Please check in Accounting/Configuration/Periods'))
+                    self.write(cr, uid, ids, {'period': period }, context=context)
 
                 if not journal_brw:
                     journal_id = inv.journal_id.id
@@ -253,9 +245,10 @@ class account_invoice_refund(osv.osv_memory):
                                     'journal_id', 'period_id'], context=context)
                         invoice = invoice[0]
                         del invoice['id']
-                        invoice_lines = inv_line_obj.read(cr, uid, invoice['invoice_line'], context=context)
+                        invoice_lines = inv_line_obj.browse(cr, uid, invoice['invoice_line'], context=context)
+
                         invoice_lines = inv_obj._refund_cleanup_lines(cr, uid, invoice_lines)
-                        tax_lines = inv_tax_obj.read(cr, uid, invoice['tax_line'], context=context)
+                        tax_lines = inv_tax_obj.browse(cr, uid, invoice['tax_line'], context=context)
                         tax_lines = inv_obj._refund_cleanup_lines(cr, uid, tax_lines)
                         #Add origin value
                         orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
@@ -283,12 +276,12 @@ class account_invoice_refund(osv.osv_memory):
                         
                         new_inv_brw = inv_obj.browse(cr,uid,created_inv[1],context=context)
                         inv_obj.write(cr,uid,created_inv[0],{'name':wzd_brw.description,'origin':new_inv_brw.origin},context=context)
-                        inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'description':''},context=context)
+                        inv_obj.write(cr,uid,created_inv[1],{'origin':inv.origin,'name':wzd_brw.description},context=context)
             if inv.type in ('out_invoice', 'out_refund'):
                 xml_id = 'action_invoice_tree3'
-                if hasattr(inv, 'sale_ids'):
-                    for i in inv.sale_ids:
-                        cr.execute('insert into sale_order_invoice_rel (order_id,invoice_id) values (%s,%s)', (i.id, refund_id[0]))
+                #~ if hasattr(inv, 'sale_ids'):
+                    #~ for i in inv.sale_ids:
+                        #~ cr.execute('insert into sale_order_invoice_rel (order_id,invoice_id) values (%s,%s)', (i.id, refund_id[0]))
             else:
                 xml_id = 'action_invoice_tree4'
             result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
@@ -300,11 +293,11 @@ class account_invoice_refund(osv.osv_memory):
             
             if wzd_brw.filter_refund == 'cancel':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
-                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'description':wzd_brw.description},context=context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'name':wzd_brw.description},context=context)
             
             if wzd_brw.filter_refund == 'refund':
                 orig = self._get_orig(cr, uid, inv, inv.reference, context)
-                inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'description':wzd_brw.description},context=context)
+                inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'name':wzd_brw.description},context=context)
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
@@ -354,7 +347,7 @@ class account_invoice_refund(osv.osv_memory):
                     if moveline.reconcile_partial_id:
                         rec += [moveline.reconcile_partial_id.id]
                 movelines = moveline_obj.search(cr, uid, [('|'),('reconcile_id','in',rec),('reconcile_partial_id','in',rec)],context=context)
-                for mids in moveline_obj.browse(cr, uid, movelines, ['move_id']):
+                for mids in moveline_obj.browse(cr, uid, movelines, context=context):
                     mid +=[mids.move_id.id]
                 voucherids = voucher_pool.search(cr, uid,[('move_id','in',mid)])
             if voucherids:
