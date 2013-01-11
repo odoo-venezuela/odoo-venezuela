@@ -530,57 +530,62 @@ class islr_wh_doc_invoices(osv.osv):
 
     def load_taxes(self, cr, uid, ids, context=None):
         context = context or {}
-        ids = isinstance(ids, (int, long)) and [ids] or ids
-        ixwl_obj = self.pool.get('islr.xml.wh.line')
-        iwdl_obj = self.pool.get('islr.wh.doc.line')
-        ret_line = self.browse(cr, uid, ids[0], context=context)
-        lines = []
-        rates = {}
-        wh_perc= {}
-        xmls = {}
-        if ret_line.invoice_id:
-            #~ Searching & Unlinking for xml lines from the current invoice
-            xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
-            if xml_lines:
-                ixwl_obj.unlink(cr, uid, xml_lines)
+        if context['vista'] is 'supplier':
+            ids = isinstance(ids, (int, long)) and [ids] or ids
+            ixwl_obj = self.pool.get('islr.xml.wh.line')
+            iwdl_obj = self.pool.get('islr.wh.doc.line')
+            ret_line = self.browse(cr, uid, ids[0], context=context)
+            lines = []
+            rates = {}
+            wh_perc= {}
+            xmls = {}
+              
+            if ret_line.invoice_id:
+                #~ Searching & Unlinking for xml lines from the current invoice
+                xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
+                if xml_lines:
+                    ixwl_obj.unlink(cr, uid, xml_lines)
 
-            #~ Creating xml lines from the current invoices again
-            ail_brws= [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
-            for i in ail_brws:
-                values = self._get_xml_lines(cr, uid, i, context=context)
-                values.update({'islr_wh_doc_inv_id':ret_line.id,})
-                #~ Vuelve a crear las lineas
-                xml_id = ixwl_obj.create(cr, uid, values, context=context)
-                #~ Write back the new xml_id into the account_invoice_line
-                i.write({'wh_xml_id':xml_id},context=context)
-                lines.append(xml_id)
-                #~ Keeps a log of the rate & percentage for a concept
-                rates[i.concept_id.id]=values['rate_id']
-                wh_perc[i.concept_id.id]=values['porcent_rete']
-                if xmls.get(i.concept_id.id):
-                    xmls[i.concept_id.id]+=[xml_id] 
-                else:
-                    xmls[i.concept_id.id]=[xml_id]
+                #~ Creating xml lines from the current invoices again
+                ail_brws= [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
+                for i in ail_brws:
+                    values = self._get_xml_lines(cr, uid, i, context=context)
+                    values.update({'islr_wh_doc_inv_id':ret_line.id,})
+                    #~ Vuelve a crear las lineas
+                    xml_id = ixwl_obj.create(cr, uid, values, context=context)
+                    #~ Write back the new xml_id into the account_invoice_line
+                    i.write({'wh_xml_id':xml_id},context=context)
+                    lines.append(xml_id)
+                    #~ Keeps a log of the rate & percentage for a concept
+                    rates[i.concept_id.id]=values['rate_id']
+                    wh_perc[i.concept_id.id]=values['porcent_rete']
+                    if xmls.get(i.concept_id.id):
+                        xmls[i.concept_id.id]+=[xml_id] 
+                    else:
+                        xmls[i.concept_id.id]=[xml_id]
 
-            #~ Searching & Unlinking for concept lines from the current invoice  
-            iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
-            if iwdl_ids:
-                iwdl_obj.unlink(cr, uid, iwdl_ids)
-                iwdl_ids=[]
-            #~ Creating concept lines for the current invoice
-            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
-            for concept_id in concept_list:
-                iwdl_id=iwdl_obj.create(cr,uid,
-                        {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
-                        'concept_id':concept_id,
-                        'islr_rates_id':rates[concept_id], 
-                        'invoice_id': ret_line.invoice_id.id,
-                        'retencion_islr':wh_perc[concept_id], 
-                        'xml_ids': [(6,0,xmls[concept_id])],
-                        }, context=context)
-                self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
-        return True
+                #~ Searching & Unlinking for concept lines from the current invoice  
+                iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
+                if iwdl_ids:
+                    iwdl_obj.unlink(cr, uid, iwdl_ids)
+                    iwdl_ids=[]
+                #~ Creating concept lines for the current invoice
+                concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
+                for concept_id in concept_list:
+                    iwdl_id=iwdl_obj.create(cr,uid,
+                            {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                            'concept_id':concept_id,
+                            'islr_rates_id':rates[concept_id], 
+                            'invoice_id': ret_line.invoice_id.id,
+                            'retencion_islr':wh_perc[concept_id], 
+                            'xml_ids': [(6,0,xmls[concept_id])],
+                            }, context=context)
+                    self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
+            return True
+        else:
+            print "****************************************"
         
+            
     def _get_partners(self, cr, uid, invoice):
         '''
         Se obtiene: el id del vendedor, el id del comprador de la factura y el campo booleano que determina si el comprador es agente de retencion.
