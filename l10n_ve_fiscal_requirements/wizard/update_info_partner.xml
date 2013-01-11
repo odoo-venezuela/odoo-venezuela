@@ -7,7 +7,6 @@
         <record id="view_wizard_update_info_partner" model="ir.ui.view">
             <field name="name">view.update.info.partner</field>
             <field name="model">update.info.partner</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="">
                     <separator string="Are you sure you want to do this?" colspan="4"/>
