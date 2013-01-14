@@ -488,8 +488,10 @@ class islr_wh_doc_invoices(osv.osv):
 
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         '''
-        Returns a dictionary containing all the values ​​of the retention of an invoice line.
+        Returns a dictionary containing all the values of the retention of an invoice line.
         '''
+        #TODO: Change the signature of this method
+        # This record already has the concept_id built-in
         context= context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         ixwl_obj= self.pool.get('islr.xml.wh.line')
@@ -501,32 +503,50 @@ class islr_wh_doc_invoices(osv.osv):
         residence = self._get_residence(cr, uid, vendor, buyer)
         nature = self._get_nature(cr, uid, vendor)
 
+        concept_id =iwdl_brw.concept_id.id 
         #rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name 
         rate_tuple = self._get_rate(cr, uid, concept_id, residence, nature, context=context)
         base = 0
-        for line in iwdl_brw.xml_ids:
-            base += line.account_invoice_line_id.price_subtotal
-        apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
-        wh = 0.0
-        subtract = apply and rate_tuple[3] or 0.0
-        subtract_write=0.0
-        wh_concept = 0.0
-        sb_concept = subtract 
-        for line in iwdl_brw.xml_ids:
-            if apply: 
-                wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*line.account_invoice_line_id.price_subtotal/100.0
-                if subtract >= wh_calc:
-                    wh = 0.0
-                    subtract -= wh_calc
-                else:
-                    wh = wh_calc - subtract
-                    subtract_write= subtract
-                    subtract=0.0
-            ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
-                    context=context)
-            wh_concept+=wh
-        iwdl_obj.write(cr, uid, ids[0],{'amount':wh_concept,
-            'subtract':sb_concept, 'base_amount': base},context=context)
+
+        if iwdl_brw.invoice_id.type in ('in_invoice','in_refund'):
+            for line in iwdl_brw.xml_ids:
+                base += line.account_invoice_line_id.price_subtotal
+            apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
+            wh = 0.0
+            subtract = apply and rate_tuple[3] or 0.0
+            subtract_write=0.0
+            wh_concept = 0.0
+            sb_concept = subtract 
+            for line in iwdl_brw.xml_ids:
+                if apply: 
+                    wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*line.account_invoice_line_id.price_subtotal/100.0
+                    if subtract >= wh_calc:
+                        wh = 0.0
+                        subtract -= wh_calc
+                    else:
+                        wh = wh_calc - subtract
+                        subtract_write= subtract
+                        subtract=0.0
+                ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
+                        context=context)
+                wh_concept+=wh
+        else:
+            for line in iwdl_brw.invoice_id.invoice_line:
+                if line.concept_id.id == concept_id:
+                    base += line.price_subtotal
+
+            apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
+            sb_concept = apply and rate_tuple[3] or 0.0
+            if apply:
+                wh_concept = (rate_tuple[0]/100.0)*rate_tuple[2]*base/100.0
+                wh_concept -= sb_concept
+        values = {
+            'amount':wh_concept,
+            'subtract':sb_concept, 
+            'base_amount': base,
+            'retencion_islr':rate_tuple[2], 
+            }
+        iwdl_obj.write(cr, uid, ids[0],values,context=context)
         return True 
 
 
@@ -602,6 +622,7 @@ class islr_wh_doc_invoices(osv.osv):
                         'invoice_id': ret_line.invoice_id.id,
                         }, context=context)
                 iwdl_ids+=[iwdl_id]
+                self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
             self.write(cr,uid,ids[0],{'iwdl_ids':[(6,0,iwdl_ids)]})
         return True
             
