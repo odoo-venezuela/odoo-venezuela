@@ -65,8 +65,6 @@ class islr_wh_concept(osv.osv):
             help="This account will be used as the account where the withheld amounts shall be charged in (Sale) of income tax"),
         'rate_ids': fields.one2many('islr.rates','concept_id','Rate',help="Withholding Concept rate",required=False),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
-        
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
     _defaults = {
         'withholdable': lambda *a: True,
