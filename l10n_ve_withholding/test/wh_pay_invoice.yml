@@ -39,6 +39,7 @@
   1.2 I check that the invoice state is "Open"
 -
   !python {model: account.voucher}: |
+    import time
     inv_obj = self.pool.get("account.invoice")
     inv_brw = inv_obj.browse(cr, uid, ref("l10n_ve_fiscal_requirements.test_fr01"))
     lines = inv_brw.invoice_line
