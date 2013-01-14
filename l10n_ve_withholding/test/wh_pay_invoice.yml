@@ -14,7 +14,7 @@
     journal_id = self.default_get(cr, uid, ['journal_id']).get('journal_id',None)
     res = self.onchange_partner_id(cr, uid, [], inv_brw.partner_id.id, journal_id, 0.0, 1, ttype='receipt', date=False)
     ap_obj = self.pool.get('account.period')
-    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})[0]
     vals = {
         'account_id': ref('account.cash'),
         'amount': inv_brw.amount_total,
