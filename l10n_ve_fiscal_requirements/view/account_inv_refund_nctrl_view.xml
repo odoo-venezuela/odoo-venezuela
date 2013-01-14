@@ -5,7 +5,6 @@
         <record id="view_account_inv_nctrl_refund" model="ir.ui.view">
             <field name="name">account.inv.nctrl.refund.form</field>
             <field name="model">account.invoice.refund</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="account.view_account_invoice_refund"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='period']" position="after">
