@@ -456,9 +456,14 @@ class islr_wh_doc_invoices(osv.osv):
                 'amount_islr_ret': 0.0,
                 'base_ret': 0.0
             }
-            for line in ret_line.islr_xml_id:
-                res[ret_line.id]['amount_islr_ret'] += line.wh
-                res[ret_line.id]['base_ret'] += line.base
+            if ret_line.invoice_id.type in ('in_invoice','in_refund'):
+                for line in ret_line.islr_xml_id:
+                    res[ret_line.id]['amount_islr_ret'] += line.wh
+                    res[ret_line.id]['base_ret'] += line.base
+            else:
+                for line in ret_line.iwdl_ids:
+                    res[ret_line.id]['amount_islr_ret'] += line.amount
+                    res[ret_line.id]['base_ret'] += line.base_amount
 
         return res
 

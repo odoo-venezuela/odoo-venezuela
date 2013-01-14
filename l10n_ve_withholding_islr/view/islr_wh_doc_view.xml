@@ -186,6 +186,13 @@
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
                                     <field name='invoice_ids' nolabel='1'>
+                                        <tree string="Invoices">
+                                            <field name="invoice_id"/>
+                                            <field name="iwdl_ids"/> 
+                                            <field name="amount_islr_ret"/>
+                                            <field name="base_ret"/>
+                                            <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                        </tree>
                                         <form string="Invoices">
                                             <field
                                                 name="invoice_id"
@@ -200,14 +207,14 @@
                                         </form>
                                     </field>
                                 </page>
-                                <page string="Invoices">
+                                <page string="Invoices" invisible='1'>
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
                                 <page string="Concept of Income Withholding">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
-                                        <group col="4" colspan="2">
-                                            <field name="amount_total_ret"/>
-                                        </group>
+                                    <group col="4" colspan="2">
+                                        <field name="amount_total_ret"/>
+                                    </group>
                                 </page>
                                <page string="Other Information">
                                     <field name="company_id"/>
