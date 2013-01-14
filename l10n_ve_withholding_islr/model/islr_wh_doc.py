@@ -530,16 +530,16 @@ class islr_wh_doc_invoices(osv.osv):
 
     def load_taxes(self, cr, uid, ids, context=None):
         context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        ixwl_obj = self.pool.get('islr.xml.wh.line')
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
+        ret_line = self.browse(cr, uid, ids[0], context=context)
+        lines = []
+        rates = {}
+        wh_perc= {}
+        xmls = {}
+
         if context.get('income_type','supplier')=='supplier':
-            ids = isinstance(ids, (int, long)) and [ids] or ids
-            ixwl_obj = self.pool.get('islr.xml.wh.line')
-            iwdl_obj = self.pool.get('islr.wh.doc.line')
-            ret_line = self.browse(cr, uid, ids[0], context=context)
-            lines = []
-            rates = {}
-            wh_perc= {}
-            xmls = {}
-              
             if ret_line.invoice_id:
                 #~ Searching & Unlinking for xml lines from the current invoice
                 xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
@@ -582,24 +582,9 @@ class islr_wh_doc_invoices(osv.osv):
                             }, context=context)
                     self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         else:
-            ixwl_obj = self.pool.get('islr.wh.concept') #Concepto que se creara y pasara informacion
-            facturas_obj = self.pool.get('account.invoice')
-            ids = isinstance(ids, (int, long)) and [ids] or ids
-            ret_line = self.browse(cr, uid, ids[0], context=context)
-            print "****************************************"
-            
-            print ret_line
-            
             if ret_line.invoice_id:
-                print ret_line.invoice_id
-                invoice_act =facturas_obj.browse(cr, uid, ret_line.invoice_id.id ,context=context)
-                print invoice_act.number
-                
                 conc = []
-                
-                for inv_l in invoice_act.invoice_line:
-                    print inv_l.concept_id.name
-                    print inv_l.concept_id.id
+                for inv_l in ret_line.invoice_id.invoice_line:
                     conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
                             'concept_id':inv_l.concept_id.id,
                             'name':inv_l.concept_id.name,
@@ -609,7 +594,6 @@ class islr_wh_doc_invoices(osv.osv):
                             #~ 'rate_ids':inv_l.concept_id.rate_ids,
                             'user_id':inv_l.concept_id.user_id.id,
                             })) 
-                
                 self.write(cr,uid,ids[0],{'islr_wh_concept_ids':conc})
         return True
             
