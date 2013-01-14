@@ -581,7 +581,6 @@ class islr_wh_doc_invoices(osv.osv):
                             'xml_ids': [(6,0,xmls[concept_id])],
                             }, context=context)
                     self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
-            return True
         else:
             ixwl_obj = self.pool.get('islr.wh.concept') #Concepto que se creara y pasara informacion
             facturas_obj = self.pool.get('account.invoice')
@@ -612,27 +611,6 @@ class islr_wh_doc_invoices(osv.osv):
                             })) 
                 
                 self.write(cr,uid,ids[0],{'islr_wh_concept_ids':conc})
-                
-                    #~ ixwl_obj.create(cr,uid,
-                            #~ {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
-                            #~ 'concept_id':inv_l.concept_id.id,
-                            #~ 'name':inv_l.concept_id.name,
-                            #~ 'withholdable':inv_l.concept_id.withholdable,
-                            #~ 'property_retencion_islr_payable':inv_l.concept_id.property_retencion_islr_payable,
-                            #~ 'property_retencion_islr_receivable':inv_l.concept_id.property_retencion_islr_receivable,
-                            #~ 'rate_ids':inv_l.concept_id.rate_ids,
-                            #~ 'user_id':inv_l.concept_id.user_id.id,
-                            #~ }, context=context)
-                    #~ 
-                    #~ 
-                    #~ ret_line.write({'islr_wh_concept_ids': [(0,0,inv_l.concept_id.id)]})
-           
-            #~ xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
-            #~ print xml_lines
-            #~ iwdl_obj = self.pool.get('islr.wh.doc.line') #Linea que se creara
-            #~ islr_wh_concept_ids
-           
-        
             
     def _get_partners(self, cr, uid, invoice):
         '''
