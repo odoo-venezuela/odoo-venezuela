@@ -586,14 +586,20 @@ class islr_wh_doc_invoices(osv.osv):
                         }, context=context)
                 self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         else:
+            #~ Searching & Unlinking for concept lines from the current invoice
+            iwdl_ids = iwdl_obj.search(cr, uid, [('iwdi_id', '=',ret_line.id)],
+                    context=context)
+            if iwdl_ids:
+                iwdl_obj.unlink(cr, uid, iwdl_ids)
+                iwdl_ids=[]
+
+            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
+                    context=context)
             conc = []
             for inv_l in ret_line.invoice_id.invoice_line:
                 conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
                         'concept_id':inv_l.concept_id.id,
-                        #'islr_rates_id':rates[concept_id], 
-                        #'invoice_id': ret_line.invoice_id.id,
-                        #'retencion_islr':wh_perc[concept_id], 
-                        #'xml_ids': [(6,0,xmls[concept_id])],
+                        'invoice_id': ret_line.invoice_id.id,
                         })) 
             self.write(cr,uid,ids[0],{'iwdl_ids':conc})
         return True
