@@ -45,4 +45,4 @@
     lines = inv_brw.invoice_line
     data = self.onchange_journal(cr, uid, [ref("l10n_ve_fiscal_requirements.test_fr01")], 5, lines, False, 
                                 inv_brw.partner_id, time.strftime('%Y-%m-%d'), 
-                                inv_brw.amount_total, 'receipt', base.main_company, context=None)
+                                inv_brw.amount_total, 'receipt', ref('base.main_company'), context=None)
