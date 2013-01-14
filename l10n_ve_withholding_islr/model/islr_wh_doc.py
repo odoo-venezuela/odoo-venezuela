@@ -531,7 +531,7 @@ class islr_wh_doc_invoices(osv.osv):
 
     def load_taxes(self, cr, uid, ids, context=None):
         context = context or {}
-        if context['vista'] is 'supplier':
+        if context.get('income_type','supplier')=='supplier':
             ids = isinstance(ids, (int, long)) and [ids] or ids
             ixwl_obj = self.pool.get('islr.xml.wh.line')
             iwdl_obj = self.pool.get('islr.wh.doc.line')
