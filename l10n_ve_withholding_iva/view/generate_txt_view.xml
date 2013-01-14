@@ -11,7 +11,6 @@
          <record id="view_generate_txt_iva_tree" model="ir.ui.view">
             <field name="name">generate.txt.iva.tree</field>
             <field name="model">txt.iva</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Field TXT">
                     <field name="date_start"/>
@@ -29,7 +28,6 @@
         <record id="view_generate_txt_iva_form" model="ir.ui.view">
             <field name="name">generate.txt.iva.form</field>
             <field name="model">txt.iva</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Withholding lines for TXT">
                     <group col="4" colspan="4">
@@ -76,7 +74,6 @@
         <record id="view_generate_txt_filter" model="ir.ui.view">
             <field name="name">txt.iva.search</field>
             <field name="model">txt.iva</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search File XML">
                    <group col="10" colspan="4">
