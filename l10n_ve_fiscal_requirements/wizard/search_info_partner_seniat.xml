@@ -4,7 +4,6 @@
         <record model="ir.ui.view" id="view_vat_search">
             <field name="name">search.info.partner.seniat.form</field>
             <field name="model">search.info.partner.seniat</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Wizard to search partner on SENIAT">
                     <group colspan="4">

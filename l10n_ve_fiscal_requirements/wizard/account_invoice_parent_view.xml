@@ -5,7 +5,6 @@
         <record id="view_account_invoice_parent" model="ir.ui.view">
             <field name="name">account.invoice.parent.form</field>
             <field name="model">account.invoice.parent</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Debit Note">
                     <separator string="Debit Note Options" colspan="4"/>

@@ -4,7 +4,6 @@
         <record id="view_wizard_url_seniat" model="ir.ui.view">
             <field name="name">view.wizard.seniat.url</field>
             <field name="model">wizard.seniat.url</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Update Url From Seniat">
                     <separator string="URL Seniat for Partner Information" colspan="4"/>

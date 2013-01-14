@@ -4,7 +4,6 @@
         <record id="view_wizard_invoice_nro_ctrl" model="ir.ui.view">
             <field name="name">view.wizard.invoice.nro.ctrl</field>
             <field name="model">wizard.invoice.nro.ctrl</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Create an invoice to justify the damaged one">
                     <group colspan="8" col="8">
