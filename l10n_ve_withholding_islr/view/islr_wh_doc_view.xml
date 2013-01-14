@@ -200,6 +200,12 @@
                                                 colspan='6'/>
                                             <newline/>
                                             <field name="iwdl_ids" nolabel="1" colspan='4' > 
+                                                <tree string='Concepts' editable='top'>
+                                                    <field name='concept_id' readonly='1'/>
+                                                    <field name='retencion_islr' readonly='0'/>
+                                                    <field name='amount' readonly='0'/>
+                                                    <field name='move_id' readonly='1'/>
+                                                </tree>
                                             </field>
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
