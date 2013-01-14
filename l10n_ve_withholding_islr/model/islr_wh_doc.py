@@ -611,6 +611,7 @@ class islr_wh_doc_invoices(osv.osv):
                             })) 
                 
                 self.write(cr,uid,ids[0],{'islr_wh_concept_ids':conc})
+        return True
             
     def _get_partners(self, cr, uid, invoice):
         '''
