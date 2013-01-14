@@ -192,13 +192,7 @@
                                                 domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
                                                 colspan='6'/>
                                             <newline/>
-                                            <field name="islr_wh_concept_ids" nolabel="1" colspan='4' > 
-                                                <tree string="Detail of the Concept of Income Withholding">
-                                                    <field name="name"/>
-                                                    <field name="withholdable"/>
-                                                    <field name="property_retencion_islr_payable"/>
-                                                    <field name="property_retencion_islr_receivable"/>
-                                                </tree>
+                                            <field name="iwdl_ids" nolabel="1" colspan='4' > 
                                             </field>
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>

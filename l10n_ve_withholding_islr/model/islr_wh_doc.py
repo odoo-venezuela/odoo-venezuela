@@ -468,6 +468,7 @@ class islr_wh_doc_invoices(osv.osv):
         'islr_xml_id':fields.one2many('islr.xml.wh.line','islr_wh_doc_inv_id','Withholding Lines'),
         'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
+        'iwdl_ids':fields.one2many('islr.wh.doc.line','iwdi_id','Withholding Concepts'),
     }
     _rec_rame = 'invoice_id'
     
@@ -588,14 +589,12 @@ class islr_wh_doc_invoices(osv.osv):
                 for inv_l in ret_line.invoice_id.invoice_line:
                     conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
                             'concept_id':inv_l.concept_id.id,
-                            'name':inv_l.concept_id.name,
-                            'withholdable':inv_l.concept_id.withholdable,
-                            'property_retencion_islr_payable':inv_l.concept_id.property_retencion_islr_payable,
-                            'property_retencion_islr_receivable':inv_l.concept_id.property_retencion_islr_receivable,
-                            #~ 'rate_ids':inv_l.concept_id.rate_ids,
-                            'user_id':inv_l.concept_id.user_id.id,
+                            #'islr_rates_id':rates[concept_id], 
+                            #'invoice_id': ret_line.invoice_id.id,
+                            #'retencion_islr':wh_perc[concept_id], 
+                            #'xml_ids': [(6,0,xmls[concept_id])],
                             })) 
-                self.write(cr,uid,ids[0],{'islr_wh_concept_ids':conc})
+                self.write(cr,uid,ids[0],{'iwdl_ids':conc})
         return True
             
     def _get_partners(self, cr, uid, invoice):
@@ -724,6 +723,7 @@ class islr_wh_doc_line(osv.osv):
         'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
         'islr_rates_id': fields.many2one('islr.rates','Rates', help="Withhold rates"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_wh_doc_line_id','XML Lines'),        
+        'iwdi_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
 
 islr_wh_doc_line()
