@@ -541,60 +541,61 @@ class islr_wh_doc_invoices(osv.osv):
         wh_perc= {}
         xmls = {}
 
-        if context.get('income_type','supplier')=='supplier':
-            if ret_line.invoice_id:
-                #~ Searching & Unlinking for xml lines from the current invoice
-                xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
-                if xml_lines:
-                    ixwl_obj.unlink(cr, uid, xml_lines)
+        if not ret_line.invoice_id:
+            return True
 
-                #~ Creating xml lines from the current invoices again
-                ail_brws= [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
-                for i in ail_brws:
-                    values = self._get_xml_lines(cr, uid, i, context=context)
-                    values.update({'islr_wh_doc_inv_id':ret_line.id,})
-                    #~ Vuelve a crear las lineas
-                    xml_id = ixwl_obj.create(cr, uid, values, context=context)
-                    #~ Write back the new xml_id into the account_invoice_line
-                    i.write({'wh_xml_id':xml_id},context=context)
-                    lines.append(xml_id)
-                    #~ Keeps a log of the rate & percentage for a concept
-                    rates[i.concept_id.id]=values['rate_id']
-                    wh_perc[i.concept_id.id]=values['porcent_rete']
-                    if xmls.get(i.concept_id.id):
-                        xmls[i.concept_id.id]+=[xml_id] 
-                    else:
-                        xmls[i.concept_id.id]=[xml_id]
+        if ret_line.invoice_id.type in ('in_invoice','in_refund'):
+            #~ Searching & Unlinking for xml lines from the current invoice
+            xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
+            if xml_lines:
+                ixwl_obj.unlink(cr, uid, xml_lines)
 
-                #~ Searching & Unlinking for concept lines from the current invoice  
-                iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
-                if iwdl_ids:
-                    iwdl_obj.unlink(cr, uid, iwdl_ids)
-                    iwdl_ids=[]
-                #~ Creating concept lines for the current invoice
-                concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
-                for concept_id in concept_list:
-                    iwdl_id=iwdl_obj.create(cr,uid,
-                            {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
-                            'concept_id':concept_id,
-                            'islr_rates_id':rates[concept_id], 
-                            'invoice_id': ret_line.invoice_id.id,
-                            'retencion_islr':wh_perc[concept_id], 
-                            'xml_ids': [(6,0,xmls[concept_id])],
-                            }, context=context)
-                    self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
+            #~ Creating xml lines from the current invoices again
+            ail_brws= [i for i in ret_line.invoice_id.invoice_line if i.concept_id and i.concept_id.withholdable]
+            for i in ail_brws:
+                values = self._get_xml_lines(cr, uid, i, context=context)
+                values.update({'islr_wh_doc_inv_id':ret_line.id,})
+                #~ Vuelve a crear las lineas
+                xml_id = ixwl_obj.create(cr, uid, values, context=context)
+                #~ Write back the new xml_id into the account_invoice_line
+                i.write({'wh_xml_id':xml_id},context=context)
+                lines.append(xml_id)
+                #~ Keeps a log of the rate & percentage for a concept
+                rates[i.concept_id.id]=values['rate_id']
+                wh_perc[i.concept_id.id]=values['porcent_rete']
+                if xmls.get(i.concept_id.id):
+                    xmls[i.concept_id.id]+=[xml_id] 
+                else:
+                    xmls[i.concept_id.id]=[xml_id]
+
+            #~ Searching & Unlinking for concept lines from the current invoice  
+            iwdl_ids  = iwdl_obj.search(cr, uid, [('invoice_id', '=', ret_line.invoice_id.id)],context=context)
+            if iwdl_ids:
+                iwdl_obj.unlink(cr, uid, iwdl_ids)
+                iwdl_ids=[]
+            #~ Creating concept lines for the current invoice
+            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
+            for concept_id in concept_list:
+                iwdl_id=iwdl_obj.create(cr,uid,
+                        {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                        'concept_id':concept_id,
+                        'islr_rates_id':rates[concept_id], 
+                        'invoice_id': ret_line.invoice_id.id,
+                        'retencion_islr':wh_perc[concept_id], 
+                        'xml_ids': [(6,0,xmls[concept_id])],
+                        }, context=context)
+                self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         else:
-            if ret_line.invoice_id:
-                conc = []
-                for inv_l in ret_line.invoice_id.invoice_line:
-                    conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
-                            'concept_id':inv_l.concept_id.id,
-                            #'islr_rates_id':rates[concept_id], 
-                            #'invoice_id': ret_line.invoice_id.id,
-                            #'retencion_islr':wh_perc[concept_id], 
-                            #'xml_ids': [(6,0,xmls[concept_id])],
-                            })) 
-                self.write(cr,uid,ids[0],{'iwdl_ids':conc})
+            conc = []
+            for inv_l in ret_line.invoice_id.invoice_line:
+                conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                        'concept_id':inv_l.concept_id.id,
+                        #'islr_rates_id':rates[concept_id], 
+                        #'invoice_id': ret_line.invoice_id.id,
+                        #'retencion_islr':wh_perc[concept_id], 
+                        #'xml_ids': [(6,0,xmls[concept_id])],
+                        })) 
+            self.write(cr,uid,ids[0],{'iwdl_ids':conc})
         return True
             
     def _get_partners(self, cr, uid, invoice):
