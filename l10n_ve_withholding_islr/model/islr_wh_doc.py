@@ -140,12 +140,12 @@ class islr_wh_doc(osv.osv):
             if not wh_line.islr_xml_id:
                 res[wh_line.id] = (wh_line.invoice_id.name, 
                     wh_line.invoice_id.number, wh_line.invoice_id.reference)
-         if res:
-             note = _('The Following Invoices Have not yet been withheld:\n\n')
-             for i in res:
-                 note += '* %s, %s, %s\n'%res[i]
-             note += _('\nPlease, Load the Taxes to be withheld and Try Again')
-             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
+        if res:
+            note = _('The Following Invoices Have not yet been withheld:\n\n')
+            for i in res:
+                note += '* %s, %s, %s\n'%res[i]
+            note += _('\nPlease, Load the Taxes to be withheld and Try Again')
+            raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
 
     def check_auto_wh(self, cr, uid, ids, context=None):
