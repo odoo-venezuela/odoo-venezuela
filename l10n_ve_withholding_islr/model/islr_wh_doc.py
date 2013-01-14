@@ -595,13 +595,14 @@ class islr_wh_doc_invoices(osv.osv):
 
             concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
                     context=context)
-            conc = []
-            for inv_l in ret_line.invoice_id.invoice_line:
-                conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
-                        'concept_id':inv_l.concept_id.id,
+            for concept_id in concept_list:
+                iwdl_id=iwdl_obj.create(cr,uid,
+                        {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                        'concept_id':concept_id,
                         'invoice_id': ret_line.invoice_id.id,
-                        })) 
-            self.write(cr,uid,ids[0],{'iwdl_ids':conc})
+                        }, context=context)
+                iwdl_ids+=[iwdl_id]
+            self.write(cr,uid,ids[0],{'iwdl_ids':[(6,0,iwdl_ids)]})
         return True
             
     def _get_partners(self, cr, uid, invoice):
