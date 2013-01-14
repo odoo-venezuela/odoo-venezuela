@@ -140,12 +140,13 @@ class islr_wh_doc(osv.osv):
             if not wh_line.islr_xml_id:
                 res[wh_line.id] = (wh_line.invoice_id.name, 
                     wh_line.invoice_id.number, wh_line.invoice_id.reference)
-        if res:
-            note = _('The Following Invoices Have not yet been withheld:\n\n')
-            for i in res:
-                note += '* %s, %s, %s\n'%res[i]
-            note += _('\nPlease, Load the Taxes to be withheld and Try Again')
-            raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
+             #~ 
+        #~ if res:
+            #~ note = _('The Following Invoices Have not yet been withheld:\n\n')
+            #~ for i in res:
+                #~ note += '* %s, %s, %s\n'%res[i]
+            #~ note += _('\nPlease, Load the Taxes to be withheld and Try Again')
+            #~ raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
 
     def check_auto_wh(self, cr, uid, ids, context=None):
@@ -583,7 +584,55 @@ class islr_wh_doc_invoices(osv.osv):
                     self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
             return True
         else:
+            ixwl_obj = self.pool.get('islr.wh.concept') #Concepto que se creara y pasara informacion
+            facturas_obj = self.pool.get('account.invoice')
+            ids = isinstance(ids, (int, long)) and [ids] or ids
+            ret_line = self.browse(cr, uid, ids[0], context=context)
             print "****************************************"
+            
+            print ret_line
+            
+            if ret_line.invoice_id:
+                print ret_line.invoice_id
+                invoice_act =facturas_obj.browse(cr, uid, ret_line.invoice_id.id ,context=context)
+                print invoice_act.number
+                
+                conc = []
+                
+                for inv_l in invoice_act.invoice_line:
+                    print inv_l.concept_id.name
+                    print inv_l.concept_id.id
+                    conc.append((0,0,{'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                            'concept_id':inv_l.concept_id.id,
+                            'name':inv_l.concept_id.name,
+                            'withholdable':inv_l.concept_id.withholdable,
+                            'property_retencion_islr_payable':inv_l.concept_id.property_retencion_islr_payable,
+                            'property_retencion_islr_receivable':inv_l.concept_id.property_retencion_islr_receivable,
+                            #~ 'rate_ids':inv_l.concept_id.rate_ids,
+                            'user_id':inv_l.concept_id.user_id.id,
+                            })) 
+                
+                self.write(cr,uid,ids[0],{'islr_wh_concept_ids':conc})
+                
+                    #~ ixwl_obj.create(cr,uid,
+                            #~ {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                            #~ 'concept_id':inv_l.concept_id.id,
+                            #~ 'name':inv_l.concept_id.name,
+                            #~ 'withholdable':inv_l.concept_id.withholdable,
+                            #~ 'property_retencion_islr_payable':inv_l.concept_id.property_retencion_islr_payable,
+                            #~ 'property_retencion_islr_receivable':inv_l.concept_id.property_retencion_islr_receivable,
+                            #~ 'rate_ids':inv_l.concept_id.rate_ids,
+                            #~ 'user_id':inv_l.concept_id.user_id.id,
+                            #~ }, context=context)
+                    #~ 
+                    #~ 
+                    #~ ret_line.write({'islr_wh_concept_ids': [(0,0,inv_l.concept_id.id)]})
+           
+            #~ xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
+            #~ print xml_lines
+            #~ iwdl_obj = self.pool.get('islr.wh.doc.line') #Linea que se creara
+            #~ islr_wh_concept_ids
+           
         
             
     def _get_partners(self, cr, uid, invoice):
