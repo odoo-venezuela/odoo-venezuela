@@ -17,7 +17,7 @@
     period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     vals = {
         'account_id': ref('account.cash'),
-        'amount': inv_brw.amount,
+        'amount': inv_brw.amount_total,
         'company_id': ref('base.main_company'),
         'currency_id': ref('base.EUR'),
         'journal_id': ref('account.bank_journal'),
