@@ -135,6 +135,9 @@ class islr_wh_doc(osv.osv):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0],context=context)
+        if obj.type not in ('in_invoice','in_refund'):
+            # TODO: Missing check for the customer doc's
+            return True
         res = {}
         for wh_line in obj.invoice_ids:
             if not wh_line.islr_xml_id:
