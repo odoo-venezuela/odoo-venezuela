@@ -69,19 +69,6 @@ class islr_wh_doc(osv.osv):
                 res[rete.id] += line.amount
         return res
 
-    def filter_lines_invoice(self,cr,uid,partner_id,context):
-        inv_obj = self.pool.get('account.invoice')
-        invoice_obj = self.pool.get('islr.wh.doc.invoices')
-        inv_ids=[]
-        
-        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),('partner_id','=',partner_id)],context={})
-        if inv_ids:
-            #~ Get only the invoices which are not in a document yet
-            inv_ids = [i.id for i in inv_obj.browse(cr,uid,inv_ids,context={})  if not i.islr_wh_doc_id]
-            inv_ids = [i for i in inv_ids if not invoice_obj.search(cr, uid, [('invoice_id', '=', i)])]
-            inv_ids = [i.id for i in inv_obj.browse(cr, uid, inv_ids, context={}) for d in i.invoice_line if d.concept_id.withholdable]
-            inv_ids = list(set(inv_ids))
-        return inv_ids
     
     _name = "islr.wh.doc"
     _description = 'Document Income Withholding'
@@ -219,20 +206,46 @@ class islr_wh_doc(osv.osv):
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
+        context = context or {}
         acc_id = False
         inv_ids=[]
+        res = {}
+        res_wh_lines = []
+        inv_obj = self.pool.get('account.invoice')
+        args = [('state','=','open'), ('islr_wh_doc_id','=',False),
+                ('partner_id','=',partner_id)]
+
+        # Unlink previous invoices
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdi_ids = iwdi_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
+                context=context)
+
+        if iwdi_ids:
+            iwdi_obj.unlink(cr, uid, iwdi_ids)
+            iwdi_ids=[]
 
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable.id
-                inv_ids = self.filter_lines_invoice(cr,uid,partner_id,context=None)
+                acc_id = p.property_account_receivable and \
+                    p.property_account_receivable.id 
+                args+=[('type','in',('out_invoice','out_refund'))]
             else:
-                acc_id = p.property_account_payable.id
-        result = {'value': {'islr_wh_doc_id':inv_ids,'account_id': acc_id}}
+                acc_id = p.property_account_payable and \
+                    p.property_account_payable.id 
+                args+=[('type','in',('in_invoice','in_refund'))]
 
-        return result
+            inv_ids = inv_obj.search(cr,uid,args,context=context)
+            inv_ids = iwdi_obj._withholdable_invoices(cr, uid, inv_ids,
+                    context=None)
+
+            for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context):
+                res_wh_lines += [{'invoice_id': inv_brw.id}] 
+
+        return {'value': {
+            'account_id': acc_id,
+            'invoice_ids':res_wh_lines}}
 
     def create(self, cr, uid, vals, context=None, check=True):
         if not context:
@@ -489,6 +502,17 @@ class islr_wh_doc_invoices(osv.osv):
             if ail.concept_id and ail.concept_id.withholdable:
                 concept_set.add(ail.concept_id.id)
         return list(concept_set)
+
+    def _withholdable_invoices(self, cr, uid, ids, context=None):
+        '''Given a list of invoices return only those
+        where there are withholdable concepts'''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res_ids = []
+        for id in ids:
+            id = self._get_concepts(cr, uid, id, context=context) and id
+            if id: res_ids+=[id]
+        return res_ids
 
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         '''
