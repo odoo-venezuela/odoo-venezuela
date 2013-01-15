@@ -94,7 +94,6 @@
                     <field name="period_id"/>
                     <field name="number"/>
                     <field name="code"/>
-                    <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
                     <field name="state" invisible="1"/>
@@ -164,9 +163,6 @@
                                 </page>
                                 <page string="Concept of Income Withholding">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
-                                    <group col="4" colspan="2">
-                                        <field name="amount_total_ret"/>
-                                    </group>
                                 </page>
                                <page string="Other Information">
                                     <field name="company_id"/>
@@ -218,7 +214,6 @@
                     <field name="period_id"/>
                     <field name="number"/>
                     <field name="code"/>
-                    <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
                     <field name="state" invisible="1"/>
@@ -253,7 +248,6 @@
                         <field name="number"/>
                         <field name="date_uid" />
                         <field name="automatic_income_wh" readonly="1"/>
-                        <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">

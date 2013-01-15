@@ -148,7 +148,6 @@ class account_invoice(osv.osv):
             islr_wh_doc_id = wh_doc_obj.create(cr,uid,
             {'name': wh_ret_code,
             'partner_id': row.partner_id.id,
-            'invoice_id': row.id,
             'period_id': row.period_id.id,
             'account_id': row.account_id.id,
             'type': row.type,
