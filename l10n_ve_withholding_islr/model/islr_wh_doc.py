@@ -71,6 +71,7 @@ class islr_wh_doc(osv.osv):
 
     
     _name = "islr.wh.doc"
+    _order = 'date_ret desc, number desc'
     _description = 'Document Income Withholding'
     _columns= {
         'name': fields.char('Description', size=64,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Voucher description"),
