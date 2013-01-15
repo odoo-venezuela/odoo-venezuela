@@ -120,6 +120,7 @@ class account_wh_iva_line(osv.osv):
                 for i in tax_ids:
                     values = self._get_tax_lines(cr, uid, i, context=context)
                     values.update({'wh_vat_line_id':ret_line.id,})
+                    del values['wh_iva_rate']
                     lines.append(awilt_obj.create(cr, uid, values, context=context))
         return True
 
