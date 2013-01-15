@@ -224,8 +224,8 @@ class islr_wh_doc(osv.osv):
             iwdi_ids=[]
 
         # Unlink previous invoices 
-        inv_ids = inv_obj.search(cr,uid,[('islr_wh_doc_id', '=', ids[0])],
-                context=context)
+        inv_ids = ids and inv_obj.search(cr, uid,
+                [('islr_wh_doc_id','=',ids[0])], context=context)
         if inv_ids:
             inv_obj.write(cr, uid, inv_ids, {'islr_wh_doc_id':False},
                     context=context)
@@ -233,8 +233,8 @@ class islr_wh_doc(osv.osv):
 
         # Unlink previous line
         iwdl_obj = self.pool.get('islr.wh.doc.line')
-        iwdl_ids = ids and iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
-                context=context)
+        iwdl_ids = ids and iwdl_obj.search(cr, uid,
+                [('islr_wh_doc_id','=',ids[0])], context=context)
         if iwdl_ids:
             iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
             iwdl_ids=[]
