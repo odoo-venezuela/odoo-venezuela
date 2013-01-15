@@ -37,14 +37,14 @@
     journal_id: account.sales_journal
     wh_iva: True
     invoice_line:
-      - product_id: product.product_product_pc3
+      - product_id: product.product_product_3
         quantity: 3
         uos_id: product.product_uom_unit
         price_unit: 10
         name: PC3
         invoice_line_tax_id:
         - l10n_ve_fiscal_requirements.iva_purchase1
-      - product_id: product.product_product_pc2
+      - product_id: product.product_product_4
         quantity: 5
         uos_id: product.product_uom_unit
         price_unit: 20
