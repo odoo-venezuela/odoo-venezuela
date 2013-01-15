@@ -605,6 +605,12 @@ class islr_wh_doc_invoices(osv.osv):
 
         if not ret_line.invoice_id:
             return True
+        #~ Writing the withholding to the invoice 
+        ret_line.invoice_id.write({'islr_wh_doc_id':ret_line.islr_wh_doc_id.id},
+                context=context)
+
+        concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
+                context=context)
 
         if ret_line.invoice_id.type in ('in_invoice','in_refund'):
             #~ Searching & Unlinking for xml lines from the current invoice
@@ -636,7 +642,6 @@ class islr_wh_doc_invoices(osv.osv):
                 iwdl_obj.unlink(cr, uid, iwdl_ids)
                 iwdl_ids=[]
             #~ Creating concept lines for the current invoice
-            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
             for concept_id in concept_list:
                 iwdl_id=iwdl_obj.create(cr,uid,
                         {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
@@ -655,8 +660,6 @@ class islr_wh_doc_invoices(osv.osv):
                 iwdl_obj.unlink(cr, uid, iwdl_ids)
                 iwdl_ids=[]
 
-            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
-                    context=context)
             for concept_id in concept_list:
                 iwdl_id=iwdl_obj.create(cr,uid,
                         {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
