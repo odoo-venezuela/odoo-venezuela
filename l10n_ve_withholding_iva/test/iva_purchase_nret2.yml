@@ -41,8 +41,6 @@
     company_id: base.main_company
     date_invoice: !eval time.strftime('%Y-%m-%d')
     partner_id: base.res_partner_23
-    address_contact_id: base.res_partner_address_3
-    address_invoice_id: base.res_partner_address_3
     reference_type: none
     journal_id: account.sales_journal
     wh_iva: True
