@@ -28,7 +28,7 @@
         invoice_line_tax_id:
         - iva_purchase0
     journal_id: account.sales_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     reference_type: none
     nro_ctrl: 56778211
 -

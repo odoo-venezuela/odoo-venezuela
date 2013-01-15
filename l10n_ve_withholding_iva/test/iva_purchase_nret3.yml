@@ -26,11 +26,11 @@
         'wh_iva_rate' : 0,
         'vat_subjected' : False
         }
-    self.write(cr, uid, ref("base.res_partner_notsotinysarl0"), vals)
+    self.write(cr, uid, ref("base.res_partner_23"), vals)
 -
   5.4 Check partner configuration
 -
-  !assert {model: res.partner, id: base.res_partner_notsotinysarl0}:
+  !assert {model: res.partner, id: base.res_partner_23}:
     - not wh_iva_agent
     - wh_iva_rate == 0
     - not vat_subjected
@@ -50,7 +50,7 @@
     type: out_invoice
     company_id: base.main_company
     date_invoice: !eval time.strftime('%Y-%m-%d')
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     address_contact_id: base.res_partner_address_3
     address_invoice_id: base.res_partner_address_3
     reference_type: none

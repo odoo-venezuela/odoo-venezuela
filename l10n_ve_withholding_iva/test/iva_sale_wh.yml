@@ -28,7 +28,7 @@
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     reference_type: none
 -
   7.2 I check that Initially customer invoice is in the "Draft" state
@@ -88,7 +88,7 @@
 -
   !record {model: account.wh.iva, id: wh_iva_sale01}:
     journal_id: wh_sales_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     number: 111222333
     account_id: account.a_recv
     name: 'IVA wh vat customer'
@@ -128,7 +128,7 @@
 -
   !python {model: account.wh.iva}: |
     wil_obj=self.pool.get('account.wh.iva.line')
-    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("base.res_partner_notsotinysarl0"))
+    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("base.res_partner_23"))
     ind_id = res['value']['wh_lines'][0]['invoice_id']
     res['value']['wh_lines'][0].update({'retention_id': ref("wh_iva_sale01")})
     wil_id = wil_obj.create(cr, uid, res['value']['wh_lines'][0])
