@@ -216,14 +216,28 @@ class islr_wh_doc(osv.osv):
         args = [('state','=','open'), ('islr_wh_doc_id','=',False),
                 ('partner_id','=',partner_id)]
 
-        # Unlink previous invoices
+        # Unlink previous iwdi 
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
-        iwdi_ids = iwdi_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
-                context=context)
-
+        iwdi_ids = ids and iwdi_obj.search(cr, uid,
+                [('islr_wh_doc_id','=',ids[0])], context=context)
         if iwdi_ids:
-            iwdi_obj.unlink(cr, uid, iwdi_ids)
+            iwdi_obj.unlink(cr, uid, iwdi_ids,context=context)
             iwdi_ids=[]
+
+        # Unlink previous invoices 
+        inv_ids = inv_obj.search(cr,uid,[('islr_wh_doc_id', '=', ids[0])],
+                context=context)
+        if inv_ids:
+            self.unlink(cr, uid, inv_ids,context=context)
+            inv_ids=[]
+
+        # Unlink previous line
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
+        iwdl_ids = ids and iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
+                context=context)
+        if iwdl_ids:
+            iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
+            iwdl_ids=[]
 
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
