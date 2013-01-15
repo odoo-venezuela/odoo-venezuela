@@ -228,7 +228,8 @@ class islr_wh_doc(osv.osv):
         inv_ids = inv_obj.search(cr,uid,[('islr_wh_doc_id', '=', ids[0])],
                 context=context)
         if inv_ids:
-            self.unlink(cr, uid, inv_ids,context=context)
+            inv_obj.write(cr, uid, inv_ids, {'islr_wh_doc_id':False},
+                    context=context)
             inv_ids=[]
 
         # Unlink previous line
