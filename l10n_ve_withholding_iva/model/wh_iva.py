@@ -321,6 +321,28 @@ class account_wh_iva(osv.osv):
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
         
+    def check_invoice_nro_ctrl(self, cr, uid, ids, context={}):
+        """
+        Method that check if the control number of the invoice is set
+
+        Return: True if the control number is set, and raise an exception
+        when is not.
+        """
+
+        obj = self.browse(cr, uid, ids[0])
+        res = {}
+        for wh_line in obj.wh_lines:
+            if not wh_line.invoice_id.nro_ctrl:
+                res[wh_line.id] = (wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference)
+        if res:
+            note = _('The Following Invoices will not be withheld:\n\n')
+            for i in res:
+                note += '* %s, %s, %s\n'%res[i]
+            note += _('\nPlease, Write the control number and Try Again')
+            
+            raise osv.except_osv(_('Invoices with Missing Control Number!'),note)
+        return True
+        
     def write_wh_invoices(self, cr, uid, ids, context=None):
         """
         Method that writes the wh vat id in sale invoices.
