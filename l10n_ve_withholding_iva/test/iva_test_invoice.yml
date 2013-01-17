@@ -62,5 +62,5 @@
 -
   8.8 I check that the invoice state is "Open"
 -
-  !assert {model: account.invoice, id: test_sale_iva_ret01, string: Sale invoice has purchase tax, cannot be in open state}:
+  !assert {model: account.invoice, id: test_iva01, string: Sale invoice has purchase tax, cannot be in open state}:
     - state != 'open'
