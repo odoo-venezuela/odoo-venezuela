@@ -1,7 +1,7 @@
 -
   8. Test iva sale
 -
-  8.1 In order to test account invoice I create a new customer sale invoice with puechase tax
+  8.1 In order to test account invoice I create a new sale invoice with purchase tax
 -
   !record {model: account.invoice, id: test_iva01}:
     company_id: base.main_company
