@@ -174,7 +174,7 @@
 -
   !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_sale01}
 -
-  7.24 I check withholding vat is confirmed
+  7.24 I check withholding vat is done
 -
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'done'
