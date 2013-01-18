@@ -3,7 +3,7 @@
 -
   12.1 I update partner information
 -
-  !record {model: res.partner, id: base.res_partner_agrolait}:
+  !record {model: res.partner, id: base.res_partner_23}:
     wh_iva_agent: True
     wh_iva_rate: 75
     vat_subjected: True
@@ -12,9 +12,9 @@
 -
   !record {model: account.wh.iva, id: wh_iva_test04}:
     journal_id: wh_sales_journal
-    partner_id: base.res_partner_agrolait
+    partner_id: base.res_partner_23
     account_id: account.a_recv
-    name: 'IVA wh vat customer Agrolait test 3'
+    name: 'IVA wh vat customer Vauxoo test 3'
     type: out_invoice
 -
   12.3 I check withholding vat customer
