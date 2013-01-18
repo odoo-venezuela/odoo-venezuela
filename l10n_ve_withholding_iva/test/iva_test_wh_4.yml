@@ -41,6 +41,7 @@
   !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_test04}
 -
   12.7 I check withholding vat is not confirmed
+  # TODO: Check this test case, it fails. It means that something in the wh_iva_confirmed action is wrong.
 -
   !assert {model: account.wh.iva, id: wh_iva_test04, string: Could not confirm the wh}:
     - state != 'confirmed'
