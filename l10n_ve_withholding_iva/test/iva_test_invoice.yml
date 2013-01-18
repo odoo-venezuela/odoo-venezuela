@@ -56,11 +56,11 @@
     acc_id=self.browse(cr, uid, ref("test_iva01"))
     assert (not acc_id.move_id), "Move falsely created at pro-forma"
 -
-  8.7 I create invoice by clicking on Create button
+  8.7 I try to create an invoice by clicking on Create button
 -
   !workflow {model: account.invoice, action: invoice_open, ref: test_iva01}
 -
-  8.8 I check that the invoice state is "Open"
+  8.8 I check that the invoice state is not "Open"
 -
-  !assert {model: account.invoice, id: test_iva01, string: Sale invoice has purchase tax, cannot be in open state}:
+  !assert {model: account.invoice, id: test_iva01, string: Sale invoice has purchase tax. The invoice cannot be in open state}:
     - state != 'open'
