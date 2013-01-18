@@ -218,4 +218,50 @@ class account_invoice(osv.osv):
                     return False
         return True
 
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, pay_journal_id,
+            writeoff_acc_id, writeoff_period_id, writeoff_journal_id, date,
+            name, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh,
+                period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id,
+                writeoff_journal_id, date, name, context=context)
+
+        if not context.get('income_wh',False):
+            return res
+
+        inv_brw = self.browse(cr, uid, ids[0])
+        
+        types = {'out_invoice':-1, 'in_invoice':1, 'out_refund':1,
+                'in_refund':-1}
+        direction = types[inv_brw.type]
+
+        for iwdl_brw in to_wh:
+            if 'invoice' in inv_brw.type:
+                acc = iwdl_brw.concept_id.property_retencion_islr_receivable and \
+                        iwdl_brw.concept_id.property_retencion_islr_receivable.id or \
+                        False
+            else:
+                acc = iwdl_brw.concept_id.property_retencion_islr_payable and \
+                        iwdl_brw.concept_id.property_retencion_islr_payable.id or False
+            if not acc:
+                raise osv.except_osv(_('Missing Account in Tax!'), 
+                        _("Tax [%s] has missing account. "\
+                                "Please, fill the missing fields"
+                                ) % (iwdl_brw.concept_id.name,))
+            res.append((0,0,{
+                'debit': direction * iwdl_brw.amount_ret<0 and - direction *\
+                iwdl_brw.amount_ret,
+                'credit': direction * iwdl_brw.amount_ret>0 and direction *\
+                iwdl_brw.amount_ret,
+                'account_id': acc,
+                'partner_id': inv_brw.partner_id.id,
+                'ref':inv_brw.number,
+                'date': date,
+                'currency_id': False,
+                'name':name
+            }))
+        
+        return res
+
 account_invoice()
