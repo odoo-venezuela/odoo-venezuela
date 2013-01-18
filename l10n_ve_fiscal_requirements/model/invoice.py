@@ -79,22 +79,6 @@ class account_invoice(osv.osv):
     _constraints = [
           (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
          ]
-     
-    def _refund_cleanup_lines(self, cr, uid, lines):
-        """
-        Method created to clean invoice lines
-        """
-        for line in lines:
-            del line['id']
-            del line['invoice_id']
-            #TODO Verify one more elegant way to do this
-            for field in ('company_id', 'partner_id', 'account_id', 'product_id',
-                          'uos_id', 'account_analytic_id', 'tax_code_id', 'base_code_id',
-                          "concept_id","tax_id"):
-                line[field] = line.get(field, False) and line[field][0]
-            if 'invoice_line_tax_id' in line:
-                line['invoice_line_tax_id'] = [(6,0, line.get('invoice_line_tax_id', [])) ]
-        return map(lambda x: (0,0,x), lines)
 
     def copy(self, cr, uid, id, default={}, context=None):
         if context is None:
@@ -107,5 +91,14 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 account_invoice()
 
+
+class account_invoice_tax(osv.osv):
+    _inherit = 'account.invoice.tax'
+    _columns = {
+        'tax_id': fields.many2one('account.tax', 'Tax', required=False, ondelete='set null', 
+        help="Tax relation to original tax, to be able to take off all data from invoices."),
+    }
+
+account_invoice_tax()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

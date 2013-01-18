@@ -1,15 +1,6 @@
 -
   5. Fiscal requirements Vat tests
 -
-  5.1 Add address
--
-  !record {model: res.partner.address, id: test_fr_add01}:
-    type: invoice
-    street: Av Siempre Viva
-    phone: "(555) 5555555"
-    fax: "(555) 1111111"
-    email: fakemail@example.com
--
   5.2 I try to create a partner with wrong vat
 -
   !python {model: res.partner}: |
@@ -19,7 +10,11 @@
       'supplier': True,
       'customer': True,
       'vat': 'VEV333',
-      'address':[(6, 0, [ref("test_fr_add01")])]
+      'type': 'invoice',
+      'street': 'Av Siempre Viva',
+      'phone': "(555) 5555555",
+      'fax': "(555) 1111111",
+      'email': 'fakemail@example.com',
       }
     part_id = False
     try:
@@ -46,7 +41,11 @@
       'supplier': True,
       'customer': True,
       'vat': 'VEJ112223330',
-      'address': [(6, 0, [ref("test_fr_add01")])],
+      'type': 'invoice',
+      'street': 'Av Siempre Viva',
+      'phone': "(555) 5555555",
+      'fax': "(555) 1111111",
+      'email': 'fakemail@example.com',
       }
     part_id = self.create(cr, uid, part)
     assert part_id, 'Partner should be created'
@@ -60,7 +59,11 @@
       'supplier': True,
       'customer': True,
       'vat': 'VEJ112223330',
-      'address': [(6, 0, [ref("test_fr_add01")])],
+      'type': 'invoice',
+      'street': 'Av Siempre Viva',
+      'phone': "(555) 5555555",
+      'fax': "(555) 1111111",
+      'email': 'fakemail@example.com',
       }
     try:
       rollback = cr.rollback
@@ -86,7 +89,11 @@
       'supplier': True,
       'customer': True,
       'vat': 'VEJ223334445',
-      'address': [(6, 0, [ref("test_fr_add01")])],
+      'type': 'invoice',
+      'street': 'Av Siempre Viva',
+      'phone': "(555) 5555555",
+      'fax': "(555) 1111111",
+      'email': 'fakemail@example.com',
       }
     try:
       rollback = cr.rollback

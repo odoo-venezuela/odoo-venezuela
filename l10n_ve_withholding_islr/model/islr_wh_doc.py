@@ -96,8 +96,6 @@ class islr_wh_doc(osv.osv):
             ('out_refund','Customer Invoice Refund'),
             ],'Type', readonly=True, help="Voucher type"),
         'state': fields.selection([
-            ('to_process','To Process'),
-            ('progress','Progress'),
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
@@ -117,6 +115,9 @@ class islr_wh_doc(osv.osv):
         'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
         'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
+        'automatic_income_wh' : fields.boolean('Automatic Income Withhold',
+            help='When the whole process will be check automatically, ' \
+                    'and if everything is Ok, will be set to done'),
     }
 
     _defaults = {
@@ -129,6 +130,7 @@ class islr_wh_doc(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
+        'automatic_income_wh' : False,
     }
 
     def check_income_wh(self, cr, uid, ids, context=None):
@@ -137,7 +139,7 @@ class islr_wh_doc(osv.osv):
         obj = self.browse(cr, uid, ids[0],context=context)
         res = {}
         for wh_line in obj.invoice_ids:
-            if not wh_line.islr_xml_id:
+            if not (wh_line.islr_xml_id or wh_line.iwdl_ids):
                 res[wh_line.id] = (wh_line.invoice_id.name, 
                     wh_line.invoice_id.number, wh_line.invoice_id.reference)
         if res:
@@ -148,6 +150,12 @@ class islr_wh_doc(osv.osv):
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
 
+    def check_auto_wh(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        obj = self.browse(cr, uid, ids[0],context=context)
+        return obj.automatic_income_wh or False
+
     def compute_amount_wh(self, cr, uid, ids, context=None):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -156,6 +164,7 @@ class islr_wh_doc(osv.osv):
         for iwdi_brw in iwd_brw.invoice_ids:
             iwdi_obj.load_taxes(cr, uid, iwdi_brw.id, context=context)    
         return True
+        
     def validate(self, cr,uid,ids,*args):
 
         if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
@@ -253,6 +262,8 @@ class islr_wh_doc(osv.osv):
     def action_cancel(self,cr,uid,ids,context={}):
         #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
             #~ return True
+        self.pool.get('islr.wh.doc'). write(cr,uid,ids,{'automatic_income_wh':False})
+       
         self.cancel_move(cr,uid,ids)
         self.action_cancel_process(cr,uid,ids,context=context)
         return True
@@ -444,9 +455,14 @@ class islr_wh_doc_invoices(osv.osv):
                 'amount_islr_ret': 0.0,
                 'base_ret': 0.0
             }
-            for line in ret_line.islr_xml_id:
-                res[ret_line.id]['amount_islr_ret'] += line.wh
-                res[ret_line.id]['base_ret'] += line.base
+            if ret_line.invoice_id.type in ('in_invoice','in_refund'):
+                for line in ret_line.islr_xml_id:
+                    res[ret_line.id]['amount_islr_ret'] += line.wh
+                    res[ret_line.id]['base_ret'] += line.base
+            else:
+                for line in ret_line.iwdl_ids:
+                    res[ret_line.id]['amount_islr_ret'] += line.amount
+                    res[ret_line.id]['base_ret'] += line.base_amount
 
         return res
 
@@ -456,6 +472,7 @@ class islr_wh_doc_invoices(osv.osv):
         'islr_xml_id':fields.one2many('islr.xml.wh.line','islr_wh_doc_inv_id','Withholding Lines'),
         'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
+        'iwdl_ids':fields.one2many('islr.wh.doc.line','iwdi_id','Withholding Concepts'),
     }
     _rec_rame = 'invoice_id'
     
@@ -475,8 +492,10 @@ class islr_wh_doc_invoices(osv.osv):
 
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         '''
-        Returns a dictionary containing all the values ​​of the retention of an invoice line.
+        Returns a dictionary containing all the values of the retention of an invoice line.
         '''
+        #TODO: Change the signature of this method
+        # This record already has the concept_id built-in
         context= context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         ixwl_obj= self.pool.get('islr.xml.wh.line')
@@ -488,32 +507,50 @@ class islr_wh_doc_invoices(osv.osv):
         residence = self._get_residence(cr, uid, vendor, buyer)
         nature = self._get_nature(cr, uid, vendor)
 
+        concept_id =iwdl_brw.concept_id.id 
         #rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name 
         rate_tuple = self._get_rate(cr, uid, concept_id, residence, nature, context=context)
         base = 0
-        for line in iwdl_brw.xml_ids:
-            base += line.account_invoice_line_id.price_subtotal
-        apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
-        wh = 0.0
-        subtract = apply and rate_tuple[3] or 0.0
-        subtract_write=0.0
-        wh_concept = 0.0
-        sb_concept = subtract 
-        for line in iwdl_brw.xml_ids:
-            if apply: 
-                wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*line.account_invoice_line_id.price_subtotal/100.0
-                if subtract >= wh_calc:
-                    wh = 0.0
-                    subtract -= wh_calc
-                else:
-                    wh = wh_calc - subtract
-                    subtract_write= subtract
-                    subtract=0.0
-            ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
-                    context=context)
-            wh_concept+=wh
-        iwdl_obj.write(cr, uid, ids[0],{'amount':wh_concept,
-            'subtract':sb_concept, 'base_amount': base},context=context)
+
+        if iwdl_brw.invoice_id.type in ('in_invoice','in_refund'):
+            for line in iwdl_brw.xml_ids:
+                base += line.account_invoice_line_id.price_subtotal
+            apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
+            wh = 0.0
+            subtract = apply and rate_tuple[3] or 0.0
+            subtract_write=0.0
+            wh_concept = 0.0
+            sb_concept = subtract 
+            for line in iwdl_brw.xml_ids:
+                if apply: 
+                    wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*line.account_invoice_line_id.price_subtotal/100.0
+                    if subtract >= wh_calc:
+                        wh = 0.0
+                        subtract -= wh_calc
+                    else:
+                        wh = wh_calc - subtract
+                        subtract_write= subtract
+                        subtract=0.0
+                ixwl_obj.write(cr,uid,line.id,{'wh':wh, 'sustract':subtract or subtract_write},
+                        context=context)
+                wh_concept+=wh
+        else:
+            for line in iwdl_brw.invoice_id.invoice_line:
+                if line.concept_id.id == concept_id:
+                    base += line.price_subtotal
+
+            apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
+            sb_concept = apply and rate_tuple[3] or 0.0
+            if apply:
+                wh_concept = (rate_tuple[0]/100.0)*rate_tuple[2]*base/100.0
+                wh_concept -= sb_concept
+        values = {
+            'amount':wh_concept,
+            'subtract':sb_concept, 
+            'base_amount': base,
+            'retencion_islr':rate_tuple[2], 
+            }
+        iwdl_obj.write(cr, uid, ids[0],values,context=context)
         return True 
 
 
@@ -527,7 +564,11 @@ class islr_wh_doc_invoices(osv.osv):
         rates = {}
         wh_perc= {}
         xmls = {}
-        if ret_line.invoice_id:
+
+        if not ret_line.invoice_id:
+            return True
+
+        if ret_line.invoice_id.type in ('in_invoice','in_refund'):
             #~ Searching & Unlinking for xml lines from the current invoice
             xml_lines = ixwl_obj.search(cr, uid, [('islr_wh_doc_inv_id', '=', ret_line.id)],context=context)
             if xml_lines:
@@ -568,8 +609,27 @@ class islr_wh_doc_invoices(osv.osv):
                         'xml_ids': [(6,0,xmls[concept_id])],
                         }, context=context)
                 self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
+        else:
+            #~ Searching & Unlinking for concept lines from the current invoice
+            iwdl_ids = iwdl_obj.search(cr, uid, [('iwdi_id', '=',ret_line.id)],
+                    context=context)
+            if iwdl_ids:
+                iwdl_obj.unlink(cr, uid, iwdl_ids)
+                iwdl_ids=[]
+
+            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
+                    context=context)
+            for concept_id in concept_list:
+                iwdl_id=iwdl_obj.create(cr,uid,
+                        {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
+                        'concept_id':concept_id,
+                        'invoice_id': ret_line.invoice_id.id,
+                        }, context=context)
+                iwdl_ids+=[iwdl_id]
+                self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
+            self.write(cr,uid,ids[0],{'iwdl_ids':[(6,0,iwdl_ids)]})
         return True
-        
+            
     def _get_partners(self, cr, uid, invoice):
         '''
         Se obtiene: el id del vendedor, el id del comprador de la factura y el campo booleano que determina si el comprador es agente de retencion.
@@ -696,6 +756,7 @@ class islr_wh_doc_line(osv.osv):
         'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
         'islr_rates_id': fields.many2one('islr.rates','Rates', help="Withhold rates"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_wh_doc_line_id','XML Lines'),        
+        'iwdi_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
 
 islr_wh_doc_line()
