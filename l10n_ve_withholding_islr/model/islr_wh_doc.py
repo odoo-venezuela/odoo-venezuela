@@ -117,9 +117,7 @@ class islr_wh_doc(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
-        'automatic_income_wh': lambda s, cr, u, ct: \
-                s.pool.get('res.users').browse(cr, u, u,
-                    context=ct).company_id.automatic_income_wh,
+        'automatic_income_wh': False,
     }
 
     def check_income_wh(self, cr, uid, ids, context=None):
@@ -166,6 +164,14 @@ class islr_wh_doc(osv.osv):
 
         if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
             return True
+
+    def action_done(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        self.action_number(cr, uid, ids, context=context)
+        self.action_move_create(cr, uid, ids, context=context)
+        self.write(cr, uid, ids, {'state':'done'}, context=context)
+        return True
 
     def action_process(self,cr,uid,ids, context=None):
         # TODO: ERASE THE REGARDING NODE IN THE WORKFLOW
@@ -282,9 +288,13 @@ class islr_wh_doc(osv.osv):
     def action_confirm(self, cr, uid, ids, context=None):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        return self.write(cr, uid, ids[0], {'state':'confirmed'})
+        check_auto_wh = self.browse(cr, uid, ids[0],
+                context=context).company_id.automatic_income_wh
+        return self.write(cr, uid, ids[0], {'state':'confirmed',
+            'automatic_income_wh':check_auto_wh}, context=context)
 
-    def action_number(self, cr, uid, ids, *args):
+    def action_number(self, cr, uid, ids, context=None):
+        context = context or {}
         obj_ret = self.browse(cr, uid, ids)[0]
         cr.execute('SELECT id, number ' \
                 'FROM islr_wh_doc ' \
