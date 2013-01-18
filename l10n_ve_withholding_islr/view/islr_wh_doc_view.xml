@@ -120,13 +120,13 @@
                         <field name="type"/>
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
-                        <field name="currency_id" />
+                        <field name="currency_id" readonly="1"/>
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="date_uid"/>
-                        <field name="automatic_income_wh" invisible='1' readonly="1"/>
+                        <field name="automatic_income_wh" invisible='0' readonly="1"/>
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
@@ -165,7 +165,7 @@
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
                                 </page>
                                <page string="Other Information">
-                                    <field name="company_id"/>
+                                    <field name="company_id" readonly="1"/>
                                 </page>
                             </notebook>
                         <group col="4" colspan="2">
@@ -240,7 +240,7 @@
                         <field name="type"/>
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('supplier','=',True)]"/>
-                        <field name="currency_id" />
+                        <field name="currency_id" readonly="1"/>
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
@@ -313,7 +313,7 @@
                                     </field>
                                 </page>
                                <page string="Other Information">
-                                    <field name="company_id"/>
+                                    <field name="company_id" readonly="1"/>
                                 </page>
                             </notebook>
                         <group col="4" colspan="2">

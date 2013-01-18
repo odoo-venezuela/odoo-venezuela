@@ -117,7 +117,9 @@ class islr_wh_doc(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
-        'automatic_income_wh' : False,
+        'automatic_income_wh': lambda s, cr, u, ct: \
+                s.pool.get('res.users').browse(cr, u, u,
+                    context=ct).company_id.automatic_income_wh,
     }
 
     def check_income_wh(self, cr, uid, ids, context=None):
@@ -142,6 +144,14 @@ class islr_wh_doc(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0],context=context)
         return obj.automatic_income_wh or False
+
+    def check_auto_wh_by_type(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        brw = self.browse(cr, uid, ids[0],context=context)
+        if brw.type in ('out_invoice','out_refund'):
+            return False
+        return brw.automatic_income_wh or False
 
     def compute_amount_wh(self, cr, uid, ids, context=None):
         context = context or {}      
