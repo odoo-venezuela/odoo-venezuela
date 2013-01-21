@@ -24,7 +24,7 @@
 -
   1.4 I update partner
 -
-  !record {model: res.partner, id: base.res_partner_notsotinysarl0}:
+  !record {model: res.partner, id: base.res_partner_23}:
     supplier: True
     customer: True
     islr_withholding_agent: True
@@ -59,7 +59,7 @@
         invoice_line_tax_id:
         - l10n_ve_fiscal_requirements.iva_purchase1
     journal_id: account.expenses_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     nro_ctrl: islr123
     reference: isrlref123
     type: in_invoice

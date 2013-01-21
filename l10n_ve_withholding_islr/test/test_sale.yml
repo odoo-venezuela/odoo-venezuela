@@ -30,7 +30,7 @@
         invoice_line_tax_id:
         - l10n_ve_fiscal_requirements.iva_sale1
     journal_id: account.sales_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     nro_ctrl: islr456
     reference: isrlref456
     type: out_invoice
@@ -53,7 +53,7 @@
   2.5 I create wh document
 -
   !python {model: islr.wh.doc}: |
-    vals = self.onchange_partner_id(cr, uid, [], 'out_invoice', ref('base.res_partner_notsotinysarl0'))
+    vals = self.onchange_partner_id(cr, uid, [], 'out_invoice', ref('base.res_partner_23'))
     vals.update(
          { 'journal_id': ref('withholding_sale_journal'),
            'name': 'test islr sale',
@@ -61,7 +61,7 @@
            'company_id': ref('base.main_company'),
            'account_id':ref('withholding_sale_journal'),
            'user_id':1,
-           'partner_id': ref('base.res_partner_notsotinysarl0'),
+           'partner_id': ref('base.res_partner_23'),
            'type': 'out_invoice',
             })
     res = self.create(cr, uid, vals)
