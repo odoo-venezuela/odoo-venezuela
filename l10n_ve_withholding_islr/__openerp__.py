@@ -46,7 +46,6 @@ If you want be able to propose withholding concepts from sales and purchases you
     "init_xml" : [],
     "demo_xml":[
             "demo/l10n_ve_islr_withholding_demo.xml",
-            "demo/retencion_islr_sequence.xml",
                ],
     "update_xml" : [
             "view/installer.xml",
