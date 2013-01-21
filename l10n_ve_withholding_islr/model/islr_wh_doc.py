@@ -69,21 +69,9 @@ class islr_wh_doc(osv.osv):
                 res[rete.id] += line.amount
         return res
 
-    def filter_lines_invoice(self,cr,uid,partner_id,context):
-        inv_obj = self.pool.get('account.invoice')
-        invoice_obj = self.pool.get('islr.wh.doc.invoices')
-        inv_ids=[]
-        
-        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),('partner_id','=',partner_id)],context={})
-        if inv_ids:
-            #~ Get only the invoices which are not in a document yet
-            inv_ids = [i.id for i in inv_obj.browse(cr,uid,inv_ids,context={})  if not i.islr_wh_doc_id]
-            inv_ids = [i for i in inv_ids if not invoice_obj.search(cr, uid, [('invoice_id', '=', i)])]
-            inv_ids = [i.id for i in inv_obj.browse(cr, uid, inv_ids, context={}) for d in i.invoice_line if d.concept_id.withholdable]
-            inv_ids = list(set(inv_ids))
-        return inv_ids
     
     _name = "islr.wh.doc"
+    _order = 'date_ret desc, number desc'
     _description = 'Document Income Withholding'
     _columns= {
         'name': fields.char('Description', size=64,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Voucher description"),
@@ -112,7 +100,6 @@ class islr_wh_doc(osv.osv):
         'amount_total_ret':fields.function(_get_amount_total,method=True, string='Amount Total', type='float', digits_compute= dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Income Withholding Concept', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withheld Invoices'),
-        'invoice_id':fields.many2one('account.invoice','Invoice',readonly=False,help="Invoice to make the accounting entry"),
         'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
         'automatic_income_wh' : fields.boolean('Automatic Income Withhold',
@@ -130,7 +117,7 @@ class islr_wh_doc(osv.osv):
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
-        'automatic_income_wh' : False,
+        'automatic_income_wh': False,
     }
 
     def check_income_wh(self, cr, uid, ids, context=None):
@@ -156,6 +143,14 @@ class islr_wh_doc(osv.osv):
         obj = self.browse(cr, uid, ids[0],context=context)
         return obj.automatic_income_wh or False
 
+    def check_auto_wh_by_type(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        brw = self.browse(cr, uid, ids[0],context=context)
+        if brw.type in ('out_invoice','out_refund'):
+            return False
+        return brw.automatic_income_wh or False
+
     def compute_amount_wh(self, cr, uid, ids, context=None):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -169,6 +164,14 @@ class islr_wh_doc(osv.osv):
 
         if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
             return True
+
+    def action_done(self, cr, uid, ids, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        self.action_number(cr, uid, ids, context=context)
+        self.action_move_create(cr, uid, ids, context=context)
+        self.write(cr, uid, ids, {'state':'done'}, context=context)
+        return True
 
     def action_process(self,cr,uid,ids, context=None):
         # TODO: ERASE THE REGARDING NODE IN THE WORKFLOW
@@ -219,20 +222,61 @@ class islr_wh_doc(osv.osv):
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
+        context = context or {}
         acc_id = False
         inv_ids=[]
+        res = {}
+        res_wh_lines = []
+        inv_obj = self.pool.get('account.invoice')
+        args = [('state','=','open'), ('islr_wh_doc_id','=',False),
+                ('partner_id','=',partner_id)]
+
+        # Unlink previous iwdi 
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdi_ids = ids and iwdi_obj.search(cr, uid,
+                [('islr_wh_doc_id','=',ids[0])], context=context)
+        if iwdi_ids:
+            iwdi_obj.unlink(cr, uid, iwdi_ids,context=context)
+            iwdi_ids=[]
+
+        # Unlink previous invoices 
+        inv_ids = ids and inv_obj.search(cr, uid,
+                [('islr_wh_doc_id','=',ids[0])], context=context)
+        if inv_ids:
+            inv_obj.write(cr, uid, inv_ids, {'islr_wh_doc_id':False},
+                    context=context)
+            inv_ids=[]
+
+        # Unlink previous line
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
+        iwdl_ids = ids and iwdl_obj.search(cr, uid,
+                [('islr_wh_doc_id','=',ids[0])], context=context)
+        if iwdl_ids:
+            iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
+            iwdl_ids=[]
 
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable.id
-                inv_ids = self.filter_lines_invoice(cr,uid,partner_id,context=None)
+                acc_id = p.property_account_receivable and \
+                    p.property_account_receivable.id 
+                args+=[('type','in',('out_invoice','out_refund'))]
             else:
-                acc_id = p.property_account_payable.id
-        result = {'value': {'islr_wh_doc_id':inv_ids,'account_id': acc_id}}
+                acc_id = p.property_account_payable and \
+                    p.property_account_payable.id 
+                args+=[('type','in',('in_invoice','in_refund'))]
 
-        return result
+            inv_ids = inv_obj.search(cr,uid,args,context=context)
+            inv_ids = iwdi_obj._withholdable_invoices(cr, uid, inv_ids,
+                    context=None)
+
+            for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context):
+                res_wh_lines += [{'invoice_id': inv_brw.id}] 
+
+        return {'value': {
+            'account_id': acc_id,
+            'invoice_ids':res_wh_lines}}
 
     def create(self, cr, uid, vals, context=None, check=True):
         if not context:
@@ -244,9 +288,13 @@ class islr_wh_doc(osv.osv):
     def action_confirm(self, cr, uid, ids, context=None):
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        return self.write(cr, uid, ids[0], {'state':'confirmed'})
+        check_auto_wh = self.browse(cr, uid, ids[0],
+                context=context).company_id.automatic_income_wh
+        return self.write(cr, uid, ids[0], {'state':'confirmed',
+            'automatic_income_wh':check_auto_wh}, context=context)
 
-    def action_number(self, cr, uid, ids, *args):
+    def action_number(self, cr, uid, ids, context=None):
+        context = context or {}
         obj_ret = self.browse(cr, uid, ids)[0]
         cr.execute('SELECT id, number ' \
                 'FROM islr_wh_doc ' \
@@ -490,6 +538,17 @@ class islr_wh_doc_invoices(osv.osv):
                 concept_set.add(ail.concept_id.id)
         return list(concept_set)
 
+    def _withholdable_invoices(self, cr, uid, ids, context=None):
+        '''Given a list of invoices return only those
+        where there are withholdable concepts'''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res_ids = []
+        for id in ids:
+            id = self._get_concepts(cr, uid, id, context=context) and id
+            if id: res_ids+=[id]
+        return res_ids
+
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         '''
         Returns a dictionary containing all the values of the retention of an invoice line.
@@ -567,6 +626,12 @@ class islr_wh_doc_invoices(osv.osv):
 
         if not ret_line.invoice_id:
             return True
+        #~ Writing the withholding to the invoice 
+        ret_line.invoice_id.write({'islr_wh_doc_id':ret_line.islr_wh_doc_id.id},
+                context=context)
+
+        concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
+                context=context)
 
         if ret_line.invoice_id.type in ('in_invoice','in_refund'):
             #~ Searching & Unlinking for xml lines from the current invoice
@@ -598,7 +663,6 @@ class islr_wh_doc_invoices(osv.osv):
                 iwdl_obj.unlink(cr, uid, iwdl_ids)
                 iwdl_ids=[]
             #~ Creating concept lines for the current invoice
-            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id, context=context)
             for concept_id in concept_list:
                 iwdl_id=iwdl_obj.create(cr,uid,
                         {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
@@ -617,8 +681,6 @@ class islr_wh_doc_invoices(osv.osv):
                 iwdl_obj.unlink(cr, uid, iwdl_ids)
                 iwdl_ids=[]
 
-            concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
-                    context=context)
             for concept_id in concept_list:
                 iwdl_id=iwdl_obj.create(cr,uid,
                         {'islr_wh_doc_id':ret_line.islr_wh_doc_id.id,
