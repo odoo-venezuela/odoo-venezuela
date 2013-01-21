@@ -4,7 +4,6 @@
         <record id="res_company_wh_islr" model="ir.ui.view">
             <field name="name">res.company.wh.islr</field>
             <field name="model">res.company</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="base_vat.company_form_vat"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vat_check_vies']" position="after">
