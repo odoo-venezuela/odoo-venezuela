@@ -259,7 +259,7 @@ class account_invoice(osv.osv):
                 'ref':inv_brw.number,
                 'date': date,
                 'currency_id': False,
-                'name':name
+                'name':_('%s - Concept: %s')%(name,iwdl_brw.islr_rates_id.code)
             }))
         
         return res
