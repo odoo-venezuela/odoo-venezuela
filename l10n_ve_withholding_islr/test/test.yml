@@ -24,11 +24,14 @@
 -
   1.4 I update partner
 -
-  !record {model: res.partner, id: base.res_partner_23}:
-    supplier: True
-    customer: True
-    islr_withholding_agent: True
-    vat: VEJ783458904
+  !python {model: res.partner }: |
+    vals = {
+        'supplier': True,
+        'customer': True,
+        'islr_withholding_agent': True,
+        'vat': 'VEJ783458904',
+        }
+    self.write(cr, uid, [ref('base.res_partner_23')], vals)
 -
   1.5 I create a purchase invoice
 -
