@@ -604,7 +604,7 @@ class islr_wh_doc_invoices(osv.osv):
             'subtract':sb_concept, 
             'base_amount': base,
             'retencion_islr':rate_tuple[2], 
-            'isrl_rates_id':rate_tuple[5], 
+            'islr_rates_id':rate_tuple[5], 
             }
         iwdl_obj.write(cr, uid, ids[0],values,context=context)
         return True 
