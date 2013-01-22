@@ -7,7 +7,7 @@
     property_retencion_islr_payable: islr_pay
     property_retencion_islr_receivable: islr_rec
 -
-  1.3 I update company information so it become a wh agent
+  1.2 I update company information so it become a wh agent
 -
   !python {model: res.partner }: |
     vals = {
@@ -22,7 +22,7 @@
         }
     self.write(cr, uid, [ref('base.main_company')], vals)
 -
-  1.4 I update partner
+  1.3 I update partner
 -
   !python {model: res.partner }: |
     vals = {
@@ -33,7 +33,7 @@
         }
     self.write(cr, uid, [ref('base.res_partner_23')], vals)
 -
-  1.5 I create a purchase invoice
+  1.4 I create a purchase invoice
 -
   !record {model: account.invoice, id: islr_inv01}:
     company_id: base.main_company
@@ -65,20 +65,25 @@
     reference: isrlref123
     type: in_invoice
 -
-  1.6 I click on Calculate taxes button
+  1.5 I click on Calculate taxes button
 -
   !python {model: account.invoice}: |
     acc_brw=self.browse(cr, uid, ref("islr_inv01"))
     self.button_reset_taxes(cr, uid, [ref("islr_inv01")])
 -
-  1.7 I update check total before validating the invoice
+  1.6 I update check total before validating the invoice
 -
   !record {model: account.invoice, id: islr_inv01}:
     check_total: 16800.0
 -
-  1.8 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  1.7 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: islr_inv01}
+-
+  1.8 I check that the invoice is in proforma2 state 
+-
+  !assert {model: account.invoice, id: islr_inv01}:
+    - state == "proforma2"
 -
   1.9 I create invoice by clicking on Create button
 -
