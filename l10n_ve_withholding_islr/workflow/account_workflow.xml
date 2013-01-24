@@ -15,22 +15,8 @@
             <field name="name">Withholding Islr</field>
             <field name="kind">subflow</field>
             <field name="subflow_id" ref="wh_islr_order"/>
-            <field name="action">action_ret_islr()</field>
+            <field name="action">_create_islr_wh_doc()</field>
         </record>
-
-	<record id="act_islr_router" model="workflow.activity">
-            <field name="wkf_id" ref="account.wkf"/>
-            <field name="name">islr_router</field>
-            <field name="kind">dummy</field>
-	    <field name="split_mode">XOR</field>
-        </record>
-	
-	<record id="act_islr_xml" model="workflow.activity">
-            <field name="wkf_id" ref="account.wkf"/>
-            <field name="name">islr_xml</field>
-            <field name="kind">function</field>
-            <field name="action">action_islr_xml()</field>
-        </record>        
 
 <!-- 
     =====================================================
@@ -39,28 +25,15 @@
     -->
         <record id="trans_wh_router_wh_islr" model="workflow.transition">
             <field name="act_from" ref="l10n_ve_withholding.act_wh_router"/>
-            <field name="act_to" ref="act_islr_router"/>
-            <field name="condition">check_invoice_type()</field>
-            <field name="signal"></field>
-        </record>
-	
-        <record id="trans_wh_router_xml" model="workflow.transition">
-            <field name="act_from" ref="act_islr_router"/>
-            <field name="act_to" ref="act_islr_xml"/>
-            <field name="condition">check_wh_islr_xml()</field>
+            <field name="act_to" ref="act_withold_islr"/>
+            <field name="condition">check_invoice_type() and check_withholdable_concept()</field>
             <field name="signal"></field>
         </record>
 
-        <record id="trans_islr_router_wh_islr" model="workflow.transition">
-            <field name="act_from" ref="act_islr_router"/>
-            <field name="act_to" ref="act_withold_islr"/>
-            <field name="condition">check_wh_islr_apply()</field>
-            <field name="signal"></field>
-        </record>        
         <!--        From Withholdings to paid-->
 
         <record id="trans_withhold_paid" model="workflow.transition">
-            <field name="act_from" ref="act_withold_islr"/>
+            <field name="act_from" ref="l10n_ve_withholding.act_wh_router"/>
             <field name="act_to" ref="account.act_paid"/>
             <field name="trigger_model">account.move.line</field>
             <field name="trigger_expr_id">move_line_id_payment_get()</field>
@@ -68,7 +41,7 @@
         </record>
 
         <record id="trans_islr_xml_paid" model="workflow.transition">
-            <field name="act_from" ref="act_islr_xml"/>
+            <field name="act_from" ref="act_withold_islr"/>
             <field name="act_to" ref="account.act_paid"/>
             <field name="trigger_model">account.move.line</field>
             <field name="trigger_expr_id">move_line_id_payment_get()</field>

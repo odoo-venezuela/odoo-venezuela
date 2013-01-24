@@ -11,7 +11,6 @@
         <record id="view_xml_islr_line_form" model="ir.ui.view">
             <field name="name">islr.xml.wh.line_form</field>
             <field name="model">islr.xml.wh.line</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Export in XML data">
                     <newline/>
@@ -22,7 +21,7 @@
                         <field name="partner_vat"/>
                     </group>
                     <newline/>
-                    <separator string="Concept of Withholding Income" colspan="6"/>
+                    <separator string="Concept of Income Withholding" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="concept_id" colspan="4" />
@@ -54,7 +53,6 @@
         <record id="view_xml_islr_tree" model="ir.ui.view">
             <field name="name">islr.xml.wh.doc_tree</field>
             <field name="model">islr.xml.wh.doc</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Lines Withholding for XML" >
                     <field name="name"/>
@@ -67,7 +65,6 @@
         <record id="view_xml_islr_form" model="ir.ui.view">
             <field name="name">islr.xml.wh.doc_form</field>
             <field name="model">islr.xml.wh.doc</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Lines Withholding for XML">
                     <field name="name"/>
@@ -107,7 +104,6 @@
         <record id="view_generate_xml_filter" model="ir.ui.view">
             <field name="name">islr.xml.wh.doc.search</field>
             <field name="model">islr.xml.wh.doc</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search File XML">
                    <group col="10" colspan="4">
@@ -118,7 +114,7 @@
                         <separator orientation="vertical"/>
                         <field name="company_id"/>
                         <field name="user_id" select="1" widget="selection" string="Salesman">
-                        <filter domain="[('user_id','=',uid)]" help="My Withholding Income" icon="terp-personal" separator="1"/>
+                        <filter domain="[('user_id','=',uid)]" help="My Income Withholding" icon="terp-personal" separator="1"/>
                         </field>
                     </group>
                     <newline/>

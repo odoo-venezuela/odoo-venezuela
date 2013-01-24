@@ -14,14 +14,14 @@
     journal_id = self.default_get(cr, uid, ['journal_id']).get('journal_id',None)
     res = self.onchange_partner_id(cr, uid, [], inv_brw.partner_id.id, journal_id, 0.0, 1, ttype='receipt', date=False)
     ap_obj = self.pool.get('account.period')
-    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})[0]
     vals = {
         'account_id': ref('account.cash'),
-        'amount': inv_brw.amount,
+        'amount': inv_brw.amount_total,
         'company_id': ref('base.main_company'),
         'currency_id': ref('base.EUR'),
         'journal_id': ref('account.bank_journal'),
-        'partner_id': ref('inv_brw.partner_id.id'),
+        'partner_id': inv_brw.partner_id.id,
         'period_id': period,
         'type': 'receipt',
     }
@@ -39,9 +39,10 @@
   1.2 I check that the invoice state is "Open"
 -
   !python {model: account.voucher}: |
+    import time
     inv_obj = self.pool.get("account.invoice")
     inv_brw = inv_obj.browse(cr, uid, ref("l10n_ve_fiscal_requirements.test_fr01"))
     lines = inv_brw.invoice_line
     data = self.onchange_journal(cr, uid, [ref("l10n_ve_fiscal_requirements.test_fr01")], 5, lines, False, 
-                                inv_brw.partner_id, time.strftime('%Y-%m-%d'), 
-                                inv_brw.amount, ttype, base.main_company, context=None)
+                                inv_brw.partner_id.id, time.strftime('%Y-%m-%d'), 
+                                inv_brw.amount_total, 'receipt', ref('base.main_company'), context=None)
