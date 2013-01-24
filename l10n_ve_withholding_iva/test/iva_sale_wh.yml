@@ -7,11 +7,9 @@
     company_id: base.main_company
     currency_id: base.EUR
     date_invoice: !eval time.strftime('%Y-%m-%d')
-    address_contact_id: base.res_partner_address_3
-    address_invoice_id: base.res_partner_address_3
     account_id: account.a_recv
     invoice_line:
-      - product_id: product.product_product_pc3
+      - product_id: product.product_product_3
         quantity: 3
         uos_id: product.product_uom_unit
         price_unit: 10
@@ -19,7 +17,7 @@
         account_id: account.a_sale
         invoice_line_tax_id:
         - iva_sale1
-      - product_id: product.product_product_pc2
+      - product_id: product.product_product_4
         quantity: 5
         uos_id: product.product_uom_unit
         price_unit: 20
@@ -28,7 +26,7 @@
         invoice_line_tax_id:
         - iva_sale1
     journal_id: account.sales_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     reference_type: none
 -
   7.2 I check that Initially customer invoice is in the "Draft" state
@@ -88,7 +86,7 @@
 -
   !record {model: account.wh.iva, id: wh_iva_sale01}:
     journal_id: wh_sales_journal
-    partner_id: base.res_partner_notsotinysarl0
+    partner_id: base.res_partner_23
     number: 111222333
     account_id: account.a_recv
     name: 'IVA wh vat customer'
@@ -111,7 +109,7 @@
     ap_obj=self.pool.get('account.period')
     period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     assert period, 'There aren\'t periods for this date'
-    ap_brw = ap.browse(cr, uid, period[0])
+    ap_brw = ap_obj.browse(cr, uid, period[0])
     if ap_brw.state == 'done':
         ap.action_draft(cr, uid, period)
         ap_brw = ap.browse(cr, uid, period[0])
@@ -128,15 +126,15 @@
 -
   !python {model: account.wh.iva}: |
     wil_obj=self.pool.get('account.wh.iva.line')
-    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("base.res_partner_notsotinysarl0"))
+    res = self.onchange_partner_id(cr, uid, [1], 'out_invoice', ref("base.res_partner_23"))
     ind_id = res['value']['wh_lines'][0]['invoice_id']
     res['value']['wh_lines'][0].update({'retention_id': ref("wh_iva_sale01")})
     wil_id = wil_obj.create(cr, uid, res['value']['wh_lines'][0])
     wil_obj.load_taxes(cr, uid, [wil_id])
--
-  7.16 I try to confirm the withholding vat customer
--
-  !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
+#~ -
+  #~ 7.16 I try to confirm the withholding vat customer (This test raise an exception - is ok - but its commented to pursue next steps in the test)
+#~ -
+  #~ !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: wh_iva_sale01}
 -
   7.17 I check withholding vat not is confirmed because invoice has not control number
 -
@@ -176,7 +174,7 @@
 -
   !workflow {model: account.wh.iva, action: wh_iva_done, ref: wh_iva_sale01}
 -
-  7.24 I check withholding vat is confirmed
+  7.24 I check withholding vat is done
 -
   !assert {model: account.wh.iva, id: wh_iva_sale01}:
     - state == 'done'

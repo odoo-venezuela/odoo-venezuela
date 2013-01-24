@@ -25,7 +25,6 @@
             <field name="name">Wh Sale - (test)</field>
             <field name="code">WHS</field>
             <field name="type">iva_sale</field>
-            <field name="view_id" ref="account.account_journal_bank_view"/>
             <field name="sequence_id" ref="seq_account_wh_iva"/>
             <field model="account.account" name="default_credit_account_id" ref="iva_rec"/>
             <field model="account.account" name="default_debit_account_id" ref="iva_rec"/>
@@ -34,7 +33,6 @@
             <field name="name">Wh Purchase - (test)</field>
             <field name="code">WHP</field>
             <field name="type">iva_purchase</field>
-            <field name="view_id" ref="account.account_journal_bank_view"/>
             <field name="sequence_id" ref="seq_account_wh_iva_purchase"/>
             <field model="account.account" name="default_credit_account_id" ref="iva_pay"/>
             <field model="account.account" name="default_debit_account_id" ref="iva_pay"/>
