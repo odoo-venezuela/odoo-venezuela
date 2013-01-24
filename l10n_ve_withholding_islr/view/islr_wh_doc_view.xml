@@ -17,6 +17,7 @@
                     <field name="islr_xml_id"/>
                     <field name="amount_islr_ret"/>
                     <field name="base_ret"/>
+                    <field name="move_id"/>
                 </tree>
             </field>
         </record>
@@ -94,7 +95,6 @@
                     <field name="period_id"/>
                     <field name="number"/>
                     <field name="code"/>
-                    <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
                     <field name="state" invisible="1"/>
@@ -121,13 +121,13 @@
                         <field name="type"/>
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
-                        <field name="currency_id" />
+                        <field name="currency_id" readonly="1"/>
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="date_uid"/>
-                        <field name="automatic_income_wh" readonly="1"/>
+                        <field name="automatic_income_wh" invisible='0' readonly="1"/>
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
@@ -137,7 +137,7 @@
                                             <field name="iwdl_ids"/> 
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
-                                            <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                            <field name="move_id"/>
                                         </tree>
                                         <form string="Invoices">
                                             <field
@@ -150,11 +150,11 @@
                                                     <field name='concept_id' readonly='1'/>
                                                     <field name='retencion_islr' readonly='0'/>
                                                     <field name='amount' readonly='0'/>
-                                                    <field name='move_id' readonly='1'/>
                                                 </tree>
                                             </field>
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
+                                            <field name="move_id"/>
                                             <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
                                         </form>
                                     </field>
@@ -164,12 +164,9 @@
                                 </page>
                                 <page string="Concept of Income Withholding">
                                     <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
-                                    <group col="4" colspan="2">
-                                        <field name="amount_total_ret"/>
-                                    </group>
                                 </page>
                                <page string="Other Information">
-                                    <field name="company_id"/>
+                                    <field name="company_id" readonly="1"/>
                                 </page>
                             </notebook>
                         <group col="4" colspan="2">
@@ -218,7 +215,6 @@
                     <field name="period_id"/>
                     <field name="number"/>
                     <field name="code"/>
-                    <field name="invoice_id"/>
                     <field name="amount_total_ret"/>
                     <field name="currency_id"/>
                     <field name="state" invisible="1"/>
@@ -245,7 +241,7 @@
                         <field name="type"/>
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('supplier','=',True)]"/>
-                        <field name="currency_id" />
+                        <field name="currency_id" readonly="1"/>
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
@@ -253,7 +249,6 @@
                         <field name="number"/>
                         <field name="date_uid" />
                         <field name="automatic_income_wh" readonly="1"/>
-                        <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
@@ -277,6 +272,7 @@
                                             
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
+                                            <field name="move_id"/>
                                             <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
                                         </form>
                                     </field>
@@ -319,7 +315,7 @@
                                     </field>
                                 </page>
                                <page string="Other Information">
-                                    <field name="company_id"/>
+                                    <field name="company_id" readonly="1"/>
                                 </page>
                             </notebook>
                         <group col="4" colspan="2">

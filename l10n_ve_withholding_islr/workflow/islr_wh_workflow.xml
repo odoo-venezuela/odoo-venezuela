@@ -25,9 +25,7 @@
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="kind">function</field>
             <field name="name">done</field>
-            <field name="action">action_number()
-action_move_create()
-write({'state':'done'})</field>
+            <field name="action">action_done()</field>
         </record>
         
         <record id="act_draft" model="workflow.activity">
@@ -62,7 +60,7 @@ write({'state':'cancel'})</field>
         <record id="trans_draft_confirmed_2" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_confirmed"/>
-            <field name="condition">check_income_wh() and check_auto_wh()</field>
+            <field name="condition">check_auto_wh_by_type() and check_income_wh()</field>
         </record>
 
         <record id="trans_confirmed_done_2" model="workflow.transition">
@@ -89,15 +87,10 @@ write({'state':'cancel'})</field>
             <field name="signal">act_cancel</field>
         </record>
 
-
         <record id="trans_cancel_draft" model="workflow.transition">
             <field name="act_from" ref="act_cancel"/>
             <field name="act_to" ref="act_draft"/>
             <field name="signal">act_draft</field>
         </record>
-
-
-
-
     </data>
 </openerp>

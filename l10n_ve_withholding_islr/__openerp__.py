@@ -42,11 +42,10 @@
 If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',
-    "depends" : ["account", "l10n_ve_withholding", "product","edi"],
+    "depends" : ["account", "l10n_ve_withholding", "product"], # ,"edi"],
     "init_xml" : [],
     "demo_xml":[
             "demo/l10n_ve_islr_withholding_demo.xml",
-            "demo/retencion_islr_sequence.xml",
                ],
     "update_xml" : [
             "view/installer.xml",
@@ -66,7 +65,6 @@ If you want be able to propose withholding concepts from sales and purchases you
             "workflow/islr_wh_workflow.xml",
             "workflow/account_workflow.xml",
             #"edi/islr_wh_doc_action_data.xml",
-            
     ],
     'test': [
             'test/test.yml',
