@@ -344,12 +344,18 @@ class islr_wh_doc(osv.osv):
         doc_brw = None
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
+        context.update({'income_wh':True,
+                        'company_id': ret.company_id.id})
+        acc_id = ret.account_id.id
         if not ret.date_uid:
             self.write(cr, uid, [ret.id], {'date_uid':time.strftime('%Y-%m-%d')})
 
         if not ret.date_ret:
             self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
         
+        # Reload the browse because there have been changes into it 
+        ret = self.browse(cr, uid, ids[0], context=context)
+
         period_id = ret.period_id and ret.period_id.id or False
         journal_id = ret.journal_id.id
         
@@ -360,40 +366,28 @@ class islr_wh_doc(osv.osv):
             else:
                 raise osv.except_osv(_('Warning !'), _("Not found a fiscal period to date: '%s' please check!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
 
-        for line in ret.concept_ids:
+        for line in ret.invoice_ids:
             if ret.type in ('in_invoice', 'in_refund'):
-                if line.concept_id.property_retencion_islr_payable:
-                    acc_id = line.concept_id.property_retencion_islr_payable.id
-                    inv_id = line.invoice_id.id
-                else:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible income withholding, because the account for withholding of sale is not assigned to the Concept withholding '%s'!")% (line.concept_id.name))
+                name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
             else:
-                if  line.concept_id.property_retencion_islr_receivable:
-                    acc_id = line.concept_id.property_retencion_islr_receivable.id
-                    inv_id = line.invoice_id.id
-                else:
-                    raise osv.except_osv(_('Invalid action !'),_("Impossible income withholding, because the account for withholding of purchase is not assigned to the Concept withholding '%s'!") % (line.concept_id.name))
-
+                name = 'COMP. RET. ISLR ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
             writeoff_account_id = False
             writeoff_journal_id = False
-            amount = line.amount
+            amount = line.amount_islr_ret
 
-            ret_move = self.wh_and_reconcile(cr, uid, [ret.id], inv_id,
+            ret_move = line.invoice_id.ret_and_reconcile(
                     amount, acc_id, period_id, journal_id, writeoff_account_id,
-                    period_id, writeoff_journal_id, context)
+                    period_id, writeoff_journal_id, ret.date_ret, name,
+                    line.iwdl_ids, context=context)
 
-            # make the retencion line point to that move
+            # make the withholding line point to that move
             rl = {
                 'move_id': ret_move['move_id'],
             }
             #lines = [(op,id,values)] escribir en un one2many
             lines = [(1, line.id, rl)]
-            self.write(cr, uid, [ret.id], {'concept_ids':lines})
+            self.write(cr, uid, [ret.id], {'invoice_ids':lines, 'period_id':period_id})
           
-            if lines:
-                message = _("Income withholding voucher '%s' validated and accounting entry generated.") % self.browse(cr, uid, ids[0]).name
-                self.log(cr, uid, ids[0], message) 
-        
         xml_ids = []  
         for line in ret.concept_ids:
             xml_ids += [xml.id for xml in line.xml_ids]
@@ -521,6 +515,8 @@ class islr_wh_doc_invoices(osv.osv):
         'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
         'iwdl_ids':fields.one2many('islr.wh.doc.line','iwdi_id','Withholding Concepts'),
+        'move_id': fields.many2one('account.move', 'Journal Entry',
+            readonly=True, help="Accounting voucher"),
     }
     _rec_rame = 'invoice_id'
     
@@ -608,6 +604,7 @@ class islr_wh_doc_invoices(osv.osv):
             'subtract':sb_concept, 
             'base_amount': base,
             'retencion_islr':rate_tuple[2], 
+            'islr_rates_id':rate_tuple[5], 
             }
         iwdl_obj.write(cr, uid, ids[0],values,context=context)
         return True 

@@ -17,6 +17,7 @@
                     <field name="islr_xml_id"/>
                     <field name="amount_islr_ret"/>
                     <field name="base_ret"/>
+                    <field name="move_id"/>
                 </tree>
             </field>
         </record>
@@ -136,7 +137,7 @@
                                             <field name="iwdl_ids"/> 
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
-                                            <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                            <field name="move_id"/>
                                         </tree>
                                         <form string="Invoices">
                                             <field
@@ -149,11 +150,11 @@
                                                     <field name='concept_id' readonly='1'/>
                                                     <field name='retencion_islr' readonly='0'/>
                                                     <field name='amount' readonly='0'/>
-                                                    <field name='move_id' readonly='1'/>
                                                 </tree>
                                             </field>
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
+                                            <field name="move_id"/>
                                             <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
                                         </form>
                                     </field>
@@ -271,6 +272,7 @@
                                             
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
+                                            <field name="move_id"/>
                                             <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
                                         </form>
                                     </field>

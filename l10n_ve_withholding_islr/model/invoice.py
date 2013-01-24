@@ -250,16 +250,16 @@ class account_invoice(osv.osv):
                                 "Please, fill the missing fields"
                                 ) % (iwdl_brw.concept_id.name,))
             res.append((0,0,{
-                'debit': direction * iwdl_brw.amount_ret<0 and - direction *\
-                iwdl_brw.amount_ret,
-                'credit': direction * iwdl_brw.amount_ret>0 and direction *\
-                iwdl_brw.amount_ret,
+                'debit': direction * iwdl_brw.amount<0 and - direction *\
+                iwdl_brw.amount,
+                'credit': direction * iwdl_brw.amount>0 and direction *\
+                iwdl_brw.amount,
                 'account_id': acc,
                 'partner_id': inv_brw.partner_id.id,
                 'ref':inv_brw.number,
                 'date': date,
                 'currency_id': False,
-                'name':name
+                'name':_('%s - ISLR: %s')%(name,iwdl_brw.islr_rates_id.code)
             }))
         
         return res
