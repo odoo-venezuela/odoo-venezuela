@@ -23,9 +23,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-
-import wh_muni
-import invoice
-import partner
-import report
-import workflow 
+import model
