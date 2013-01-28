@@ -45,7 +45,6 @@ class res_company(osv.osv):
         
     def write(self, cr, uid, ids, values, context=None):
         context = context or {}
-        self.cache_restart(cr)
         context.update({'create_company':True})
         return super(res_company, self).write(cr, uid, ids, values, context=context)
 

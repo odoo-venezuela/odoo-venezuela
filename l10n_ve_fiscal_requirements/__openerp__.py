@@ -79,6 +79,7 @@ We now have a configuration wizard after this module install.
         'wizard/wizard_nro_ctrl_view.xml',
         'view/res_company_view.xml',
         'view/l10n_ut_view.xml',
+        'wizard/wizard_update_name_view.xml',
         'view/partner_view.xml',
         'view/account_inv_refund_nctrl_view.xml',
         'view/account_tax_view.xml',
