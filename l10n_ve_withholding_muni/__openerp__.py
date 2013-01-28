@@ -31,16 +31,19 @@
     "description": """Management  local withholding for Venezuelan tax laws
     """,
     "depends" : ["l10n_ve_withholding"],
-    'data': [
+    'update_xml': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
-        'account_invoice_view.xml',
-        'partner_view.xml',
-        'wh_muni_view.xml',
-        "wh_muni_sequence.xml",
-        "wh_muni_report.xml",
-        "workflow/l10n_ve_wh_muni_wf.xml",
-        #~ "workflow/account_workflow.xml",
+        'wizard/retencion_munici_wizard.xml'
+        'view/account_invoice_view.xml',
+        'view/partner_view.xml',
+        'view/wh_muni_view.xml',
+        'data/wh_muni_sequence.xml',
+        'report/wh_muni_report.xml',
+        'workflow/l10n_ve_wh_muni_wf.xml',    
+    ]
+    'data': [
+        'data/wh_muni_sequence.xml',
     ],
     'demo_xml': [],
     'test': [],

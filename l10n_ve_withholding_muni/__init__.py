@@ -28,5 +28,4 @@ import wh_muni
 import invoice
 import partner
 import report
-#import wizard
 import workflow 
