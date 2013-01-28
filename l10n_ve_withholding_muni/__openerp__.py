@@ -28,21 +28,22 @@
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
-    "description": """Management  local withholding for Venezuelan tax laws
+    "description": """Management local withholding for Venezuelan tax laws
     """,
+    'init_xml': [],
     "depends" : ["l10n_ve_withholding"],
     'update_xml': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
-        'wizard/retencion_munici_wizard.xml'
+        'wizard/retencion_munici_wizard.xml',
         'view/account_invoice_view.xml',
         'view/partner_view.xml',
         'view/wh_muni_view.xml',
         'data/wh_muni_sequence.xml',
         'report/wh_muni_report.xml',
         'workflow/l10n_ve_wh_muni_wf.xml',    
-    ]
-    'data': [
+    ],
+    'data':[
         'data/wh_muni_sequence.xml',
     ],
     'demo_xml': [],
