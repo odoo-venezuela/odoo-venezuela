@@ -71,7 +71,8 @@ class account_invoice(osv.osv):
 
     def test_retenida_muni(self, cr, uid, ids, *args):
         type2journal = {'out_invoice': 'mun_sale',
-                        'in_invoice': 'mun_purchase', 'out_refund': 'mun_sale',
+                        'out_refund': 'mun_sale',
+                        'in_invoice': 'mun_purchase',
                         'in_refund': 'mun_purchase'}
         type_inv = self.browse(cr, uid, ids[0]).type
         type_journal = type2journal.get(type_inv, 'mun_purchase')
@@ -92,7 +93,8 @@ class account_invoice(osv.osv):
     def _get_inv_munici_from_line(self, cr, uid, ids, context=None):
         context = context or {}
         move = {}
-        for line in self.pool.get('account.move.line').browse(cr, uid, ids):
+        aml_brw = self.pool.get('account.move.line').browse(cr, uid, ids)
+        for line in aml_brw:
             if line.reconcile_partial_id:
                 for line2 in line.reconcile_partial_id.line_partial_ids:
                     move[line2.move_id.id] = True
@@ -108,7 +110,8 @@ class account_invoice(osv.osv):
     def _get_inv_munici_from_reconcile(self, cr, uid, ids, context=None):
         context = context or {}
         move = {}
-        for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
+        amr_brw = self.pool.get('account.move.reconcile').browse(cr, uid, ids)
+        for r in amr_brw:
             for line in r.line_partial_ids:
                 move[line.move_id.id] = True
             for line in r.line_id:
@@ -122,13 +125,13 @@ class account_invoice(osv.osv):
 
     _columns = {
         'wh_local': fields.function(_retenida_munici, method=True,
-                    string='Local Withholding', type='boolean',
-                    store={
-                'account.invoice':
-                  (lambda self, cr, uid, ids, c={}: ids, None, 50),
-                'account.move.line': (_get_inv_munici_from_line, None, 50),
-                'account.move.reconcile':
-                  (_get_inv_munici_from_reconcile, None, 50),
+            string='Local Withholding', type='boolean',
+            store={
+              'account.invoice':
+                (lambda self, cr, uid, ids, c={}: ids, None, 50),
+              'account.move.line': (_get_inv_munici_from_line, None, 50),
+              'account.move.reconcile':
+                (_get_inv_munici_from_reconcile, None, 50),
             },
             help="The account moves of the invoice have been withheld with \
             account moves of the payment(s)."),
