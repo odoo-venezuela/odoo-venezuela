@@ -34,8 +34,7 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id,
                             writeoff_period_id, writeoff_journal_id, date,
                             name, context=None):
-        if context is None:
-            context = {}
+        context = context or {}
         res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh,
                             period_id, pay_journal_id, writeoff_acc_id,
                             writeoff_period_id, writeoff_journal_id, date,
@@ -63,7 +62,8 @@ class account_invoice(osv.osv):
             }))
         return res
 
-    def _retenida_munici(self, cr, uid, ids, name, args, context):
+    def _retenida_munici(self, cr, uid, ids, name, args, context=None):
+        context = context or {}
         res = {}
         for id in ids:
             res[id] = self.test_retenida_muni(cr, uid, [id], 'retmun')
@@ -89,7 +89,8 @@ class account_invoice(osv.osv):
         ok = ok and  bool(cr.fetchone())
         return ok
 
-    def _get_inv_munici_from_line(self, cr, uid, ids, context={}):
+    def _get_inv_munici_from_line(self, cr, uid, ids, context=None):
+        context = context or {}
         move = {}
         for line in self.pool.get('account.move.line').browse(cr, uid, ids):
             if line.reconcile_partial_id:
@@ -104,7 +105,8 @@ class account_invoice(osv.osv):
                          [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
-    def _get_inv_munici_from_reconcile(self, cr, uid, ids, context={}):
+    def _get_inv_munici_from_reconcile(self, cr, uid, ids, context=None):
+        context = context or {}
         move = {}
         for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
             for line in r.line_partial_ids:
