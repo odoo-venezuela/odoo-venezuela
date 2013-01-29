@@ -35,7 +35,6 @@
     'update_xml': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
-        'wizard/retencion_munici_wizard.xml',
         'view/account_invoice_view.xml',
         'view/partner_view.xml',
         'view/wh_muni_view.xml',

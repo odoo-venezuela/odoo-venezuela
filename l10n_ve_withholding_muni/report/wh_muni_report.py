@@ -28,9 +28,9 @@ from report import report_sxw
 from osv import osv
 import pooler
 
-class rep_wh_muni(report_sxw.rml_parse):
+class wh_muni_report(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
-        super(rep_wh_muni, self).__init__(cr, uid, name, context)
+        super(wh_muni_report, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
@@ -57,9 +57,9 @@ class rep_wh_muni(report_sxw.rml_parse):
     
       
 report_sxw.report_sxw(
-    'report.wh.muni_rep',
+    'report.wh.muni.report',
     'account.wh.munici',
-    'addons/l10n_ve_withholding_muni/report/wh_muni_report.rml',
-    parser=rep_wh_muni,
+    rml='l10n_ve_withholding_muni/report/wh_muni_report.rml',
+    parser=wh_muni_report,
     header=False
 )      
