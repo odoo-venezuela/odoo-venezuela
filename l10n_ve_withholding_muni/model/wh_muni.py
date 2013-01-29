@@ -39,7 +39,7 @@ class account_wh_munici(osv.osv):
         type = context.get('type', 'in_invoice')
         return type
 
-    def _get_journal(self, cr, uid, context):
+    def _get_journal(self, cr, uid, context=None):
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
@@ -53,7 +53,9 @@ class account_wh_munici(osv.osv):
         else:
             return False
 
-    def _get_currency(self, cr, uid, context):
+    def _get_currency(self, cr, uid, context=None):
+        if context is None:
+            context = {}
         user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
         if user.company_id:
             return user.company_id.currency_id.id
@@ -105,7 +107,9 @@ class account_wh_munici(osv.osv):
         ('ret_num_uniq', 'unique (number)', 'number must be unique !')
     ]
 
-    def action_confirm(self, cr, uid, ids, context={}):
+    def action_confirm(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
         obj = self.pool.get('account.wh.munici').browse(cr, uid, ids)
         total = 0
         for i in obj[0].munici_line_ids:
@@ -131,15 +135,17 @@ class account_wh_munici(osv.osv):
                            'WHERE id=%s', (number, id))
         return True
 
-    def action_done(self, cr, uid, ids, context={}):
+    def action_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
         self.action_number(cr, uid, ids)
         self.action_move_create(cr, uid, ids)
         return True
 
     def action_move_create(self, cr, uid, ids, context=None):
-        inv_obj = self.pool.get('account.invoice')
         if context is None:
             context = {}
+        inv_obj = self.pool.get('account.invoice')
         context.update({'muni_wh': True})
         for ret in self.browse(cr, uid, ids):
             for line in ret.munici_line_ids:
@@ -201,7 +207,9 @@ class account_wh_munici(osv.osv):
 
         return result
 
-    def _update_check(self, cr, uid, ids, partner_id, context={}):
+    def _update_check(self, cr, uid, ids, partner_id, context=None):
+        if context is None:
+            context = {}
         if ids:
             ret = self.browse(cr, uid, ids[0])
             inv_str = ''
@@ -215,7 +223,9 @@ class account_wh_munici(osv.osv):
 
         return True
 
-    def _new_check(self, cr, uid, values, context={}):
+    def _new_check(self, cr, uid, values, context=None):
+        if context is None:
+            context = {}
         lst_inv = []
 
         if 'munici_line_ids' in values and values['munici_line_ids']:
@@ -239,7 +249,7 @@ class account_wh_munici(osv.osv):
         return True
 
     def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
-        if not context:
+        if context is None:
             context = {}
         ret = self.browse(cr, uid, ids[0])
         if update_check:
@@ -251,7 +261,7 @@ class account_wh_munici(osv.osv):
         return super(account_wh_munici, self).write(cr, uid, ids, vals, context=context)
 
     def create(self, cr, uid, vals, context=None, check=True):
-        if not context:
+        if context is None:
             context = {}
         if check:
             self._new_check(cr, uid, vals, context)
@@ -263,7 +273,9 @@ account_wh_munici()
 
 class account_wh_munici_line(osv.osv):
 
-    def default_get(self, cr, uid, fields, context={}):
+    def default_get(self, cr, uid, fields, context=None):
+        if context is None:
+            context = {}
         data = super(account_wh_munici_line, self).default_get(cr,
                                                                uid, fields, context)
         self.munici_context = context
@@ -294,7 +306,9 @@ class account_wh_munici_line(osv.osv):
          'The invoice has already assigned in local withholding, you cannot assigned it twice!')
     ]
 
-    def onchange_invoice_id(self, cr, uid, ids, invoice_id, context={}):
+    def onchange_invoice_id(self, cr, uid, ids, invoice_id, context=None):
+        if context is None:
+            context = {}
         lines = []
 
         if hasattr(self, 'munici_context') and ('lines' in self.munici_context):
