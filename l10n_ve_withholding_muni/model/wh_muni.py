@@ -77,7 +77,7 @@ class account_wh_munici(osv.osv):
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
-        ], 'Estado', readonly=True, help="Estado del Comprobante"),
+        ], 'State', readonly=True, help="Estado del Comprobante"),
         'date_ret': fields.date('Withholding date', readonly=True, states={'draft': [('readonly', False)]}, help="Keep empty to use the current date"),
         'date': fields.date('Date', readonly=True, states={'draft': [('readonly', False)]}, help="Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state', '<>', 'done')], readonly=True, states={'draft': [('readonly', False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),

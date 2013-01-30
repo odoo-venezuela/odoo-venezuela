@@ -13,7 +13,6 @@
         <record id="account_invoice_wh_muni_customer" model="ir.ui.view">
             <field name="name">account.invoice.wh.local.customer</field>
             <field name="model">account.invoice</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
                 <xpath expr="//separator[3]" position="after">
@@ -33,7 +32,6 @@
         <record id="account_invoice_wh_muni_supplier" model="ir.ui.view">
             <field name="name">account.invoice.wh.local.supplier</field>
             <field name="model">account.invoice</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
             <field name="arch" type="xml">
                 <xpath expr="//separator[3]" position="after">
@@ -53,7 +51,6 @@
         <record id="account_invoice_wh_muni_tree" model="ir.ui.view">
             <field name="name">account.invoice.wh.local.tree</field>
             <field name="model">account.invoice</field>
-            <field name="type">tree</field>
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="/tree/field[@name='origin']" position="after">
