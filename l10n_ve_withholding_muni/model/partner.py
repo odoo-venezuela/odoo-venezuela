@@ -4,8 +4,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
-#    Coded by: Javier Duran <jduran@corvus.com.ve>    
+# Credits######################################################
+#    Coded by: Javier Duran <jduran@corvus.com.ve>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -22,7 +22,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+##########################################################################
 
 from osv import fields, osv
 
@@ -49,7 +49,7 @@ class res_partner(osv.osv):
             domain="[('type', '=', 'other')]",
             help="This account will be used credit local withholding amount"),
 
-   }
+    }
 
 
 res_partner()
