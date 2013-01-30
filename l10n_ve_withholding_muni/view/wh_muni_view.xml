@@ -11,7 +11,6 @@
         <record id="view_wh_muni_line_tree" model="ir.ui.view">
             <field name="name">account.wh.munici.line.tree</field>
             <field name="model">account.wh.munici.line</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Local Withholding line " editable="bottom">
                     <field name="name"/>
@@ -26,7 +25,6 @@
         <record id="view_wh_muni_line_form" model="ir.ui.view">
             <field name="name">account.wh.munici.line.form</field>
             <field name="model">account.wh.munici.line</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Local Withholding line ">
                     <notebook>
@@ -53,7 +51,6 @@
         <record id="view_wh_muni_filter" model="ir.ui.view">
             <field name="name">account.wh.munici.search</field>
             <field name="model">account.wh.munici</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Withholding Local">
                    <group col="10" colspan="4">
@@ -84,7 +81,6 @@
         <record id="view_wh_muni_tree" model="ir.ui.view">
             <field name="name">account.wh.munici.tree</field>
             <field name="model">account.wh.munici</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state=='draft'" string="Local Withholding">
                     <field name="name"/>
@@ -106,7 +102,6 @@
         <record id="view_wh_muni_form" model="ir.ui.view">
             <field name="name">account.wh.munici.form</field>
             <field name="model">account.wh.munici</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Local Withholding">
                     <group colspan="4" col="6">
