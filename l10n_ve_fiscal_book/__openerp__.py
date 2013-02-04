@@ -56,6 +56,7 @@
         "view/invoice_view.xml",
         "view/adjustment_book.xml",
         "view/fiscal_book.xml",
+        "report/fiscal_report_report.xml"
     ],
     "active": False,
     "installable": True,
