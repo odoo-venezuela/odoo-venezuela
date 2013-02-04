@@ -30,7 +30,7 @@
                  "l10n_ve_withholding_islr" ,
                  "l10n_ve_withholding_muni",
                  "l10n_ve_withholding_src",
-                 "l10n_ve_fiscal_reports_V3",
+                 "l10n_ve_fiscal_book",
                  #Optionals, uncomment if you want to use them
                  #"l10n_ve_sale_purchase", #Install if you want be able set islr 
                  #concepts from Sales and Purchase
@@ -62,7 +62,7 @@ This module will install for you:
 
  - "l10n_ve_withholding_iva" ,
 
- - "l10n_ve_fiscal_reports_V3",
+ - "l10n_ve_fiscal_book",
 
  - "l10n_ve_withholding_muni",
 

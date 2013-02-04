@@ -6,7 +6,7 @@
             id="report_sale_seniat" 
             model="fiscal.reports.purchase" 
             name="fiscal.reports.purchase.purchase_seniat" 
-            rml="l10n_ve_fiscal_reports_V3/report/sales_book.rml" 
+            rml="l10n_ve_fiscal_book/report/sales_book.rml" 
             string="Sales book SENIAT"
             auto="False" 
             menu="False"/>

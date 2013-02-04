@@ -388,7 +388,7 @@ class sal_book(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.fiscal.reports.sale.sale_seniat_v3',
     'account.invoice',
-    'addons/l10n_ve_fiscal_reports_V3/report/sales_book.rml',
+    'addons/l10n_ve_fiscal_book/report/sales_book.rml',
     parser=sal_book,
     header=False
 )      
@@ -396,7 +396,7 @@ report_sxw.report_sxw(
 report_sxw.report_sxw(
     'report.fiscal.reports.purchase.purchase_seniat_v3',
     'account.invoice',
-    'addons/l10n_ve_fiscal_reports_V3/report/purchases_book.rml',
+    'addons/l10n_ve_fiscal_book/report/purchases_book.rml',
     parser=sal_book,
     header=False
 )      
