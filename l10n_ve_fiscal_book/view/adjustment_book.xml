@@ -11,7 +11,6 @@
         <record id="view_adjustment_book_line_line_form" model="ir.ui.view">
             <field name="name">adjustment.book.line.form</field>
             <field name="model">adjustment.book.line</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Adjustment Book Line">
                     <group col="4" colspan="4">
@@ -51,7 +50,6 @@
         <record id="view_adjustment_book_line_tree" model="ir.ui.view">
             <field name="name">adjustment.book.line.tree</field>
             <field name="model">adjustment.book.line</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Adjustment Book Line">
                     <field name="date_accounting"/>
