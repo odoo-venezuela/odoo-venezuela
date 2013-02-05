@@ -120,6 +120,7 @@ class account_wh_iva_line(osv.osv):
                 for i in tax_ids:
                     values = self._get_tax_lines(cr, uid, i, context=context)
                     values.update({'wh_vat_line_id':ret_line.id,})
+                    del values['wh_iva_rate']
                     lines.append(awilt_obj.create(cr, uid, values, context=context))
         return True
 
@@ -318,6 +319,29 @@ class account_wh_iva(osv.osv):
             note += _('\nPlease, Load the Taxes to be withheld and Try Again')
             
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
+        return True
+        
+    def check_invoice_nro_ctrl(self, cr, uid, ids, context=None):
+        """
+        Method that check if the control number of the invoice is set
+
+        Return: True if the control number is set, and raise an exception
+        when is not.
+        """
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        obj = self.browse(cr, uid, ids[0])
+        res = {}
+        for wh_line in obj.wh_lines:
+            if not wh_line.invoice_id.nro_ctrl:
+                res[wh_line.id] = (wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference)
+        if res:
+            note = _('The Following Invoices will not be withheld:\n\n')
+            for i in res:
+                note += '* %s, %s, %s\n'%res[i]
+            note += _('\nPlease, Write the control number and Try Again')
+            
+            raise osv.except_osv(_('Invoices with Missing Control Number!'),note)
         return True
         
     def write_wh_invoices(self, cr, uid, ids, context=None):

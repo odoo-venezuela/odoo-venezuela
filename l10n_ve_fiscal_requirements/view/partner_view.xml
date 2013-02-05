@@ -5,7 +5,6 @@
     <record id="view_partner_form2" model="ir.ui.view">
         <field name="name">res.partner.vat.inherit2</field>
         <field name="model">res.partner</field>
-        <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
 
@@ -21,6 +20,7 @@
              <label for="vat"/>
              <field name="vat" colspan="2" placeholder="e.g. VE123456789" class="oe_inline" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }" />
              <button name="button_check_vat" string="Check Validity" type="object" icon="gtk-execute" class="oe_inline"/>
+             <button name="%(action_wiz_name)d" string="Update Name" type='action' icon="gtk-execute" class="oe_inline"/>
             <field name="uid_country" colspan="2" invisible="1"/>
           </xpath>
 

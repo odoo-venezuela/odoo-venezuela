@@ -45,13 +45,13 @@ class account_invoice_line(osv.osv):
         'apply_wh': lambda *a: False,
     }
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, currency_id     =False, context=None, company_id=None):
+    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, currency_id=False, context=None, company_id=None):
         '''
         Onchange to show the concept of retention associated with the product at once in the line of the bill
         '''
         if context is None:
             context = {}
-        data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, currency_id     =False, context=None, company_id=None)
+        data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, currency_id, context, company_id)
         if product:
             pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
             data[data.keys()[1]]['concept_id'] = pro.concept_id.id
@@ -148,12 +148,17 @@ class account_invoice(osv.osv):
             islr_wh_doc_id = wh_doc_obj.create(cr,uid,
             {'name': wh_ret_code,
             'partner_id': row.partner_id.id,
-            'invoice_id': row.id,
             'period_id': row.period_id.id,
             'account_id': row.account_id.id,
             'type': row.type,
             'journal_id': wh_doc_obj._get_journal(cr,uid,context=context),})
             self._create_doc_invoices(cr,uid,row.id,islr_wh_doc_id)
+            
+            self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid,
+                    [islr_wh_doc_id], context=context )
+            if row.company_id.automatic_income_wh is True:
+                self.pool.get('islr.wh.doc').write(cr, uid, islr_wh_doc_id,
+                        {'automatic_income_wh':True}, context=context)
         else:
             raise osv.except_osv(_('Invalid action !'),_("No se ha encontrado el numero de secuencia!"))
 
@@ -212,5 +217,51 @@ class account_invoice(osv.osv):
                                      _('The Document you are trying to refund has a income withholding "%s" which is not yet validated!' % inv.islr_wh_doc_id.code ))
                     return False
         return True
+
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, pay_journal_id,
+            writeoff_acc_id, writeoff_period_id, writeoff_journal_id, date,
+            name, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh,
+                period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id,
+                writeoff_journal_id, date, name, context=context)
+
+        if not context.get('income_wh',False):
+            return res
+
+        inv_brw = self.browse(cr, uid, ids[0])
+        
+        types = {'out_invoice':-1, 'in_invoice':1, 'out_refund':1,
+                'in_refund':-1}
+        direction = types[inv_brw.type]
+
+        for iwdl_brw in to_wh:
+            if 'invoice' in inv_brw.type:
+                acc = iwdl_brw.concept_id.property_retencion_islr_receivable and \
+                        iwdl_brw.concept_id.property_retencion_islr_receivable.id or \
+                        False
+            else:
+                acc = iwdl_brw.concept_id.property_retencion_islr_payable and \
+                        iwdl_brw.concept_id.property_retencion_islr_payable.id or False
+            if not acc:
+                raise osv.except_osv(_('Missing Account in Tax!'), 
+                        _("Tax [%s] has missing account. "\
+                                "Please, fill the missing fields"
+                                ) % (iwdl_brw.concept_id.name,))
+            res.append((0,0,{
+                'debit': direction * iwdl_brw.amount<0 and - direction *\
+                iwdl_brw.amount,
+                'credit': direction * iwdl_brw.amount>0 and direction *\
+                iwdl_brw.amount,
+                'account_id': acc,
+                'partner_id': inv_brw.partner_id.id,
+                'ref':inv_brw.number,
+                'date': date,
+                'currency_id': False,
+                'name':_('%s - ISLR: %s')%(name,iwdl_brw.islr_rates_id.code)
+            }))
+        
+        return res
 
 account_invoice()

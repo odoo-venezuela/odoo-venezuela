@@ -5,11 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@vauxoo.com>
-#              María Gabriela Quilarque  <gabriela@vauxoo.com>
-#              Nhomar Hernandez          <nhomar@vauxoo.com>
+#    Coded by: Yanina Aular           <yanina.aular@vauxoo.com>
 #    Planified by: Humberto Arocha
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
@@ -25,29 +22,26 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-
-from osv import fields, osv
-import tools
+from osv import osv
+from osv import fields
 from tools.translate import _
 from tools import config
+import time
+import datetime
 
 class res_company(osv.osv):
+    _name = 'res.company'
     _inherit = 'res.company'
+
     _columns = {
-        'jour_id': fields.many2one('account.journal', 'Journal',required=False,help="Default journal for damaged invoices"),
-        'acc_id': fields.many2one('account.account', 'Account',required=False,help="Default account used for invoices and lines from damaged invoices"),
-        }
-        
-    def create(self, cr, uid, vals, context=None):
-        if context is None: context = {}
-        context.update({'create_company':True})
-        return super(res_company, self).create(cr, uid, vals, context=context)
-        
-    def write(self, cr, uid, ids, values, context=None):
-        context = context or {}
-        context.update({'create_company':True})
-        return super(res_company, self).write(cr, uid, ids, values, context=context)
-
-
+        'automatic_income_wh':fields.boolean('Automatic Income Withhold', 
+            help='When True, Supplier Income Withholding will be check and '\
+                    'validate automatically'),
+    }
+    
+    defaults = {
+        'automatic_income_wh': False,
+    }
+    
 res_company()
 

@@ -73,7 +73,7 @@
             <field eval="'Intereses pagados por las personas jurídicas o comunidades a cualquier otras persona natural, jurídica o comunidad'" name="name" />
         </record>
         <record id="islr_wh_concept_exhibicion_de_peliculas" model="islr.wh.concept">
-            <field eval="1" name="whithholdable" />
+            <field eval="1" name="withholdable" />
             <field eval="'Enriquecimientos netos de exhibición de películas, cine o la televisión'" name="name" />
         </record>
         <record id="islr_wh_concept_regalias" model="islr.wh.concept">

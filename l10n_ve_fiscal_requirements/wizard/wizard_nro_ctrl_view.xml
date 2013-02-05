@@ -4,7 +4,6 @@
         <record model="ir.ui.view" id="wizard_nro_ctrl_form">
             <field name="name">wizard.nro.ctrl.form</field>
             <field name="model">wiz.nroctrl</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Changing the Control Number">
                     <field name="name" />

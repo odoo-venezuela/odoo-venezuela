@@ -11,7 +11,6 @@
         <record id="view_wh_iva_line_tree" model="ir.ui.view">
             <field name="name">account.wh.iva.line.tree</field>
             <field name="model">account.wh.iva.line</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Withholding Lines">
                     <button name="load_taxes" 
@@ -34,7 +33,6 @@
         <record id="view_wh_iva_line_form" model="ir.ui.view">
             <field name="name">account.wh.iva.line.form</field>
             <field name="model">account.wh.iva.line</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Withholding Lines">
                     <notebook>
@@ -93,7 +91,6 @@
         <record id="view_wh_iva_filter" model="ir.ui.view">
             <field name="name">account.wh.iva.search</field>
             <field name="model">account.wh.iva</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search Withholding Vat">
                    <group col="10" colspan="4">
@@ -123,7 +120,6 @@
         <record id="view_wh_iva_tree" model="ir.ui.view">
             <field name="name">account.wh.iva.tree</field>
             <field name="model">account.wh.iva</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state=='draft'" string="Withholding Vat">
                     <field name="name"/>
@@ -146,7 +142,6 @@
         <record id="view_wh_iva_form" model="ir.ui.view">
             <field name="name">account.wh.iva.form</field>
             <field name="model">account.wh.iva</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Withholding Vat">
                     <group colspan="4" col="6">
@@ -199,7 +194,6 @@
         <record id="view_wh_iva_form_customer" model="ir.ui.view">
             <field name="name">account.wh.iva.form.customer</field>
             <field name="model">account.wh.iva</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Withholding Vat">
                     <group colspan="4" col="6">

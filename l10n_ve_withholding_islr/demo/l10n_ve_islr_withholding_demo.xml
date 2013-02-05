@@ -8,7 +8,7 @@
         <record id="a_islr" model="account.account">
             <field name="code">XX2002</field>
             <field name="name">Servicios de analistas, programadores y soporte</field>
-            <field ref="account.account.rev" name="parent_id"/>
+            <field ref="account.rev" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_income"/>
         </record>
@@ -149,7 +149,6 @@
             <field name="name">DIARIO DE ISLR COMPRA</field>
             <field name="code">ISLR1</field>
             <field name="type">islr_purchase</field>
-            <field name="view_id" ref="account.account_journal_view"/>
             <field name="sequence_id" ref="seq_wh_islr_purchase_journal"/>
         </record>
         
@@ -157,7 +156,6 @@
             <field name="name">DIARIO DE ISLR VENTA</field>
             <field name="code">ISLR2</field>
             <field name="type">islr_sale</field>
-            <field name="view_id" ref="account.account_journal_view"/>
             <field name="sequence_id" ref="seq_wh_islr_sale_journal"/>
         </record>
 
@@ -336,7 +334,7 @@
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-786347</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-0003873</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
@@ -370,7 +368,7 @@
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-65323</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-003873</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
@@ -403,7 +401,7 @@
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-0003873298</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-00238738</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
@@ -436,7 +434,7 @@
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-00084787</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-0082387</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
@@ -470,7 +468,7 @@
             <field name="journal_id" ref="account.sales_journal"/>
             <field name="nro_ctrl">00-562115613156</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -499,7 +497,7 @@
             <field name="journal_id" ref="account.sales_journal"/>
             <field name="nro_ctrl">00-8975452</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -529,7 +527,7 @@
             <field name="journal_id" ref="account.sales_journal"/>
             <field name="nro_ctrl">00-545413165</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -559,7 +557,7 @@
             <field name="journal_id" ref="account.sales_journal"/>
             <field name="nro_ctrl">00-5642165</field>
             <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_admin"/>
+            <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>

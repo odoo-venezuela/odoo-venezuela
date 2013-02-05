@@ -14,14 +14,6 @@
             <field name="name">draft</field>
         </record>
         
-        <record id="act_progress" model="workflow.activity">
-            <field name="wkf_id" ref="wh_islr_order"/>
-            <field name="name">progress</field>
-            <field name="kind">function</field>
-            <field name="action">action_process()
-write({'state':'progress'})</field>
-        </record>
-
         <record id="act_confirmed" model="workflow.activity">
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="action">action_confirm()</field>
@@ -33,9 +25,7 @@ write({'state':'progress'})</field>
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="kind">function</field>
             <field name="name">done</field>
-            <field name="action">action_number()
-action_move_create()
-write({'state':'done'})</field>
+            <field name="action">action_done()</field>
         </record>
         
         <record id="act_draft" model="workflow.activity">
@@ -67,26 +57,18 @@ write({'state':'cancel'})</field>
             <field name="signal">act_confirm</field>
         </record>
         
-        <record id="trans_draft_progress" model="workflow.transition">
+        <record id="trans_draft_confirmed_2" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
-            <field name="act_to" ref="act_progress"/>
-            <field name="signal">act_progress</field>
-        </record>
-        
-        
-           <record id="trans_progress_cancel" model="workflow.transition">
-            <field name="act_from" ref="act_progress"/>
-            <field name="act_to" ref="act_cancel"/>
-            <field name="signal">act_cancel</field>
-        </record>
-
-        <record id="trans_progress_confirmed" model="workflow.transition">
-            <field name="act_from" ref="act_progress"/>
             <field name="act_to" ref="act_confirmed"/>
-            <field name="condition">True</field>
-            <field name="signal"></field>
+            <field name="condition">check_auto_wh_by_type() and check_income_wh()</field>
         </record>
 
+        <record id="trans_confirmed_done_2" model="workflow.transition">
+            <field name="act_from" ref="act_confirmed"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="condition">check_auto_wh()</field>
+        </record>
+        
         <record id="trans_confirmed_cancel" model="workflow.transition">
             <field name="act_from" ref="act_confirmed"/>
             <field name="act_to" ref="act_cancel"/>
@@ -105,15 +87,10 @@ write({'state':'cancel'})</field>
             <field name="signal">act_cancel</field>
         </record>
 
-
         <record id="trans_cancel_draft" model="workflow.transition">
             <field name="act_from" ref="act_cancel"/>
             <field name="act_to" ref="act_draft"/>
             <field name="signal">act_draft</field>
         </record>
-
-
-
-
     </data>
 </openerp>
