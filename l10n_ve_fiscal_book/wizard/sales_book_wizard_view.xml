@@ -28,9 +28,9 @@
             <field name="target">new</field>
         </record>
         
-        <menuitem id="menu_fr_main" name="Fiscal Reporting For SENIAT" parent="account.menu_finance_reporting" groups="account.group_account_manager"/>
+        <menuitem id="menu_fr_main" name="Fiscal Reporting" parent="account.menu_finance_reporting" groups="account.group_account_manager"/>
 
-        <menuitem name="Print Sales Fiscal Report V3" id="sales_book_v3_wizard_menu" 
+        <menuitem name="Print Fiscal Book Report" id="fiscal_book_report_wizard_menu" 
             parent="menu_fr_main" action="sales_book_v3_wizard_act" />
     </data>
 </openerp>
