@@ -213,7 +213,7 @@ class sal_book(report_sxw.rml_parse):
         type_doc = 'sale'
         if form['type']=='purchase':
             type_doc = 'purchase'
-        adjust_obj = self.pool.get('adjustment.book')
+        fb_obj = self.pool.get('fiscal.book')
         adjust_line_obj = self.pool.get('adjustment.book.line')
         period_obj=self.pool.get('account.period')
         data=[]
@@ -221,10 +221,10 @@ class sal_book(report_sxw.rml_parse):
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',form['date_start']),('date_stop','>=',form['date_end']), ('company_id', '=', self._company_id)])
         
         if len(period_ids)>0:
-            fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
+            fr_ids = fb_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
             if len(fr_ids)>0:
                 adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])],order='date_admin')
-                data = adjust_obj.browse(self.cr,self.uid, fr_ids)
+                data = fb_obj.browse(self.cr,self.uid, fr_ids)
                 data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
         return (data,data_line)
 
@@ -233,11 +233,11 @@ class sal_book(report_sxw.rml_parse):
         if form['type']=='purchase':
             type_doc = 'purchase'
         period_obj=self.pool.get('account.period')
-        adjust_obj = self.pool.get('adjustment.book')
+        fb_obj = self.pool.get('fiscal.book')
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',form['date_start']),('date_stop','>=',form['date_end']), ('company_id', '=', self._company_id)])
         if len(period_ids)<=0:
             return False
-        fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
+        fr_ids = fb_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
         if len(fr_ids)<=0:
             return False
         return True
