@@ -5,16 +5,17 @@
             <field name="name">sales.book.wizard.formv3</field>
             <field name="model">sales.book.wizardv3</field>
             <field name="arch" type="xml">
-                <form string="Sales Book Report">
-                <notebook colspan="4">
-                    <page string="General">
-                        <field name="date_start" />
-                        <field name="date_end" />
-                        <field name="type" />
-                        <button special="cancel" string="Cancel" icon="gtk-cancel" />
-                        <button name="check_report" string="Print Report" type="object" icon="gtk-print" />
-                    </page>
-                </notebook>
+                <form string="Sales Book Report" version="7.0">
+                    <group colspan="2" col="4">
+                        <field name="date_start"/>
+                        <field name="type"/>
+                        <newline/>
+                        <field name="date_end"/>
+                    </group>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="terp-gtk-stop" class="oe_highlight"/>
+                        <button name="check_report" string="Print Report" type="object" icon="gtk-print"/>
+                    </footer>
                 </form>
             </field>
         </record>
