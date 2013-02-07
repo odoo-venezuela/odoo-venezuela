@@ -489,7 +489,7 @@ get_amount_untaxed_tax(data['form'],'8')[1]
     </section>
 
 <blockTable colWidths="110.0" style="INTERNALTABLE">
-    <tr><td vAlign="MIDDLE"><para>[[ validation(data['form']) and '.' or removeParentNode('blockTable') ]]</para><nextPage/></td></tr>
+    <tr><td vAlign="MIDDLE"><para>[[ validation(data['form']) and '.' or removeParentNode('blockTable') ]]</para><!-- <nextPage/> --></td></tr>
 </blockTable>
 
 
