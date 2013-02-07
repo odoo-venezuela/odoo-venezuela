@@ -223,7 +223,7 @@ class sal_book(report_sxw.rml_parse):
         if len(period_ids)>0:
             fr_ids = fb_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
             if len(fr_ids)>0:
-                adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])],order='date_admin')
+                adj_ids = adjust_line_obj.search(self.cr,self.uid,[('fb_id','=',fr_ids[0])],order='date_admin')
                 data = fb_obj.browse(self.cr,self.uid, fr_ids)
                 data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
         return (data,data_line)
