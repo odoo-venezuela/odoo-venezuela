@@ -144,8 +144,13 @@ class sales_book_wizardv3(osv.osv_memory):
 
     def _print_report(self, cr, uid, ids, data, context=None):
         if data['form']['type']=='sale':
-            return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.sale.sale_seniat_v3', 'datas': data}
-        return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.purchase.purchase_seniat_v3', 'datas': data}
+            return {
+                'type': 'ir.actions.report.xml',
+                'report_name': 'fiscal.book.sale', 'datas': data}
+        return {
+            'type': 'ir.actions.report.xml', 
+            'report_name': 'fiscal.book.purchase', 'datas': data}
+
     _columns = {
             "date_start": fields.date("Start Date", required=True),
             "date_end": fields.date("End Date", required=True),
