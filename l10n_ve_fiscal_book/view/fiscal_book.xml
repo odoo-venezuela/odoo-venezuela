@@ -69,13 +69,13 @@
             </field>
         </record>
 
-        <record id="view_fiscal_bookr_form" model="ir.ui.view">
+        <record id="view_fiscal_book_form" model="ir.ui.view">
             <field name="name">fiscal.book.form</field>
             <field name="model">fiscal.book</field>
             <field name="arch" type="xml">
                 <form string="Fiscal Book" version="7.0">
                     <header>
-                        <button name='method' type='object' string='Click on Me!!!'/>
+                        <button name='%(report_fiscal_book)d' type='action' string='Fiscal Book Report'/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
                     <group>
@@ -197,7 +197,7 @@
         <record model="ir.actions.act_window.view" id="action_fiscal_sale_book_form">
             <field name="sequence" eval="20"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_fiscal_bookr_form"/>
+            <field name="view_id" ref="view_fiscal_book_form"/>
             <field name="act_window_id" ref="action_fiscal_sale_book"/>
         </record>
         
@@ -226,7 +226,7 @@
         <record model="ir.actions.act_window.view" id="action_fiscal_purchase_book_form">
             <field name="sequence" eval="20"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_fiscal_bookr_form"/>
+            <field name="view_id" ref="view_fiscal_book_form"/>
             <field name="act_window_id" ref="action_fiscal_purchase_book"/>
         </record>
         
