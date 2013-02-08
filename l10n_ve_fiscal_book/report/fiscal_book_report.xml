@@ -18,5 +18,16 @@
             string="Sale SENIAT"
             auto="False" /> -->
 
+        <report
+            id="fb_report" 
+            model="fiscal.book" 
+            name="fiscal.book.report" 
+            rml="l10n_ve_fiscal_book/report/fiscal_book.rml" 
+            string="Kathy Fiscal Book Report"
+            auto="False" 
+            menu="False"
+        />
+
+
     </data>
 </openerp>
