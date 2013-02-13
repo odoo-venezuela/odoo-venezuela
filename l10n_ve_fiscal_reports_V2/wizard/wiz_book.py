@@ -30,16 +30,16 @@
 Fiscal Report For Venezuela
 '''
 
-from osv import fields
-from osv import osv
+from openerp.osv import fields
+from openerp.osv import osv
 import time
 import ir
 from mx import DateTime
 import datetime
-import pooler
-from tools import config
+import openerp.pooler
+from openerp.tools import config
 import wizard
-import netsvc
+import openerp.netsvc
 
 
 book_form= """<?xml version="1.0"?>

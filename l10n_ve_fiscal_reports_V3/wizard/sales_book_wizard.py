@@ -25,10 +25,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ###############################################################################
-from osv import osv
-from osv import fields
+from openerp.osv import osv
+from openerp.osv import fields
 import sys
-from tools.translate import _
+from openerp.tools.translate import _
 import time
 
 class sales_book_wizardv3(osv.osv_memory):
