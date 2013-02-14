@@ -250,7 +250,7 @@ class fiscal_book_lines_taxes(orm.Model):
 
 class fiscal_book_taxes(orm.Model):
 
-    _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
+    _description = "Venezuela's Sale & Purchase Fiscal Book Taxes"
     _name='fiscal.book.taxes'
     _columns={
         'name':fields.char('Description', size=256, required=True),
