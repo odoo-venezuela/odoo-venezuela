@@ -52,7 +52,7 @@
     "demo_xml" : [
     ],
     "update_xml" : [
-        "wizard/sales_book_wizard_view.xml",
+        "wizard/fiscal_book_wizard_view.xml",
         "view/invoice_view.xml",
         "view/adjustment_book.xml",
         "view/fiscal_book.xml",

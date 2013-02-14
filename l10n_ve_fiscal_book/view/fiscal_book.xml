@@ -75,7 +75,7 @@
             <field name="arch" type="xml">
                 <form string="Fiscal Book" version="7.0">
                     <header>
-                        <button name='%(report_fiscal_book)d' type='action' string='Fiscal Book Report'/>
+                        <button name='%(fiscal_book_wizard_act)d' type='action' string='Fiscal Book Report'/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
                     <group>

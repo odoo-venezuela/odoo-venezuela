@@ -32,11 +32,11 @@ from tools.translate import _
 import time
 
 
-class sales_book_wizardv3(osv.osv_memory):
+class fiscal_book_wizard(osv.osv_memory):
     """
     Sales book wizard implemented using the osv_memory wizard system
     """
-    _name = "sales.book.wizardv3"
+    _name = "fiscal.book.wizard"
 
     def _get_account_period(self, cr, uid, dt=None, context=None):
         if not dt:
@@ -179,4 +179,4 @@ class sales_book_wizardv3(osv.osv_memory):
         'type': lambda *a: 'sale',
     }
 
-sales_book_wizardv3()
+fiscal_book_wizard()

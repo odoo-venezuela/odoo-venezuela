@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record model="ir.ui.view" id="sales_book_wizard_formv3">
-            <field name="name">sales.book.wizard.formv3</field>
-            <field name="model">sales.book.wizardv3</field>
+        <record model="ir.ui.view" id="fiscal_book_wizard_form">
+            <field name="name">fiscal.book.wizard.form</field>
+            <field name="model">fiscal.book.wizard</field>
             <field name="arch" type="xml">
-                <form string="Sales Book Report" version="7.0">
+                <form string="Fiscal Book Report" version="7.0">
                     <group colspan="2" col="4">
                         <field name="date_start"/>
                         <field name="type"/>
@@ -19,19 +19,32 @@
                 </form>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="sales_book_v3_wizard_act">
-            <field name="name">Sales Book Report</field>
-            <field name="res_model">sales.book.wizardv3</field>
+        <record model="ir.actions.act_window" id="fiscal_book_wizard_act">
+            <field name="name">Fiscal Book Report</field>
+            <field name="res_model">fiscal.book.wizard</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="sales_book_wizard_formv3"/>
+            <field name="view_id" ref="fiscal_book_wizard_form"/>
             <field name="target">new</field>
         </record>
         
-        <menuitem id="menu_fr_main" name="Fiscal Reporting" parent="account.menu_finance_reporting" groups="account.group_account_manager"/>
+        <menuitem
+            id="menu_fr_main"
+            name="Fiscal Reporting"
+            parent="account.menu_finance_reporting"
+            groups="account.group_account_manager"
+        />
 
-        <menuitem name="Print Fiscal Book Report" id="fiscal_book_report_wizard_menu" 
-            parent="menu_fr_main" action="sales_book_v3_wizard_act" />
+<!--
+        TIP: Old menu item for wizard, it dosent work right now
+        <menuitem 
+            name="Print Fiscal Book Report"
+            id="fiscal_book_report_wizard_menu" 
+            parent="menu_fr_main" 
+            action="fiscal_book_wizard_act"
+        />
+-->
+
     </data>
 </openerp>
