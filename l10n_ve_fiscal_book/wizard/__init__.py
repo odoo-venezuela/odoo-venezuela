@@ -28,5 +28,4 @@
 #
 ##############################################################################
 
-import sales_book_wizard
-#import wh_book_wizard
+import fiscal_book_wizard
