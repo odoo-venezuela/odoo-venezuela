@@ -424,7 +424,7 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i:False})
         for r in res:
-            if r.company_id.partner_id.country.id != r.partner_id.country.id:
+            if r.company_id.partner_id.country_id.id != r.partner_id.country_id.id:
                 ret.update({r.id : True})
         return ret
 
