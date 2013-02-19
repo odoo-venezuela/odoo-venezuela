@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!--   EJEMPLO:
+            cadena          <field name="nro_ctrl">00-786347</field>
+            funcional       <field name="invoice_id" ref="account_invoice_8"/>
+            numerico/booleano <field name="price_unit" eval="2000000.0"/>
+            seleccion       <field name="type">in_invoice</field>
+-->
+
+        <!--    Fiscal Book     -->
+
+        <record id="fiscal_book_sale_test" model="fiscal.book">
+            <field name="name">Sale Book Test</field>
+            <field name="type">sale</field>
+            <field name="period_id" ref="period_test"/>
+            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="note">Intento 1</field>
+        </record>
+
+        <!--    Fiscal Book Taxes    -->
+
+        <!--    Fiscal Book Lines    -->
+
+        <record id="fiscal_book_line_sale_1" model="fiscal.book.lines">
+            <field name="rank" eval="1"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX1 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX1</field>
+            <field name="get_doc">Trans. Type SX1</field>
+            <field name="get_number">CtrlN SX1</field>
+            <field name="get_parent">CtrlN SX1</field>
+            <field name="get_partner_name">Partner SX1</field>
+            <field name="get_partner_vat">VAT SX1</field>
+            <field name="get_reference">Inv Nro. SX1</field>
+            <field name="get_t_doc">Doc. Type SX1</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+
+        <record id="fiscal_book_line_sale_2" model="fiscal.book.lines">
+            <field name="rank" eval="2"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX2 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX2</field>
+            <field name="get_doc">Trans. Type SX2</field>
+            <field name="get_number">CtrlN SX2</field>
+            <field name="get_parent">CtrlN SX2</field>
+            <field name="get_partner_name">Partner SX2</field>
+            <field name="get_partner_vat">VAT SX2</field>
+            <field name="get_reference">Inv Nro. SX2</field>
+            <field name="get_t_doc">Doc. Type SX2</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+
+        <record id="fiscal_book_line_sale_3" model="fiscal.book.lines">
+            <field name="rank" eval="3"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX3 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX3</field>
+            <field name="get_doc">Trans. Type SX3</field>
+            <field name="get_number">CtrlN SX3</field>
+            <field name="get_parent">CtrlN SX3</field>
+            <field name="get_partner_name">Partner SX3</field>
+            <field name="get_partner_vat">VAT SX3</field>
+            <field name="get_reference">Inv Nro. SX3</field>
+            <field name="get_t_doc">Doc. Type SX3</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+
+        <record id="fiscal_book_line_sale_4" model="fiscal.book.lines">
+            <field name="rank" eval="4"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX4 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX4</field>
+            <field name="get_doc">Trans. Type SX4</field>
+            <field name="get_number">CtrlN SX4</field>
+            <field name="get_parent">CtrlN SX4</field>
+            <field name="get_partner_name">Partner SX4</field>
+            <field name="get_partner_vat">VAT SX4</field>
+            <field name="get_reference">Inv Nro. SX4</field>
+            <field name="get_t_doc">Doc. Type SX4</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+        
+        <record id="fiscal_book_line_sale_5" model="fiscal.book.lines">
+            <field name="rank" eval="5"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX5 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX5</field>
+            <field name="get_doc">Trans. Type SX5</field>
+            <field name="get_number">CtrlN SX5</field>
+            <field name="get_parent">CtrlN SX5</field>
+            <field name="get_partner_name">Partner SX5</field>
+            <field name="get_partner_vat">VAT SX5</field>
+            <field name="get_reference">Inv Nro. SX5</field>
+            <field name="get_t_doc">Doc. Type SX5</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+        
+        <record id="fiscal_book_line_sale_6" model="fiscal.book.lines">
+            <field name="rank" eval="6"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX6 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX6</field>
+            <field name="get_doc">Trans. Type SX6</field>
+            <field name="get_number">CtrlN SX6</field>
+            <field name="get_parent">CtrlN SX6</field>
+            <field name="get_partner_name">Partner SX6</field>
+            <field name="get_partner_vat">VAT SX6</field>
+            <field name="get_reference">Inv Nro. SX6</field>
+            <field name="get_t_doc">Doc. Type SX6</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+        
+        <record id="fiscal_book_line_sale_7" model="fiscal.book.lines">
+            <field name="rank" eval="7"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX7 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX7</field>
+            <field name="get_doc">Trans. Type SX7</field>
+            <field name="get_number">CtrlN SX7</field>
+            <field name="get_parent">CtrlN SX7</field>
+            <field name="get_partner_name">Partner SX7</field>
+            <field name="get_partner_vat">VAT SX7</field>
+            <field name="get_reference">Inv Nro. SX7</field>
+            <field name="get_t_doc">Doc. Type SX7</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+        
+        <record id="fiscal_book_line_sale_8" model="fiscal.book.lines">
+            <field name="rank" eval="8"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX8 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX8</field>
+            <field name="get_doc">Trans. Type SX8</field>
+            <field name="get_number">CtrlN SX8</field>
+            <field name="get_parent">CtrlN SX8</field>
+            <field name="get_partner_name">Partner SX8</field>
+            <field name="get_partner_vat">VAT SX8</field>
+            <field name="get_reference">Inv Nro. SX8</field>
+            <field name="get_t_doc">Doc. Type SX8</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+        
+        <record id="fiscal_book_line_sale_9" model="fiscal.book.lines">
+            <field name="rank" eval="9"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX9 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX9</field>
+            <field name="get_doc">Trans. Type SX9</field>
+            <field name="get_number">CtrlN SX9</field>
+            <field name="get_parent">CtrlN SX9</field>
+            <field name="get_partner_name">Partner SX9</field>
+            <field name="get_partner_vat">VAT SX9</field>
+            <field name="get_reference">Inv Nro. SX9</field>
+            <field name="get_t_doc">Doc. Type SX9</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+        
+        <record id="fiscal_book_line_sale_0" model="fiscal.book.lines">
+            <field name="rank" eval="0"/>
+            <field name="fb_id" ref="fiscal_book_sale_test"/>
+            <!--
+                <field name="fblt_ids" ref=""/>  #### Tax Lines one2many
+            -->
+            <field name="get_credit_affected"> credit_affected SX0 </field>
+            <field name="get_date_imported" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_date_invoiced" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="get_debit_affected"> debit_affected SX0</field>
+            <field name="get_doc">Trans. Type SX0</field>
+            <field name="get_number">CtrlN SX0</field>
+            <field name="get_parent">CtrlN SX0</field>
+            <field name="get_partner_name">Partner SX0</field>
+            <field name="get_partner_vat">VAT SX0</field>
+            <field name="get_reference">Inv Nro. SX0</field>
+            <field name="get_t_doc">Doc. Type SX0</field>
+            <!--
+                <field name="invoice_id" ref=""/> Invoice many2one 
+                <field name="iwdl_id" ref=""/> Vat Withholding many2one 
+            -->
+        </record>
+
+        <!--    Fiscal Book Lines Taxes    -->
+
+    </data>
+</openerp>

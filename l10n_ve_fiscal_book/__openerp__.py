@@ -50,6 +50,9 @@
     "init_xml" : [
     ],
     "demo_xml" : [
+        "demo/book_base_demo.xml",
+        "demo/sale_book_demo.xml",
+        "demo/purchase_book_demo.xml",
     ],
     "update_xml" : [
         "wizard/fiscal_book_wizard_view.xml",
