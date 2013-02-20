@@ -20,8 +20,8 @@
 #
 ##############################################################################
 {   "name" : "OpenERP Venezuelan Localization",
-    "version" : "2.0",
-    "depends" : ["l10n_ve_topology",
+    "version" : "3.0",
+    "depends" : [
                  "l10n_ve_imex",
                  "l10n_ve_fiscal_requirements", 
                  "l10n_ve_split_invoice", 
@@ -30,7 +30,9 @@
                  "l10n_ve_withholding_islr" ,
                  "l10n_ve_withholding_muni",
                  "l10n_ve_withholding_src",
-                 "l10n_ve_fiscal_reports_V3",
+                 #TODO: Uncomment when Fiscal Book Module becomes ready
+                 #"l10n_ve_fiscal_book",
+
                  #Optionals, uncomment if you want to use them
                  #"l10n_ve_sale_purchase", #Install if you want be able set islr 
                  #concepts from Sales and Purchase
@@ -76,11 +78,6 @@ Optionals (Not installed by default), uncomment on your/addons/path/ovl/__opener
 
 Concepts from Sales and Purchase
 
- - "l10n_ve_fiscal_reports", First Version, a little less Automated cool if you have so much manual process
-
- - "l10n_ve_fiscal_reports_V2", Second Version, several bugs solved and already audited, will not be mantained it is depreciated
-
- - "l10n_ve_topology", A generic chart of account, usefull when you want test or dont use accounting, in production enviroments try of audit this accounts created with an accountant
                     """,
     "website" : "http://openerp.org.ve",
     "category" : "Localization/Application",
