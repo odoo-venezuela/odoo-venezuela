@@ -65,6 +65,72 @@ class fiscal_book(orm.Model):
         context = context or {}
         return context.get('type', 'purchase')
 
+    def update_book_lines(self, cr, uid, ids, context=None):
+        """
+        It Generate/Fill book lines pulling data from invoices corresponding to
+        the book period and according to the book type (sale/purchase).
+        """
+        context = context or {}
+        fb_brw = self.browse(cr, uid, ids)[0]
+        inv_type = fb_brw.type == 'sale' \
+                   and ['out_invoice', 'out_refund'] \
+                   or ['in_invoice', 'in_refund']
+        #~ pull invoice data
+        inv_obj = self.pool.get('account.invoice')
+        inv_ids = inv_obj.search(cr, uid, 
+            ['|', ('period_id', '>=', fb_brw.period_id.id),
+             '&', ('date_invoice', '>=', fb_brw.period_id.date_start),
+                  ('date_invoice', '<=', fb_brw.period_id.date_stop),
+             '|', ('type','=', inv_type[0]), ('type','=', inv_type[1])])
+        #~ TODO: return invoices in 'open' and 'paid' state. criterion must be change to only paid invoices?
+        inv_brw = inv_obj.browse(cr, uid, inv_ids)
+
+        #~ add invoices data in book.line 
+        fbl_obj = self.pool.get('fiscal.book.lines')
+        my_rank= 0
+        for inv in inv_brw:
+            values = {
+                'fb_id': fb_brw.id,
+                'get_credit_affected': inv.get_credit_affected,
+                'get_date_imported': inv.get_date_imported and \
+                    inv.get_date_imported or False, 
+                'get_date_invoiced': inv.get_date_invoiced and \
+                    inv.get_date_invoiced or False,
+                'get_debit_affected': inv.get_debit_affected, 
+                'get_doc' : inv.get_doc, 
+                'get_number': inv.get_number,
+                'get_parent': inv.get_parent, 
+                'get_partner_name': inv.get_partner_name, 
+                'get_partner_vat': inv.get_partner_vat, 
+                'get_reference': inv.get_reference, 
+                'get_t_doc': inv.get_t_doc
+            }
+            #~ update lines values 
+            if fb_brw.fbl_ids:
+                for book_line in fb_brw.fbl_ids:
+                    if inv.id is book_line.invoice_id:
+                        fbl_obj.write(cr, uid, [book_line.id], values, context=context)
+                    else:
+                        values['invoice_id']= inv.id
+                        fbl_obj.create(cr, uid, values, context=context)
+            #~ create lines 
+            else:
+                inv_obj.write(cr, uid, inv.id, {'fb_id' : fb_brw.id })
+                #~ write(cr, uid, fb_id, {'invoice_ids' : inv.id })
+
+                values['invoice_id']= inv.id
+                values['rank']= my_rank
+                my_rank = my_rank + 1
+                #~ TODO: I dont like this rank assignment. There is a way i cant auto increment this field at db level with a get default?, and make this field required at the view but not in the model it could be a solution?
+                fbl_obj.create(cr, uid, values, context=context)
+
+            #~ TODO: create face need some of the next fields? update by part? fblt_ids (Tax Lines - one2many), iwdl_id (Vat Withholding - many2one)
+
+        #~ remove old invoices that does not in period anymore
+        for book_line in fb_brw.fbl_ids:
+            if book_line.invoice_id not in inv_ids:
+                fbl_obj.unlink(book_line.id)
+        
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
     _inherit = ['mail.thread']
@@ -208,8 +274,8 @@ class fiscal_book_lines(orm.Model):
         'rank':fields.integer('Line Position', required=True),
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book where this line is related to'),
-        'invoice_id':fields.many2one('fiscal.book','Invoice',
-            help='Fiscal Book where this line is related to'),
+        'invoice_id':fields.many2one('account.invoice','Invoice',
+            help='Invoice related to this book line.'),
         'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
             help='Fiscal Book where this line is related to'),
         'get_date_imported': fields.date(string='Imported Date', help=''),

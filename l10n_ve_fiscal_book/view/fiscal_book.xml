@@ -85,10 +85,11 @@
                         <field name="type" readonly='1'/>
                         <field name="period_id" domain="[('special','=',False)]"/>
                         <field name="company_id" invisible='1'/>
+                        <button name="update_book_lines" type="object" string="Update Book Lines" colspan="2"/>
                     </group>
                     <notebook colspan="8">
                         <page string="Fiscal Book Lines">
-                            <field name="fbl_ids" nolabel="1" colspan='4'/>
+                            <field name="fbl_ids" nolabel="1" colspan='4' readonly="1"/>
                         </page>
                         <page string="Fiscal Book Taxes">
                             <field name="fbt_ids" nolabel="1" colspan='4'/>
