@@ -118,7 +118,20 @@ class fiscal_book(orm.Model):
                 new_book_line_id = fbl_obj.create(cr, uid, values, context=context)
                 book_line = fbl_obj.browse(cr, uid, new_book_line_id, context=context )
 
-            #~ TODO: create face need some of the next fields? update by part? fblt_ids (Tax Lines - one2many), iwdl_id (Vat Withholding - many2one)
+            #~ update fiscal.book.lines.taxes values
+            if inv.tax_line:
+                fblt_obj = self.pool.get('fiscal.book.lines.taxes')
+                for tax_to_update in inv.tax_line:
+                    values = {
+                        'ait_id' : tax_to_update.id,
+                        'fbl_id' : book_line.id,
+                    }
+                    if not fblt_obj.search(cr, uid, [ ('ait_id','=', values['ait_id']), ('fbl_id','=', values['fbl_id']) ], context=context):                
+                        fblt_obj.create(cr, uid, values, context=context)
+
+            #~ TODO: update iwdl_id (Vat Withholding - many2one)
+
+        #~ TODO: remove relation old invoices with this book.
 
         #~ remove old book.lines of old invoices.
         for book_line in fb_brw.fbl_ids:
