@@ -71,24 +71,27 @@ class fiscal_book(orm.Model):
         the book period and according to the book type (sale/purchase).
         """
         context = context or {}
-        fb_brw = self.browse(cr, uid, ids)[0]
+        fb_brw = self.browse(cr, uid, ids, context=context)[0]
         inv_type = fb_brw.type == 'sale' \
                    and ['out_invoice', 'out_refund'] \
                    or ['in_invoice', 'in_refund']
         #~ pull invoice data
         inv_obj = self.pool.get('account.invoice')
         inv_ids = inv_obj.search(cr, uid, 
-            ['|', ('period_id', '>=', fb_brw.period_id.id),
-             '&', ('date_invoice', '>=', fb_brw.period_id.date_start),
-                  ('date_invoice', '<=', fb_brw.period_id.date_stop),
-             '|', ('type','=', inv_type[0]), ('type','=', inv_type[1])])
-        #~ TODO: return invoices in 'open' and 'paid' state. criterion must be change to only paid invoices?
-        inv_brw = inv_obj.browse(cr, uid, inv_ids)
+            ['|', ('state', '=', 'open'), ('state', '=', 'paid'),
+             '|', ('period_id', '=', fb_brw.period_id.id),
+             '|', ('type','=', inv_type[0]), ('type','=', inv_type[1])],
+             context=context)
+        inv_brw = inv_obj.browse(cr, uid, inv_ids, context=context)
+        #~ relate inv to book 
+        inv_obj.write(cr, uid, inv_ids, {'fb_id' : fb_brw.id }, context=context)
 
         #~ add invoices data in book.line 
         fbl_obj = self.pool.get('fiscal.book.lines')
         my_rank= 0
         for inv in inv_brw:
+        
+            #~ update book lines values
             values = {
                 'fb_id': fb_brw.id,
                 'get_credit_affected': inv.get_credit_affected,
@@ -105,32 +108,35 @@ class fiscal_book(orm.Model):
                 'get_reference': inv.get_reference, 
                 'get_t_doc': inv.get_t_doc
             }
-            #~ update lines values 
-            if fb_brw.fbl_ids:
-                for book_line in fb_brw.fbl_ids:
-                    if inv.id is book_line.invoice_id:
-                        fbl_obj.write(cr, uid, [book_line.id], values, context=context)
-                    else:
-                        values['invoice_id']= inv.id
-                        fbl_obj.create(cr, uid, values, context=context)
-            #~ create lines 
+            book_line = self.invoice_book_line(cr, uid, ids, inv, context=context)
+            if book_line:
+                fbl_obj.write(cr, uid, [book_line.id], values, context=context)
             else:
-                inv_obj.write(cr, uid, inv.id, {'fb_id' : fb_brw.id })
-                #~ write(cr, uid, fb_id, {'invoice_ids' : inv.id })
-
                 values['invoice_id']= inv.id
                 values['rank']= my_rank
                 my_rank = my_rank + 1
-                #~ TODO: I dont like this rank assignment. There is a way i cant auto increment this field at db level with a get default?, and make this field required at the view but not in the model it could be a solution?
-                fbl_obj.create(cr, uid, values, context=context)
+                new_book_line_id = fbl_obj.create(cr, uid, values, context=context)
+                book_line = fbl_obj.browse(cr, uid, new_book_line_id, context=context )
 
             #~ TODO: create face need some of the next fields? update by part? fblt_ids (Tax Lines - one2many), iwdl_id (Vat Withholding - many2one)
 
-        #~ remove old invoices that does not in period anymore
+        #~ remove old book.lines of old invoices.
         for book_line in fb_brw.fbl_ids:
-            if book_line.invoice_id not in inv_ids:
-                fbl_obj.unlink(book_line.id)
-        
+            if book_line.invoice_id.id not in inv_ids:
+                fbl_obj.unlink(cr, uid, book_line.id, context=context)
+
+    def invoice_book_line(self, cr, uid, ids, inv_brw, context=None):
+        """
+        It returns the book line associated to the given invoice, 
+        if it dosent have one return False.
+        """
+        context = context or {}
+        fb_brw = self.browse(cr, uid, ids, context=context)[0]
+        for book_line in fb_brw.fbl_ids:
+            if inv_brw.id is book_line.invoice_id.id:
+                return book_line
+        return False
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
     _inherit = ['mail.thread']
