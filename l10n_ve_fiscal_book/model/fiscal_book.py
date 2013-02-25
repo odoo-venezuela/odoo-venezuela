@@ -135,12 +135,14 @@ class fiscal_book(orm.Model):
                 awil_ids = awil_obj.search(cr, uid, ids, [('invoice_id' , '=', inv.id)], context=context)
                 awil_obj.write(cr, uid, awil_ids, {'fb_id' : fb_brw.id }, context=context)
 
-        #~ TODO: remove relation old invoices with this book.
-
-        #~ remove old book.lines of old invoices.
+        #~ Remove old relations and deletion.
         for book_line in fb_brw.fbl_ids:
+            #~ Delete book.lines from invoices that are now cancel or draft, or have change its period.
             if book_line.invoice_id.id not in inv_ids:
                 fbl_obj.unlink(cr, uid, book_line.id, context=context)
+            #~ TODO: unlink invoices to this book line.
+            #~ TODO: Delete book.line.taxes associated.
+            #~ TODO: unlink old wh lines to this book.
 
     def invoice_book_line(self, cr, uid, ids, inv_brw, context=None):
         """
