@@ -144,6 +144,9 @@ class fiscal_book(orm.Model):
             #~ TODO: Delete book.line.taxes associated.
             #~ TODO: unlink old wh lines to this book.
 
+        #~ Re-assing lines rank
+        self.assign_book_line_ranks(cr, uid, ids, context=context)
+
     def invoice_book_line(self, cr, uid, ids, inv_brw, context=None):
         """
         It returns the book line associated to the given invoice, 
@@ -155,6 +158,22 @@ class fiscal_book(orm.Model):
             if inv_brw.id is book_line.invoice_id.id:
                 return book_line
         return False
+
+    def assign_book_line_ranks(self, cr, uid, ids, context=None):
+        """
+        It assigns ranks value of the book lines sorted by the date invoiced.
+        """
+        context = context or {}
+        fb_brw = self.browse(cr, uid, ids, context=context)[0]
+        fbl_obj = self.pool.get('fiscal.book.lines')
+        fbl_ids = fbl_obj.search(cr, uid, [('fb_id', '=', fb_brw.id)],
+                                 order='get_date_invoiced', context=context)
+        fbl_brw = fbl_obj.browse(cr, uid, fbl_ids, context=context)
+        my_rank = 0
+        for book_line in fbl_brw:
+            fbl_obj.write(cr, uid, book_line.id, {'rank': my_rank},
+                          context=context)
+            my_rank = my_rank + 1
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
@@ -295,6 +314,7 @@ class fiscal_book_lines(orm.Model):
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
     _name='fiscal.book.lines'
     _rec_name='rank'
+    _order = 'rank'
     _columns={
         'rank':fields.integer('Line Position', required=True),
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
