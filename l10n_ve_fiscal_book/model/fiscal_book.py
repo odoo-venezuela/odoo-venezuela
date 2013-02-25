@@ -129,7 +129,11 @@ class fiscal_book(orm.Model):
                     if not fblt_obj.search(cr, uid, [ ('ait_id','=', values['ait_id']), ('fbl_id','=', values['fbl_id']) ], context=context):                
                         fblt_obj.create(cr, uid, values, context=context)
 
-            #~ TODO: update iwdl_id (Vat Withholding - many2one)
+            #~ Associate withholding lines
+            if inv.wh_iva and inv.wh_iva_id:
+                awil_obj = self.pool.get('account.wh.iva.line')
+                awil_ids = awil_obj.search(cr, uid, ids, [('invoice_id' , '=', inv.id)], context=context)
+                awil_obj.write(cr, uid, awil_ids, {'fb_id' : fb_brw.id }, context=context)
 
         #~ TODO: remove relation old invoices with this book.
 
