@@ -77,15 +77,15 @@
             <field name="arch" type="xml">
                 <form string="Fiscal Book" version="7.0">
                     <header>
-                        <button name='%(fiscal_book_wizard_act)d' type='action' string='Fiscal Book Report'/>
+                        <button name="update_book_lines" type="object" string="Update Book" class="oe_highlight"/>
+                        <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
                     <group>
                         <field name="name"/>
                         <field name="type" readonly='1'/>
-                        <field name="period_id" domain="[('special','=',False)]"/>
+                        <field name="period_id"/>
                         <field name="company_id" invisible='1'/>
-                        <button name="update_book_lines" type="object" string="Update Book Lines" colspan="2"/>
                     </group>
                     <notebook colspan="8">
                         <page string="Fiscal Book Lines">
