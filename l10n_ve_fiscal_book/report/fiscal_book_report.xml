@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-<!--Purchases and Sales-->
-        <report             
-            id="report_sale_seniat" 
-            model="fiscal.reports.purchase" 
-            name="fiscal.reports.purchase.purchase_seniat" 
-            rml="l10n_ve_fiscal_book/report/sales_book.rml" 
-            string="Sales book SENIAT"
-            auto="False" 
-            menu="False"/>
-<!--        <report             
-            id="report_sale_seniat"
-            model="fiscal.reports.sale" 
-            name="fiscal.reports.purchase.sale_seniat" 
-            rml="l10n_ve_fiscal_reports/report/sale_seniat.rml" 
-            string="Sale SENIAT"
-            auto="False" /> -->
 
         <report
-            id="fb_report" 
-            model="fiscal.book" 
-            name="fiscal.book.report" 
-            rml="l10n_ve_fiscal_book/report/fiscal_book.rml" 
-            string="Kathy Fiscal Book Report"
-            auto="False" 
-            menu="False"
+            id="report_fiscal_book_sale"
+            string="Sale Book Report"
+            model="fiscal.book"
+            name="fiscal.book.sale"
+            rml="l10n_ve_fiscal_book/report/fiscal_book_sale_report.rml"
+            auto="False"
+            menu="True"
         />
 
+        <report
+            id="report_fiscal_book_purchase"
+            string="Purchase Book Report"
+            model="fiscal.book"
+            name="fiscal.book.purchase"
+            rml="l10n_ve_fiscal_book/report/fiscal_book_purchase_report.rml"
+            auto="False"
+            menu="True"
+        />
 
     </data>
 </openerp>
