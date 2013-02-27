@@ -78,9 +78,9 @@ class fiscal_book(orm.Model):
         #~ pull invoice data
         inv_obj = self.pool.get('account.invoice')
         inv_ids = inv_obj.search(cr, uid, 
-            ['|', ('state', '=', 'open'), ('state', '=', 'paid'),
-             '|', ('period_id', '=', fb_brw.period_id.id),
-             '|', ('type','=', inv_type[0]), ('type','=', inv_type[1])],
+            [('period_id', '=', fb_brw.period_id.id),
+             '|', ('type', '=', inv_type[0]), ('type', '=', inv_type[1]),
+             '|', ('state', '=', 'open'), ('state', '=', 'paid')],
              context=context)
         return inv_ids
 
