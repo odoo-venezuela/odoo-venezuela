@@ -77,7 +77,7 @@
             <field name="arch" type="xml">
                 <form string="Fiscal Book" version="7.0">
                     <header>
-                        <button name="update_book_lines" type="object" string="Update Book" class="oe_highlight"/>
+                        <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
                         <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>

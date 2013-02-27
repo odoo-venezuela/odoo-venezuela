@@ -32,3 +32,14 @@ class account_wh_iva_line(orm.Model):
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book where this line is related to'),
     }
+
+    def _update_wh_iva_lines(self, cr, uid, ids, inv_id, fb_id, context=None):
+        """
+        It relate the fiscal book id to the according withholding iva lines.
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        inv = inv_obj.browse(cr, uid, inv_id, context=context)
+        if inv.wh_iva and inv.wh_iva_id:
+            awil_ids = self.search(cr, uid, ids, [('invoice_id' , '=', inv.id)], context=context)
+            self.write(cr, uid, awil_ids, {'fb_id' : fb_id }, context=context)
