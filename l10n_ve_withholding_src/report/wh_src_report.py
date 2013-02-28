@@ -1,5 +1,5 @@
 #~ # -*- coding: utf-8 -*-
-from report import report_sxw
+from openerp.report import report_sxw
 import time
 from datetime import datetime, timedelta
 import datetime as dt

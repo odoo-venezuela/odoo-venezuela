@@ -24,8 +24,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from report import report_sxw
-from osv import osv
+from openerp.report import report_sxw
+from openerp.osv import osv
 
 class rep_comprobante_islr(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):

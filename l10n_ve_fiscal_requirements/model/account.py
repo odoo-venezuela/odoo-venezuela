@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 __TYPES__ = [('sale_debit', 'Sale Debit'),('purchase_debit', 'Purchase Debit')]
 
 __HELP__= " Select 'Sale Debit' for customer debit note journals. Select 'Purchase Debit' for supplier debit note journals."

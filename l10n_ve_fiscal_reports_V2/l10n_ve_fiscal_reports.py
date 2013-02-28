@@ -30,11 +30,11 @@
 Fiscal Report For Venezuela
 '''
 
-from osv import osv
-from osv import fields
-from tools.translate import _
-from tools import config
-from tools.sql import drop_view_if_exists
+from openerp.osv import osv
+from openerp.osv import fields
+from openerp.tools.translate import _
+from openerp.tools import config
+from openerp.tools.sql import drop_view_if_exists
 
 class fiscal_reports_purchase(osv.osv):
     '''

@@ -19,9 +19,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import pooler
-from osv import osv, fields
-from tools.translate import _
+import openerp.pooler
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
 class search_info_partner_seniat(osv.osv_memory):
     

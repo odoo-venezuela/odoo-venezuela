@@ -23,9 +23,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 import decimal_precision as dp
 
 class account_wh_iva_line_tax(osv.osv):
