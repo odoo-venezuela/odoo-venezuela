@@ -13,7 +13,6 @@
         <record id="partner_ext_munici_view_form_loc_ve" model="ir.ui.view">
             <field name="name">partner_extended_munici.partner.form.view.loc_ve</field>
             <field name="model">res.partner</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
                 <page string="Withholdings" position="inside">

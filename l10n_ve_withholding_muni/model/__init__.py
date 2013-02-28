@@ -5,8 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Javier Duran <javier@vauxoo.com>     
-#    Planified by: Nhomar Hernandez
+#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>           
+#    Planified by: Humberto Arocha
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import sys
 
-
-
-print 'Nombre Archivo:',sys.argv[0]
-print 'Periodo:',sys.argv[1]
-
-
-
+import invoice
+import partner
+import wh_muni

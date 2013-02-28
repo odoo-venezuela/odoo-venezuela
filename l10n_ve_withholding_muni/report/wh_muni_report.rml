@@ -90,7 +90,8 @@
     <paraStyle name="Table Heading" fontName="Times-Roman" fontSize="8.0" leading="10" alignment="CENTER"/>
     <paraStyle name="Table" fontName="Times-Roman" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
   </stylesheet>
-  <images/>
+ 
+
   <story>
     <para style="P9">[[repeatIn(objects,'o')]]</para>
     <para style="P6">COMPROBANTE RETENCION IMPUESTOS MUNICIPALES</para>
