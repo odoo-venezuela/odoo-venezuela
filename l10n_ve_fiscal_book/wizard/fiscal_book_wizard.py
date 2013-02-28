@@ -143,6 +143,19 @@ class fiscal_book_wizard(osv.osv_memory):
             self._do_purchase_report(cr, uid, my_data)
         return False
 
+    def default_get(self, cr, uid, fields, context=None):
+        if context is None:
+            context = {}
+            
+        fiscal_book_obj = self.pool.get('fiscal.book')
+        fiscal_book_o = fiscal_book_obj.search(cr, uid, [('id', '=', context['active_id'])])
+        fiscal_book_o = fiscal_book_obj.browse(cr, uid,  fiscal_book_o[0])
+        res = super(fiscal_book_wizard, self).default_get(cr, uid, fields, context=context)
+        res.update({'type': fiscal_book_o.type})
+        res.update({'date_start': fiscal_book_o.period_id and fiscal_book_o.period_id.date_start or ''})
+        res.update({'date_end': fiscal_book_o.period_id and fiscal_book_o.period_id.date_stop or ''})
+        return res
+
     def check_report(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -151,6 +164,7 @@ class fiscal_book_wizard(osv.osv_memory):
         data['model'] = context.get('active_model', 'ir.ui.menu')
         data['form'] = self.read(cr, uid, ids, ['date_start', 'date_end',
                                  'control_start', 'control_end', 'type'])[0]
+      
         return self._print_report(cr, uid, ids, data, context=context)
 
     def _print_report(self, cr, uid, ids, data, context=None):
@@ -173,10 +187,13 @@ class fiscal_book_wizard(osv.osv_memory):
         ], "Type", required=True,
         ),
     }
+    
+    
+    
     _defaults = {
         'date_start': lambda *a: time.strftime('%Y-%m-%d'),
         'date_end': lambda *a: time.strftime('%Y-%m-%d'),
-        'type': lambda *a: 'sale',
+        #~ 'type': lambda *a: 'sale',
     }
 
 fiscal_book_wizard()
