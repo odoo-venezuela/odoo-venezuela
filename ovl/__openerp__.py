@@ -52,8 +52,6 @@ Install all apps needed to comply with Venezuelan laws
 
 This module will install for you:
 
- - "l10n_ve_topology"
-
  - "l10n_ve_imex",
 
  - "l10n_ve_fiscal_requirements", 
