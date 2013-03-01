@@ -20,7 +20,7 @@
   3.2 Validate stock picking
 -
   !python {model: stock.picking}: |
-    import netsvc
+    from openerp import netsvc
     po_obj=self.pool.get('purchase.order')
     po = po_obj.browse(cr, uid, ref("purchase_order01"))
     sp_ids = self.search(cr, uid, [('origin', '=', po.invoice_ids[0].name) ])
