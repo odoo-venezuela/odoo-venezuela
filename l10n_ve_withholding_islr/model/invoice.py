@@ -30,7 +30,7 @@ from openerp.tools.translate import _
 from openerp.tools import config
 import time
 import datetime
-import openerp.netsvc
+from openerp import netsvc
 
 class account_invoice_line(osv.osv):
     '''

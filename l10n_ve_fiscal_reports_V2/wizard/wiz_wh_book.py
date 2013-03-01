@@ -39,7 +39,7 @@ import datetime
 import openerp.pooler
 from openerp.tools import config
 import wizard
-import openerp.netsvc
+from openerp import netsvc
 
 
 book_form= """<?xml version="1.0"?>
