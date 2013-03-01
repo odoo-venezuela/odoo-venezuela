@@ -10,7 +10,7 @@
   3.2 Duplicate the invoice from an open invoice
 -
   !python {model: account.invoice}: |
-    import netsvc
+    from openerp import netsvc
     default = {'islr_wh_doc_id': 0}
     context =  {'lang': 'en_US', 
                 'tz': False, 
@@ -43,7 +43,7 @@
   3.2 Duplicate the invoice from an open invoice
 -
   !python {model: account.invoice}: |
-    import netsvc
+    from openerp import netsvc
     default = {'islr_wh_doc_id': 0}
     context =  {'lang': 'en_US', 
                 'tz': False, 

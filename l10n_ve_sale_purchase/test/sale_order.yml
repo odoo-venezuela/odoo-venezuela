@@ -52,7 +52,7 @@
   Execute workflow for opening the invoice
 -
   !python {model: sale.order}: |
-    import netsvc
+    from openerp import netsvc
     po = self.browse(cr, uid, ref("sp_sale_order01"))
     ai_obj=self.pool.get('account.invoice')
     wf_service = netsvc.LocalService("workflow")

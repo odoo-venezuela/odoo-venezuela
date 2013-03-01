@@ -25,7 +25,7 @@
 from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
-import openerp.netsvc
+from openerp import netsvc
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'

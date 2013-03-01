@@ -97,7 +97,7 @@
   1.11 Search for the wh lines
 -
   !python {model: account.invoice}: |
-    import netsvc
+    from openerp import netsvc
     import time
     ai_brw = self.browse(cr, uid, ref("islr_inv01"))
     assert ai_brw.islr_wh_doc_id.amount_total_ret == 750.0, "Bad value for retention amount"
