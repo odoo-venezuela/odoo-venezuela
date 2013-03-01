@@ -36,7 +36,7 @@ from openerp.osv import fields
 from openerp.tools.translate import _
 from openerp.tools import config
 from openerp.tools.sql import drop_view_if_exists
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 class fiscal_reports_purchase(osv.osv):
     '''

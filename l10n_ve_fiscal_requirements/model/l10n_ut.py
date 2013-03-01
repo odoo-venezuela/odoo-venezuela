@@ -28,7 +28,7 @@ from openerp.osv import osv, fields
 from openerp.tools import config
 from openerp.tools.translate import _
 import time
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 class l10n_ut(osv.osv):
 

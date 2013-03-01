@@ -31,7 +31,7 @@ from openerp.tools.translate import _
 from openerp.tools import config
 import time
 import datetime
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 class invoice_inherit(osv.osv):
     

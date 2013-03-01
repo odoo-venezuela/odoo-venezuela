@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 from openerp.osv import fields, osv
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 from openerp.tools.translate import _
 import urllib
 from xml.dom.minidom import parseString

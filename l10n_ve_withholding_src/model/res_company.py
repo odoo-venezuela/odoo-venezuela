@@ -26,7 +26,7 @@
 import time
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 class res_company(osv.osv):
     _inherit = 'res.company'
