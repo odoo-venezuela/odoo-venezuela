@@ -26,7 +26,7 @@
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 import openerp.netsvc
 
 class res_partner(osv.osv):

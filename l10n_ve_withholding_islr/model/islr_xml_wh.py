@@ -34,7 +34,7 @@ import datetime
 from xml.etree.ElementTree import Element, SubElement, ElementTree, tostring
 import sys
 import base64
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 class islr_xml_wh_doc(osv.osv):
     _name = "islr.xml.wh.doc"
