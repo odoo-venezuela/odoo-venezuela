@@ -5,11 +5,11 @@
         <!--    Partner    -->
         <record id="res_partner_1_fb" model="res.partner">
             <field name="name">Vauxoo CCS</field>
-            <field name="country_id" ref="base.VEF"/>
+            <field name="country_id" ref="base.ve"/>
             <field name="vat">VEV317520883</field>
             <field name="active" eval="1"/>
             <field name="street">Carretera Km 1.</field>
-            <field name="type" eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;"/>
+            <field name="type">invoice</field>
             <field name="fax">0212-7847124</field>
             <field name="phone">0212-8471467</field>
             <field name="email">vauxoo-ccs@vauxoo.com</field>
@@ -19,13 +19,13 @@
         </record>
         <record id="res_partner_2_fb" model="res.partner">
             <field name="name">Vauxoo VAL</field>
-            <field name="country_id" ref="base.VEF"/>
+            <field name="country_id" ref="base.ve"/>
             <field name="vat">VEV317520884</field>
             <field name="active" eval="1"/>
             <field name="supplier" eval="1"/>
             <field name="customer" eval="1"/>
             <field name="street">Urb. Trigaleña Av. 128.</field>
-            <field name="type" eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;"/>
+            <field name="type">invoice</field>
             <field name="fax">0241-7847124</field>
             <field name="phone">0241-8471467</field>
             <field name="email">vauxoo-val@vauxoo.com</field>
@@ -35,30 +35,10 @@
         </record>
 
         <!--    Company    -->
-        <record id="res_company_1_fb" model="res.company">
+        <record id="base.main_company" model="res.company">
             <field name="currency_id" ref="base.VEF"/>
             <field name="partner_id" ref="res_partner_1_fb"/>
-            <field name="parent_id" ref="base.main_company"/>
             <field name="name">Vauxoo C.A.</field>
-        </record>
-
-        <!--    Fiscal Year    -->
-        <record id="fiscalyear_fb" model="account.fiscalyear">
-            <field name="name" eval="'Fiscal Year X '+time.strftime('%Y')" />
-            <field name="code" eval="'FY' + time.strftime('%Y')"/>
-            <field name="date_start" eval="time.strftime('%Y') + '-01-01'"/>
-            <field name="date_stop" eval="time.strftime('%Y') + '-12-31'"/>
-            <field name="company_id" ref="res_company_1_fb"/>
-        </record>
-
-        <!--    Period    -->
-        <record id="period_test" model="account.period">
-            <field name="code" eval="time.strftime('%m') + '/' + time.strftime('%Y')"/>
-            <field name="name" eval="'X ' + time.strftime('%m') + '/' + time.strftime('%Y')"/>
-            <field name="fiscalyear_id" ref="fiscalyear_fb"/>
-            <field name="date_start" eval="time.strftime('%Y') + '-' + time.strftime('%m') + '-01'"/>
-            <field name="date_stop" eval="time.strftime('%Y') + '-' + time.strftime('%m') +'-28'"/>
-            <field name="company_id" ref="res_company_1_fb"/>
         </record>
 
         <!--    Account    -->
@@ -70,17 +50,18 @@
             <field name="user_type" ref="account.data_account_type_income"/>
         </record>
 
-        <!--    Invoices    -->
+        <!--    Purchase Invoices    -->
         <record id="account_invoice_0" model="account.invoice">
-            <field eval="700000.0" name="check_total"/>
+            <field name="name">FB Purchase Invoice 0</field>
+            <field name="check_total" eval="700000.0"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-786347</field>
-            <field eval="0" name="sin_cred"/>
+            <field name="sin_cred" eval="0"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-0003873</field>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" ref="account.a_pay"/>
@@ -88,13 +69,14 @@
             <field name="amount_untaxed" eval="700000.0"/>
             <field name="amount_total" eval="700000.0"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
+            <field name="date_invoice" eval="time.strftime('%Y-%m-%d')"/>
         </record>
         <record id="account_invoice_line_facturapersonajuridicadomiciliada0" model="account.invoice.line">
             <field name="account_id" ref="account_fb"/>
             <field name="invoice_id" ref="account_invoice_0"/>
             <field eval="350000.0" name="price_unit"/>
             <field eval="700000.0" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura 1. Persona Juridica Domiciliada</field>
@@ -108,7 +90,7 @@
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-003873</field>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" ref="account.a_pay"/>
@@ -122,7 +104,7 @@
             <field name="invoice_id" ref="account_invoice_2"/>
             <field eval="591000.0" name="price_unit"/>
             <field eval="1182000.1" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura2. Persona Natural Residenciada</field>
@@ -136,7 +118,7 @@
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-00238738</field>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" ref="account.a_pay"/>
@@ -150,7 +132,7 @@
             <field name="invoice_id" ref="account_invoice_3"/>
             <field eval="1212000.0" name="price_unit"/>
             <field eval="2424000.0" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura 4. Persona Juridica No Domiciliada</field>
@@ -164,7 +146,7 @@
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference">libre-0082387</field>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="account_id" ref="account.a_pay"/>
@@ -178,11 +160,13 @@
             <field name="invoice_id" ref="account_invoice_4"/>
             <field eval="784000.0" name="price_unit"/>
             <field eval="1568000.0" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura 3. Persona Natural no Residente</field>
         </record>
+        
+        <!--    Sale Invoices    -->
         <record id="account_invoice_5" model="account.invoice">
             <field name="currency_id" ref="base.VEF"/>
             <field name="journal_id" ref="account.sales_journal"/>
@@ -190,7 +174,7 @@
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">out_invoice</field>
             <field name="account_id" ref="account.a_recv"/>
@@ -204,7 +188,7 @@
             <field name="invoice_id" ref="account_invoice_5"/>
             <field eval="3000000.0" name="price_unit"/>
             <field eval="6000000.0" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura4 CU.Persona Juridica No Domiciliado</field>
@@ -216,7 +200,7 @@
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">out_invoice</field>
             <field name="account_id" ref="account.a_recv"/>
@@ -230,7 +214,7 @@
             <field name="invoice_id" ref="account_invoice_6"/>
             <field eval="685000.0" name="price_unit"/>
             <field eval="1370000.65" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Fact3 CUS. Persona Juridica Domiciliada</field>
@@ -242,7 +226,7 @@
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">out_invoice</field>
             <field name="account_id" ref="account.a_recv"/>
@@ -256,7 +240,7 @@
             <field name="invoice_id" ref="account_invoice_7"/>
             <field eval="3000000.0" name="price_unit"/>
             <field eval="6000000.0" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura 2 Customer. Persona Natural No Residenciada</field>
@@ -268,7 +252,7 @@
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="reference_type">none</field>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
             <field name="type">out_invoice</field>
             <field name="account_id" ref="account.a_recv"/>
@@ -282,7 +266,7 @@
             <field name="invoice_id" ref="account_invoice_8"/>
             <field eval="2000000.0" name="price_unit"/>
             <field eval="3999999.4" name="price_subtotal"/>
-            <field name="company_id" ref="res_company_1_fb"/>
+            <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="name">Factura 1 Customer. Persona Natural Residenciada</field>
