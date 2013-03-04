@@ -219,34 +219,9 @@
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
             <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ my_fbl.get_partner_name ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO"> [[ get_ret(my_fb, my_fbl) ]]</para></td>
-            <td vAlign="MIDDLE">
-            <!--
-                <section>
-                    <blockTable colWidths="25" style="INTERNALTABLE" repeatRows="2">
-                        <para>[[ repeatIn(my_fbl.get_import_spreadsheets and my_fbl.get_import_spreadsheets or [],'ish')]]</para>
-                        <tr>
-                            <td vAlign="MIDDLE">
-                                <para style="CONTENIDO">[[ ish.get_import_form ]]</para>
-                            </td>
-                        </tr>
-                    </blockTable>
-                </section>
-            -->
-            </td>
-            <td vAlign="MIDDLE">
-            <!--
-                <section>
-                <para>[[ repeatIn(l.get_import_spreadsheets and l.get_import_spreadsheets or [],'ish2')]]</para>
-                    <blockTable colWidths="25" style="INTERNALTABLE">
-                        <tr>
-                            <td vAlign="MIDDLE">
-                                <para style="CONTENIDO">[[ ish2.import_spreadsheet_name ]]</para>
-                            </td>
-                        </tr>
-                    </blockTable>
-                </section>
-            -->
-            </td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_import_form ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.import_spreadsheet_name ]]</para></td>
+            
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_number]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_papel_anulado ]]</para></td>
