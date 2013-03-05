@@ -23,8 +23,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from  openerp.osv import orm, fields
-from tools.translate import _
+from openerp.osv import osv, orm, fields
+from openerp.tools.translate import _
 
 class account_wh_iva_line(orm.Model):
     _inherit= "account.wh.iva.line"

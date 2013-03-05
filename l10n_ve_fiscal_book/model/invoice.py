@@ -22,9 +22,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+from openerp.osv import osv, fields
 
-from osv import osv
-from osv import fields
 
 class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
