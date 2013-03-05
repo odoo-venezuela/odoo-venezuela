@@ -6,6 +6,7 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <hbto@vauxoo.com>
+#              Katherine Zaoral          <katherine.zaoral@vauxoo.com>
 #    Planified by: Humberto Arocha & Nhomar Hernandez
 #    Audited by: Humberto Arocha           <hbto@vauxoo.com>
 #############################################################################
@@ -22,7 +23,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from  openerp.osv import orm, fields
+from openerp.osv import orm, fields
 from tools.translate import _
 import decimal_precision as dp
 
@@ -67,80 +68,236 @@ class fiscal_book(orm.Model):
 
     def _get_invoice_ids(self, cr, uid, ids, context=None):
         """
-        It returns ids from open and paid invoices regarding to the type and 
+        It returns ids from open and paid invoices regarding to the type and
         period of the fiscal book.
         """
         context = context or {}
-        fb_brw = self.browse(cr, uid, ids, context=context)[0]
-        inv_type = fb_brw.type == 'sale' \
-                   and ['out_invoice', 'out_refund'] \
-                   or ['in_invoice', 'in_refund']
-        #~ pull invoice data
         inv_obj = self.pool.get('account.invoice')
-        inv_ids = inv_obj.search(cr, uid, 
-            [('period_id', '=', fb_brw.period_id.id),
-             '|', ('type', '=', inv_type[0]), ('type', '=', inv_type[1]),
-             '|', ('state', '=', 'open'), ('state', '=', 'paid')],
-             context=context)
+        for fb_id in ids:
+            fb_brw = self.browse(cr, uid, fb_id, context=context)
+            inv_type = fb_brw.type == 'sale' \
+                and ['out_invoice', 'out_refund'] \
+                or ['in_invoice', 'in_refund']
+            #~ pull invoice data
+            inv_ids = inv_obj.search(cr, uid,
+                                     [('period_id', '=', fb_brw.period_id.id),
+                                      '|', ('type', '=', inv_type[0]),
+                                      ('type', '=', inv_type[1]),
+                                      '|', ('state', '=', 'open'),
+                                      ('state', '=', 'paid')],
+                                     context=context)
         return inv_ids
+
+    def _get_wh_iva_line_ids(self, cr, uid, ids, context=None):
+        """
+        It returns ids from wh iva lines with state 'done' regarding to the
+        fiscal book period.
+        """
+        context = context or {}
+        awi_obj = self.pool.get('account.wh.iva')
+        awil_obj = self.pool.get('account.wh.iva.line')
+        for fb_id in ids:
+            fb_brw = self.browse(cr, uid, fb_id, context=context)
+            #~ pull wh iva line data
+            awil_ids = []
+            awi_ids = awi_obj.search(cr, uid,
+                                     [('period_id', '=', fb_brw.period_id.id),
+                                     ('type', '=', fb_brw.type),
+                                     ('state', '=', 'done')],
+                                     context=context)
+            for awi_id in awi_ids:
+                list_ids = awil_obj.search(cr, uid,
+                                           [('retention_id', '=', awi_id)], context=context)
+                awil_ids.extend(list_ids)
+        return awil_ids
+
+    #~ TODO: test this method
+    def _get_invoice_iwdl_id(self, cr, uid, ids, fb_id, inv_id, context=None):
+        """
+        Check if the invoice have wh iva lines asociated and if its check if it
+        is at the same period. Return the wh iva line ID or False instead.
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+        iwdl_obj = self.pool.get('account.wh.iva.line')
+        if inv_brw.wh_iva and inv_brw.wh_iva_id:
+            iwdl_id = iwdl_obj.search(cr, uid, ids,
+                                      [('invoice_id', '=', inv_brw.id),
+                                       ('fb_id', '=', fb_id)],
+                                      context=context)
+            return iwdl_id or False
+        return False
 
     def _set_book_line_ranks(self, cr, uid, ids, context=None):
         """
         It assigns ranks value of the book lines sorted by the date invoiced.
         """
         context = context or {}
-        fb_brw = self.browse(cr, uid, ids, context=context)[0]
         fbl_obj = self.pool.get('fiscal.book.lines')
-        fbl_ids = fbl_obj.search(cr, uid, [('fb_id', '=', fb_brw.id)],
-                                 order='get_date_invoiced', context=context)
-        fbl_brw = fbl_obj.browse(cr, uid, fbl_ids, context=context)
-        my_rank = 0
-        for book_line in fbl_brw:
-            fbl_obj.write(cr, uid, book_line.id, {'rank': my_rank},
-                          context=context)
-            my_rank = my_rank + 1
+        for fb_id in ids:
+            my_rank = 0
+            inv_ids = self.browse(cr, uid, fb_id, context=context).invoice_ids
+            iwdl_ids = self.browse(cr, uid, fb_id, context=context).iwdl_ids
+            orphan_iwdl_ids = self.get_orphan_iwdl_ids(
+                cr, uid, [fb_id], inv_ids,
+                iwdl_ids,
+                context=context)
+            #~ order and fill book lines with orphan wh iva lines order by date
+            orphan_iwdl_ids = self.get_ordered_orphan_iwdl_ids(
+                cr, uid, [fb_id],
+                orphan_iwdl_ids,
+                context=context)
+            for iwdl_id_to_rank in orphan_iwdl_ids:
+                book_line_id = self.get_book_line_id(cr, uid, fb_id,
+                                                     iwdl_id=iwdl_id_to_rank,
+                                                     context=context)
+                fbl_obj.write(cr, uid, book_line_id, {'rank': my_rank},
+                              context=context)
+                my_rank = my_rank + 1
+            #~ order and fill book lines with invoices by date invoiced
+            inv_ids = self.get_ordered_inv_ids(cr, uid, fb_id, inv_ids,
+                                               context=context)
+            for inv_id_to_rank in inv_ids:
+                book_line_id = self.get_book_line_id(cr, uid, fb_id,
+                                                     inv_id=inv_id_to_rank,
+                                                     context=context)
+                fbl_obj.write(cr, uid, book_line_id, {'rank': my_rank},
+                              context=context)
+                my_rank = my_rank + 1
+
+    #~ TODO: complete method after add acc.wh.iva.line date fields
+    def get_ordered_orphan_iwdl_ids(self, cr, uid, ids, orphan_iwdl_ids,
+                                    context=None):
+        """
+        Returns wh iva lines IDs order by asc date.
+        """
+        context = context or {}
+        awi_obj = self.pool.get('account.wh.iva')
+        awil_obj = self.pool.get('account.wh.iva.line')
+        for fb_id in ids:
+            iwdl_brw_list = awil_obj.browse(cr, uid, orphan_iwdl_ids,
+                                            context=context)
+            for iwdl_to_order in iwdl_brw_list:
+                iwdl_to_order.retention_id.date
+            ordered_ids_list = awil_obj_obj.search(cr, uid, [(
+                'id', 'in', (orphan_iwdl_ids))], order='date asc')
+            return ordered_ids_list
+
+    def get_ordered_inv_ids(self, cr, uid, ids, inv_ids, context=None):
+        """
+        Returns invoices IDs order by asc date invoiced.
+        """
+        #~ TODO: make this method generic (for an int or list of ids)
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.lines')
+        for fb_id in ids:
+            fbl_ids = fbl_obj.search(cr, uid, [('fb_id', '=', fb_id),
+                                     ('invoice_id', '!=', False)],
+                                     order='get_date_invoiced',
+                                     context=context)
+            return fbl_ids
 
     def update_book(self, cr, uid, ids, context=None):
         """
         It Generate and Fill book lines pulling the data from invoices.
         """
         context = context or {}
-        fb_brw = self.browse(cr, uid, ids, context=context)[0]
         fbl_obj = self.pool.get('fiscal.book.lines')
         fblt_obj = self.pool.get('fiscal.book.lines.taxes')
-        awil_obj = self.pool.get('account.wh.iva.line')
-        inv_obj = self.pool.get('account.invoice')
-        #~ relate inv to book
-        inv_ids = self._get_invoice_ids(cr, uid, ids, context=context)
-        inv_obj.write(cr, uid, inv_ids, {'fb_id' : fb_brw.id }, context=context)
-        #~ update process
-        for inv_id in inv_ids:
-            fbl_id = fbl_obj._update_book_line(cr, uid, ids, inv_id, fb_brw.id, context=context)
-            fblt_obj._update_book_line_taxes(cr, uid, ids, fbl_id, inv_id, context=context)
-            awil_obj._update_wh_iva_lines(cr, uid, ids, inv_id, fb_brw.id, context=context)
-        #~ remove old relations and deletion.
-        for book_line in fb_brw.fbl_ids:
-            #~ Delete book.lines from invoices that are now cancel or draft, or have change its period.
-            if book_line.invoice_id.id not in inv_ids:
-                fbl_obj.unlink(cr, uid, book_line.id, context=context)
-            #~ TODO: unlink invoices to this book line.
-            #~ TODO: Delete book.line.taxes associated.
-            #~ TODO: unlink old wh lines to this book.
-        #~ Re-assing lines rank
-        self._set_book_line_ranks(cr, uid, ids, context=context)
+        iwdl_obj = self.pool.get('account.wh.iva.line')
+        for fb_id in ids:
+            fb_brw = self.browse(cr, uid, fb_id, context=context)
+            inv_ids = self.update_book_invoices(
+                cr, uid, [fb_id], context=context)
+            iwdl_ids = self.update_book_wh_iva_lines(
+                cr, uid, [fb_id], context=context)
+            #~ update process
+            fbl_obj._update_book_line(cr, uid, ids, fb_brw.id,
+                                      inv_ids, iwdl_ids, context=context)
+            fblt_obj._update_book_line_taxes(
+                cr, uid, ids, fb_brw.id, inv_ids, context=context)
+            #~ remove old relations and deletion.
+            for book_line in fb_brw.fbl_ids:
+                #~ Delete book.lines from invoices that are now cancel or draft
+                #~ or have change its period.
+                if book_line.invoice_id.id not in inv_ids:
+                    fbl_obj.unlink(cr, uid, book_line.id, context=context)
+                #~ TODO: unlink invoices to this book line.
+                #~ TODO: delete book.line.taxes associated.
+                #~ TODO: unlink old wh lines to this book.
+            #~ Re-assing lines rank
+            self._set_book_line_ranks(cr, uid, ids, context=context)
         return True
 
-    def get_book_line(self, cr, uid, ids, inv_id, context=None):
+    def update_book_invoices(self, cr, uid, ids, context=None):
         """
-        It returns the book line associated to the given invoice, 
-        if it dosent have one return False.
+        It relate the invoices to the fical book.
         """
         context = context or {}
-        fb_brw = self.browse(cr, uid, ids, context=context)[0]
-        for book_line in fb_brw.fbl_ids:
-            if inv_id is book_line.invoice_id.id:
-                return book_line
-        return False
+        inv_obj = self.pool.get('account.invoice')
+        for fb_id in ids:
+            inv_ids = self._get_invoice_ids(cr, uid, [fb_id], context=context)
+            inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
+        return inv_ids
+
+    def update_book_wh_iva_lines(self, cr, uid, ids, context=None):
+        """
+        It relate the wh iva lines to the fical book.
+        """
+        context = context or {}
+        iwdl_obj = self.pool.get('account.wh.iva.line')
+        for fb_id in ids:
+            iwdl_ids = self._get_wh_iva_line_ids(cr, uid, [fb_id],
+                                                 context=context)
+            iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': fb_id},
+                           context=context)
+        return iwdl_ids
+
+    #~ TODO: test this method.
+    def get_book_line_id(self, cr, uid, ids, inv_id=None, iwdl_id=None,
+                         context=None):
+        """
+        It returns the book line associated to the given invoice or a given wh
+        iva line, if it dosent have one return False.
+        """
+        context = context or {}
+        for fb_id in ids:
+            fb_brw = self.browse(cr, uid, fb_id, context=context)
+            for book_line in fb_brw.fbl_ids:
+                if (inv_id and (inv_id is book_line.invoice_id.id)) or \
+                    (iwdl_id and (iwdl_id is book_line.iwdl_id.id)):
+                    return book_line.id
+            return False
+
+    def get_orphan_iwdl_ids(self, cr, uid, ids, inv_ids, iwdl_ids,
+                            context=None):
+        """
+        It returns ids from the orphan wh iva lines in the period that have not
+        associated invoice.
+        """
+        #~ TODO: make this method generic (for an int or list of ids)
+        context = context or {}
+        iwdl_obj = self.pool.get('account.wh.iva.line')
+        iwdl_brw = iwdl_obj.browse(cr, uid, iwdl_ids, context=context)
+        orphan_iwdl_ids = []
+        for fb_id in ids:
+            for iwdl_id_to_check in iwdl_brw:
+                if iwdl_id_to_check.invoice_id.id not in inv_ids:
+                    orphan_iwdl_ids.append(iwdl_id_to_check.id)
+        return orphan_iwdl_ids
+
+    def clear_book(self, cr, uid, ids, context=None):
+        """
+        It delete all book lines loaded in the book.
+        """
+        context = context or {}
+        fbl_obj = self.pool.get("fiscal.book.lines")
+        for fb_id in ids:
+            fbl_ids = fbl_obj.search(
+                cr, uid, [('fb_id', '=', fb_id)], context=context)
+            fbl_obj.unlink(cr, uid, fbl_ids, context=context)
+        return True
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
@@ -309,45 +466,75 @@ class fiscal_book_lines(orm.Model):
             help='Tax Lines being recorded in a Fiscal Book'),
     }
 
-    def _update_book_line(self, cr, uid, ids, inv_id, fb_id, context=None):
+    def _update_book_line(self, cr, uid, ids, fb_id, inv_ids=None,
+                          iwdl_ids=None, context=None):
         """
         It updates the fiscal book lines values or create then in instead, and
         returns the book line id.
         """
         context = context or {}
-        my_rank= 0
-
         fb_obj = self.pool.get('fiscal.book')
-
         inv_obj = self.pool.get('account.invoice')
-        inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        values = {
-            'fb_id': fb_id,
-            'get_credit_affected': inv_brw.get_credit_affected,
-            'get_date_imported': inv_brw.get_date_imported and \
-                inv_brw.get_date_imported or False, 
-            'get_date_invoiced': inv_brw.get_date_invoiced and \
-                inv_brw.get_date_invoiced or False,
-            'get_debit_affected': inv_brw.get_debit_affected, 
-            'get_doc' : inv_brw.get_doc, 
-            'get_number': inv_brw.get_number,
-            'get_parent': inv_brw.get_parent, 
-            'get_partner_name': inv_brw.get_partner_name, 
-            'get_partner_vat': inv_brw.get_partner_vat, 
-            'get_reference': inv_brw.get_reference, 
-            'get_t_doc': inv_brw.get_t_doc
-        }
-        book_line = fb_obj.get_book_line(cr, uid, ids, inv_brw.id, context=context)
-        if book_line:
-            self.write(cr, uid, [book_line.id], values, context=context)
-        else:
-            values['invoice_id']= inv_brw.id
-            values['rank']= my_rank
-            my_rank = my_rank + 1
-            new_book_line_id = self.create(cr, uid, values, context=context)
-            book_line = self.browse(cr, uid, new_book_line_id, context=context)
-        
-        return book_line.id
+        iwdl_obj = self.pool.get('account.wh.iva.line')
+        my_rank = 0
+
+        for inv_brw in inv_obj.browse(cr, uid, inv_ids, context=context):
+            values = {
+                'fb_id': fb_id,
+                'get_credit_affected': inv_brw.get_credit_affected or False,
+                'get_date_imported': inv_brw.get_date_imported or False,
+                'get_date_invoiced': inv_brw.get_date_invoiced or False,
+                'get_debit_affected': inv_brw.get_debit_affected or False,
+                'get_doc': inv_brw.get_doc or False,
+                'get_number': inv_brw.get_number or False,
+                'get_parent': inv_brw.get_parent or False,
+                'get_partner_name': inv_brw.get_partner_name or False,
+                'get_partner_vat': inv_brw.get_partner_vat or False,
+                'get_reference': inv_brw.get_reference or False,
+                'get_t_doc': inv_brw.get_t_doc or False,
+                'iwdl_id': fb_obj._get_invoice_iwdl_id(cr, uid, ids, fb_id,
+                                                       inv_brw.id,
+                                                       context=context)
+            }
+            book_line_id = fb_obj.get_book_line_id(
+                cr, uid, ids, inv_id=inv_brw.id, context=context)
+            if book_line_id:
+                self.write(cr, uid, [book_line_id], values, context=context)
+            else:
+                values['invoice_id'] = inv_brw.id
+                values['rank'] = my_rank
+                my_rank = my_rank + 1
+                new_book_line_id = self.create(
+                    cr, uid, values, context=context)
+                book_line_id = self.browse(cr, uid,
+                    new_book_line_id, context=context)
+
+        orphan_iwdl_ids = fb_obj.get_orphan_iwdl_ids(
+            cr, uid, ids, inv_ids, iwdl_ids, context=context)
+        for iwdl_brw in iwdl_obj.browse(cr, uid, orphan_iwdl_ids, context=context):
+            values = {
+                'fb_id': fb_id,
+                'get_credit_affected': False,
+                'get_date_invoiced': iwdl_brw.date or False,
+                'get_t_doc': 'RET',
+                #~ TODO: override 'get_t_doc' value by creating an function
+                #~ that take care of it.
+                'get_number': iwdl_brw.retention_id.number or False,
+                #~ TODO: check what fields needs to be add that refer to the
+                #~ book line and the wh iva line.
+            }
+            book_line_id = fb_obj.get_book_line_id(cr, uid,
+                ids, iwdl_id=iwdl_brw.id, context=context)
+            if book_line_id:
+                self.write(cr, uid, [book_line_id], values, context=context)
+            else:
+                values['iwdl_id'] = iwdl_brw.id
+                values['rank'] = my_rank
+                my_rank = my_rank + 1
+                new_book_line_id = self.create(
+                    cr, uid, values, context=context)
+                book_line = self.browse(cr, uid,
+                    new_book_line_id, context=context)
 
 
 class fiscal_book_lines_taxes(orm.Model):
@@ -360,21 +547,27 @@ class fiscal_book_lines_taxes(orm.Model):
             help='Fiscal Book Lines where this line is related to'),
     }
 
-    def _update_book_line_taxes(self, cr, uid, ids, book_line_id, inv_id, context=None):
+    def _update_book_line_taxes(self, cr, uid, ids, fb_id, inv_ids,
+                                context=None):
         """
         It updates the fiscal book lines taxes.
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
-        inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        if inv_brw.tax_line:
-            for tax_to_update in inv_brw.tax_line:
-                values = {
-                    'ait_id' : tax_to_update.id,
-                    'fbl_id' : book_line_id,
-                }
-                if not self.search(cr, uid, [ ('ait_id','=', values['ait_id']), ('fbl_id','=', values['fbl_id']) ], context=context):                
-                    self.create(cr, uid, values, context=context)
+        fb_obj = self.pool.get('fiscal.book')
+        for inv_id in inv_ids:
+            inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+            if inv_brw.tax_line:
+                book_line_id = fb_obj.get_book_line_id(cr, uid,
+                    [fb_id], inv_id=inv_id, context=context)
+                for tax_to_update in inv_brw.tax_line:
+                    values = {
+                        'ait_id': tax_to_update.id,
+                        'fbl_id': book_line_id,
+                    }
+                    if not self.search(cr, uid, [('ait_id', '=', values['ait_id']), ('fbl_id', '=', values['fbl_id'])], context=context):
+                        self.create(cr, uid, values, context=context)
+
 
 class fiscal_book_taxes(orm.Model):
 

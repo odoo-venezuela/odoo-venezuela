@@ -77,7 +77,8 @@
             <field name="arch" type="xml">
                 <form string="Fiscal Book" version="7.0">
                     <header>
-                        <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
+                        <button name="update_book" type="object" string="Update Lines" class="oe_highlight"/>
+                        <button name="clear_book" type="object" string="Clear Lines" class="oe_highlight"/>
                         <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
@@ -95,9 +96,13 @@
                             <field name="fbt_ids" nolabel="1" colspan='4'/>
                         </page>
                         <page string="Fiscal Book Invoices">
-                            <field name="invoice_ids" nolabel="1" colspan='4'/>
+                            <label for="invoice_ids"/>
+                            <button name="update_book_invoices" type="object" string="Update"/>
+                            <field name="invoice_ids" colspan='4'/>
                         </page>
                         <page string="Fiscal Book Vat Withholdings">
+                            <label for="iwdl_ids"/>
+                            <button name="update_book_wh_iva_lines" type="object" string="Update"/>
                             <field name="iwdl_ids" nolabel="1" colspan='4'/>
                         </page>
                         <page string="Fiscal Book Adjustments">
