@@ -148,6 +148,8 @@ class account_wh_iva_line(osv.osv):
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
         'wh_iva_rate': fields.float(string='Withholding Vat Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
+        'date': field.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Date')
+        'date_ret': field.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Date Withholding')
     }
 
     _sql_constraints = [
