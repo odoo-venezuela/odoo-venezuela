@@ -26,9 +26,9 @@
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-from osv import fields, osv, orm
+from openerp.osv import fields, osv, orm
 from edi import EDIMixin
-from tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,

@@ -61,7 +61,7 @@
 #  I create invoice by clicking on Create button
 #-
   #!python {model: account.invoice}: |
-  #  import netsvc
+  #  from openerp import netsvc
   #  v = False
   #  try:
   #    wf_service = netsvc.LocalService("workflow")

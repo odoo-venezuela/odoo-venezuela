@@ -27,9 +27,9 @@
 ##############################################################################
 
 import time
-import pooler
-from report import report_sxw
-from tools.translate import _
+import openerp.pooler
+from openerp.report import report_sxw
+from openerp.tools.translate import _
 
 class list_wh_iva(report_sxw.rml_parse):
     

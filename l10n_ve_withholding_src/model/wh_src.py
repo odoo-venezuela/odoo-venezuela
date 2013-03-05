@@ -24,11 +24,11 @@
 ################################################################################
 
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 import time
-from tools import config
-from tools.translate import _
-import decimal_precision as dp
+from openerp.tools import config
+from openerp.tools.translate import _
+from openerp.addons import decimal_precision as dp
 
 
 class account_wh_src(osv.osv):

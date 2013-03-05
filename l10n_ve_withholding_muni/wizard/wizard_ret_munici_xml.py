@@ -24,9 +24,9 @@
 ################################################################################
 
 import wizard
-import osv
-import pooler
-from tools.translate import _
+import openerp.osv
+import openerp.pooler
+from openerp.tools.translate import _
 import os
 
 _transaction_form = '''<?xml version="1.0"?>

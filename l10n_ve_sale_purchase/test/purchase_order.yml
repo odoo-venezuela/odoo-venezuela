@@ -70,7 +70,7 @@
   1.8 Execute workflow for opening the invoice
 -
   !python {model: purchase.order}: |
-    import netsvc
+    from openerp import netsvc
     po = self.browse(cr, uid, ref("purchase_order01"))
     wf_service = netsvc.LocalService("workflow")
     wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)

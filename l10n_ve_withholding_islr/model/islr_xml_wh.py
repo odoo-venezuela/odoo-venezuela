@@ -25,16 +25,16 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from osv import osv
-from osv import fields
-from tools.translate import _
-from tools import config
+from openerp.osv import osv
+from openerp.osv import fields
+from openerp.tools.translate import _
+from openerp.tools import config
 import time
 import datetime
 from xml.etree.ElementTree import Element, SubElement, ElementTree, tostring
 import sys
 import base64
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
 
 class islr_xml_wh_doc(osv.osv):
     _name = "islr.xml.wh.doc"

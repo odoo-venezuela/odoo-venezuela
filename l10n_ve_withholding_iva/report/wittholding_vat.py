@@ -26,9 +26,9 @@
 ##############################################################################
 
 import time
-from report import report_sxw
-from osv import osv
-import pooler
+from openerp.report import report_sxw
+from openerp.osv import osv
+import openerp.pooler
 
 class rep_comprobante(report_sxw.rml_parse):
     #Variables Globales----------------------------------------------------

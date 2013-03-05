@@ -23,10 +23,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 import time
-from tools.translate import _
-import decimal_precision as dp
+from openerp.tools.translate import _
+from openerp.addons import decimal_precision as dp
 
 class account_wh_iva_line_tax(osv.osv):
     _name = 'account.wh.iva.line.tax'
@@ -148,6 +148,8 @@ class account_wh_iva_line(osv.osv):
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
         'wh_iva_rate': fields.float(string='Withholding Vat Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
+        'date': field.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Date')
+        'date_ret': field.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Date Withholding')
     }
 
     _sql_constraints = [

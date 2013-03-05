@@ -26,10 +26,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from osv import fields, osv
-import tools
-from tools.translate import _
-from tools import config
+from openerp.osv import fields, osv
+import openerp.tools
+from openerp.tools.translate import _
+from openerp.tools import config
 
 class res_users(osv.osv):
     _inherit = 'res.users'

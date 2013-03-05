@@ -75,7 +75,7 @@
   2.7 I create validate wh document clicking the Progress button
 -
   !python {model: account.invoice}: |
-    import netsvc
+    from openerp import netsvc
     ai_brw = self.browse(cr, uid, ref('islr_inv02'))
     wf = netsvc.LocalService("workflow")
     wf.trg_validate(uid, 'islr.wh.doc', ai_brw.islr_wh_doc_id.id, 'act_progress', cr)
@@ -83,7 +83,7 @@
   2.8 Search for the wh lines
 -
   !python {model: account.invoice}: |
-    import netsvc
+    from openerp import netsvc
     import time
     ai_brw = self.browse(cr, uid, ref("islr_inv02"))
     assert ai_brw.islr_wh_doc_id.amount_total_ret == 750.0, "Bad value for retention amount"
