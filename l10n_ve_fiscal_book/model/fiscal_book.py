@@ -157,10 +157,10 @@ class fiscal_book(orm.Model):
                               context=context)
                 my_rank = my_rank + 1
             #~ order and fill book lines with invoices by date invoiced
-            inv_ids = self.get_ordered_inv_ids(cr, uid, fb_id, inv_ids,
+            inv_ids = self.get_ordered_inv_ids(cr, uid, [fb_id], inv_ids,
                                                context=context)
             for inv_id_to_rank in inv_ids:
-                book_line_id = self.get_book_line_id(cr, uid, fb_id,
+                book_line_id = self.get_book_line_id(cr, uid, [fb_id],
                                                      inv_id=inv_id_to_rank,
                                                      context=context)
                 fbl_obj.write(cr, uid, book_line_id, {'rank': my_rank},
