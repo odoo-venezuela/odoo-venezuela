@@ -167,22 +167,18 @@ class fiscal_book(orm.Model):
                               context=context)
                 my_rank = my_rank + 1
 
-    #~ TODO: complete method after add acc.wh.iva.line date fields
+    #~ TODO: test this method
     def get_ordered_orphan_iwdl_ids(self, cr, uid, ids, orphan_iwdl_ids,
                                     context=None):
         """
-        Returns wh iva lines IDs order by asc date.
+        Returns orphan wh iva lines IDs order by asc date.
         """
         context = context or {}
-        awi_obj = self.pool.get('account.wh.iva')
         awil_obj = self.pool.get('account.wh.iva.line')
         for fb_id in ids:
-            iwdl_brw_list = awil_obj.browse(cr, uid, orphan_iwdl_ids,
-                                            context=context)
-            for iwdl_to_order in iwdl_brw_list:
-                iwdl_to_order.retention_id.date
-            ordered_ids_list = awil_obj_obj.search(cr, uid, [(
-                'id', 'in', (orphan_iwdl_ids))], order='date asc')
+            ordered_ids_list = awil_obj.search(cr, uid, [(
+                'id', 'in', (orphan_iwdl_ids))], order='date asc',
+                context=context)
             return ordered_ids_list
 
     def get_ordered_inv_ids(self, cr, uid, ids, inv_ids, context=None):
