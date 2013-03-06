@@ -229,36 +229,47 @@ class fiscal_book(orm.Model):
 
     def update_book_invoices(self, cr, uid, ids, context=None):
         """
-        It relate the invoices to the fical book.
+        It relate/unrelate the invoices to the fical book.
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
         fbl_obj = self.pool.get('fiscal.book.lines')
         for fb_id in ids:
-            #~ Add invoices
+            #~ Relate invoices
             inv_ids = self._get_invoice_ids(cr, uid, [fb_id], context=context)
             inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
-            #~ Remove invoices (period book change, invoice now cancel/draft or
+            #~ Unrelate invoices (period book change, invoice now cancel/draft or
             #~ have change its period)
-            all_inv_ids = inv_obj.search(cr, uid, [('fb_id', '=', fb_id)])
+            all_inv_ids = inv_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+                                         context=context)
             for inv_id_to_check in all_inv_ids: 
                 if inv_id_to_check not in inv_ids:
                     inv_obj.write(cr, uid, inv_id_to_check, {'fb_id': False},
                                   context=context)
             return inv_ids
 
+    #~ TODO: test this method.
     def update_book_wh_iva_lines(self, cr, uid, ids, context=None):
         """
-        It relate the wh iva lines to the fical book.
+        It relate/unrelate the wh iva lines to the fical book.
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
         for fb_id in ids:
+            #~ Relate wh iva lines
             iwdl_ids = self._get_wh_iva_line_ids(cr, uid, [fb_id],
                                                  context=context)
             iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': fb_id},
                            context=context)
-        return iwdl_ids
+            #~ Unrelate wh iva lines (period book change, wh iva line have been
+            #~ cancel or have change its period)
+            all_iwdl_ids = iwdl_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+                                           context=context)
+            for iwdl_id_to_check in all_iwdl_ids:
+                if iwdl_id_to_check not in iwdl_ids:
+                    iwdl_obj.write(cr, uid, iwdl_id_to_check, {'fb_id': False},
+                                  context=context)
+            return iwdl_ids
 
     #~ TODO: test this method.
     def get_book_line_id(self, cr, uid, ids, inv_id=None, iwdl_id=None,
