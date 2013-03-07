@@ -131,57 +131,19 @@ class fiscal_book(orm.Model):
                                       context=context)
         return iwdl_id and iwdl_id[0] or False
 
-    #~ TODO: delete this method and integrate to update book lines
-    def _set_book_line_ranks(self, cr, uid, ids, context=None):
-        """
-        It assigns ranks value of the book lines sorted by the date invoiced.
-        """
-        context = context or {}
-        fbl_obj = self.pool.get('fiscal.book.lines')
-        for fb_id in ids:
-            my_rank = 0
-            inv_ids = self.browse(cr, uid, fb_id, context=context).invoice_ids
-            iwdl_ids = self.browse(cr, uid, fb_id, context=context).iwdl_ids
-            orphan_iwdl_ids = self.get_orphan_iwdl_ids(
-                cr, uid, [fb_id], inv_ids,
-                iwdl_ids,
-                context=context)
-            #~ order and fill book lines with orphan wh iva lines order by date
-            orphan_iwdl_ids = self.get_ordered_orphan_iwdl_ids(
-                cr, uid, [fb_id],
-                orphan_iwdl_ids,
-                context=context)
-            for iwdl_id_to_rank in orphan_iwdl_ids:
-                book_line_id = self.get_book_line_id(cr, uid, fb_id,
-                                                     iwdl_id=iwdl_id_to_rank,
-                                                     context=context)
-                fbl_obj.write(cr, uid, book_line_id, {'rank': my_rank},
-                              context=context)
-                my_rank = my_rank + 1
-            #~ order and fill book lines with invoices by date invoiced
-            inv_ids = self.get_ordered_inv_ids(cr, uid, [fb_id], inv_ids,
-                                               context=context)
-            for inv_id_to_rank in inv_ids:
-                book_line_id = self.get_book_line_id(cr, uid, [fb_id],
-                                                     inv_id=inv_id_to_rank,
-                                                     context=context)
-                fbl_obj.write(cr, uid, book_line_id, {'rank': my_rank},
-                              context=context)
-                my_rank = my_rank + 1
-
     #~ TODO: test this method
-    def get_ordered_orphan_iwdl_ids(self, cr, uid, ids, orphan_iwdl_ids,
+    def get_ordered_orphan_iwdl_ids(self, cr, uid, orphan_iwdl_ids,
                                     context=None):
         """
         Returns orphan wh iva lines IDs order by asc date.
         """
         context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
-        for fb_id in ids:
-            ordered_ids_list = awil_obj.search(cr, uid, [(
-                'id', 'in', (orphan_iwdl_ids))], order='date asc',
-                context=context)
-            return ordered_ids_list
+
+        ordered_ids_list = awil_obj.search(cr, uid, [(
+            'id', 'in', (orphan_iwdl_ids))], order='date asc',
+            context=context)
+        return ordered_ids_list
 
     def get_ordered_inv_ids(self, cr, uid, ids, inv_ids, context=None):
         """
@@ -210,21 +172,13 @@ class fiscal_book(orm.Model):
                                                 context=context)
             iwdl_ids = self.update_book_wh_iva_lines(cr, uid, [fb_brw.id],
                                                      context=context)
-
-
             self.update_book_taxes(cr, uid, [fb_brw.id], inv_ids, context=context)
-
-
-
             self.update_book_line(cr, uid, ids, fb_brw.id, inv_ids, 
                                       iwdl_ids, context=context)
             fblt_obj._update_book_line_taxes(cr, uid, ids, fb_brw.id, inv_ids, 
                                              context=context)
-
             #~ remove old relations and deletion.
             #~ TODO: delete book.line.taxes associated.
-            #~ Re-assing lines rank
-            self._set_book_line_ranks(cr, uid, ids, context=context)
         return True
 
     def update_book_invoices(self, cr, uid, ids, context=None):
@@ -395,8 +349,9 @@ class fiscal_book(orm.Model):
         inv_wh_ids = [i.invoice_id.id for i in iwdl_brws]
         orphan_inv_ids = set(inv_wh_ids) - set(inv_ids)
         orphan_inv_ids = list(orphan_inv_ids)
-        return orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or False
-        
+        orphan_iwdl_ids = orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or False
+        return orphan_iwdl_ids and self.get_ordered_orphan_iwdl_ids(cr, uid, orphan_iwdl_ids, context=context)
+
     def clear_book(self, cr, uid, ids, context=None):
         """
         It delete all book lines loaded in the book.
