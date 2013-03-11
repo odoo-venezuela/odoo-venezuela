@@ -549,6 +549,8 @@ class inherited_invoice(osv.osv):
             help='Fiscal Book where this line is related to'),
         #TODO: THIS FIELD TO BE CHANGED TO A STORABLE FUNCTIONAL FIELD
         #CHANGE EVEN FROM boolean to selection
+        'issue_fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this invoice needs to be add'),
         'fb_submitted':fields.boolean('Fiscal Book Submitted?',
                 help='Indicates if this invoice is in a Fiscal Book which has'\
                         ' being already submitted to the statutory institute'),

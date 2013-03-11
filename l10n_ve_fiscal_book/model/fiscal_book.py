@@ -89,6 +89,26 @@ class fiscal_book(orm.Model):
                                  order='date_invoice asc', context=context)
         return inv_ids
 
+    def _get_issue_invoice_ids(self, cr, uid, fb_id, context=None):
+        """
+        It returns ids from not open or paid invoices regarding to the type and
+        period of the fiscal book order by date invoiced.
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
+        inv_type = fb_brw.type == 'sale' \
+            and ['out_invoice', 'out_refund'] \
+            or ['in_invoice', 'in_refund']
+        inv_state = ['paid', 'open']
+        #~ pull invoice data
+        issue_inv_ids = inv_obj.search(cr, uid,
+                                 [('period_id', '=', fb_brw.period_id.id),
+                                  ('type', 'in', inv_type),
+                                  ('state', 'not in', inv_state)],
+                                 order='date_invoice asc', context=context)
+        return issue_inv_ids
+
     def _get_wh_iva_line_ids(self, cr, uid, fb_id, context=None):
         """
         It returns ids from wh iva lines with state 'done' regarding to the
@@ -226,6 +246,16 @@ class fiscal_book(orm.Model):
                               context=context)
         return inv_ids
 
+    def update_book_issue_invoices(self, cr, uid, fb_id, context=None):
+        """
+        It relate the issue invoices (not open or paid state) to the fiscal book.
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        issue_inv_ids = self._get_issue_invoice_ids(cr, uid, fb_id, context=context)
+        inv_obj.write(cr, uid, issue_inv_ids, {'issue_fb_id': fb_id}, context=context)
+        return issue_inv_ids
+
     #~ TODO: test this method.
     def update_book_wh_iva_lines(self, cr, uid, fb_id, context=None):
         """
@@ -357,6 +387,14 @@ class fiscal_book(orm.Model):
         self.update_book_invoices(cr, uid, ids[0], context=context)
         return True
 
+    def button_update_book_issue_invoices(self, cr, uid, ids, context=None):
+        """
+        Take the instance of fiscal book and do the update of issue invoices.
+        """
+        context = context or {}
+        self.update_book_issue_invoices(cr, uid, ids[0], context=context)
+        return True
+
     def button_update_book_wh_iva_lines(self, cr, uid, ids, context=None):
         """
         Take the instance of fiscal book and do the update of wh iva lines.
@@ -410,6 +448,8 @@ class fiscal_book(orm.Model):
             help='Taxes being recorded in a Fiscal Book'),
         'invoice_ids':fields.one2many('account.invoice', 'fb_id', 'Invoices',
             help='Invoices being recorded in a Fiscal Book'),
+        'issue_invoice_ids':fields.one2many('account.invoice', 'issue_fb_id', 'Issue Invoices',
+            help='Invoices that are in pending state. Cancel or Draft'),
         'iwdl_ids':fields.one2many('account.wh.iva.line', 'fb_id', 'Vat Withholdings',
             help='Vat Withholdings being recorded in a Fiscal Book'),
         'abl_ids':fields.one2many('adjustment.book.line', 'fb_id', 'Adjustment Lines',

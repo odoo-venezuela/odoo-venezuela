@@ -103,6 +103,9 @@
                             <label for="invoice_ids"/>
                             <button name="button_update_book_invoices" type="object" string="Update"/>
                             <field name="invoice_ids" colspan='4' readonly="True"/>
+                            <label for="issue_invoice_ids"/>
+                            <button name="button_update_book_issue_invoices" type="object" string="Update"/>
+                            <field name="issue_invoice_ids" colspan='4' readonly="True"/>
                         </page>
                         <page string="Fiscal Book Vat Withholdings">
                             <label for="iwdl_ids"/>
