@@ -77,39 +77,44 @@
             <field name="arch" type="xml">
                 <form string="Fiscal Book" version="7.0">
                     <header>
-                        <button name="update_book" type="object" string="Update All Book" class="oe_highlight"/>
-                        <button name="clear_book" type="object" string="Clear Lines" class="oe_highlight"/>
+                        <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
+                        <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
                         <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
                     <group>
                         <field name="name"/>
                         <field name="type" readonly='1'/>
-                        <field name="period_id"/>
+                        <field name="period_id" on_change="onchange_period_id()"/>
                         <field name="company_id" invisible='1'/>
                     </group>
                     <notebook colspan="8">
                         <page string="Fiscal Book Lines">
                             <label for="fbl_ids"/>
                             <button name="button_update_book_lines" type="object" string="Update" />
+                            <button name="clear_book_lines" type="object" string="Clear"/>
                             <field name="fbl_ids" nolabel="1" colspan='4' readonly="True"/>
                         </page>
                         <page string="Fiscal Book Taxes">
                             <label for="fbt_ids"/>
                             <button name="button_update_book_taxes" type="object" string="Update" />
+                            <button name="clear_book_taxes" type="object" string="Clear"/>
                             <field name="fbt_ids" colspan='4' readonly="True"/>
                         </page>
                         <page string="Fiscal Book Invoices">
                             <label for="invoice_ids"/>
                             <button name="button_update_book_invoices" type="object" string="Update"/>
+                            <button name="clear_book_invoices" type="object" string="Clear"/>
                             <field name="invoice_ids" colspan='4' readonly="True"/>
                             <label for="issue_invoice_ids"/>
                             <button name="button_update_book_issue_invoices" type="object" string="Update"/>
+                            <button name="clear_book_issue_invoices" type="object" string="Clear"/>
                             <field name="issue_invoice_ids" colspan='4' readonly="True"/>
                         </page>
                         <page string="Fiscal Book Vat Withholdings">
                             <label for="iwdl_ids"/>
                             <button name="button_update_book_wh_iva_lines" type="object" string="Update"/>
+                            <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
                             <field name="iwdl_ids" colspan='4' readonly="True"/>
                         </page>
                         <page string="Fiscal Book Adjustments">

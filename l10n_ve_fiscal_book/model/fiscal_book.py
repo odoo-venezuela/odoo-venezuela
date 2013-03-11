@@ -27,8 +27,6 @@ from openerp.osv import osv, orm, fields
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
-import pdb, pprint
-
 
 class fiscal_book(orm.Model):
 
@@ -201,7 +199,21 @@ class fiscal_book(orm.Model):
         orphan_iwdl_ids = orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or False
         return orphan_iwdl_ids and self._get_ordered_orphan_iwdl_ids(cr, uid, orphan_iwdl_ids, context=context)
 
-    def clear_book(self, cr, uid, ids, context=None):
+    def clear_book(self, cr, uid, fb_id, context=None):
+        """
+        It delete all book data information.
+        """
+        context = context or {}
+        #~ delete data
+        self.clear_book_lines(cr, uid, fb_id, context=context)
+        self.clear_book_taxes(cr, uid, fb_id, context=context)
+        #~ unrelate data
+        self.clear_book_invoices(cr, uid, fb_id, context=context)
+        self.clear_book_issue_invoices(cr, uid, fb_id, context=context)
+        self.clear_book_iwdl_ids(cr, uid, fb_id, context=context)
+        return True
+
+    def clear_book_lines(self, cr, uid, ids, context=None):
         """
         It delete all book lines loaded in the book.
         """
@@ -211,6 +223,54 @@ class fiscal_book(orm.Model):
             fbl_brws = self.browse(cr, uid, fb_id, context=context).fbl_ids
             fbl_ids = [ fbl.id for fbl in fbl_brws ]
             fbl_obj.unlink(cr, uid, fbl_ids, context=context)
+        return True
+
+    def clear_book_taxes(self, cr, uid, ids, context=None):
+        """
+        It delete all book taxes loaded in the book.
+        """
+        context = context or {}
+        fbt_obj = self.pool.get("fiscal.book.taxes")
+        for fb_id in ids:
+            fbt_brws = self.browse(cr, uid, fb_id, context=context).fbt_ids
+            fbt_ids = [ fbt.id for fbt in fbt_brws ]
+            fbt_obj.unlink(cr, uid, fbt_ids, context=context)
+        return True
+
+    def clear_book_invoices(self, cr, uid, ids, context=None):
+        """
+        Unrelate all invoices of the book.
+        """
+        context = context or {}
+        inv_obj = self.pool.get("account.invoice")
+        for fb_id in ids:
+            inv_brws = self.browse(cr, uid, fb_id, context=context).invoice_ids
+            inv_ids = [ inv.id for inv in inv_brws ]
+            inv_obj.write(cr, uid, inv_ids, {'fb_id': False}, context=context)
+        return True
+
+    def clear_book_issue_invoices(self, cr, uid, ids, context=None):
+        """
+        Unrelate all issue invoices of the book.
+        """
+        context = context or {}
+        inv_obj = self.pool.get("account.invoice")
+        for fb_id in ids:
+            inv_brws = self.browse(cr, uid, fb_id, context=context).issue_invoice_ids
+            inv_ids = [ inv.id for inv in inv_brws ]
+            inv_obj.write(cr, uid, inv_ids, {'fb_id': False}, context=context)
+        return True
+
+    def clear_book_iwdl_ids(self, cr, uid, ids, context=None):
+        """
+        Unrelate all wh iva lines of the book.
+        """
+        context = context or {}
+        iwdl_obj = self.pool.get("account.wh.iva.line")
+        for fb_id in ids:
+            iwdl_brws = self.browse(cr, uid, fb_id, context=context).iwdl_ids
+            iwdl_ids = [ iwdl.id for iwdl in iwdl_brws ]
+            iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': False}, context=context)
         return True
 
     def update_book(self, cr, uid, ids, context=None):
@@ -422,6 +482,14 @@ class fiscal_book(orm.Model):
         inv_ids = [ inv.id for inv in fb_brw.invoice_ids ]
         iwdl_ids = [ iwdl.id for iwdl in fb_brw.iwdl_ids ]
         self.update_book_lines(cr, uid, ids[0], inv_ids, iwdl_ids, context=context)
+        return True
+
+    def onchange_period_id(self, cr, uid, ids, context=None):
+        """
+        It make clear all stuff of book.
+        """
+        context = context or {}
+        self.clear_book(cr, uid, ids, context=context)
         return True
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
