@@ -199,60 +199,53 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
-            inv_ids = self.update_book_invoices(cr, uid, [fb_brw.id], context=context)
-            iwdl_ids = self.update_book_wh_iva_lines(cr, uid, [fb_brw.id], context=context)
+            inv_ids = self.update_book_invoices(cr, uid, fb_brw.id, context=context)
+            iwdl_ids = self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
             self.update_book_taxes(cr, uid, fb_brw.id, inv_ids, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, inv_ids, iwdl_ids, context=context)
             fbl_ids = [ fbl.id for fbl in fb_brw.fbl_ids ]
             self.update_book_lines_taxes(cr, uid, fbl_ids, inv_ids, context=context)
         return True
 
-    def update_book_invoices(self, cr, uid, ids, context=None):
+    def update_book_invoices(self, cr, uid, fb_id, context=None):
         """
         It relate/unrelate the invoices to the fical book.
         """
         context = context or {}
-        res = []
         inv_obj = self.pool.get('account.invoice')
-        for fb_id in ids:
-            #~ Relate invoices
-            inv_ids = self._get_invoice_ids(cr, uid, fb_id, context=context)
-            inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
-            #~ Unrelate invoices (period book change, invoice now cancel/draft or
-            #~ have change its period)
-            all_inv_ids = inv_obj.search(cr, uid, [('fb_id', '=', fb_id)],
-                                         context=context)
-            for inv_id_to_check in all_inv_ids: 
-                if inv_id_to_check not in inv_ids:
-                    inv_obj.write(cr, uid, inv_id_to_check, {'fb_id': False},
-                                  context=context)
-            inv_ids and res.append(inv_ids)
-        return res and ((len(ids) is 1) and res[0] or res) or []
+        #~ Relate invoices
+        inv_ids = self._get_invoice_ids(cr, uid, fb_id, context=context)
+        inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
+        #~ Unrelate invoices (period book change, invoice now cancel/draft or
+        #~ have change its period)
+        all_inv_ids = inv_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+                                     context=context)
+        for inv_id_to_check in all_inv_ids: 
+            if inv_id_to_check not in inv_ids:
+                inv_obj.write(cr, uid, inv_id_to_check, {'fb_id': False},
+                              context=context)
+        return inv_ids
 
     #~ TODO: test this method.
-    def update_book_wh_iva_lines(self, cr, uid, ids, context=None):
+    def update_book_wh_iva_lines(self, cr, uid, fb_id, context=None):
         """
         It relate/unrelate the wh iva lines to the fical book.
         """
         context = context or {}
-        res = []
         iwdl_obj = self.pool.get('account.wh.iva.line')
-        for fb_id in ids:
-            #~ Relate wh iva lines
-            iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
-            iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': fb_id}, context=context)
-            #~ Unrelate wh iva lines (period book change, wh iva line have been
-            #~ cancel or have change its period)
-            all_iwdl_ids = iwdl_obj.search(cr, uid, [('fb_id', '=', fb_id)],
-                                           context=context)
-            for iwdl_id_to_check in all_iwdl_ids:
-                if iwdl_id_to_check not in iwdl_ids:
-                    iwdl_obj.write(cr, uid, iwdl_id_to_check, {'fb_id': False},
-                                  context=context)
-            iwdl_ids and res.append(iwdl_ids)
-        return res and ((len(ids) is 1) and res[0] or res) or []
+        #~ Relate wh iva lines
+        iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
+        iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': fb_id}, context=context)
+        #~ Unrelate wh iva lines (period book change, wh iva line have been
+        #~ cancel or have change its period)
+        all_iwdl_ids = iwdl_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+                                       context=context)
+        for iwdl_id_to_check in all_iwdl_ids:
+            if iwdl_id_to_check not in iwdl_ids:
+                iwdl_obj.write(cr, uid, iwdl_id_to_check, {'fb_id': False},
+                              context=context)
+        return iwdl_ids
 
-    #~ TODO: test this method.
     def update_book_taxes(self, cr, uid, fb_id, inv_ids, context=None):
         """
         It relate/unrelate the invoices taxes from the period to the fical book.
@@ -270,8 +263,7 @@ class fiscal_book(orm.Model):
         self.write(cr, uid, fb_id, {'fbt_ids' : data}, context=context)
         return True
 
-    def update_book_lines(self, cr, uid, fb_id, inv_ids=None, iwdl_ids=None,
-                         context=None):
+    def update_book_lines(self, cr, uid, fb_id, inv_ids, iwdl_ids, context=None):
         """
         It updates the fiscal book lines values.
         """
@@ -286,8 +278,7 @@ class fiscal_book(orm.Model):
         fbl_obj.unlink(cr, uid, fbl_ids, context=context)
         #~ add book lines for orphan withholding iva lines
         data = []
-        orphan_iwdl_ids = self._get_orphan_iwdl_ids(cr, uid, inv_ids, iwdl_ids,
-                                                   context=context)
+        orphan_iwdl_ids = iwdl_ids and self._get_orphan_iwdl_ids(cr, uid, inv_ids, iwdl_ids, context=context) or False
         if orphan_iwdl_ids:
             for iwdl_brw in iwdl_obj.browse(cr, uid, orphan_iwdl_ids, context=context):
                 values = {}
@@ -356,6 +347,43 @@ class fiscal_book(orm.Model):
                     }
                     data.append((0, 0, values))
                 fbl_obj.write(cr, uid, fbl.id, {'fblt_ids': data}, context=context)
+        return True
+
+    def button_update_book_invoices(self, cr, uid, ids, context=None):
+        """
+        Take the instance of fiscal book and do the update of invoices.
+        """
+        context = context or {}
+        self.update_book_invoices(cr, uid, ids[0], context=context)
+        return True
+
+    def button_update_book_wh_iva_lines(self, cr, uid, ids, context=None):
+        """
+        Take the instance of fiscal book and do the update of wh iva lines.
+        """
+        context = context or {}
+        self.update_book_wh_iva_lines(cr, uid, ids[0], context=context)
+        return True
+
+    def button_update_book_taxes(self, cr, uid, ids, context=None):
+        """
+        Take the instance of fiscal book and do the update of taxes.
+        """
+        context = context or {}
+        inv_brws = self.browse(cr, uid, ids[0], context=context).invoice_ids
+        inv_ids = [ inv.id for inv in inv_brws ]
+        self.update_book_taxes(cr, uid, ids[0], inv_ids, context=context)
+        return True
+
+    def button_update_book_lines(self, cr, uid, ids, context=None):
+        """
+        Take the instance of fiscal book and do the update book lines.
+        """
+        context = context or {}
+        fb_brw = self.browse(cr, uid, ids[0], context=context)
+        inv_ids = [ inv.id for inv in fb_brw.invoice_ids ]
+        iwdl_ids = [ iwdl.id for iwdl in fb_brw.iwdl_ids ]
+        self.update_book_lines(cr, uid, ids[0], inv_ids, iwdl_ids, context=context)
         return True
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
