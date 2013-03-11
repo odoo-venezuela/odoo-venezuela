@@ -2,6 +2,18 @@
 <openerp>
     <data>
 
+<!-- 
+Leyend
+    Purchase Invoices (5)
+      3 Current Period + Withholding
+      2 Previous Period + Withholding
+    Sale Invoices (5)
+      3 Current Period + Withholding
+      2 Previous Period + Withholding
+
+    PD: Wh of invoices of previous period I cancell them at the current period.
+-->
+
         <!--    Partner    -->
         <record id="res_partner_1_fb" model="res.partner">
             <field name="name">Vauxoo CCS</field>
@@ -52,23 +64,19 @@
 
         <!--    Purchase Invoices    -->
         <record id="account_invoice_0" model="account.invoice">
-            <field name="name">FB Purchase Invoice 0</field>
-            <field name="check_total" eval="700000.0"/>
-            <field name="journal_id" ref="account.expenses_journal"/>
-            <field name="currency_id" ref="base.VEF"/>
-            <field name="nro_ctrl">00-786347</field>
-            <field name="sin_cred" eval="0"/>
-            <field name="user_id" ref="base.user_demo"/>
-            <field name="reference">libre-0003873</field>
-            <field name="reference_type">none</field>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="state">draft</field>
+            <field name="name">FB Purchase Invoice 1</field>
             <field name="type">in_invoice</field>
+            <field name="state">draft</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="nro_ctrl">Fb-001</field>
+            <field name="reference">Fb-001</field>
+            <field name="partner_id" ref="res_partner_2_fb"/> 
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.expenses_journal"/>
             <field name="account_id" ref="account.a_pay"/>
-            <field name="reconciled" eval="0"/>
+            <field name="currency_id" ref="base.VEF"/>
             <field name="amount_untaxed" eval="700000.0"/>
             <field name="amount_total" eval="700000.0"/>
-            <field name="partner_id" ref="res_partner_2_fb"/>
             <field name="date_invoice" eval="time.strftime('%Y-%m-%d')"/>
         </record>
         <record id="account_invoice_line_facturapersonajuridicadomiciliada0" model="account.invoice.line">
