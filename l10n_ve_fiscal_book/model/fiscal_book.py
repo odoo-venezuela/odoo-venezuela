@@ -284,7 +284,7 @@ class fiscal_book(orm.Model):
             self.update_book_taxes(cr, uid, fb_brw.id, inv_ids, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, inv_ids, iwdl_ids, context=context)
             fbl_ids = [ fbl.id for fbl in fb_brw.fbl_ids ]
-            self.update_book_lines_taxes(cr, uid, fbl_ids, inv_ids, context=context)
+            self.link_book_lines_and_taxes(cr, uid, fb_brw.id, context=context)
         return True
 
     def update_book_invoices(self, cr, uid, fb_id, context=None):
@@ -414,29 +414,23 @@ class fiscal_book(orm.Model):
             self.write(cr, uid, fb_id, {'fbl_ids' : data}, context=context)
         return True
 
-    def update_book_lines_taxes(self, cr, uid, fbl_ids, inv_ids, context=None):
+    def link_book_lines_and_taxes(self, cr, uid, fb_id, context=None):
         """
-        It updates the fiscal book lines taxes. This taxes are taken from the 
-        taxes associated to the invoice related to the fiscal book line.
+        It updates the fiscal book taxes. Link the tax with the corresponding
+        book line.
         """
         context = context or {}
-        fbl_obj = self.pool.get('fiscal.book.lines')
-        fblt_obj = self.pool.get('fiscal.book.lines.taxes')
-        #~ delete book taxes lines
-        fblt_ids = fblt_obj.search(cr, uid, [('fbl_id', 'in', (fbl_ids))],
-                                   context=context)
-        fblt_obj.unlink(cr, uid, fblt_ids, context=context)
-        #~ write book lines taxes
-        for fbl in fbl_obj.browse(cr, uid, fbl_ids, context=context):
-            if fbl.invoice_id.tax_line:
-                data = []
-                for tax_to_add in fbl.invoice_id.tax_line:
-                    values = {
-                        'ait_id': tax_to_add.id,
-                        'fbl_id': fbl.id
-                    }
-                    data.append((0, 0, values))
-                fbl_obj.write(cr, uid, fbl.id, {'fblt_ids': data}, context=context)
+        fbt_obj = self.pool.get('fiscal.book.taxes')
+        #~ delete book taxes
+        fbt_ids = fbt_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+                                 context=context)
+        fbt_obj.unlink(cr, uid, fbt_ids, context=context)
+        #~ write book taxes
+        data = [(0,0,{'fb_id': fb_id, 'fbl_id': fbl.id, 'ait_id':  tax and tax.id}) \
+                     for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids \
+                     for tax in fbl.invoice_id and fbl.invoice_id.tax_line or [] ]
+        if data:
+            self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
         return True
 
     def button_update_book_invoices(self, cr, uid, ids, context=None):
@@ -656,30 +650,23 @@ class fiscal_book_lines(orm.Model):
         'get_credit_affected': fields.char(string='Affected Credit Notes', 
             help=''),
         'get_parent': fields.char(string='Affected Document', help=''),
-        'fblt_ids': fields.one2many('fiscal.book.lines.taxes', 'fbl_id', 
+        'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id', 
             'Tax Lines',
             help='Tax Lines being recorded in a Fiscal Book'),
-    }
-
-class fiscal_book_lines_taxes(orm.Model):
-
-    _name='fiscal.book.lines.taxes'
-    _rec_name='ait_id'
-    _columns={
-        'ait_id':fields.many2one('account.invoice.tax','Invoice Taxes'),
-        'fbl_id':fields.many2one('fiscal.book.lines','Fiscal Book Lines',
-            help='Fiscal Book Lines where this line is related to'),
     }
 
 class fiscal_book_taxes(orm.Model):
 
     _description = "Venezuela's Sale & Purchase Fiscal Book Taxes"
     _name='fiscal.book.taxes'
+    _rec_name='ait_id'
     _columns={
         'name':fields.related('ait_id', 'name', relation="account.invoice.tax",
                               type="char", string='Description', store=True),
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
-            help='Fiscal Book where this line is related to'),
+            help='Fiscal Book where this tax is related to'),
+        'fbl_id':fields.many2one('fiscal.book.lines','Fiscal Book Lines',
+            help='Fiscal Book Lines where this tax is related to'),
         'base_amount': fields.related('ait_id', 'base_amount',
                                       relation="account.invoice.tax", 
                                       type="float", string='Taxable Amount',

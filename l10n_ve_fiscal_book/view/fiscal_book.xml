@@ -19,7 +19,7 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
-                    <field name='fblt_ids'/>
+                    <field name='fbt_ids'/>
                 </form>
             </field>
         </record>
@@ -66,7 +66,7 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
-                    <field name='fblt_ids'/>
+                    <field name='fbt_ids'/>
                 </tree>
             </field>
         </record>
