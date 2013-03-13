@@ -241,11 +241,12 @@ class fiscal_book(orm.Model):
 
     def clear_book_invoices(self, cr, uid, ids, context=None):
         """
-        Unrelate all invoices of the book.
+        Unrelate all invoices of the book. And delete fiscal book taxes.
         """
         context = context or {}
         inv_obj = self.pool.get("account.invoice")
         for fb_id in ids:
+            self.clear_book_taxes(cr, uid, [fb_id], context=context)
             inv_brws = self.browse(cr, uid, fb_id, context=context).invoice_ids
             inv_ids = [ inv.id for inv in inv_brws ]
             inv_obj.write(cr, uid, inv_ids, {'fb_id': False}, context=context)
@@ -298,7 +299,9 @@ class fiscal_book(orm.Model):
         #~ Relate invoices
         inv_ids = self._get_invoice_ids(cr, uid, fb_id, context=context)
         inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
-        
+        #~ update book taxes
+        self.update_book_taxes(cr, uid, fb_id, inv_ids, context=context)
+
         #~ TODO: move this process to the cancel process of the invoice
         #~ Unrelate invoices (period book change, invoice now cancel/draft or
         #~ have change its period)
@@ -463,16 +466,6 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         self.update_book_wh_iva_lines(cr, uid, ids[0], context=context)
-        return True
-
-    def button_update_book_taxes(self, cr, uid, ids, context=None):
-        """
-        Take the instance of fiscal book and do the update of taxes.
-        """
-        context = context or {}
-        inv_brws = self.browse(cr, uid, ids[0], context=context).invoice_ids
-        inv_ids = [ inv.id for inv in inv_brws ]
-        self.update_book_taxes(cr, uid, ids[0], inv_ids, context=context)
         return True
 
     def button_update_book_lines(self, cr, uid, ids, context=None):

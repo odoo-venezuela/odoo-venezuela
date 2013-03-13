@@ -95,12 +95,6 @@
                             <button name="clear_book_lines" type="object" string="Clear"/>
                             <field name="fbl_ids" nolabel="1" colspan='4' readonly="True"/>
                         </page>
-                        <page string="Fiscal Book Taxes">
-                            <label for="fbt_ids"/>
-                            <button name="button_update_book_taxes" type="object" string="Update" />
-                            <button name="clear_book_taxes" type="object" string="Clear"/>
-                            <field name="fbt_ids" colspan='4' readonly="True"/>
-                        </page>
                         <page string="Fiscal Book Invoices">
                             <label for="invoice_ids"/>
                             <button name="button_update_book_invoices" type="object" string="Update"/>
@@ -110,6 +104,9 @@
                             <button name="button_update_book_issue_invoices" type="object" string="Update"/>
                             <button name="clear_book_issue_invoices" type="object" string="Clear"/>
                             <field name="issue_invoice_ids" colspan='4' readonly="True"/>
+                        </page>
+                        <page string="Fiscal Book Taxes">
+                            <field name="fbt_ids" colspan='4' readonly="True"/>
                         </page>
                         <page string="Fiscal Book Vat Withholdings">
                             <label for="iwdl_ids"/>
