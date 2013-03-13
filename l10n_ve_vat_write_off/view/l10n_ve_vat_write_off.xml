@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+        <record id="view_vat_write_off_form" model="ir.ui.view">
+            <field name="name">vat.write.off.form</field>
+            <field name="model">vat.write.off</field>
+            <field name="arch" type="xml">
+                <form string="Fiscal Book Lines" version='7.0'>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
+                    </header>
+                    <label for='purchase_fb_id'/><field name='purchase_fb_id' string= 'Purchase Fiscal Book'/>
+                    <label for='sale_fb_id'/> <field name='sale_fb_id' string= 'Sale Fiscal Book'/>
+                    <label for='period_id'/> <field name='period_id' string= 'Period'/>
+                    <label for='company_id'/> <field name='company_id' string= 'Company'/>
+                </form>
+            </field>
+        </record>
+
+      <record model="ir.actions.act_window" id="view_vat_write_off_action">
+            <field name="name">VAT Write Off</field>
+            <field name="res_model">vat.write.off</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem name="VAT Write Off" 
+            id="view_vat_write_off_menu" 
+            parent="l10n_ve_fiscal_book.menu_fr_main"
+            action="view_vat_write_off_action"/>
+
+    </data>
+</openerp>
+
