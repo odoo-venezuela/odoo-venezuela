@@ -286,7 +286,6 @@ class fiscal_book(orm.Model):
             self.update_book_taxes(cr, uid, fb_brw.id, inv_ids, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, inv_ids, iwdl_ids, context=context)
             fbl_ids = [ fbl.id for fbl in fb_brw.fbl_ids ]
-            self.link_book_lines_and_taxes(cr, uid, fb_brw.id, context=context)
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
         return True
 
@@ -416,10 +415,11 @@ class fiscal_book(orm.Model):
                 }
                 my_rank = my_rank + 1 
                 data.append((0, 0, values))
-            self.link_book_lines_and_taxes(cr, uid, fb_id, context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbl_ids' : data}, context=context)
+            self.link_book_lines_and_taxes(cr, uid, fb_id, context=context)
+
         return True
 
     def link_book_lines_and_taxes(self, cr, uid, fb_id, context=None):
