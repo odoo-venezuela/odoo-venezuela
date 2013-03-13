@@ -19,6 +19,9 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
+                    <field name='get_total'/>
+                    <field name='get_v_sdcf'/>
+                    <field name='get_v_exent'/>
                     <field name='fbt_ids'/>
                 </form>
             </field>
@@ -66,6 +69,9 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
+                    <field name='get_total'/>
+                    <field name='get_v_sdcf'/>
+                    <field name='get_v_exent'/>
                     <field name='fbt_ids'/>
                 </tree>
             </field>

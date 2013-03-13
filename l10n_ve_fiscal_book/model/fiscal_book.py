@@ -660,6 +660,9 @@ class fiscal_book_lines(orm.Model):
         'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id', 
             'Tax Lines',
             help='Tax Lines being recorded in a Fiscal Book'),
+        'get_total': fields.float('Total with IVA'),
+        'get_v_sdcf': fields.float('SDCF'),
+        'get_v_exent': fields.float('Exent' ),
     }
 
 class fiscal_book_taxes(orm.Model):
