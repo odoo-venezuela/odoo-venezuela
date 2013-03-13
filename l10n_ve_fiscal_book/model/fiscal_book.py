@@ -101,10 +101,12 @@ class fiscal_book(orm.Model):
         inv_state = ['paid', 'open']
         #~ pull invoice data
         issue_inv_ids = inv_obj.search(cr, uid,
-                                 [('period_id', '=', fb_brw.period_id.id),
-                                  ('type', 'in', inv_type),
-                                  ('state', 'not in', inv_state)],
-                                 order='date_invoice asc', context=context)
+            ['|',
+             '&', ('fb_id', '=', fb_brw.id),  ('period_id', '!=', fb_brw.period_id.id),
+             '&', '&', ('period_id', '=', fb_brw.period_id.id), ('type', 'in', inv_type),
+                       ('state', 'not in', inv_state)],
+            order='date_invoice asc', context=context)
+
         return issue_inv_ids
 
     def _get_wh_iva_line_ids(self, cr, uid, fb_id, context=None):
@@ -258,7 +260,7 @@ class fiscal_book(orm.Model):
         for fb_id in ids:
             inv_brws = self.browse(cr, uid, fb_id, context=context).issue_invoice_ids
             inv_ids = [ inv.id for inv in inv_brws ]
-            inv_obj.write(cr, uid, inv_ids, {'fb_id': False}, context=context)
+            inv_obj.write(cr, uid, inv_ids, {'issue_fb_id': False}, context=context)
         return True
 
     def clear_book_iwdl_ids(self, cr, uid, ids, context=None):
@@ -285,6 +287,7 @@ class fiscal_book(orm.Model):
             self.update_book_lines(cr, uid, fb_brw.id, inv_ids, iwdl_ids, context=context)
             fbl_ids = [ fbl.id for fbl in fb_brw.fbl_ids ]
             self.link_book_lines_and_taxes(cr, uid, fb_brw.id, context=context)
+            self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
         return True
 
     def update_book_invoices(self, cr, uid, fb_id, context=None):
@@ -296,6 +299,8 @@ class fiscal_book(orm.Model):
         #~ Relate invoices
         inv_ids = self._get_invoice_ids(cr, uid, fb_id, context=context)
         inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
+        
+        #~ TODO: move this process to the cancel process of the invoice
         #~ Unrelate invoices (period book change, invoice now cancel/draft or
         #~ have change its period)
         all_inv_ids = inv_obj.search(cr, uid, [('fb_id', '=', fb_id)],
@@ -308,7 +313,9 @@ class fiscal_book(orm.Model):
 
     def update_book_issue_invoices(self, cr, uid, fb_id, context=None):
         """
-        It relate the issue invoices (not open or paid state) to the fiscal book.
+        It relate the issue invoices to the fiscal book. That criterion is:
+            - Invoices of the period in state different form open or paid state.
+            - Invoices already related to the book but it have a period change. 
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
@@ -409,6 +416,7 @@ class fiscal_book(orm.Model):
                 }
                 my_rank = my_rank + 1 
                 data.append((0, 0, values))
+            self.link_book_lines_and_taxes(cr, uid, fb_id, context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbl_ids' : data}, context=context)
