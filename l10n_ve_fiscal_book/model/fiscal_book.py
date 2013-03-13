@@ -437,9 +437,15 @@ class fiscal_book(orm.Model):
                                  context=context)
         fbt_obj.unlink(cr, uid, fbt_ids, context=context)
         #~ write book taxes
-        data = [(0,0,{'fb_id': fb_id, 'fbl_id': fbl.id, 'ait_id':  tax and tax.id}) \
-                     for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids \
-                     for tax in fbl.invoice_id and fbl.invoice_id.tax_line or [] ]
+        data = []
+        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
+            if fbl.invoice_id:
+                for ait in fbl.invoice_id.tax_line:
+                    if ait.tax_id and ait.tax_id.ret:
+                        data.append((0, 0, {'fb_id': fb_id, 'fbl_id': fbl.id, 'ait_id': ait.id}))
+                    else:
+                        data.append((0,0,{'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
+
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
         return True
