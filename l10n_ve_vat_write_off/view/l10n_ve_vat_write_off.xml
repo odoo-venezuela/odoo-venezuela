@@ -10,8 +10,8 @@
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
                  <group colspan="4" col="4">
-                    <field name='purchase_fb_id' />
-                    <field name='sale_fb_id'/>
+                    <field name='purchase_fb_id' domain="[('state', '=', 'done'),('type', '=', 'purchase'),]" />
+                    <field name='sale_fb_id' domain="[('state', '=', 'done'),('type', '=', 'sale'),]" />
                     <field name='period_id'/>
                     <field name='company_id' />
                  </group>
