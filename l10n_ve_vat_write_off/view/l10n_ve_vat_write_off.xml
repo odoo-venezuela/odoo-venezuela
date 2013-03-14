@@ -9,10 +9,12 @@
                     <header>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
                     </header>
-                    <label for='purchase_fb_id'/><field name='purchase_fb_id' string= 'Purchase Fiscal Book'/>
-                    <label for='sale_fb_id'/> <field name='sale_fb_id' string= 'Sale Fiscal Book'/>
-                    <label for='period_id'/> <field name='period_id' string= 'Period'/>
-                    <label for='company_id'/> <field name='company_id' string= 'Company'/>
+                 <group colspan="4" col="4">
+                    <field name='purchase_fb_id' />
+                    <field name='sale_fb_id'/>
+                    <field name='period_id'/>
+                    <field name='company_id' />
+                 </group>
                 </form>
             </field>
         </record>
