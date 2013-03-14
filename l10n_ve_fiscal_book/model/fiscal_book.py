@@ -432,6 +432,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         fbt_obj = self.pool.get('fiscal.book.taxes')
+        fbl_obj = self.pool.get('fiscal.book.lines')
         #~ delete book taxes
         fbt_ids = fbt_obj.search(cr, uid, [('fb_id', '=', fb_id)],
                                  context=context)
@@ -440,11 +441,20 @@ class fiscal_book(orm.Model):
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
+                ret_tax_amount = sdcf_tax_amount = exent_tax_amount = 0.0
                 for ait in fbl.invoice_id.tax_line:
                     if ait.tax_id and ait.tax_id.ret:
                         data.append((0, 0, {'fb_id': fb_id, 'fbl_id': fbl.id, 'ait_id': ait.id}))
+                        ret_tax_amount = ret_tax_amount + ait.base_amount + ait.tax_amount
                     else:
                         data.append((0,0,{'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
+                        if ait.tax_id.appl_type == 'sdcf':
+                            sdcf_tax_amount = sdcf_tax_amount + ait.base_amount
+                        if ait.tax_id.appl_type == 'exento':
+                            exent_tax_amount = exent_tax_amount + ait.base_amount
+                fbl_obj.write(cr, uid, fbl.id, {'get_total': ret_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'get_v_sdcf': sdcf_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'get_v_exent': exent_tax_amount}, context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
