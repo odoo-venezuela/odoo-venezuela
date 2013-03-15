@@ -206,9 +206,12 @@ class fiscal_book(orm.Model):
         It delete all book data information.
         """
         context = context or {}
+        #~ clear fields
+        self.clear_book_taxes_amount_fields(cr, uid, fb_id, context=context)
         #~ delete data
         self.clear_book_lines(cr, uid, fb_id, context=context)
         self.clear_book_taxes(cr, uid, fb_id, context=context)
+        self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
         #~ unrelate data
         self.clear_book_invoices(cr, uid, fb_id, context=context)
         self.clear_book_issue_invoices(cr, uid, fb_id, context=context)
@@ -225,6 +228,7 @@ class fiscal_book(orm.Model):
             fbl_brws = self.browse(cr, uid, fb_id, context=context).fbl_ids
             fbl_ids = [ fbl.id for fbl in fbl_brws ]
             fbl_obj.unlink(cr, uid, fbl_ids, context=context)
+            self.clear_book_taxes_amount_fields(cr, uid, fb_id, context=context)
         return True
 
     def clear_book_taxes(self, cr, uid, ids, context=None):
@@ -237,7 +241,26 @@ class fiscal_book(orm.Model):
             fbt_brws = self.browse(cr, uid, fb_id, context=context).fbt_ids
             fbt_ids = [ fbt.id for fbt in fbt_brws ]
             fbt_obj.unlink(cr, uid, fbt_ids, context=context)
+            self.clear_book_taxes_amount_fields(cr, uid, fb_id, context=context)
         return True
+
+    def clear_book_taxes_summary(self, cr, uid, fb_id, context=None):
+        """
+        It delete fiscal book taxes summary data for the book.
+        """
+        context = context or {}
+        fbts_obj = self.pool.get('fiscal.book.taxes.summary')
+        fbts_ids = fbts_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+                                   context=context)
+        self.unlink(cr, uid, fbts_ids, context=context)
+        return True
+
+    def clear_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
+        """
+        Clean amount taxes fields in fiscal book.
+        """
+        context = context or {}
+        return self.write(cr, uid, fb_id, {'tax_amount': 0.0, 'base_amount': 0.0}, context=context)
 
     def clear_book_invoices(self, cr, uid, ids, context=None):
         """
@@ -425,10 +448,45 @@ class fiscal_book(orm.Model):
 
         return True
 
+    def update_book_taxes_summary(self, cr, uid, fb_id, context=None):
+        """
+        It update the summaroty of taxes by type for this book.
+        """
+        context = context or {}
+        self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
+        tax_types = ['exento', 'sdcf', 'reducido', 'general', 'adicional']
+        base_sum = tax_sum = {}
+        for ttype in tax_types:
+            base_sum[ttype] = tax_sum[ttype] = 0.0
+        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
+            if fbl.invoice_id:
+                for ait in fbl.invoice_id.tax_line:
+                    if ait.tax_id.appl_type:
+                        base_sum[ait.tax_id.appl_type] = base_sum[ait.tax_id.appl_type] + ait.base_amount
+                        tax_sum[ait.tax_id.appl_type] = tax_sum[ait.tax_id.appl_type] + ait.tax_amount
+        data = [ (0, 0, {'tax_type': ttype, 'base_amount_sum': base_sum[ttype], 'tax_amount_sum': tax_sum[ttype]}) for ttype in tax_types ]
+        return data and self.write(cr, uid, fb_id, {'fbts_id': data}, context=context)
+
+    #~ TODO: test this method (with presice amounts)
+    def update_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
+        """
+        It update the base_amount and the tax_amount field for fiscal book.
+        """
+        context = context or {}
+        tax_amount = base_amount = 0.0
+        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
+            if fbl.invoice_id:
+                for ait in fbl.invoice_id.tax_line:
+                    if ait.tax_id:
+                        base_amount = base_amount + ait.base_amount
+                        if ait.tax_id.ret:
+                            tax_amount = tax_amount + ait.tax_amount
+        return self.write(cr, uid, fb_id, {'tax_amount': tax_amount, 'base_amount': base_amount}, context=context)
+
     def link_book_lines_and_taxes(self, cr, uid, fb_id, context=None):
         """
         It updates the fiscal book taxes. Link the tax with the corresponding
-        book line.
+        book line and update the fields of sum taxes in the book.
         """
         context = context or {}
         fbt_obj = self.pool.get('fiscal.book.taxes')
@@ -458,6 +516,8 @@ class fiscal_book(orm.Model):
 
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
+        self.update_book_taxes_summary(cr, uid, fb_id, context=context)
+        self.update_book_taxes_amount_fields(cr, uid, fb_id, context=context)
         return True
 
     def button_update_book_invoices(self, cr, uid, ids, context=None):
@@ -466,6 +526,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         self.update_book_invoices(cr, uid, ids[0], context=context)
+        self.update_book_taxes_amount_fields(cr, uid, ids[0], context=context)
         return True
 
     def button_update_book_issue_invoices(self, cr, uid, ids, context=None):
@@ -525,6 +586,7 @@ class fiscal_book(orm.Model):
             help='Lines being recorded in a Fiscal Book'),
         'fbt_ids':fields.one2many('fiscal.book.taxes', 'fb_id', 'Tax Lines',
             help='Taxes being recorded in a Fiscal Book'),
+        'fbts_ids':fields.one2many('fiscal.book.taxes.summary', 'fb_id', 'Tax Summary'),
         'invoice_ids':fields.one2many('account.invoice', 'fb_id', 'Invoices',
             help='Invoices being recorded in a Fiscal Book'),
         'issue_invoice_ids':fields.one2many('account.invoice', 'issue_fb_id', 'Issue Invoices',
@@ -699,6 +761,23 @@ class fiscal_book_taxes(orm.Model):
                                      store=True),
         'ait_id': fields.many2one('account.invoice.tax','Tax',
             help='Tax where is related to'),
+    }
+
+class fiscal_book_taxes_summary(orm.Model):
+
+    _description = "Venezuela's Sale & Purchase Fiscal Book Taxes Summary"
+    _name='fiscal.book.taxes.summary'
+
+    _columns={
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book'),
+        'tax_type': fields.selection([('exento', '0% Exento'), 
+                                      ('sdcf', 'Not entitled to tax credit'), 
+                                      ('general', 'General Aliquot'),
+                                      ('reducido', 'Reducted Aliquot'),
+                                      ('adicional', 'General Aliquot + Additional')],
+                                     'Tax Type'),
+        'base_amount_sum': fields.float('Taxable Amount Sum'),
+        'tax_amount_sum': fields.float('Taxed Amount Sum'),
     }
 
 class adjustment_book_line(orm.Model):
