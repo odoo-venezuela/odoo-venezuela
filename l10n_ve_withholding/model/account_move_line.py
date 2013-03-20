@@ -104,7 +104,7 @@ class account_move_line(osv.osv):
 
     _columns = {
         'res_id': fields.function(_document_get, method=True, string='Document', size=128,
-            type='reference', selection=_models_retencion_get),
+            type='reference', selection=_models_retencion_get, help="Check retention that corresponds to the line"),
     }
 
 
