@@ -59,7 +59,7 @@ class res_partner(osv.osv):
     
     _columns = {
         'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
-        'uid_country': fields.function(_get_uid_country, type='char', string="uid_country", size=20),
+        'uid_country': fields.function(_get_uid_country, type='char', string="uid_country", size=20, help="country code of the current company"),
     }
     
     _default = {
