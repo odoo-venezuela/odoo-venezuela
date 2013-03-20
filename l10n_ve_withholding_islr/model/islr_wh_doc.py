@@ -101,7 +101,7 @@ class islr_wh_doc(osv.osv):
         'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Income Withholding Concept', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withheld Invoices'),
         'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
-        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
+        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}, help="Vendor user"),
         'automatic_income_wh' : fields.boolean('Automatic Income Withhold',
             help='When the whole process will be check automatically, ' \
                     'and if everything is Ok, will be set to done'),
