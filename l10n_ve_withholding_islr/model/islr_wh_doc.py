@@ -98,9 +98,9 @@ class islr_wh_doc(osv.osv):
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal where accounting entries are recorded"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, string='Amount Total', type='float', digits_compute= dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
-        'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Income Withholding Concept', readonly=True, states={'draft':[('readonly',False)]}),
-        'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withheld Invoices'),
-        'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}),
+        'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Income Withholding Concept', readonly=True, states={'draft':[('readonly',False)]}, help='concept of income withholding'),
+        'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Withheld Invoices', help='invoices to be withheld'),
+        'islr_wh_doc_id': fields.one2many('account.invoice','islr_wh_doc_id','Invoices',states={'draft':[('readonly',False)]}, help='refers to document income withholding tax generated in the bill'),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}, help="Vendor user"),
         'automatic_income_wh' : fields.boolean('Automatic Income Withhold',
             help='When the whole process will be check automatically, ' \
@@ -514,7 +514,7 @@ class islr_wh_doc_invoices(osv.osv):
         'islr_xml_id':fields.one2many('islr.xml.wh.line','islr_wh_doc_inv_id','Withholding Lines'),
         'amount_islr_ret':fields.function(_amount_all, method=True, digits=(16,4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
-        'iwdl_ids':fields.one2many('islr.wh.doc.line','iwdi_id','Withholding Concepts'),
+        'iwdl_ids':fields.one2many('islr.wh.doc.line','iwdi_id','Withholding Concepts', help='withholding concepts of this withheld invoice'),
         'move_id': fields.many2one('account.move', 'Journal Entry',
             readonly=True, help="Accounting voucher"),
     }
@@ -814,7 +814,7 @@ class islr_wh_doc_line(osv.osv):
         'retention_rate': fields.function(_retention_rate, method=True, string='Withholding Rate', type='float', help="Withhold rate has been applied to the invoice", digits_compute= dp.get_precision('Withhold ISLR')),
         'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
         'islr_rates_id': fields.many2one('islr.rates','Rates', help="Withhold rates"),
-        'xml_ids':fields.one2many('islr.xml.wh.line','islr_wh_doc_line_id','XML Lines'),        
+        'xml_ids':fields.one2many('islr.xml.wh.line','islr_wh_doc_line_id','XML Lines', help='XML withhold invoice line id'),        
         'iwdi_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
 
