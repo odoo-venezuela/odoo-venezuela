@@ -28,9 +28,16 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
+		'''
+			This function returns the journal which is 
+			used in the current user's company, otherwise
+			it does not exist, return false
+		'''
+        
         if context is None:
             context = {}
         journal_type_inv = context.get('journal_type', 'sale')
+        
         if journal_type_inv in ('sale_debit', 'purchase_debit'):
             user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
             company_id = context.get('company_id', user.company_id.id)
@@ -41,10 +48,14 @@ class account_invoice(osv.osv):
             return res and res[0] or False
         else:
             return super(account_invoice, self)._get_journal(cr, uid, context=context)
-        
-
-
+    
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
+		'''
+			This function return false when it is found 
+			that the bill is not out_invoice or out_refund,
+			and it is not unique to the partner.
+		'''
+		
         if context is None: context={}
         inv_brw = self.browse(cr, uid, ids, context=context)
         ids_ivo = []
@@ -81,6 +92,11 @@ class account_invoice(osv.osv):
          ]
 
     def copy(self, cr, uid, id, default={}, context=None):
+		'''
+			This function allows you to duplicate a record,
+			child_ids, nro_ctrl and reference fields are
+			cleaned, because they must be unique
+		'''
         if context is None:
             context = {}
         default.update({
