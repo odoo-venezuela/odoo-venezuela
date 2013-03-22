@@ -25,10 +25,10 @@
 
 from openerp.osv import fields, osv
 
-'''
-List document for link with account entry
-'''
 def _models_retencion_get(self, cr, uid, context={}):
+    '''
+    List document for link with account entry
+    '''
     obj = self.pool.get('ir.model.fields')
     wh_doc_obj = self.pool.get('account.wh.doc')
     wh_doc_ids = wh_doc_obj.search(cr, uid, [])
@@ -47,10 +47,10 @@ def _models_retencion_get(self, cr, uid, context={}):
 class account_move_line(osv.osv):
     _inherit = 'account.move.line'
     
-    '''
-    Link document with account entry
-    '''
     def _document_get(self, cr, uid, ids, field_name, arg, context=None):
+        '''
+        Link document with account entry
+        '''
         res = {}
         obj = self.pool.get('ir.model.fields')
 
