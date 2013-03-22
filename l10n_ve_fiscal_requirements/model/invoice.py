@@ -29,9 +29,9 @@ class account_invoice(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
 		'''
-			This function returns the journal which is 
-			used in the current user's company, otherwise
-			it does not exist, return false
+		This function returns the journal which is 
+		used in the current user's company, otherwise
+		it does not exist, return false
 		'''
         
         if context is None:
@@ -51,9 +51,9 @@ class account_invoice(osv.osv):
     
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
 		'''
-			This function return false when it is found 
-			that the bill is not out_invoice or out_refund,
-			and it is not unique to the partner.
+		This function return false when it is found 
+		that the bill is not out_invoice or out_refund,
+		and it is not unique to the partner.
 		'''
 		
         if context is None: context={}
@@ -93,9 +93,9 @@ class account_invoice(osv.osv):
 
     def copy(self, cr, uid, id, default={}, context=None):
 		'''
-			This function allows you to duplicate a record,
-			child_ids, nro_ctrl and reference fields are
-			cleaned, because they must be unique
+		This function allows you to duplicate a record,
+		child_ids, nro_ctrl and reference fields are
+		cleaned, because they must be unique
 		'''
         if context is None:
             context = {}

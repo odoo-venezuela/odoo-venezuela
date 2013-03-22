@@ -42,9 +42,9 @@ class res_partner(osv.osv):
 
     def _get_country_code(self, cr, uid, context=None):
 		'''
-			This function return the country code
-			of the user company. If not exists, 
-			return XX.
+		This function return the country code
+		of the user company. If not exists, 
+		return XX.
 		'''
         context = context or {}
         user_company = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id
@@ -53,9 +53,9 @@ class res_partner(osv.osv):
 
     def default_get(self, cr, uid, fields, context=None):
         '''
-			This function load the country code
-			of the user company to form to be
-			created.
+		This function load the country code
+		of the user company to form to be
+		created.
         '''
         context = context or {}
         res = super(res_partner, self).default_get(cr, uid, fields, context=context)
@@ -64,9 +64,9 @@ class res_partner(osv.osv):
 
     def _get_uid_country(self, cr, uid, ids, field_name, args, context=None):
         '''
-			This function returns a dictionary of key 
-			ids as invoices, and value the country code
-			of the user company.
+		This function returns a dictionary of key 
+		ids as invoices, and value the country code
+		of the user company.
         '''
         context = context or {}
         res= {}.fromkeys(ids,self._get_country_code(cr,uid,context=context))
@@ -83,9 +83,9 @@ class res_partner(osv.osv):
 
     def name_search(self,cr,uid,name='',args=[],operator='ilike',context=None,limit=80):
 	    '''
-			This function gets el id of the partner
-			with the vat or the name and return the
-			name
+		This function gets el id of the partner
+		with the vat or the name and return the
+		name
 	    '''
 	    if context is None: 
 	        context={}
@@ -101,9 +101,9 @@ class res_partner(osv.osv):
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
         '''
-			This function returns true if the partner
-			is a company of Venezuela and if the
-			address is for billing.
+		This function returns true if the partner
+		is a company of Venezuela and if the
+		address is for billing.
         '''
         partner_obj = self.browse(cr,uid,ids[0])
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE' and not partner_obj.parent_id:
@@ -118,11 +118,11 @@ class res_partner(osv.osv):
 
     def _check_vat_uniqueness_def(self, cr, uid, ids, current_vat,list_node_tree, context=None):
         '''
-			This function receiving nodes in the tree 
-			that are not members of the current partner
-			level, and the remainder of the assembly 
-			to ensure that the partner at the same
-			level as the current vat has different.
+		This function receiving nodes in the tree 
+		that are not members of the current partner
+		level, and the remainder of the assembly 
+		to ensure that the partner at the same
+		level as the current vat has different.
         '''
         
         if context is None: context = {}
@@ -215,7 +215,7 @@ class res_partner(osv.osv):
 
     def _validate(self, cr, uid, ids, context=None):
 		'''
-			This function validates the fields
+		This function validates the fields
 		'''
 			
         #In the original orm.py openerp does not allow using
@@ -260,7 +260,7 @@ class res_partner(osv.osv):
  
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
         '''
-			This function checks the syntax of the vat
+		This function checks the syntax of the vat
         '''
         if context is None:
             context={}
@@ -295,8 +295,8 @@ class res_partner(osv.osv):
         
     def update_rif(self, cr, uid, ids, context=None):
 		'''
-			This function load the rif and name of the partner
-			from the database seniat
+		This function load the rif and name of the partner
+		from the database seniat
 		'''
         if context is None:
             context = {}
@@ -305,9 +305,9 @@ class res_partner(osv.osv):
 
     def button_check_vat(self, cr, uid, ids, context=None):
 		'''
-			This function is called by the button that load
-			information of the partner from database 
-			SENIAT
+		This function is called by the button that load
+		information of the partner from database 
+		SENIAT
 		'''
         if context is None: context = {}
         context.update({'update_fiscal_information':True})
