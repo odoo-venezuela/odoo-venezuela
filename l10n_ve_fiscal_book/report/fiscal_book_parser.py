@@ -43,7 +43,6 @@ class fiscal_book_report(report_sxw.rml_parse):
             'time': time,
             'get_partner_addr': self._get_partner_addr,
             'get_tax_line': self._get_tax_line,
-            'get_amount_withheld': self._get_amount_withheld,
             'get_month': self._get_month,
             'get_ret': self._get_ret,
             'get_tax_line': self._get_tax_line,
