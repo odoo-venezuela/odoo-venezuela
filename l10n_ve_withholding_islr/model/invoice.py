@@ -59,7 +59,10 @@ class account_invoice_line(osv.osv):
         
     
     def create(self, cr, uid, vals, context=None):
-        
+        '''
+        This function initialilizes the fields wh_xml_id and apply_wh, 
+        when it comes to a new line
+        '''
         if context is None :
             context = {}
         
@@ -170,7 +173,10 @@ class account_invoice(osv.osv):
 ## END OF REWRITING ISLR
 
     def copy(self, cr, uid, id, default=None, context=None):
-        
+        '''
+        This function inicializes the fields islr_wh_doc and status
+        when the line is duplicated
+        '''
         if default is None:
             default = {}
         
@@ -188,7 +194,10 @@ class account_invoice(osv.osv):
 
 
     def _refund_cleanup_lines(self, cr, uid, lines):
-        data = super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
+       '''
+       This function initializes the fields of the lines of a refund invoice
+       '''
+       data = super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
         list = []
         for x,y,res in data:
             if 'concept_id' in res:

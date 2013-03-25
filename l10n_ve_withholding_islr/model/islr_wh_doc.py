@@ -36,12 +36,18 @@ from openerp.addons import decimal_precision as dp
 class islr_wh_doc(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
+        '''
+        This function returns type of invoice or returns in_invoice
+        '''
         if context is None:
             context = {}
         type = context.get('type', 'in_invoice')
         return type
 
     def _get_journal(self, cr, uid, context=None):
+        '''
+        This function returns a islr journal depending on the type of bill
+        '''
         if context is None:
             context = {}
         journal_obj = self.pool.get('account.journal')
@@ -55,6 +61,9 @@ class islr_wh_doc(osv.osv):
             return False
 
     def _get_currency(self, cr, uid, context):
+        '''
+        This function returns the currency of the current company 
+        '''
         user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
         if user.company_id:
             return user.company_id.currency_id.id
@@ -62,6 +71,9 @@ class islr_wh_doc(osv.osv):
             return self.pool.get('res.currency').search(cr, uid, [('rate','=',1.0)])[0]
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
+        '''
+        This function returns the cumulative amount of each line 
+        '''
         res = {}
         for rete in self.browse(cr,uid,ids,context):
             res[rete.id]= 0.0
@@ -121,6 +133,10 @@ class islr_wh_doc(osv.osv):
     }
 
     def check_income_wh(self, cr, uid, ids, context=None):
+        '''
+        This function checks invoices to be retained and have
+        their fair share of taxes.
+        '''
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0],context=context)
@@ -138,12 +154,21 @@ class islr_wh_doc(osv.osv):
         return True
 
     def check_auto_wh(self, cr, uid, ids, context=None):
+        '''
+        This function tells us if the process already
+        checked and everything was fine.
+        '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0],context=context)
         return obj.automatic_income_wh or False
 
     def check_auto_wh_by_type(self, cr, uid, ids, context=None):
+        '''
+        This function tells us if the process already                           
+        checked and everything was fine in case of a
+        in_invoice or in_refund
+        '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         brw = self.browse(cr, uid, ids[0],context=context)
@@ -152,6 +177,10 @@ class islr_wh_doc(osv.osv):
         return brw.automatic_income_wh or False
 
     def compute_amount_wh(self, cr, uid, ids, context=None):
+        '''
+        This function calculates the total withholding each invoice 
+        associated with this document
+        '''
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
@@ -161,11 +190,14 @@ class islr_wh_doc(osv.osv):
         return True
         
     def validate(self, cr,uid,ids,*args):
-
-        if args[0]in ['in_invoice','in_refund'] and args[1] and args[2]:
+        if args[0] in ['in_invoice','in_refund'] and args[1] and args[2]:
             return True
 
     def action_done(self, cr, uid, ids, context=None):
+        '''
+        This function calls the functions in charge of 
+        preparing the document to pass the state done
+        '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         self.action_number(cr, uid, ids, context=context)
@@ -179,6 +211,10 @@ class islr_wh_doc(osv.osv):
         return True
 
     def action_cancel_process(self,cr,uid,ids,context=None):
+        '''
+        This function deletes all withholding lines and reverses 
+        the process of islr
+        '''
         if not context:
             context={}
         line_obj = self.pool.get('islr.wh.doc.line')
@@ -212,6 +248,10 @@ class islr_wh_doc(osv.osv):
         return True
 
     def retencion_seq_get(self, cr, uid, context=None):
+        '''
+        This function determinates the next sequence for 
+        islr withhold and returns.
+        '''
         pool_seq=self.pool.get('ir.sequence')
         cr.execute("select id,number_next,number_increment,prefix,suffix,padding from ir_sequence where code='islr.wh.doc' and active=True")
         res = cr.dictfetchone()
@@ -223,6 +263,10 @@ class islr_wh_doc(osv.osv):
         return False
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
+        '''
+        This function unlink all taxes whean change the partner in the
+        document
+        '''
         context = context or {}
         acc_id = False
         inv_ids=[]
@@ -279,6 +323,11 @@ class islr_wh_doc(osv.osv):
             'invoice_ids':res_wh_lines}}
 
     def create(self, cr, uid, vals, context=None, check=True):
+        '''
+        When you create a new document, this function 
+        is responsible for generating the sequence 
+        code for the field
+        '''
         if not context:
             context={}
         code = self.pool.get('ir.sequence').get(cr, uid, 'islr.wh.doc')
@@ -286,6 +335,9 @@ class islr_wh_doc(osv.osv):
         return super(islr_wh_doc, self).create(cr, uid, vals, context)
 
     def action_confirm(self, cr, uid, ids, context=None):
+        '''
+
+        '''
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
         check_auto_wh = self.browse(cr, uid, ids[0],
@@ -491,6 +543,9 @@ class islr_wh_doc_invoices(osv.osv):
     _description = 'Document and Invoice Withheld Income'
     
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+        '''
+
+        '''
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
             res[ret_line.id] = {
@@ -611,6 +666,10 @@ class islr_wh_doc_invoices(osv.osv):
 
 
     def load_taxes(self, cr, uid, ids, context=None):
+        '''
+        This function load taxes to the current invoice, 
+        and if already loaded, it recalculates and load.
+        '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         ixwl_obj = self.pool.get('islr.xml.wh.line')
