@@ -653,6 +653,7 @@ class fiscal_book_taxes_summary(orm.Model):
                                      'Tax Type'),
         'base_amount_sum': fields.float('Taxable Amount Sum'),
         'tax_amount_sum': fields.float('Taxed Amount Sum'),
+        'international': fields.boolean('International'),
     }
 
 class adjustment_book_line(orm.Model):

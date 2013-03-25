@@ -134,6 +134,7 @@
                                     <field name="tax_type"/>
                                     <field name="base_amount_sum"/>
                                     <field name="tax_amount_sum"/>
+                                    <field name="international"/>
                                 </tree>
                             </field>
                         </page>
