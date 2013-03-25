@@ -129,9 +129,13 @@
                             </group>
                         </page>
                         <page string="Summary">
-<!--
-                            TODO: ADD new fbts model view
--->
+                            <field name="fbts_ids" readonly="1">
+                                <tree string="Summary">
+                                    <field name="tax_type"/>
+                                    <field name="base_amount_sum"/>
+                                    <field name="tax_amount_sum"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                     <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
