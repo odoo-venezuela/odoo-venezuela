@@ -78,31 +78,6 @@ class fiscal_book_report(report_sxw.rml_parse):
             cont = cont + 1
         return fbl_tax.ait_id.base_amount
 
-    #~ TODO: This function is not over... im checking, have to test...
-    #~ data is a empty list when their are 'awil_ids' check why
-    def _get_amount_withheld(self, book_line):
-        """
-        Return the amount withheld.
-        """
-        amount = 0.0
-        date_end = book_line.fb_id.period_id.date_stop
-
-        awil_obj = self.pool.get('account.wh.iva.line')
-        awil_ids = awil_obj.search(self.cr, self.uid, \
-            [('invoice_id', '=', book_line.invoice_id.id)])
-        if awil_ids:
-            data = awil_obj.browse(self.cr, self.uid, awil_ids)            
-            data = data[0]
-
-            if data.retention_id:
-                if data.retention_id.date_ret < date_end:
-                    if inv.type in ['in_refund', 'out_refund']:
-                        amount = data.amount_tax_ret*(-1)
-                    else:
-                        amount = data.amount_tax_ret
-
-        return amount
-
     #~ TODO: run...
     def _get_ret(self, fbook, book_line):
         """

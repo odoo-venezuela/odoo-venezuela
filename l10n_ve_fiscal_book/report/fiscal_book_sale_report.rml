@@ -319,7 +319,7 @@ TODO: ASK: Why 'fbl_tax.ait_id.invoice_id.partner_id.vat_subjected' and not 'fbl
                 </blockTable>
                 </section>
             </td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang( get_amount_withheld(my_fbl) ) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_withheld) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ get_ret(my_fb,my_fbl) ]]</para></td>
         </tr>
         </blockTable>

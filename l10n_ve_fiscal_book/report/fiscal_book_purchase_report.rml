@@ -262,7 +262,7 @@
                 -->
                 </section>
             </td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang( get_amount_withheld(my_fbl) ) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_withheld) ]]</para></td>
         </tr>
         </blockTable>
     </section>
