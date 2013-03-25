@@ -233,7 +233,7 @@
             <td>
 
                 <section>
-                    <para>[[ repeatIn(my_fbl.fblt_ids and my_fbl.fblt_ids or [],'my_tax')]]</para>
+                    <para>[[ repeatIn(my_fbl.fbt_ids and my_fbl.fbt_ids or [],'my_tax')]]</para>
                     <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
                         <tr>
                             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fbl.invoice_id.get_v_exent or 0.0) ]]</para></td>

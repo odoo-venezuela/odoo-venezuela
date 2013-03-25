@@ -289,7 +289,7 @@ TODO: OJO: COMENTAR DE NUEVO: ojo porque 0.0
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(my_fbl.invoice_id.get_vat_subjected and my_fbl.invoice_id.get_v_sdcf or 0.0) ]]</para></td>
             <td>
                 <section>
-                    <para>[[ repeatIn(my_fbl.fblt_ids and my_fbl.fblt_ids or [],'fbl_tax')]]</para>
+                    <para>[[ repeatIn(my_fbl.fbt_ids and my_fbl.fbt_ids or [],'fbl_tax')]]</para>
                     <blockTable colWidths="29.0,37.0,16.0,37.0" style="INTERNALTABLE">
                         <tr>
 
@@ -308,7 +308,7 @@ TODO: ASK: Why 'fbl_tax.ait_id.invoice_id.partner_id.vat_subjected' and not 'fbl
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_vat_subjected) and my_fbl.invoice_id.get_v_sdcf or 0.0) ]]</para></td>
             <td>
                 <section>
-                <para>[[ repeatIn(my_fbl.fblt_ids and my_fbl.fblt_ids or [],'fbl_tax')]]</para>
+                <para>[[ repeatIn(my_fbl.fbt_ids and my_fbl.fbt_ids or [],'fbl_tax')]]</para>
                 <blockTable colWidths="29.0,37.0,16.0,37.0" style="INTERNALTABLE">
                     <tr>
                         <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not fbl_tax.ait_id.invoice_id.partner_id.vat_subjected) and my_fbl.invoice_id.get_v_exent or 0.0) ]]</para></td>
