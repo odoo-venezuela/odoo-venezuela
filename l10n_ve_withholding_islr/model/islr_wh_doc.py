@@ -336,7 +336,8 @@ class islr_wh_doc(osv.osv):
 
     def action_confirm(self, cr, uid, ids, context=None):
         '''
-
+        This function is responsible for checking if the provider
+        allows retention is automatically verified and checked 
         '''
         context = context or {}      
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -346,6 +347,10 @@ class islr_wh_doc(osv.osv):
             'automatic_income_wh':check_auto_wh}, context=context)
 
     def action_number(self, cr, uid, ids, context=None):
+        '''
+        This function is responsible for generating a number for 
+        the document if it does not have one
+        '''
         context = context or {}
         obj_ret = self.browse(cr, uid, ids)[0]
         cr.execute('SELECT id, number ' \
