@@ -9,7 +9,7 @@
             name="fiscal.book.sale"
             rml="l10n_ve_fiscal_book/report/fiscal_book_sale_report.rml"
             auto="False"
-            menu="True"
+            menu="False"
         />
 
         <report
@@ -19,7 +19,7 @@
             name="fiscal.book.purchase"
             rml="l10n_ve_fiscal_book/report/fiscal_book_purchase_report.rml"
             auto="False"
-            menu="True"
+            menu="False"
         />
 
     </data>
