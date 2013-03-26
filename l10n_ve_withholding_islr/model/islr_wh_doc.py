@@ -348,7 +348,7 @@ class islr_wh_doc(osv.osv):
 
     def action_number(self, cr, uid, ids, context=None):
         '''
-        is responsible for generating a number for 
+        Is responsible for generating a number for 
         the document if it does not have one
         '''
         context = context or {}
@@ -365,15 +365,21 @@ class islr_wh_doc(osv.osv):
         return True
 
     def action_cancel(self,cr,uid,ids,context={}):
+        '''
+        The operation is canceled and not allows automatic retention 
+        '''
         #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
             #~ return True
-        self.pool.get('islr.wh.doc'). write(cr,uid,ids,{'automatic_income_wh':False})
+        self.pool.get('islr.wh.doc').write(cr,uid,ids,{'automatic_income_wh':False})
        
         self.cancel_move(cr,uid,ids)
         self.action_cancel_process(cr,uid,ids,context=context)
         return True
 
-    def cancel_move (self,cr,uid,ids, *args):
+    def cancel_move(self,cr,uid,ids, *args):
+        '''
+        Retention cancel documents
+        '''
         context={}
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
@@ -390,10 +396,16 @@ class islr_wh_doc(osv.osv):
 
 
     def action_cancel_draft(self,cr,uid,ids, *args):
+        '''
+        Back to draft status
+        '''
         self.write(cr, uid, ids, {'state':'draft'})
         return True
 
     def action_move_create(self, cr, uid, ids, context=None):
+        '''
+        build account moves related to withholding invoice
+        '''
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -401,7 +413,7 @@ class islr_wh_doc(osv.osv):
         doc_brw = None
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
-        context.update({'income_wh':True,
+        OBcontext.update({'income_wh':True,
                         'company_id': ret.company_id.id})
         acc_id = ret.account_id.id
         if not ret.date_uid:
