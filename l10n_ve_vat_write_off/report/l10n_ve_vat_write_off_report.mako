@@ -1,5 +1,42 @@
-<hmtl>
-    <body>
+<hmtl>    
+ <body>
+       <table cellspacing="10" cellpadding="15" border="3">
+            <tr>
+                <td width="30%" align="left">LOGO_SENIAT</td>
+                <td width="40%" align="center">DECLARACION DEL IMPUESTO AL VALOR AGREGADO FORMA 30</td>
+                <td width="30%" align="center">
+                    <table cellspacing="2" cellpadding="2" border="1">
+                        <tr>
+                            <td width="20%" align="left">N.-</td>
+                            <td width="20%" align="left">PERIODO DE IMPOSICION</td>
+                        </tr>
+                        <tr>
+                            <td>MES:</td>
+                            <td>A#O:</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>Razon Social</td>
+                <td>N. de Rif:</td>
+            </tr>
+            <tr>
+                <td>Direccion o domicilio fiscal</td>
+            </tr>
+            <tr>
+                <td><font face="Comic Sans MS,arial,verdana" size=4>En caso de sustitutiva:</font> 
+                </td>
+                <td><font face="Comic Sans MS,arial,verdana">N.- de Declaracion Anterior:</font>
+
+                </td>
+                <td><font face="Comic Sans MS,arial,verdana">Fecha:</font>
+
+                </td>
+            </tr>
+        </table>
         <table>
             <tr>
                 <td>
@@ -75,5 +112,5 @@
                 <td></td>
             </tr>
         </table>
-    </body>
+    </body>    
 </html>
