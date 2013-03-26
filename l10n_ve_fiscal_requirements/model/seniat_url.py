@@ -49,7 +49,7 @@ class seniat_url(osv.osv):
 
     def _load_url(self,retries,url):
 		'''
-		This function check that the seniat url is loaded
+		check that the seniat url is loaded
 		correctly
 		'''
         str_error= '404 Not Found'
@@ -69,7 +69,7 @@ class seniat_url(osv.osv):
     
     def _buscar_porcentaje(self, cr, uid, rif):
 		'''
-		This function finds the percentage
+		finds the percentage
 		to withhold the withholding agent.
 		'''
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
@@ -102,13 +102,13 @@ class seniat_url(osv.osv):
 
     def _print_error(self, error, msg):
 		'''
-		This function shows an error on the screen
+		shows an error on the screen
 		'''
         raise osv.except_osv(error,msg)
 
     def _eval_seniat_data(self,xml_data,vat,context={}):
 		'''
-		This function returns false when there was 
+		returns false when there was 
 		no error in the query in url SENIAT and
 		return true when there was error in the 
 		query.
@@ -131,7 +131,7 @@ class seniat_url(osv.osv):
                 return False
     def _get_rif(self, cr, uid,  vat, url1, url2, context=None):
 		'''
-		This function partner information transforms 
+		partner information transforms 
 		XML to string and returns.
 		'''
         if context is None: context={}
@@ -143,7 +143,7 @@ class seniat_url(osv.osv):
 
     def _dom_giver(self, cr, uid, vat, context=None):
         '''
-		This function check and validates that the vat is a passport,
+		check and validates that the vat is a passport,
 		id or rif, to send information to SENIAT and returns the
 		partner info that provides.
         '''
@@ -175,7 +175,7 @@ class seniat_url(osv.osv):
 
     def _update_partner(self, cr, uid, id, context=None):
 		'''
-		This function indicates that the partner was
+		indicates that the partner was
 		updated with information provided by seniat 
 		'''
         rp_obj = self.pool.get('res.partner')
@@ -183,7 +183,7 @@ class seniat_url(osv.osv):
 
     def update_rif(self, cr, uid, ids, context={}):
 		'''
-		This function updates the partner info if it have a vat,
+		updates the partner info if it have a vat,
 		
 		'''
         aux=[]
@@ -211,7 +211,7 @@ class seniat_url(osv.osv):
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
         '''
-		This function adds true value to the field
+		adds true value to the field
 		all_rif to denote that rif was charged with
 		SENIAT database
         '''

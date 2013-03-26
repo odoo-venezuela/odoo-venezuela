@@ -37,7 +37,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
         '''
-        This function returns type of invoice or returns in_invoice
+        returns type of invoice or returns in_invoice
         '''
         if context is None:
             context = {}
@@ -46,7 +46,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
         '''
-        This function returns a islr journal depending on the type of bill
+        returns a islr journal depending on the type of bill
         '''
         if context is None:
             context = {}
@@ -62,7 +62,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_currency(self, cr, uid, context):
         '''
-        This function returns the currency of the current company 
+        returns the currency of the current company 
         '''
         user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
         if user.company_id:
@@ -72,7 +72,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
         '''
-        This function returns the cumulative amount of each line 
+        returns the cumulative amount of each line 
         '''
         res = {}
         for rete in self.browse(cr,uid,ids,context):
@@ -134,7 +134,7 @@ class islr_wh_doc(osv.osv):
 
     def check_income_wh(self, cr, uid, ids, context=None):
         '''
-        This function checks invoices to be retained and have
+        checks invoices to be retained and have
         their fair share of taxes.
         '''
         context = context or {}      
@@ -155,7 +155,7 @@ class islr_wh_doc(osv.osv):
 
     def check_auto_wh(self, cr, uid, ids, context=None):
         '''
-        This function tells us if the process already
+        tells us if the process already
         checked and everything was fine.
         '''
         context = context or {}
@@ -165,7 +165,7 @@ class islr_wh_doc(osv.osv):
 
     def check_auto_wh_by_type(self, cr, uid, ids, context=None):
         '''
-        This function tells us if the process already                           
+        tells us if the process already                           
         checked and everything was fine in case of a
         in_invoice or in_refund
         '''
@@ -178,7 +178,7 @@ class islr_wh_doc(osv.osv):
 
     def compute_amount_wh(self, cr, uid, ids, context=None):
         '''
-        This function calculates the total withholding each invoice 
+        calculates the total withholding each invoice 
         associated with this document
         '''
         context = context or {}      
@@ -195,7 +195,7 @@ class islr_wh_doc(osv.osv):
 
     def action_done(self, cr, uid, ids, context=None):
         '''
-        This function calls the functions in charge of 
+        calls the functions in charge of 
         preparing the document to pass the state done
         '''
         context = context or {}
@@ -212,7 +212,7 @@ class islr_wh_doc(osv.osv):
 
     def action_cancel_process(self,cr,uid,ids,context=None):
         '''
-        This function deletes all withholding lines and reverses 
+        deletes all withholding lines and reverses 
         the process of islr
         '''
         if not context:
@@ -249,7 +249,7 @@ class islr_wh_doc(osv.osv):
 
     def retencion_seq_get(self, cr, uid, context=None):
         '''
-        This function determinates the next sequence for 
+        determinates the next sequence for 
         islr withhold and returns.
         '''
         pool_seq=self.pool.get('ir.sequence')
@@ -264,7 +264,7 @@ class islr_wh_doc(osv.osv):
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
         '''
-        This function unlink all taxes whean change the partner in the
+        unlink all taxes whean change the partner in the
         document
         '''
         context = context or {}
@@ -336,7 +336,7 @@ class islr_wh_doc(osv.osv):
 
     def action_confirm(self, cr, uid, ids, context=None):
         '''
-        This function is responsible for checking if the provider
+        is responsible for checking if the provider
         allows retention is automatically verified and checked 
         '''
         context = context or {}      
@@ -348,7 +348,7 @@ class islr_wh_doc(osv.osv):
 
     def action_number(self, cr, uid, ids, context=None):
         '''
-        This function is responsible for generating a number for 
+        is responsible for generating a number for 
         the document if it does not have one
         '''
         context = context or {}
@@ -672,7 +672,7 @@ class islr_wh_doc_invoices(osv.osv):
 
     def load_taxes(self, cr, uid, ids, context=None):
         '''
-        This function load taxes to the current invoice, 
+        load taxes to the current invoice, 
         and if already loaded, it recalculates and load.
         '''
         context = context or {}

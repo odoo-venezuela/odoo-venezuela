@@ -40,7 +40,7 @@ class res_company(osv.osv):
         
     def create(self, cr, uid, vals, context=None):
 		'''
-		This function to create a new record,
+		to create a new record,
 		adds a Boolean field to true 
 		indicates that the partner is a company
 		'''
@@ -50,7 +50,7 @@ class res_company(osv.osv):
         
     def write(self, cr, uid, ids, values, context=None):
 		'''
-		This function to write a new record,
+		to write a new record,
 		adds a Boolean field to true 
 		indicates that the partner is a company
 		'''

@@ -49,7 +49,7 @@ class account_invoice(osv.osv):
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, to_wh, context=None):
         '''
-        This function make the payment of the invoice 
+        make the payment of the invoice 
         '''
         if context is None:
             context = {}
@@ -110,7 +110,7 @@ class account_invoice(osv.osv):
     
     def ret_payment_get(self, cr, uid, ids, *args):
         '''
-        This function returns payments associated with this bill
+        returns payments associated with this bill
         '''
         for invoice in self.browse(cr, uid, ids):
             moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
@@ -136,7 +136,7 @@ class account_invoice(osv.osv):
     
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
         '''
-        This function check if no tax lines are created. If 
+        check if no tax lines are created. If 
         existing tax lines, there are checks on the invoice 
         and match the tax base.
         '''
@@ -175,7 +175,7 @@ class account_invoice_tax(osv.osv):
 
     def compute(self, cr, uid, invoice_id, context=None):
         '''
-        This function calculates the amount, base, tax amount,
+        calculates the amount, base, tax amount,
         base amount of the invoice
         '''
         
