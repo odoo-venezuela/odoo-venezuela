@@ -37,6 +37,10 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=None):
+        '''
+        Function openerp is rewritten for adaptation in
+        the ovl
+        '''
         if context is None: context = {}
         return []
         
@@ -44,6 +48,9 @@ class account_invoice(osv.osv):
                             period_id, pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, to_wh, context=None):
+        '''
+        make the payment of the invoice 
+        '''
         if context is None:
             context = {}
         
@@ -102,6 +109,9 @@ class account_invoice(osv.osv):
 
     
     def ret_payment_get(self, cr, uid, ids, *args):
+        '''
+        returns payments associated with this bill
+        '''
         for invoice in self.browse(cr, uid, ids):
             moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
             src = []
@@ -125,6 +135,11 @@ class account_invoice(osv.osv):
     
     
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
+        '''
+        check if no tax lines are created. If 
+        existing tax lines, there are checks on the invoice 
+        and match the tax base.
+        '''
         if not inv.tax_line:
             for tax in compute_taxes.values():
                 ait_obj.create(cr, uid, tax)
@@ -159,6 +174,11 @@ class account_invoice_tax(osv.osv):
     }
 
     def compute(self, cr, uid, invoice_id, context=None):
+        '''
+        calculates the amount, base, tax amount,
+        base amount of the invoice
+        '''
+        
         tax_grouped = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')

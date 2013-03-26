@@ -39,7 +39,7 @@ class l10n_ut(osv.osv):
         'name':fields.char('Reference number', size=64, required=True, readonly=False,help="Reference number under the law"),
         'date': fields.date('Date', required=True,help="Date on which goes into effect the new Unit Tax Unit"),
         'amount': fields.float('Amount',digits_compute= dp.get_precision('Amount Bs per UT'), help="Amount of the tax unit in bs", required=True),
-        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}),
+        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}, help="Vendor user"),
     }
     _defaults = {
         'name': lambda *a: None,
@@ -48,6 +48,12 @@ class l10n_ut(osv.osv):
 
 
     def get_amount_ut(self, cr, uid, date=False, *args):
+		'''
+		returns the value of 
+		the tributary unit of the specified date or 
+		if it's empty return the value to current 
+		date.
+		'''
         rate = 0
         date= date or time.strftime('%Y-%m-%d')        
         cr.execute("SELECT amount FROM l10n_ut WHERE date <= '%s' ORDER BY date desc LIMIT 1" % (date))
@@ -56,15 +62,22 @@ class l10n_ut(osv.osv):
         return rate
 
     def compute(self, cr, uid, from_amount, date=False, context=None):
+        '''
+		returns the number of tributary 
+		units depending on an amount of money.
+        '''
         if context is None: context ={}
         result = 0.0
         ut = self.get_amount_ut(cr, uid, date=False)
         if ut:
             result = from_amount / ut
-
         return result
 
     def compute_ut_to_money(self, cr, uid, amount_ut, date=False, context=None):
+		'''
+		transforms from money to
+		tributary units
+		'''
         if context is None: context ={}
         money = 0.0
         ut = self.get_amount_ut(cr, uid, date)

@@ -98,7 +98,7 @@ class account_invoice(osv.osv):
         return True
     
     _columns = {
-        'wh_src': fields.boolean('Social Responsibility Commitment Withheld'),
+        'wh_src': fields.boolean('Social Responsibility Commitment Withheld', help='if the commitment to social responsibility has been retained'),
         'wh_src_rate': fields.float('SRC Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Social Responsibility Commitment Withholding Rate"),
         'wh_src_id': fields.many2one('account.wh.src', 'Wh. SRC Doc.', readonly=True, help="Social Responsibility Commitment Withholding Document"),        
     }

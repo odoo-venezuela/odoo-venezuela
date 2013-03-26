@@ -117,8 +117,8 @@ class account_wh_src(osv.osv):
         'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'wh_amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
         
-        'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", store=False),
-        'partner_list' : fields.function(_get_p_agent, type='char', string='Lista', store=False, method=False),
+        'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", store=False, help='indicates whether the current user is agent'),
+        'partner_list' : fields.function(_get_p_agent, type='char', string='Lista', store=False, method=False, help='partners are only allowed to be withholding agents'),
 
     } 
     
@@ -330,8 +330,8 @@ class account_wh_src_line(osv.osv):
         'name': fields.char('Description', size=64, required=True, help="Local Withholding line Description"),
         'wh_id': fields.many2one('account.wh.src', 'Local withholding', ondelete='cascade', help="Local withholding"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
-        'base_amount':fields.float('Base Amount', digits_compute= dp.get_precision('Base Amount to be Withheld')),
-        'wh_amount':fields.float('Withheld Amount', digits_compute= dp.get_precision('Withhold')),
+        'base_amount':fields.float('Base Amount', digits_compute= dp.get_precision('Base Amount to be Withheld'), help='amount to be withheld'),
+        'wh_amount':fields.float('Withheld Amount', digits_compute= dp.get_precision('Withhold'), help='withheld amount'),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account Entry"),
         'wh_src_rate':fields.float('Withholding Rate', help="Withholding rate"),
     }

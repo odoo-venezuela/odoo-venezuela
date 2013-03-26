@@ -64,14 +64,14 @@ class txt_iva(osv.osv):
 
     _columns = {
         'name':fields.char('Description',128, required=True, select=True, help = "Description about statement of withholding income"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True,states={'draft':[('readonly',False)]}),
+        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True,states={'draft':[('readonly',False)]}, help='Company'),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="proof status"),
-        'period_id':fields.many2one('account.period','Period',required=True,readonly=True,states={'draft':[('readonly',False)]} ),
+        'period_id':fields.many2one('account.period','Period',required=True,readonly=True,states={'draft':[('readonly',False)]}, help='fiscal period' ),
         'type':fields.boolean('Retention Suppliers?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
         'date_start': fields.date('Begin Date',required=True,states={'draft':[('readonly',False)]}, help="Begin date of period"),
         'date_end': fields.date('End date', required=True,states={'draft':[('readonly',False)]}, help="End date of period"),
@@ -285,9 +285,9 @@ class txt_iva_line(osv.osv):
         'partner_id':fields.many2one('res.partner','Buyer/Seller',help="Natural or juridical person that generates the Invoice, Credit Note, Debit Note or C ertification (seller)"),
         'invoice_id':fields.many2one('account.invoice','Bill/ND/NC',help="Date of invoice, credit note, debit note or certificate, I mportación Statement"),
         'voucher_id':fields.many2one('account.wh.iva','Tax Withholding',help="Withholding of Value Added Tax (VAT)"),
-        'amount_withheld':fields.float('Amount Withheld'),
-        'untaxed':fields.float('Untaxed'),
-        'txt_id':fields.many2one('txt.iva','Generate-Document txt VAT'),
+        'amount_withheld':fields.float('Amount Withheld',  help='amount to withhold'),
+        'untaxed':fields.float('Untaxed', help='Untaxed amount'),
+        'txt_id':fields.many2one('txt.iva','Generate-Document txt VAT', help='withholding lines'),
     }
     _rec_name = 'partner_id'
  
