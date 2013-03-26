@@ -1,10 +1,9 @@
-#!/usr/bin/python
 # -*- encoding: utf-8 -*-
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+# Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@vauxoo.com>
 #              María Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Nhomar Hernandez          <nhomar@vauxoo.com>
@@ -31,33 +30,34 @@ import openerp.tools
 from openerp.tools.translate import _
 from openerp.tools import config
 
+
 class res_company(osv.osv):
     _inherit = 'res.company'
     _columns = {
-        'jour_id': fields.many2one('account.journal', 'Journal',required=False,help="Default journal for damaged invoices"),
-        'acc_id': fields.many2one('account.account', 'Account',required=False,help="Default account used for invoices and lines from damaged invoices"),
-        }
-        
+        'jour_id': fields.many2one('account.journal', 'Journal', required=False, help="Default journal for damaged invoices"),
+        'acc_id': fields.many2one('account.account', 'Account', required=False, help="Default account used for invoices and lines from damaged invoices"),
+    }
+
     def create(self, cr, uid, vals, context=None):
-		'''
-		to create a new record,
-		adds a Boolean field to true 
-		indicates that the partner is a company
-		'''
-        if context is None: context = {}
-        context.update({'create_company':True})
+        '''
+        to create a new record,
+        adds a Boolean field to true
+        indicates that the partner is a company
+        '''
+        if context is None:
+            context = {}
+        context.update({'create_company': True})
         return super(res_company, self).create(cr, uid, vals, context=context)
-        
+
     def write(self, cr, uid, ids, values, context=None):
-		'''
-		to write a new record,
-		adds a Boolean field to true 
-		indicates that the partner is a company
-		'''
+        '''
+        to write a new record,
+        adds a Boolean field to true
+        indicates that the partner is a company
+        '''
         context = context or {}
-        context.update({'create_company':True})
+        context.update({'create_company': True})
         return super(res_company, self).write(cr, uid, ids, values, context=context)
 
 
 res_company()
-
