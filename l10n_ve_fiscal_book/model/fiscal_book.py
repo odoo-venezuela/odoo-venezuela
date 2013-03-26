@@ -422,15 +422,14 @@ class fiscal_book(orm.Model):
         context = context or {}
         self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
         tax_types = ['exento', 'sdcf', 'reducido', 'general', 'adicional']
-        base_sum = tax_sum = {}
-        for ttype in tax_types:
-            base_sum[ttype] = tax_sum[ttype] = 0.0
+        base_sum = {}.fromkeys(tax_types, 0.0)
+        tax_sum  = {}.fromkeys(tax_types, 0.0)
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
                 for ait in fbl.invoice_id.tax_line:
                     if ait.tax_id.appl_type:
-                        base_sum[ait.tax_id.appl_type] = base_sum[ait.tax_id.appl_type] + ait.base_amount
-                        tax_sum[ait.tax_id.appl_type] = tax_sum[ait.tax_id.appl_type] + ait.tax_amount
+                        base_sum[ait.tax_id.appl_type] += ait.base_amount
+                        tax_sum[ait.tax_id.appl_type] += ait.tax_amount 
         data = [ (0, 0, {'tax_type': ttype, 'base_amount_sum': base_sum[ttype], 'tax_amount_sum': tax_sum[ttype]}) for ttype in tax_types ]
         return data and self.write(cr, uid, fb_id, {'fbts_ids': data}, context=context)
 
