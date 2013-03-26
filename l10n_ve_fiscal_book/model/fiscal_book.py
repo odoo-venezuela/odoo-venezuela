@@ -219,7 +219,7 @@ class fiscal_book(orm.Model):
         fbts_obj = self.pool.get('fiscal.book.taxes.summary')
         fbts_ids = fbts_obj.search(cr, uid, [('fb_id', '=', fb_id)],
                                    context=context)
-        self.unlink(cr, uid, fbts_ids, context=context)
+        fbts_obj.unlink(cr, uid, fbts_ids, context=context)
         return True
 
     def clear_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
