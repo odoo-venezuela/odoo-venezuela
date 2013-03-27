@@ -41,7 +41,6 @@ class fiscal_book_report(report_sxw.rml_parse):
 
         self.localcontext.update({
             'time': time,
-            'get_partner_addr': self._get_partner_addr,
             'get_tax_line': self._get_tax_line,
             'get_month': self._get_month,
             'get_ret': self._get_ret,
@@ -51,21 +50,6 @@ class fiscal_book_report(report_sxw.rml_parse):
         self.cr = cr
         self.context = context
         self.uid = uid
-
-    def _get_partner_addr(self):
-        """
-        Obtains printable formated partner address
-        """
-        addr_obj = self.pool.get('res.partner')
-        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
-        if self._company_id:
-            addr = addr_obj.browse(self.cr,self.uid, self._company_id)
-            addr_inv = addr.type == 'invoice' and (addr.street or '') + ' ' + \
-            (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' + \
-            (addr.city or '') + ' ' + \
-            (addr.country_id and addr.country_id.name or '')+ ', TELF.:' + \
-            (addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
-        return addr_inv
 
     def _get_tax_line(self, fbl_tax):
         name = fbl_tax.ait_id.name

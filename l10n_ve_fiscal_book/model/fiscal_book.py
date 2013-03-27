@@ -536,6 +536,25 @@ class fiscal_book(orm.Model):
         self.clear_book(cr, uid, ids, context=context)
         return True
 
+    def _get_partner_addr(self, cr, uid, ids, field_name, arg, context=None):
+        '''
+        It returns Partner address printable format.
+        '''
+        context = context or {}
+        result = {}
+        addr_obj = self.pool.get('res.partner')
+        #~ TODO: ASK: what company, fisal.book.company_id? 
+        addr = self.pool.get('res.users').browse(cr,uid,uid,context=context).company_id.partner_id
+        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
+        if addr:
+            addr_inv = addr.type == 'invoice' and (addr.street or '') + ' ' + \
+            (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' + \
+            (addr.city or '') + ' ' + \
+            (addr.country_id and addr.country_id.name or '')+ ', TELF.:' + \
+            (addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
+        result[ids[0]] = addr_inv
+        return result
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
     _inherit = ['mail.thread']
@@ -568,6 +587,10 @@ class fiscal_book(orm.Model):
         'abl_ids':fields.one2many('adjustment.book.line', 'fb_id', 'Adjustment Lines',
             help='Adjustment Lines being recorded in a Fiscal Book'),
         'note': fields.text('Note',required=True),
+
+        #~ printable data
+        'get_partner_addr': fields.function(_get_partner_addr, type="text",
+                                            string='Partner address printable format')
     }
 
     _defaults = {
@@ -581,6 +604,8 @@ class fiscal_book(orm.Model):
         ('period_type_company_uniq', 'unique (period_id,type,company_id)', 
             'The period and type combination must be unique!'),
     ]
+
+
 class fiscal_book_lines(orm.Model):
 
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
