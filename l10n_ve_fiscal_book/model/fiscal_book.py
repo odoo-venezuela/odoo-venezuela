@@ -555,19 +555,18 @@ class fiscal_book(orm.Model):
         result[ids[0]] = addr_inv
         return result
 
-    def _get_sum_col_total_iva(self, cr, uid, ids, field_name, arg, context=None):
+    def _get_sum_col(self, cr, uid, ids, field_name, arg, context=None):
         '''
         It returns summatory of total with iva fiscal book lines.
         '''
-        import pdb
-        pdb.set_trace()
         context = context or {}
         result = {}
+        fbl_obj = self.pool.get('fiscal.book.lines')
         for fb_id in ids:
-            total_sum = 0.0
+            acum_sum = 0.0
             for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
-                total_sum += fbl.get_total
-            result[fb_id] = total_sum
+                acum_sum += fbl_obj.read(cr, uid, fbl.id, context=context)[field_name]
+            result[fb_id] = acum_sum
         return result
     
     _description = "Venezuela's Sale & Purchase Fiscal Books"
@@ -606,8 +605,10 @@ class fiscal_book(orm.Model):
         #~ printable data
         'get_partner_addr': fields.function(_get_partner_addr, type="text",
                                             string='Partner address printable format'),
-        'get_sum_col_total_iva': fields.function(_get_sum_col_total_iva, type="float",
-                                             string='Sum on Total with Iva Column.')
+        'get_total': fields.function(_get_sum_col, type="float",
+                                     string='Sum on Total with Iva Column.'),
+        'get_v_sdcf': fields.function(_get_sum_col, type="float",
+                                      string='Sum on SDCF Column.')
     }
 
     _defaults = {
