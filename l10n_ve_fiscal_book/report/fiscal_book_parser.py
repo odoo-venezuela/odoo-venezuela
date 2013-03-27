@@ -43,7 +43,6 @@ class fiscal_book_report(report_sxw.rml_parse):
             'time': time,
             'get_tax_line': self._get_tax_line,
             'get_month': self._get_month,
-            'get_ret': self._get_ret,
             'get_tax_line': self._get_tax_line,
         })
 
@@ -60,34 +59,6 @@ class fiscal_book_report(report_sxw.rml_parse):
         else:
             cont = cont + 1
         return fbl_tax.ait_id.base_amount
-
-    #~ TODO: run...
-    def _get_ret(self, fbook, book_line):
-        """
-        Ensure that Withholding date is inside period specified on form.
-        """
-        d1= fbook.period_id.date_start
-        d2= fbook.period_id.date_stop
-
-        #~ TODO: no me parece.. no deberia ser una referencia a account.wh.iva?
-        wil_obj = self.pool.get('account.wh.iva.line')
-        wil_ids= wil_obj.search(self.cr, self.uid, [
-            ('invoice_id', '=', book_line.invoice_id.id)])
-        wil_brw = wil_obj.browse(self.cr, self.uid, wil_ids)
-
-        if fbook.type =='purchase':
-            return wil_brw and wil_brw[0].retention_id.number or False
-
-        if wil_brw:
-            if time.strptime(wil_brw[0].retention_id.date, '%Y-%m-%d') \
-            >= time.strptime(d1, '%Y-%m-%d') \
-            and time.strptime(wil_brw[0].retention_id.date, '%Y-%m-%d') \
-            <= time.strptime(d2, '%Y-%m-%d'):
-                return wil_brw[0].retention_id.number
-            else:
-                return False
-        else:
-            return False
 
     def _get_month(self, fb):
         """

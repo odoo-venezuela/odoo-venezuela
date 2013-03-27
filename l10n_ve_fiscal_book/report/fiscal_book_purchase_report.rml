@@ -205,56 +205,6 @@
         </blockTable>
     </section>
 
-    <!-- ************ WITHHOLDING VAT BOOK LINES************-->
-<!--
-    <section>
-        <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
-        <blockTable colWidths="1.0,18.0,36.0,39.0,155.0,47.0,42.0,38.0,15.0,37.0,187.0,187.0,44.0,60.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        <tr>
-            [[ setLang(company.partner_id.lang) ]]
-            <td><para style="CONTENIDO"></para></td>
-            <td><para style="CONTENIDO">[[ get_id(data['form'],wh.id) ]]</para></td>
-            <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
-            <td><para style="CONTENIDO">[[ wh.get_t_doc ]]</para></td>
-            <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
-            <td  blockLeftPadding="0.5"><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
-            <td><para style="CONTENIDO"> NONE </para></td>
-            <td><para style="CONTENIDO"> NONE </para></td>
-            <td><para style="CONTENIDO">0.00</para></td>
-            <td><para style="CONTENIDO">-</para></td>
-            <td><para style="CONTENIDO">0.00</para></td>
-            <td><para style="CONTENIDO">SDCF</para></td>
-            <td>
-                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="CONTENIDO">Exento</para></td>
-                        <td><para style="CONTENIDO">0.00</para></td>
-                        <td><para style="CONTENIDO">0.00</para></td>
-                        <td><para style="CONTENIDO">0.00</para></td>
-                    </tr>
-                </blockTable>
-            </td>
-            <td><para style="CONTENIDO">0.00</para></td>
-            <td><para style="CONTENIDO">SDCF</para></td>
-            <td>
-                <section>
-                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="CONTENIDO">Exento</para></td>
-                        <td><para style="CONTENIDO">0.00</para></td>
-                        <td><para style="CONTENIDO">0.00</para></td>
-                        <td><para style="CONTENIDO">0.00</para></td>
-                    </tr>
-                </blockTable>
-                </section>
-            </td>
-            <td><para style="CONTENIDO">[[ formatLang(get_amount_withheld(wh.ar_line_id.id)) or '' ]]</para></td>
-            <td><para style="CONTENIDO">[[ wh.ar_id.number ]]</para></td>
-        </tr>
-        </blockTable>
-    </section>
--->
-
     <!-- ************ PURCHASE BOOK LINES************-->
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
@@ -268,7 +218,7 @@
             <td><para style="CONTENIDO">[[ my_fbl.get_t_doc ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
             <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ my_fbl.get_partner_name ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO"> [[ get_ret(my_fb, my_fbl) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO"> [[ (my_fbl.invoice_id and my_fbl.iwdl_id) and my_fbl.iwdl_id.retention_id.number or "NONE" ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_import_form ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.import_spreadsheet_name ]]</para></td>
             
