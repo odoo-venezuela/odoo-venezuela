@@ -38,7 +38,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
         '''
-        returns type of invoice or returns in_invoice
+        Returns type of invoice or returns in_invoice
         '''
         if context is None:
             context = {}
@@ -47,7 +47,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
         '''
-        returns a islr journal depending on the type of bill
+        Returns a islr journal depending on the type of bill
         '''
         if context is None:
             context = {}
@@ -65,7 +65,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_currency(self, cr, uid, context):
         '''
-        returns the currency of the current company
+        Returns the currency of the current company
         '''
         user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
         if user.company_id:
@@ -75,7 +75,7 @@ class islr_wh_doc(osv.osv):
 
     def _get_amount_total(self, cr, uid, ids, name, args, context=None):
         '''
-        returns the cumulative amount of each line
+        Returns the cumulative amount of each line
         '''
         res = {}
         for rete in self.browse(cr, uid, ids, context):
@@ -136,7 +136,7 @@ class islr_wh_doc(osv.osv):
 
     def check_income_wh(self, cr, uid, ids, context=None):
         '''
-        checks invoices to be retained and have
+        Checks invoices to be retained and have
         their fair share of taxes.
         '''
         context = context or {}
@@ -158,7 +158,7 @@ class islr_wh_doc(osv.osv):
 
     def check_auto_wh(self, cr, uid, ids, context=None):
         '''
-        tells us if the process already
+        Tells us if the process already
         checked and everything was fine.
         '''
         context = context or {}
@@ -168,7 +168,7 @@ class islr_wh_doc(osv.osv):
 
     def check_auto_wh_by_type(self, cr, uid, ids, context=None):
         '''
-        tells us if the process already
+        Tells us if the process already
         checked and everything was fine in case of a
         in_invoice or in_refund
         '''
@@ -181,7 +181,7 @@ class islr_wh_doc(osv.osv):
 
     def compute_amount_wh(self, cr, uid, ids, context=None):
         '''
-        calculates the total withholding each invoice
+        Calculates the total withholding each invoice
         associated with this document
         '''
         context = context or {}
@@ -198,7 +198,7 @@ class islr_wh_doc(osv.osv):
 
     def action_done(self, cr, uid, ids, context=None):
         '''
-        calls the functions in charge of
+        Calls the functions in charge of
         preparing the document to pass the state done
         '''
         context = context or {}
@@ -215,7 +215,7 @@ class islr_wh_doc(osv.osv):
 
     def action_cancel_process(self, cr, uid, ids, context=None):
         '''
-        deletes all withholding lines and reverses
+        Deletes all withholding lines and reverses
         the process of islr
         '''
         if not context:
@@ -255,7 +255,7 @@ class islr_wh_doc(osv.osv):
 
     def retencion_seq_get(self, cr, uid, context=None):
         '''
-        determinates the next sequence for
+        Determinates the next sequence for
         islr withhold and returns.
         '''
         pool_seq = self.pool.get('ir.sequence')
@@ -271,8 +271,10 @@ class islr_wh_doc(osv.osv):
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
         '''
-        unlink all taxes whean change the partner in the
-        document
+        Unlink all taxes whean change the partner in the
+        document.
+        @param type: invoice type
+        @param partner_id: partner id was changed
         '''
         context = context or {}
         acc_id = False
@@ -343,7 +345,7 @@ class islr_wh_doc(osv.osv):
 
     def action_confirm(self, cr, uid, ids, context=None):
         '''
-        is responsible for checking if the provider
+        This checking if the provider
         allows retention is automatically verified and checked
         '''
         context = context or {}
@@ -483,7 +485,17 @@ class islr_wh_doc(osv.osv):
         return True
 
     def wh_and_reconcile(self, cr, uid, ids, invoice_id, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context=None, name=''):
-
+        ''' retains, reconciles and creates corresponding journal items
+        @param invoice_id: invoice to retain and reconcile
+        @param pay_amount: amount payable on the invoice
+        @param pay_account_id: payment account
+        @param period_id: period for the journal items
+        @param pay_journal_id: payment journal
+        @param writeoff_acc_id: account for reconciliation
+        @param writeoff_period_id: period for reconciliation
+        @param writeoff_journal_id: journal for reconciliation
+        @param name: withholding voucher name
+        '''
         inv_obj = self.pool.get('account.invoice')
         ret = self.browse(cr, uid, ids)[0]
         if context is None:
@@ -572,6 +584,9 @@ class account_invoice(osv.osv):
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
+        '''
+        initialized id by duplicating
+        '''
         if default is None:
             default = {}
         default = default.copy()
@@ -588,7 +603,7 @@ class islr_wh_doc_invoices(osv.osv):
 
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
         '''
-
+        Returns all amount relating to the invoices lines
         '''
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
@@ -634,8 +649,10 @@ class islr_wh_doc_invoices(osv.osv):
         return list(concept_set)
 
     def _withholdable_invoices(self, cr, uid, ids, context=None):
-        '''Given a list of invoices return only those
-        where there are withholdable concepts'''
+        '''
+        Given a list of invoices return only those
+        where there are withholdable concepts
+        '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res_ids = []
@@ -648,6 +665,7 @@ class islr_wh_doc_invoices(osv.osv):
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         '''
         Returns a dictionary containing all the values of the retention of an invoice line.
+        @param concept_id: Withholding reason
         '''
         # TODO: Change the signature of this method
         # This record already has the concept_id built-in
@@ -716,7 +734,7 @@ class islr_wh_doc_invoices(osv.osv):
 
     def load_taxes(self, cr, uid, ids, context=None):
         '''
-        load taxes to the current invoice,
+        Load taxes to the current invoice,
         and if already loaded, it recalculates and load.
         '''
         context = context or {}
@@ -846,8 +864,8 @@ class islr_wh_doc_invoices(osv.osv):
     def _get_rate(self, cr, uid, concept_id, residence, nature, context):
         '''
         Se obtiene la tasa del concepto de retencion, siempre y cuando exista uno asociado a las especificaciones:
-            La naturaleza del vendedor coincida con una tasa.
-            La residencia del vendedor coindica con una tasa.
+        La naturaleza del vendedor coincida con una tasa.
+        La residencia del vendedor coindica con una tasa.
         '''
         ut_obj = self.pool.get('l10n.ut')
         rate_brw_lst = self.pool.get(
@@ -865,6 +883,7 @@ class islr_wh_doc_invoices(osv.osv):
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
         '''
         Get the country of the partner
+        @param partner_id: partner id whom consult your country
         '''
         # TODO: THIS METHOD SHOULD BE IMPROVED
         # DUE TO OPENER HAS CHANGED THE WAY PARTNER
@@ -914,6 +933,9 @@ class islr_wh_doc_line(osv.osv):
     _description = 'Lines of Document Income Withholding'
 
     def _retention_rate(self, cr, uid, ids, name, args, context=None):
+        '''
+        Returns the retention rate of each line
+        '''
         res = {}
         for ret_line in self.browse(cr, uid, ids, context=context):
             if ret_line.invoice_id:
