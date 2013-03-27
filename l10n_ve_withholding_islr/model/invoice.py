@@ -11,8 +11,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -38,22 +38,39 @@ class account_invoice_line(osv.osv):
     '''
     _inherit = "account.invoice.line"
     _columns = {
-        'apply_wh': fields.boolean('Withheld', help="Indicates whether a line has been retained or not, to accumulate the amount to withhold next month, according to the lines that have not been retained."),
-        'concept_id': fields.many2one('islr.wh.concept', 'Withholding  Concept', help="Concept of Income Withholding asociate this rate", required=False),
+        'apply_wh': fields.boolean('Withheld',
+        help="""Indicates whether a line has been retained or not, to
+        accumulate the amount to withhold next month, according to the lines
+        that have not been retained."""),
+        'concept_id': fields.many2one('islr.wh.concept',
+        'Withholding  Concept',
+        help="Concept of Income Withholding asociate this rate",
+        required=False),
     }
     _defaults = {
         'apply_wh': lambda *a: False,
     }
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, currency_id=False, context=None, company_id=None):
+    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
+                          type='out_invoice', partner_id=False,
+                          fposition_id=False, price_unit=False,
+                          currency_id=False, context=None, company_id=None):
         '''
-        Onchange to show the concept of retention associated with the product at once in the line of the bill
+        Onchange to show the concept of retention associated with the product
+        at once in the line of the bill
         '''
         if context is None:
             context = {}
         data = super(
-            account_invoice_line, self).product_id_change(cr, uid, ids, product, uom,
-                                                          qty, name, type, partner_id, fposition_id, price_unit, currency_id, context, company_id)
+            account_invoice_line, self).product_id_change(cr, uid, ids,
+                                                          product, uom,
+                                                          qty, name,
+                                                          type, partner_id,
+                                                          fposition_id,
+                                                          price_unit,
+                                                          currency_id,
+                                                          context,
+                                                          company_id)
         if product:
             pro = self.pool.get('product.product').browse(
                 cr, uid, product, context=context)
@@ -91,9 +108,13 @@ class account_invoice(osv.osv):
             ('no_pro', 'Withholding no processed'),
             ('tasa', 'Not exceed the rate,xml Line generated'),
         ], 'Status', readonly=True,
-            help=' * The \'Processed withholding, xml Line generated\' state is used when a user is a withhold income is processed. \
-            \n* The \'Withholding no processed\' state is when user create a invoice and withhold income is no processed. \
-            \n* The \'Not exceed the rate,xml Line generated\' state is used when user create invoice,a invoice no exceed the minimun rate.'),
+            help=''' * The \'Processed withholding, xml Line generated\' state
+            is used when a user is a withhold income is processed.
+            * The 'Withholding no processed\' state is when user create a
+            invoice and withhold income is no processed.
+            * The \'Not exceed the rate,xml Line generated\' state is
+            used when user create invoice,a invoice no exceed the
+            minimun rate.'''),
     }
     _defaults = {
         'status': lambda *a: "no_pro",
@@ -118,7 +139,8 @@ class account_invoice(osv.osv):
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
         return iwdi_obj._get_concepts(cr, uid, ids, context=context)
 
-    def _create_doc_invoices(self, cr, uid, ids, islr_wh_doc_id, context=None):
+    def _create_doc_invoices(self, cr, uid, ids, islr_wh_doc_id,
+                             context=None):
         '''
         This method link the invoices to be withheld
         with the withholding document.
@@ -160,22 +182,23 @@ class account_invoice(osv.osv):
             self._create_doc_invoices(cr, uid, row.id, islr_wh_doc_id)
 
             self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid,
-                                                           [islr_wh_doc_id], context=context)
+                                                           [islr_wh_doc_id],
+                                                           context=context)
             if row.company_id.automatic_income_wh is True:
-                self.pool.get('islr.wh.doc').write(cr, uid, islr_wh_doc_id,
-                                                   {'automatic_income_wh': True}, context=context)
+                wh_doc_obj.write(cr, uid, islr_wh_doc_id,
+                                 {'automatic_income_wh': True},
+                                 context=context)
         else:
             raise osv.except_osv(_('Invalid action !'), _(
                 "No se ha encontrado el numero de secuencia!"))
 
-        self.write(cr, uid, ids, {
-                   'islr_wh_doc_id': islr_wh_doc_id, 'islr_wh_doc_name': wh_ret_code})
+        self.write(cr, uid, ids, {'islr_wh_doc_id': islr_wh_doc_id,
+                                  'islr_wh_doc_name': wh_ret_code})
 
         # wf_service = netsvc.LocalService("workflow")
         # wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id,
         # 'button_confirm', cr)
         return islr_wh_doc_id
-## END OF REWRITING ISLR
 
     def copy(self, cr, uid, id, default=None, context=None):
         '''
@@ -195,7 +218,8 @@ class account_invoice(osv.osv):
 
         context.update({'new_key': True})
 
-        return super(account_invoice, self).copy(cr, uid, id, default, context)
+        return super(account_invoice, self).copy(cr, uid, id, default,
+                                                 context)
 
     def _refund_cleanup_lines(self, cr, uid, lines):
         '''
@@ -223,14 +247,18 @@ class account_invoice(osv.osv):
                 False: the wh income is not validated.
         """
         for inv in self.browse(cr, uid, ids, context=context):
-            if inv.type in ('out_invoice', 'out_refund') and not inv.islr_wh_doc_id:
+            if inv.type in ('out_invoice', 'out_refund') \
+                    and not inv.islr_wh_doc_id:
                 rislr = True
             else:
-                rislr = not inv.islr_wh_doc_id and True or inv.islr_wh_doc_id.state in (
-                    'done') and True or False
+                rislr = not inv.islr_wh_doc_id and True or \
+                    inv.islr_wh_doc_id.state in (
+                        'done') and True or False
                 if not rislr:
                     raise osv.except_osv(_('Error !'),
-                                         _('The Document you are trying to refund has a income withholding "%s" which is not yet validated!' % inv.islr_wh_doc_id.code))
+                                         _('''The Document you are trying to
+                                              refund has a income withholding
+                                              "%s" which is not yet validated!''' % inv.islr_wh_doc_id.code))
                     return False
         return True
 
@@ -275,7 +303,8 @@ class account_invoice(osv.osv):
                 'ref': inv_brw.number,
                 'date': date,
                 'currency_id': False,
-                'name': _('%s - ISLR: %s') % (name, iwdl_brw.islr_rates_id.code)
+                'name': _('%s - ISLR: %s') % (name,
+                                              iwdl_brw.islr_rates_id.code)
             }))
 
         return res
