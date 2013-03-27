@@ -41,24 +41,12 @@ class fiscal_book_report(report_sxw.rml_parse):
 
         self.localcontext.update({
             'time': time,
-            'get_tax_line': self._get_tax_line,
             'get_month': self._get_month,
-            'get_tax_line': self._get_tax_line,
         })
 
         self.cr = cr
         self.context = context
         self.uid = uid
-
-    def _get_tax_line(self, fbl_tax):
-        name = fbl_tax.ait_id.name
-        cont = 0
-        if name.find('SDCF')>=0:
-            if cont==0:
-                return 0
-        else:
-            cont = cont + 1
-        return fbl_tax.ait_id.base_amount
 
     def _get_month(self, fb):
         """
@@ -70,16 +58,6 @@ class fiscal_book_report(report_sxw.rml_parse):
         res[0] = months[time.strptime(fb.period_id.date_start,"%Y-%m-%d")[1]-1]
         res[1] = time.strptime(fb.period_id.date_start,"%Y-%m-%d")[0]
         return res
-
-    def _get_tax_line(self, tax):
-        name = tax.name
-        cont = 0
-        if name.find('SDCF')>=0:
-            if cont==0:
-                return 0
-        else:
-            cont = cont + 1
-        return tax.base_amount
 
 report_sxw.report_sxw(
     'report.fiscal.book.sale',
