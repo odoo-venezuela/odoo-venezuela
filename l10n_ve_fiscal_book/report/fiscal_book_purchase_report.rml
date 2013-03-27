@@ -315,7 +315,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><para style="HEADER">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
+            <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_sum_col_total_iva) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','internacional')[0])]]</para></td>
             <td>
                 <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
@@ -327,7 +327,7 @@
                     </tr>
                 </blockTable>
             </td>
-            <td><para style="HEADER">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
+            <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_sum_col_total_iva) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0])]]</para></td>
             <td>
                 <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
