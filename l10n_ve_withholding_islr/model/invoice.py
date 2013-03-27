@@ -56,8 +56,17 @@ class account_invoice_line(osv.osv):
                           fposition_id=False, price_unit=False,
                           currency_id=False, context=None, company_id=None):
         '''
-        Onchange to show the concept of retention associated with the product
+        Onchange information of the product invoice line
         at once in the line of the bill
+        @param product: new product for the invoice line
+        @param uom: new measuring unit of product
+        @param qty: new quantity for the invoice line
+        @param name: new description for the invoice line
+        @param type: invoice type
+        @param partner_id: partner of the invoice
+        @param fposition_id: fiscal position of the invoice
+        @param price_unit: new Unit Price for the invoice line
+        @param currency_id: 
         '''
         if context is None:
             context = {}
