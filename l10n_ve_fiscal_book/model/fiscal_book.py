@@ -557,18 +557,20 @@ class fiscal_book(orm.Model):
 
     def _get_sum_col(self, cr, uid, ids, field_name, arg, context=None):
         '''
-        It returns summatory of total with iva fiscal book lines.
+        It returns summatory of a fiscal book amount column.
         '''
         context = context or {}
         result = {}
         fbl_obj = self.pool.get('fiscal.book.lines')
         for fb_id in ids:
-            acum_sum = 0.0
-            for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
-                acum_sum += fbl_obj.read(cr, uid, fbl.id, context=context)[field_name]
-            result[fb_id] = acum_sum
+            col_sum = [ fbl_obj.read(cr, uid, fbl.id, context=context)[field_name] \
+                        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
+            result[fb_id] = sum(col_sum)
         return result
-    
+
+    #~ TODO: create this function to sum taxes of the book
+    #~ def _get_sum_col_tax(self, cr, uid, ids, field_name, arg, context=None):
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
     _inherit = ['mail.thread']
