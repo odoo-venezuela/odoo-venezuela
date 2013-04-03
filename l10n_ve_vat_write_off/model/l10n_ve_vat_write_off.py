@@ -1,5 +1,5 @@
 from openerp.osv import fields, osv
-
+from datetime import datetime, timedelta
 
 class vat_write_off(osv.osv):
     _description = ''
@@ -15,11 +15,13 @@ class vat_write_off(osv.osv):
         'purchase_fb_id':fields.many2one('fiscal.book', 'Purchase Fiscal Book',
             help='Purchase Fiscal Book'), 
         'sale_fb_id':fields.many2one('fiscal.book', 'Sale Fiscal Book',
-            help='Sale Fiscal Book'), 
+            help='Sale Fiscal Book'),
+        'start_date' : fields.date(string='Start date'),
         
     }
     _defaults = {
         'state': 'draft',
         'company_id': lambda s,c,u,ctx: \
             s.pool.get('res.users').browse(c,u,u,context=ctx).company_id.id,
+        'start_date': fields.date.today, 
     }

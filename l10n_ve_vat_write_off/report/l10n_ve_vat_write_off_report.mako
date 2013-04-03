@@ -1,5 +1,6 @@
 <hmtl>    
  <body>
+   % for vwo in objects :
        <table cellspacing="10" cellpadding="15" border="3">
             <tr>
                 <td width="30%" align="left">LOGO_SENIAT</td>
@@ -8,7 +9,7 @@
                     <table cellspacing="2" cellpadding="2" border="1">
                         <tr>
                             <td width="20%" align="left">N.-</td>
-                            <td width="20%" align="left">PERIODO DE IMPOSICION</td>
+                            <td width="20%" align="left">PERIODO DE IMPOSICION:${vwo.period_id.name or ''|entity}</td>
                         </tr>
                         <tr>
                             <td>MES:</td>
@@ -20,11 +21,11 @@
         </table>
         <table>
             <tr>
-                <td>Razon Social</td>
-                <td>N. de Rif:</td>
+                <td>Razon Social:${vwo.company_id.name or ''|entity}</td>
+                <td>N. de Rif:${vwo.company_id.vat or ''|entity}</td>
             </tr>
             <tr>
-                <td>Direccion o domicilio fiscal</td>
+                <td>Direccion o domicilio fiscal:${vwo.company_id.street or ''|entity}</td>
             </tr>
             <tr>
                 <td><font face="Comic Sans MS,arial,verdana" size=4>En caso de sustitutiva:</font> 
@@ -32,7 +33,7 @@
                 <td><font face="Comic Sans MS,arial,verdana">N.- de Declaracion Anterior:</font>
 
                 </td>
-                <td><font face="Comic Sans MS,arial,verdana">Fecha:</font>
+                <td><font face="Comic Sans MS,arial,verdana">Fecha:${vwo.start_date or ''|entity}</font>
 
                 </td>
             </tr>
@@ -56,7 +57,7 @@
             </tr>
             <tr>
                 <td>
-                    <th colspan="4" width="60%">DEBITOS FISCALES</th>
+                    <th colspan="4" width="60%">CREDITOS FISCALES</th>
                 </td>
                 <td>
                     <th colspan="4" width="20%">BASE IMPONIBLE</th>
@@ -112,5 +113,6 @@
                 <td></td>
             </tr>
         </table>
+      % endfor
     </body>    
 </html>
