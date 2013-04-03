@@ -183,7 +183,7 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,114.0,37.0,29.0,114.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
@@ -203,11 +203,11 @@
             <td><para style="HEADER">Documento Afectado</para></td>
             <td><para style="HEADER">Total con IVA</para></td>
             <td><para style="HEADER">SDCF</para></td>
+            <td><para style="HEADER">Exento</para></td>
             <td>
                 <section>
-                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
+                <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="HEADER">Exento</para></td>
                         <td><para style="HEADER">Base Imponible</para></td>
                         <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
                         <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
@@ -217,10 +217,10 @@
             </td>
             <td><para style="HEADER">Total con IVA</para></td>
             <td><para style="HEADER">SDCF</para></td>
+            <td><para style="HEADER">Exento</para></td>
             <td>
-                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
+                <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="HEADER">Exento</para></td>
                         <td><para style="HEADER">Base Imponible</para></td>
                         <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
                         <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
@@ -235,7 +235,7 @@
     <!-- ************ PURCHASE BOOK LINES************-->
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,114.0,37.0,29.0,114.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
         <tr>
             [[ setLang(my_fbl.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
@@ -257,13 +257,14 @@
             <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_parent ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.invoice_id.get_is_imported and my_fbl.get_total or 0.0) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.invoice_id.get_is_imported and my_fbl.get_v_sdcf or 0.0) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fbl.get_v_exent or 0.0) ]]</para>
+            </td>
             <td>
 
                 <section>
-                    <para>[[ repeatIn(my_fbl.fbt_ids and my_fbl.fbt_ids or [],'my_tax')]]</para>
-                    <blockTable colWidths="29.0,35.0,15.0,32.0" style="TAXESTABLE">
+                    <para>[[ repeatIn(my_fbl.fbt_ids and [fbt_ids for fbt_ids in my_fbl.fbt_ids if fbt_ids.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
+                    <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
                         <tr>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fbl.get_v_exent or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_tax.base_amount or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_tax.tax_amount or 0.0) ]]</para></td>
@@ -274,12 +275,12 @@
             </td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_total or 0.0) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_sdcf or 0.0) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_exent or 0.0) ]]</para></td>
             <td>
                 <section>
-                    <para>[[ repeatIn(my_fbl.fbt_ids,'my_tax')]]</para>
-                    <blockTable colWidths="29.0,35.0,15.0,32.0" style="TAXESTABLE">
+                    <para>[[ repeatIn(my_fbl.fbt_ids and [fbt for fbt in my_fbl.fbt_ids if fbt.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
+                    <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
                         <tr>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_exent or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.base_amount or 0.0) ]]</para></td>
                             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para>
                             </td><td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.tax_amount or 0.0) ]]</para></td>
@@ -296,7 +297,7 @@
     <!-- ************ TOTALS PURCHASE PARCIALES************-->
     <section>
 
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,114.0,37.0,29.0,114.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td>
@@ -317,10 +318,10 @@
             <td></td>
             <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_total) ]]</para></td>
             <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_v_sdcf) ]]</para></td>
+            <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_v_exent) ]]</para></td>
             <td>
-                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
+                <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'], 'EXENTO', 'internacional')[0]) ]]</para></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[0]+get_amount_untaxed_tax(data['form'],'8','internacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[0]) ]]</para></td>
                         <td></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[1] +get_amount_untaxed_tax(data['form'],'8','internacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[1]) ]]</para></td>
@@ -329,10 +330,10 @@
             </td>
             <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_total) ]]</para></td>
             <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_v_sdcf) ]]</para></td>
+            <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_v_exent) ]]</para></td>
             <td>
-                <blockTable colWidths="29.0,35.0,15.0,35.0" style="INTERNALTABLE">
+                <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'EXENTO','nacional')[0])]]</para></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'8','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]) ]]</para></td>
                         <td></td>
                         <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1] +get_amount_untaxed_tax(data['form'],'8','nacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[1]) ]]</para></td>
