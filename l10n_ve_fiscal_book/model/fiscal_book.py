@@ -467,20 +467,23 @@ class fiscal_book(orm.Model):
             if fbl.invoice_id:
                 ret_tax_amount = sdcf_tax_amount = exent_tax_amount = amount_withheld = 0.0
                 for ait in fbl.invoice_id.tax_line:
-                    if ait.tax_id and ait.tax_id.ret:
+                    if ait.tax_id:
                         data.append((0, 0, {'fb_id': fb_id, 'fbl_id': fbl.id, 'ait_id': ait.id}))
-                        ret_tax_amount = ret_tax_amount + ait.base_amount + ait.tax_amount
-                        #~ TODO: check that this logic is ok
-                        if ait.invoice_id.type in ['in_refund', 'out_refund']:
-                            amount_withheld = amount_withheld + (ait.tax_amount*(-1))
+                        if ait.tax_id.ret:
+                            ret_tax_amount = ret_tax_amount + ait.base_amount + ait.tax_amount
+
+                            #~ TODO: check that this logic is ok
+                            if ait.invoice_id.type in ['in_refund', 'out_refund']:
+                                amount_withheld = amount_withheld + (ait.tax_amount*(-1.0))
+                            else:
+                                amount_withheld = amount_withheld + ait.tax_amount
                         else:
-                            amount_withheld = amount_withheld + ait.tax_amount
+                            if ait.tax_id.appl_type == 'sdcf':
+                                sdcf_tax_amount = sdcf_tax_amount + ait.base_amount
+                            if ait.tax_id.appl_type == 'exento':
+                                exent_tax_amount = exent_tax_amount + ait.base_amount
                     else:
                         data.append((0,0,{'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
-                        if ait.tax_id.appl_type == 'sdcf':
-                            sdcf_tax_amount = sdcf_tax_amount + ait.base_amount
-                        if ait.tax_id.appl_type == 'exento':
-                            exent_tax_amount = exent_tax_amount + ait.base_amount
                 fbl_obj.write(cr, uid, fbl.id, {'get_total': ret_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_v_sdcf': sdcf_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_v_exent': exent_tax_amount}, context=context)
@@ -564,12 +567,11 @@ class fiscal_book(orm.Model):
         fbl_obj = self.pool.get('fiscal.book.lines')
         for fb_id in ids:
             col_sum = [ fbl_obj.read(cr, uid, fbl.id, context=context)[field_name] \
-                        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
+                        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids
+                        if fbl.invoice_id ]
             result[fb_id] = sum(col_sum)
         return result
 
-    #~ TODO: create this function to sum taxes of the book
-    #~ def _get_sum_col_tax(self, cr, uid, ids, field_name, arg, context=None):
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
