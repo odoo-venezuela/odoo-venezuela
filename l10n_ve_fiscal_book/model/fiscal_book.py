@@ -612,7 +612,9 @@ class fiscal_book(orm.Model):
         'get_total': fields.function(_get_sum_col, type="float",
                                      string='Sum on Total with Iva Column.'),
         'get_v_sdcf': fields.function(_get_sum_col, type="float",
-                                      string='Sum on SDCF Column.')
+                                      string='Sum on SDCF Column.'),
+        'get_v_exent': fields.function(_get_sum_col, type="float",
+                                      string='Exempt Column Sum.'),
     }
 
     _defaults = {
