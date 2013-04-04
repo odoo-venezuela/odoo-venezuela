@@ -219,7 +219,7 @@ class account_invoice(osv.osv):
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
         '''
-        
+        Recalculates taxes in invoice 
         '''
         if not context:
             context = {}
@@ -234,13 +234,19 @@ class account_invoice(osv.osv):
         return True
 
     def button_reset_taxes(self, cr, uid, ids, context=None):
+        '''
+        It makes two function calls related taxes reset
+        '''
         context = context or {}
         super(account_invoice, self).button_reset_taxes(cr, uid, ids, context)
         self.button_reset_taxes_ret(cr, uid, ids, context)
         
         return True
 
-    def _withholding_partner(self, cr, uid, ids, context=None):  
+    def _withholding_partner(self, cr, uid, ids, context=None):
+        '''
+        I verify that the provider retains or not
+        '''
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)
@@ -252,6 +258,9 @@ class account_invoice(osv.osv):
         return False
 
     def _withholdable_tax(self, cr, uid, ids, context=None):
+        '''
+        Verify that existing withholding in invoice 
+        '''
         if context is None:
             context={}
         return any([line.tax_id.ret for line in self.browse(cr, uid, ids[0], context=context).tax_line])
@@ -280,6 +289,9 @@ class account_invoice(osv.osv):
         return False
 
     def check_wh_apply(self, cr, uid, ids, context=None):
+        '''
+        Apply withholding to the invoice
+        '''
         if context is None:
             context={}
         invo_brw = self.browse(cr,uid,ids[0],context=context)
@@ -294,6 +306,17 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=None):
+        '''
+        Generate move lines with withholding
+        @param to_wh: 
+        @param period_id: Period 
+        @param pay_journal_id:
+        @param writeoff_acc_id:
+        @param writeoff_period_id:
+        @param writeoff_journal_id:
+        @param date:
+        @param name:
+        '''
         if context is None: context = {}
         res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
@@ -354,6 +377,9 @@ class account_invoice_tax(osv.osv):
     }
 
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
+        '''
+        Calculates withholding amount 
+        '''
         context = context or {}
         res = {}
         inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
