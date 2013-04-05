@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data> 
+
+<!--
+Config parent menu
+-->
+
+        <menuitem 
+            id="menu_form_86_config_group" 
+            name="Import/Export - SENIAT - Form 99086" 
+            parent="account.menu_configuration_misc"
+            sequence="80"/>
+
+<!--
+form_86_config    
+-->
+
+        <record id="action_form_86_config" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="res_model">form.86.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_form_86_config_tree"/>
+        </record>   
+
+        <menuitem 
+            id="menu_action_form_86_config" 
+            parent="menu_form_86_config_group" 
+            action="action_form_86_config"
+            icon="STOCK_JUSTIFY_FILL"/>        
+
+<!--
+form_86_customs    
+-->
+
+        <record id="action_form_86_customs" model="ir.actions.act_window">
+            <field name="name">Customs</field>
+            <field name="res_model">form.86.customs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_form_86_customs_tree"/>
+        </record>   
+
+        <menuitem 
+            id="menu_action_form_86_customs" 
+            parent="menu_form_86_config_group" 
+            action="action_form_86_customs"
+            icon="STOCK_JUSTIFY_FILL"/>        
+            
+<!--
+form_86_customs_tax_codes    
+-->
+
+<!--
+        <record id="action_form_86_taxes" model="ir.actions.act_window">
+            <field name="name">Tax codes</field>
+            <field name="res_model">form.86.taxes</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_form_86_taxes_tree"/>
+        </record>   
+
+        <menuitem 
+            id="menu_action_form_86_taxes" 
+            parent="menu_form_86_config_group" 
+            action="action_form_86_taxes"
+            icon="STOCK_JUSTIFY_FILL"/>                 
+-->
+            
+    </data>
+</openerp>

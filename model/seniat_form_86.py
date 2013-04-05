@@ -29,11 +29,21 @@ class seniat_form_86(osv.osv):
     ##------------------------------------------------------------------------------------
 
     ##------------------------------------------------------------------------------------ _internal methods
+    
+    def _amount_total(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for adv in self.browse(cr, uid, ids, context=context):
+            values =   {'amount_total': 0,
+                       }
+            res[adv.id] = values[field_name]
+        return res
+
 
     ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
         'name': fields.char('Name', size=16, required=False, readonly=False),
+        'ref': fields.char('Reference', size=64, required=False, readonly=False),
         'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
         'broker_id': fields.many2one('res.partner', 'Broker', change_default=True, readonly=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
         'ref_reg': fields.char('Reg. reference', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
@@ -67,6 +77,33 @@ class seniat_form_86(osv.osv):
     ##------------------------------------------------------------------------------------ create write unlink
 
     ##------------------------------------------------------------------------------------ Workflow
+    
+    def button_draft(self, cr, uid, ids, context=None):
+        vals={'state':'draft'}
+        return self.write(cr,uid,ids,vals,context)
+
+
+    def button_done(self, cr, uid, ids, context=None):
+        vals={'state':'done'}
+        return self.write(cr,uid,ids,vals,context)
+
+
+    def button_cancel(self, cr, uid, ids, context=None):
+        vals={'state':'cancel'}
+        return self.write(cr,uid,ids,vals,context)
+
+
+    def test_draft(self, cr, uid, ids, *args):
+        return True
+
+
+    def test_done(self, cr, uid, ids, *args):
+        return True
+
+
+    def test_cancel(self, cr, uid, ids, *args):
+        return True
+
 
 seniat_form_86()
 

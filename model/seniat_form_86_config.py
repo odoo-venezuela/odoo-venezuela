@@ -122,14 +122,14 @@ form_86_customs()
 
 
 
-##---------------------------------------------------------------------------------------- form_86_customs
+##---------------------------------------------------------------------------------------- form_86_taxes
 
-class form_86_customs_tax_codes(osv.osv):
+class form_86_taxes(osv.osv):
     '''
     A list of the concepts for taxes in form_86
     '''
 
-    _name = 'form.86.config.tax.codes'
+    _name = 'form.86.taxes'
 
     _description = ''
 
@@ -152,7 +152,7 @@ class form_86_customs_tax_codes(osv.osv):
         'code': fields.char('Name', size=16, required=True, readonly=False),   
         'name': fields.char('Name', size=64, required=True, readonly=False),
         'ref': fields.char('Name', size=16, required=False, readonly=False),   
-        'vat':fields.boolean('Is VAT'),  
+        #~ 'related_vat': 
         'sequence': fields.integer('Sequence'),   
         'property_account_tax': fields.property(
             'account.account',
@@ -165,11 +165,11 @@ class form_86_customs_tax_codes(osv.osv):
         }
 
     _defaults = {
-        'vat': lambda *a: 'False', 
         }
 
     _sql_constraints = [     
         ('code_uniq', 'UNIQUE(code)', 'The code must be unique!'),
+        ('sequence_uniq', 'UNIQUE(sequence)', 'The sequence must be unique!'),
         ]
 
     ##------------------------------------------------------------------------------------
@@ -184,5 +184,5 @@ class form_86_customs_tax_codes(osv.osv):
 
     ##------------------------------------------------------------------------------------ Workflow
 
-form_86_customs_tax_codes()
+form_86_taxes()
 

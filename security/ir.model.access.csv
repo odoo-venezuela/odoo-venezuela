@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"form_86_config_user","form.86.config.user","model_form_86_config","account.group_account_user",1,0,0,0
+"form_86_config_manager","form.86.config.manager","model_form_86_config","account.group_account_manager",1,1,1,1
+"form_86_customs_user","form.86.customs.user","model_form_86_customs","account.group_account_user",1,0,0,0
+"form_86_customs_manager","form.86.customs.manager","model_form_86_customs","account.group_account_manager",1,1,1,1
+"seniat_form_86_user","seniat.form.86.user","model_seniat_form_86","account.group_account_user",1,1,1,0
+"seniat_form_86_manager","seniat.form.86.manager","model_seniat_form_86","account.group_account_manager",1,1,1,1

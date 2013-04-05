@@ -20,6 +20,12 @@
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [
+                    'security/ir.model.access.csv',
+                    'security/ir_rule.xml',    
+                    'view/seniat_form_86_config.xml',         
+                    #~ 'view/seniat_form_86.xml',         
+                    'view/seniat_form_86_menus.xml',         
+                    'workflow/seniat_form_86.xml',
                     ],
     "active": False,
     "installable": True,
