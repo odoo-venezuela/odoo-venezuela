@@ -122,14 +122,14 @@ form_86_customs()
 
 
 
-##---------------------------------------------------------------------------------------- form_86_taxes
+##---------------------------------------------------------------------------------------- form_86_custom_taxes
 
-class form_86_taxes(osv.osv):
+class form_86_custom_taxes(osv.osv):
     '''
     A list of the concepts for taxes in form_86
     '''
 
-    _name = 'form.86.taxes'
+    _name = 'form.86.custom.taxes'
 
     _description = ''
 
@@ -184,5 +184,5 @@ class form_86_taxes(osv.osv):
 
     ##------------------------------------------------------------------------------------ Workflow
 
-form_86_taxes()
+form_86_custom_taxes()
 
