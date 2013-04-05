@@ -50,12 +50,12 @@ class product_product(osv.osv):
     Add a default concept for products that are not service type
     '''
     def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
-    '''
-    returns false if the product type is not a service, and if the
-    product is service, returns the first concept except "No apply
-    withholding"
-    @param prd_type: product type new
-    '''
+        '''
+        returns false if the product type is not a service, and if the
+        product is service, returns the first concept except "No apply
+        withholding"
+        @param prd_type: product type new
+        '''
         concept_id = False
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
