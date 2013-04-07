@@ -1,16 +1,25 @@
 <?xml version="1.0"?>
 <document filename="test.pdf" invariant="1">
-    <template pageSize="(35.56cm,21.59cm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
+<!--
+    info: http://www.dpandi.com/paper/
+    Royal Size ( 20 x 25 inches )
+    A2 Size ( 420 x 594 mm - 16.5 x 23.4 inches )
+    A3 Size ( 297 x 420 mm - 11.7 x 16.5 inches )
+-->
+    <template pageSize="(25in,20in)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
+<!--
+    <template>[[ setTag('template', 'template', { 'pageSize': "(25in,20in)", 'title': "Test", 'author': "Katherine Zaoral", 'allowSplitting': "20", 'showBoundary': "0" } ) ]]
+-->
         <pageTemplate id="first">
-        <pageGraphics>
-            <setFont name="Times-Roman" size="9"/>
-            <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
-            <drawString x="25cm" y="0.5cm">Pagina <pageNumber/></drawString>
-            <lineMode width="0.7"/>
-            <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
-            <setFont name="Times-Roman" size="8"/>
-        </pageGraphics>
-            <frame id="first" x1="5.0" y1="15.0" width="1000" height="580"/>
+            <pageGraphics>
+                <setFont name="Times-Roman" size="9"/>
+                <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
+                <drawString x="25cm" y="0.5cm">Pagina <pageNumber/></drawString>
+                <lineMode width="0.7"/>
+                <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
+                <setFont name="Times-Roman" size="8"/>
+            </pageGraphics>
+            <frame id="first" x1="5.0" y1="15.0" width="20in" height="15in"/>
         </pageTemplate>
     </template>
 
@@ -77,27 +86,6 @@
             <blockAlignment value="LEFT"/>
             <blockValign value="MIDDLE"/>
             <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
-
-<!--
-            <blockBackground colorName="blue" start="18,0" stop="18,-1"/>
--->
-            <blockLeftPadding   lenght="1" start="18,0" stop="18,-1"/>
-            <blockRightPadding  lenght="1" start="18,0" stop="18,-1"/>
-            <blockAlignment value="CENTER" start="18,0" stop="18,-1"/>
-            <blockBottomPadding lenght="1" start="18,0" stop="18,-1"/>
-            <blockTopPadding    lenght="1" start="18,0" stop="18,-1"/>
-            <blockValign    value="MIDDLE" start="18,0" stop="18,-1"/>
-
-<!--
-            <blockBackground colorName="blue" start="21,0" stop="21,-1"/>
--->
-            <blockLeftPadding   lenght="1" start="21,0" stop="21,-1"/>
-            <blockRightPadding  lenght="1" start="21,0" stop="21,-1"/>
-            <blockAlignment value="CENTER" start="21,0" stop="21,-1"/>
-            <blockBottomPadding lenght="1" start="21,0" stop="21,-1"/>
-            <blockTopPadding    lenght="1" start="21,0" stop="21,-1"/>
-            <blockValign    value="MIDDLE" start="21,0" stop="21,-1"/>
-
         </blockTableStyle>
         <blockTableStyle id="CONTENIDOTABLE_LINES_PUR">
             <blockAlignment value="LEFT"/>
@@ -122,6 +110,13 @@
         <paraStyle name="P5" fontName="Times-Roman" fontSize="7.0" leading="8"/>
         <paraStyle name="TITULO_AJUSTE" fontName="Times-Roman" fontSize="10.0" alignment="CENTER"/>
         <paraStyle name="CONTENIDO" fontName="Times-Roman" fontSize="4.5" leading="4.7" alignment="CENTER" topPadding="0.5" bottomPadding="0.7"/>
+
+<!--
+        TODO: INFO: new style
+-->
+        <paraStyle name="CONTENIDO_GEN" fontName="Times-Roman" fontSize="4.5" leading="4" alignment="CENTER" topPadding="0.1" bottomPadding="0.1"/>
+    
+
         <paraStyle name="CONTENIDOINT" fontName="Times-Roman" fontSize="4.5" leading="5.0" alignment="RIGHT" topPadding="0.5" bottomPadding="0.7"/>
         <paraStyle name="CONTENIDOLEFT" fontName="Times-Roman" fontSize="4.5" leading="4.7" alignment="LEFT"/>
         <paraStyle name="OBSERVACIONES" fontName="Times-Roman" fontSize="9.0"  alignment="LEFT"/>
@@ -168,11 +163,9 @@
                 </td>
             </tr>
         </blockTable>
-
     <spacer length="2mm"/>
 
-    <!-- ************ PURCHASE BOOK HEADERS ************-->
-
+    <!--    PURCHASE BOOK HEADERS    -->
     <section>
         <blockTable colWidths="517.0,180.0,180.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
             <tr>
@@ -183,118 +176,112 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
-        <tr>
-            <td><para style="HEADER"></para></td>
-            <td><para style="HEADER">Linea</para></td>
-            <td><para style="HEADER">Fecha Doc.</para></td>
-            <td><para style="HEADER">Fecha Importada</para></td>
-            <td><para style="HEADER">T. Doc.</para></td>
-            <td><para style="HEADER">RIF</para></td>
-            <td><para style="HEADER">Razon Social</para></td>
-            <td><para style="HEADER">Comprobante</para></td>
-            <td><para style="HEADER">Planilla Importacion</para></td>
-            <td><para style="HEADER">Expediente Importacion</para></td>
-            <td><para style="HEADER">Numero de Factura</para></td>
-            <td><para style="HEADER">Numero Control</para></td>
-            <td><para style="HEADER">T. Trans.</para></td>
-            <td><para style="HEADER">Nota de Debito Afectada</para></td>
-            <td><para style="HEADER">Nota de Credito Afectada</para></td>
-            <td><para style="HEADER">Documento Afectado</para></td>
-            <td><para style="HEADER">Total con IVA</para></td>
-            <td><para style="HEADER">SDCF</para></td>
-            <td><para style="HEADER">Exento</para></td>
-            <td>
-                <section>
-                <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="HEADER">Base Imponible</para></td>
-                        <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
-                        <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
-                    </tr>
-                </blockTable>
-                </section>
-            </td>
-            <td><para style="HEADER">Total con IVA</para></td>
-            <td><para style="HEADER">SDCF</para></td>
-            <td><para style="HEADER">Exento</para></td>
-            <td>
-                <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="HEADER">Base Imponible</para></td>
-                        <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
-                        <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
-                    </tr>
-                </blockTable>
-            </td>
-            <td><para style="HEADER">Retencion Iva</para></td>
-        </tr>
-        </blockTable>
+        <blockTable> [[ setTag('blockTable', 'blockTable', {'colWidths' : get_attr_col_widths(), 'style' : "ENCANBEZADO_SINCOLUM", 'repeatRows' : "1" } ) ]]
+<!--
+            <tr>
+                [[ repeatIn( get_cols() ,'col_name') ]]
+                <td><para style="HEADER">[[ col_name ]]</para></td>
+            </tr>
+-->
+            <tr>
+                <td></td>
+                <td><para style="HEADER">[[ get_col_name( 1 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 2 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 3 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 4 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 5 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 6 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 7 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 8 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 9 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 10 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 11 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 12 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 13 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 14 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 15 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 16 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 17 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 18 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 19 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 20 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 21 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 22 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 23 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 24 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 25 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 26 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 27 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 28 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 29 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 30 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 31 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 32 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 33 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 34 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 35 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 36 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 37 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 38 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 39 ) ]]</para></td>
+                <td><para style="HEADER">[[ get_col_name( 40 ) ]]</para></td>
+            </tr>
+       </blockTable>
     </section>
-
-    <!-- ************ PURCHASE BOOK LINES************-->
+ 
+    <!--    PURCHASE BOOK LINES   -->
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
-        <tr>
-            [[ setLang(my_fbl.ai_id.company_id.partner_id.lang) ]]
-            <td vAlign="MIDDLE"></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.rank ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_date_invoiced ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_date_imported ]]</para></td>
-            <td><para style="CONTENIDO">[[ my_fbl.get_t_doc ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
-            <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ my_fbl.get_partner_name ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO"> [[ (my_fbl.invoice_id and my_fbl.iwdl_id) and my_fbl.iwdl_id.retention_id.number or "NONE" ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_import_form ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.import_spreadsheet_name ]]</para></td>
-            
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_number]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_papel_anulado ]]</para></td>
-            <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_debit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_credit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_parent ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.invoice_id.get_is_imported and my_fbl.get_total or 0.0) ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.invoice_id.get_is_imported and my_fbl.get_v_sdcf or 0.0) ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fbl.get_v_exent or 0.0) ]]</para>
-            </td>
-            <td>
-
-                <section>
-                    <para>[[ repeatIn(my_fbl.fbt_ids and [fbt_ids for fbt_ids in my_fbl.fbt_ids if fbt_ids.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
-                    <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
-                        <tr>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_tax.base_amount or 0.0) ]]</para></td>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para></td>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_tax.tax_amount or 0.0) ]]</para></td>
-                        </tr>
-                    </blockTable>
-                </section>
-
-            </td>
-            <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_total or 0.0) ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_sdcf or 0.0) ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_exent or 0.0) ]]</para></td>
-            <td>
-                <section>
-                    <para>[[ repeatIn(my_fbl.fbt_ids and [fbt for fbt in my_fbl.fbt_ids if fbt.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
-                    <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
-                        <tr>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.base_amount or 0.0) ]]</para></td>
-                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para>
-                            </td><td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.tax_amount or 0.0) ]]</para></td>
-                        </tr>
-                    </blockTable>
-                </section>
-            </td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_withheld) ]]</para></td>
-        </tr>
+        <blockTable> [[ setTag('blockTable', 'blockTable', {'colWidths' : get_attr_col_widths(), 'style' : "CONTENIDOTABLE_LINES" } ) ]]
+            <tr>
+                [[ setLang(my_fbl.ai_id.company_id.partner_id.lang) ]]
+                <td></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 1, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 2, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 3, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 4, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 5, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 6, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 7, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 8, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 9, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 10, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 11, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 12, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 13, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 14, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 15, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 16, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 17, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 18, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 19, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 20, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 21, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 22, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 23, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 24, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 25, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 26, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 27, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 28, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 29, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 30, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 31, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 32, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 33, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 34, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 35, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 36, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 37, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 38, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 39, my_fbl ) ]]</para></td>
+                <td><para style="CONTENIDO_GEN">[[ get_col_value( 40, my_fbl ) ]]</para></td>
+            </tr>
         </blockTable>
     </section>
 
-
     <!-- ************ TOTALS PURCHASE PARCIALES************-->
+<!--
     <section>
 
         <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
@@ -344,6 +331,7 @@
         </tr>
         </blockTable>
     </section>
+-->
 
     <!-- ************ LEYENDA************-->
     <section>
