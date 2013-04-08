@@ -33,7 +33,15 @@ class account_invoice(osv.osv):
      
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
-        
+        '''
+        Change invoice information depending of the partner
+        @param type: Invoice type                                                                                                                  
+        @param partner_id: Partner id of the invoice                            
+        @param date_invoice: Date invoice                                       
+        @param payment_term: Payment terms                                      
+        @param partner_bank_id: Partner bank id of the invoice                  
+        @param company_id: Company id  
+        '''
         p = self.pool.get('res.partner').browse(cr, uid, partner_id)
         c = self.pool.get('res.partner').browse(cr, uid, uid)
         res = super(account_invoice,self).onchange_partner_id(cr, uid, ids, type, \
@@ -49,6 +57,9 @@ class account_invoice(osv.osv):
         return res
     
     def _retenida(self, cr, uid, ids, name, args, context):
+        '''
+        Verify whether withholding was applied to the invoice
+        '''
         res = {}
         if context is None:
             context = {}
@@ -57,6 +68,9 @@ class account_invoice(osv.osv):
         return res
     
     def _get_inv_from_line(self, cr, uid, ids, context={}):
+        '''
+        Returns invoice from journal items
+        '''
         move = {}
         for line in self.pool.get('account.move.line').browse(cr, uid, ids):
             if line.reconcile_partial_id:
@@ -71,6 +85,9 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
+        '''
+        Returns invoice from reconciled lines
+        '''
         move = {}
         for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
             for line in r.line_partial_ids:
@@ -84,8 +101,9 @@ class account_invoice(osv.osv):
         return invoice_ids
     
     def _check_retention(self, cr, uid, ids, context=None):
-        '''This method will check the retention value will be maximum 5%   
-            '''
+        '''
+        This method will check the retention value will be maximum 5%   
+        '''
         if context is None: context = {}
         
         invoice_brw = self.browse(cr, uid,ids)
@@ -114,6 +132,17 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=None):
+        '''
+        Generate move lines in corresponding account                            
+        @param to_wh: whether or not withheld                                   
+        @param period_id: Period                                                
+        @param pay_journal_id: pay journal of the invoice                       
+        @param writeoff_acc_id: account where canceled                          
+        @param writeoff_period_id: period where canceled                        
+        @param writeoff_journal_id: journal where canceled                      
+        @param date: current date                                               
+        @param name: description 
+        '''
         if context is None: context = {}
         res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 

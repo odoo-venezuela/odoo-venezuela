@@ -34,6 +34,9 @@ from openerp.addons import decimal_precision as dp
 class account_wh_src(osv.osv):
 
     def name_get(self, cursor, user, ids, context=None):
+        '''
+        To generate a name for src record
+        '''
         if isinstance(ids, (int, long)):
             ids = [ids]
         if not ids:
@@ -52,11 +55,16 @@ class account_wh_src(osv.osv):
         return res
 
     def _get_uid_wh_agent(self, cr, uid, context=None):
+        """ Returns true if current partner is social responsability agent and
+        return false in otherwise
+        """
         context = context or {}
         user_wh_agent = self.pool.get('res.partner').browse(cr, uid, uid, context=context).wh_src_agent
         return user_wh_agent
 
     def _get_partner_agent(self, cr, uid, context=None):
+        """ Returns a list of browse partner depending of invoice type
+        """
         context = context or {}
         
         obj_partner = self.pool.get('res.partner')
@@ -73,6 +81,9 @@ class account_wh_src(osv.osv):
         return l
 
     def default_get(self, cr, uid, fields, context=None):
+        """ Update fields uid_wh_agent and partner_list to the create a
+        record        
+        """
         context = context or {}
         res = super(account_wh_src, self).default_get(cr, uid, fields, context=context)
         res.update({'uid_wh_agent': self._get_uid_wh_agent(cr,uid,context=context) })
@@ -81,11 +92,15 @@ class account_wh_src(osv.osv):
         return res
 
     def _get_p_agent(self, cr, uid, ids, field_name, args, context=None):
+        """ Create a dictionary with ids partner and their browse item 
+        """
         context = context or {}
         res= {}.fromkeys(ids,self._get_partner_agent(cr,uid,context=context))
         return res 
 
     def _get_wh_agent(self, cr, uid, ids, field_name, args, context=None):
+        """ Create a dictionary with ids agent partner and their browse item
+        """
         context = context or {}
         res= {}.fromkeys(ids,self._get_uid_wh_agent(cr,uid,context=context))
         return res 
@@ -123,6 +138,8 @@ class account_wh_src(osv.osv):
     } 
     
     def _diario(self, cr, uid, model, context=None):
+        """ 
+        """
         if context is None:
             context={}
         ir_model_data = self.pool.get('ir.model.data')

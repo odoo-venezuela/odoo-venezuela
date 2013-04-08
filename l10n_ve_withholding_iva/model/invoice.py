@@ -307,15 +307,15 @@ class account_invoice(osv.osv):
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=None):
         '''
-        Generate move lines with withholding
-        @param to_wh: 
+        Generate move lines in corresponding account
+        @param to_wh: whether or not withheld
         @param period_id: Period 
-        @param pay_journal_id:
-        @param writeoff_acc_id:
-        @param writeoff_period_id:
-        @param writeoff_journal_id:
-        @param date:
-        @param name:
+        @param pay_journal_id: pay journal of the invoice
+        @param writeoff_acc_id: account where canceled
+        @param writeoff_period_id: period where canceled
+        @param writeoff_journal_id: journal where canceled
+        @param date: current date
+        @param name: description
         '''
         if context is None: context = {}
         res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
