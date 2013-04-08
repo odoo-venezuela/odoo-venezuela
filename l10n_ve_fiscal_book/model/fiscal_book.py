@@ -415,6 +415,7 @@ class fiscal_book(orm.Model):
 
         return True
 
+    #~ TODO: Optimization. This method could be transform in a method for function field fbts tax y base sum. 
     def update_book_taxes_summary(self, cr, uid, fb_id, context=None):
         """
         It update the summaroty of taxes by type for this book.
@@ -632,6 +633,25 @@ class fiscal_book(orm.Model):
 
 class fiscal_book_lines(orm.Model):
 
+    def _get_vat_amount(self, cr, uid, ids, field_name, arg, context=None):
+        """
+        For a given book line it returns the a vat amount value corresponding.
+        (This is a method used in functional fields).
+        @param field_name: the name of the field that which value return [get_vat_reduced_base, get_vat_general_base, get_vat_additional_base, get_vat_reduced_tax, get_vat_general_tax,  get_vat_additional_tax].
+        """
+        context = context or {}
+        res = {}.fromkeys(ids, 0.0)
+        tax_type = { 'reduced': 'reducido', 'general': 'general',
+                     'additional': 'adicional' }
+        field_tax, field_amount = field_name[8:].split('_')
+        for fbl_id in ids:
+            for fbt_brw in self.browse(cr, uid, fbl_id, context=context).fbt_ids:
+                if fbt_brw.ait_id.tax_id.appl_type == tax_type[field_tax]:
+                    res[fbl_id] += field_amount == 'base' \
+                                   and fbt_brw.base_amount \
+                                   or fbt_brw.tax_amount
+        return res
+
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
     _name='fiscal.book.lines'
     _rec_name='rank'
@@ -665,6 +685,25 @@ class fiscal_book_lines(orm.Model):
         'get_v_sdcf': fields.float('SDCF'),
         'get_v_exent': fields.float('Exent'),
         'get_withheld': fields.float('Withheld Amount'),
+
+        'get_vat_reduced_base': fields.function(_get_vat_amount, type="float",
+                                string="8% Base", method=True,
+                                help="Vat Reduced Base Amount"),
+        'get_vat_general_base': fields.function(_get_vat_amount, type="float",
+                                string="12% Base", method=True,
+                                help="Vat General Base Amount"),
+        'get_vat_additional_base': fields.function(_get_vat_amount, type="float",
+                                string="22% Base", method=True,
+                                help="Vat Generald plus Additional Base Amount"),
+        'get_vat_reduced_tax': fields.function(_get_vat_amount, type="float",
+                                string="8% Tax", method=True,
+                                help="Vat Reduced Tax Amount"),
+        'get_vat_general_tax': fields.function(_get_vat_amount, type="float",
+                                string="12% Tax", method=True,
+                                help="Vat General Tax Amount"),
+        'get_vat_additional_tax': fields.function(_get_vat_amount, type="float",
+                                string="22% Tax", method=True,
+                                help="Vat General plus Additional Tax Amount"),
     }
 
 class fiscal_book_taxes(orm.Model):
