@@ -34,9 +34,8 @@ from openerp.addons import decimal_precision as dp
 class account_wh_src(osv.osv):
 
     def name_get(self, cursor, user, ids, context=None):
-        '''
-        To generate a name for src record
-        '''
+        """ To generate a name for src record
+        """
         if isinstance(ids, (int, long)):
             ids = [ids]
         if not ids:
@@ -138,14 +137,14 @@ class account_wh_src(osv.osv):
     } 
     
     def _diario(self, cr, uid, model, context=None):
-        """ 
+        """  Returns journal to use in purchase or sale
         """
         if context is None:
             context={}
         ir_model_data = self.pool.get('ir.model.data')
-        journal_purchase=ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_scr_purchase_journal')])
-        journal_sale=ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_src_sale_journal')])
-        ir_model_purchase_brw=ir_model_data.browse(cr, uid, journal_purchase, context=context)
+        journal_purchase = ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_scr_purchase_journal')])
+        journal_sale = ir_model_data.search(cr, uid, [('model','=','account.journal'),('module','=','l10n_ve_withholding_src'),('name','=','withholding_src_sale_journal')])
+        ir_model_purchase_brw = ir_model_data.browse(cr, uid, journal_purchase, context=context)
         ir_model_sale_brw=ir_model_data.browse(cr, uid, journal_sale, context=context)
         if context.get('type') == 'in_invoice':
             return ir_model_purchase_brw[0].res_id
@@ -167,6 +166,10 @@ class account_wh_src(osv.osv):
     ] 
     
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
+        """ Return account depending of the invoice         
+        @param type: invoice type
+        @param partner_id: partner id
+        """
         if context is None: context = {}    
         acc_id = False
         res = {}
@@ -193,12 +196,16 @@ class account_wh_src(osv.osv):
         
 
     def action_date_ret(self,cr,uid,ids,context=None):
+        """ if the retention date is empty, is filled with the current date
+        """
         for wh in self.browse(cr, uid, ids, context):
             wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
         return True
 
 
     def action_draft(self, cr, uid, ids, context={}):
+        """ Passes the document to draft status
+        """
         if context is None:
             context={}
         inv_obj = self.pool.get('account.invoice')
@@ -211,6 +218,8 @@ class account_wh_src(osv.osv):
         return self.write(cr,uid,ids[0],{'state':'draft'})
 
     def action_confirm(self, cr, uid, ids, context={}):
+        """ retention is valid to pass a status confirmed
+        """
         if context is None:
             context={}
         inv_obj = self.pool.get('account.invoice')
@@ -248,10 +257,14 @@ class account_wh_src(osv.osv):
         return self.write(cr,uid,ids,{'state':'done'})
         
     def action_cancel(self,cr,uid,ids,context={}):
+        """ still not allowed to cancel these withholdings
+        """
         raise osv.except_osv(_('Procedimiento invalido!'),_("Por el momento, el sistema no le permite Cancelar estas Retenciones."))
         return True
         
     def copy(self,cr,uid,id,default,context=None):
+        """ lines can not be duplicated in this model
+        """
         raise osv.except_osv('Procedimiento invalido!',"No puede duplicar lineas")
         return True
         
@@ -262,7 +275,8 @@ class account_wh_src(osv.osv):
 
 
     def action_move_create(self, cr, uid, ids, context=None):
-        
+        """ build account moves related to withholding invoice 
+        """
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
         
@@ -314,6 +328,8 @@ class account_wh_src(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, *args):
+        """ Is responsible for generating a number for the document if it does not have one  
+        """
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
@@ -332,6 +348,8 @@ class account_wh_src(osv.osv):
         
         
     def wh_src_confirmed(self, cr, uid, ids):
+        """ confirm src document
+        """
         number = self.pool.get('account.wh.src.line')
         return True
         
@@ -360,6 +378,12 @@ class account_wh_src_line(osv.osv):
     ] 
     
     def onchange_invoice_id(self, cr, uid, ids, type, invoice_id=False,base_amount=0.0,wh_src_rate=5.0,context=None):
+        """ change src information to change the invoice 
+        @param type: invoice type
+        @param invoice_id: new invoice id
+        @param base_amount: new base amount
+        @param wh_src_rate: new rate of the withhold src
+        """
         if context is None: context = {}    
         res = {}
         inv_obj = self.pool.get('account.invoice')
