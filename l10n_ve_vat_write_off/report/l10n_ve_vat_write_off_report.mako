@@ -65,7 +65,7 @@
 					  <td width="80%" align="left"><font size=2>&nbsp;SI ESTA ES UNA DECLARACI&Oacute;N SUSTITUTIVA O COMPLEMENTARIA, &nbsp;N&ordm;-&nbsp;&nbsp;FECHA&nbsp;</font></td>
 					  <td width="20%" align="left">&nbsp;<b><font size=2>FECHA:</font></b>&nbsp;
 
-							&nbsp ${vwo.start_date or ''|entity}
+							&nbsp; ${vwo.start_date or ''|entity}
 
 
 					  </td>
@@ -75,8 +75,8 @@
 					  <td width="20%" align="left">&nbsp;<b><font size=2>N&ordm;- RIF:</font></b></td>
 					</tr>
 					<tr>
-					  <td width="80%" align="left"><font size=2>&nbsp ${vwo.company_id.name or ''|entity}</font></td>
-					  <td width="20%" align="left"><font size=2>&nbsp;${vwo.company_id.vat or ''|entity}&nbsp;</font></td>
+					  <td width="80%" align="left"><font size=2>&nbsp; ${(vwo.company_id.name).upper() or ''|entity}</font></td>
+					  <td width="20%" align="left"><font size=2>&nbsp;${vwo.company_id.vat[2:] or ''|entity}&nbsp;</font></td>
 					</tr>
 				  </tbody></table>
 				  <br>
