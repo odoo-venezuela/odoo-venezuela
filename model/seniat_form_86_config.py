@@ -95,7 +95,7 @@ class form_86_customs(osv.osv):
     ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
-        'code': fields.char('Name', size=16, required=True, readonly=False),   
+        'code': fields.char('Code', size=16, required=True, readonly=False),   
         'name': fields.char('Name', size=64, required=True, readonly=False),
         }
 
@@ -132,6 +132,9 @@ class form_86_custom_taxes(osv.osv):
     _name = 'form.86.custom.taxes'
 
     _description = ''
+    
+    _order = 'sequence'
+
 
     ##------------------------------------------------------------------------------------
    
@@ -149,27 +152,22 @@ class form_86_custom_taxes(osv.osv):
     ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
-        'code': fields.char('Name', size=16, required=True, readonly=False),   
+        'code': fields.char('Code', size=16, required=True, readonly=False),   
         'name': fields.char('Name', size=64, required=True, readonly=False),
-        'ref': fields.char('Name', size=16, required=False, readonly=False),   
-        #~ 'related_vat': 
-        'sequence': fields.integer('Sequence'),   
-        'property_account_tax': fields.property(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Account",
-            method=True,
-            view_load=True,
-            help="This account will be used for expenses related to taxes"),
+        'ref': fields.char('Ref', size=16, required=False, readonly=False),   
+        'sequence': fields.integer('Sequence'), 
+        'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict',help="This account will be used for expenses related to taxes"), 
+        'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=False, ondelete='restrict',help=""), 
+        'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
         }
 
     _defaults = {
+        'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'form.86.config',context=c),
         }
 
     _sql_constraints = [     
-        ('code_uniq', 'UNIQUE(code)', 'The code must be unique!'),
-        ('sequence_uniq', 'UNIQUE(sequence)', 'The sequence must be unique!'),
+        ('code_uniq', 'UNIQUE(code,company_id)', 'The code must be unique! (for this comany)'),
+        ('sequence_uniq', 'UNIQUE(sequence,company_id)', 'The sequence must be unique! (for this comany)'),
         ]
 
     ##------------------------------------------------------------------------------------

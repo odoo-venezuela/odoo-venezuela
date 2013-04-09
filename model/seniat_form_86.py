@@ -32,11 +32,36 @@ class seniat_form_86(osv.osv):
     
     def _amount_total(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for adv in self.browse(cr, uid, ids, context=context):
-            values =   {'amount_total': 0,
-                       }
-            res[adv.id] = values[field_name]
+        for f86 in self.browse(cr, uid, ids, context=context):
+            amount_total = 0.0
+            for line in f86.line_ids:
+                amount_total += line.amount
+            res[f86.id] = amount_total
         return res
+        
+        
+    def _default_line_ids(self, cr, uid, context=None):
+        """ Gets default line_ids from form_86_custom_taxes
+        """
+        print '_default_line_ids'
+        obj_ct = self.pool.get('form.86.custom.taxes')    
+        ct_ids = obj_ct.search(cr, uid, [('name', '!=', '')])
+        res = []
+        for id in ct_ids:
+            res.append({'tax_code':id,'amount':0.0})
+        print res    
+        return res
+        
+    def _gen_account_move_line(self, company_id, account_id, name, debit, credit):
+        return (0,0,{
+                'auto' : True,
+                'company_id': company_id,
+                'account_id': account_id,
+                'name': name[:64],
+                'debit': debit,
+                'credit': credit,
+                'reconcile':False,
+                })        
 
 
     ##------------------------------------------------------------------------------------ function fields
@@ -46,9 +71,9 @@ class seniat_form_86(osv.osv):
         'ref': fields.char('Reference', size=64, required=False, readonly=False),
         'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
         'broker_id': fields.many2one('res.partner', 'Broker', change_default=True, readonly=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
-        'ref_reg': fields.char('Reg. reference', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
+        'ref_reg': fields.char('Reg. number', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
         'date_reg': fields.date('Reg. date', required=False, readonly=True, states={'draft':[('readonly',False)]}, select=True),
-        'ref_liq': fields.char('Liq. reference', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
+        'ref_liq': fields.char('Liq. number', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
         'date_liq': fields.date('liq. date', required=False, readonly=True, states={'draft':[('readonly',False)]}, select=True),
         'custom_id': fields.many2one('form.86.customs', 'Custom', change_default=True, readonly=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
         'line_ids':fields.one2many('seniat.form.86.lines','line_id','Lines',readonly=True, states={'draft':[('readonly',False)]}),
@@ -59,7 +84,9 @@ class seniat_form_86(osv.osv):
         }
 
     _defaults = {
+        'name': lambda *a: '/', 
         'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'seniat.form.86',context=c),
+        'line_ids': _default_line_ids,
         'state': lambda *a: 'draft', 
         }
 
@@ -69,6 +96,60 @@ class seniat_form_86(osv.osv):
     ##------------------------------------------------------------------------------------
 
     ##------------------------------------------------------------------------------------ public methods
+    
+    def create_account_move_lines(self, cr, uid, f86, context=None):
+        lines = []
+        company_id = context.get('f86_company_id')
+        f86_cfg = context.get('f86_config')
+
+        #~ expenses
+        for line in f86.line_ids:
+            account_id = line.tax_code.account_id.id
+            if not account_id:
+                raise osv.except_osv(_('Error!'),_('No tax account found, please check customs taxes settings (%s)')%line.tax_code.name)
+            lines.append(self._gen_account_move_line(company_id, account_id, '[%s] %s - %s'%(line.tax_code.code,line.tax_code.ref,line.tax_code.name) , line.amount,0.0))
+            lines.append(self._gen_account_move_line(company_id, f86_cfg.account_id.id, 'F86 #%s'%f86.name ,0.0,line.amount))
+        
+        lines.reverse() ## set real order ;-)
+        return lines
+                
+        
+    def create_account_move(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        obj_move = self.pool.get('account.move')
+        obj_cfg = self.pool.get('form.86.config')
+        company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
+        company = self.pool.get('res.company').browse(cr,uid,company_id,context=context)
+        cfg_id = obj_cfg.search(cr, uid, [('company_id', '=', company_id)])
+        if cfg_id:
+            f86_cfg = obj_cfg.browse(cr,uid,cfg_id[0],context=context)
+        else:
+            raise osv.except_osv(_('Error!'),_('Please set a valid configuration'))
+        date = time.strftime('%Y-%m-%d')
+        context.update({'f86_company_id':company_id,'f86_config':f86_cfg,'f86_date':date,})
+        so_brw = self.browse(cr,uid,ids,context={})
+        move_ids = []
+        for f86 in so_brw:
+            move = {
+                    'ref':'F86 #%s'%f86.name,
+                    'journal_id':f86_cfg.journal_id.id,
+                    'date':date,
+                    'company_id':company_id,
+                    'state':'draft',
+                    'to_check':False,
+                    'narration':_('SENIAT - Forma 86  # %s):\n\tReference: %s\n\tBroker: %s')%(f86.name,f86.ref,f86.broker_id.name),
+                    }
+            lines = self.create_account_move_lines(cr, uid, f86, context)
+            if lines:
+                move.update({'line_id':lines})
+                move_id = obj_move.create(cr, uid, move, context)
+                obj_move.post(cr, uid, [move_id], context=context)
+                if move_id:
+                    move_ids.append(move_id)
+                    self.write(cr, uid, f86.id, {'move_id':move_id},context)
+        return move_ids        
+        return True
 
     ##------------------------------------------------------------------------------------ buttons (object)
 
@@ -84,12 +165,18 @@ class seniat_form_86(osv.osv):
 
 
     def button_done(self, cr, uid, ids, context=None):
+        self.create_account_move(cr, uid, ids, context)
         vals={'state':'done'}
         return self.write(cr,uid,ids,vals,context)
 
 
     def button_cancel(self, cr, uid, ids, context=None):
-        vals={'state':'cancel'}
+        f86 = self.browse(cr,uid,ids[0],context=context)
+        f86_move_id = f86.move_id.id if f86 and f86.move_id else False
+        vals={'state':'cancel','move_id':0}
+        res = self.write(cr,uid,ids,vals,context)
+        if f86_move_id:
+            self.pool.get('account.move').unlink(cr,uid,[f86_move_id],context)
         return self.write(cr,uid,ids,vals,context)
 
 
@@ -98,10 +185,23 @@ class seniat_form_86(osv.osv):
 
 
     def test_done(self, cr, uid, ids, *args):
+        so_brw = self.browse(cr,uid,ids,context={})
+        for f86 in so_brw:
+            if f86.amount_total <= 0:
+                raise osv.except_osv(_('Warning!'),_('You must indicate a amount'))
+            if f86.name == '/':
+                raise osv.except_osv(_('Warning!'),_('You must indicate a name'))
+            if not f86.date_liq:
+                raise osv.except_osv(_('Warning!'),_('You must indicate a liquidation date '))
         return True
 
 
     def test_cancel(self, cr, uid, ids, *args):
+        if len(ids) != 1:
+            raise osv.except_osv(_('Error!'),_('Multiple operations not allowed'))
+        for f86 in self.browse(cr,uid,ids,context=None):
+            if f86.move_id and f86.move_id.state != 'draft':
+                raise osv.except_osv(_('Error!'),_('Can\'t cancel a import while account move state <> "Draft"'))
         return True
 
 
@@ -125,7 +225,7 @@ class seniat_form_86_lines(osv.osv):
 
     _columns = {
         'line_id':fields.many2one('seniat.form.86', 'Line', required=True, ondelete='cascade'),
-        'code': fields.many2one('form.86.custom.taxes', 'Tax', ondelete='restrict',required=True,), 
+        'tax_code': fields.many2one('form.86.custom.taxes', 'Tax', ondelete='restrict',required=True,), 
         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'),required=True),
         }
 

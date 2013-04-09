@@ -7,8 +7,8 @@ Workflow
 -->
 
         <record id="wkf_seniat_form_86" model="workflow">
-            <field name="name">seniat_form_86</field>
-            <field name="osv">seniat_form_86</field>
+            <field name="name">seniat_form_86_wkf</field>
+            <field name="osv">seniat.form.86</field>
             <field name="on_create">True</field>
         </record>
         

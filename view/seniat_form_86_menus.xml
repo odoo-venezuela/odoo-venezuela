@@ -52,21 +52,38 @@ form_86_customs
 form_86_customs_tax_codes    
 -->
 
-<!--
-        <record id="action_form_86_taxes" model="ir.actions.act_window">
+        <record id="action_form_86_custom_taxes" model="ir.actions.act_window">
             <field name="name">Tax codes</field>
-            <field name="res_model">form.86.taxes</field>
+            <field name="res_model">form.86.custom.taxes</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_form_86_taxes_tree"/>
+            <field name="view_id" ref="view_form_86_custom_taxes_tree"/>
         </record>   
 
         <menuitem 
-            id="menu_action_form_86_taxes" 
+            id="menu_action_form_86_custom_taxes" 
             parent="menu_form_86_config_group" 
-            action="action_form_86_taxes"
+            action="action_form_86_custom_taxes"
             icon="STOCK_JUSTIFY_FILL"/>                 
+
+            
+<!--
+seniat_form_86    
 -->
+
+        <record id="action_seniat_form_86" model="ir.actions.act_window">
+            <field name="name">SENIAT - Form 99086</field>
+            <field name="res_model">seniat.form.86</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_seniat_form_86_tree"/>
+        </record>   
+
+        <menuitem 
+            id="menu_action_seniat_form_86" 
+            parent="account.menu_finance_payables" 
+            action="action_seniat_form_86"
+            icon="STOCK_JUSTIFY_FILL"/>                 
             
     </data>
 </openerp>

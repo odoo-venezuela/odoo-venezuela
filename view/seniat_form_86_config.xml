@@ -39,8 +39,8 @@ form_86_customs
 -->
 
         <record model="ir.ui.view" id="view_form_86_customs_form">
-            <field name="name">form.86.config.form</field>
-            <field name="model">form.86.config</field>
+            <field name="name">form.86.customs.form</field>
+            <field name="model">form.86.customs</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form>
@@ -68,26 +68,27 @@ form_86_customs
 form_86_customs_tax_codes    
 -->
 
-<!--
-        <record model="ir.ui.view" id="view_form_86_taxes_form">
-            <field name="name">form.86.taxes.form</field>
-            <field name="model">form.86.taxes</field>
+        <record model="ir.ui.view" id="view_form_86_custom_taxes_form">
+            <field name="name">form.86.custom.taxes.form</field>
+            <field name="model">form.86.custom.taxes</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form>
                     <field name="code"/>
                     <field name="name"/>
                     <field name="ref"/>
-                    <field name="property_account_tax"/>
+                    <field name="account_id"/>
+                    <field name="acc_tax_id"/>
                     <field name="sequence"/>
+                    <field name="company_id"/>
 				</form>
 			</field>
 		</record>
 
 
-        <record model="ir.ui.view" id="view_form_86_taxes_tree">
-            <field name="name">form.86.taxes.form</field>
-            <field name="model">form.86.taxes</field>
+        <record model="ir.ui.view" id="view_form_86_custom_taxes_tree">
+            <field name="name">form.86.custom.taxes.tree</field>
+            <field name="model">form.86.custom.taxes</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree>
@@ -97,7 +98,6 @@ form_86_customs_tax_codes
                 </tree>
             </field>
         </record>
--->
 
     </data>
 </openerp>
