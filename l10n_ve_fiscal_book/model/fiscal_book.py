@@ -77,17 +77,17 @@ class fiscal_book(orm.Model):
         return issue_inv_ids
 
     def _get_wh_iva_line_ids(self, cr, uid, fb_id, context=None):
-        """
-        It returns ids from wh iva lines with state 'done' regarding to the
+        """ It returns ids from wh iva lines with state 'done' regarding to the
         fiscal book period.
+        @param fb_id: fiscal book id
         """
         context = context or {}
         awi_obj = self.pool.get('account.wh.iva')
         awil_obj = self.pool.get('account.wh.iva.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         awil_type = fb_brw.type == 'sale' \
-            and ['out_invoice', 'out_refund'] \
-            or ['in_invoice', 'in_refund']
+                    and ['out_invoice', 'out_refund'] \
+                    or ['in_invoice', 'in_refund']
         #~ pull wh iva line data
         awil_ids = []
         awi_ids = awi_obj.search(cr, uid,
@@ -158,9 +158,10 @@ class fiscal_book(orm.Model):
         return False
 
     def _get_orphan_iwdl_ids(self, cr, uid, inv_ids, iwdl_ids, context=None):
-        """
-        It returns ids from the orphan wh iva lines in the period that have not
-        associated invoice, order by date ret
+        """ It returns ids from the orphan wh iva lines in the period that have
+        not associated invoice, order by date ret.
+        @param inv_ids: list of invoices ids
+        @param iwdl_ids: list of account withholding iva lines ids
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
@@ -172,8 +173,8 @@ class fiscal_book(orm.Model):
         return orphan_iwdl_ids and self._get_ordered_orphan_iwdl_ids(cr, uid, orphan_iwdl_ids, context=context)
 
     def clear_book(self, cr, uid, fb_id, context=None):
-        """
-        It delete all book data information.
+        """ It delete all book data information.
+        @param fb_id: fiscal book line id
         """
         context = context or {}
         #~ clear fields
@@ -189,9 +190,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_lines(self, cr, uid, ids, context=None):
-        """
-        It delete all book lines loaded in the book.
-        """
+        """ It delete all book lines loaded in the book. """
         context = context or {}
         fbl_obj = self.pool.get("fiscal.book.lines")
         for fb_id in ids:
@@ -202,9 +201,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_taxes(self, cr, uid, ids, context=None):
-        """
-        It delete all book taxes loaded in the book.
-        """
+        """ It delete all book taxes loaded in the book. """
         context = context or {}
         fbt_obj = self.pool.get("fiscal.book.taxes")
         for fb_id in ids:
@@ -215,9 +212,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_taxes_summary(self, cr, uid, fb_id, context=None):
-        """
-        It delete fiscal book taxes summary data for the book.
-        """
+        """ It delete fiscal book taxes summary data for the book """
         context = context or {}
         fbts_obj = self.pool.get('fiscal.book.taxes.summary')
         fbts_ids = fbts_obj.search(cr, uid, [('fb_id', '=', fb_id)],
@@ -226,16 +221,12 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
-        """
-        Clean amount taxes fields in fiscal book.
-        """
+        """ Clean amount taxes fields in fiscal book """
         context = context or {}
         return self.write(cr, uid, fb_id, {'tax_amount': 0.0, 'base_amount': 0.0}, context=context)
 
     def clear_book_invoices(self, cr, uid, ids, context=None):
-        """
-        Unrelate all invoices of the book. And delete fiscal book taxes.
-        """
+        """ Unrelate all invoices of the book. And delete fiscal book taxes """
         context = context or {}
         inv_obj = self.pool.get("account.invoice")
         for fb_id in ids:
@@ -246,9 +237,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_issue_invoices(self, cr, uid, ids, context=None):
-        """
-        Unrelate all issue invoices of the book.
-        """
+        """ Unrelate all issue invoices of the book """
         context = context or {}
         inv_obj = self.pool.get("account.invoice")
         for fb_id in ids:
@@ -258,9 +247,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_iwdl_ids(self, cr, uid, ids, context=None):
-        """
-        Unrelate all wh iva lines of the book.
-        """
+        """ Unrelate all wh iva lines of the book. """
         context = context or {}
         iwdl_obj = self.pool.get("account.wh.iva.line")
         for fb_id in ids:
@@ -270,9 +257,7 @@ class fiscal_book(orm.Model):
         return True
 
     def update_book(self, cr, uid, ids, context=None):
-        """
-        It Generate and Fill book data with invoices wh iva lines and taxes.
-        """
+        """ It Generate and Fill book data with invoices wh iva lines and taxes. """
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
             inv_ids = self.update_book_invoices(cr, uid, fb_brw.id, context=context)
@@ -284,8 +269,8 @@ class fiscal_book(orm.Model):
         return True
 
     def update_book_invoices(self, cr, uid, fb_id, context=None):
-        """
-        It relate/unrelate the invoices to the fical book.
+        """ It relate/unrelate the invoices to the fical book.
+        @param fb_id: fiscal book id
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
@@ -307,10 +292,10 @@ class fiscal_book(orm.Model):
         return inv_ids
 
     def update_book_issue_invoices(self, cr, uid, fb_id, context=None):
-        """
-        It relate the issue invoices to the fiscal book. That criterion is:
+        """ It relate the issue invoices to the fiscal book. That criterion is:
             - Invoices of the period in state different form open or paid state.
-            - Invoices already related to the book but it have a period change. 
+            - Invoices already related to the book but it have a period change.
+        @param fb_id: fiscal book id
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
@@ -320,8 +305,8 @@ class fiscal_book(orm.Model):
 
     #~ TODO: test this method.
     def update_book_wh_iva_lines(self, cr, uid, fb_id, context=None):
-        """
-        It relate/unrelate the wh iva lines to the fical book.
+        """ It relate/unrelate the wh iva lines to the fiscal book.
+        @param fb_id: fiscal book id
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
@@ -339,8 +324,9 @@ class fiscal_book(orm.Model):
         return iwdl_ids
 
     def update_book_taxes(self, cr, uid, fb_id, inv_ids, context=None):
-        """
-        It relate/unrelate the invoices taxes from the period to the fical book.
+        """ It relate/unrelate the invoices taxes from the period to the fical book.
+        @param fb_id: fiscal book id
+        @param inv_ids: list of invoices ids
         """
         context = context or {}
         fbt_obj = self.pool.get('fiscal.book.taxes')
@@ -356,8 +342,10 @@ class fiscal_book(orm.Model):
         return True
 
     def update_book_lines(self, cr, uid, fb_id, inv_ids, iwdl_ids, context=None):
-        """
-        It updates the fiscal book lines values.
+        """ It updates the fiscal book lines values.
+        @param fb_id: fiscal book id
+        @param inv_ids: list of account invoices ids corresponding to the book period 
+        @param iwdl_ids: list of account withholding lines ids corresponding to the book period.
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
@@ -499,34 +487,26 @@ class fiscal_book(orm.Model):
         return True
 
     def button_update_book_invoices(self, cr, uid, ids, context=None):
-        """
-        Take the instance of fiscal book and do the update of invoices.
-        """
+        """ It take the instance of fiscal book and do the update of invoices. """
         context = context or {}
         self.update_book_invoices(cr, uid, ids[0], context=context)
         self.update_book_taxes_amount_fields(cr, uid, ids[0], context=context)
         return True
 
     def button_update_book_issue_invoices(self, cr, uid, ids, context=None):
-        """
-        Take the instance of fiscal book and do the update of issue invoices.
-        """
+        """ Take the instance of fiscal book and do the update of issue invoices. """
         context = context or {}
         self.update_book_issue_invoices(cr, uid, ids[0], context=context)
         return True
 
     def button_update_book_wh_iva_lines(self, cr, uid, ids, context=None):
-        """
-        Take the instance of fiscal book and do the update of wh iva lines.
-        """
+        """ Take the instance of fiscal book and do the update of wh iva lines. """
         context = context or {}
         self.update_book_wh_iva_lines(cr, uid, ids[0], context=context)
         return True
 
     def button_update_book_lines(self, cr, uid, ids, context=None):
-        """
-        Take the instance of fiscal book and do the update book lines.
-        """
+        """ Take the instance of fiscal book and do the update book lines. """
         context = context or {}
         fb_brw = self.browse(cr, uid, ids[0], context=context)
         inv_ids = [ inv.id for inv in fb_brw.invoice_ids ]
@@ -535,9 +515,7 @@ class fiscal_book(orm.Model):
         return True
 
     def onchange_period_id(self, cr, uid, ids, context=None):
-        """
-        It make clear all stuff of book.
-        """
+        """ It make clear all stuff of book. """
         context = context or {}
         self.clear_book(cr, uid, ids, context=context)
         return True
