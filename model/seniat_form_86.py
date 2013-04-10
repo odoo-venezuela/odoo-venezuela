@@ -234,7 +234,7 @@ class seniat_form_86_lines(osv.osv):
 
     _columns = {
         'line_id':fields.many2one('seniat.form.86', 'Line', required=True, ondelete='cascade'),
-        'tax_code': fields.many2one('form.86.custom.taxes', 'Tax', ondelete='restrict',required=True, readonly=True), 
+        'tax_code': fields.many2one('form.86.custom.taxes', 'Tax', ondelete='restrict',required=True, readonly=False), 
         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'),required=True),
         }
 
@@ -254,7 +254,7 @@ class seniat_form_86_lines(osv.osv):
     ##------------------------------------------------------------------------------------ on_change...
 
     ##------------------------------------------------------------------------------------ create write unlink
-
+    
     ##------------------------------------------------------------------------------------ Workflow
 
 seniat_form_86_lines()
