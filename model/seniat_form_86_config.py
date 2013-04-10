@@ -89,6 +89,16 @@ class form_86_customs(osv.osv):
         for item in so_brw:
             res.append((item.id, '[%s] %s'%(item.code, item.name)))
         return res
+        
+        
+    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
+        #~ Based on account.account.name_search...
+        res =  super(form_86_customs, self).name_search(cr, user, name, args, operator, context, limit)    
+        if not res and name:
+            ids = self.search(cr, user, [('code', '=like', name+"%")]+args, limit=limit)
+            if ids:
+                res = self.name_get(cr, user, ids, context=context)
+        return res
 
     ##------------------------------------------------------------------------------------ _internal methods
 
@@ -146,7 +156,7 @@ class form_86_custom_taxes(osv.osv):
         for item in so_brw:
             res.append((item.id, '[%s] %s - %s'%(item.code,item.ref,item.name)))
         return res
-    
+        
     ##------------------------------------------------------------------------------------ _internal methods
 
     ##------------------------------------------------------------------------------------ function fields
