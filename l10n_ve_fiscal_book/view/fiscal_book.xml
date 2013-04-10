@@ -144,6 +144,7 @@
                                 </group>
                                 <group colspan="1" col="2" string="Importaciones">
                                     <field name="get_total_with_iva_i_sum" readonly="True"/>
+                                    <field name="get_vat_all_i_base_sum" readonly="True"/>
                                     <field name="get_vat_exempt_i_sum" readonly="True"/>
                                     <field name="get_vat_sdcf_i_sum" readonly="True"/>
                                     <field name="get_vat_general_i_base_sum" readonly="True"/>
@@ -155,6 +156,7 @@
                                 </group>
                                 <group colspan="1" col="2" string="Compras Internas">
                                     <field name="get_total_with_iva_n_sum" readonly="True"/>
+                                    <field name="get_vat_all_n_base_sum" readonly="True"/>
                                     <field name="get_vat_exempt_n_sum" readonly="True"/>
                                     <field name="get_vat_sdcf_n_sum" readonly="True"/>
                                     <field name="get_vat_general_n_base_sum" readonly="True"/>

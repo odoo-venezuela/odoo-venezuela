@@ -118,6 +118,26 @@ class fiscal_book(orm.Model):
             res[fb_id] = fb_obj.get_vat_sdcf_n_sum + fb_obj.get_vat_sdcf_i_sum
         return res
 
+    def _get_vat_all_base_sum(self, cr, uid, ids, field_name, arg, context=None):
+        """ It calculate sum of all tax base (reduced, general and additional)
+        for international and domestic scope.
+        @param field_name: field ['get_vat_all_i_base_sum',
+                                  'get_vat_all_n_base_sum' ]
+        """
+        #~ TODO: it works, but can be optimized.
+        context = context or {}
+        res = {}.fromkeys(ids, 0.0)
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            if field_name == 'get_vat_all_i_base_sum':
+                res[fb_brw.id] = fb_brw.get_vat_general_i_base_sum + \
+                                 fb_brw.get_vat_additional_i_base_sum + \
+                                 fb_brw.get_vat_reduced_i_base_sum
+            if field_name == 'get_vat_all_n_base_sum':
+                res[fb_brw.id] = fb_brw.get_vat_general_n_base_sum + \
+                                 fb_brw.get_vat_additional_n_base_sum + \
+                                 fb_brw.get_vat_reduced_n_base_sum
+        return res
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
     _inherit = ['mail.thread']
@@ -235,6 +255,15 @@ class fiscal_book(orm.Model):
                 digits_compute=dp.get_precision('Account'),
                 help="Compras Internas Gravadas por Alícuota Reducida (Crédito Fiscal)."),
 
+        'get_vat_all_i_base_sum': fields.function(_get_vat_all_base_sum,
+                type="float", method=True,
+                string="International base sum (reduced, general and additional)",
+                help="International base sum (reduced, general and additional)"),
+        'get_vat_all_n_base_sum': fields.function(_get_vat_all_base_sum,
+                type="float", method=True,
+                string="Domestic base sum (reduced, general and additional)",
+                help="Domestic base sum (reduced, general and additional)"),
+
         #~ Totalization fields that covers all scopes
         'get_total_with_iva_sum': fields.function(_get_total_with_iva_sum,
                 type="float", method=True, multi="get_total_with_iva",
@@ -320,7 +349,7 @@ class fiscal_book(orm.Model):
         return inv_ids
 
     def update_book(self, cr, uid, ids, context=None):
-        """ It Generate and Fill book data with invoices wh iva lines and taxes. """
+        """ It generate and fill book data with invoices, wh iva lines and taxes. """
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
             inv_ids = self.update_book_invoices(cr, uid, fb_brw.id, context=context)
@@ -537,7 +566,7 @@ class fiscal_book(orm.Model):
                     'get_number': iwdl_brw.retention_id.number or False,
                     #~ TODO: check what fields needs to be add that refer to the book line and the wh iva line.
                 }
-                my_rank = my_rank + 1 
+                my_rank += 1 
                 data.append((0, 0, values))
 
         #~ add book lines for invoices
