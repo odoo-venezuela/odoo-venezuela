@@ -7,7 +7,6 @@
             <field name="arch" type="xml">
                 <form string="Fiscal Book Lines">
                     <field name='rank'/>
-                    <field name='invoice_id'/>
                     <field name='get_date_imported'/>
                     <field name='get_date_invoiced'/>
                     <field name='get_t_doc'/>
@@ -19,9 +18,9 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
-                    <field name='get_total'/>
-                    <field name='get_v_sdcf'/>
-                    <field name='get_v_exent'/>
+                    <field name='get_total_with_iva'/>
+                    <field name='get_vat_sdcf'/>
+                    <field name='get_vat_exempt'/>
                     <field name='fbt_ids'/>
                 </form>
             </field>
@@ -69,9 +68,9 @@
                     <field name='get_debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='get_parent'/>
-                    <field name='get_total'/>
-                    <field name='get_v_sdcf'/>
-                    <field name='get_v_exent'/>
+                    <field name='get_total_with_iva'/>
+                    <field name='get_vat_sdcf'/>
+                    <field name='get_vat_exempt'/>
                     <field name='fbt_ids'/>
                 </tree>
             </field>
@@ -137,6 +136,36 @@
                                     <field name="international"/>
                                 </tree>
                             </field>
+
+                            <group colspan="4" col="2">
+                                <group colspan="2" col="2">
+                                    <field name="get_vat_sdcf_sum" readonly="True"/>
+                                    <field name="get_total_with_iva_sum" readonly="True"/>
+                                </group>
+                                <group colspan="1" col="2" string="Importaciones">
+                                    <field name="get_total_with_iva_i_sum" readonly="True"/>
+                                    <field name="get_vat_exempt_i_sum" readonly="True"/>
+                                    <field name="get_vat_sdcf_i_sum" readonly="True"/>
+                                    <field name="get_vat_general_i_base_sum" readonly="True"/>
+                                    <field name="get_vat_general_i_tax_sum" readonly="True"/>
+                                    <field name="get_vat_additional_i_base_sum" readonly="True"/>
+                                    <field name="get_vat_additional_i_tax_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_i_base_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
+                                </group>
+                                <group colspan="1" col="2" string="Compras Internas">
+                                    <field name="get_total_with_iva_n_sum" readonly="True"/>
+                                    <field name="get_vat_exempt_n_sum" readonly="True"/>
+                                    <field name="get_vat_sdcf_n_sum" readonly="True"/>
+                                    <field name="get_vat_general_n_base_sum" readonly="True"/>
+                                    <field name="get_vat_general_n_tax_sum" readonly="True"/>
+                                    <field name="get_vat_additional_n_base_sum" readonly="True"/>
+                                    <field name="get_vat_additional_n_tax_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_n_base_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
+                                </group>
+                            </group>
+
                         </page>
                     </notebook>
                     <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>

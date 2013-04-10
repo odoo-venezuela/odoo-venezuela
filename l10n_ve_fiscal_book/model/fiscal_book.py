@@ -120,8 +120,9 @@ class fiscal_book(orm.Model):
 
     #~ TODO: test this method.
     def _get_ordered_orphan_iwdl_ids(self, cr, uid, orphan_iwdl_ids, context=None):
-        """
-        Returns a list of orphan wh iva lines IDs order by date_ret asc.
+        """ It returns a list of orphan wh iva lines IDs order by date_ret asc.
+        @param orphan_iwdl_ids: list of account withholding lines ids that have not
+        invoice asociated to the fiscal book period. 
         """
         context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
@@ -142,9 +143,11 @@ class fiscal_book(orm.Model):
     #~ TODO: method not used. please check if it needs to be delete.
     def _get_book_line_id(self, cr, uid, fb_id, inv_id=None, iwdl_id=None,
                          context=None):
-        """
-        It returns the book line ID associated to the given invoice or a given
+        """ It returns the book line ID associated to the given invoice or a given
         wh iva line, if it dosent have one return False.
+        @param fb_id: fiscal book id
+        @param inv_id: account invoice id
+        @param iwdl_id: account withholding line id 
         """
         context = context or {}
         fb_brw = self.browse(cr, uid, fb_id, context=context)
@@ -417,8 +420,8 @@ class fiscal_book(orm.Model):
 
     #~ TODO: Optimization. This method could be transform in a method for function field fbts tax y base sum. 
     def update_book_taxes_summary(self, cr, uid, fb_id, context=None):
-        """
-        It update the summaroty of taxes by type for this book.
+        """ It update the summaroty of taxes by type for this book.
+        @param fb_id: fiscal book id
         """
         context = context or {}
         self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
@@ -436,8 +439,8 @@ class fiscal_book(orm.Model):
 
     #~ TODO: test this method (with presice amounts)
     def update_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
-        """
-        It update the base_amount and the tax_amount field for fiscal book.
+        """ It update the base_amount and the tax_amount field for fiscal book.
+        @param fb_id: fiscal book id
         """
         context = context or {}
         tax_amount = base_amount = 0.0
@@ -451,10 +454,9 @@ class fiscal_book(orm.Model):
         return self.write(cr, uid, fb_id, {'tax_amount': tax_amount, 'base_amount': base_amount}, context=context)
 
     def link_book_lines_and_taxes(self, cr, uid, fb_id, context=None):
-        """
-        It updates the fiscal book taxes. Link the tax with the corresponding
+        """ It updates the fiscal book taxes. Link the tax with the corresponding
         book line and update the fields of sum taxes in the book.
-        """
+        @param fb_id: the id of the current fiscal book """
         context = context or {}
         fbt_obj = self.pool.get('fiscal.book.taxes')
         fbl_obj = self.pool.get('fiscal.book.lines')
@@ -485,9 +487,9 @@ class fiscal_book(orm.Model):
                                 exent_tax_amount = exent_tax_amount + ait.base_amount
                     else:
                         data.append((0,0,{'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
-                fbl_obj.write(cr, uid, fbl.id, {'get_total': ret_tax_amount}, context=context)
-                fbl_obj.write(cr, uid, fbl.id, {'get_v_sdcf': sdcf_tax_amount}, context=context)
-                fbl_obj.write(cr, uid, fbl.id, {'get_v_exent': exent_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'get_total_with_iva': ret_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'get_vat_sdcf': sdcf_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'get_vat_exempt': exent_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_withheld': amount_withheld}, context=context)
 
         if data:
@@ -541,38 +543,88 @@ class fiscal_book(orm.Model):
         return True
 
     def _get_partner_addr(self, cr, uid, ids, field_name, arg, context=None):
-        '''
-        It returns Partner address printable format.
-        '''
+        """ It returns Partner address in printable format for the fiscal book
+        report.
+        @param field_name: field [get_partner_addr]
+        """
         context = context or {}
-        result = {}
-        addr_obj = self.pool.get('res.partner')
+        res = {}.fromkeys(ids, 'NO HAY DIRECCION FISCAL DEFINIDA')
         #~ TODO: ASK: what company, fisal.book.company_id? 
         addr = self.pool.get('res.users').browse(cr,uid,uid,context=context).company_id.partner_id
-        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
-        if addr:
-            addr_inv = addr.type == 'invoice' and (addr.street or '') + ' ' + \
-            (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' + \
-            (addr.city or '') + ' ' + \
-            (addr.country_id and addr.country_id.name or '')+ ', TELF.:' + \
-            (addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
-        result[ids[0]] = addr_inv
-        return result
-
-    def _get_sum_col(self, cr, uid, ids, field_name, arg, context=None):
-        '''
-        It returns summatory of a fiscal book amount column.
-        '''
-        context = context or {}
-        result = {}
-        fbl_obj = self.pool.get('fiscal.book.lines')
         for fb_id in ids:
-            col_sum = [ fbl_obj.read(cr, uid, fbl.id, context=context)[field_name] \
-                        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids
-                        if fbl.invoice_id ]
-            result[fb_id] = sum(col_sum)
-        return result
+            if addr:
+                res[fb_id] = addr.type == 'invoice' and (addr.street or '') + ' ' + \
+                (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' + \
+                (addr.city or '') + ' ' + \
+                (addr.country_id and addr.country_id.name or '')+ ', TELF.:' + \
+                (addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
+        return res
 
+    def _get_total_with_iva_sum(self, cr, uid, ids, field_names, arg, context=None):
+        """ It returns sum of of all columns total with iva of the fiscal book
+        lines.
+        @param field_name: ['get_total_with_iva_sum',
+                            'get_total_with_iva_i_sum',
+                            'get_total_with_iva_n_sum']"""
+        context = context or {}
+        res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            for fbl_brw in fb_brw.fbl_ids:
+                if fbl_brw.invoice_id.get_is_imported:
+                    res[fb_brw.id]['get_total_with_iva_i_sum']+= fbl_brw.get_total_with_iva
+                else: 
+                    res[fb_brw.id]['get_total_with_iva_n_sum']+= fbl_brw.get_total_with_iva
+
+            res[fb_brw.id]['get_total_with_iva_sum'] = \
+                                    res[fb_brw.id]['get_total_with_iva_i_sum'] + \
+                                    res[fb_brw.id]['get_total_with_iva_n_sum']
+
+        return res
+
+    def _totalization(self, cr, uid, ids, field_name, arg, context=None):
+        """ It returns summation of a fiscal book tax column (Using
+        fiscal.book.taxes.summary).        
+        @param: field [ 'get_vat_exempt_i_sum', 'get_vat_exempt_n_sum',
+                        'get_vat_sdcf_n_sum', 'get_vat_sdcf_i_sum',
+                        'get_vat_general_i_base_sum', 'get_vat_general_i_tax_sum',
+                        'get_vat_additional_i_base_sum', 'get_vat_additional_i_tax_sum',
+                        'get_vat_reduced_i_base_sum', 'get_vat_reduced_i_tax_sum',
+                        'get_vat_general_n_base_sum', 'get_vat_general_n_tax_sum',
+                        'get_vat_additional_n_base_sum', 'get_vat_additional_n_tax_sum',
+                        'get_vat_reduced_n_base_sum', 'get_vat_reduced_n_tax_sum' ]
+        """
+        context = context or {}
+        res = {}.fromkeys(ids, 0.0)
+        fbts_obj = self.pool.get('fiscal.book.taxes.summary')
+
+        #~ Identifying the field
+        field_info = field_name[8:][:-4].split('_')
+        field_tax, field_scope, field_amount = (len(field_info) == 3) \
+                                               and field_info \
+                                               or field_info+['base']
+
+        #~ Translation between the fb fields names and the fbts records data. 
+        tax_type = { 'exempt': 'exento', 'sdcf': 'sdcf', 'reduced': 'reducido',
+                     'general': 'general', 'additional': 'adicional' }
+        amount_type = { 'base': 'base_amount_sum', 'tax': 'tax_amount_sum' }
+        scope_type = { 'n': False, 'i': True  }
+
+        #~ Calculate
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            for fbts_brw in fb_brw.fbts_ids:
+                if fbts_brw.tax_type == tax_type[field_tax] and fbts_brw.international == scope_type[field_scope]:
+                    res[fb_brw.id] = getattr( fbts_brw, amount_type[field_amount] )
+        return res
+
+    def _get_vat_sdcf_sum(self, cr, uid, ids, field_name, arg, context=None):
+        """ It returns international and domestic purchase SDCF summation.
+        @param field_name: field ['get_vat_sdcf_sum'] """
+        context = context or {}
+        res = {}.fromkeys(ids, 0.0)
+        for fb_id in ids:
+            fb_obj = self.browse(cr, uid, fb_id, context=context)
+            res[fb_id] = fb_obj.get_vat_sdcf_n_sum + fb_obj.get_vat_sdcf_i_sum
+        return res
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
@@ -607,15 +659,102 @@ class fiscal_book(orm.Model):
             help='Adjustment Lines being recorded in a Fiscal Book'),
         'note': fields.text('Note',required=True),
 
-        #~ printable data
+        #~ Totalization fields depending on international scope
+        'get_total_with_iva_i_sum': fields.function(_get_total_with_iva_sum,
+                type="float", method=True, multi="get_total_with_iva",
+                string='International Total with VAT Sum'),
+        'get_total_with_iva_n_sum': fields.function(_get_total_with_iva_sum,
+                type="float", method=True, multi="get_total_with_iva",
+                string='Domestic Total with VAT Sum'),
+        'get_vat_exempt_i_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Exempt International Purchase Sum",
+                help="Exempt International Purchase Sum"),
+        'get_vat_exempt_n_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Exempt Domestic Purchase Sum",
+                help="Exempt Domestic Purchase Sum"),
+        'get_vat_sdcf_n_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL",
+                help="COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL"),
+        'get_vat_sdcf_i_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="IMPORTACIONES NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL",
+                help="IMPORTACIONES NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL"),
+        'get_vat_general_i_base_sum': fields.function(_totalization,
+                type="float", method=True,
+                digits_compute=dp.get_precision('Account'),
+                string="Compras de Importación Gravadas por Alícuota General (Base Imponible).",
+                help="Compras de Importación Gravadas por Alícuota General (Base Imponible)."),
+        'get_vat_general_i_tax_sum': fields.function(_totalization,
+                type="float", method=True,
+                digits_compute=dp.get_precision('Account'),
+                string="Compras de Importación Gravadas por Alícuota General (Crédito Fiscal)",
+                help="Compras de Importación Gravadas por Alícuota General (Crédito Fiscal)."),
+        'get_vat_additional_i_base_sum': fields.function(_totalization,
+                type="float", method=True,
+                digits_compute=dp.get_precision('Account'),
+                string="Compras Import. Gravadas por Alícuota Gral. más Adicional (Base Imponible).",
+                help="Compras Import. Gravadas por Alícuota Gral. más Adicional (Base Imponible)."),
+        'get_vat_additional_i_tax_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Import. Gravadas por Alícuota Gral. más Adicional (Crédito Fiscal).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Import. Gravadas por Alícuota Gral. más Adicional (Crédito Fiscal)."),
+        'get_vat_reduced_i_base_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Import. Gravadas por Alícuota Reducida (Base Imponible).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Import. Gravadas por Alícuota Reducida (Base Imponible)."),
+        'get_vat_reduced_i_tax_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Import. Gravadas por Alícuota Reducida (Crédito Fiscal).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Import. Gravadas por Alícuota Reducida (Crédito Fiscal)."),
+        'get_vat_general_n_base_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Internas Gravadas sólo por Alícuota General (Base Imponible).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Internas Gravadas sólo por Alícuota General (Base Imponible)."),
+        'get_vat_general_n_tax_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Internas Gravadas sólo por Alícuota General (Crédito Fiscal).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Internas Gravadas sólo por Alícuota General (Crédito Fiscal)."),
+        'get_vat_additional_n_base_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Internas Gravadas sólo por Alícuota General más Adicional (Base Imponible).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Internas Gravadas sólo por Alícuota General más Adicional (Base Imponible)."),
+        'get_vat_additional_n_tax_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Internas Gravadas sólo por Alícuota General más Adicional (Crédito Fiscal).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Internas Gravadas sólo por Alícuota General más Adicional (Crédito Fiscal)."),
+        'get_vat_reduced_n_base_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Internas Gravadas por Alícuota Reducida (Base Imponible).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Internas Gravadas por Alícuota Reducida (Base Imponible)."),
+        'get_vat_reduced_n_tax_sum': fields.function(_totalization,
+                type="float", method=True,
+                string="Compras Internas Gravadas por Alícuota Reducida (Crédito Fiscal).",
+                digits_compute=dp.get_precision('Account'),
+                help="Compras Internas Gravadas por Alícuota Reducida (Crédito Fiscal)."),
+
+        #~ Totalization fields that covers all scopes
+        'get_total_with_iva_sum': fields.function(_get_total_with_iva_sum,
+                type="float", method=True, multi="get_total_with_iva",
+                string='Total with VAT Sum'),
+        'get_vat_sdcf_sum': fields.function(_get_vat_sdcf_sum,
+                type="float", method=True,
+                string="Compras No Gravadas y/o Sin Derecho a Crédito Fiscal",
+                help="Compras No Gravadas y/o Sin Derecho a Crédito Fiscal"),
+
+        #~ Printable report data
         'get_partner_addr': fields.function(_get_partner_addr, type="text",
-                                            string='Partner address printable format'),
-        'get_total': fields.function(_get_sum_col, type="float",
-                                     string='Sum on Total with Iva Column.'),
-        'get_v_sdcf': fields.function(_get_sum_col, type="float",
-                                      string='Sum on SDCF Column.'),
-        'get_v_exent': fields.function(_get_sum_col, type="float",
-                                      string='Exempt Column Sum.'),
+                help='Partner address printable format'),
     }
 
     _defaults = {
@@ -681,9 +820,9 @@ class fiscal_book_lines(orm.Model):
         'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id', 
             'Tax Lines',
             help='Tax Lines being recorded in a Fiscal Book'),
-        'get_total': fields.float('Total with IVA'),
-        'get_v_sdcf': fields.float('SDCF'),
-        'get_v_exent': fields.float('Exent'),
+        'get_total_with_iva': fields.float('Total with IVA'),
+        'get_vat_sdcf': fields.float('SDCF'),
+        'get_vat_exempt': fields.float('Exent'),
         'get_withheld': fields.float('Withheld Amount'),
 
         'get_vat_reduced_base': fields.function(_get_vat_amount, type="float",

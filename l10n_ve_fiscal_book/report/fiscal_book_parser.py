@@ -196,19 +196,19 @@ class fiscal_book_report(report_sxw.rml_parse):
         'total-con-iva': {
             'name': 'Total con Iva',
             'width': 37.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_total or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.get_total_with_iva or 0.0,
             'total': lambda fb: 'TODO',
             'help': '' },
         'sdcf': {
             'name': 'SDCF',
             'width': 29.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_v_sdcf or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.get_vat_sdcf or 0.0,
             'total': lambda fb: 'TODO',
             'help': '' },
         'exento': {
             'name': 'Exento',
             'width': 29.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_v_exent or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.get_vat_exempt or 0.0,
             'total': lambda fb: 'TODO',
             'help': '' },
         'retencion-iva': {
