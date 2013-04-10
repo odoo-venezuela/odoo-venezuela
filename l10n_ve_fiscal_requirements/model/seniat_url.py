@@ -33,8 +33,7 @@ import logging
 
 
 class seniat_url(osv.osv):
-    """
-    OpenERP Model : seniat_url
+    """ OpenERP Model : seniat_url
     """
     _name = 'seniat.url'
     _description = "Seniat config needed to run auto-config partner"
@@ -57,10 +56,8 @@ class seniat_url(osv.osv):
     #    Update Partner Information
 
     def _load_url(self, retries, url):
-        '''
-        check that the seniat url is loaded
-        correctly
-        '''
+        """ Check that the seniat url is loaded correctly
+        """
         str_error = '404 Not Found'
         while retries > 0:
             try:
@@ -77,10 +74,8 @@ class seniat_url(osv.osv):
         return str_error
 
     def _buscar_porcentaje(self, cr, uid, rif):
-        '''
-        finds the percentage
-        to withhold the withholding agent.
-        '''
+        """ Finds the percentage to withhold the withholding agent.
+        """
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url = url_obj.url_seniat + '%s'
         context = {}
@@ -96,10 +91,8 @@ class seniat_url(osv.osv):
             return 0.0
 
     def _parse_dom(self, cr, uid, dom, rif, url_seniat, context={}):
-        '''
-        this function extracts the information
-        partner of the string and returns
-        '''
+        """ This function extracts the information partner of the string and returns
+        """
         rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
         name = dom.childNodes[0].childNodes[0].firstChild.data
         wh_agent = dom.childNodes[0].childNodes[
@@ -115,18 +108,14 @@ class seniat_url(osv.osv):
                 'wh_iva_agent': wh_agent}
 
     def _print_error(self, error, msg):
-        '''
-        shows an error on the screen
-        '''
+        """ Shows an error on the screen
+        """
         raise osv.except_osv(error, msg)
 
     def _eval_seniat_data(self, xml_data, vat, context={}):
-        '''
-        returns false when there was
-        no error in the query in url SENIAT and
-        return true when there was error in the
-        query.
-        '''
+        """ Returns false when there was no error in the query in url SENIAT and
+        return true when there was error in the query.
+        """
         if context is None:
             context = {}
         if not context.get('all_rif'):
@@ -146,10 +135,8 @@ class seniat_url(osv.osv):
                 return False
 
     def _get_rif(self, cr, uid,  vat, url1, url2, context=None):
-        '''
-        partner information transforms
-        XML to string and returns.
-        '''
+        """ Partner information transforms XML to string and returns.
+        """
         if context is None:
             context = {}
 
@@ -159,11 +146,10 @@ class seniat_url(osv.osv):
             return self._parse_dom(cr, uid, dom, vat, url2, context=context)
 
     def _dom_giver(self, cr, uid, vat, context=None):
-        '''
-        check and validates that the vat is a passport,
+        """ Check and validates that the vat is a passport,
         id or rif, to send information to SENIAT and returns the
         partner info that provides.
-        '''
+        """
         if context is None:
             context = {}
 
@@ -193,18 +179,14 @@ class seniat_url(osv.osv):
                 return self._get_rif(cr, uid, vat, url1, url2, context=context)
 
     def _update_partner(self, cr, uid, id, context=None):
-        '''
-        indicates that the partner was
-        updated with information provided by seniat
-        '''
+        """ Indicates that the partner was updated with information provided by seniat
+        """
         rp_obj = self.pool.get('res.partner')
         rp_obj.write(cr, uid, id, {'seniat_updated': True})
 
     def update_rif(self, cr, uid, ids, context={}):
-        '''
-        updates the partner info if it have a vat,
-
-        '''
+        """ Updates the partner info if it have a vat
+        """
         aux = []
         rp_obj = self.pool.get('res.partner')
         if context.get('exec_wizard'):
@@ -228,11 +210,9 @@ class seniat_url(osv.osv):
         return True
 
     def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
-        '''
-        adds true value to the field
-        all_rif to denote that rif was charged with
+        """ Adds true value to the field all_rif to denote that rif was charged with
         SENIAT database
-        '''
+        """
         ctx = context.copy()
         if all_rif:
             ctx.update({'all_rif': True})

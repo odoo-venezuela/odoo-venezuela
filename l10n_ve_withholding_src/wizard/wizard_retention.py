@@ -32,6 +32,8 @@ class wiz_retention(osv.osv_memory):
     _description = "Wizard that changes the retention value"
 
     def set_retention(self, cr, uid, ids, context=None):
+        """ Change value of the retention
+    """
         if context is None:
             context={}
         data = self.pool.get('wiz.retention').read(cr, uid, ids)[0]

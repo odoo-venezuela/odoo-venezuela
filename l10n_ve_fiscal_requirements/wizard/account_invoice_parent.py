@@ -43,6 +43,8 @@ class account_invoice_parent(osv.osv_memory):
     }
 
     def _get_partner(self, cr, uid, context=None):
+        """ Return invoice partner
+        """
         inv_obj = self.pool.get('account.invoice')
         if context is None:
             context = {}
@@ -57,11 +59,10 @@ class account_invoice_parent(osv.osv_memory):
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-        
+        """ Change fields position in the view 
+        """
         if context is None:
             context = {}
-        
-        
         journal_obj = self.pool.get('account.journal')
         res = super(account_invoice_parent,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         if view_type == 'form':
@@ -105,12 +106,20 @@ class account_invoice_parent(osv.osv_memory):
         return res
 
     def default_get(self, cr, uid, fields, context=None):
+        """ Change value for default of the type field
+        """
         res = super(account_invoice_parent, self).default_get(cr, uid, fields, context=context)
         if context.get('op_type', False):
             res.update({'type': context.get('op_type', 'assigned')})
         return res
 
     def get_window(self, cr, uid, ids, xml_id, module, op_type, partner_id, parent_id=False, context=None):
+        """ Update values (op_type, partner_id and parent_id) in the window  
+        @param xml_id:
+        @param op_type:
+        @param partner_id:
+        @param parent_id:
+        """
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         #we get the model
@@ -125,11 +134,15 @@ class account_invoice_parent(osv.osv_memory):
         return result
 
     def check_sure(self, cr, uid, ids, ok, context=None):
+        """ Checks if the user is sure 
+        """
         if not ok:
             raise osv.except_osv(_('User Error'), _('Assign parent invoice, Please check the box to confirm that you agree!'))
         return True
 
-    def check_incest(self, cr, uid, ids, child_id,parent_id, context=None):
+    def check_incest(self, cr, uid, ids, child_id, parent_id, context=None):
+        """  
+        """
         if child_id == parent_id:
             raise osv.except_osv(_('User Error'), _('Current invoice is the same father invoice, Credit or debit note have to be diferent of parent invoice, Please choise another one!'))
         return True

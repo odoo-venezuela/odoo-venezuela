@@ -48,6 +48,8 @@ _transaction_fields = {
 
 
 def _data_save(self, cr, uid, data, context):
+    """ Return a csv with information for each line of each voucher within the period of the document
+    """
     pool = pooler.get_pool(cr.dbname)
     period_obj = pool.get('account.period')
     comp_obj = pool.get('account.retencion.munici')
@@ -73,9 +75,12 @@ def _data_save(self, cr, uid, data, context):
 
     return self._csv_write(cr, uid, lst, context)
 
-class wiz_ret_munici_xml(wizard.interface):
+class wiz_ret_munici_xml(wizard.interface)
 
     def _csv_write(self, cr, uid, data, context):
+        """ To create csv archive with data parameter information
+        @param data: information for each line of each voucher within the period of the document
+        """
         orden = [
             'rif_r',
             'nro',

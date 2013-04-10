@@ -73,15 +73,14 @@ class account_period(osv.osv):
     _inherit = "account.period"
 
     def find_fortnight(self, cr, uid, dt=None, context=None):
-        '''
-        This Function returns a tuple composed of 
+        """ This Function returns a tuple composed of 
             *) period for the asked dt (int)
             *) fortnight for the asked dt (boolean):
                 -) False: for the 1st. fortnight
                 -) True: for the 2nd. fortnight.
             Example:
             (3,True) => a period whose id is 3 in the second fortnight
-        '''
+        """
         if context is None: context = {}
         if not dt:
             dt = time.strftime('%Y-%m-%d')
