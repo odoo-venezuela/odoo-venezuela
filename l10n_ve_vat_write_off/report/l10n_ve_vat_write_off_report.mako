@@ -120,7 +120,7 @@
 					<td align="right">0
 					</td>
 					<td align="center">43</td>
-					<td align="right">0
+					<td align="right">0</td>
 				 </tr>
 				 <tr>
 					<td align="center">4</td>

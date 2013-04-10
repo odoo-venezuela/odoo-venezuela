@@ -17,6 +17,14 @@ class vat_write_off(osv.osv):
         'sale_fb_id':fields.many2one('fiscal.book', 'Sale Fiscal Book',
             help='Sale Fiscal Book'),
         'start_date' : fields.date(string='Start date'),
+        'vat' : fields.related('company_id',
+							   'partner_id',
+							   'vat',
+							   type='char',
+							   string='TIN',
+							   readonly=True,
+							   store=True),
+							   
         
     }
     _defaults = {

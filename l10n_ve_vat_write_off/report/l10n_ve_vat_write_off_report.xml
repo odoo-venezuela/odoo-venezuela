@@ -10,6 +10,7 @@
             file="l10n_ve_vat_write_off/report/l10n_ve_vat_write_off_report.mako"
             header="False"
             report_type="webkit"
+            menu="False"
         />
 
     </data>
