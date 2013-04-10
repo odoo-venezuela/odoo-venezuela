@@ -15,7 +15,8 @@ form_86_config
                     <group col="8" colspan="8">
                         <field name="name"/>
                         <field name="ref"/>
-                        <field name="broker_id" colspan="4"/>
+                        <field name="broker_id"/>
+                        <field name="date"/>
                     </group>
                     <notebook colspan="4">
 						<page string="General info">

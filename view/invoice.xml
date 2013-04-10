@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="inherited_account_invoice_form_fiscal_imex">
+            <field name="name">account.invoice.inherit.fiscal.imex</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="l10n_ve_fiscal_reports.inherited_account_invoice_form_fiscal2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='import_invo']" position="after">
+                     <field name="num_import_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
+                            on_change="on_change_num_import_form_id(num_import_form_id)"/>      
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

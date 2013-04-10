@@ -71,5 +71,6 @@ Transition
             <field name="group_id" ref="account.group_account_manager"/>
             <field name="condition">test_draft()</field>
         </record>
+        
     </data>
 </openerp>

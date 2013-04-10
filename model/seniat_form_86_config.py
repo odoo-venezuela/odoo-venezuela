@@ -2,7 +2,7 @@
 ##############################################################################
 #    Company: Tecvemar, c.a.
 #    Author: Juan V. Márquez L.
-#    Creation Date: 03/10/2012
+#    Creation Date: 10/04/2012
 #    Version: 0.0.0.0
 #
 #    Description:
@@ -37,7 +37,7 @@ class form_86_config(osv.osv):
 
     _columns = {
         'company_id':fields.many2one('res.company','Company', required=True, readonly=True, ondelete='restrict'),
-        'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict'),
+        #~ 'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict'),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, ondelete='restrict'),  
         }
         
@@ -156,8 +156,9 @@ class form_86_custom_taxes(osv.osv):
         'name': fields.char('Name', size=64, required=True, readonly=False),
         'ref': fields.char('Ref', size=16, required=False, readonly=False),   
         'sequence': fields.integer('Sequence'), 
+        'partner_id': fields.many2one('res.partner', 'Partner', change_default=True, readonly=True, required=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
         'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict',help="This account will be used for expenses related to taxes"), 
-        'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=False, ondelete='restrict',help=""), 
+        'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=False, ondelete='restrict',domain=[('type_tax_use','=','purchase')],help=""), 
         'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
         }
 

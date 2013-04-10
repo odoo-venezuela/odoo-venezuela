@@ -14,7 +14,6 @@ form_86_config
                 <form>
                     <field name="company_id"/>
                     <field name="journal_id"/>
-                    <field name="account_id"/>
 				</form>
 			</field>
 		</record>
@@ -28,7 +27,6 @@ form_86_config
                 <tree>
                     <field name="company_id"/>
                     <field name="journal_id"/>
-                    <field name="account_id"/>
                 </tree>
             </field>
         </record>
@@ -77,6 +75,7 @@ form_86_customs_tax_codes
                     <field name="code"/>
                     <field name="name"/>
                     <field name="ref"/>
+                    <field name="partner_id"/>
                     <field name="account_id"/>
                     <field name="acc_tax_id"/>
                     <field name="sequence"/>
