@@ -34,9 +34,8 @@ import datetime
 
 
 class islr_wh_concept(osv.osv):
-    '''
-    Model to create the withholding concepts
-    '''
+    """ Model to create the withholding concepts
+    """
     _name='islr.wh.concept'
     _description = 'Income Withholding Concept'
 

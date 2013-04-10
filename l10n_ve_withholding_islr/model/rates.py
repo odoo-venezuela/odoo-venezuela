@@ -34,17 +34,15 @@ import datetime
 from openerp.addons import decimal_precision as dp
 
 class islr_rates(osv.osv):
-    '''
-    The module to create the rates of the withholding concepts
-    '''
+    """ The module to create the rates of the withholding concepts
+    """
     _name='islr.rates'
     _description = 'Rates'
 
 
     def _get_name(self,cr,uid,ids, field_name, arg, context):
-        '''
-        Get the name of the withholding concept rate
-        '''
+        """ Get the name of the withholding concept rate
+        """
         res={}
         for rate in self.browse(cr,uid,ids):
             if rate.nature:
