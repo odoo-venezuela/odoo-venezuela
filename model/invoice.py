@@ -27,7 +27,9 @@ class inherited_invoice(osv.osv):
     ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
-        'num_import_form_id':fields.many2one('seniat.form.86', 'Import file number', change_default=True, readonly=True, required=True, states={'draft':[('readonly',False)]}, ondelete='restrict',help="The related form 86 for this import invoice"), 
+        'num_import_form_id':fields.many2one('seniat.form.86', 'Import file number', change_default=True, required=False, readonly=True, 
+                             states={'draft':[('readonly',False)]}, ondelete='restrict', 
+                             domain = [('state','in',('draft','open'))], help="The related form 86 for this import invoice (only draft and open forms)"), 
         }
 
     ##------------------------------------------------------------------------------------

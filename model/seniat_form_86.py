@@ -34,7 +34,7 @@ class seniat_form_86(osv.osv):
         res = []
         so_brw = self.browse(cr, uid, ids, context)
         for item in so_brw:
-            res.append((item.id, 'F86 # %s - %s'%(item.name,item.ref)))
+            res.append((item.id, 'F86 # %s - %s'%(item.name,item.ref or '')))
         return res
 
     ##------------------------------------------------------------------------------------ _internal methods
@@ -53,11 +53,12 @@ class seniat_form_86(osv.osv):
         """ Gets default line_ids from form_86_custom_taxes
         """
         obj_ct = self.pool.get('form.86.custom.taxes')    
-        ct_ids = obj_ct.search(cr, uid, [('name', '!=', '')])
+        ct_ids = obj_ct.search(cr, uid, [], context=context)
         res = []
         for id in ct_ids:
             res.append({'tax_code':id,'amount':0.0})
         return res
+        
         
     def _gen_account_move_line(self, company_id, account_id, partner_id, name, debit, credit):
         return (0,0,{
@@ -89,18 +90,19 @@ class seniat_form_86(osv.osv):
         'amount_total':fields.function(_amount_total, method=True, type = 'float', string='Amount total', store=False),
         'move_id': fields.many2one('account.move', 'Account move', ondelete='restrict', help="The move of this entry line.", select=True, readonly=True),
         'narration':fields.text('Notes', readonly=False),
-        'state': fields.selection([('draft', 'Draft'),('done', 'Done'),('cancel', 'Cancelled')], string='State', required=True, readonly=True),
+        'invoice_ids':fields.one2many('account.invoice','num_import_form_id','Related invoices',readonly=True),
+        'state': fields.selection([('draft', 'Draft'),('open', 'Open'),('done', 'Done'),('cancel', 'Cancelled')], string='State', required=True, readonly=True),
         }
 
     _defaults = {
-        'name': lambda *a: '', 
         'date': lambda *a: time.strftime('%Y-%m-%d'),
         'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'seniat.form.86',context=c),
         'line_ids': _default_line_ids,
         'state': lambda *a: 'draft', 
         }
 
-    _sql_constraints = [        
+    _sql_constraints = [  
+        ('name_uniq', 'UNIQUE(name)', 'The form # must be unique!'),      
         ]
 
     ##------------------------------------------------------------------------------------
@@ -128,6 +130,10 @@ class seniat_form_86(osv.osv):
     def create_account_move(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
+        so_brw = self.browse(cr,uid,ids,context={})
+        for f86 in so_brw:
+            if f86.move_id: #~ The move is already done, nothing to do
+                return []
         obj_move = self.pool.get('account.move')
         obj_cfg = self.pool.get('form.86.config')
         company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
@@ -139,7 +145,6 @@ class seniat_form_86(osv.osv):
             raise osv.except_osv(_('Error!'),_('Please set a valid configuration'))
         date = time.strftime('%Y-%m-%d')
         context.update({'f86_company_id':company_id,'f86_config':f86_cfg})
-        so_brw = self.browse(cr,uid,ids,context={})
         move_ids = []
         for f86 in so_brw:
             move = {
@@ -160,7 +165,6 @@ class seniat_form_86(osv.osv):
                     move_ids.append(move_id)
                     self.write(cr, uid, f86.id, {'move_id':move_id},context)
         return move_ids        
-        return True
 
     ##------------------------------------------------------------------------------------ buttons (object)
 
@@ -175,8 +179,13 @@ class seniat_form_86(osv.osv):
         return self.write(cr,uid,ids,vals,context)
 
 
-    def button_done(self, cr, uid, ids, context=None):
+    def button_open(self, cr, uid, ids, context=None):
         self.create_account_move(cr, uid, ids, context)
+        vals={'state':'open'}
+        return self.write(cr,uid,ids,vals,context)
+
+
+    def button_done(self, cr, uid, ids, context=None):
         vals={'state':'done'}
         return self.write(cr,uid,ids,vals,context)
 
@@ -195,13 +204,17 @@ class seniat_form_86(osv.osv):
         return True
 
 
-    def test_done(self, cr, uid, ids, *args):
+    def test_open(self, cr, uid, ids, *args):
         so_brw = self.browse(cr,uid,ids,context={})
         for f86 in so_brw:
             if f86.amount_total <= 0:
                 raise osv.except_osv(_('Warning!'),_('You must indicate a amount'))
             if not f86.date_liq:
                 raise osv.except_osv(_('Warning!'),_('You must indicate a liquidation date '))
+        return True
+
+
+    def test_done(self, cr, uid, ids, *args):
         return True
 
 
