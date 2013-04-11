@@ -537,6 +537,21 @@ class fiscal_book(orm.Model):
         orphan_iwdl_ids = orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or False
         return orphan_iwdl_ids and self._get_ordered_orphan_iwdl_ids(cr, uid, orphan_iwdl_ids, context=context)
 
+    def order_book_lines(self, cr, uid, fb_id, context=None):
+        """ It order the fiscal book lines chronologically by emission date.
+        @param fb_id: fiscal book id.
+        """
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.lines')
+        fbl_ids = [ fbl_brw.id for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
+        ordered_fbl_ids = fbl_obj.search(cr, uid, [ ('id', 'in', fbl_ids) ],
+                                         order='get_date_invoiced asc',
+                                         context=context)
+        #~ TODO: this date could change with the improve of the fiscal.book.line model
+        for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
+            fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
+        return True
+
     def update_book_lines(self, cr, uid, fb_id, inv_ids, iwdl_ids, context=None):
         """ It updates the fiscal book lines values.
         @param fb_id: fiscal book id
@@ -596,6 +611,7 @@ class fiscal_book(orm.Model):
 
         if data:
             self.write(cr, uid, fb_id, {'fbl_ids' : data}, context=context)
+            self.order_book_lines(cr, uid, fb_id, context=context)
             self.link_book_lines_and_taxes(cr, uid, fb_id, context=context)
 
         return True
