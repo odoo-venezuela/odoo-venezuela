@@ -102,7 +102,7 @@
 					  <td align="center">1</td>
 					  <td><font size=2>Ventas Internas no Gravadas</font></td>
 					  <td align="center">40</td>
-					  <td align="right">0
+					  <td align="right">${vwo.p_get_vat_sdcf_n_sum}
 					  </td>
 					  <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;">&nbsp;</td>
 				   </tr>
@@ -110,67 +110,67 @@
 					  <td align="center">2</td>
 					  <td><font size=2>Ventas de Exportaci&oacute;n</font></td>
 					  <td align="center">41</td>
-					  <td align="right">0
+					  <td align="right">${vwo.p_get_vat_all_i_base_sum}
 					  </td>
 				   </tr>
 				   <tr>
 					<td align="center">3</td>
 					<td><font size=2>Ventas Internas Gravadas por Al&iacute;cuota General</font></td>
 					<td align="center">42</td>
-					<td align="right">0
+					<td align="right">${vwo.p_get_vat_general_n_base_sum}
 					</td>
 					<td align="center">43</td>
-					<td align="right">0</td>
+					<td align="right">${vwo.p_get_vat_general_n_tax_sum}</td>
 				 </tr>
 				 <tr>
 					<td align="center">4</td>
 					<td><font size=2>Ventas Internas Gravadas por Al&iacute;cuota General m&aacute;s Al&iacute;cuota Adicional</font></td>
 					<td align="center">442</td>
-					<td align="right">0
+					<td align="right">${vwo.p_get_vat_additional_n_base_sum}
 					</td>
 					<td align="center">452</td>
-					<td align="right">0
+					<td align="right">${vwo.p_get_vat_additional_n_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">5</td>
 					<td><font size=2>Ventas Internas Gravadas por Al&iacute;cuota Reducida&nbsp;</font></td>
 					<td align="center">443</td>
-					<td align="right">0
+					<td align="right">${vwo.p_get_vat_reduced_n_base_sum}
 					</td>
 					<td align="center">453</td>
-					<td align="right">0
+					<td align="right">${vwo.p_get_vat_reduced_n_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center" width="4%">6</td>
 					<td width="67%"><font size=2>Total Ventas y D&eacute;bitos Fiscal para efectos de Determinaci&oacute;n</font></td>
 					<td align="center" width="4%">46</td>
-					<td align="right" width="15%">0
+					<td align="right" width="15%">TODO
 					</td>
 					<td align="center" width="4%">47</td>
-					<td align="right" width="15%">0
+					<td align="right" width="15%">TODO
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">7</td>
 					<td colspan="3"><font size=2>Ajustes a los D&eacute;bitos Fiscales de per&iacute;odos anteriores</font></td>
 					<td align="center">48</td>
-					<td align="right">0
+					<td align="right">TODO
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">8</td>
 					<td colspan="3"><font size=2>Certificados de D&eacute;bitos Fiscales Exonerados (recibos de entes exonerados). Registro del Per&iacute;odo </font></td>
 					<td align="center">80</td>
-					<td align="right">0
+					<td align="right">TODO
 					</td>
 				 </tr>
 				 <tr>
 					<td width="4%" height="20" align="center">9</td>
 					<td colspan="3" width="67%"><strong><font size=2>Total D&eacute;bitos Fiscales </font></strong></td>
 					<td align="center" width="4%">49</td>
-					<td align="right" width="15%">0
+					<td align="right" width="15%">${vwo.p_tax_amount}
 					</td>
 				 </tr>
 				  <tr>
@@ -182,7 +182,7 @@
 					<td align="center">10</td>
 					<td><font size=2>Compras no Gravadas y/o sin Derecho a Cr&eacute;dito Fiscal</font></td>
 					<td align="center">30</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_sdcf_sum}
 					</td>
 					<td colspan="2" align="center" bgcolor="#dedede">&nbsp;</td>
 				 </tr>
@@ -190,133 +190,133 @@
 					<td width="4%" align="center">11</td>
 					<td width="67%"><font size=2>Importaci&oacute;n Gravadas por Al&iacute;cuota General</font></td>
 					<td width="4%" align="center">31</td>
-					<td width="15%" align="right">0
+					<td width="15%" align="right">${vwo.s_get_vat_general_i_base_sum}
 					</td>
 					<td width="4%" align="center">32</td>
-					<td width="15%" align="right">0
+					<td width="15%" align="right">${vwo.s_get_vat_general_i_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">12</td>
 					<td><font size=2>Importaciones Gravadas por Al&iacute;cuota General m&aacute;s Al&iacute;cuota Adicional</font></td>
 					<td align="center">312</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_additional_i_base_sum}
 					</td>
 					<td align="center">322</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_additional_i_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">13</td>
 					<td><font size=2>Importaciones Gravadas por Al&iacute;cuota Reducida</font></td>
 					<td align="center">313</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_reduced_i_base_sum}
 					</td>
 					<td align="center">323</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_reduced_i_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">14</td>
 					<td><font size=2>Compras Internas Gravadas  por Al&iacute;cuota General</font></td>
 					<td align="center">33</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_general_n_base_sum}
 					</td>
 					<td align="center">34</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_general_n_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">15</td>
 					<td><font size=2>Compras Internas Gravadas  por Al&iacute;cuota General m&aacute;s Al&iacute;cuota Adicional</font></td>
 					<td align="center">332</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_additional_n_base_sum}
 					</td>
 					<td align="center">342</td>
-					<td align="right">0
+					<td align="right">${vwo.s_get_vat_additional_n_tax_sum}
 					</td>
 				 </tr>
 		   <tr>
 			  <td align="center">16</td>
 			  <td><font size=2>Compras Internas Gravadas por Al&iacute;cuota Reducida</font></td>
 			  <td align="center">333</td>
-			  <td align="right">0
+			  <td align="right">${vwo.s_get_vat_reduced_n_base_sum}
 			  </td>
 			  <td align="center">343</td>
-			  <td align="right">0
+			  <td align="right">${vwo.s_get_vat_reduced_n_tax_sum}
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">17</td>
 			  <td><font size=2>Total Compras y Cr&eacute;ditos Fiscales del Per&iacute;odo</font></td>
 			  <td align="center">35</td>
-			  <td align="right" style="border-bottom: #666666 solid 1px;border-right: #666666 solid 1px;">0
+			  <td align="right" style="border-bottom: #666666 solid 1px;border-right: #666666 solid 1px;">${vwo.s_base_amount}
 			  </td>
 			  <td align="center">36</td>
-			  <td align="right">0
+			  <td align="right">${vwo.s_tax_amount}
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">18</td>
 			  <td colspan="3"><font size=2>Cr&eacute;ditos Fiscales Totalmente Deducibles</font></td>
 			  <td align="center">70</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">19</td>
 			  <td colspan="3"><font size=2>Cr&eacute;ditos Fiscales producto de la Aplicaci&oacute;n del porcentaje de la prorrata</font></td>
 			  <td align="center">37</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">20</td>
 		   <td colspan="3"><font size=2>Total cr&eacute;ditos fiscales deducibles... Realice la operaci&oacute;n (70 + 37)</font></td>
 			  <td align="center">71</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">21</td>
 			  <td colspan="3"><font size=2>Excedente Cr&eacute;ditos Fiscales del mes Anterior (&iacute;tem 60 de la declaraci&oacute;n anterior)</font></td>
 			  <td align="center">20</td>
-			  <td align="right">11.146,08
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">22</td>
 			  <td colspan="3"><font size=2>Reintegro Solicitado (s&oacute;lo Exportadores)</font></td>
 			  <td align="center">21</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">23</td>
 			  <td colspan="3"><font size=2>Reintegro Solicitado (s&oacute;lo quien suministre bienes o presten servicios a entes exonerados)</font></td>
 			  <td align="center">81</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">24</td>
 			  <td colspan="3"><font size=2>Ajustes a los Cr&eacute;ditos Fiscales de per&iacute;odos anteriores</font></td>
 			  <td align="center">38</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 		   <tr>
 			  <td align="center">25</td>
 			  <td colspan="3"><font size=2>Certificados de D&eacute;bitos Fiscales Exonerados (emitidos por entes exonerados) . Registrado en el per&iacute;odo</font></td>
 			  <td align="center">82</td>
-			  <td align="right">0
+			  <td align="right">TODO
 			  </td>
 		   </tr>
 				 <tr>
 					<td align="center">26</td>
 					<td colspan="3"><strong><font size=2>Total Cr&eacute;ditos Fiscales</font></strong></td>
 					<td align="center">39</td>
-					<td align="right" width="15%">11.146,08
+					<td align="right" width="15%">${vwo.s_tax_amount}
 				  </td>
 				 </tr>
 				  <tr>
