@@ -505,18 +505,6 @@ class fiscal_book(orm.Model):
                                       context=context)
         return iwdl_id and iwdl_id[0] or False
 
-
-    #~ TODO: test this method.
-    def _get_ordered_orphan_iwdl_ids(self, cr, uid, orphan_iwdl_ids, context=None):
-        """ It returns a list of orphan wh iva lines IDs order by date_ret asc.
-        @param orphan_iwdl_ids: list of account withholding lines ids that have not
-        invoice asociated to the fiscal book period. 
-        """
-        context = context or {}
-        awil_obj = self.pool.get('account.wh.iva.line')
-        return awil_obj.search(cr, uid, [('id', 'in', (orphan_iwdl_ids))],
-                               order='date_ret asc', context=context)
-
     def _get_orphan_iwdl_ids(self, cr, uid, fb_id, context=None):
         """ It returns ids from the orphan wh iva lines in the period that have
         not associated invoice, order by date ret.
@@ -530,7 +518,7 @@ class fiscal_book(orm.Model):
         orphan_inv_ids = set(inv_wh_ids) - set(inv_ids)
         orphan_inv_ids = list(orphan_inv_ids)
         orphan_iwdl_ids = orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or False
-        return orphan_iwdl_ids and self._get_ordered_orphan_iwdl_ids(cr, uid, orphan_iwdl_ids, context=context)
+        return orphan_iwdl_ids
 
     def order_book_lines(self, cr, uid, fb_id, context=None):
         """ It order the fiscal book lines chronologically by emission date.
