@@ -491,8 +491,6 @@ class inherited_invoice(osv.osv):
                             help=""),    
         'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
                             help=""),
-        'get_reference': fields.function(_get_inv_number, method=True, string='Invoice number', type='char',
-                            help=""),
         'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
                             help=""),
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',

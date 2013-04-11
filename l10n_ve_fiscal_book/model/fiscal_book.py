@@ -607,7 +607,7 @@ class fiscal_book(orm.Model):
                 'get_parent': inv_brw.get_parent or False,
                 'get_partner_name': inv_brw.get_partner_name or False,
                 'get_partner_vat': inv_brw.get_partner_vat or False,
-                'get_reference': inv_brw.get_reference or False,
+                'get_reference': inv_brw.reference or False,
                 'get_t_doc': inv_brw.get_t_doc or False,
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
                                                      inv_brw.id,
@@ -837,7 +837,8 @@ class fiscal_book_lines(orm.Model):
         'get_withheld': fields.float('Withheld Amount'),
 
         #~ Apply for invoice lines
-        'get_reference': fields.char(string='Invoice number', help=''),
+        'get_reference': fields.char(string='Invoice number', size=64,
+                help=''),
         'get_doc': fields.char(string='Trans. Type', help=''),
         'get_parent': fields.char(string='Affected Document', help=''),
         'get_imex_date': fields.date(string='Invoice IMEX Date',
