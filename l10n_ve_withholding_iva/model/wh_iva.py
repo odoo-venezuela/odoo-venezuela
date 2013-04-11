@@ -476,9 +476,8 @@ class account_wh_iva(osv.osv):
 
 
     def action_move_create(self, cr, uid, ids, context=None):
-        '''
-        Create movements associated with retention and reconcile
-        '''
+        """ Create movements associated with retention and reconcile
+        """
         inv_obj = self.pool.get('account.invoice')
         user_obj = self.pool.get('res.users')
         per_obj = self.pool.get('account.period')
@@ -527,9 +526,8 @@ class account_wh_iva(osv.osv):
         return True
     
     def _withholdable_tax_(self, cr, uid, ids, context=None):
-        '''
-        Returns lines with withholdable taxes 
-        '''
+        """ Returns lines with withholdable taxes 
+        """
         if context is None:
             context={}
         account_invo_obj = self.pool.get('account.invoice')
@@ -537,12 +535,11 @@ class account_wh_iva(osv.osv):
         return acc_id
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
-        '''
-        Changing the partner is again determinated accounts and lines retain
+        """ Changing the partner is again determinated accounts and lines retain
         for document
-        @param type:
-        @param partner_id:
-        '''
+        @param type: invoice type
+        @param partner_id: vendor or buyer
+        """
         if context is None: context = {}
             
         acc_id = False
