@@ -314,10 +314,7 @@ class fiscal_book(orm.Model):
     def button_update_book_lines(self, cr, uid, ids, context=None):
         """ Take the instance of fiscal book and do the update book lines. """
         context = context or {}
-        fb_brw = self.browse(cr, uid, ids[0], context=context)
-        inv_ids = [ inv.id for inv in fb_brw.invoice_ids ]
-        iwdl_ids = [ iwdl.id for iwdl in fb_brw.iwdl_ids ]
-        self.update_book_lines(cr, uid, ids[0], inv_ids, iwdl_ids, context=context)
+        self.update_book_lines(cr, uid, ids[0], context=context)
         return True
 
     def onchange_period_id(self, cr, uid, ids, context=None):
@@ -354,8 +351,6 @@ class fiscal_book(orm.Model):
         for fb_brw in self.browse(cr, uid, ids, context=context):
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
-            self.update_book_taxes(cr, uid, fb_brw.id, context=context)
-            #~ TODO: evaluate update_book_taxes at this fase of update 
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
             fbl_ids = [ fbl.id for fbl in fb_brw.fbl_ids ]
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
@@ -574,6 +569,7 @@ class fiscal_book(orm.Model):
                     'rank': my_rank,
                     'get_credit_affected': False,
                     'get_date_invoiced': iwdl_brw.date or False,
+                    #~ TODO: take care of this. date or dat_ret?
                     'get_t_doc': 'RET',
                     #~ TODO: override 'get_t_doc' value by creating an function that take care of it.
                     'get_number': iwdl_brw.retention_id.number or False,
