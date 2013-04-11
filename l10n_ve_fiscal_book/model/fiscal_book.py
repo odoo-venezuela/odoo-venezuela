@@ -550,9 +550,9 @@ class fiscal_book(orm.Model):
         inv_obj = self.pool.get('account.invoice')
         iwdl_obj = self.pool.get('account.wh.iva.line')
         fbl_obj = self.pool.get('fiscal.book.lines')
-        fb_brw = self.browse(cr, uid, fb_id, context=context)
         #~ delete book lines
-        fbl_obj.unlink(cr, uid, fb_brw.fbl_ids, context=context)
+        fbl_ids = [ fbl_brw.id for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
+        fbl_obj.unlink(cr, uid, fbl_ids, context=context)
         #~ add book lines for orphan withholding iva lines
         orphan_iwdl_ids = iwdl_ids and self._get_orphan_iwdl_ids(cr, uid, inv_ids, iwdl_ids, context=context) or False
         if orphan_iwdl_ids:
