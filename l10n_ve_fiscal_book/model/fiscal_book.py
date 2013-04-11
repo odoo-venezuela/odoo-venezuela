@@ -353,10 +353,10 @@ class fiscal_book(orm.Model):
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
-            iwdl_ids = self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
+            self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
             self.update_book_taxes(cr, uid, fb_brw.id, context=context)
             #~ TODO: evaluate update_book_taxes at this fase of update 
-            self.update_book_lines(cr, uid, fb_brw.id, iwdl_ids, context=context)
+            self.update_book_lines(cr, uid, fb_brw.id, context=context)
             fbl_ids = [ fbl.id for fbl in fb_brw.fbl_ids ]
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
         return True
@@ -461,7 +461,7 @@ class fiscal_book(orm.Model):
             if iwdl_id_to_check not in iwdl_ids:
                 iwdl_obj.write(cr, uid, iwdl_id_to_check, {'fb_id': False},
                               context=context)
-        return iwdl_ids
+        return True
 
     def _get_book_taxes_ids(self, cr, uid, fb_id, context=None):
         """ It returns account invoice taxes IDSs from the fiscal book invoices.
@@ -522,17 +522,16 @@ class fiscal_book(orm.Model):
         return awil_obj.search(cr, uid, [('id', 'in', (orphan_iwdl_ids))],
                                order='date_ret asc', context=context)
 
-    def _get_orphan_iwdl_ids(self, cr, uid, fb_id, iwdl_ids, context=None):
+    def _get_orphan_iwdl_ids(self, cr, uid, fb_id, context=None):
         """ It returns ids from the orphan wh iva lines in the period that have
         not associated invoice, order by date ret.
         @param fb_id: fiscal book id
-        @param iwdl_ids: list of account withholding iva lines ids
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
         inv_ids = [ inv_brw.id for inv_brw in self.browse(cr, uid, fb_id, context=context).invoice_ids ]
-        iwdl_brws = iwdl_obj.browse(cr, uid, iwdl_ids, context=context)
-        inv_wh_ids = [i.invoice_id.id for i in iwdl_brws]
+        inv_wh_ids = [ iwdl_brw.invoice_id.id \
+                       for iwdl_brw in self.browse(cr, uid, fb_id, context=context).iwdl_ids]
         orphan_inv_ids = set(inv_wh_ids) - set(inv_ids)
         orphan_inv_ids = list(orphan_inv_ids)
         orphan_iwdl_ids = orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or False
@@ -553,10 +552,9 @@ class fiscal_book(orm.Model):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
         return True
 
-    def update_book_lines(self, cr, uid, fb_id, iwdl_ids, context=None):
+    def update_book_lines(self, cr, uid, fb_id, context=None):
         """ It updates the fiscal book lines values.
         @param fb_id: fiscal book id
-        @param iwdl_ids: list of account withholding lines ids corresponding to the book period.
         """
         context = context or {}
         data = []
@@ -568,7 +566,7 @@ class fiscal_book(orm.Model):
         fbl_ids = [ fbl_brw.id for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
         fbl_obj.unlink(cr, uid, fbl_ids, context=context)
         #~ add book lines for orphan withholding iva lines
-        orphan_iwdl_ids = iwdl_ids and self._get_orphan_iwdl_ids(cr, uid, fb_id, iwdl_ids, context=context) or False
+        orphan_iwdl_ids = self.browse(cr, uid, fb_id, context=context).iwdl_ids and self._get_orphan_iwdl_ids(cr, uid, fb_id, context=context) or False
         if orphan_iwdl_ids:
             for iwdl_brw in iwdl_obj.browse(cr, uid, orphan_iwdl_ids, context=context):
                 values = {
