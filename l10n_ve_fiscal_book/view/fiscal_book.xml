@@ -22,6 +22,7 @@
     string="Invoice" 
 -->
                     <group colspan="2" attrs="{'invisible':[('get_t_doc', '!=', 'FACT')]}">
+                        <field name='get_imex_date'/>
                         <field name='get_reference'/>
                         <field name='get_debit_affected'/>
                         <field name='get_credit_affected'/>
