@@ -48,6 +48,8 @@ _transaction_fields = {
 
 
 def _data_save(self, cr, uid, data, context):
+    """ Return a csv with information for each line of each voucher within the period of the document
+    """
     pool = pooler.get_pool(cr.dbname)
     period_obj = pool.get('account.period')
     comp_obj = pool.get('account.retencion.munici')
@@ -76,6 +78,10 @@ def _data_save(self, cr, uid, data, context):
 class wiz_ret_munici_xml(wizard.interface):
 
     def _csv_write(self, cr, uid, data, context):
+        """ To create csv archive with data parameter information               
+        @param data: information for each line of each voucher within the 
+        period of the document
+        """   
         orden = [
             'rif_r',
             'nro',
@@ -113,4 +119,4 @@ wiz_ret_munici_xml('account.ret.munici.xml.seniat')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
+l10n_ve_withholding_iva/model/invoice.py

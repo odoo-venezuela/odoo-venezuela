@@ -39,7 +39,10 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
     }
 
     def action_invoice_create(self, cr, uid, ids, wizard_brw,inv_brw,context=None):
-
+        """ If the invoice has control number, this function is responsible for passing the bill to damaged paper
+        @param wizard_brw: nothing for now 
+        @param inv_brw: damaged paper
+        """
         invoice_line_obj = self.pool.get('account.invoice.line')
         invoice_obj = self.pool.get('account.invoice')
         acc_mv_obj = self.pool.get('account.move')
@@ -78,9 +81,8 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         return inv_brw.id
 
     def new_open_window(self,cr,uid,ids,list_ids,xml_id,module,context=None):
-        '''
-        Generate new window at view form or tree
-        '''
+        """ Generate new window at view form or tree
+        """
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         result = mod_obj._get_id(cr, uid, module, xml_id) 
@@ -90,6 +92,8 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         return result
 
     def create_invoice(self, cr, uid, ids, context=None):
+        """ Create a invoice refund
+        """
         if context==None:
             context={}
         wizard_brw = self.browse(cr, uid, ids, context=None)

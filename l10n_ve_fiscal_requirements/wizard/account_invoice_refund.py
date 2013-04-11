@@ -26,8 +26,8 @@ from openerp.tools.translate import _
 from openerp import netsvc
 
 class account_invoice_refund(osv.osv_memory):
-
     """Refunds invoice"""
+
     _inherit = 'account.invoice.refund'
     
     def default_get(self, cr, uid, fields, context=None):
@@ -52,6 +52,8 @@ class account_invoice_refund(osv.osv_memory):
     }
 
     def _get_journal(self, cr, uid, context=None):
+        """ Returns journal depending of the invoice type
+        """
         obj_journal = self.pool.get('account.journal')
         if context is None:
             context = {}
@@ -62,7 +64,8 @@ class account_invoice_refund(osv.osv_memory):
         return journal and journal[0] or False
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-        
+        """ Depending on context, options are displayed in the selection field
+        """
         if context is None:
             context = {}
         
@@ -80,8 +83,7 @@ class account_invoice_refund(osv.osv_memory):
         return res
 
     def _get_orig(self, cr, uid, inv, ref, context={}):
-        """
-        Return  default origin value
+        """ Return  default origin value
         """
         nro_ref = ref
         if inv.type == 'out_invoice':
@@ -91,6 +93,8 @@ class account_invoice_refund(osv.osv_memory):
 
     
     def cn_iva_validate(self, cr, uid,invoice,context=None):
+        """ Validates if retentions have been changes to move the state confirmed and done
+        """
         if context is None:
             context={}
         ret_iva_id=False
@@ -121,11 +125,11 @@ class account_invoice_refund(osv.osv_memory):
         return True
 
     def compute_refund(self, cr, uid, ids, mode='refund', context=None):
-        """
+        """ 
         @param ids: the account invoice refund’s ID or list of IDs
-
         """
-        wzd_brw = self.browse(cr,uid,ids[0],context=context)
+        wzd_
+        brw = self.browse(cr,uid,ids[0],context=context)
         inv_obj = self.pool.get('account.invoice')
         reconcile_obj = self.pool.get('account.move.reconcile')
         account_m_line_obj = self.pool.get('account.move.line')
@@ -301,8 +305,7 @@ class account_invoice_refund(osv.osv_memory):
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
-        """
-        Method that validate if invoice is totally paid.
+        """ Method that validate if invoice is totally paid.
         @param ids: list of invoices.
         return: True: if invoice is paid.
                 False: if invoice is not paid.
@@ -314,8 +317,7 @@ class account_invoice_refund(osv.osv_memory):
         return res
 
     def validate_wh(self, cr, uid, ids, context=None):
-        """
-        Method that validate if invoice has non-yet processed withholds.
+        """ Method that validate if invoice has non-yet processed withholds.
 
         return: True: if invoice is does not have wh's or it does have and those ones are validated.
                 False: if invoice is does have and those wh's are not yet validated.
@@ -326,8 +328,7 @@ class account_invoice_refund(osv.osv_memory):
         return True
 
     def unreconcile_paid_invoices(self, cr, uid, invoiceids, context=None):
-        """
-        Method that unreconcile the payments of invoice.
+        """ Method that unreconcile the payments of invoice.
         @param invoiceids: list of invoices.
         return: True: unreconcile successfully.
                 False: unreconcile unsuccessfully.
@@ -357,6 +358,8 @@ class account_invoice_refund(osv.osv_memory):
         return res
 
     def invoice_refund(self, cr, uid, ids, context=None):
+        """ Create a invoice refund
+        """
         if context is None:
             context = {}
         inv_obj = self.pool.get('account.invoice')

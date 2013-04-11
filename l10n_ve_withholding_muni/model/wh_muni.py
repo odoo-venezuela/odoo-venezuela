@@ -336,8 +336,8 @@ class account_wh_munici_line(osv.osv):
     ]
 
     def onchange_invoice_id(self, cr, uid, ids, invoice_id, context=None):
-        """ 
-        @param invoice_id:
+        """ Validate that the bill is no longer assigned to retention
+        @param invoice_id: invoice id
         """
         if context is None:
             context = {}
@@ -351,8 +351,7 @@ class account_wh_munici_line(osv.osv):
             ok = True
             res = self.pool.get(
                 'account.invoice').browse(cr, uid, invoice_id, context)
-            cr.execute(
-                'select retention_id from account_wh_munici_line where invoice_id=%s',
+            cr.execute('select retention_id from account_wh_munici_line where invoice_id=%s',
                 (invoice_id,))
             ret_ids = cr.fetchone()
             ok = ok and bool(ret_ids)
