@@ -527,7 +527,7 @@ class fiscal_book(orm.Model):
         fbl_obj = self.pool.get('fiscal.book.lines')
         fbl_ids = [ fbl_brw.id for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
         ordered_fbl_ids = fbl_obj.search(cr, uid, [ ('id', 'in', fbl_ids) ],
-                                         order='get_date_invoiced asc',
+                                         order='get_accounting_date asc',
                                          context=context)
         #~ TODO: this date could change with the improve of the fiscal.book.line model
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
@@ -578,7 +578,7 @@ class fiscal_book(orm.Model):
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
                     'get_credit_affected': False,
-                    'get_date_invoiced': iwdl_brw.date_ret or False,
+                    'get_accounting_date': iwdl_brw.date_ret or False,
                     #~ TODO: take care of this. date or dat_ret?
                     'get_t_doc': 'RET',
                     #~ TODO: override 'get_t_doc' value by creating an function that take care of it.
@@ -594,8 +594,8 @@ class fiscal_book(orm.Model):
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
                 'get_credit_affected': inv_brw.get_credit_affected or False,
-                'get_date_imported': inv_brw.get_date_imported or False,
-                'get_date_invoiced': inv_brw.get_date_invoiced or False,
+                'get_emission_date': inv_brw.get_date_imported or False,
+                'get_accounting_date': inv_brw.get_date_invoiced or False,
                 'get_debit_affected': inv_brw.get_debit_affected or False,
                 'get_doc': inv_brw.get_doc or False,
                 'get_number': inv_brw.get_number or False,
@@ -817,9 +817,10 @@ class fiscal_book_lines(orm.Model):
             help='Invoice related to this book line.'),
         'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
             help='Fiscal Book where this line is related to'),
-        'get_date_imported': fields.date(string='Imported Date', help=''),
-        'get_date_invoiced': fields.date(string='Invoiced Date',
-            help=' invoices -> date_invoice , wh iva lines -> dat_ret'),
+        'get_emission_date': fields.date(string='Emission Date',
+            help='invoices -> get_date_imported, wh iva lines -> date'),
+        'get_accounting_date': fields.date(string='Accounting Date',
+            help=' invoices -> date_invoice , wh iva lines -> date_ret'),
         'get_t_doc': fields.char(size=128, string='Doc. Type', help=''),
         'get_partner_vat': fields.char(size=128, string='Partner vat', 
             help=''),

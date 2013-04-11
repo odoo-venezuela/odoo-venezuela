@@ -13,8 +13,8 @@
                         <field name='invoice_id'/>
                         <field name='iwdl_id'/>
                         <field name='get_number'/>
-                        <field name='get_date_invoiced'/>
-                        <field name='get_date_imported'/>
+                        <field name='get_accounting_date'/>
+                        <field name='get_emission_date'/>
                         <field name='get_partner_name'/>
                         <field name='get_partner_vat'/>
                     </group>
@@ -65,8 +65,8 @@
             <field name="arch" type="xml">
                 <tree string="Fiscal Book Lines">
                     <field name='rank'/>
-                    <field name='get_date_imported'/>
-                    <field name='get_date_invoiced'/>
+                    <field name='get_emission_date'/>
+                    <field name='get_accounting_date'/>
                     <field name='get_t_doc'/>
                     <field name='get_partner_vat'/>
                     <field name='get_partner_name'/>
