@@ -160,28 +160,6 @@ class inherited_invoice(osv.osv):
                     ret.update({r: whl.retention_id.number})
         return ret
 
-    def _get_doc(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get String Document Type
-        '''
-        invs = self.browse(cr, uid, ids)
-        doc_type = ''
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        if invs:
-            for inv in invs:
-                if (inv.type=="in_invoice" or inv.type=="out_invoice") and inv.parent_id:
-                    doc_type = "ND"
-                elif (inv.type=="in_invoice" or inv.type=="in_refund") and inv.expedient:
-                    doc_type="E"
-                elif inv.type=='in_refund' or inv.type=='out_refund':
-                    doc_type = "NC"
-                elif inv.type=="in_invoice" or inv.type=="out_invoice":
-                    doc_type = "F"
-                ret.update({inv.id : doc_type})
-        return ret
-
     def _get_t_doc(self,cr,uid,ids,name,args,context=None):
         '''
         Get String Document Type
@@ -315,7 +293,6 @@ class inherited_invoice(osv.osv):
                     else: 
                         ret.update({l.id: data})
                 else:
-#                    data = self._get_doc(cr, uid, ids, name, args, context)
                     ret.update({l.id: data})
         return ret
         
@@ -496,8 +473,6 @@ class inherited_invoice(osv.osv):
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
-                            help=""),
-        'get_doc': fields.function(_get_doc, method=True, string='Transaction Type', type='char',
                             help=""),
         'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
                             help=""),
