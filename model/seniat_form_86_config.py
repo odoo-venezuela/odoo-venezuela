@@ -37,7 +37,6 @@ class form_86_config(osv.osv):
 
     _columns = {
         'company_id':fields.many2one('res.company','Company', required=True, readonly=True, ondelete='restrict'),
-        #~ 'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict'),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, ondelete='restrict'),  
         }
         
@@ -168,12 +167,14 @@ class form_86_custom_taxes(osv.osv):
         'sequence': fields.integer('Sequence'), 
         'partner_id': fields.many2one('res.partner', 'Partner', change_default=True, readonly=True, required=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
         'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict',help="This account will be used for expenses related to taxes"), 
-        'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=False, ondelete='restrict',domain=[('type_tax_use','=','purchase')],help=""), 
+        #~ 'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=False, ondelete='restrict',domain=[('type_tax_use','=','purchase')],help=""), 
+        'vat_detail':fields.boolean('Tax detail',required=True,help="Set true if this is vat related tax"),
         'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
         }
 
     _defaults = {
         'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'form.86.config',context=c),
+        'vat_detail': False,
         }
 
     _sql_constraints = [     

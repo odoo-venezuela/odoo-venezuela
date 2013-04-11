@@ -9,3 +9,5 @@
 "seniat_form_86_manager","seniat.form.86.manager","model_seniat_form_86","account.group_account_manager",1,1,1,1
 "seniat_form_86_lines_user","seniat.form.86.lines.user","model_seniat_form_86_lines","account.group_account_user",1,1,1,0
 "seniat_form_86_lines_manager","seniat.form.86.lines.manager","model_seniat_form_86_lines","account.group_account_manager",1,1,1,1
+"seniat_form_86_lines_vat_user","seniat.form.86.lines.vat.user","model_seniat_form_86_lines_vat","account.group_account_user",1,1,1,0
+"seniat_form_86_lines_vat_manager","seniat.form.86.lines.vat.manager","model_seniat_form_86_lines_vat","account.group_account_manager",1,1,1,1

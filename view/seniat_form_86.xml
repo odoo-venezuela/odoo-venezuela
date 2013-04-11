@@ -3,7 +3,7 @@
     <data>
     
 <!--
-form_86_config    
+seniat_form_86    
 -->
 
         <record model="ir.ui.view" id="view_seniat_form_86_form">
@@ -28,13 +28,34 @@ form_86_config
                             </group>
                             <field name="custom_id" colspan="4"/>
                             <field name="line_ids" colspan="4" nolabel="1">
-                                <tree string="Taxes" editable="bottom">
+                                <tree string="Tax lines">
                                     <field name="tax_code"/>
                                     <field name="amount" sum="Amount total"/>
                                 </tree>
-                                <form>
-                                    <field name="tax_code"/>
-                                    <field name="amount"/>
+                                <form string="Tax lines">
+                                    <group col="8" colspan="8">
+                                        <field name="tax_code" colspan="6"/>
+                                        <field name="amount"/>
+                                    </group>
+                                    <field name="vat_detail" invisible="1"/>
+                                    <field name="line_vat_ids" colspan="4" nolabel="1" attrs="{'invisible':[('vat_detail','!=',True)]}">
+                                        <tree string="Vat tax detail" editable="bottom">
+                                            <field name="invoice_id" widget="selection" on_change="on_change_invoice_id(invoice_id)"/>
+                                            <field name="partner_id"/>
+                                            <field name="reference"/>
+                                            <field name="acc_tax_id" widget="selection"/>
+                                            <field name="base_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)" sum="Tax amount total"/>
+                                        </tree>
+                                        <form>
+                                            <field name="invoice_id" widget="selection" on_change="on_change_invoice_id(invoice_id)"/>
+                                            <field name="partner_id"/>
+                                            <field name="reference"/>
+                                            <field name="acc_tax_id" widget="selection"/>
+                                            <field name="base_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)"/>
+                                        </form>
+                                    </field>    
                                 </form>
                             </field>    
                             <field name="amount_total"/>
@@ -76,8 +97,7 @@ form_86_config
                 </tree>
             </field>
         </record>
-
-
-
+        
+        
     </data>
 </openerp>

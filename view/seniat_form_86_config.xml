@@ -77,7 +77,7 @@ form_86_customs_tax_codes
                     <field name="ref"/>
                     <field name="partner_id"/>
                     <field name="account_id"/>
-                    <field name="acc_tax_id"/>
+                    <field name="vat_detail"/>
                     <field name="sequence"/>
                     <field name="company_id"/>
 				</form>

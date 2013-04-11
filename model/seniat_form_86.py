@@ -50,13 +50,15 @@ class seniat_form_86(osv.osv):
         
         
     def _default_line_ids(self, cr, uid, context=None):
-        """ Gets default line_ids from form_86_custom_taxes
+        """ 
+        Gets default line_ids from form_86_custom_taxes
         """
         obj_ct = self.pool.get('form.86.custom.taxes')    
         ct_ids = obj_ct.search(cr, uid, [], context=context)
         res = []
         for id in ct_ids:
-            res.append({'tax_code':id,'amount':0.0})
+            vat = obj_ct.browse(cr,uid,id,context=context)
+            res.append({'tax_code':id,'amount':0.0,'vat_detail':vat.vat_detail})
         return res
         
         
@@ -84,9 +86,9 @@ class seniat_form_86(osv.osv):
         'ref_reg': fields.char('Reg. number', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
         'date_reg': fields.date('Reg. date', required=False, readonly=True, states={'draft':[('readonly',False)]}, select=True),
         'ref_liq': fields.char('Liq. number', size=16, required=False, readonly=True, states={'draft':[('readonly',False)]}),
-        'date_liq': fields.date('liq. date', required=False, readonly=True, states={'draft':[('readonly',False)]}, select=True),
+        'date_liq': fields.date('liq. date', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
         'custom_id': fields.many2one('form.86.customs', 'Custom', change_default=True, readonly=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
-        'line_ids':fields.one2many('seniat.form.86.lines','line_id','Lines',readonly=True, states={'draft':[('readonly',False)]}),
+        'line_ids':fields.one2many('seniat.form.86.lines','line_id','Tax lines',readonly=True, states={'draft':[('readonly',False)]}),
         'amount_total':fields.function(_amount_total, method=True, type = 'float', string='Amount total', store=False),
         'move_id': fields.many2one('account.move', 'Account move', ondelete='restrict', help="The move of this entry line.", select=True, readonly=True),
         'narration':fields.text('Notes', readonly=False),
@@ -167,7 +169,7 @@ class seniat_form_86(osv.osv):
         return move_ids        
 
     ##------------------------------------------------------------------------------------ buttons (object)
-
+    
     ##------------------------------------------------------------------------------------ on_change...
 
     ##------------------------------------------------------------------------------------ create write unlink
@@ -209,8 +211,13 @@ class seniat_form_86(osv.osv):
         for f86 in so_brw:
             if f86.amount_total <= 0:
                 raise osv.except_osv(_('Warning!'),_('You must indicate a amount'))
-            if not f86.date_liq:
-                raise osv.except_osv(_('Warning!'),_('You must indicate a liquidation date '))
+            for line in f86.line_ids:    
+                if line.vat_detail:
+                    vat_total = line.amount
+                    for vat in line.line_vat_ids:
+                        vat_total -= vat.tax_amount
+                    if abs(vat_total) > 0.001:
+                        raise osv.except_osv(_('Warning!'),_('The vat detail data dosen\'t corespond with vat amount in line: %s')%line.tax_code.name) 
         return True
 
 
@@ -249,6 +256,8 @@ class seniat_form_86_lines(osv.osv):
         'line_id':fields.many2one('seniat.form.86', 'Line', required=True, ondelete='cascade'),
         'tax_code': fields.many2one('form.86.custom.taxes', 'Tax', ondelete='restrict',required=True, readonly=False), 
         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'),required=True),
+        'line_vat_ids':fields.one2many('seniat.form_86.lines.vat','line_vat_id','Vat lines',attrs="{'readonly':[('vat_detail','=',True)],'required':[('vat_detail','=',True)]}"), ## 
+        'vat_detail':fields.related('tax_code','vat_detail', type='boolean', string='Tax detail',store=False, readonly=True)
         }
 
     _defaults = {
@@ -263,7 +272,7 @@ class seniat_form_86_lines(osv.osv):
     ##------------------------------------------------------------------------------------ public methods
 
     ##------------------------------------------------------------------------------------ buttons (object)
-
+    
     ##------------------------------------------------------------------------------------ on_change...
 
     ##------------------------------------------------------------------------------------ create write unlink
@@ -271,3 +280,73 @@ class seniat_form_86_lines(osv.osv):
     ##------------------------------------------------------------------------------------ Workflow
 
 seniat_form_86_lines()
+
+
+##---------------------------------------------------------------------------------------- seniat_form_86_lines_vat
+
+class seniat_form_86_lines_vat(osv.osv):
+
+    _name = 'seniat.form_86.lines.vat'
+
+    _description = ''
+
+    ##------------------------------------------------------------------------------------
+
+    ##------------------------------------------------------------------------------------ _internal methods
+
+    ##------------------------------------------------------------------------------------ function fields
+
+    _columns = {
+        'line_vat_id':fields.many2one('seniat.form.86.lines', 'Vat line', required=True, ondelete='cascade'),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice Reference', ondelete='restrict', select=True, required=True),
+        'partner_id':fields.related('invoice_id','partner_id', type='many2one', relation='res.partner', string='Supplier',store=False, readonly=True),  
+        'reference':fields.related('invoice_id','reference', type='char', string='Invoice ref',size=64,store=False, readonly=True), 
+        'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=True, ondelete='restrict', domain=[('type_tax_use','=','purchase')], help=""), 
+        'base_amount': fields.float('Base amount', digits_compute=dp.get_precision('Account'),required=True),
+        'tax_amount': fields.float('Tax amount', digits_compute=dp.get_precision('Account'),required=True),
+        }
+
+    _defaults = {
+        }
+
+    _sql_constraints = [        
+        ('base_amount_gt_zero', 'CHECK (base_amount>0)', 'The base amount must be > 0!'),
+        ('tax_amount_zero', 'CHECK (tax_amount>=0)', 'The tax amount must be >= 0!'),
+        ]
+
+    ##------------------------------------------------------------------------------------
+
+    ##------------------------------------------------------------------------------------ public methods
+
+    ##------------------------------------------------------------------------------------ buttons (object)
+
+    ##------------------------------------------------------------------------------------ on_change...
+    
+    def on_change_amount(self, cr, uid, ids, acc_tax_id, base_amount, tax_amount):
+        """
+        To autocompute base or tax, only for percent based taxes
+        """
+        res = {}
+        if acc_tax_id:
+            obj_vat = self.pool.get('account.tax')
+            vat = obj_vat.browse(cr,uid,acc_tax_id)
+            if vat.type == 'percent':
+                if base_amount == 0 and tax_amount > 0: 
+                    base_amount = round(tax_amount / vat.amount,2)
+                res = {'value':{'base_amount':base_amount}}
+        return res
+        
+        
+    def on_change_invoice_id(self, cr, uid, ids, invoice_id):
+        res = {}
+        if invoice_id:
+            obj_inv = self.pool.get('account.invoice')
+            inv = obj_inv.browse(cr,uid,invoice_id)
+            res = {'value':{'partner_id':inv.partner_id.id,'reference':inv.reference}}
+        return res
+
+    ##------------------------------------------------------------------------------------ create write unlink
+
+    ##------------------------------------------------------------------------------------ Workflow
+
+seniat_form_86_lines_vat()
