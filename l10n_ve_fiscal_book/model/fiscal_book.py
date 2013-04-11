@@ -617,7 +617,7 @@ class fiscal_book(orm.Model):
                 'get_credit_affected': inv_brw.get_credit_affected or False,
                 'get_emission_date': inv_brw.get_date_document or False,
                 'get_accounting_date': inv_brw.get_date_invoiced or False,
-                'get_imex_date': inv_brw.get_date_imported or False,
+                'get_imex_date': inv_brw.get_is_imported and inv_brw.get_date_invoice or False,
                 'get_debit_affected': inv_brw.get_debit_affected or False,
                 'get_doc': self.get_doc(cr, uid, inv_brw, context=context),
                 'get_number': inv_brw.get_number or False,
@@ -860,9 +860,10 @@ class fiscal_book_lines(orm.Model):
                 help='Transaction Type'),
         'get_parent': fields.char(string='Affected Document',
                 help='Parent Invoice'),
-
         'get_imex_date': fields.date(string='Invoice IMEX Date',
-            help='Invoice Importation/Exportation date (get_date_imported)'),
+            help='Invoice Importation/Exportation date'),
+
+
         'get_debit_affected': fields.char(string='Affected Debit Notes', 
             help=''),
         'get_credit_affected': fields.char(string='Affected Credit Notes', 

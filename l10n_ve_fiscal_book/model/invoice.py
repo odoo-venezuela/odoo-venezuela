@@ -377,19 +377,6 @@ class inherited_invoice(osv.osv):
                 ret.update({r.id : True})
         return ret
 
-    def _get_date_imported(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get Date Imported if it is imported, else an empty string is returned
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        for r in res:
-            if r.get_is_imported:
-                ret.update({r.id : r.get_date_invoice})
-        return ret
-
     def _get_import_spreadsheets(self, cr, uid, ids, name, args, context=None):
         '''
         Get Import Spreadsheets
@@ -477,8 +464,6 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_is_imported': fields.function(_get_is_imported, method=True, string='Is an import', type='boolean',
                             help=""),
-        'get_date_imported': fields.function(_get_date_imported, method=True, string='Imported date', type='date',
-                            help=""),    
         'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Invoiced date', type='date',
                             help=""),    
         'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
