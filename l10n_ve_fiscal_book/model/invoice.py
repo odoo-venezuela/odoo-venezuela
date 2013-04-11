@@ -181,19 +181,6 @@ class inherited_invoice(osv.osv):
                     doc_type = "FACT"
                 ret.update({inv.id : doc_type})
         return ret
-        
-    def _get_parent(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Parent Invoice
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:None})
-        if res:
-            for r in res:
-                ret.update({r.id:r.parent_id.number})
-        return ret
 
     def _get_v_sdcf(self,cr,uid,ids,name,args,context=None):
         '''
@@ -377,20 +364,6 @@ class inherited_invoice(osv.osv):
 #                elif inv.type=="in_invoice" or inv.type=="out_invoice":
 #                    doc_type = "FACT"
 
-    def _get_invoice_affected(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get Invoice affected if parente invoice is an invoice else return empty
-        '''
-        
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for r in res:
-            if r.parent_id and r.parent_id.type in ['in_invoice', 'out_invoice']:
-                ret.update({r.id : r.parent_id.number})
-            else:
-                ret.update({r.id : ''})
-        return ret
-
     def _get_is_imported(self, cr, uid, ids, name, args, context=None):
         '''
         Get If document is an import
@@ -476,16 +449,12 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
                             help=""),
-        'get_parent': fields.function(_get_invoice_affected, method=True, string='Parent invoice', type='char',
-                            help=""),
         'get_v_sdcf': fields.function(_get_v_sdcf, method=True, string='SDCF', type='float',
                             help=""),
         'get_v_exent': fields.function(_get_v_exent, method=True, string='Amount excempt', type='float',
                             help=""),
         'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
                             help=""),
-#        'get_parent': fields.function(_get_parent, method=True, string='kind of document', type='char',
-#                            help=""),
         'get_lang': fields.function(_get_lang, method=True, string='Language', type='char',
                             help=""),
         'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
