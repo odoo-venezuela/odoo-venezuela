@@ -492,9 +492,11 @@ class fiscal_book(orm.Model):
         return True
 
     def _get_invoice_iwdl_id(self, cr, uid, fb_id, inv_id, context=None):
-        """
-        Check if the invoice have wh iva lines asociated and if its check if it
-        is at the same period. Return the wh iva line ID or False instead.
+        """ It check if the invoice have wh iva lines asociated and if its 
+        check if it is at the same period. Return the wh iva line ID or False 
+        instead.
+        @param fb_id: fiscal book id.
+        @param inv_id: invoice id to get wh line.
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
@@ -542,20 +544,19 @@ class fiscal_book(orm.Model):
         @param iwdl_ids: list of account withholding lines ids corresponding to the book period.
         """
         context = context or {}
+        data = []
+        no_match_iwdl_ids = []
+        my_rank = 1
         inv_obj = self.pool.get('account.invoice')
         iwdl_obj = self.pool.get('account.wh.iva.line')
         fbl_obj = self.pool.get('fiscal.book.lines')
-        my_rank = 1
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
         #~ delete book lines
-        fbl_ids = fbl_obj.search(cr, uid, [('fb_id','=',fb_id)], 
-                                 context=context)
-        fbl_obj.unlink(cr, uid, fbl_ids, context=context)
+        fbl_obj.unlink(cr, uid, fb_brw.fbl_ids, context=context)
         #~ add book lines for orphan withholding iva lines
-        data = []
         orphan_iwdl_ids = iwdl_ids and self._get_orphan_iwdl_ids(cr, uid, inv_ids, iwdl_ids, context=context) or False
         if orphan_iwdl_ids:
             for iwdl_brw in iwdl_obj.browse(cr, uid, orphan_iwdl_ids, context=context):
-                values = {}
                 values = {
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
@@ -572,7 +573,6 @@ class fiscal_book(orm.Model):
         #~ add book lines for invoices
         if inv_ids:
             for inv_brw in inv_obj.browse(cr, uid, inv_ids, context=context):
-                values = {}
                 values = {
                     'invoice_id': inv_brw.id,
                     'rank': my_rank,
