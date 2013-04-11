@@ -548,7 +548,7 @@ class fiscal_book(orm.Model):
                                                 context=context)
             if iwdl_id:
                 if inv_brw.date_invoice != \
-                   iwdl_obj.browse(cr, uid, iwdl_id, context=context).date:
+                   iwdl_obj.browse(cr, uid, iwdl_id, context=context).date_ret:
                     res.append(iwdl_id)
         return res
 
@@ -578,7 +578,7 @@ class fiscal_book(orm.Model):
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
                     'get_credit_affected': False,
-                    'get_date_invoiced': iwdl_brw.date or False,
+                    'get_date_invoiced': iwdl_brw.date_ret or False,
                     #~ TODO: take care of this. date or dat_ret?
                     'get_t_doc': 'RET',
                     #~ TODO: override 'get_t_doc' value by creating an function that take care of it.
@@ -818,7 +818,8 @@ class fiscal_book_lines(orm.Model):
         'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
             help='Fiscal Book where this line is related to'),
         'get_date_imported': fields.date(string='Imported Date', help=''),
-        'get_date_invoiced': fields.date(string='Invoiced Date', help=''),
+        'get_date_invoiced': fields.date(string='Invoiced Date',
+            help=' invoices -> date_invoice , wh iva lines -> dat_ret'),
         'get_t_doc': fields.char(size=128, string='Doc. Type', help=''),
         'get_partner_vat': fields.char(size=128, string='Partner vat', 
             help=''),
