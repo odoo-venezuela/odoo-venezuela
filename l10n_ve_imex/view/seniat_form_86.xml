@@ -6,12 +6,14 @@
 seniat_form_86    
 -->
 
-        <record model="ir.ui.view" id="view_seniat_form_86_form">
+        <record id="view_seniat_form_86_form" model="ir.ui.view">
             <field name="name">seniat.form.86.form</field>
             <field name="model">seniat.form.86</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Seniat" version='7.0'>
+					<header>
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
+                    </header>
                     <group col="8" colspan="8">
                         <field name="name"/>
                         <field name="ref"/>
@@ -86,12 +88,11 @@ seniat_form_86
         </record>
 
 
-        <record model="ir.ui.view" id="view_seniat_form_86_tree">
+        <record id="view_seniat_form_86_tree" model="ir.ui.view" >
             <field name="name">seniat.form.86.tree</field>
             <field name="model">seniat.form.86</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="red:state in ('draft');gray:state in ('cancel');darkgreen:state in ('open')">
+                <tree string="SENIAT" colors="red:state in ('draft');gray:state in ('cancel');darkgreen:state in ('open')">
                     <field name="name"/>
                     <field name="ref"/>
                     <field name="broker_id"/>

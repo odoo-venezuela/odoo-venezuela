@@ -6,9 +6,8 @@
 Config parent menu
 -->
 
-        <menuitem 
+        <menuitem name="Import/Export - SENIAT - Form 99086"
             id="menu_form_86_config_group" 
-            name="Import/Export - SENIAT - Form 99086" 
             parent="account.menu_configuration_misc"
             sequence="80"/>
 
@@ -16,74 +15,71 @@ Config parent menu
 form_86_config    
 -->
 
-        <record id="action_form_86_config" model="ir.actions.act_window">
+        <record model="ir.actions.act_window" id="view_form_86_config_tree">
             <field name="name">Configuration</field>
             <field name="res_model">form.86.config</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_form_86_config_tree"/>
-        </record>   
+		</record>   
 
         <menuitem 
             id="menu_action_form_86_config" 
             parent="menu_form_86_config_group" 
-            action="action_form_86_config"
-            icon="STOCK_JUSTIFY_FILL"/>        
+            action="action_form_86_config"/>        
 
 <!--
 form_86_customs    
 -->
 
-        <record id="action_form_86_customs" model="ir.actions.act_window">
+        <record model="ir.actions.act_window" id="view_form_86_customs_tree">
             <field name="name">Customs</field>
             <field name="res_model">form.86.customs</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_form_86_customs_tree"/>
         </record>   
 
         <menuitem 
             id="menu_action_form_86_customs" 
             parent="menu_form_86_config_group" 
-            action="action_form_86_customs"
-            icon="STOCK_JUSTIFY_FILL"/>        
+            action="action_form_86_customs"/>        
             
 <!--
 form_86_customs_tax_codes    
 -->
 
-        <record id="action_form_86_custom_taxes" model="ir.actions.act_window">
+        <record model="ir.actions.act_window" id="view_form_86_custom_taxes_tree">
             <field name="name">Tax codes</field>
             <field name="res_model">form.86.custom.taxes</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_form_86_custom_taxes_tree"/>
         </record>   
 
         <menuitem 
             id="menu_action_form_86_custom_taxes" 
             parent="menu_form_86_config_group" 
-            action="action_form_86_custom_taxes"
-            icon="STOCK_JUSTIFY_FILL"/>                 
+            action="action_form_86_custom_taxes"/>                 
 
             
 <!--
 seniat_form_86    
 -->
 
-        <record id="action_seniat_form_86" model="ir.actions.act_window">
+
+        <record model="ir.actions.act_window" id="view_seniat_form_86_tree">
             <field name="name">SENIAT - Form 99086</field>
             <field name="res_model">seniat.form.86</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_seniat_form_86_tree"/>
         </record>   
 
         <menuitem 
             id="menu_action_seniat_form_86" 
             parent="account.menu_finance_payables" 
-            action="action_seniat_form_86"
-            icon="STOCK_JUSTIFY_FILL"/>                 
+            action="action_seniat_form_86"/>                 
             
     </data>
 </openerp>

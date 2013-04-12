@@ -6,12 +6,16 @@
 form_86_config    
 -->
 
-        <record model="ir.ui.view" id="view_form_86_config_form">
+        <record id="view_form_86_config_form" model="ir.ui.view">
             <field name="name">form.86.config.form</field>
             <field name="model">form.86.config</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Form 86 Config" version='7.0'>
+					<header>
+<!--
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
+-->
+                    </header>
                     <field name="company_id"/>
                     <field name="journal_id"/>
 				</form>
@@ -19,12 +23,11 @@ form_86_config
 		</record>
 
 
-        <record model="ir.ui.view" id="view_form_86_config_tree">
+        <record id="view_form_86_config_tree" model="ir.ui.view">
             <field name="name">form.86.config.tree</field>
             <field name="model">form.86.config</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Form 86 Config">
                     <field name="company_id"/>
                     <field name="journal_id"/>
                 </tree>
@@ -36,12 +39,16 @@ form_86_config
 form_86_customs    
 -->
 
-        <record model="ir.ui.view" id="view_form_86_customs_form">
+        <record id="view_form_86_customs_form" model="ir.ui.view">
             <field name="name">form.86.customs.form</field>
             <field name="model">form.86.customs</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Customs" version='7.0'>
+					<header>
+<!--
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
+-->
+                    </header>
                     <field name="code"/>
                     <field name="name"/>
 				</form>
@@ -49,12 +56,11 @@ form_86_customs
 		</record>
 
 
-        <record model="ir.ui.view" id="view_form_86_customs_tree">
+        <record id="view_form_86_customs_tree" model="ir.ui.view">
             <field name="name">form.86.customs.tree</field>
             <field name="model">form.86.customs</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Customs">
                     <field name="code"/>
                     <field name="name"/>
                 </tree>
@@ -66,12 +72,11 @@ form_86_customs
 form_86_customs_tax_codes    
 -->
 
-        <record model="ir.ui.view" id="view_form_86_custom_taxes_form">
+        <record id="view_form_86_custom_taxes_form" model="ir.ui.view">
             <field name="name">form.86.custom.taxes.form</field>
             <field name="model">form.86.custom.taxes</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Custom Taxes">
                     <field name="code"/>
                     <field name="name"/>
                     <field name="ref"/>
@@ -85,12 +90,11 @@ form_86_customs_tax_codes
 		</record>
 
 
-        <record model="ir.ui.view" id="view_form_86_custom_taxes_tree">
+        <record id="view_form_86_custom_taxes_tree" model="ir.ui.view">
             <field name="name">form.86.custom.taxes.tree</field>
             <field name="model">form.86.custom.taxes</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Custom Taxes">
                     <field name="code"/>
                     <field name="name"/>
                     <field name="ref"/>
