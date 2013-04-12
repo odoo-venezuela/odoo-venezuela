@@ -118,27 +118,6 @@ class inherited_invoice(osv.osv):
                     doc_type = "FACT"
                 ret.update({inv.id : doc_type})
         return ret
-
-    def _get_v_exent(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Amount Exempt
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:0.0})
-        if not res:
-            return ret
-        for r in res:
-            amount = 0.0
-            for tax in r.tax_line:
-                name=tax.name
-                if name.find('EXENTO')>=0:
-                    amount += tax.base
-            if r.type in ['in_refund', 'out_refund']:
-                amount = amount * (-1.0)
-            ret.update({r.id : amount})
-        return ret
     
     def _get_inv_tax_line(self, s):
         '''
@@ -309,8 +288,6 @@ class inherited_invoice(osv.osv):
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
                             help=""),
         'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
-                            help=""),
-        'get_v_exent': fields.function(_get_v_exent, method=True, string='Amount excempt', type='float',
                             help=""),
         'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
                             help=""),
