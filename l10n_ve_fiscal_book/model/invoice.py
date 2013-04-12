@@ -80,17 +80,6 @@ class inherited_invoice(osv.osv):
                     ret.update({r.id : r.partner_id.vat[2:]})
         return ret
 
-    def _get_name(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Partner Name
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        if res:
-            for r in res:
-                ret.update({r.id:  r.partner_id.name})
-        return ret
-
     def _get_inv_number(self,cr,uid,ids,name,args,context=None):
         '''
         Get Invoice Number
@@ -389,8 +378,6 @@ class inherited_invoice(osv.osv):
         'get_date_document': fields.function(_get_date_document, method=True, string='Document date', type='date',
                             help=""),    
         'get_date_invoice': fields.function(_get_date_invoice, method=True, string='Invoice date', type='date',
-                            help=""),    
-        'get_partner_name': fields.function(_get_name, method=True, string='Partner Name', type='char',
                             help=""),    
         'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
                             help=""),
