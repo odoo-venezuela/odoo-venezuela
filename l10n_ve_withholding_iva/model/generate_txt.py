@@ -39,9 +39,8 @@ class txt_iva(osv.osv):
     _name = "txt.iva"
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
-        '''
-        Returns total amount withheld of each selected bill
-        '''
+        """ Returns total amount withheld of each selected bill
+        """
         context = context or {}
         res = {}
         for txt in self.browse(cr,uid,ids,context):
@@ -54,9 +53,8 @@ class txt_iva(osv.osv):
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
-        '''
-        Returns total amount base of each selected bill 
-        '''
+        """ Returns total amount base of each selected bill 
+        """
         context = context or {}
         res = {}
         for txt in self.browse(cr,uid,ids,context):
@@ -97,9 +95,8 @@ class txt_iva(osv.osv):
         }
 
     def period_return(self,cr,uid,context=None):
-        '''
-        Returns current period
-        '''
+        """ Returns current period
+        """
         context = context or {}
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
@@ -110,9 +107,8 @@ class txt_iva(osv.osv):
             return False
     
     def name_get(self, cr, uid, ids, context=None):
-        '''
-        Returns a list with id and name of the current register
-        '''
+        """ Returns a list with id and name of the current register
+        """
         context = context or {}
         if not len(ids):
             return []
@@ -120,23 +116,20 @@ class txt_iva(osv.osv):
         return res 
 
     def action_anular(self, cr, uid, ids, context=None):
-        '''
-        Return document state to draft
-        '''
+        """ Return document state to draft
+        """
         context = context or {}
         return self.write(cr, uid, ids, {'state':'draft'})
 
     def action_confirm(self, cr, uid, ids, context=None):
-        '''
-        Transfers the document status to confirmed
-        '''
+        """ Transfers the document status to confirmed
+        """
         context = context or {}
         return self.write(cr, uid, ids, {'state':'confirmed'})
 
     def action_generate_lines_txt(self,cr,uid,ids,context=None):
-        '''
-        Current lines are cleaned and rebuilt
-        '''
+        """ Current lines are cleaned and rebuilt
+        """
         context = context or {}
         voucher_obj = self.pool.get('account.wh.iva')
         txt_iva_obj = self.pool.get('txt.iva.line')
@@ -168,9 +161,8 @@ class txt_iva(osv.osv):
         return True
 
     def action_done(self, cr, uid, ids, context=None):
-        '''
-        Transfers the document status to done
-        '''
+        """ Transfers the document status to done
+        """
         context = context or {}
         root = self.generate_txt(cr,uid,ids)
         self._write_attachment(cr,uid,ids,root,context)
@@ -179,10 +171,9 @@ class txt_iva(osv.osv):
         return True
 
     def get_type_document(self,cr,uid,txt_line):
-        '''
-        Returns the document type
+        """ Returns the document type
         @param txt_line: line of the current document
-        '''
+        """
         type= '03'
         if txt_line.invoice_id.type in ['out_invoice','in_invoice']:
             type= '01'
@@ -191,10 +182,9 @@ class txt_iva(osv.osv):
         return type
 
     def get_document_affected(self,cr,uid,txt_line,context=None):
-        '''
-        Returns the reference or number depending of the case
+        """ Returns the reference or number depending of the case
         @param txt_line: line of the current document
-        '''
+        """
         context = context or {}
         number='0'
         if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
@@ -204,12 +194,11 @@ class txt_iva(osv.osv):
         return number
 
     def get_number(self,cr,uid,number,inv_type,long):
-        '''
-        Returns a list of number for document number
+        """ Returns a list of number for document number
         @param number: list of characters from number or reference of the bill 
         @param inv_type: invoice type
         @param long: max size oh the number 
-        '''
+        """
         if not number:
             return '0'
         result= ''
@@ -223,11 +212,10 @@ class txt_iva(osv.osv):
         return result[::-1].strip()
 
     def get_document_number(self,cr,uid,ids,txt_line,inv_type,context=None):
-        '''
-        Return the number o reference of the invoice into txt line
+        """ Return the number o reference of the invoice into txt line
         @param txt_line: One line of the current txt document
         @param inv_type: invoice type into txt line
-        '''
+        """
         context = context or {}
         number=0
         if txt_line.invoice_id.type in ['in_invoice','in_refund']:
@@ -240,10 +228,9 @@ class txt_iva(osv.osv):
         return number
 
     def get_amount_exempt_document(self,cr,uid,txt_line):
-        '''
-        Returns total amount not entitled to tax credit and the remaining amounts
+        """ Returns total amount not entitled to tax credit and the remaining amounts
         @param txt_line: One line of the current txt document
-        '''
+        """
         tax = 0
         amount_doc = 0
         for tax_line in txt_line.invoice_id.tax_line:
@@ -254,11 +241,10 @@ class txt_iva(osv.osv):
         return (tax,amount_doc)
 
     def get_buyer_vendor(self,cr,uid,txt,txt_line):
-        '''
-        Returns the buyer and vendor of the sale or purchase invoice
+        """ Returns the buyer and vendor of the sale or purchase invoice
         @param txt: current txt document 
         @param txt_line: One line of the current txt document
-        '''
+        """
         if txt_line.invoice_id.type in ['out_invoice','out_refund']:
             vendor = txt.company_id.partner_id.vat[2:]
             buyer  = txt_line.partner_id.vat[2:]
@@ -268,10 +254,9 @@ class txt_iva(osv.osv):
         return (vendor,buyer)
 
     def get_alicuota(self,cr,uid,txt_line):
-        '''
-        Returns aliquot of the withholding into line
+        """ Returns aliquot of the withholding into line
         @param txt_line: One line of the current txt document
-        '''
+        """
         list = []
         for tax_line in txt_line.invoice_id.tax_line:
             if '12' in tax_line.name:
@@ -285,9 +270,8 @@ class txt_iva(osv.osv):
         return max(list)
 
     def generate_txt(self,cr,uid,ids,context=None):
-        '''
-        Returns string with data of the current document
-        '''
+        """ Returns string with data of the current document
+        """
         context = context or {}
         txt_string = ''
         for txt in self.browse(cr,uid,ids,context):
@@ -317,10 +301,9 @@ class txt_iva(osv.osv):
         return txt_string
         
     def _write_attachment(self, cr,uid,ids,root,context=None):
-        '''
-        Encrypt txt, save it to the db and view it on the client as an attachment
+        """ Encrypt txt, save it to the db and view it on the client as an attachment
         @param root: location to save document
-        '''
+        """
         context = context or {}
         fecha = time.strftime('%Y_%m_%d_%H%M%S')
         name = 'IVA_' + fecha +'.'+ 'txt'

@@ -29,23 +29,23 @@ import base64
 import openerp.addons
 
 class split_invoice_config(osv.osv_memory):
-    """
-    Fiscal Requirements installer wizard
+    """ Fiscal Requirements installer wizard
     """
     _name = 'split.invoice.config'
     _inherit = 'res.config'
     _description= __doc__
 
     def default_get(self, cr, uid, fields_list=None, context=None):
+        """ Default value to the config_logo field
+        """
         defaults = super(split_invoice_config, self).default_get(cr, uid, fields_list=fields_list, context=context)
         logo = open(addons.get_module_resource('l10n_ve_split_invoice', 'images', 'puente-maracaibo.jpg'), 'rb')
         defaults['config_logo'] = base64.encodestring(logo.read())
         return defaults
 
     def execute(self, cr, uid, ids, context=None):
-        '''
-        In this method I will configure the maximum number of lines in your invoices.
-        '''
+        """ In this method I will configure the maximum number of lines in your invoices.
+        """
         wiz_data = self.browse(cr, uid, ids[0])
         if wiz_data.name < 1 :
              raise osv.except_osv(_('Error !'), _('The number of customer invoice lines must be at least one'))

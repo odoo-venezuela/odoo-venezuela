@@ -58,11 +58,14 @@ class rep_comprobante(report_sxw.rml_parse):
         })
 
     def _get_user(self):
-        
+        """ Returns current user
+        """
         return self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
 
 
     def _get_partner_addr2(self, idp=False):
+        """ Returns address2 partner
+        """
         if not idp:
             return []
 
@@ -80,6 +83,8 @@ class rep_comprobante(report_sxw.rml_parse):
         return addr_inv 
 
     def _get_tipo_doc(self, tipo=None):
+        """ Returns type doc
+        """
         if not tipo:
             return []
 
@@ -89,7 +94,9 @@ class rep_comprobante(report_sxw.rml_parse):
 
 
 
-    def _get_totales(self, comp_id):        
+    def _get_totales(self, comp_id):
+        """ Returns total amount
+        """
         if not comp_id:
             return []
 
@@ -229,27 +236,41 @@ class rep_comprobante(report_sxw.rml_parse):
         self.ttretencion = tot_iva_ret.get('s',0.0) - tot_iva_ret.get('r',0.0)
         return lst_comp
 
-    def _get_tot_gral_compra(self): 
+    def _get_tot_gral_compra(self):
+        """ Return overall total purchase
+        """
         return self.ttcompra
 
-    def _get_tot_gral_compra_scf(self): 
+    def _get_tot_gral_compra_scf(self):
+        """ Return total general not entitled to tax credit
+        """
         return self.ttcompra_sdcf
 
-    def _get_tot_gral_base(self): 
+    def _get_tot_gral_base(self):
+        """ Return total general base
+        """
         return self.ttbase 
         
-    def _get_tot_gral_iva(self): 
+    def _get_tot_gral_iva(self):
+        """ Return total general iva
+        """
         return self.ttiva
 
-    def _get_tot_gral_retencion(self): 
+    def _get_tot_gral_retencion(self):
+        """ Return total general retention
+        """
         return self.ttretencion 
 
     def _get_rif(self, vat=''):
+        """ Returns RIF
+        """
         if not vat:
             return []
         return vat[2:].replace(' ', '')
 
-    def _get_tot_linea(self, base, iva): 
+    def _get_tot_linea(self, base, iva):
+        """ Return linea total
+        """
         return base + iva
 
 

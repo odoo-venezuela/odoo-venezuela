@@ -28,6 +28,7 @@ from openerp.report import report_sxw
 from openerp.osv import osv
 
 class rep_comprobante_islr(report_sxw.rml_parse):
+    
     def __init__(self, cr, uid, name, context):
         super(rep_comprobante_islr, self).__init__(cr, uid, name, context=context)    
         self.localcontext.update({
@@ -35,6 +36,8 @@ class rep_comprobante_islr(report_sxw.rml_parse):
         })
 
     def _get_partner_addr(self, idp=False):
+        """ Return address of the partner
+        """
         if not idp:
             return []
 

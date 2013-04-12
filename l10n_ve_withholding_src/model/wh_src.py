@@ -247,6 +247,8 @@ class account_wh_src(osv.osv):
         return self.write(cr,uid,ids[0],{'state':'confirmed'})
         
     def action_done(self, cr, uid, ids, context=None):
+        """ Pass the document to state done
+        """
         if context is None:
             context = {}
 

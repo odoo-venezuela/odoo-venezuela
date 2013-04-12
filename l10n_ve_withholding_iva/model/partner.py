@@ -47,12 +47,11 @@ class seniat_url(osv.osv):
     _inherit = 'seniat.url'
     
     def _parse_dom(self,cr,uid,dom,rif,url_seniat,context=None):
-        '''
-        Extract iva rate and whether is withholding agent or not of the partner
+        """ Extract iva rate and whether is withholding agent or not of the partner
         @param dom: data from seniat page
         @param rif: vat to partner to consult
         @param url_seniat: seniat url
-        '''
+        """
         su_obj = self.pool.get('seniat.url')
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         wh_rate = su_obj._buscar_porcentaje(cr, uid, rif)
