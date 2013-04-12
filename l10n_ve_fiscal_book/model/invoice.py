@@ -225,18 +225,6 @@ class inherited_invoice(osv.osv):
             ret.update({r.id : r.partner_id.vat_subjected})
         return ret
 
-    def _get_is_imported(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get If document is an import
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:False})
-        for r in res:
-            if r.company_id.partner_id.country_id.id != r.partner_id.country_id.id:
-                ret.update({r.id : True})
-        return ret
 
     def _get_import_spreadsheets(self, cr, uid, ids, name, args, context=None):
         '''
@@ -279,7 +267,18 @@ class inherited_invoice(osv.osv):
         for r in res:
             ret.update({r.id : r.fiscal_printer})
         return ret
-        
+
+    def _get_is_imported(self, cr, uid, ids, field_name, args, context=None):
+        """ Boolean method that verify is a invoice is imported.
+        @param ids: list of invoice ids
+        """
+        context = context or {}
+        res = {}.fromkeys(ids, False)
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            res[inv_brw.id] = inv_brw.company_id.partner_id.country_id.id != \
+               inv_brw.partner_id.country_id.id and True or False
+        return res
+
     _columns = {
         'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
                             help=""),
@@ -307,14 +306,14 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
                             help=""),
-        'get_is_imported': fields.function(_get_is_imported, method=True, string='Is an import', type='boolean',
-                            help=""),
         'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
                             help=""),    
         'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Fiscal printer invoice number', type='char',
                             help=""),    
         'get_fiscal_printer': fields.function(_get_fiscal_printer, method=True, string='Fiscal machine number', type='char',
-                            help=""),    
+                            help=""),
+
+
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book where this line is related to'),
         #TODO: THIS FIELD TO BE CHANGED TO A STORABLE FUNCTIONAL FIELD
@@ -328,6 +327,10 @@ class inherited_invoice(osv.osv):
             help="Import the file number for this invoice"),
         'num_import_form': fields.char('Import Form number', 15,
             help="Import the form number for this invoice"),
+        'get_is_imported': fields.function(_get_is_imported,
+                method=True, type='boolean',
+                string='Is an import', 
+                help=""),
         }
-        
+
 inherited_invoice()
