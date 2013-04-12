@@ -210,21 +210,6 @@ class inherited_invoice(osv.osv):
                 if r.num_import_expe:
                     ret.pudate({r.id : r.nro_inport_expe})
         return ret
-        
-    def _get_vat_subjected(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get if partner is vat subjected
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:False})
-#        if not res:
-#            return ret
-        for r in res:
-            ret.update({r.id : r.partner_id.vat_subjected})
-        return ret
-
 
     def _get_import_spreadsheets(self, cr, uid, ids, name, args, context=None):
         '''
@@ -299,8 +284,6 @@ class inherited_invoice(osv.osv):
         'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='Import form number', type='char',
                             help=""),
         'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
-                            help=""),
-        'get_vat_subjected': fields.function(_get_vat_subjected, method=True, string='Vat subjected', type='boolean',
                             help=""),
         'get_import_form': fields.function(_get_reference, method=True, string='kind of document', type='char',
                             help=""),
