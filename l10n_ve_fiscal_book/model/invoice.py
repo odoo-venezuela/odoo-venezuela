@@ -86,28 +86,6 @@ class inherited_invoice(osv.osv):
                     ret.update({r: whl.retention_id.number})
         return ret
 
-    def _get_t_doc(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get String Document Type
-        '''
-        invs = self.browse(cr, uid, ids)
-        doc_type = ''
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        if invs:
-            for inv in invs:
-                if (inv.type=="in_invoice" or inv.type=="out_invoice") and inv.parent_id:
-                    doc_type = "N/DE"
-                elif (inv.type=="in_invoice" or inv.type=="in_refund") and inv.expedient:
-                    doc_type="E"
-                elif inv.type=='in_refund' or inv.type=='out_refund':
-                    doc_type = "N/CR"
-                elif inv.type=="in_invoice" or inv.type=="out_invoice":
-                    doc_type = "FACT"
-                ret.update({inv.id : doc_type})
-        return ret
-    
     def _get_inv_tax_line(self, s):
         '''
         Get Tax Line
@@ -252,13 +230,11 @@ class inherited_invoice(osv.osv):
             res[inv_brw.id] = inv_brw.company_id.partner_id.country_id.id != \
                inv_brw.partner_id.country_id.id and True or False
         return res
-
+    
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
-                            help=""),
-        'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
                             help=""),
         'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
                             help=""),
