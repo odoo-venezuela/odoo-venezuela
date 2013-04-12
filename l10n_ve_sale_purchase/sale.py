@@ -56,6 +56,8 @@ class sale_order_line(osv.osv):
 
     #~metodo que agrega al original el concepto en las lineas de retencion de venta, es llamado por action_invoice_create() en sale.order
     def invoice_line_create(self, cr, uid, ids, context={}):
+        """ Assing concept_id to the invoice lines
+        """
         create_ids = super(sale_order_line, self).invoice_line_create(cr, uid, ids, context)
         invoice_line_brws = self.pool.get('account.invoice.line').browse(cr, uid, create_ids)
         order_line_sale_brws = self.pool.get('sale.order.line').browse(cr, uid, ids)

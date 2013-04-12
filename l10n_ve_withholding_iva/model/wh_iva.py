@@ -57,7 +57,7 @@ class account_wh_iva_line_tax(osv.osv):
         return True
         
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
-        """ Returns withholding amount
+        """ Return withholding amount
         """
         if context is None: context=None
         res = {}
@@ -96,7 +96,7 @@ account_wh_iva_line_tax()
 class account_wh_iva_line(osv.osv):
 
     def _get_tax_lines(self, cr, uid, tax_id_brw, context=None):
-        """ Returns dictionary with tax line data
+        """ Return dictionary with tax line data
         @param tax_id_brw: tax object
         """
         if context is None: context = {}
@@ -136,7 +136,7 @@ class account_wh_iva_line(osv.osv):
         return True
 
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
-        """ Returns amount total each line
+        """ Return amount total each line
         """
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
@@ -170,7 +170,7 @@ class account_wh_iva_line(osv.osv):
     ] 
 
     def invoice_id_change(self, cr, uid, ids, invoice, context=None):
-        """ Returns invoice data to assign to withholding vat
+        """ Return invoice data to assign to withholding vat
         @param invoice: invoice for assign a withholding vat
         """
         if context is None:
@@ -199,7 +199,7 @@ account_wh_iva_line()
 class account_wh_iva(osv.osv):
 
     def _amount_ret_all(self, cr, uid, ids, name, args, context=None):
-        """ Returns withholding amount total each line
+        """ Return withholding amount total each line
         """
         res = {}
         for retention in self.browse(cr, uid, ids, context):
@@ -214,7 +214,7 @@ class account_wh_iva(osv.osv):
         return res
         
     def _get_type(self, cr, uid, context=None):
-        """ Returns invoice type
+        """ Return invoice type
         """
         if context is None:
             context = {}
@@ -222,7 +222,7 @@ class account_wh_iva(osv.osv):
         return type
 
     def _get_journal(self, cr, uid, context):
-        """ Returns a iva journal depending of invoice type
+        """ Return a iva journal depending of invoice type
         """
         if context is None:
             context = {}
@@ -343,7 +343,7 @@ class account_wh_iva(osv.osv):
         return True
 
     def check_vat_wh(self, cr, uid, ids, context={}):
-        """ Checks whether the bill will need to withhold taxes
+        """ Check whether the bill will need to withhold taxes
         """
         obj = self.browse(cr, uid, ids[0])
         res = {}
@@ -503,7 +503,7 @@ class account_wh_iva(osv.osv):
         return True
     
     def _withholdable_tax_(self, cr, uid, ids, context=None):
-        """ Returns lines with withholdable taxes 
+        """ Return lines with withholdable taxes 
         """
         if context is None:
             context={}
@@ -582,7 +582,7 @@ class account_wh_iva(osv.osv):
         return True
 
     def compute_amount_wh(self, cr, uid, ids, context=None):
-        """ Calculates withholding amount each line
+        """ Calculate withholding amount each line
         """
         res = {}
         if context is None:

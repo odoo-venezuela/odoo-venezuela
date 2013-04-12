@@ -54,7 +54,7 @@ class l10n_ut(osv.osv):
     }
 
     def get_amount_ut(self, cr, uid, date=False, *args):
-        """ Returns the value of
+        """ Return the value of
         the tributary unit of the specified date or
         if it's empty return the value to current
         date.
@@ -68,7 +68,7 @@ class l10n_ut(osv.osv):
         return rate
 
     def compute(self, cr, uid, from_amount, date=False, context=None):
-        """ Returns the number of tributary
+        """ Return the number of tributary
         units depending on an amount of money.
         """
         if context is None:

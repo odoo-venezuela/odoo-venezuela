@@ -107,7 +107,7 @@ class account_invoice(osv.osv):
 
     
     def ret_payment_get(self, cr, uid, ids, *args):
-        """ Returns payments associated with this bill
+        """ Return payments associated with this bill
         """
         for invoice in self.browse(cr, uid, ids):
             moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
@@ -170,7 +170,7 @@ class account_invoice_tax(osv.osv):
     }
 
     def compute(self, cr, uid, invoice_id, context=None):
-        """ Calculates the amount, base, tax amount,
+        """ Calculate the amount, base, tax amount,
         base amount of the invoice
         """
         

@@ -69,6 +69,3 @@ class product_product(osv.osv):
         return {'value' : {'concept_id':concept_id or False}} 
 
 product_product()
-
-
-

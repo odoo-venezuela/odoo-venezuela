@@ -106,7 +106,7 @@ class account_invoice(osv.osv):
         return ok
 
     def _get_inv_munici_from_line(self, cr, uid, ids, context=None):
-        """ Returns invoice from journal items
+        """ Return invoice from journal items
         """
         context = context or {}
         move = {}
@@ -125,7 +125,7 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_munici_from_reconcile(self, cr, uid, ids, context=None):
-        """ Returns invoice from reconciled lines
+        """ Return invoice from reconciled lines
         """
         context = context or {}
         move = {}

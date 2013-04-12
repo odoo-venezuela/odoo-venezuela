@@ -38,6 +38,8 @@ class wh_muni_report(report_sxw.rml_parse):
         })
 
     def _get_partner_addr(self, idp=False):
+        """ Return partner address
+        """
         if not idp:
             return []
 
@@ -50,6 +52,8 @@ class wh_muni_report(report_sxw.rml_parse):
 
 
     def _get_rif(self, vat=''):
+        """ Return partner rif
+        """
         if not vat:
             return []
         return vat[2:].replace(' ', '')

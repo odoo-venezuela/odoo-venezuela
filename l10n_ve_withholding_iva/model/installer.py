@@ -104,7 +104,7 @@ class wh_iva_config(osv.osv_memory):
         return defaults
 
     def _create_journal(self, cr, uid, name, type, code):
-        """ Creates a journal
+        """ Create a journal
         @param name: journal name
         @param type: journal type
         @param code: code for journal

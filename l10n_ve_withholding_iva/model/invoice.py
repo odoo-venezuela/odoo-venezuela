@@ -43,7 +43,7 @@ class account_invoice(osv.osv):
 
 
     def _get_inv_from_line(self, cr, uid, ids, context={}):
-        """ Returns invoice from journal items
+        """ Return invoice from journal items
         """
         context = context or {}
         move = {}
@@ -60,7 +60,7 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
-        """ Returns invoice from reconciled lines
+        """ Return invoice from reconciled lines
         """
         context = context or {}
         move = {}
@@ -91,7 +91,7 @@ class account_invoice(osv.osv):
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
-        """ Returns withholding iva rate of the partner and other data
+        """ Return withholding iva rate of the partner and other data
         @param type: Invoice type
         @param partner_id: Partner id of the invoice
         @param date_invoice: Date invoice
@@ -159,7 +159,7 @@ class account_invoice(osv.osv):
         })
 
     def action_wh_iva_supervisor(self, cr, uid, ids, *args):
-        """ Validates the currencys are equal
+        """ Validate the currencys are equal
         """
         user_obj= self.pool.get('res.users')
         user_brw= user_obj.browse(cr,uid,uid)
@@ -208,7 +208,7 @@ class account_invoice(osv.osv):
         return ret_id
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
-        """ Recalculates taxes in invoice 
+        """ Recalculate taxes in invoice 
         """
         if not context:
             context = {}
@@ -359,7 +359,7 @@ class account_invoice_tax(osv.osv):
     }
 
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
-        """ Calculates withholding amount 
+        """ Calculate withholding amount 
         """
         context = context or {}
         res = {}

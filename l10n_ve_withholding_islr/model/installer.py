@@ -37,12 +37,16 @@ class wh_islr_config(osv.osv_memory):
     _description = __doc__
 
     def default_get(self, cr, uid, fields_list=None, context=None):
+        """ Default value config_logo field
+        """
         defaults = super(wh_islr_config, self).default_get(cr, uid, fields_list=fields_list, context=context)
         logo = open(addons.get_module_resource('l10n_ve_withholding_islr', 'images', 'playa-medina.jpg'), 'rb')
         defaults['config_logo'] = base64.encodestring(logo.read())
         return defaults
 
     def _create_journal(self, cr, uid, name, type, code):
+        """ Create journal account
+        """
         self.pool.get("account.journal").create(cr, uid, { 
             'name': name,
             'type': type,
@@ -51,6 +55,10 @@ class wh_islr_config(osv.osv_memory):
         )
 
     def _update_concepts(self, cr, uid, sale, purchase,context={}):
+        """ Update sale and purchase concepts
+        @param sale: sale concept
+        @param purchase: purchase concept
+        """
         concept_pool = self.pool.get("islr.wh.concept")
         concept_pool.write(cr, uid, concept_pool.search(cr, uid, [],context=context), {
             'property_retencion_islr_payable': purchase,
@@ -59,10 +67,14 @@ class wh_islr_config(osv.osv_memory):
         return True
 
     def _set_wh_agent(self, cr, uid):
+        """ Set if is withholding agent or not
+        """
         company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         self.pool.get('res.partner').write(cr, uid, [company.partner_id.id], {'islr_withholding_agent': True})
 
     def execute(self, cr, uid, ids, context=None):
+        """ Create journals and determinate if is withholding agent or not
+        """
         wiz_data = self.read(cr, uid, ids[0],context=context)
         if wiz_data['journal_purchase']:
             self._create_journal(cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')

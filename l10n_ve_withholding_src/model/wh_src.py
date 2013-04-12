@@ -54,7 +54,7 @@ class account_wh_src(osv.osv):
         return res
 
     def _get_uid_wh_agent(self, cr, uid, context=None):
-        """ Returns true if current partner is social responsability agent and
+        """ Return true if current partner is social responsability agent and
         return false in otherwise
         """
         context = context or {}
@@ -62,7 +62,7 @@ class account_wh_src(osv.osv):
         return user_wh_agent
 
     def _get_partner_agent(self, cr, uid, context=None):
-        """ Returns a list of browse partner depending of invoice type
+        """ Return a list of browse partner depending of invoice type
         """
         context = context or {}
         
@@ -137,7 +137,7 @@ class account_wh_src(osv.osv):
     } 
     
     def _diario(self, cr, uid, model, context=None):
-        """  Returns journal to use in purchase or sale
+        """  Return journal to use in purchase or sale
         """
         if context is None:
             context={}
@@ -218,7 +218,7 @@ class account_wh_src(osv.osv):
         return self.write(cr,uid,ids[0],{'state':'draft'})
 
     def action_confirm(self, cr, uid, ids, context={}):
-        """ retention is valid to pass a status confirmed
+        """ Retention is valid to pass a status confirmed
         """
         if context is None:
             context={}
@@ -259,13 +259,13 @@ class account_wh_src(osv.osv):
         return self.write(cr,uid,ids,{'state':'done'})
         
     def action_cancel(self,cr,uid,ids,context={}):
-        """ still not allowed to cancel these withholdings
+        """ Still not allowed to cancel these withholdings
         """
         raise osv.except_osv(_('Procedimiento invalido!'),_("Por el momento, el sistema no le permite Cancelar estas Retenciones."))
         return True
         
     def copy(self,cr,uid,id,default,context=None):
-        """ lines can not be duplicated in this model
+        """ Lines can not be duplicated in this model
         """
         raise osv.except_osv('Procedimiento invalido!',"No puede duplicar lineas")
         return True
@@ -277,7 +277,7 @@ class account_wh_src(osv.osv):
 
 
     def action_move_create(self, cr, uid, ids, context=None):
-        """ build account moves related to withholding invoice 
+        """ Build account moves related to withholding invoice 
         """
         inv_obj = self.pool.get('account.invoice')
         if context is None: context = {}
@@ -350,7 +350,7 @@ class account_wh_src(osv.osv):
         
         
     def wh_src_confirmed(self, cr, uid, ids):
-        """ confirm src document
+        """ Confirm src document
         """
         number = self.pool.get('account.wh.src.line')
         return True
@@ -380,7 +380,7 @@ class account_wh_src_line(osv.osv):
     ] 
     
     def onchange_invoice_id(self, cr, uid, ids, type, invoice_id=False,base_amount=0.0,wh_src_rate=5.0,context=None):
-        """ change src information to change the invoice 
+        """ Change src information to change the invoice 
         @param type: invoice type
         @param invoice_id: new invoice id
         @param base_amount: new base amount

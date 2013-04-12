@@ -40,7 +40,7 @@ class account_invoice_debit(osv.osv_memory):
     }
 
     def _get_journal(self, cr, uid, context=None):
-        """ Returns partner journal depending of the invoice type
+        """ Return partner journal depending of the invoice type
         """
         obj_journal = self.pool.get('account.journal')
         if context is None:

@@ -82,7 +82,7 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
-        """ Returns invoice from reconciled lines
+        """ Return invoice from reconciled lines
         """
         move = {}
         for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
@@ -97,8 +97,7 @@ class account_invoice(osv.osv):
         return invoice_ids
     
     def _check_retention(self, cr, uid, ids, context=None):
-        """
-        This method will check the retention value will be maximum 5%   
+        """ This method will check the retention value will be maximum 5%   
         """
         if context is None: context = {}
         

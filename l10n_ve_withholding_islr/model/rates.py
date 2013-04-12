@@ -70,6 +70,3 @@ class islr_rates(osv.osv):
     'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False, ondelete='cascade'),
     }
 islr_rates()
-
-
-

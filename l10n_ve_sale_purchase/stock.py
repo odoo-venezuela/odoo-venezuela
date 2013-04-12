@@ -22,7 +22,7 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU Affero General Public License
+ale_purchase    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 from openerp.osv import osv
@@ -33,10 +33,10 @@ import time
 
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
-    '''
-    Function that adds the concept of retention to the invoice_lines from a purchase order or sales order with billing method from picking list
-    '''
     def action_invoice_create(self, cursor, user, ids, journal_id=False,group=False, type='out_invoice', context=None):
+        """ Function that adds the concept of retention to the invoice_lines from 
+        a purchase order or sales order with billing method from picking list
+        """
         if context is None:
             context = {}
         data = super(stock_picking, self).action_invoice_create(cursor, user, ids, journal_id, group, type, context)

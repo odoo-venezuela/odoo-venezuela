@@ -57,7 +57,7 @@ class res_partner(osv.osv):
         return res
 
     def _get_uid_country(self, cr, uid, ids, field_name, args, context=None):
-        """ Returns a dictionary of key ids as invoices, and value the country code
+        """ Return a dictionary of key ids as invoices, and value the country code
         of the user company.
         """
         context = context or {}
@@ -89,7 +89,7 @@ class res_partner(osv.osv):
     Required Invoice Address
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
-        """ Returns true if the partner is a company of Venezuela and if the
+        """ Return true if the partner is a company of Venezuela and if the
         address is for billing.
         """
         partner_obj = self.browse(cr,uid,ids[0])

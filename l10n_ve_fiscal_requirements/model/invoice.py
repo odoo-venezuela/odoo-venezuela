@@ -28,7 +28,7 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
-        """ Returns the journal which is 
+        """ Return the journal which is 
         used in the current user's company, otherwise
         it does not exist, return false
         """

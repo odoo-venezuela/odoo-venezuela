@@ -52,7 +52,7 @@ class account_invoice_refund(osv.osv_memory):
     }
 
     def _get_journal(self, cr, uid, context=None):
-        """ Returns journal depending of the invoice type
+        """ Return journal depending of the invoice type
         """
         obj_journal = self.pool.get('account.journal')
         if context is None:

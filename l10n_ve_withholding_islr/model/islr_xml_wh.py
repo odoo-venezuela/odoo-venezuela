@@ -25,7 +25,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
+slr_xml_wh.pyfrom openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
 from openerp.tools import config
@@ -41,7 +41,7 @@ class islr_xml_wh_doc(osv.osv):
     _description = 'Generate XML'
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
-        """ Returns withhold total amount
+        """ Return withhold total amount
         """
         res = {}
         for xml in self.browse(cr,uid,ids,context):
@@ -51,7 +51,7 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
-        """ Returns base total amount
+        """ Return base total amount
         """
         res = {}
         for xml in self.browse(cr,uid,ids,context):
@@ -87,7 +87,7 @@ class islr_xml_wh_doc(osv.osv):
     }
 
     def period_return(self,cr,uid,context=None):
-        """ Returns current period
+        """ Return current period
         """
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
@@ -98,7 +98,7 @@ class islr_xml_wh_doc(osv.osv):
             return False
 
     def search_period(self,cr,uid,ids,period_id,context=None):
-        """ Returns islr lines associated with the period_id
+        """ Return islr lines associated with the period_id
         @param period_id: period associated with returned islr lines
         """
         if context is None:
@@ -112,7 +112,7 @@ class islr_xml_wh_doc(osv.osv):
                 return res
                 
     def name_get(self, cr, uid, ids, context={}):
-        """ Returns id and name of all records
+        """ Return id and name of all records
         """
         if not len(ids):
             return []
@@ -121,7 +121,7 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     def action_anular1(self, cr, uid, ids, context={}):
-        """ Returns the document to draft status
+        """ Return the document to draft status
         """
         return self.write(cr, uid, ids, {'state':'draft'})
 
@@ -177,7 +177,7 @@ class islr_xml_wh_doc(osv.osv):
 
 
     def _xml(self, cr,uid,ids):
-        """ Transforms this document to XML format
+        """ Transform this document to XML format
         """
         root = ''
         for id in ids:

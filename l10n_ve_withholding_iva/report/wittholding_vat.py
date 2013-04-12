@@ -58,13 +58,13 @@ class rep_comprobante(report_sxw.rml_parse):
         })
 
     def _get_user(self):
-        """ Returns current user
+        """ Return current user
         """
         return self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
 
 
     def _get_partner_addr2(self, idp=False):
-        """ Returns address2 partner
+        """ Return address2 partner
         """
         if not idp:
             return []
@@ -83,7 +83,7 @@ class rep_comprobante(report_sxw.rml_parse):
         return addr_inv 
 
     def _get_tipo_doc(self, tipo=None):
-        """ Returns type doc
+        """ Return type doc
         """
         if not tipo:
             return []
@@ -95,7 +95,7 @@ class rep_comprobante(report_sxw.rml_parse):
 
 
     def _get_totales(self, comp_id):
-        """ Returns total amount
+        """ Return total amount
         """
         if not comp_id:
             return []
@@ -262,7 +262,7 @@ class rep_comprobante(report_sxw.rml_parse):
         return self.ttretencion 
 
     def _get_rif(self, vat=''):
-        """ Returns RIF
+        """ Return RIF
         """
         if not vat:
             return []
