@@ -54,17 +54,6 @@ class inherited_invoice(osv.osv):
                 ret.update({r.id : r.reference and r.reference or ''})
         return ret
 
-    def _get_control_number(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Invoice Control Number
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        if res:
-            for r in res:
-                ret.update({r.id : r.nro_ctrl and r.nro_ctrl or ''})
-        return ret
-
     def _get_total(self,cr,uid,ids,name,args,context=None):
         '''
         Get Total Invoice Amount
@@ -265,8 +254,6 @@ class inherited_invoice(osv.osv):
         return res
 
     _columns = {
-        'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
-                            help=""),
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
