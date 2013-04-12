@@ -12,7 +12,7 @@
 {
     "name" : "L10n ve - Import/Export",
     "version" : "0.1",
-    "depends" : ["base", "account", "decimal_precision","l10n_ve_fiscal_reports"],
+    "depends" : ["base", "account", "decimal_precision"],
     "author" : "Tecvemar - Juan Márquez",
     "description" : "Import/Export SENIAT Forma 99086",
     "website" : "https://code.launchpad.net/~jmarquez/openerp-tecvemar/l10n_ve_imex",
