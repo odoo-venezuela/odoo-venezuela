@@ -166,8 +166,7 @@ class form_86_custom_taxes(osv.osv):
         'ref': fields.char('Ref', size=16, required=False, readonly=False),   
         'sequence': fields.integer('Sequence'), 
         'partner_id': fields.many2one('res.partner', 'Partner', change_default=True, readonly=True, required=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
-        'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict',help="This account will be used for expenses related to taxes"), 
-        #~ 'acc_tax_id':fields.many2one('account.tax', 'Account Tax ', required=False, ondelete='restrict',domain=[('type_tax_use','=','purchase')],help=""), 
+        'account_id':fields.many2one('account.account', 'Account to pay', required=True, ondelete='restrict',help="This account will be used for expenses related to taxes"), # ,domain="[('type','!=','view')]"
         'vat_detail':fields.boolean('Tax detail',required=True,help="Set true if this is vat related tax"),
         'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
         }

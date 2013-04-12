@@ -90,9 +90,9 @@ class seniat_form_86(osv.osv):
         'custom_id': fields.many2one('form.86.customs', 'Custom', change_default=True, readonly=True, states={'draft':[('readonly',False)]}, ondelete='restrict'),
         'line_ids':fields.one2many('seniat.form.86.lines','line_id','Tax lines',readonly=True, states={'draft':[('readonly',False)]}),
         'amount_total':fields.function(_amount_total, method=True, type = 'float', string='Amount total', store=False),
-        'move_id': fields.many2one('account.move', 'Account move', ondelete='restrict', help="The move of this entry line.", select=True, readonly=True),
+        'move_id': fields.many2one('account.move', 'Account move', ondelete='restrict', select=True, readonly=True, help="The move of this entry line."),
         'narration':fields.text('Notes', readonly=False),
-        'invoice_ids':fields.one2many('account.invoice','num_import_form_id','Related invoices',readonly=True),
+        'invoice_ids':fields.one2many('account.invoice','num_import_form_id','Related invoices',readonly=True), #, domain="[('state','!=','cancel')]"
         'state': fields.selection([('draft', 'Draft'),('open', 'Open'),('done', 'Done'),('cancel', 'Cancelled')], string='State', required=True, readonly=True),
         }
 
@@ -112,18 +112,31 @@ class seniat_form_86(osv.osv):
     ##------------------------------------------------------------------------------------ public methods
     
     def create_account_move_lines(self, cr, uid, f86, context=None):
+        """
+        Creates the account.move.lines from line_ids detail except for taxes with "vat_detail", 
+        in this case create debits from line_ids.line_vat_ids and get debit account from account_tax model
+        """
         lines = []
         company_id = context.get('f86_company_id')
         f86_cfg = context.get('f86_config')
 
         #~ expenses
         for line in f86.line_ids:
-            debit_account_id = line.tax_code.account_id.id
+
+            debits = []
+            if line.tax_code.vat_detail:
+                for vat in line.line_vat_ids:
+                    debits.append({'account_id':vat.acc_tax_id.account_collected_id.id,'amount':vat.tax_amount,'tax_info':' (%s)'%vat.acc_tax_id.name})
+            else:
+                debits.append({'account_id':line.tax_code.account_id.id,'amount':line.amount,'tax_info':''})
+                
             credit_account_id = line.tax_code.partner_id.property_account_payable.id
-            if not debit_account_id or not debit_account_id:
-                raise osv.except_osv(_('Error!'),_('No account found, please check customs taxes settings (%s)')%line.tax_code.name)
-            lines.append(self._gen_account_move_line(company_id, debit_account_id, line.tax_code.partner_id.id, '[%s] %s - %s'%(line.tax_code.code,line.tax_code.ref,line.tax_code.name) , line.amount,0.0))
-            lines.append(self._gen_account_move_line(company_id, credit_account_id, line.tax_code.partner_id.id, 'F86 #%s'%f86.name ,0.0,line.amount))
+
+            for debit in debits:
+                if not debit['account_id'] or not credit_account_id:
+                    raise osv.except_osv(_('Error!'),_('No account found, please check customs taxes settings (%s)')%line.tax_code.name)
+                lines.append(self._gen_account_move_line(company_id, debit['account_id'], line.tax_code.partner_id.id, '[%s] %s - %s%s'%(line.tax_code.code,line.tax_code.ref,line.tax_code.name,debit['tax_info']) , debit['amount'],0.0))
+            lines.append(self._gen_account_move_line(company_id, credit_account_id, line.tax_code.partner_id.id, 'F86 #%s - %s'%(f86.name,line.tax_code.name) ,0.0,line.amount))
         
         lines.reverse() ## set real order ;-)
         return lines
@@ -156,8 +169,11 @@ class seniat_form_86(osv.osv):
                     'company_id':company_id,
                     'state':'draft',
                     'to_check':False,
-                    'narration':_('SENIAT - Forma 86  # %s):\n\tReference: %s\n\tBroker: %s')%(f86.name,f86.ref,f86.broker_id.name),
+                    'narration':_('Form 86 # %s\n\tReference: %s\n\tBroker: %s\n\nRelated invoices:')%(f86.name,f86.ref or '',f86.broker_id.name or ''),
                     }
+            for inv in f86.invoice_ids:
+                str_inv = _('\n\tSupplier: %-40s Reference: %s')%(inv.partner_id.name,inv.reference)
+                move['narration'] = '%s%s'%(move['narration'],str_inv)            
             lines = self.create_account_move_lines(cr, uid, f86, context)
             if lines:
                 move.update({'line_id':lines})
@@ -325,6 +341,20 @@ class seniat_form_86_lines_vat(osv.osv):
     ##------------------------------------------------------------------------------------ buttons (object)
 
     ##------------------------------------------------------------------------------------ on_change...
+    
+    """
+    def on_change_line_vat_id(self, cr, uid, ids, line_vat_id):
+        '''
+        Create a domain to filter invoice_id for invoices listed in seniat_form_86.invoice_ids only
+        http://help.openerp.com/question/11180/how-to-create-a-domain-for-field-in-parentparent-model/
+        '''
+        res = {}
+        if line_vat_id:
+            line_obj = self.pool.get('seniat.form.86.lines')
+            invoices = [i.id for i in line_obj.browse(cr, uid, line_vat_id).line_id.invoice_ids]
+            res = {'domain': {'invoice_id': [('id','in',invoices)]}}
+        return res
+    """
     
     def on_change_amount(self, cr, uid, ids, acc_tax_id, base_amount, tax_amount):
         """
