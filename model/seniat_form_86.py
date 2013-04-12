@@ -92,7 +92,7 @@ class seniat_form_86(osv.osv):
         'amount_total':fields.function(_amount_total, method=True, type = 'float', string='Amount total', store=False),
         'move_id': fields.many2one('account.move', 'Account move', ondelete='restrict', select=True, readonly=True, help="The move of this entry line."),
         'narration':fields.text('Notes', readonly=False),
-        'invoice_ids':fields.one2many('account.invoice','num_import_form_id','Related invoices',readonly=True), #, domain="[('state','!=','cancel')]"
+        'invoice_ids':fields.one2many('account.invoice','num_import_form_id','Related invoices',readonly=True), 
         'state': fields.selection([('draft', 'Draft'),('open', 'Open'),('done', 'Done'),('cancel', 'Cancelled')], string='State', required=True, readonly=True),
         }
 
