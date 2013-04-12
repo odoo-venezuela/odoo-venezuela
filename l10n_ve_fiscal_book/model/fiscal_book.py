@@ -598,7 +598,6 @@ class fiscal_book(orm.Model):
                 values = {
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
-                    'get_credit_affected': False,
                     'get_accounting_date': iwdl_brw.date_ret or False,
                     'get_emission_date': iwdl_brw.date or False,
                     'get_t_doc': 'RET',
@@ -614,13 +613,16 @@ class fiscal_book(orm.Model):
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
-                'get_credit_affected': inv_brw.get_credit_affected or False,
                 'get_emission_date': inv_brw.get_date_document or False,
                 'get_accounting_date': inv_brw.get_date_invoiced or False,
                 'get_imex_date': inv_brw.get_is_imported and inv_brw.get_date_invoice or False,
                 'get_debit_affected': inv_brw.parent_id \
+                                      and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
                                       and inv_brw.parent_id.parent_id \
                                       and inv_brw.parent_id.number or False,
+                'get_credit_affected': inv_brw.parent_id and \
+                                       inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
+                                       and inv_brw.parent_id.number or False,
                 'get_doc': self.get_doc(cr, uid, inv_brw, context=context),
                 'get_number': inv_brw.get_number or False,
                 'get_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
@@ -866,10 +868,10 @@ class fiscal_book_lines(orm.Model):
             help='Invoice Importation/Exportation date'),
         'get_debit_affected': fields.char(string='Affected Debit Notes', 
             help='Debit notes affected'),
-
-
         'get_credit_affected': fields.char(string='Affected Credit Notes', 
-            help=''),
+            help='Credit notes affected'),
+
+
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),

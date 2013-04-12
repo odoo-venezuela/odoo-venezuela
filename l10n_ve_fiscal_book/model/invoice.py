@@ -330,27 +330,6 @@ class inherited_invoice(osv.osv):
             ret.update({r.id : r.partner_id.vat_subjected})
         return ret
 
-    def _get_credit_affected(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get invoice affected 
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for r in res:
-            if r.parent_id and r.parent_id.type in ['in_refund', 'out_refund']:
-                ret.update({r.id : r.parent_id.number})
-            else:
-                ret.update({r.id : ''})
-        return ret
-#                if (inv.type=="in_invoice" or inv.type=="out_invoice") and inv.parent_id:
-#                    doc_type = "N/DE"
-#                elif (inv.type=="in_invoice" or inv.type=="in_refund") and inv.expedient:
-#                    doc_type="E"
-#                elif inv.type=='in_refund' or inv.type=='out_refund':
-#                    doc_type = "N/CR"
-#                elif inv.type=="in_invoice" or inv.type=="out_invoice":
-#                    doc_type = "FACT"
-
     def _get_is_imported(self, cr, uid, ids, name, args, context=None):
         '''
         Get If document is an import
@@ -440,8 +419,6 @@ class inherited_invoice(osv.osv):
         'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
                             help=""),
         'get_vat_subjected': fields.function(_get_vat_subjected, method=True, string='Vat subjected', type='boolean',
-                            help=""),
-        'get_credit_affected': fields.function(_get_credit_affected, method=True, string='Credit notes affected', type='char',
                             help=""),
         'get_import_form': fields.function(_get_reference, method=True, string='kind of document', type='char',
                             help=""),
