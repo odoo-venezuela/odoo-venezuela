@@ -28,20 +28,6 @@ from openerp.osv import osv, fields
 class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
 
-    def _get_vat(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Partner vat without two first letters
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:'N/A'})
-        if res:
-            for r in res:
-                if r.partner_id.vat:
-                    ret.update({r.id : r.partner_id.vat[2:]})
-        return ret
-
     def _get_inv_number(self,cr,uid,ids,name,args,context=None):
         '''
         Get Invoice Number
@@ -337,8 +323,6 @@ class inherited_invoice(osv.osv):
         return ret
         
     _columns = {
-        'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
-                            help=""),
         'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
                             help=""),
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',

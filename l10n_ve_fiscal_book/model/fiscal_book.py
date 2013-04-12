@@ -629,7 +629,8 @@ class fiscal_book(orm.Model):
                 'get_number': inv_brw.get_number or False,
                 'get_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
                 'get_partner_name': inv_brw.partner_id.name or False,
-                'get_partner_vat': inv_brw.get_partner_vat or False,
+                'get_partner_vat': inv_brw.partner_id.vat \
+                                   and inv_brw.partner_id.vat[2:] or 'N/A',
                 'get_reference': inv_brw.reference or False,
                 'get_t_doc': inv_brw.get_t_doc or False,
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
