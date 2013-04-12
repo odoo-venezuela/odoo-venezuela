@@ -207,17 +207,6 @@ class inherited_invoice(osv.osv):
             ret.update({r.id : r.fiscal_printer})
         return ret
 
-    def _get_is_imported(self, cr, uid, ids, field_name, args, context=None):
-        """ Boolean method that verify is a invoice is imported.
-        @param ids: list of invoice ids
-        """
-        context = context or {}
-        res = {}.fromkeys(ids, False)
-        for inv_brw in self.browse(cr, uid, ids, context=context):
-            res[inv_brw.id] = inv_brw.company_id.partner_id.country_id.id != \
-               inv_brw.partner_id.country_id.id and True or False
-        return res
-    
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
@@ -258,10 +247,6 @@ class inherited_invoice(osv.osv):
             help="Import the file number for this invoice"),
         'num_import_form': fields.char('Import Form number', 15,
             help="Import the form number for this invoice"),
-        'get_is_imported': fields.function(_get_is_imported,
-                method=True, type='boolean',
-                string='Is an import', 
-                help=""),
         }
 
 inherited_invoice()

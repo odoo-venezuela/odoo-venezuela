@@ -62,10 +62,11 @@ class fiscal_book(orm.Model):
         res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
         for fb_brw in self.browse(cr, uid, ids, context=context):
             for fbl_brw in fb_brw.fbl_ids:
-                if fbl_brw.invoice_id.get_is_imported:
-                    res[fb_brw.id]['get_total_with_iva_i_sum']+= fbl_brw.get_total_with_iva
-                else: 
-                    res[fb_brw.id]['get_total_with_iva_n_sum']+= fbl_brw.get_total_with_iva
+                if fbl_brw.invoice_id:
+                    if fbl_brw.get_is_imported:
+                        res[fb_brw.id]['get_total_with_iva_i_sum']+= fbl_brw.get_total_with_iva
+                    else: 
+                        res[fb_brw.id]['get_total_with_iva_n_sum']+= fbl_brw.get_total_with_iva
 
             res[fb_brw.id]['get_total_with_iva_sum'] = \
                                     res[fb_brw.id]['get_total_with_iva_i_sum'] + \
@@ -610,14 +611,15 @@ class fiscal_book(orm.Model):
 
         #~ add book lines for invoices
         for inv_brw in self.browse(cr, uid, fb_id, context=context).invoice_ids:
+            imex_invoice = self.is_invoice_imex(cr, uid, inv_brw.id, context=context)
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
-                'get_emission_date': (not inv_brw.get_is_imported) and \
+                'get_emission_date': (not imex_invoice) and \
                                      inv_brw.date_document or False,
-                'get_accounting_date': (not inv_brw.get_is_imported) and \
+                'get_accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
-                'get_imex_date': inv_brw.get_is_imported and inv_brw.get_date_invoice or False,
+                'get_imex_date': imex_invoice and inv_brw.get_date_invoice or False,
                 'get_debit_affected': inv_brw.parent_id \
                                       and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
                                       and inv_brw.parent_id.parent_id \
@@ -849,6 +851,16 @@ class fiscal_book(orm.Model):
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
         return inv_brw.reference or False
 
+    def is_invoice_imex(self, cr, uid, inv_id, context=None):
+        """ Boolean method that verify is a invoice is imported.
+        @param inv_id: invoice id
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+        return inv_brw.company_id.partner_id.country_id.id != \
+               inv_brw.partner_id.country_id.id and True or False
+
 class fiscal_book_lines(orm.Model):
 
     def _get_vat_amount(self, cr, uid, ids, field_name, arg, context=None):
@@ -912,6 +924,7 @@ class fiscal_book_lines(orm.Model):
         #~ TODO: 'get_import_form' field needs to be in imex module
         'get_import_form': fields.char(string="Kind of document",
                 help="Get Invoice reference"),
+        'get_is_imported': fields.boolean(string='Is an import'),
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),
