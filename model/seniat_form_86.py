@@ -251,6 +251,8 @@ class seniat_form_86_lines(osv.osv):
     ##------------------------------------------------------------------------------------ _internal methods
     
     ##------------------------------------------------------------------------------------ function fields
+    
+    _rec_name = 'tax_code'
 
     _columns = {
         'line_id':fields.many2one('seniat.form.86', 'Line', required=True, ondelete='cascade'),
@@ -295,6 +297,8 @@ class seniat_form_86_lines_vat(osv.osv):
     ##------------------------------------------------------------------------------------ _internal methods
 
     ##------------------------------------------------------------------------------------ function fields
+    
+    _rec_name = 'reference'
 
     _columns = {
         'line_vat_id':fields.many2one('seniat.form.86.lines', 'Vat line', required=True, ondelete='cascade'),
