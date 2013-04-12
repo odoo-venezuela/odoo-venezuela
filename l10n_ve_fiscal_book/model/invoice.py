@@ -39,18 +39,6 @@ class inherited_invoice(osv.osv):
 #                ret =r.date_document
         return ret
 
-    def _get_date_invoiced(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get The date invoiced if the document is not an import
-        '''
-        context = context or {}
-        ret = {}.fromkeys(ids,'')
-        for r in self.browse(cr, uid, ids,context=context):
-            if not r.get_is_imported:
-                ret.update({r.id : r.date_invoice})
-#                ret =r.date_document
-        return ret
-            
     def _get_vat(self,cr,uid,ids,name,args,context=None):
         '''
         Get Partner vat without two first letters
@@ -396,8 +384,6 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_is_imported': fields.function(_get_is_imported, method=True, string='Is an import', type='boolean',
                             help=""),
-        'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Invoiced date', type='date',
-                            help=""),    
         'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
                             help=""),    
         'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Fiscal printer invoice number', type='char',

@@ -615,7 +615,8 @@ class fiscal_book(orm.Model):
                 'rank': my_rank,
                 'get_emission_date': (not inv_brw.get_is_imported) and \
                                      inv_brw.date_document or False,
-                'get_accounting_date': inv_brw.get_date_invoiced or False,
+                'get_accounting_date': (not inv_brw.get_is_imported) and \
+                                        inv_brw.date_invoice or False,
                 'get_imex_date': inv_brw.get_is_imported and inv_brw.get_date_invoice or False,
                 'get_debit_affected': inv_brw.parent_id \
                                       and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
