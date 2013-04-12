@@ -27,21 +27,6 @@ from openerp.osv import osv, fields
 
 class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
-    
-    def _get_date_document(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get date document if it is not an import
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        if res:
-            for r in res:
-                if not r.get_is_imported:
-                    ret.update({r.id : r.date_document})
-#                ret =r.date_document
-        return ret
 
     def _get_date_invoice(self,cr,uid,ids,name,args,context=None):
         '''
@@ -375,8 +360,6 @@ class inherited_invoice(osv.osv):
         return ret
         
     _columns = {
-        'get_date_document': fields.function(_get_date_document, method=True, string='Document date', type='date',
-                            help=""),    
         'get_date_invoice': fields.function(_get_date_invoice, method=True, string='Invoice date', type='date',
                             help=""),    
         'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
