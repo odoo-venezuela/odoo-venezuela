@@ -329,19 +329,6 @@ class inherited_invoice(osv.osv):
         for r in res:
             ret.update({r.id : r.partner_id.vat_subjected})
         return ret
-        
-    def _get_debit_affected(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get invoice affected 
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for r in res:
-            if r.parent_id and r.parent_id.type in ['in_invoice', 'out_invoice'] and r.parent_id.parent_id:
-                ret.update({r.id : r.parent_id.number})
-            else:
-                ret.update({r.id : ''})
-        return ret
 
     def _get_credit_affected(self, cr, uid, ids, name, args, context=None):
         '''
@@ -453,8 +440,6 @@ class inherited_invoice(osv.osv):
         'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
                             help=""),
         'get_vat_subjected': fields.function(_get_vat_subjected, method=True, string='Vat subjected', type='boolean',
-                            help=""),
-        'get_debit_affected': fields.function(_get_debit_affected, method=True, string='Debit notes affected', type='char',
                             help=""),
         'get_credit_affected': fields.function(_get_credit_affected, method=True, string='Credit notes affected', type='char',
                             help=""),
