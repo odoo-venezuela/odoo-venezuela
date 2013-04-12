@@ -41,19 +41,6 @@ class inherited_invoice(osv.osv):
                 ret.update({r.id : r.number and str(r.number) or ''})
         return ret
 
-    def _get_reference(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Invoice reference
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        if res:
-            for r in res:
-                ret.update({r.id : r.reference and r.reference or ''})
-        return ret
-
     def _get_total(self,cr,uid,ids,name,args,context=None):
         '''
         Get Total Invoice Amount
@@ -247,8 +234,6 @@ class inherited_invoice(osv.osv):
         'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='Import form number', type='char',
                             help=""),
         'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
-                            help=""),
-        'get_import_form': fields.function(_get_reference, method=True, string='kind of document', type='char',
                             help=""),
         'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
                             help=""),

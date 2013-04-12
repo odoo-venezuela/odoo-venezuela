@@ -634,6 +634,7 @@ class fiscal_book(orm.Model):
                 'get_reference': inv_brw.reference or False,
                 'get_t_doc': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                                context=context),
+                'get_import_form': self.get_invoice_import_form(cr, uid, inv_brw.id, context=context),
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
                                                      inv_brw.id,
                                                      context=context)
@@ -839,6 +840,15 @@ class fiscal_book(orm.Model):
         elif iwdl_id:
             return 'RET'
 
+    def get_invoice_import_form(self, cr, uid, inv_id, context=None):
+        """ Returns the Invoice reference
+        @param inv_id: invoice id
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+        return inv_brw.reference or False
+
 class fiscal_book_lines(orm.Model):
 
     def _get_vat_amount(self, cr, uid, ids, field_name, arg, context=None):
@@ -899,8 +909,9 @@ class fiscal_book_lines(orm.Model):
             help='Debit notes affected'),
         'get_credit_affected': fields.char(string='Affected Credit Notes', 
             help='Credit notes affected'),
-
-
+        #~ TODO: 'get_import_form' field needs to be in imex module
+        'get_import_form': fields.char(string="Kind of document",
+                help="Get Invoice reference"),
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),
