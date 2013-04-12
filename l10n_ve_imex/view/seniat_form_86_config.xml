@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+<!--
+form_86_config    
+-->
+
+        <record model="ir.ui.view" id="view_form_86_config_form">
+            <field name="name">form.86.config.form</field>
+            <field name="model">form.86.config</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="company_id"/>
+                    <field name="journal_id"/>
+				</form>
+			</field>
+		</record>
+
+
+        <record model="ir.ui.view" id="view_form_86_config_tree">
+            <field name="name">form.86.config.tree</field>
+            <field name="model">form.86.config</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="company_id"/>
+                    <field name="journal_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+<!--
+form_86_customs    
+-->
+
+        <record model="ir.ui.view" id="view_form_86_customs_form">
+            <field name="name">form.86.customs.form</field>
+            <field name="model">form.86.customs</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="code"/>
+                    <field name="name"/>
+				</form>
+			</field>
+		</record>
+
+
+        <record model="ir.ui.view" id="view_form_86_customs_tree">
+            <field name="name">form.86.customs.tree</field>
+            <field name="model">form.86.customs</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+<!--
+form_86_customs_tax_codes    
+-->
+
+        <record model="ir.ui.view" id="view_form_86_custom_taxes_form">
+            <field name="name">form.86.custom.taxes.form</field>
+            <field name="model">form.86.custom.taxes</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="partner_id"/>
+                    <field name="account_id" attrs="{'required':[('vat_detail','=',False)],'readonly':[('vat_detail','=',True)]}"/>
+                    <field name="vat_detail"/>
+                    <field name="sequence"/>
+                    <field name="company_id"/>
+				</form>
+			</field>
+		</record>
+
+
+        <record model="ir.ui.view" id="view_form_86_custom_taxes_tree">
+            <field name="name">form.86.custom.taxes.tree</field>
+            <field name="model">form.86.custom.taxes</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>
