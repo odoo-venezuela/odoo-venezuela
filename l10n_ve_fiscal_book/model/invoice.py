@@ -119,27 +119,6 @@ class inherited_invoice(osv.osv):
                 ret.update({inv.id : doc_type})
         return ret
 
-    def _get_v_sdcf(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get SDCF Amount
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:0.0})
-        if not res:
-            return ret
-        for r in res:
-            amount = 0.0
-            for tax in r.tax_line:
-                name = tax.name
-                if name.find('SDCF')>=0:
-                    amount = tax.base+amount
-                    if r.type in ['in_refund', 'out_refund']:
-                        amount = amount * (-1)
-            ret.update({r.id:amount})
-        return ret
-
     def _get_v_exent(self,cr,uid,ids,name,args,context=None):
         '''
         Get Amount Exempt
@@ -330,8 +309,6 @@ class inherited_invoice(osv.osv):
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
                             help=""),
         'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
-                            help=""),
-        'get_v_sdcf': fields.function(_get_v_sdcf, method=True, string='SDCF', type='float',
                             help=""),
         'get_v_exent': fields.function(_get_v_exent, method=True, string='Amount excempt', type='float',
                             help=""),
