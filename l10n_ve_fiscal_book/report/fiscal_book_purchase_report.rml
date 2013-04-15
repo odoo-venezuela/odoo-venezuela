@@ -473,7 +473,7 @@
                                     <!-- Imex > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_reduced_base or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_reduced_tax/(my_fbl.get_vat_reduced_base and my_fbl.get_vat_reduced_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(8) ]]</para></td>
                                     <!-- Imex > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_reduced_tax or 0.0) ]]</para></td>
                                 </tr></blockTable>
@@ -483,7 +483,7 @@
                                     <!-- Imex > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_general_base or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_general_tax/(my_fbl.get_vat_general_base and my_fbl.get_vat_general_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(12) ]]</para></td>
                                     <!-- Imex > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_general_tax or 0.0) ]]</para></td>
                                 </tr></blockTable>
@@ -493,7 +493,7 @@
                                     <!-- Imex > 22% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_additional_base or 0.0) ]]</para></td>
                                     <!-- Imex > 22% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_additional_tax/(my_fbl.get_vat_additional_base and my_fbl.get_vat_additional_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(22) ]]</para></td>
                                     <!-- Imex > 22% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_additional_tax or 0.0) ]]</para></td>
                                 </tr></blockTable>
@@ -514,7 +514,7 @@
                                     <!-- Domestic > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_reduced_base or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_reduced_tax/(my_fbl.get_vat_reduced_base and my_fbl.get_vat_reduced_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(8) ]]</para></td>
                                     <!-- Domestic > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_reduced_tax or 0.0) ]]</para></td>
                                 </tr></blockTable>
@@ -524,7 +524,7 @@
                                     <!-- Domestic > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_general_base or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_general_tax/(my_fbl.get_vat_general_base and my_fbl.get_vat_general_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(12) ]]</para></td>
                                     <!-- Domestic > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_general_tax or 0.0) ]]</para></td>
                                 </tr></blockTable>
@@ -534,7 +534,7 @@
                                     <!-- Domestic > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_additional_base or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_additional_tax/(my_fbl.get_vat_additional_base and my_fbl.get_vat_additional_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(22) ]]</para></td>
                                     <!-- Domestic > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_additional_tax or 0.0) ]]</para></td>
                                 </tr></blockTable>
