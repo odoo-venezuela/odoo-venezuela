@@ -2,12 +2,12 @@
 <openerp>
     <data>
         
-        <record model="ir.ui.view" id="inherited_account_invoice_form_fiscal_imex">
+        <record model="ir.ui.view" id="inh_account_invoice_imex">
             <field name="name">account.invoice.inherit.fiscal.imex</field>
             <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="l10n_ve_fiscal_reports.inherited_account_invoice_form_fiscal2"/>
+            <field name="inherit_id" ref="l10n_ve_fiscal_requirements.account_invoice_ext_view_supp_form_loc_ve"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='import_invo']" position="after">
+                <xpath expr="//field[@name='nro_ctrl']" position="before">
                      <field name="num_import_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
                             on_change="on_change_num_import_form_id(num_import_form_id)"/>      
                 </xpath>

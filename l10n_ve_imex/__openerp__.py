@@ -25,7 +25,7 @@
                     'view/seniat_form_86_config.xml',         
                     'view/seniat_form_86.xml',         
                     'view/seniat_form_86_menus.xml',         
-                    #~ 'view/invoice.xml',         
+                    'view/invoice.xml',         
                     #~ 'workflow/seniat_form_86.xml',
                     ],
     "active": False,
