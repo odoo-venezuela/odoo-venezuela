@@ -15,7 +15,7 @@ Config parent menu
 form_86_config    
 -->
 
-        <record model="ir.actions.act_window" id="view_form_86_config_tree">
+        <record model="ir.actions.act_window" id="action_form_86_config">
             <field name="name">Configuration</field>
             <field name="res_model">form.86.config</field>
             <field name="type">ir.actions.act_window</field>
@@ -32,7 +32,7 @@ form_86_config
 form_86_customs    
 -->
 
-        <record model="ir.actions.act_window" id="view_form_86_customs_tree">
+        <record model="ir.actions.act_window" id="action_form_86_customs">
             <field name="name">Customs</field>
             <field name="res_model">form.86.customs</field>
             <field name="type">ir.actions.act_window</field>
@@ -49,7 +49,7 @@ form_86_customs
 form_86_customs_tax_codes    
 -->
 
-        <record model="ir.actions.act_window" id="view_form_86_custom_taxes_tree">
+        <record model="ir.actions.act_window" id="action_form_86_custom_taxes">
             <field name="name">Tax codes</field>
             <field name="res_model">form.86.custom.taxes</field>
             <field name="type">ir.actions.act_window</field>
@@ -68,7 +68,7 @@ seniat_form_86
 -->
 
 
-        <record model="ir.actions.act_window" id="view_seniat_form_86_tree">
+        <record model="ir.actions.act_window" id="action_seniat_form_86">
             <field name="name">SENIAT - Form 99086</field>
             <field name="res_model">seniat.form.86</field>
             <field name="type">ir.actions.act_window</field>
@@ -78,7 +78,7 @@ seniat_form_86
 
         <menuitem 
             id="menu_action_seniat_form_86" 
-            parent="account.menu_finance_payables" 
+            parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings" 
             action="action_seniat_form_86"/>                 
             
     </data>
