@@ -450,15 +450,14 @@
                     </td>
                     <td>
                         <section>
-                            <para>[[ repeatIn(my_fbl.fbt_ids and [fbt_ids for fbt_ids in my_fbl.fbt_ids if fbt_ids.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
                             <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
                                 <tr>
                                     <!-- Imex > 8% > Base Imponible -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_tax.base_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_reduced_base or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_reduced_tax/(my_fbl.get_vat_reduced_base and my_fbl.get_vat_reduced_base or 1)*100.0) or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > Monto Imponible -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_tax.tax_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_reduced_tax or 0.0) ]]</para></td>
                                 </tr>
                             </blockTable>
                         </section>
@@ -473,15 +472,14 @@
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_exempt or 0.0) ]]</para></td>
                     <td>
                         <section>
-                            <para>[[ repeatIn(my_fbl.fbt_ids and [fbt for fbt in my_fbl.fbt_ids if fbt.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
                             <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
                                 <tr>
                                     <!-- Domestic > 8% > Base Imponible -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_tax.base_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_reduced_base or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_reduced_tax/(my_fbl.get_vat_reduced_base and my_fbl.get_vat_reduced_base or 1)*100.0) or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > Monto Imponible -->
-                                    </td><td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_tax.tax_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_reduced_tax or 0.0) ]]</para></td>
                                 </tr>
                             </blockTable>
                         </section>
