@@ -478,9 +478,9 @@
                                 <tr>
                                     <!-- Domestic > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.base_amount or 0.0) ]]</para></td>
-                                    <!-- Domestic > 8% > Base Imponible -->
+                                    <!-- Domestic > 8% > % Iva -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para>
-                                    <!-- Domestic > 8% > Base Imponible -->
+                                    <!-- Domestic > 8% > Monto Imponible -->
                                     </td><td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.tax_amount or 0.0) ]]</para></td>
                                 </tr>
                             </blockTable>
@@ -499,45 +499,76 @@
                 <tr>
                     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
                     <td></td>
+                    <!-- Linea -->
                     <td></td>
+                    <!-- Fecha Doc -->
                     <td></td>
+                    <!-- Fecha Importada -->
                     <td></td>
+                    <!-- T. Doc. -->
                     <td></td>
+                    <!-- RIF -->
                     <td></td>
+                    <!-- Razon Social -->
                     <td><para style="HEADER">TOTALES</para></td>
+                    <!-- Comprobante -->
                     <td></td>
+                    <!-- Planilla Importacion -->
                     <td></td>
+                    <!-- Expediente Importacion -->
                     <td></td>
+                    <!-- Numero de Factura -->
                     <td></td>
+                    <!-- Numero Control -->
                     <td></td>
+                    <!-- T. Trans. -->
                     <td></td>
+                    <!-- Nota de Debito Afectada -->
                     <td></td>
+                    <!-- Nota de Crétido Afectada -->
                     <td></td>
+                    <!-- Documento Afectado -->
                     <td></td>
+
+                    <!-- Imex > Total con IVA -->
                     <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_total) ]]</para></td>
+                    <!-- Imex > sdcf -->
                     <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_v_sdcf) ]]</para></td>
+                    <!-- Imex > Exento -->
                     <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_v_exent) ]]</para></td>
                     <td>
                         <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                             <tr>
+                                <!-- Imex > 8% > Base Imponible -->
                                 <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[0]+get_amount_untaxed_tax(data['form'],'8','internacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[0]) ]]</para></td>
+                                <!-- Imex > 8% > % Iva -->
                                 <td></td>
+                                <!-- Imex > 8% > Monto Imponible -->
                                 <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[1] +get_amount_untaxed_tax(data['form'],'8','internacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[1]) ]]</para></td>
                             </tr>
                         </blockTable>
                     </td>
+
+                    <!-- Domestic > Total con IVA -->
                     <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_total) ]]</para></td>
+                    <!-- Domestic > SDCF -->
                     <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_v_sdcf) ]]</para></td>
+                    <!-- Domestic > Exento -->
                     <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_v_exent) ]]</para></td>
                     <td>
                         <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                             <tr>
+                                <!-- Domestic > 8% > Base Imponible -->
                                 <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'8','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]) ]]</para></td>
+                                <!-- Domestic > 8% > % Iva -->
                                 <td></td>
+                                <!-- Domestic > 8% > Monto Imponible -->
                                 <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1] +get_amount_untaxed_tax(data['form'],'8','nacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[1]) ]]</para></td>
                             </tr>
                         </blockTable>
                     </td>
+
+                    <!-- Retencion Iva -->
                     <td><para style="HEADER">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
                 </tr>
                 </blockTable>
