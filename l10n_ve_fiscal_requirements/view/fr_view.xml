@@ -3,7 +3,8 @@
     <data>
  
  
- <menuitem id="menu_finance_fiscal_settings" name="VE Fiscal Settings" parent="account.menu_finance_configuration" sequence="4"/>
+ <menuitem id="menu_finance_fiscal_settings" name="VE Fiscal Settings" parent="account.menu_finance_configuration" sequence="60"/>
+ 
  
  
     </data>

@@ -8,7 +8,7 @@ Config parent menu
 
         <menuitem name="Import/Export - SENIAT - Form 99086"
             id="menu_form_86_config_group" 
-            parent="account.menu_configuration_misc"
+            parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings"
             sequence="80"/>
 
 <!--
