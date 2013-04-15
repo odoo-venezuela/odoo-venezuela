@@ -388,7 +388,7 @@ class fiscal_book_report(report_sxw.rml_parse):
 
             my_args.append('TODO')
 
-        print col_number, 'args', my_args
+        #~ print col_number, 'args', my_args
         return self._cols[col_tag]['value'](*my_args)
 
     def _get_col_total(self, col_number, fb_brw, context=None):
