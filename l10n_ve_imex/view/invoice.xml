@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="l10n_ve_fiscal_reports.inherited_account_invoice_form_fiscal2"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='import_invo']" position="after">
-                     <field name="num_import_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
+                     <field name="num_import_form_id" attrs="{'readonly':[('|'),('expedient','=',False),('state','!=','draft')],'required':[('expedient','=',True)]}" 
                             on_change="on_change_num_import_form_id(num_import_form_id)"/>      
                 </xpath>
             </field>

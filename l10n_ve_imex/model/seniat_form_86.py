@@ -227,13 +227,21 @@ class seniat_form_86(osv.osv):
         for f86 in so_brw:
             if f86.amount_total <= 0:
                 raise osv.except_osv(_('Warning!'),_('You must indicate a amount'))
+            f86_invoices = [i.id for i in f86.invoice_ids] # a lis of related invoices      
+            vat_invoices = [] # for tax (vat) related invoices
             for line in f86.line_ids:    
                 if line.vat_detail:
                     vat_total = line.amount
                     for vat in line.line_vat_ids:
                         vat_total -= vat.tax_amount
+                        if vat.invoice_id.id not in vat_invoices:
+                            vat_invoices.append(vat.invoice_id.id)
                     if abs(vat_total) > 0.001:
-                        raise osv.except_osv(_('Warning!'),_('The vat detail data dosen\'t corespond with vat amount in line: %s')%line.tax_code.name) 
+                        raise osv.except_osv(_('Warning!'),_('The vat detail data does not correspond with vat amount in line: %s')%line.tax_code.name) 
+            #~ Validate related invoices vs invoice_ids (if vat)
+            if set(f86_invoices) != set(vat_invoices):
+                #~ No todas las facturas relacionadas con la planilla de importación se corresponden con las facturas relacionadas al IVA 
+                raise osv.except_osv(_('Warning!'),_('Not all invoices related to the import spreadsheet correspond to invoices relating to VAT')) 
         return True
 
 
@@ -245,8 +253,13 @@ class seniat_form_86(osv.osv):
         if len(ids) != 1:
             raise osv.except_osv(_('Error!'),_('Multiple operations not allowed'))
         for f86 in self.browse(cr,uid,ids,context=None):
+            #~ Validate account_move.state != draft
             if f86.move_id and f86.move_id.state != 'draft':
-                raise osv.except_osv(_('Error!'),_('Can\'t cancel a import while account move state <> "Draft"'))
+                raise osv.except_osv(_('Error!'),_('Can\'t cancel a import while account move state <> "Draft" (%s)')%f86.move_id.name)
+            #~ Validate state of related invoices (only state = draft)    
+            for inv in f86.invoice_ids:
+                if inv.state != 'draft':
+                    raise osv.except_osv(_('Error!'),_('Can\'t cancel a import while invoice state <> "Draft" ([%s] %s, %s)')%inv.name,inv.partner_id.name,inv.reference)
         return True
 
 
