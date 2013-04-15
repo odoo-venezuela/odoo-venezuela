@@ -495,7 +495,7 @@
 
             <!--    TOTALS PURCHASE PARCIALES    -->
             <section>
-                <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+                <blockTable rowHeights="16.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
                 <tr>
                     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
                     <td></td>
@@ -531,45 +531,45 @@
                     <td></td>
 
                     <!-- Imex > Total con IVA -->
-                    <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_total) ]]</para></td>
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_total_with_iva_i_sum or 0.0) ]]</para></td>
                     <!-- Imex > sdcf -->
-                    <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_v_sdcf) ]]</para></td>
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_sdcf_i_sum or 0.0) ]]</para></td>
                     <!-- Imex > Exento -->
-                    <td><para style="HEADER">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fb.get_v_exent) ]]</para></td>
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_exempt_i_sum or 0.0) ]]</para></td>
                     <td>
                         <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                             <tr>
                                 <!-- Imex > 8% > Base Imponible -->
-                                <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[0]+get_amount_untaxed_tax(data['form'],'8','internacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[0]) ]]</para></td>
+                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_i_base_sum or 0.0) ]]</para></td>
                                 <!-- Imex > 8% > % Iva -->
                                 <td></td>
                                 <!-- Imex > 8% > Monto Imponible -->
-                                <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','internacional')[1] +get_amount_untaxed_tax(data['form'],'8','internacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','internacional')[1]) ]]</para></td>
+                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_i_tax_sum or 0.0) ]]</para></td>
                             </tr>
                         </blockTable>
                     </td>
 
                     <!-- Domestic > Total con IVA -->
-                    <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_total) ]]</para></td>
-                    <!-- Domestic > SDCF -->
-                    <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_v_sdcf) ]]</para></td>
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_total_with_iva_n_sum or 0.0) ]]</para></td>
+                    <!-- Domestic > SDCF -->s
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_sdcf_n_sum or 0.0) ]]</para></td>
                     <!-- Domestic > Exento -->
-                    <td><para style="HEADER">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fb.get_v_exent) ]]</para></td>
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_exempt_n_sum or 0.0) ]]</para></td>
                     <td>
                         <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
                             <tr>
                                 <!-- Domestic > 8% > Base Imponible -->
-                                <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'8','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]) ]]</para></td>
+                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_n_base_sum or 0.0) ]]</para></td>
                                 <!-- Domestic > 8% > % Iva -->
                                 <td></td>
                                 <!-- Domestic > 8% > Monto Imponible -->
-                                <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1] +get_amount_untaxed_tax(data['form'],'8','nacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[1]) ]]</para></td>
+                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_n_tax_sum or 0.0) ]]</para></td>
                             </tr>
                         </blockTable>
                     </td>
 
                     <!-- Retencion Iva -->
-                    <td><para style="HEADER">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
+                    <td><para style="HEADER">[[ 'TODO' ]]</para></td>
                 </tr>
                 </blockTable>
             </section>
