@@ -623,8 +623,8 @@
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additonal_n_base_sum or 0.0) ]]</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additonal_n_tax_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_n_base_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_n_tax_sum or 0.0) ]]</para></td>
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA</para></td>
