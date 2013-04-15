@@ -345,6 +345,7 @@ class fiscal_book(orm.Model):
         #~ pull invoice data
         inv_ids = inv_obj.search(cr, uid,
                                  [('period_id', '=', fb_brw.period_id.id),
+                                  ('company_id', '=', fb_brw.company_id.id),
                                   ('type', 'in', inv_type),
                                   ('state', 'in', inv_state)],
                                  order='date_invoice asc', context=context)
