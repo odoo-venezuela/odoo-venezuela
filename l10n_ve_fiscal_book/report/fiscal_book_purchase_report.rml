@@ -413,9 +413,9 @@
                     <!-- Linea -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.rank ]]</para></td>
                     <!-- Fecha Doc -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_date_invoiced ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_accounting_date ]]</para></td>
                     <!-- Fecha Importada -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_date_imported ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_imex_date ]]</para></td>
                     <!-- T. Doc. -->
                     <td><para style="CONTENIDO">[[ my_fbl.get_t_doc ]]</para></td>
                     <!-- RIF -->
@@ -425,7 +425,7 @@
                     <!-- Comprobante -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO"> [[ (my_fbl.invoice_id and my_fbl.iwdl_id) and my_fbl.iwdl_id.retention_id.number or "NONE" ]]</para></td>
                     <!-- Planilla Importacion -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_import_form ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_import_form ]]</para></td>
                     <!-- Expediente Importacion -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.import_spreadsheet_name ]]</para></td>
                     <!-- Numero de Factura -->
@@ -442,11 +442,11 @@
                     <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_parent ]]</para></td>
 
                     <!-- Imex > Total con IVA -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.invoice_id.get_is_imported and my_fbl.get_total or 0.0) ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.get_is_imported and my_fbl.get_total_with_iva or 0.0) ]]</para></td>
                     <!-- Imex > sdcf -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.invoice_id.get_is_imported and my_fbl.get_v_sdcf or 0.0) ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.get_is_imported and my_fbl.get_vat_sdcf or 0.0) ]]</para></td>
                     <!-- Imex > Exento -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_fbl.get_v_exent or 0.0) ]]</para>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_exempt or 0.0) ]]</para>
                     </td>
                     <td>
                         <section>
@@ -454,11 +454,11 @@
                             <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
                                 <tr>
                                     <!-- Imex > 8% > Base Imponible -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_tax.base_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_tax.base_amount or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > Monto Imponible -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.invoice_id.get_is_imported and my_tax.tax_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_tax.tax_amount or 0.0) ]]</para></td>
                                 </tr>
                             </blockTable>
                         </section>
@@ -466,22 +466,22 @@
                     </td>
 
                     <!-- Domestic > Total con IVA -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_total or 0.0) ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_total_with_iva or 0.0) ]]</para></td>
                     <!-- Domestic > SDCF -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_sdcf or 0.0) ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_sdcf or 0.0) ]]</para></td>
                     <!-- Domestic > Exento -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_fbl.get_v_exent or 0.0) ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_exempt or 0.0) ]]</para></td>
                     <td>
                         <section>
                             <para>[[ repeatIn(my_fbl.fbt_ids and [fbt for fbt in my_fbl.fbt_ids if fbt.ait_id.tax_id.appl_type not in ['sdcf','exento'] ] or [],'my_tax')]]</para>
                             <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
                                 <tr>
                                     <!-- Domestic > 8% > Base Imponible -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.base_amount or 0.0) ]]</para></td>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_tax.base_amount or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > % Iva -->
-                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para>
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_tax.tax_amount/(my_tax.base_amount and my_tax.base_amount or 1)*100.0) or 0.0) ]]</para>
                                     <!-- Domestic > 8% > Monto Imponible -->
-                                    </td><td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.invoice_id.get_is_imported) and my_tax.tax_amount or 0.0) ]]</para></td>
+                                    </td><td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_tax.tax_amount or 0.0) ]]</para></td>
                                 </tr>
                             </blockTable>
                         </section>
