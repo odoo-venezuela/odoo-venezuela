@@ -13,6 +13,7 @@
 from osv import osv
 from osv import fields
 
+
 ##---------------------------------------------------------------------------------------- inherited_invoice
 
 class inherited_invoice(osv.osv):
@@ -50,6 +51,13 @@ class inherited_invoice(osv.osv):
     ##------------------------------------------------------------------------------------ create write unlink
 
     ##------------------------------------------------------------------------------------ Workflow
+    
+    def test_open(self, cr, uid, ids, *args):
+        so_brw = self.browse(cr,uid,ids,context={})
+        for item in so_brw:
+            if item.num_import_form_id and item.num_import_form_id.state in ('draft','cancel'): 
+                raise osv.except_osv(_('Error!'),_('Can\'t validate a invoice while the form 86 state\'s is cancel or draft (%s).\nPlease validate the form 86 first.')%item.num_import_form_id.name)
+        return super(account_invoice, self).test_open(cr, uid, ids, args)
 
 inherited_invoice()
 
