@@ -344,7 +344,7 @@
 
             <!--    PURCHASE BOOK HEADERS    -->
             <section>
-                <blockTable colWidths="517.0,180.0,180.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
+                <blockTable colWidths="517.0, 350.0, 350.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
                     <tr>
                         <td></td>
                         <td vAlign="MIDDLE"><para style="HEADER">IMPORTACIONES</para></td>
@@ -353,7 +353,7 @@
                 </blockTable>
             </section>
             <section>
-                <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+                <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
                 <tr>
                     <td><para style="HEADER"></para></td>
                     <td><para style="HEADER">Linea</para></td>
@@ -374,28 +374,46 @@
                     <td><para style="HEADER">Total con IVA</para></td>
                     <td><para style="HEADER">SDCF</para></td>
                     <td><para style="HEADER">Exento</para></td>
-                    <td>
-                        <section>
-                        <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
-                            <tr>
+                    <td> <!-- Impuestos Importaciones -->
+                        <section><blockTable colWidths="85.0, 85.0, 85.0"><tr>
+                            <td><blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
                                 <td><para style="HEADER">Base Imponible</para></td>
                                 <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
                                 <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
-                            </tr>
-                        </blockTable>
-                        </section>
+                            </tr></blockTable></td>
+                            <td><blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                <td><para style="HEADER">Base Imponible</para></td>
+                                <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                                <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
+                            </tr></blockTable></td>
+                            <td><blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                <td><para style="HEADER">Base Imponible</para></td>
+                                <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                                <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
+                            </tr></blockTable></td>
+                        </tr></blockTable></section>
                     </td>
                     <td><para style="HEADER">Total con IVA</para></td>
                     <td><para style="HEADER">SDCF</para></td>
                     <td><para style="HEADER">Exento</para></td>
-                    <td>
-                        <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
-                            <tr>
+                    <td> <!-- Impuestos Compras Internas -->
+                        <section><blockTable colWidths="85.0, 85.0, 85.0"><tr>
+                            <td><blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
                                 <td><para style="HEADER">Base Imponible</para></td>
                                 <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
                                 <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
-                            </tr>
-                        </blockTable>
+                            </tr></blockTable></td>
+                            <td><blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                <td><para style="HEADER">Base Imponible</para></td>
+                                <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                                <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
+                            </tr></blockTable></td>
+                            <td><blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                <td><para style="HEADER">Base Imponible</para></td>
+                                <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                                <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
+                            </tr></blockTable></td>
+                        </tr></blockTable></section>
                     </td>
                     <td><para style="HEADER">Retencion Iva</para></td>
                 </tr>
@@ -405,7 +423,7 @@
             <!--    PURCHASE BOOK LINES   -->
             <section>
                 <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
-                <blockTable rowHeights="8.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
+                <blockTable rowHeights="8.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
                 <tr>
                     [[ setLang(my_fbl.ai_id.company_id.partner_id.lang) ]]
                     <td vAlign="MIDDLE"></td>
@@ -448,20 +466,39 @@
                     <!-- Imex > Exento -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_exempt or 0.0) ]]</para>
                     </td>
-                    <td>
-                        <section>
-                            <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
-                                <tr>
+                    <td> <!-- Withholding Taxes -->
+                        <section><blockTable colWidths="85.0, 85.0, 85.0"><tr>
+                            <td> <!-- Reduced Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="TAXESTABLE"><tr>
                                     <!-- Imex > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_reduced_base or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > % Iva -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_reduced_tax/(my_fbl.get_vat_reduced_base and my_fbl.get_vat_reduced_base or 1)*100.0) or 0.0) ]]</para></td>
                                     <!-- Imex > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_reduced_tax or 0.0) ]]</para></td>
-                                </tr>
-                            </blockTable>
-                        </section>
-
+                                </tr></blockTable>
+                            </td>
+                            <td> <!-- General Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="TAXESTABLE"><tr>
+                                    <!-- Imex > 8% > Base Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_general_base or 0.0) ]]</para></td>
+                                    <!-- Imex > 8% > % Iva -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_general_tax/(my_fbl.get_vat_general_base and my_fbl.get_vat_general_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <!-- Imex > 8% > Monto Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_general_tax or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                            <td> <!-- Additional Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="TAXESTABLE"><tr>
+                                    <!-- Imex > 22% > Base Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_additional_base or 0.0) ]]</para></td>
+                                    <!-- Imex > 22% > % Iva -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and round(my_fbl.get_vat_additional_tax/(my_fbl.get_vat_additional_base and my_fbl.get_vat_additional_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <!-- Imex > 22% > Monto Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_is_imported and my_fbl.get_vat_additional_tax or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                        </tr></blockTable></section>
                     </td>
 
                     <!-- Domestic > Total con IVA -->
@@ -470,19 +507,39 @@
                     <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_sdcf or 0.0) ]]</para></td>
                     <!-- Domestic > Exento -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_exempt or 0.0) ]]</para></td>
-                    <td>
-                        <section>
-                            <blockTable colWidths="35.0,15.0,32.0" style="TAXESTABLE">
-                                <tr>
+                    <td> <!-- Withholding Taxes -->
+                        <section><blockTable colWidths="85.0, 85.0, 85.0"><tr>
+                            <td> <!-- Reduced Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="TAXESTABLE"><tr>
                                     <!-- Domestic > 8% > Base Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_reduced_base or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > % Iva -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_reduced_tax/(my_fbl.get_vat_reduced_base and my_fbl.get_vat_reduced_base or 1)*100.0) or 0.0) ]]</para></td>
                                     <!-- Domestic > 8% > Monto Imponible -->
                                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_reduced_tax or 0.0) ]]</para></td>
-                                </tr>
-                            </blockTable>
-                        </section>
+                                </tr></blockTable>
+                            </td>
+                            <td> <!-- General Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="TAXESTABLE"><tr>
+                                    <!-- Domestic > 8% > Base Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_general_base or 0.0) ]]</para></td>
+                                    <!-- Domestic > 8% > % Iva -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_general_tax/(my_fbl.get_vat_general_base and my_fbl.get_vat_general_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <!-- Domestic > 8% > Monto Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_general_tax or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                            <td> <!-- Additional Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="TAXESTABLE"><tr>
+                                    <!-- Domestic > 8% > Base Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_additional_base or 0.0) ]]</para></td>
+                                    <!-- Domestic > 8% > % Iva -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and round(my_fbl.get_vat_additional_tax/(my_fbl.get_vat_additional_base and my_fbl.get_vat_additional_base or 1)*100.0) or 0.0) ]]</para></td>
+                                    <!-- Domestic > 8% > Monto Imponible -->
+                                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang((not my_fbl.get_is_imported) and my_fbl.get_vat_additional_tax or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                        </tr></blockTable></section>
                     </td>
 
                     <!-- Retencion Iva -->
@@ -493,7 +550,7 @@
 
             <!--    TOTALS PURCHASE PARCIALES    -->
             <section>
-                <blockTable rowHeights="16.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,85.0,37.0,29.0,29.0,85.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+                <blockTable rowHeights="16.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
                 <tr>
                     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
                     <td></td>
@@ -534,17 +591,30 @@
                     <td><para style="HEADER">[[ formatLang(my_fb.get_vat_sdcf_i_sum or 0.0) ]]</para></td>
                     <!-- Imex > Exento -->
                     <td><para style="HEADER">[[ formatLang(my_fb.get_vat_exempt_i_sum or 0.0) ]]</para></td>
-                    <td>
-                        <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
-                            <tr>
-                                <!-- Imex > 8% > Base Imponible -->
-                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_i_base_sum or 0.0) ]]</para></td>
-                                <!-- Imex > 8% > % Iva -->
-                                <td></td>
-                                <!-- Imex > 8% > Monto Imponible -->
-                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_i_tax_sum or 0.0) ]]</para></td>
-                            </tr>
-                        </blockTable>
+                    <td> <!-- Imex Taxes -->
+                        <section><blockTable colWidths="85.0, 85.0, 85.0" style="INTERNALTABLE"><tr>
+                            <td> <!-- Reduced Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_i_base_sum or 0.0) ]]</para></td>
+                                    <td></td>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_i_tax_sum or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                            <td> <!-- General Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_general_i_base_sum or 0.0) ]]</para></td>
+                                    <td></td>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_general_i_tax_sum or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                            <td> <!-- Additional Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_i_base_sum or 0.0) ]]</para></td>
+                                    <td></td>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_i_tax_sum or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                        </tr></blockTable></section>
                     </td>
 
                     <!-- Domestic > Total con IVA -->
@@ -553,17 +623,30 @@
                     <td><para style="HEADER">[[ formatLang(my_fb.get_vat_sdcf_n_sum or 0.0) ]]</para></td>
                     <!-- Domestic > Exento -->
                     <td><para style="HEADER">[[ formatLang(my_fb.get_vat_exempt_n_sum or 0.0) ]]</para></td>
-                    <td>
-                        <blockTable colWidths="35.0,15.0,35.0" style="INTERNALTABLE">
-                            <tr>
-                                <!-- Domestic > 8% > Base Imponible -->
-                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_n_base_sum or 0.0) ]]</para></td>
-                                <!-- Domestic > 8% > % Iva -->
-                                <td></td>
-                                <!-- Domestic > 8% > Monto Imponible -->
-                                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_n_tax_sum or 0.0) ]]</para></td>
-                            </tr>
-                        </blockTable>
+                    <td> <!-- Domestic Taxes -->
+                        <section><blockTable colWidths="85.0, 85.0, 85.0" style="INTERNALTABLE"><tr>
+                            <td>  <!-- Reduced Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_n_base_sum or 0.0) ]]</para></td>
+                                    <td></td>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_n_tax_sum or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                            <td>  <!-- General Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_general_n_base_sum or 0.0) ]]</para></td>
+                                    <td></td>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_general_n_tax_sum or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                            <td>  <!-- Additional Tax -->
+                                <blockTable colWidths="35.0, 15.0, 35.0" style="INTERNALTABLE"><tr>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_n_base_sum or 0.0) ]]</para></td>
+                                    <td></td>
+                                    <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_n_tax_sum or 0.0) ]]</para></td>
+                                </tr></blockTable>
+                            </td>
+                        </tr></blockTable></section>
                     </td>
 
                     <!-- Retencion Iva -->
