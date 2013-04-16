@@ -54,19 +54,6 @@ class inherited_invoice(osv.osv):
                 ret.update({ r.id : r.amount_total })
         return ret
 
-    def _get_inv_tax_line(self, s):
-        '''
-        Get Tax Line
-        '''
-        name = s.name
-        cont = 0
-        if name.find('SDCF')>=0:
-            if cont==0:
-                return 0
-        else:
-            cont = cont + 1
-        return s.base_amount
-
     def _get_taxes(self,cr,uid,ids,name,args,context=None):
         '''
         Get Invoice Taxes
@@ -136,8 +123,6 @@ class inherited_invoice(osv.osv):
 
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
-                            help=""),
-        'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
                             help=""),
         'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
                             help=""),
