@@ -878,8 +878,8 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
-        return inv_obj.search(cr, uid, [('affected_invoice', '=', inv_id), ('state', 'in',[ 'done', 'paid', 'open']) ]) or False
 
+        return inv_obj.search(cr, uid, [('num_import_form_id', '!=', False), ('state', 'in',[ 'done', 'paid', 'open']) ]) or False
 
 class fiscal_book_lines(orm.Model):
 
