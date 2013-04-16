@@ -637,6 +637,10 @@ class fiscal_book(orm.Model):
                 'get_reference': inv_brw.reference or False,
                 'get_t_doc': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                                context=context),
+                'get_papel_anulado': inv_brw.name and \
+                                     (inv_brw.name.find('PAPELANULADO')>=0 \
+                                     and '03-ANU' or '01-REG') \
+                                     or '01-REG',
                 'get_import_form': self.get_invoice_import_form(cr, uid, inv_brw.id, context=context),
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
                                                      inv_brw.id,
@@ -908,6 +912,9 @@ class fiscal_book_lines(orm.Model):
         'get_partner_vat': fields.char(size=128, string='Partner TIN', 
             help=''),
         'get_withheld': fields.float('Withheld Amount'),
+
+        'get_papel_anulado': fields.char(string='Transaction type', size=192,
+                help="Operation Type"),
 
         #~ Apply for invoice lines
         'get_reference': fields.char(string='Invoice number', size=64,

@@ -113,25 +113,6 @@ class inherited_invoice(osv.osv):
                 
         return ret
 
-    def _get_papel_anulado(self, cr, uid,ids, name, args, context=None):
-        '''
-        Get Operation Type
-        '''
-        tipo = '03-ANU'
-        data = '01-REG'
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        if res:
-            for l in res:
-                if l.name:
-                    if l.name.find('PAPELANULADO')>=0: 
-                        ret.update({l.id: tipo})
-                    else: 
-                        ret.update({l.id: data})
-                else:
-                    ret.update({l.id: data})
-        return ret
-        
     def _get_lang(self,cr,uid,ids,name,args,context=None):
         '''
         Get Lang from partner
@@ -217,8 +198,6 @@ class inherited_invoice(osv.osv):
         'get_lang': fields.function(_get_lang, method=True, string='Language', type='char',
                             help=""),
         'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
-                            help=""),
-        'get_papel_anulado': fields.function(_get_papel_anulado, method=True, string='Transaction type', type='char',
                             help=""),
         'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='Import form number', type='char',
                             help=""),
