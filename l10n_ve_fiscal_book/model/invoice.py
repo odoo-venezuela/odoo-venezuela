@@ -54,33 +54,6 @@ class inherited_invoice(osv.osv):
                 ret.update({ r.id : r.amount_total })
         return ret
 
-    def _get_taxes(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Invoice Taxes
-        '''
-        tax_obj = self.pool.get('account.invoice.tax')
-        ret = {}
-        for inv in ids:
-            tax_ids = tax_obj.search(cr, uid, [('invoice_id', '=', inv)])
-            tam = len(tax_ids)
-            data = tax_obj.browse(cr, uid, tax_ids)
-            
-            for tax in data:
-                if 'SDCF' in tax.name and tax.tax_id.amount == 0.00 and tam>=2:
-                    tax_ids.remove(tax.id)
-                elif 'EXENTO' in tax.name and tax.tax_id.amount == 0.00 and tam>=2:
-                    tax_ids.remove(tax.id)
-                elif tax.tax_id.amount == 0.00 and tam>=2:
-                    tax_ids.remove(tax.id)
-            
-            data = tax_obj.browse(cr, uid, tax_ids)
-            if data:
-                ret.update({inv:data})
-            else:
-                ret.update({inv:False})
-                
-        return ret
-
     def _get_nro_inport_form(self, cr, uid,ids, name, args, context=None):
         res = self.browse(cr, uid, ids)
         ret = {}
@@ -105,8 +78,6 @@ class inherited_invoice(osv.osv):
 
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
-                            help=""),
-        'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
                             help=""),
         'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='Import form number', type='char',
                             help=""),
