@@ -28,19 +28,6 @@ from openerp.osv import osv, fields
 class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
 
-    def _get_inv_number(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Invoice Number
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        if res:
-            for r in res:
-                ret.update({r.id : r.number and str(r.number) or ''})
-        return ret
-
     _columns = {
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book where this line is related to'),
