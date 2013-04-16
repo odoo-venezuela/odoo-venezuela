@@ -166,7 +166,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'numero-control': {
             'name': 'Número Control',
             'width': 36.0,
-            'value': lambda fbl: fbl.get_number,
+            'value': lambda fbl: fbl.ctrl_number,
             'total': lambda fb: '',
             'help': '' },
         't-trans': {

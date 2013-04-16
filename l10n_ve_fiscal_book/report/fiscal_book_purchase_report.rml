@@ -449,7 +449,7 @@
                     <!-- Numero de Factura -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference]]</para></td>
                     <!-- Numero Control -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_number]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.ctrl_number]]</para></td>
                     <!-- T. Trans. -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_papel_anulado ]]</para></td>
                     <!-- Nota de Debito Afectada -->

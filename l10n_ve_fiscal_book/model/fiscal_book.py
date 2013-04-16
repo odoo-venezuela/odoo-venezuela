@@ -604,7 +604,7 @@ class fiscal_book(orm.Model):
                     'get_emission_date': iwdl_brw.date or False,
                     'get_t_doc': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
-                    'get_number': iwdl_brw.retention_id.number or False,
+                    'ctrl_number': iwdl_brw.retention_id.number or False,
                     #~ TODO: check what fields needs to be add that refer to the book line and the wh iva line.
                 }
                 my_rank += 1
@@ -629,7 +629,7 @@ class fiscal_book(orm.Model):
                                        inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                        and inv_brw.parent_id.number or False,
                 'get_doc': self.get_doc(cr, uid, inv_brw, context=context),
-                'get_number': inv_brw.nro_ctrl or False,
+                'ctrl_number': inv_brw.nro_ctrl or False,
                 'get_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
                 'get_partner_name': inv_brw.partner_id.name or False,
                 'get_partner_vat': inv_brw.partner_id.vat \
@@ -916,7 +916,7 @@ class fiscal_book_lines(orm.Model):
             help='Invoice related to this book line'),
         'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
             help='Withholding iva line related to this book line'),
-        'get_number': fields.char(string='Control number', size=64, help=''),
+        'ctrl_number': fields.char(string='Control number', size=64, help=''),
         'get_emission_date': fields.date(string='Emission Date',
             help='[(invoice, get_date_document), (wh iva line, date)]'),
         'get_accounting_date': fields.date(string='Accounting Date',
