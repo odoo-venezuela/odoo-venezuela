@@ -53,25 +53,6 @@ class inherited_invoice(osv.osv):
             for r in res:
                 ret.update({ r.id : r.amount_total })
         return ret
-        
-    def _get_wh_number(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Wh Number if any
-        '''
-        whl_obj = self.pool.get('account.wh.iva.line')
-
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        
-        for r in ids:
-            ret.update({r : False})
-            whl_ids = whl_obj.search(cr, uid, [('invoice_id', '=', r)])
-            whl_brw = whl_obj.browse(cr, uid, whl_ids)
-            if whl_brw:
-                for whl in whl_brw:
-                    ret.update({r: whl.retention_id.number})
-        return ret
 
     def _get_inv_tax_line(self, s):
         '''
@@ -155,8 +136,6 @@ class inherited_invoice(osv.osv):
 
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
-                            help=""),
-        'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
                             help=""),
         'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
                             help=""),
