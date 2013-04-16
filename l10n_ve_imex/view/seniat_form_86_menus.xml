@@ -66,7 +66,7 @@ form_86_customs_tax_codes
 <!--
 seniat_form_86    
 -->
-
+		
 
         <record model="ir.actions.act_window" id="action_seniat_form_86">
             <field name="name">SENIAT - Form 99086</field>
@@ -74,11 +74,17 @@ seniat_form_86
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-        </record>   
-
+        </record>
+           
+		<menuitem 
+			id="menu_finance_forma" 
+			name="Custom Tax Form" 
+			parent="account.menu_finance" 
+			sequence="8"/>
+       
         <menuitem 
             id="menu_action_seniat_form_86" 
-            parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings" 
+            parent="menu_finance_forma" 
             action="action_seniat_form_86"/>                 
             
     </data>
