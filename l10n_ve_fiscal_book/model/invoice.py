@@ -38,12 +38,6 @@ class inherited_invoice(osv.osv):
         'fb_submitted':fields.boolean('Fiscal Book Submitted?',
                 help='Indicates if this invoice is in a Fiscal Book which has'\
                         ' being already submitted to the statutory institute'),
-
-        #~ TODO: This two fields are not set, check its use or remove (check Imex)
-        'num_import_expe': fields.char('Import File number', 15,
-            help="Import the file number for this invoice"),
-        'num_import_form': fields.char('Import Form number', 15,
-            help="Import the form number for this invoice"),
         }
 
 inherited_invoice()
