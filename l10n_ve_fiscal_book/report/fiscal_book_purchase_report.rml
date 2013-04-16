@@ -445,7 +445,7 @@
                     <!-- Planilla Importacion -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_import_form ]]</para></td>
                     <!-- Expediente Importacion -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.import_spreadsheet_name ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ 'TODO' ]]</para></td>
                     <!-- Numero de Factura -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference]]</para></td>
                     <!-- Numero Control -->

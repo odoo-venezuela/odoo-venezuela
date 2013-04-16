@@ -154,7 +154,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'expediente-importacion': {
             'name': 'Expediente de Importacion',
             'width': 36.0,
-            'value': lambda fbl: fbl.invoice_id.import_spreadsheet_name,
+            'value': lambda fbl: 'TODO',
             'total': lambda fb: '',
             'help': '' },
         'numero-facutra': {
