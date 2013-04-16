@@ -103,24 +103,6 @@ class inherited_invoice(osv.osv):
                     ret.pudate({r.id : r.nro_inport_expe})
         return ret
 
-    def _get_import_spreadsheets(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get Import Spreadsheets
-        '''
-        ret = {}
-        for i in ids:
-            ret.update({i:[]})
-        for inv in ids:
-            isp_ids = self.search(cr, uid, [('affected_invoice', '=', inv),
-                                            ('state', 'in',[ 'done', 'paid', 'open'])
-                                            ])
-#            print isp_ids
-            if isp_ids:
-                res = self.browse(cr, uid, isp_ids)
-                ret.update({inv: res})
-#                print ret
-        return ret
-
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
@@ -130,9 +112,6 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
                             help=""),
-        'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
-                            help=""),    
-
 
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book where this line is related to'),
