@@ -179,8 +179,6 @@ class inherited_invoice(osv.osv):
                             help=""),
         'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
                             help=""),
-        'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
-                            help=""),
         'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
                             help=""),    
 
