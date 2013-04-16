@@ -562,7 +562,7 @@ msgstr ""
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,sin_cred:0
-msgid "Tax Excempt"
+msgid "Tax Exempt"
 msgstr ""
 
 #. module: l10n_ve_fiscal_requirements
