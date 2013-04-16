@@ -1,48 +1,63 @@
-#!/usr/bin/python
 # -*- encoding: utf-8 -*-
-###########################################################################
-#    Module Writen to OpenERP, Open Source Management Solution
-#    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
-#    All Rights Reserved
-###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
-#    Planified by: Nhomar Hernandez
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
-#############################################################################
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
-from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
-from openerp.addons import decimal_precision as dp
+#    Company: Tecvemar, c.a.
+#    Author: Juan V. Márquez L.
+#    Creation Date: 10/04/2012
+#    Version: 0.0.0.0
+#
+#    Description:
+#
+#
+##############################################################################
 
-class invoice_inherit(osv.osv):
+from osv import osv
+from osv import fields
+
+
+##---------------------------------------------------------------------------------------- inherited_invoice
+
+class inherited_invoice(osv.osv):
+
+    _inherit = "account.invoice"
+
+
+    ##------------------------------------------------------------------------------------
+
+    ##------------------------------------------------------------------------------------ _internal methods
+
+    ##------------------------------------------------------------------------------------ function fields
+
+    _columns = {
+        'num_import_form_id':fields.many2one('seniat.form.86', 'Import file number', change_default=True, required=False, readonly=True, 
+                             states={'draft':[('readonly',False)]}, ondelete='restrict', 
+                             domain = [('state','=',('draft'))], help="The related form 86 for this import invoice (only draft)"), 
+        }
+
+    ##------------------------------------------------------------------------------------
+
+    ##------------------------------------------------------------------------------------ public methods
+
+    ##------------------------------------------------------------------------------------ buttons (object)
+
+    ##------------------------------------------------------------------------------------ on_change...
     
-    _inherit='account.invoice'
+    def on_change_num_import_form_id(self, cr, uid, ids, num_import_form_id):
+        res = {}
+        if num_import_form_id:
+            imp = self.pool.get('seniat.form.86').browse(cr,uid,num_import_form_id,context=None)
+            res = {'value':{'num_import_form':imp.name,'import_invo':imp.date_liq}}
+        return res
 
-    _columns={
-    'import_spreadsheet':fields.boolean('Import Spreadsheet',help='Indicates if this invoice is a document import'),
-    'affected_invoice':fields.many2one('account.invoice','Affected Invoice',help='Select the invoice affectd by this document'),
-    'import_spreadsheet_name':fields.char('Number',25,help='Import Spreadsheet Number'),
-    }
+    ##------------------------------------------------------------------------------------ create write unlink
 
+    ##------------------------------------------------------------------------------------ Workflow
+    
+    def test_open(self, cr, uid, ids, *args):
+        so_brw = self.browse(cr,uid,ids,context={})
+        for item in so_brw:
+            if item.num_import_form_id and item.num_import_form_id.state in ('draft','cancel'): 
+                raise osv.except_osv(_('Error!'),_('Can\'t validate a invoice while the form 86 state\'s is cancel or draft (%s).\nPlease validate the form 86 first.')%item.num_import_form_id.name)
+        return super(account_invoice, self).test_open(cr, uid, ids, args)
 
+inherited_invoice()
 
-invoice_inherit()
