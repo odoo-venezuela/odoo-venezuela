@@ -45,7 +45,7 @@ class wh_vat_installer(osv.osv_memory):
     _columns = {
         'name':fields.char('First Data', 34),
         'gaceta':fields.binary('Law related', readonly=True, help="Law related where we are referencing this module"),
-        'description':fields.text('Description', readonly=True),
+        'description':fields.text('Description', readonly=True, help='description of the installer'),
     }
     
     _defaults = {
@@ -67,8 +67,8 @@ class wh_iva_config(osv.osv_memory):
     _inherit = 'res.config'
 
     _columns = {
-        'name': fields.char('Name', 64),
-        'wh':fields.boolean('Are You Withholding Agent?'),
+        'name': fields.char('Name', 64, help='name'),
+        'wh':fields.boolean('Are You Withholding Agent?', help='if is withholding agent'),
         'journal_purchase_vat': fields.char("Journal Wh VAT Purchase", 64, help="Journal for purchase operations involving Withholding VAT"),
         'journal_sale_vat': fields.char("Journal Wh VAT Sale", 64, help="Journal for sale operations involving Withholding VAT"),
     }

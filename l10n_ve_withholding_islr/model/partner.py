@@ -38,8 +38,8 @@ class res_partner(osv.osv):
 
     _columns = {
         'islr_withholding_agent': fields.boolean('Income Withholding Agent?',help="Check if the partner is an agent for income withholding"),
-        'spn':fields.boolean('Is it a society of natural persons?'),
-        'islr_exempt': fields.boolean('Is it exempt from income withholding?'),
+        'spn':fields.boolean('Is it a society of natural persons?', help='Indicates whether refers to a society of natural persons'),
+        'islr_exempt': fields.boolean('Is it exempt from income withholding?', help='Whether the individual is exempt from income withholding'),
     }
     
     _defaults = {

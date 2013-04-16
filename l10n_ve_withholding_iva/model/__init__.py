@@ -27,7 +27,6 @@ import wh_iva
 import account
 import invoice
 import generate_txt
-import report
 import installer
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

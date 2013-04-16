@@ -88,7 +88,7 @@ class account_wh_munici(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'munici_line_ids': fields.one2many('account.wh.munici.line', 'retention_id', 'Local withholding lines', readonly=True, states={'draft': [('readonly', False)]}, help="Invoices to will be made local withholdings"),
         'amount': fields.float('Amount', required=False, digits_compute=dp.get_precision('Withhold'), help="Amount withheld"),
-        'move_id': fields.many2one('account.move', 'Account Entry'),
+        'move_id': fields.many2one('account.move', 'Account Entry', help='account entry for the invoice'),
 
 
     }
@@ -290,7 +290,7 @@ class account_wh_munici_line(osv.osv):
         'name': fields.char('Description', size=64, required=True, help="Local Withholding line Description"),
         'retention_id': fields.many2one('account.wh.munici', 'Local withholding', ondelete='cascade', help="Local withholding"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
-        'amount': fields.float('Amount', digits_compute=dp.get_precision('Withhold')),
+        'amount': fields.float('Amount', digits_compute=dp.get_precision('Withhold'), help='amout to be withhold'),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account Entry"),
         'wh_loc_rate': fields.float('Rate', help="Local withholding rate"),
         'concepto_id': fields.integer('Concept', size=3, help="Local withholding concept"),
