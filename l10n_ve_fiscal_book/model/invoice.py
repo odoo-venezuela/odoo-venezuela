@@ -176,18 +176,6 @@ class inherited_invoice(osv.osv):
             ret.update({r.id : r.invoice_printer})
         return ret
 
-    def _get_fiscal_printer(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get Fiscal Machine Number
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        for r in res:
-            ret.update({r.id : r.fiscal_printer})
-        return ret
-
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
                             help=""),
@@ -209,8 +197,6 @@ class inherited_invoice(osv.osv):
                             help=""),    
         'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Fiscal printer invoice number', type='char',
                             help=""),    
-        'get_fiscal_printer': fields.function(_get_fiscal_printer, method=True, string='Fiscal machine number', type='char',
-                            help=""),
 
 
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',

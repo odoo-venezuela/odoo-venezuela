@@ -642,6 +642,7 @@ class fiscal_book(orm.Model):
                                      and '03-ANU' or '01-REG') \
                                      or '01-REG',
                 'get_import_form': self.get_invoice_import_form(cr, uid, inv_brw.id, context=context),
+                'get_fiscal_printer': inv_brw.fiscal_printer or False,
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
                                                      inv_brw.id,
                                                      context=context)
@@ -915,6 +916,8 @@ class fiscal_book_lines(orm.Model):
 
         'get_papel_anulado': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
+        'get_fiscal_printer': fields.char(string='Fiscal machine number',
+                size=192, help=""),
 
         #~ Apply for invoice lines
         'get_reference': fields.char(string='Invoice number', size=64,
