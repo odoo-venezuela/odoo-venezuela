@@ -914,11 +914,6 @@ class fiscal_book_lines(orm.Model):
             help=''),
         'get_withheld': fields.float('Withheld Amount'),
 
-        'get_papel_anulado': fields.char(string='Transaction type', size=192,
-                help="Operation Type"),
-        'get_fiscal_printer': fields.char(string='Fiscal machine number',
-                size=192, help=""),
-
         #~ Apply for invoice lines
         'get_reference': fields.char(string='Invoice number', size=64,
                 help=''),
@@ -936,6 +931,10 @@ class fiscal_book_lines(orm.Model):
         'get_import_form': fields.char(string="Kind of document",
                 help="Get Invoice reference"),
         'get_is_imported': fields.boolean(string='Is an import'),
+        'get_papel_anulado': fields.char(string='Transaction type', size=192,
+                help="Operation Type"),
+        'get_fiscal_printer': fields.char(string='Fiscal machine number',
+                size=192, help=""),
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),
