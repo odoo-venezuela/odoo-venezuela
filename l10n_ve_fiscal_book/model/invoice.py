@@ -7,6 +7,7 @@
 ###############Credits######################################################
 #    Coded by:       Luis Escobar <luis@vauxoo.com>
 #                    Tulio Ruiz <tulio@vauxoo.com>
+#                    Katherine Zsoral <katherine.zaoral@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
