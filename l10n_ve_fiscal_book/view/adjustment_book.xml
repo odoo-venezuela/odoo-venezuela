@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- 
+    =====================================================
+    ADJUSTMENT BOOK
+    =====================================================
+    -->
+
+        <record id="view_adjustment_book_line_line_form" model="ir.ui.view">
+            <field name="name">adjustment.book.line.form</field>
+            <field name="model">adjustment.book.line</field>
+            <field name="arch" type="xml">
+                <form string="Adjustment Book Line">
+                    <group col="4" colspan="4">
+                        <field name="date_accounting" select="1"/>
+                        <field name="date_admin" select="1"/>
+                        <field name="vat" select="1"/>
+                        <field name="partner" select="1"/>
+                        <field name="invoice_number" select="1"/>
+                        <field name="control_number" select="1"/>
+                        <field name="amount"/>
+                        <field name="type_doc"/>
+                        <field name="doc_affected"/>
+                        <field name="uncredit_fiscal"/>
+                        <field name="amount_with_vat"/>
+                        <field name="voucher"/>
+                    </group>
+                    <newline/>
+                    <separator string="National Operations" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="amount_untaxed_n"/>
+                        <field name="percent_with_vat_n"/>
+                        <field name="amount_with_vat_n"/>
+                    </group>
+                    <newline/>
+                    <separator string="International Operations" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="amount_untaxed_i"/>
+                        <field name="percent_with_vat_i"/>
+                        <field name="amount_with_vat_i"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_adjustment_book_line_tree" model="ir.ui.view">
+            <field name="name">adjustment.book.line.tree</field>
+            <field name="model">adjustment.book.line</field>
+            <field name="arch" type="xml">
+                <tree string="Adjustment Book Line">
+                    <field name="date_accounting"/>
+                    <field name="date_admin"/>
+                    <field name="vat"/>
+                    <field name="partner"/>
+                    <field name="invoice_number"/>
+                    <field name="control_number"/>
+                    <field name="amount"/>
+                    <field name="type_doc"/>
+                    <field name="uncredit_fiscal"/>
+                    <field name="doc_affected"/>
+                    <field name="amount_untaxed_n"/>
+                    <field name="percent_with_vat_n"/>
+                    <field name="amount_with_vat_n"/>
+                    <field name="amount_untaxed_i"/>
+                    <field name="percent_with_vat_i"/>
+                    <field name="amount_with_vat_i"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
+
+
+
+
+
