@@ -643,6 +643,7 @@ class fiscal_book(orm.Model):
                                      or '01-REG',
                 'get_import_form': self.get_invoice_import_form(cr, uid, inv_brw.id, context=context),
                 'get_fiscal_printer': inv_brw.fiscal_printer or False,
+                'get_invoice_printer': inv_brw.invoice_printer or False,
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
                                                      inv_brw.id,
                                                      context=context)
@@ -934,6 +935,8 @@ class fiscal_book_lines(orm.Model):
         'get_papel_anulado': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
         'get_fiscal_printer': fields.char(string='Fiscal machine number',
+                size=192, help=""),
+        'get_invoice_printer': fields.char(string='Fiscal printer invoice number',
                 size=192, help=""),
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),

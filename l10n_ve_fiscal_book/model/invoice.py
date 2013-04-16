@@ -163,18 +163,6 @@ class inherited_invoice(osv.osv):
                 ret.update({inv: res})
 #                print ret
         return ret
-                
-    def _get_invoice_printer(self, cr, uid, ids, name, args, context=None):
-        '''
-        Get Fiscal Printer Invoice Number
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        for r in res:
-            ret.update({r.id : r.invoice_printer})
-        return ret
 
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
@@ -194,8 +182,6 @@ class inherited_invoice(osv.osv):
         'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
                             help=""),
         'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
-                            help=""),    
-        'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Fiscal printer invoice number', type='char',
                             help=""),    
 
 
