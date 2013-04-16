@@ -646,6 +646,7 @@ class fiscal_book(orm.Model):
                 'get_invoice_printer': inv_brw.invoice_printer or False,
                 'get_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
                 'get_nro_import_form': hasattr(inv_brw, 'num_import_form') and inv_brw.num_import_form and inv_brw.num_import_form or False,
+                'get_nro_import_expe': hasattr(inv_brw, 'num_import_expe') and inv_brw.num_import_expe and inv_brw.nro_inport_expe or False,
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
                                                      inv_brw.id,
                                                      context=context)
@@ -954,6 +955,8 @@ class fiscal_book_lines(orm.Model):
                 help=""),
         'get_nro_import_form': fields.char(string='Import form number',
                 size=192, help=""),
+        'get_nro_import_expe': fields.char(string='Import file number',
+                sizr=192, help=""),
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),

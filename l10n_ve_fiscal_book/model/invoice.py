@@ -54,21 +54,8 @@ class inherited_invoice(osv.osv):
                 ret.update({ r.id : r.amount_total })
         return ret
 
-    def _get_nro_inport_expe(self, cr, uid,ids, name, args, context=None):
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:''})
-        for r in res:
-            if hasattr(r, 'num_import_expe'):
-                if r.num_import_expe:
-                    ret.pudate({r.id : r.nro_inport_expe})
-        return ret
-
     _columns = {
         'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
-                            help=""),
-        'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
                             help=""),
 
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
