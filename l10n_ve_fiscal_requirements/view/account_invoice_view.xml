@@ -50,13 +50,6 @@
                                 colspan="6" />
                     </group>
                 </xpath>
-                <xpath expr="//button[@string='Refund Invoice']" position="replace">
-                    <button name="%(account.action_account_invoice_refund)d" 
-                            type='action' 
-                            string='Refund Invoice' 
-                            states='open,paid' 
-                            icon="gtk-execute"/>
-                </xpath>
 <!--
                 <xpath expr="//field[@name='address_invoice_id']" position="replace">
                     <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
@@ -76,6 +69,15 @@
                             states='open,paid' 
                             icon="gtk-execute" 
                             attrs="{'invisible':[('type','!=','out_refund')]}"/>
+                </xpath>
+                <xpath expr="//button[@string='Refund Invoice']" position="replace">
+                         <button name="%(account.action_account_invoice_refund)d" 
+                            type='action' 
+                            string='Refund Invoice' 
+                            icon="gtk-execute"
+                            attrs="{'invisible':['|',('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"
+                            /> 
+                            
                 </xpath>
             </field>
         </record>
