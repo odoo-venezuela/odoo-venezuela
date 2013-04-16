@@ -113,17 +113,6 @@ class inherited_invoice(osv.osv):
                 
         return ret
 
-    def _get_lang(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Lang from partner
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        if res:
-            for r in res:
-                ret.update({r.id:r.company_id.partner_id.lang})
-        return ret
-
     def _get_nro_inport_form(self, cr, uid,ids, name, args, context=None):
         res = self.browse(cr, uid, ids)
         ret = {}
@@ -170,8 +159,6 @@ class inherited_invoice(osv.osv):
         'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
                             help=""),
         'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
-                            help=""),
-        'get_lang': fields.function(_get_lang, method=True, string='Language', type='char',
                             help=""),
         'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
                             help=""),
