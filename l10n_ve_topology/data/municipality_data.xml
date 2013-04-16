@@ -1,0 +1,2028 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+<!--Distrito Capital-->
+        <record id="res_country_state_municipalities_001" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">001</field>
+            <field name="state_id" ref="res_country_state_dc" />
+        </record>
+<!--Amazonas-->
+        <record id="res_country_state_municipalities_002" model="res.municipality">
+            <field name="name">Alto Orinoco</field>
+            <field name="code">002</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+        <record id="res_country_state_municipalities_003" model="res.municipality">
+            <field name="name">Atabapo</field>
+            <field name="code">003</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+        <record id="res_country_state_municipalities_004" model="res.municipality">
+            <field name="name">Atures</field>
+            <field name="code">004</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+        <record id="res_country_state_municipalities_005" model="res.municipality">
+            <field name="name">Autana</field>
+            <field name="code">005</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+        <record id="res_country_state_municipalities_006" model="res.municipality">
+            <field name="name">Manapiare</field>
+            <field name="code">006</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+        <record id="res_country_state_municipalities_007" model="res.municipality">
+            <field name="name">Maroa</field>
+            <field name="code">007</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+        <record id="res_country_state_municipalities_008" model="res.municipality">
+            <field name="name">Rio Negro</field>
+            <field name="code">008</field>
+            <field name="state_id" ref="res_country_state_am"/>
+        </record>
+<!--Anzoategui-->
+        <record id="res_country_state_municipalities_009" model="res.municipality">
+            <field name="name">Anaco</field>
+            <field name="code">009</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_010" model="res.municipality">
+            <field name="name">Aragua</field>
+            <field name="code">010</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_011" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">011</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_012" model="res.municipality">
+            <field name="name">Bruzual</field>
+            <field name="code">012</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_013" model="res.municipality">
+            <field name="name">Cajigal</field>
+            <field name="code">013</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_014" model="res.municipality">
+            <field name="name">Carvajal</field>
+            <field name="code">014</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_015" model="res.municipality">
+            <field name="name">Diego Bautista Urbaneja</field>
+            <field name="code">015</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_016" model="res.municipality">
+            <field name="name">Freites</field>
+            <field name="code">016</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_017" model="res.municipality">
+            <field name="name">Guanipa</field>
+            <field name="code">017</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_018" model="res.municipality">
+            <field name="name">Guanta</field>
+            <field name="code">018</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_019" model="res.municipality">
+            <field name="name">Independencia</field>
+            <field name="code">019</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_020" model="res.municipality">
+            <field name="name">Libertad</field>
+            <field name="code">020</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_021" model="res.municipality">
+            <field name="name">McGregor</field>
+            <field name="code">021</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_022" model="res.municipality">
+            <field name="name">Miranda</field>
+            <field name="code">022</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_023" model="res.municipality">
+            <field name="name">Monagas</field>
+            <field name="code">023</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_024" model="res.municipality">
+            <field name="name">Penalver</field>
+            <field name="code">024</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_025" model="res.municipality">
+            <field name="name">Piritu</field>
+            <field name="code">025</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_026" model="res.municipality">
+            <field name="name">San Juan de Capistrano</field>
+            <field name="code">026</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_027" model="res.municipality">
+            <field name="name">Santa Ana</field>
+            <field name="code">027</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_028" model="res.municipality">
+            <field name="name">Simon Rodriguez</field>
+            <field name="code">028</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+        <record id="res_country_state_municipalities_029" model="res.municipality">
+            <field name="name">Sotillo</field>
+            <field name="code">029</field>
+            <field name="state_id" ref="res_country_state_an"/>
+         </record>
+<!--Apure-->
+        <record id="res_country_state_municipalities_031" model="res.municipality">
+            <field name="name">Achaguas</field>
+            <field name="code">031</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+        <record id="res_country_state_municipalities_032" model="res.municipality">
+            <field name="name">Biruaca</field>
+            <field name="code">032</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+        <record id="res_country_state_municipalities_033" model="res.municipality">
+            <field name="name">Munoz</field>
+            <field name="code">033</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+        <record id="res_country_state_municipalities_034" model="res.municipality">
+            <field name="name">Paez</field>
+            <field name="code">034</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+        <record id="res_country_state_municipalities_035" model="res.municipality">
+            <field name="name">Pedro Camejo</field>
+            <field name="code">035</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+        <record id="res_country_state_municipalities_036" model="res.municipality">
+            <field name="name">Romulo Gallegos</field>
+            <field name="code">036</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+        <record id="res_country_state_municipalities_037" model="res.municipality">
+            <field name="name">San Fernando</field>
+            <field name="code">037</field>
+            <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+<!--Aragua
+   1. Bolívar (San Mateo)
+   2. Camatagua (Camatagua)
+   3. Francisco Linares Alcántara (Santa Rita)
+   4. Girardot (Maracay)
+   5. José Angel Lamas (Santa Cruz de Aragua)
+   6. José Félix Ribas (La Victoria)
+   7. José Rafael Revenga (El Consejo)
+   8. Libertador (Palo Negro)
+   9. Mario Briceño Iragorry (El Limón)
+  10. Ocumare de la Costa de Oro (Ocumare de la Costa)
+  11. San Casimiro (San Casimiro)
+  12. San Sebastián (San Sebastián de Los Reyes (Venezuela))
+  13. Santiago Mariño (Turmero)
+  14. Santos Michelena (Las Tejerías)
+  15. Sucre (Cagua)
+  16. Tovar (Colonia Tovar)
+  17. Urdaneta (Barbacoas)
+  18. Zamora (Villa de Cura) 
+-->
+        <record id="res_country_state_municipalities_038" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">038</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_039" model="res.municipality">
+            <field name="name">Camatagua</field>
+            <field name="code">039</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_040" model="res.municipality">
+            <field name="name">Francisco Linares Alcantara</field>
+            <field name="code">040</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_041" model="res.municipality">
+            <field name="name">Girardot</field>
+            <field name="code">041</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_042" model="res.municipality">
+            <field name="name">Jose Angel Lamas</field>
+            <field name="code">042</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_043" model="res.municipality">
+            <field name="name">Jose Felix Ribas</field>
+            <field name="code">043</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_044" model="res.municipality">
+            <field name="name">José Rafael Revenga</field>
+            <field name="code">044</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_045" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">046</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_047" model="res.municipality">
+            <field name="name">Mario Briceno Iragorry</field>
+            <field name="code">047</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_048" model="res.municipality">
+            <field name="name">Ocumare de la Costa de Oro</field>
+            <field name="code">048</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_049" model="res.municipality">
+            <field name="name">San Casimiro</field>
+            <field name="code">049</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_050" model="res.municipality">
+            <field name="name">San Sebastian</field>
+            <field name="code">050</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_051" model="res.municipality">
+            <field name="name">Santiago Marino</field>
+            <field name="code">051</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_052" model="res.municipality">
+            <field name="name">Santos Michelena</field>
+            <field name="code">052</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_053" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">053</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_054" model="res.municipality">
+            <field name="name">Tovar</field>
+            <field name="code">054</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_055" model="res.municipality">
+            <field name="name">Urdaneta</field>
+            <field name="code">055</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+        <record id="res_country_state_municipalities_056" model="res.municipality">
+            <field name="name">Zamora</field>
+            <field name="code">056</field>
+            <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+<!--Barinas
+   1. Alberto Arvelo Torrealba (Sabaneta)
+   2. Andrés Eloy Blanco (El Cantón)
+   3. Antonio José de Sucre (Socopó)
+   4. Arismendi (Arismendi)
+   5. Barinas (Barinas)
+   6. Bolívar (Barinitas)
+   7. Cruz Paredes (Barrancas)
+   8. Ezequiel Zamora (Santa Bárbara)
+   9. Obispos (Obispos)
+  10. Pedraza (Ciudad Bolivia)
+  11. Rojas (Libertad)
+  12. Sosa (Ciudad de Nutrias) 
+-->
+        <record id="res_country_state_municipalities_057" model="res.municipality">
+            <field name="name">Alberto Arvelo Torrealba</field>
+            <field name="code">057</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_058" model="res.municipality">
+            <field name="name">Andres Eloy Blanco</field>
+            <field name="code">058</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_059" model="res.municipality">
+            <field name="name">Antonio Jose de Sucre</field>
+            <field name="code">059</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_060" model="res.municipality">
+            <field name="name">Arismendi</field>
+            <field name="code">060</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_061" model="res.municipality">
+            <field name="name">Barinas</field>
+            <field name="code">061</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_062" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">062</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_063" model="res.municipality">
+            <field name="name">Cruz Paredes</field>
+            <field name="code">063</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_064" model="res.municipality">
+            <field name="name">Ezequiel Zamora</field>
+            <field name="code">064</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_065" model="res.municipality">
+            <field name="name">Obispos</field>
+            <field name="code">065</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_066" model="res.municipality">
+            <field name="name">Pedraza</field>
+            <field name="code">066</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_067" model="res.municipality">
+            <field name="name">Rojas</field>
+            <field name="code">067</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+        <record id="res_country_state_municipalities_068" model="res.municipality">
+            <field name="name">Sosa</field>
+            <field name="code">068</field>
+            <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+
+<!--Bolivar
+   1. Caroní (Ciudad Guayana)
+   2. Cedeño (Caicara del Orinoco)
+   3. El Callao (El Callao)
+   4. Gran Sabana (Santa Elena de Uairén)
+   5. Heres (Ciudad Bolívar)
+   6. Piar (Upata)
+   7. Raúl Leoni (Ciudad Piar)
+   8. Roscio (Guasipati)
+   9. Sifontes (El Dorado)
+  10. Sucre (Maripa)
+  11. Padre Pedro Chien (El Palmar) 
+-->
+        <record id="res_country_state_municipalities_069" model="res.municipality">
+            <field name="name">Caroni</field>
+            <field name="code">069</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_070" model="res.municipality">
+            <field name="name">Cedeno</field>
+            <field name="code">070</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_071" model="res.municipality">
+            <field name="name">El Callao</field>
+            <field name="code">071</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_072" model="res.municipality">
+            <field name="name">Gran Sabana</field>
+            <field name="code">072</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_073" model="res.municipality">
+            <field name="name">Heres</field>
+            <field name="code">073</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_074" model="res.municipality">
+            <field name="name">Piar</field>
+            <field name="code">074</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_075" model="res.municipality">
+            <field name="name">Raul Leoni</field>
+            <field name="code">075</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_076" model="res.municipality">
+            <field name="name">Roscio</field>
+            <field name="code">076</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_077" model="res.municipality">
+            <field name="name">Sifontes</field>
+            <field name="code">077</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_078" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">078</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+        <record id="res_country_state_municipalities_079" model="res.municipality">
+            <field name="name">Padre Pedro Chien</field>
+            <field name="code">079</field>
+            <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+<!--Carabobo
+   1. Bejuma (Bejuma)
+   2. Carlos Arvelo (Güigüe)
+   3. Diego Ibarra (Mariara)
+   4. Guacara (Guacara)
+   5. Juan José Mora (Morón)
+   6. Libertador (Tocuyito)
+   7. Los Guayos (Los Guayos)
+   8. Miranda (Miranda)
+   9. Montalbán (Montalbán)
+  10. Naguanagua (Naguanagua)
+  11. Puerto Cabello (Puerto Cabello)
+  12. San Diego (San Diego)
+  13. San Joaquín (San Joaquín)
+  14. Valencia (Valencia) 
+-->
+        <record id="res_country_state_municipalities_080" model="res.municipality">
+            <field name="name">Bejuma</field>
+            <field name="code">080</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_081" model="res.municipality">
+            <field name="name">Carlos Arvelo</field>
+            <field name="code">081</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_082" model="res.municipality">
+            <field name="name">Guacara</field>
+            <field name="code">082</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_083" model="res.municipality">
+            <field name="name">Diego Ibarra</field>
+            <field name="code">083</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_084" model="res.municipality">
+            <field name="name">Juan Jose Mora</field>
+            <field name="code">084</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_085" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">085</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_086" model="res.municipality">
+            <field name="name">Los Guayos</field>
+            <field name="code">086</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_087" model="res.municipality">
+            <field name="name">Naguanagua</field>
+            <field name="code">087</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_088" model="res.municipality">
+            <field name="name">Miranda</field>
+            <field name="code">088</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_089" model="res.municipality">
+            <field name="name">Montalban</field>
+            <field name="code">089</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_090" model="res.municipality">
+            <field name="name">Puerto Cabello</field>
+            <field name="code">090</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_091" model="res.municipality">
+            <field name="name">San Diego</field>
+            <field name="code">091</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_092" model="res.municipality">
+            <field name="name">San Joaquín</field>
+            <field name="code">092</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+        <record id="res_country_state_municipalities_093" model="res.municipality">
+            <field name="name">Valencia</field>
+            <field name="code">093</field>
+            <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+<!--Cojedes
+   1. Anzoátegui (Cojedes)
+   2. Falcón (Tinaquillo)
+   3. Girardot (El Baúl)
+   4. Lima Blanco (Macapo)
+   5. Pao de San Juan Bautista (El Pao)
+   6. Ricaurte (Libertad)
+   7. Rómulo Gallegos (Las Vegas)
+   8. San Carlos (San Carlos)
+   9. Tinaco (Tinaco) 
+-->
+        <record id="res_country_state_municipalities_094" model="res.municipality">
+            <field name="name">Anzoategui</field>
+            <field name="code">094</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_095" model="res.municipality">
+            <field name="name">Falcon</field>
+            <field name="code">095</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_046" model="res.municipality">
+            <field name="name">Girardot</field>
+            <field name="code">095</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_096" model="res.municipality">
+            <field name="name">Lima Blanco</field>
+            <field name="code">096</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_097" model="res.municipality">
+            <field name="name">Pao de San Juan Bautista</field>
+            <field name="code">097</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_098" model="res.municipality">
+            <field name="name">Ricaurte</field>
+            <field name="code">098</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_099" model="res.municipality">
+            <field name="name">Romulo Gallegos</field>
+            <field name="code">099</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_100" model="res.municipality">
+            <field name="name">San Carlos</field>
+            <field name="code">100</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+        <record id="res_country_state_municipalities_101" model="res.municipality">
+            <field name="name">Tinaco</field>
+            <field name="code">101</field>
+            <field name="state_id" ref="res_country_state_co"/>
+         </record>
+<!--Delta Amacuro
+   1. Antonio Díaz (Curiapo)
+   2. Casacoima (Sierra Imataca)
+   3. Pedernales (Pedernales)
+   4. Tucupita (Tucupita) 
+-->
+        <record id="res_country_state_municipalities_102" model="res.municipality">
+            <field name="name">Antonio Diaz</field>
+            <field name="code">102</field>
+            <field name="state_id" ref="res_country_state_da"/>
+         </record>
+        <record id="res_country_state_municipalities_103" model="res.municipality">
+            <field name="name">Casacoima</field>
+            <field name="code">103</field>
+            <field name="state_id" ref="res_country_state_da"/>
+         </record>
+        <record id="res_country_state_municipalities_104" model="res.municipality">
+            <field name="name">Pedernales</field>
+            <field name="code">104</field>
+            <field name="state_id" ref="res_country_state_da"/>
+         </record>
+        <record id="res_country_state_municipalities_105" model="res.municipality">
+            <field name="name">Tucupita</field>
+            <field name="code">105</field>
+            <field name="state_id" ref="res_country_state_da"/>
+         </record>
+<!--Falcon
+   1. Acosta (San Juan de los Cayos)
+   2. Bolívar (San Luis)
+   3. Buchivacoa (Capatárida)
+   4. Cacique Manaure (Yaracal)
+   5. Carirubana (Punto Fijo)
+   6. Colina (La Vela de Coro)
+   7. Dabajuro (Dabajuro)
+   8. Democracia (Pedregal)
+   9. Falcón (Pueblo Nuevo)
+  10. Federación (Churuguara)
+  11. Jacura (Jacura)
+  12. Los Taques (Santa Cruz de Los Taques)
+  13. Mauroa (Mene de Mauroa)
+  14. Miranda (Santa Ana de Coro)
+  15. Monseñor Iturriza (Chichiriviche)
+  16. Palmasola (Palmasola)
+  17. Petit (Cabure)
+  18. Píritu (Píritu)
+  19. San Francisco (Mirimire)
+  20. Silva (Tucacas)
+  21. Sucre (La Cruz de Taratara)
+  22. Tocópero (Tocópero)
+  23. Unión (Santa Cruz de Bucaral)
+  24. Urumaco (Urumaco)
+  25. Zamora (Puerto Cumarebo) 
+-->
+        <record id="res_country_state_municipalities_106" model="res.municipality">
+            <field name="name">Acosta</field>
+            <field name="code">106</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_107" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">107</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_108" model="res.municipality">
+            <field name="name">Buchivacoa</field>
+            <field name="code">108</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_109" model="res.municipality">
+            <field name="name">Cacique Manaure</field>
+            <field name="code">109</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_110" model="res.municipality">
+            <field name="name">Carirubana</field>
+            <field name="code">110</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_111" model="res.municipality">
+            <field name="name">Colina</field>
+            <field name="code">111</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_112" model="res.municipality">
+            <field name="name">Dabajuro</field>
+            <field name="code">112</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_113" model="res.municipality">
+            <field name="name">Democracia</field>
+            <field name="code">113</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_114" model="res.municipality">
+            <field name="name">Falcon</field>
+            <field name="code">114</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_115" model="res.municipality">
+            <field name="name">Federacion</field>
+            <field name="code">115</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_116" model="res.municipality">
+            <field name="name">Jacura</field>
+            <field name="code">116</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_117" model="res.municipality">
+            <field name="name">Los Taques</field>
+            <field name="code">117</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_118" model="res.municipality">
+            <field name="name">Mauroa</field>
+            <field name="code">118</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_119" model="res.municipality">
+            <field name="name">Miranda</field>
+            <field name="code">119</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_120" model="res.municipality">
+            <field name="name">Monsenor Iturriza</field>
+            <field name="code">120</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_121" model="res.municipality">
+            <field name="name">Palmasola</field>
+            <field name="code">121</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_122" model="res.municipality">
+            <field name="name">Petit</field>
+            <field name="code">122</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_123" model="res.municipality">
+            <field name="name">Piritu</field>
+            <field name="code">123</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_124" model="res.municipality">
+            <field name="name">San Francisco</field>
+            <field name="code">124</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_125" model="res.municipality">
+            <field name="name">Silva</field>
+            <field name="code">125</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_126" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">126</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_127" model="res.municipality">
+            <field name="name">Tocopero</field>
+            <field name="code">127</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_128" model="res.municipality">
+            <field name="name">Union</field>
+            <field name="code">128</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_129" model="res.municipality">
+            <field name="name">Urumaco</field>
+            <field name="code">129</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+        <record id="res_country_state_municipalities_130" model="res.municipality">
+            <field name="name">Zamora</field>
+            <field name="code">130</field>
+            <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+
+<!--Guarico
+   1. Camaguán (Camaguán).
+   2. Chaguaramas (Chaguaramas)
+   3. El Socorro (El Socorro)
+   4. Sebastian Francisco de Miranda (Calabozo)
+   5. José Félix Ribas (Tucupido)
+   6. José Tadeo Monagas (Altagracia de Orituco).
+   7. Juan Germán Roscio (San Juan de Los Morros)
+   8. Julián Mellado (El Sombrero)
+   9. Las Mercedes (Las Mercedes)
+  10. Leonardo Infante (Valle de La Pascua)
+  11. Pedro Zaraza (Zaraza).
+  12. Ortiz (Ortiz)
+  13. San Gerónimo de Guayabal (Guayabal)
+  14. San José de Guaribe (San José de Guaribe)
+  15. Santa María de Ipire (Santa María de Ipire) 
+-->
+        <record id="res_country_state_municipalities_131" model="res.municipality">
+            <field name="name">Camaguan</field>
+            <field name="code">131</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_132" model="res.municipality">
+            <field name="name">Chaguaramas</field>
+            <field name="code">132</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_133" model="res.municipality">
+            <field name="name">El Socorro</field>
+            <field name="code">133</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_134" model="res.municipality">
+            <field name="name">Sebastian Francisco de Miranda</field>
+            <field name="code">134</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_135" model="res.municipality">
+            <field name="name">Jose Felix Ribas</field>
+            <field name="code">135</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_136" model="res.municipality">
+            <field name="name">Jose Tadeo Monagas</field>
+            <field name="code">136</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_137" model="res.municipality">
+            <field name="name">Juan German Roscio</field>
+            <field name="code">137</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_138" model="res.municipality">
+            <field name="name">Julian Mellado</field>
+            <field name="code">138</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_139" model="res.municipality">
+            <field name="name">Las Mercedes</field>
+            <field name="code">139</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_140" model="res.municipality">
+            <field name="name">Leonardo Infante</field>
+            <field name="code">140</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_141" model="res.municipality">
+            <field name="name">Pedro Zaraza</field>
+            <field name="code">141</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_142" model="res.municipality">
+            <field name="name">Ortiz</field>
+            <field name="code">142</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_143" model="res.municipality">
+            <field name="name">San Geronimo de Guayabal</field>
+            <field name="code">143</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_144" model="res.municipality">
+            <field name="name">San Jose de Guaribe</field>
+            <field name="code">144</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+        <record id="res_country_state_municipalities_145" model="res.municipality">
+            <field name="name">Santa Maria de Ipire</field>
+            <field name="code">145</field>
+            <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+<!--Lara
+   1. Andrés Eloy Blanco (Sanare)
+   2. Crespo (Duaca)
+   3. Iribarren (Barquisimeto)
+   4. Jiménez (Quibor)
+   5. Morán (El Tocuyo)
+   6. Palavecino (Cabudare)
+   7. Simón Planas (Sarare)
+   8. Torres (Carora)
+   9. Urdaneta (Siquisique) 
+-->
+        <record id="res_country_state_municipalities_146" model="res.municipality">
+            <field name="name">Andres Eloy Blanco</field>
+            <field name="code">146</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_147" model="res.municipality">
+            <field name="name">Crespo</field>
+            <field name="code">147</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_148" model="res.municipality">
+            <field name="name">Iribarren</field>
+            <field name="code">148</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_149" model="res.municipality">
+            <field name="name">Jimenez</field>
+            <field name="code">149</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_150" model="res.municipality">
+            <field name="name">Moran </field>
+            <field name="code">150</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_151" model="res.municipality">
+            <field name="name">Palavecino</field>
+            <field name="code">151</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_152" model="res.municipality">
+            <field name="name">Simon Planas</field>
+            <field name="code">152</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_153" model="res.municipality">
+            <field name="name">Torres</field>
+            <field name="code">153</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+        <record id="res_country_state_municipalities_154" model="res.municipality">
+            <field name="name">Urdaneta</field>
+            <field name="code">154</field>
+            <field name="state_id" ref="res_country_state_la"/>
+         </record>
+<!--Merida
+   1. Alberto Adriani (El Vigía)
+   2. Andrés Bello (La Azulita)
+   3. Antonio Pinto Salinas (Santa Cruz de Mora)
+   4. Aricagua (Aricagua)
+   5. Arzobispo Chacón (Canaguá)
+   6. Campo Elías (Ejido)
+   7. Caracciolo Parra Olmedo (Tucaní)
+   8. Cardenal Quintero (Santo Domingo)
+   9. Guaraque (Guaraque)
+  10. Julio César Salas (Arapuey)
+  11. Justo Briceño (Torondoy)
+  12. Libertador (Mérida)
+  13. Miranda (Timotes)
+  14. Obispo Ramos de Lora (Santa Elena de Arenales)
+  15. Padre Noguera (Santa María de Caparo)
+  16. Pueblo Llano (Pueblo Llano)
+  17. Rangel (Mucuchíes)
+  18. Rivas Dávila (Bailadores)
+  19. Santos Marquina (Tabay)
+  20. Sucre (Lagunillas)
+  21. Tovar (Tovar)
+  22. Tulio Febres Cordero (Nueva Bolivia)
+  23. Zea (Zea) 
+-->
+        <record id="res_country_state_municipalities_155" model="res.municipality">
+            <field name="name">Alberto Adriani</field>
+            <field name="code">155</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_156" model="res.municipality">
+            <field name="name">Andres Bello</field>
+            <field name="code">156</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_157" model="res.municipality">
+            <field name="name">Antonio Pinto Salinas</field>
+            <field name="code">157</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_158" model="res.municipality">
+            <field name="name">Aricagua</field>
+            <field name="code">158</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_159" model="res.municipality">
+            <field name="name">Arzobispo Chacon</field>
+            <field name="code">159</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_160" model="res.municipality">
+            <field name="name">Campo Elias</field>
+            <field name="code">160</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_161" model="res.municipality">
+            <field name="name">Caracciolo Parra Olmedo</field>
+            <field name="code">161</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_162" model="res.municipality">
+            <field name="name">Cardenal Quintero</field>
+            <field name="code">162</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_163" model="res.municipality">
+            <field name="name">Guaraque</field>
+            <field name="code">163</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_164" model="res.municipality">
+            <field name="name">Julio Cesar Salas</field>
+            <field name="code">164</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_165" model="res.municipality">
+            <field name="name">Justo Briceno</field>
+            <field name="code">165</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_166" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">166</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_167" model="res.municipality">
+            <field name="name">Miranda</field>
+            <field name="code">167</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_168" model="res.municipality">
+            <field name="name">Obispo Ramos de Lora</field>
+            <field name="code">168</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_169" model="res.municipality">
+            <field name="name">Padre Noguera</field>
+            <field name="code">169</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_170" model="res.municipality">
+            <field name="name">Pueblo Llano</field>
+            <field name="code">170</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_171" model="res.municipality">
+            <field name="name">Rangel</field>
+            <field name="code">171</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_172" model="res.municipality">
+            <field name="name">Rivas Davila</field>
+            <field name="code">172</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_173" model="res.municipality">
+            <field name="name">Santos Marquina</field>
+            <field name="code">173</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_174" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">174</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_175" model="res.municipality">
+            <field name="name">Tovar</field>
+            <field name="code">175</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_176" model="res.municipality">
+            <field name="name">Tulio Febres Cordero</field>
+            <field name="code">176</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+        <record id="res_country_state_municipalities_177" model="res.municipality">
+            <field name="name">Zea</field>
+            <field name="code">177</field>
+            <field name="state_id" ref="res_country_state_me"/>
+         </record>
+<!--Miranda
+   1. Acevedo (Caucagua)
+   2. Andrés Bello (San José de Barlovento)
+   3. Baruta (Baruta)
+   4. Brión (Higuerote)
+   5. Buroz (Mamporal)
+   6. Carrizal (Carrizal)
+   7. Chacao (Chacao)
+   8. Cristóbal Rojas (Charallave)
+   9. El Hatillo (Santa Rosalía de Palermo)
+  10. Guaicaipuro (Los Teques)
+  11. Independencia (Santa Teresa del Tuy)
+  12. Lander (Ocumare del Tuy)
+  13. Los Salias (San Antonio de los Altos)
+  14. Páez (Río Chico)
+  15. Paz Castillo (Santa Lucía)
+  16. Pedro Gual (Cúpira)
+  17. Plaza (Guarenas)
+  18. Simón Bolívar (San Francisco de Yare)
+  19. Sucre (Petare)
+  20. Urdaneta (Cúa)
+  21. Zamora (Guatire) 
+-->
+        <record id="res_country_state_municipalities_178" model="res.municipality">
+            <field name="name">Acevedo</field>
+            <field name="code">178</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_179" model="res.municipality">
+            <field name="name">Andres Bello</field>
+            <field name="code">179</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_180" model="res.municipality">
+            <field name="name">Baruta</field>
+            <field name="code">180</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_181" model="res.municipality">
+            <field name="name">Brion</field>
+            <field name="code">181</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_182" model="res.municipality">
+            <field name="name">Buroz</field>
+            <field name="code">182</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_183" model="res.municipality">
+            <field name="name">Carrizal</field>
+            <field name="code">183</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_184" model="res.municipality">
+            <field name="name">Chacao</field>
+            <field name="code">184</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_185" model="res.municipality">
+            <field name="name">Cristobal Rojas</field>
+            <field name="code">185</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_186" model="res.municipality">
+            <field name="name">El Hatillo</field>
+            <field name="code">186</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_187" model="res.municipality">
+            <field name="name">Guaicaipuro</field>
+            <field name="code">187</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_188" model="res.municipality">
+            <field name="name">Independencia</field>
+            <field name="code">188</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_189" model="res.municipality">
+            <field name="name">Lander</field>
+            <field name="code">189</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_190" model="res.municipality">
+            <field name="name">Los Salias</field>
+            <field name="code">190</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_191" model="res.municipality">
+            <field name="name">Paez</field>
+            <field name="code">191</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_192" model="res.municipality">
+            <field name="name">Paz Castillo</field>
+            <field name="code">192</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_193" model="res.municipality">
+            <field name="name">Pedro Gual</field>
+            <field name="code">193</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_194" model="res.municipality">
+            <field name="name">Plaza</field>
+            <field name="code">194</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_195" model="res.municipality">
+            <field name="name">Simon Bolívar</field>
+            <field name="code">195</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_196" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">196</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_197" model="res.municipality">
+            <field name="name">Urdaneta</field>
+            <field name="code">197</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+        <record id="res_country_state_municipalities_198" model="res.municipality">
+            <field name="name">Zamora</field>
+            <field name="code">198</field>
+            <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+<!--Monagas
+   1. Acosta (San Antonio de Capayacuar)
+   2. Aguasay (Aguasay)
+   3. Bolívar (Caripito)
+   4. Caripe (Caripe)
+   5. Cedeño (Caicara)
+   6. Ezequiel Zamora (Punta de Mata)
+   7. Libertador (Temblador)
+   8. Maturín (Maturín)
+   9. Piar (Aragua de Maturín)
+  10. Punceres (Quiriquire)
+  11. Santa Bárbara (Santa Bárbara)
+  12. Sotillo (Barrancas del Orinco)
+  13. Uracoa (Uracoa) 
+-->
+        <record id="res_country_state_municipalities_201" model="res.municipality">
+            <field name="name">Acosta</field>
+            <field name="code">201</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_202" model="res.municipality">
+            <field name="name">Aguasay</field>
+            <field name="code">202</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_203" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">203</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_204" model="res.municipality">
+            <field name="name">Caripe</field>
+            <field name="code">204</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_205" model="res.municipality">
+            <field name="name">Cedeno</field>
+            <field name="code">205</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_206" model="res.municipality">
+            <field name="name">Ezequiel Zamora</field>
+            <field name="code">206</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_207" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">207</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_208" model="res.municipality">
+            <field name="name">Maturin</field>
+            <field name="code">208</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_209" model="res.municipality">
+            <field name="name">Piar</field>
+            <field name="code">209</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_210" model="res.municipality">
+            <field name="name">Punceres</field>
+            <field name="code">210</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_211" model="res.municipality">
+            <field name="name">Santa Barbara</field>
+            <field name="code">211</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_212" model="res.municipality">
+            <field name="name">Sotillo</field>
+            <field name="code">212</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+        <record id="res_country_state_municipalities_213" model="res.municipality">
+            <field name="name">Uracoa</field>
+            <field name="code">213</field>
+            <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+
+<!--Nueva Esparta
+   1.  Antolín del Campo (La Plaza de Paraguachí)
+   2. Arismendi (La Asunción)
+   3. Díaz (San Juan Bautista)
+   4. García (El Valle del Espíritu Santo)
+   5. Gómez (Santa Ana)
+   6. Maneiro (Pampatar)
+   7. Marcano (Juan Griego)
+   8. Mariño (Porlamar)
+   9. Península de Macanao (Boca de Río)
+  10. Tubores (Punta de Piedras)
+  11. Villalba (San Pedro de Coche) 
+-->        
+        <record id="res_country_state_municipalities_214" model="res.municipality">
+            <field name="name">Antolin del Campo</field>
+            <field name="code">214</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_215" model="res.municipality">
+            <field name="name">Arismendi</field>
+            <field name="code">215</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_216" model="res.municipality">
+            <field name="name">Diaz</field>
+            <field name="code">216</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_217" model="res.municipality">
+            <field name="name">Garcia</field>
+            <field name="code">217</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_218" model="res.municipality">
+            <field name="name">Gomez</field>
+            <field name="code">218</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_219" model="res.municipality">
+            <field name="name">Maneiro</field>
+            <field name="code">219</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_220" model="res.municipality">
+            <field name="name">Marcano</field>
+            <field name="code">220</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_221" model="res.municipality">
+            <field name="name">Marino</field>
+            <field name="code">221</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_222" model="res.municipality">
+            <field name="name">Peninsula de Macanao</field>
+            <field name="code">222</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_223" model="res.municipality">
+            <field name="name">Tubores</field>
+            <field name="code">223</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+        <record id="res_country_state_municipalities_224" model="res.municipality">
+            <field name="name">Villalba</field>
+            <field name="code">224</field>
+            <field name="state_id" ref="res_country_state_ne"/>
+         </record>
+<!--Portuguesa
+   1. Agua Blanca (Agua Blanca)
+   2. Araure (Araure)
+   3. Esteller (Píritu)
+   4. Guanare (Guanare)
+   5. Guanarito (Guanarito)
+   6. Monseñor José Vicente de Unda (Chabasquén de Unda)
+   7. Ospino (Ospino)
+   8. Páez (Acarigua)
+   9. Papelón (Papelón)
+  10. San Genaro de Boconoíto (Boconoíto)
+  11. San Rafael de Onoto (San Rafael de Onoto)
+  12. Santa Rosalía (El Playón)
+  13. Sucre (Biscucuy)
+  14. Turén (Villa Bruzual) 
+-->
+        <record id="res_country_state_municipalities_225" model="res.municipality">
+            <field name="name">Agua Blanca</field>
+            <field name="code">225</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_226" model="res.municipality">
+            <field name="name">Araure</field>
+            <field name="code">226</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_227" model="res.municipality">
+            <field name="name">Esteller</field>
+            <field name="code">227</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_228" model="res.municipality">
+            <field name="name">Guanare</field>
+            <field name="code">228</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_229" model="res.municipality">
+            <field name="name">Guanarito</field>
+            <field name="code">229</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_230" model="res.municipality">
+            <field name="name">Monsenor Jose Vicente de Unda</field>
+            <field name="code">230</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_231" model="res.municipality">
+            <field name="name">Ospino</field>
+            <field name="code">231</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_232" model="res.municipality">
+            <field name="name">Paez</field>
+            <field name="code">232</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_233" model="res.municipality">
+            <field name="name">Papelon</field>
+            <field name="code">233</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_234" model="res.municipality">
+            <field name="name">San Genaro de Boconoito</field>
+            <field name="code">234</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_235" model="res.municipality">
+            <field name="name">San Rafael de Onoto</field>
+            <field name="code">235</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_236" model="res.municipality">
+            <field name="name">Santa Rosalia</field>
+            <field name="code">236</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_237" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">237</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+        <record id="res_country_state_municipalities_238" model="res.municipality">
+            <field name="name">Turen</field>
+            <field name="code">238</field>
+            <field name="state_id" ref="res_country_state_po"/>
+         </record>
+<!--Sucre
+   1. Andrés Eloy Blanco (Casanay)
+   2. Andrés Mata (San José de Aerocuar)
+   3. Arismendi (Río Caribe)
+   4. Benítez (El Pilar)
+   5. Bermúdez (Carúpano)
+   6. Bolívar (Marigüitar)
+   7. Cajigal (Yaguaraparo)
+   8. Cruz Salmerón Acosta (Araya)
+   9. Libertador (Tunapuy)
+  10. Mariño (Irapa)
+  11. Mejía (San Antonio del Golfo)
+  12. Montes (Cumanacoa)
+  13. Ribero (Cariaco)
+  14. Sucre (Cumaná)
+  15. Valdez (Güiria) 
+-->
+        <record id="res_country_state_municipalities_239" model="res.municipality">
+            <field name="name">Andres Eloy Blanco</field>
+            <field name="code">239</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_240" model="res.municipality">
+            <field name="name">Andres Mata</field>
+            <field name="code">240</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_241" model="res.municipality">
+            <field name="name">Arismendi </field>
+            <field name="code">241</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_242" model="res.municipality">
+            <field name="name">Benitez</field>
+            <field name="code">242</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_243" model="res.municipality">
+            <field name="name">Bermudez</field>
+            <field name="code">243</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_244" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">244</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_244" model="res.municipality">
+            <field name="name">Cajigal</field>
+            <field name="code">244</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_245" model="res.municipality">
+            <field name="name">Cruz Salmeron Acosta</field>
+            <field name="code">245</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_246" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">246</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_247" model="res.municipality">
+            <field name="name">Marino</field>
+            <field name="code">247</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_248" model="res.municipality">
+            <field name="name">Mejia</field>
+            <field name="code">248</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_249" model="res.municipality">
+            <field name="name">Montes</field>
+            <field name="code">249</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_250" model="res.municipality">
+            <field name="name">Ribero</field>
+            <field name="code">250</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_251" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">251</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+        <record id="res_country_state_municipalities_252" model="res.municipality">
+            <field name="name">Valdez</field>
+            <field name="code">252</field>
+            <field name="state_id" ref="res_country_state_su"/>
+         </record>
+<!--Tachira
+   1. Andrés Bello (Cordero)
+   2. Antonio Rómulo Costa (Las Mesas)
+   3. Ayacucho (Colón)
+   4. Bolívar (San Antonio del Táchira)
+   5. Cárdenas (Táriba)
+   6. Córdoba (Santa Ana de Táchira)
+   7. Fernández Feo (San Rafael del Piñal)
+   8. Francisco de Miranda (San José de Bolívar)
+   9. García de Hevia (La Fría)
+  10. Guásimos (Palmira)
+  11. Independencia (Capacho Nuevo)
+  12. Jáuregui (La Grita)
+  13. José María Vargas (El Cobre)
+  14. Junín (Rubio)
+  15. Libertad (Capacho Viejo)
+  16. Libertador (Abejales)
+  17. Lobatera (Lobatera)
+  18. Michelena (Michelena)
+  19. Panamericano (Coloncito)
+  20. Pedro María Ureña (Ureña)
+  21. Rafael Urdaneta (Delicias)
+  22. Samuel Darío Maldonado (La Tendida)
+  23. San Cristóbal (San Cristóbal)
+  24. Seboruco (Seboruco)
+  25. Simón Rodríguez (San Simón)
+  26. Sucre (Queniquea)
+  27. Torbes (San Josecito)
+  28. Uribante (Pregonero)
+  29. San Judas Tadeo (Umuquena) 
+-->
+        <record id="res_country_state_municipalities_254" model="res.municipality">
+            <field name="name">Andres Bello</field>
+            <field name="code">254</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_255" model="res.municipality">
+            <field name="name">Antonio Romulo Costa</field>
+            <field name="code">255</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_256" model="res.municipality">
+            <field name="name">Ayacucho</field>
+            <field name="code">256</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_257" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">257</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_258" model="res.municipality">
+            <field name="name">Cardenas</field>
+            <field name="code">258</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_259" model="res.municipality">
+            <field name="name">Cordoba</field>
+            <field name="code">259</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_260" model="res.municipality">
+            <field name="name">Fernandez Feo</field>
+            <field name="code">260</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_261" model="res.municipality">
+            <field name="name">Francisco de Miranda</field>
+            <field name="code">261</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_262" model="res.municipality">
+            <field name="name">Garcia de Hevia</field>
+            <field name="code">262</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_263" model="res.municipality">
+            <field name="name">Guasimos</field>
+            <field name="code">263</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_264" model="res.municipality">
+            <field name="name">Jose Maria Vargas</field>
+            <field name="code">264</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_265" model="res.municipality">
+            <field name="name">Independencia</field>
+            <field name="code">265</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_266" model="res.municipality">
+            <field name="name">Jauregui</field>
+            <field name="code">266</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_267" model="res.municipality">
+            <field name="name">Junin</field>
+            <field name="code">267</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_268" model="res.municipality">
+            <field name="name">Libertad</field>
+            <field name="code">268</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_269" model="res.municipality">
+            <field name="name">Libertador</field>
+            <field name="code">269</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_270" model="res.municipality">
+            <field name="name">Lobatera</field>
+            <field name="code">270</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_271" model="res.municipality">
+            <field name="name">Michelena</field>
+            <field name="code">271</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_272" model="res.municipality">
+            <field name="name">Pedro Maria Urena</field>
+            <field name="code">272</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_273" model="res.municipality">
+            <field name="name">Rafael Urdaneta</field>
+            <field name="code">273</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_274" model="res.municipality">
+            <field name="name">Samuel Dario Maldonado</field>
+            <field name="code">274</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_275" model="res.municipality">
+            <field name="name">San Cristobal </field>
+            <field name="code">275</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_276" model="res.municipality">
+            <field name="name">Seboruco</field>
+            <field name="code">276</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_277" model="res.municipality">
+            <field name="name">Simon Rodriguez</field>
+            <field name="code">277</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_278" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">278</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_279" model="res.municipality">
+            <field name="name">Torbes</field>
+            <field name="code">279</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_280" model="res.municipality">
+            <field name="name">Uribante</field>
+            <field name="code">280</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_281" model="res.municipality">
+            <field name="name">San Judas Tadeo</field>
+            <field name="code">281</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+        <record id="res_country_state_municipalities_282" model="res.municipality">
+            <field name="name">Panamericano</field>
+            <field name="code">282</field>
+            <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+<!--Trujillo
+   1. Andrés Bello (Santa Isabel)
+   2. Boconó (Boconó)
+   3. Bolívar (Sabana Grande)
+   4. Candelaria (Chejendé)
+   5. Carache (Carache)
+   6. Escuque (Escuque)
+   7. José Felipe Márquez Cañizalez (El Paradero)
+   8. Juan Vicente Campos Elías (Campo Elías)
+   9. La Ceiba (Santa Apolonia)
+  10. Miranda (El Dividive)
+  11. Monte Carmelo (Monte Carmelo)
+  12. Motatán (Motatán)
+  13. Pampán (Pampán)
+  14. Pampanito (Pampanito)
+  15. Rafael Rangel (Betijoque)
+  16. San Rafael de Carvajal (Carvajal)
+  17. Sucre (Sabana de Mendoza)
+  18. Trujillo (Trujillo)
+  19. Urdaneta (La Quebrada)
+  20. Valera (Valera) 
+-->        
+        <record id="res_country_state_municipalities_301" model="res.municipality">
+            <field name="name">Andres Bello</field>
+            <field name="code">301</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_302" model="res.municipality">
+            <field name="name">Bocono</field>
+            <field name="code">302</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_303" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">303</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_304" model="res.municipality">
+            <field name="name">Candelaria</field>
+            <field name="code">304</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_305" model="res.municipality">
+            <field name="name">Carache</field>
+            <field name="code">305</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_306" model="res.municipality">
+            <field name="name">Escuque</field>
+            <field name="code">306</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_307" model="res.municipality">
+            <field name="name">Jose Felipe Marquez Canizalez</field>
+            <field name="code">307</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_308" model="res.municipality">
+            <field name="name">Juan Vicente Campos Elias</field>
+            <field name="code">308</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_309" model="res.municipality">
+            <field name="name">La Ceiba</field>
+            <field name="code">309</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_310" model="res.municipality">
+            <field name="name">Miranda</field>
+            <field name="code">310</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_311" model="res.municipality">
+            <field name="name">Monte Carmelo</field>
+            <field name="code">311</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_312" model="res.municipality">
+            <field name="name">Motatan</field>
+            <field name="code">312</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_313" model="res.municipality">
+            <field name="name">Pampan</field>
+            <field name="code">313</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_314" model="res.municipality">
+            <field name="name">Pampanito</field>
+            <field name="code">314</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_315" model="res.municipality">
+            <field name="name">Rafael Rangel</field>
+            <field name="code">315</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_316" model="res.municipality">
+            <field name="name">San Rafael de Carvajal</field>
+            <field name="code">316</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_317" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">317</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_318" model="res.municipality">
+            <field name="name">Trujillo</field>
+            <field name="code">318</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_319" model="res.municipality">
+            <field name="name">Urdaneta</field>
+            <field name="code">319</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+        <record id="res_country_state_municipalities_320" model="res.municipality">
+            <field name="name">Valera</field>
+            <field name="code">320</field>
+            <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+<!--Vargas
+Vargas (La Guaira) 
+-->
+        <record id="res_country_state_municipalities_200" model="res.municipality">
+            <field name="name">Vargas</field>
+            <field name="code">200</field>
+            <field name="state_id" ref="res_country_state_va"/>
+         </record>
+<!--Yaracuy
+   1. Arístides Bastidas (San Pablo)
+   2. Bolívar (Aroa)
+   3. Bruzual (Chivacoa)
+   4. Cocorote (Cocorote)
+   5. Independencia (Independencia)
+   6. José Antonio Páez (Sabana de Parra)
+   7. La Trinidad (Boraure)
+   8. Manuel Monge (Yumare)
+   9. Nirgua (Nirgua)
+  10. Peña (Yaritagua)
+  11. San Felipe (San Felipe)
+  12. Sucre (Guama)
+  13. Urachiche (Urachiche)
+  14. Veroes (Farriar) 
+-->
+        <record id="res_country_state_municipalities_401" model="res.municipality">
+            <field name="name">Aristides Bastidas</field>
+            <field name="code">401</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_402" model="res.municipality">
+            <field name="name">Bolivar</field>
+            <field name="code">402</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_403" model="res.municipality">
+            <field name="name">Bruzual</field>
+            <field name="code">403</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_404" model="res.municipality">
+            <field name="name">Cocorote</field>
+            <field name="code">404</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_405" model="res.municipality">
+            <field name="name">Independencia</field>
+            <field name="code">405</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_406" model="res.municipality">
+            <field name="name">Jose Antonio Paez</field>
+            <field name="code">406</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_407" model="res.municipality">
+            <field name="name">La Trinidad</field>
+            <field name="code">407</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_408" model="res.municipality">
+            <field name="name">Manuel Monge</field>
+            <field name="code">408</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_409" model="res.municipality">
+            <field name="name">Nirgua</field>
+            <field name="code">409</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_410" model="res.municipality">
+            <field name="name">Pena</field>
+            <field name="code">410</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_411" model="res.municipality">
+            <field name="name">San Felipe</field>
+            <field name="code">411</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_412" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">412</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_413" model="res.municipality">
+            <field name="name">Urachiche</field>
+            <field name="code">413</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+        <record id="res_country_state_municipalities_414" model="res.municipality">
+            <field name="name">Veroes</field>
+            <field name="code">414</field>
+            <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+<!--Zulia
+   1. Almirante Padilla (El Toro)
+   2. Baralt (San Timoteo)
+   3. Cabimas (Cabimas)
+   4. Catatumbo (Encontrados)
+   5. Colón (San Carlos del Zulia)
+   6. Francisco Javier Pulgar (Pueblo Nuevo-El Chivo)
+   7. Jesús Enrique Losada (La Concepción)
+   8. Jesús María Semprún (Casigua El Cubo)
+   9. La Cañada de Urdaneta (Concepción)
+  10. Lagunillas (Ciudad Ojeda)
+  11. Machiques de Perijá (Machiques)
+  12. Mara (San Rafael del Moján)
+  13. Maracaibo (Maracaibo)
+  14. Miranda (Los Puertos de Altagracia)
+  15. Páez (Sinamaica)
+  16. Rosario de Perijá (La Villa del Rosario)
+  17. San Francisco (San Francisco)
+  18. Santa Rita (Santa Rita)
+  19. Simón Bolívar (Tía Juana)
+  20. Sucre (Bobures)
+  21. Valmore Rodríguez (Bachaquero) 
+-->
+        <record id="res_country_state_municipalities_501" model="res.municipality">
+            <field name="name">Almirante Padilla</field>
+            <field name="code">501</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_502" model="res.municipality">
+            <field name="name">Baralt</field>
+            <field name="code">502</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_503" model="res.municipality">
+            <field name="name">Cabimas</field>
+            <field name="code">503</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_522" model="res.municipality">
+            <field name="name">Catatumbo</field>
+            <field name="code">522</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_504" model="res.municipality">
+            <field name="name">Colon</field>
+            <field name="code">504</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_505" model="res.municipality">
+            <field name="name">Francisco Javier Pulgar</field>
+            <field name="code">505</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_506" model="res.municipality">
+            <field name="name">Jesús Enrique Losada</field>
+            <field name="code">506</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_507" model="res.municipality">
+            <field name="name">Jesus Maria Semprun</field>
+            <field name="code">507</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_508" model="res.municipality">
+            <field name="name">La Cañada de Urdaneta</field>
+            <field name="code">508</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_509" model="res.municipality">
+            <field name="name">Lagunillas</field>
+            <field name="code">509</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+
+        <record id="res_country_state_municipalities_510" model="res.municipality">
+            <field name="name">Machiques de Perija</field>
+            <field name="code">510</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_511" model="res.municipality">
+            <field name="name">Mara</field>
+            <field name="code">511</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_512" model="res.municipality">
+            <field name="name">Maracaibo</field>
+            <field name="code">512</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_513" model="res.municipality">
+            <field name="name">Miranda</field>
+            <field name="code">513</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_514" model="res.municipality">
+            <field name="name">Páez</field>
+            <field name="code">514</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_515" model="res.municipality">
+            <field name="name">Rosario de Perija</field>
+            <field name="code">515</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_517" model="res.municipality">
+            <field name="name">San Francisco</field>
+            <field name="code">517</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_518" model="res.municipality">
+            <field name="name">Santa Rita</field>
+            <field name="code">518</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_519" model="res.municipality">
+            <field name="name">Simon Bolivar</field>
+            <field name="code">519</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_520" model="res.municipality">
+            <field name="name">Sucre</field>
+            <field name="code">520</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+        <record id="res_country_state_municipalities_521" model="res.municipality">
+            <field name="name">Valmore Rodriguez</field>
+            <field name="code">521</field>
+            <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+    </data>
+</openerp>
+

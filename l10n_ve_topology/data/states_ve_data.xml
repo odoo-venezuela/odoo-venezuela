@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="res_country_state_dc" model="res.country.state">
+            <field name="name">Distrito Capital</field>
+            <field name="code">dc</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_am" model="res.country.state">
+            <field name="name">Amazonas</field>
+            <field name="code">am</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_an" model="res.country.state">
+            <field name="name">Anzoategui</field>
+            <field name="code">an</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ap" model="res.country.state">
+            <field name="name">Apure</field>
+            <field name="code">ap</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ar" model="res.country.state">
+            <field name="name">Aragua</field>
+            <field name="code">ar</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ba" model="res.country.state">
+            <field name="name">Barinas</field>
+            <field name="code">ba</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_bo" model="res.country.state">
+            <field name="name">Bolivar</field>
+            <field name="code">bo</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ca" model="res.country.state">
+            <field name="name">Carabobo</field>
+            <field name="code">ca</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_co" model="res.country.state">
+            <field name="name">Cojedes</field>
+            <field name="code">co</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_da" model="res.country.state">
+            <field name="name">Delta Amacuro</field>
+            <field name="code">da</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_fa" model="res.country.state">
+            <field name="name">Falcon</field>
+            <field name="code">fa</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_gu" model="res.country.state">
+            <field name="name">Guarico</field>
+            <field name="code">gu</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_la" model="res.country.state">
+            <field name="name">Lara</field>
+            <field name="code">la</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_me" model="res.country.state">
+            <field name="name">Merida</field>
+            <field name="code">me</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_mi" model="res.country.state">
+            <field name="name">Miranda</field>
+            <field name="code">mi</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_mo" model="res.country.state">
+            <field name="name">Monagas</field>
+            <field name="code">mo</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ne" model="res.country.state">
+            <field name="name">Nueva Esparta</field>
+            <field name="code">ne</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_po" model="res.country.state">
+            <field name="name">Portuguesa</field>
+            <field name="code">po</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_su" model="res.country.state">
+            <field name="name">Sucre</field>
+            <field name="code">su</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ta" model="res.country.state">
+            <field name="name">Tachira</field>
+            <field name="code">ta</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_tr" model="res.country.state">
+            <field name="name">Trujillo</field>
+            <field name="code">tr</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_va" model="res.country.state">
+            <field name="name">Vargas</field>
+            <field name="code">va</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_ya" model="res.country.state">
+            <field name="name">Yaracuy</field>
+            <field name="code">ya</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+        <record id="res_country_state_zu" model="res.country.state">
+            <field name="name">Zulia</field>
+            <field name="code">zu</field>
+            <field name="country_id" ref="base.ve" />
+        </record>
+    </data>
+</openerp>
+

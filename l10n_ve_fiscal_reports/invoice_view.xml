@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="inherited_account_invoice_form_fiscal2">
+            <field name="name">account.invoice.inherit.fiscal2</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Other Info']" position="after">
+                    
+               <page string="Import">
+                     <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>      
+                     <field name="num_import_expe" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" />      
+                     <field name="num_import_form" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" />      
+                     <field name="import_invo" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" />      
+               </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

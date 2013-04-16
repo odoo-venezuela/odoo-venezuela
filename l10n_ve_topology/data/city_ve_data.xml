@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1" >
+<!--Amazonas-->
+         <record id="res_country_state_city_001" model="res.city">
+              <field name="name">Puerto Ayacucho</field>
+              <field name="code">pay</field>
+              <field name="state_id" ref="res_country_state_am"/>
+         </record> 
+<!--Anzoategui-->
+         <record id="res_country_state_city_002" model="res.city">
+              <field name="name">Anaco</field>
+              <field name="code">anc</field>
+              <field name="state_id" ref="res_country_state_an"/>
+         </record>
+         <record id="res_country_state_city_003" model="res.city">
+              <field name="name">Barcelona</field>
+              <field name="code">bar</field>
+              <field name="state_id" ref="res_country_state_an"/>
+         </record>
+         <record id="res_country_state_city_004" model="res.city">
+              <field name="name">Cantaura</field>
+              <field name="code">can</field>
+              <field name="state_id" ref="res_country_state_an"/>
+         </record>
+         <record id="res_country_state_city_005" model="res.city">
+              <field name="name">El Tigre</field>
+              <field name="code">tig</field>
+              <field name="state_id" ref="res_country_state_an"/>
+         </record>
+         <record id="res_country_state_city_006" model="res.city">
+              <field name="name">Puerto La Cruz</field>
+              <field name="code">plc</field>
+              <field name="state_id" ref="res_country_state_an"/>
+         </record>
+         <record id="res_country_state_city_007" model="res.city">
+              <field name="name">San Jos&#233; de Guanipa</field>
+              <field name="code">sjg</field>
+              <field name="state_id" ref="res_country_state_an"/>
+         </record>
+<!--Apure-->
+         <record id="res_country_state_city_008" model="res.city">
+              <field name="name">Biruaca</field>
+              <field name="code">bir</field>
+              <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+         <record id="res_country_state_city_009" model="res.city">
+              <field name="name">Guasdualito</field>
+              <field name="code">gto</field>
+              <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+         <record id="res_country_state_city_010" model="res.city">
+              <field name="name">San Fernando de Apure</field>
+              <field name="code">sfa</field>
+              <field name="state_id" ref="res_country_state_ap"/>
+         </record>
+<!--Aragua-->
+         <record id="res_country_state_city_011" model="res.city">
+              <field name="name">Cagua</field>
+              <field name="code">cag</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_012" model="res.city">
+              <field name="name">El Consejo</field>
+              <field name="code">con</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_013" model="res.city">
+              <field name="name">El Lim&#243;n</field>
+              <field name="code">lim</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_014" model="res.city">
+              <field name="name">La Victoria</field>
+              <field name="code">vic</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_015" model="res.city">
+              <field name="name">Las Tejer&#237;as</field>
+              <field name="code">tej</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_016" model="res.city">
+              <field name="name">Maracay</field>
+              <field name="code">mry</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_017" model="res.city">
+              <field name="name">Palo Negro</field>
+              <field name="code">png</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_018" model="res.city">
+              <field name="name">San Mateo</field>
+              <field name="code">smt</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_019" model="res.city">
+              <field name="name">Turmero</field>
+              <field name="code">tmr</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+         <record id="res_country_state_city_020" model="res.city">
+              <field name="name">Villa de Cura</field>
+              <field name="code">vdc</field>
+              <field name="state_id" ref="res_country_state_ar"/>
+         </record>
+<!--Barinas-->
+         <record id="res_country_state_city_021" model="res.city">
+              <field name="name">Barinas</field>
+              <field name="code">brn</field>
+              <field name="state_id" ref="res_country_state_ba"/>
+         </record>
+<!--Bolivar-->
+         <record id="res_country_state_city_022" model="res.city">
+              <field name="name">Ciudad Bol&#237;var</field>
+              <field name="code">cbv</field>
+              <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+         <record id="res_country_state_city_023" model="res.city">
+              <field name="name">Ciudad Guayana</field>
+              <field name="code">cgy</field>
+              <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+         <record id="res_country_state_city_024" model="res.city">
+              <field name="name">Upata</field>
+              <field name="code">upt</field>
+              <field name="state_id" ref="res_country_state_bo"/>
+         </record>
+<!--Carabobo -->
+         <record id="res_country_state_city_025" model="res.city">
+              <field name="name">Guacara</field>
+              <field name="code">gcr</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_026" model="res.city">
+              <field name="name">G&#252;ig&#252;e</field>
+              <field name="code">gui</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_027" model="res.city">
+              <field name="name">Mariara</field>
+              <field name="code">mra</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_028" model="res.city">
+              <field name="name">Mor&#243;n</field>
+              <field name="code">mrn</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_029" model="res.city">
+              <field name="name">Puerto Cabello</field>
+              <field name="code">pca</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_030" model="res.city">
+              <field name="name">San Joaqu&#237;n</field>
+              <field name="code">snj</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_031" model="res.city">
+              <field name="name">Tacarigua</field>
+              <field name="code">tcr</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+         <record id="res_country_state_city_032" model="res.city">
+              <field name="name">Valencia</field>
+              <field name="code">val</field>
+              <field name="state_id" ref="res_country_state_ca"/>
+         </record>
+<!--Cojedes-->
+         <record id="res_country_state_city_033" model="res.city">
+              <field name="name">San Carlos</field>
+              <field name="code">sca</field>
+              <field name="state_id" ref="res_country_state_co"/>
+         </record>
+         <record id="res_country_state_city_034" model="res.city">
+              <field name="name">Tinaquillo</field>
+              <field name="code">tnq</field>
+              <field name="state_id" ref="res_country_state_co"/>
+         </record>
+<!--Delta Amacuro -->
+         <record id="res_country_state_city_035" model="res.city">
+              <field name="name">Tucupita</field>
+              <field name="code">tcp</field>
+              <field name="state_id" ref="res_country_state_da"/>
+         </record>
+<!--Distrito Capital-->
+         <record id="res_country_state_city_036" model="res.city">
+              <field name="name">Caracas</field>
+              <field name="code">ccs</field>
+              <field name="state_id" ref="res_country_state_dc"/>
+         </record>
+<!--Falcon -->
+         <record id="res_country_state_city_037" model="res.city">
+              <field name="name">Coro</field>
+              <field name="code">cor</field>
+              <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+         <record id="res_country_state_city_038" model="res.city">
+              <field name="name">Punta Card&#243;n</field>
+              <field name="code">ptc</field>
+              <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+         <record id="res_country_state_city_039" model="res.city">
+              <field name="name">Punto Fijo</field>
+              <field name="code">ptf</field>
+              <field name="state_id" ref="res_country_state_fa"/>
+         </record>
+<!--Guarico-->
+         <record id="res_country_state_city_040" model="res.city">
+                  <field name="name">Altagracia de Orituco</field>
+                  <field name="code">ado</field>
+                  <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+         <record id="res_country_state_city_041" model="res.city">
+                  <field name="name">Calabozo</field>
+                  <field name="code">clb</field>
+                  <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+         <record id="res_country_state_city_042" model="res.city">
+                  <field name="name">San Juan de los Morros</field>
+                  <field name="code">sjm</field>
+                  <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+         <record id="res_country_state_city_043" model="res.city">
+                  <field name="name">Valle de la Pascua</field>
+                  <field name="code">vdp</field>
+                  <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+         <record id="res_country_state_city_044" model="res.city">
+              <field name="name">Zaraza</field>
+              <field name="code">zrz</field>
+              <field name="state_id" ref="res_country_state_gu"/>
+         </record>
+<!--Lara-->
+         <record id="res_country_state_city_045" model="res.city">
+              <field name="name">Barquisimeto</field>
+              <field name="code">bto</field>
+              <field name="state_id" ref="res_country_state_la"/>
+         </record>
+         <record id="res_country_state_city_046" model="res.city">
+              <field name="name">Cabudare</field>
+              <field name="code">cbd</field>
+              <field name="state_id" ref="res_country_state_la"/>
+         </record>
+         <record id="res_country_state_city_047" model="res.city">
+              <field name="name">Carora</field>
+              <field name="code">crr</field>
+              <field name="state_id" ref="res_country_state_la"/>
+         </record>
+         <record id="res_country_state_city_048" model="res.city">
+              <field name="name">El Tocuyo</field>
+              <field name="code">tcy</field>
+              <field name="state_id" ref="res_country_state_la"/>
+         </record>
+         <record id="res_country_state_city_049" model="res.city">
+              <field name="name">Quibor</field>
+              <field name="code">qbo</field>
+              <field name="state_id" ref="res_country_state_la"/>
+         </record>
+<!--Merida-->
+         <record id="res_country_state_city_050" model="res.city">
+              <field name="name">Baruta</field>
+              <field name="code">bta</field>
+              <field name="state_id" ref="res_country_state_me"/>
+         </record>
+         <record id="res_country_state_city_051" model="res.city">
+              <field name="name">Ejido</field>
+              <field name="code">ejd</field>
+              <field name="state_id" ref="res_country_state_me"/>
+         </record>
+         <record id="res_country_state_city_052" model="res.city">
+              <field name="name">El Vig&#237;a</field>
+              <field name="code">vgi</field>
+              <field name="state_id" ref="res_country_state_me"/>
+         </record>
+         <record id="res_country_state_city_053" model="res.city">
+              <field name="name">M&#233;rida</field>
+              <field name="code">mer</field>
+              <field name="state_id" ref="res_country_state_me"/>
+         </record>
+<!--Miranda-->
+         <record id="res_country_state_city_054" model="res.city">
+              <field name="name">Carrizal</field>
+              <field name="code">crz</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_055" model="res.city">
+              <field name="name">Caucag&#252;ita</field>
+              <field name="code">ccg</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_056" model="res.city">
+              <field name="name">Chacao</field>
+              <field name="code">cco</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_057" model="res.city">
+              <field name="name">Charallave</field>
+              <field name="code">cha</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_058" model="res.city">
+              <field name="name">C&#250;a</field>
+              <field name="code">cua</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_059" model="res.city">
+              <field name="name">El Cafetal </field>
+              <field name="code">cft</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_060" model="res.city">
+              <field name="name">El Hatillo</field>
+              <field name="code">htl</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_061" model="res.city">
+              <field name="name">Guarenas</field>
+              <field name="code">grn</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_062" model="res.city">
+              <field name="name">Guatire</field>
+              <field name="code">gtr</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_063" model="res.city">
+              <field name="name">La Dolorita</field>
+              <field name="code">dlr</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_064" model="res.city">
+              <field name="name">Los Dos Caminos</field>
+              <field name="code">dcm</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_065" model="res.city">
+              <field name="name">Los Teques</field>
+              <field name="code">tqs</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_066" model="res.city">
+              <field name="name">Ocumare del Tuy</field>
+              <field name="code">odt</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_067" model="res.city">
+              <field name="name">Petare</field>
+              <field name="code">ptr</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_068" model="res.city">
+              <field name="name">San Antonio de los Altos</field>
+              <field name="code">saa</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_069" model="res.city">
+              <field name="name">Santa Luc&#237;a</field>
+              <field name="code">stl</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+         <record id="res_country_state_city_070" model="res.city">
+              <field name="name">Santa Teresa del Tuy</field>
+              <field name="code">stt</field>
+              <field name="state_id" ref="res_country_state_mi"/>
+         </record>
+<!--Monagas-->
+         <record id="res_country_state_city_071" model="res.city">
+              <field name="name">Caripito</field>
+              <field name="code">crp</field>
+              <field name="state_id" ref="res_country_state_mo"/>
+         </record>
+         <record id="res_country_state_city_072" model="res.city">
+              <field name="name">Matur&#237;n</field>
+              <field name="code">mtr</field>
+              <field name="state_id" ref="res_country_state_mo"/>
+         </record> 
+<!--Portuguesa-->
+         <record id="res_country_state_city_073" model="res.city">
+              <field name="name">Acarigua</field>
+              <field name="code">acr</field>
+              <field name="state_id" ref="res_country_state_po"/>
+         </record>
+         <record id="res_country_state_city_074" model="res.city">
+              <field name="name">Araure</field>
+              <field name="code">aru</field>
+              <field name="state_id" ref="res_country_state_po"/>
+         </record>
+         <record id="res_country_state_city_075" model="res.city">
+              <field name="name">Guanare</field>
+              <field name="code">gnr</field>
+              <field name="state_id" ref="res_country_state_po"/>
+         </record>
+         <record id="res_country_state_city_076" model="res.city">
+              <field name="name">Villa Bruzual</field>
+              <field name="code">vbz</field>
+              <field name="state_id" ref="res_country_state_po"/>
+         </record>
+<!--Sucre-->      
+         <record id="res_country_state_city_077" model="res.city">
+              <field name="name">Car&#250;pano</field>
+              <field name="code">cru</field>
+              <field name="state_id" ref="res_country_state_su"/>
+         </record>
+         <record id="res_country_state_city_078" model="res.city">
+              <field name="name">Cuman&#225;</field>
+              <field name="code">cum</field>
+              <field name="state_id" ref="res_country_state_su"/>
+         </record>
+<!--Tachira-->
+         <record id="res_country_state_city_079" model="res.city">
+              <field name="name">Palmira</field>
+              <field name="code">pal</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+         <record id="res_country_state_city_080" model="res.city">
+              <field name="name">Rubio</field>
+              <field name="code">rub</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+         <record id="res_country_state_city_081" model="res.city">
+              <field name="name">San Antonio del T&#225;chira</field>
+              <field name="code">sat</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+         <record id="res_country_state_city_082" model="res.city">
+              <field name="name">San Crist&#243;bal</field>
+              <field name="code">sct</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+         <record id="res_country_state_city_083" model="res.city">
+              <field name="name">San Josecito</field>
+              <field name="code">sjo</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+         <record id="res_country_state_city_084" model="res.city">
+              <field name="name">San Juan de Col&#243;n</field>
+              <field name="code">sjc</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+         <record id="res_country_state_city_085" model="res.city">
+              <field name="name">T&#225;riba</field>
+              <field name="code">trb</field>
+              <field name="state_id" ref="res_country_state_ta"/>
+         </record>
+<!--Trujillo-->
+         <record id="res_country_state_city_086" model="res.city">
+              <field name="name">Trujillo</field>
+              <field name="code">tru</field>
+              <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+         <record id="res_country_state_city_087" model="res.city">
+              <field name="name">Valera</field>
+              <field name="code">vlr</field>
+              <field name="state_id" ref="res_country_state_tr"/>
+         </record>
+<!--Vargas-->
+          <record id="res_country_state_city_088" model="res.city">
+              <field name="name">Caraballeda</field>
+              <field name="code">crb</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>
+         <record id="res_country_state_city_089" model="res.city">
+              <field name="name">Catia La Mar</field>
+              <field name="code">clm</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>
+         <record id="res_country_state_city_090" model="res.city">
+              <field name="name">La Asunci&#243;n</field>
+              <field name="code">asn</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>
+         <record id="res_country_state_city_091" model="res.city">
+              <field name="name">La Guaira</field>
+              <field name="code">gua</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>
+         <record id="res_country_state_city_092" model="res.city">
+              <field name="name">Maiqueti&#225;</field>
+              <field name="code">mai</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>      
+         <record id="res_country_state_city_093" model="res.city">
+              <field name="name">Porlamar</field>
+              <field name="code">por</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>
+         <record id="res_country_state_city_094" model="res.city">
+              <field name="name">Villa Rosa</field>
+              <field name="code">vro</field>
+              <field name="state_id" ref="res_country_state_va"/>
+         </record>        
+ <!--Yaracuy-->
+         <record id="res_country_state_city_095" model="res.city">
+              <field name="name">Chivacoa</field>
+              <field name="code">chi</field>
+              <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+         <record id="res_country_state_city_096" model="res.city">
+              <field name="name">Cocorote</field>
+              <field name="code">crt</field>
+              <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+         <record id="res_country_state_city_097" model="res.city">
+              <field name="name">Independencia</field>
+              <field name="code">idp</field>
+              <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+         <record id="res_country_state_city_098" model="res.city">
+              <field name="name">San Felipe</field>
+              <field name="code">sfe</field>
+              <field name="state_id" ref="res_country_state_ya"/>
+         </record>
+         <record id="res_country_state_city_099" model="res.city">
+              <field name="name">Yaritagua</field>
+              <field name="code">yrt</field>
+              <field name="state_id" ref="res_country_state_ya"/>
+         </record>        
+<!--Zulia-->
+         <record id="res_country_state_city_100" model="res.city">
+              <field name="name">Bachaquero</field>
+              <field name="code">bcq</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_101" model="res.city">
+              <field name="name">Cabimas</field>
+              <field name="code">cbm</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_102" model="res.city">
+              <field name="name">Ciudad Ojeda</field>
+              <field name="code">coj</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_103" model="res.city">
+              <field name="name">Lagunillas</field>
+              <field name="code">lag</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_104" model="res.city">
+              <field name="name">Machiques</field>
+              <field name="code">mcq</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_105" model="res.city">
+              <field name="name">Maracaibo</field>
+              <field name="code">mbo</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_106" model="res.city">
+              <field name="name">San Carlos del Zulia</field>
+              <field name="code">scz</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_107" model="res.city">
+              <field name="name">Santa Rita</field>
+              <field name="code">srt</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>
+         <record id="res_country_state_city_108" model="res.city">
+              <field name="name">Villa del Rosario</field>
+              <field name="code">vrs</field>
+              <field name="state_id" ref="res_country_state_zu"/>
+         </record>  
+    </data>
+</openerp>

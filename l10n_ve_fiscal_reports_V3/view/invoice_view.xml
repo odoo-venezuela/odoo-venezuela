@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="inherited_account_invoice_form_book_information">
+            <field name="name">account.invoice.inherit.book.information</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Payments']" position="after">
+                    <page string="Book Information">
+                        <field name="get_date_invoice"/>
+                        <field name="get_t_doc"/>
+                        <field name="get_reference"/>
+                        <field name="get_number"/>
+                        <field name="get_invoice_printer"/>
+                        <field name="get_fiscal_printer"/>
+                        <field name="get_nro_inport_form"/>
+                        <field name="get_nro_inport_expe"/>
+                        <field name="get_papel_anulado"/>
+                        <field name="get_debit_affected"/>
+                        <field name="get_credit_affected"/>
+                        <field name="get_parent"/>
+                        <field name="get_total"/>
+                        <field name="get_v_sdcf"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inherited_account_invoice_form_book_informationp">
+            <field name="name">account.invoice.inherit.book.informationp</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Payments']" position="after">
+                    <page string="Book Information">
+                        <field name="get_date_invoice"/>
+                        <field name="get_t_doc"/>
+                        <field name="get_reference"/>
+                        <field name="get_number"/>
+                        <field name="get_invoice_printer"/>
+                        <field name="get_fiscal_printer"/>
+                        <field name="get_nro_inport_form"/>
+                        <field name="get_nro_inport_expe"/>
+                        <field name="get_papel_anulado"/>
+                        <field name="get_debit_affected"/>
+                        <field name="get_credit_affected"/>
+                        <field name="get_parent"/>
+                        <field name="get_total"/>
+                        <field name="get_v_sdcf"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
