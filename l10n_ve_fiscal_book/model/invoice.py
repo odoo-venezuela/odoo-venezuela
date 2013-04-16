@@ -41,23 +41,7 @@ class inherited_invoice(osv.osv):
                 ret.update({r.id : r.number and str(r.number) or ''})
         return ret
 
-    def _get_total(self,cr,uid,ids,name,args,context=None):
-        '''
-        Get Total Invoice Amount
-        '''
-        res = self.browse(cr, uid, ids)
-        ret = {}
-        for i in ids:
-            ret.update({i:0})
-        if res:
-            for r in res:
-                ret.update({ r.id : r.amount_total })
-        return ret
-
     _columns = {
-        'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
-                            help=""),
-
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book where this line is related to'),
         #TODO: THIS FIELD TO BE CHANGED TO A STORABLE FUNCTIONAL FIELD
