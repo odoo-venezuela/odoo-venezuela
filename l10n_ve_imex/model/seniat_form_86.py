@@ -10,8 +10,8 @@
 #
 ##############################################################################
 #~ from datetime import datetime
-from osv import fields,osv
-from tools.translate import _
+from openerp.osv import fields,osv
+from openerp.tools.translate import _
 import pooler
 import decimal_precision as dp
 import time
