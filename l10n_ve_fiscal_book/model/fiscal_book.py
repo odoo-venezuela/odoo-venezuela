@@ -935,7 +935,6 @@ class fiscal_book_lines(orm.Model):
         'void_form': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
 
-        #~ TODO: Ask the difference bwetween this two fields
         'fiscal_printer': fields.char(string='Fiscal machine number',
                 size=192, help=""),
         'invoice_printer': fields.char(string='Fiscal printer invoice number',
