@@ -451,7 +451,7 @@
                     <!-- Numero Control -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.ctrl_number]]</para></td>
                     <!-- T. Trans. -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_papel_anulado ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.void_form ]]</para></td>
                     <!-- Nota de Debito Afectada -->
                     <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.debit_affected ]]</para></td>
                     <!-- Nota de Crétido Afectada -->

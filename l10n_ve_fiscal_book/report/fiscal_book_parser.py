@@ -172,7 +172,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         't-trans': {
             'name': 'T. Trans.',
             'width': 18.0,
-            'value': lambda fbl: fbl.get_papel_anulado,
+            'value': lambda fbl: fbl.void_form,
             'total': lambda fb: '',
             'help': '' },
         'nota-de-debito-afectada': {

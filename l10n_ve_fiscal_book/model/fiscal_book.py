@@ -625,7 +625,7 @@ class fiscal_book(orm.Model):
                 'invoice_number': inv_brw.reference or False,
                 'doc_type': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                                context=context),
-                'get_papel_anulado': inv_brw.name and \
+                'void_form': inv_brw.name and \
                                      (inv_brw.name.find('PAPELANULADO')>=0 \
                                      and '03-ANU' or '01-REG') \
                                      or '01-REG',
@@ -932,7 +932,7 @@ class fiscal_book_lines(orm.Model):
         #~ TODO: Ask the difference bwetween this two fields
         'get_import_form': fields.char(string="Kind of document",
                 help="Get Invoice reference"),
-        'get_papel_anulado': fields.char(string='Transaction type', size=192,
+        'void_form': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
 
         #~ TODO: Ask the difference bwetween this two fields
