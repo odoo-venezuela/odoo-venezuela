@@ -631,7 +631,7 @@ class fiscal_book(orm.Model):
                 'get_doc': self.get_doc(cr, uid, inv_brw, context=context),
                 'ctrl_number': inv_brw.nro_ctrl or False,
                 'get_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
-                'get_partner_name': inv_brw.partner_id.name or False,
+                'partner_name': inv_brw.partner_id.name or False,
                 'get_partner_vat': inv_brw.partner_id.vat \
                                    and inv_brw.partner_id.vat[2:] or 'N/A',
                 'get_reference': inv_brw.reference or False,
@@ -922,7 +922,7 @@ class fiscal_book_lines(orm.Model):
         'accounting_date': fields.date(string='Accounting Date',
             help='The day of the accounting record [(invoice, date_invoice), (wh iva line, date_ret)]'),
         'doc_type': fields.char(size=8, string='Doc. Type', help='Document Type'),
-        'get_partner_name': fields.char(size=128, string='Partner Name', help=''),
+        'partner_name': fields.char(size=128, string='Partner Name', help=''),
         'get_partner_vat': fields.char(size=128, string='Partner TIN', 
             help=''),
         'get_withheld': fields.float('Withheld Amount'),

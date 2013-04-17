@@ -18,7 +18,7 @@
                     <field name='ctrl_number'/>
                     <field name='accounting_date'/>
                     <field name='emission_date'/>
-                    <field name='get_partner_name'/>
+                    <field name='partner_name'/>
                     <field name='get_partner_vat'/>
                 </group>
 <!--
@@ -96,7 +96,7 @@ string="Invoice"
                                 <field name='ctrl_number'/>
                                 <field name='get_reference'/>
                                 <field name='get_parent'/>
-                                <field name='get_partner_name'/>
+                                <field name='partner_name'/>
                                 <field name='get_partner_vat'/>
                                 <field name='get_total_with_iva'/>
                                 <field name='get_vat_sdcf'/>
@@ -249,7 +249,7 @@ string="Invoice"
                                 <field name='ctrl_number'/>
                                 <field name='get_reference'/>
                                 <field name='get_parent'/>
-                                <field name='get_partner_name'/>
+                                <field name='partner_name'/>
                                 <field name='get_partner_vat'/>
                                 <field name='get_imex_date'/>
                                 <field name='get_total_with_iva'/>

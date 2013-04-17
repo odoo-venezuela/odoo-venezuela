@@ -135,7 +135,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'razon-social': {
             'name': 'Razon Social',
             'width': 160.0,
-            'value': lambda fbl: fbl.get_partner_name,
+            'value': lambda fbl: fbl.partner_name,
             'total': lambda fb: '',
             'help': '' },
         'comprobante': {

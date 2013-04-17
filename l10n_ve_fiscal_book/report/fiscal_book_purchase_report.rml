@@ -439,7 +439,7 @@
                     <!-- RIF -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
                     <!-- Razon Social -->
-                    <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ my_fbl.get_partner_name ]]</para></td>
+                    <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ my_fbl.partner_name ]]</para></td>
                     <!-- Comprobante -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO"> [[ (my_fbl.invoice_id and my_fbl.iwdl_id) and my_fbl.iwdl_id.retention_id.number or "NONE" ]]</para></td>
                     <!-- Planilla Importacion -->
