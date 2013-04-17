@@ -613,7 +613,7 @@ class fiscal_book(orm.Model):
                                        inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                        and inv_brw.parent_id.number or False,
                 'ctrl_number': inv_brw.nro_ctrl or False,
-                'get_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
+                'invoice_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
                 'partner_name': inv_brw.partner_id.name or False,
                 'partner_vat': inv_brw.partner_id.vat \
                                    and inv_brw.partner_id.vat[2:] or 'N/A',
@@ -913,7 +913,7 @@ class fiscal_book_lines(orm.Model):
         #~ Apply for invoice lines
         'invoice_number': fields.char(string='Invoice number', size=64,
                 help=''),
-        'get_parent': fields.char(string='Affected Document',
+        'invoice_parent': fields.char(string='Affected Document',
                 help='Parent Invoice'),
         'get_imex_date': fields.date(string='Invoice IMEX Date',
             help='Invoice Importation/Exportation date'),

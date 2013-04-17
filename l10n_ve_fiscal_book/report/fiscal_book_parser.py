@@ -190,7 +190,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'documento-afectado': {
             'name': 'Documento Afectado',
             'width': 33.0,
-            'value': lambda fbl: fbl.get_parent,
+            'value': lambda fbl: fbl.invoice_parent,
             'total': lambda fb: '',
             'help': '' },
         'total-con-iva': {

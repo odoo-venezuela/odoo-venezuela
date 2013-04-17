@@ -457,7 +457,7 @@
                     <!-- Nota de Crétido Afectada -->
                     <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_credit_affected ]]</para></td>
                     <!-- Documento Afectado -->
-                    <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_parent ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_parent ]]</para></td>
 
                     <!-- Imex > Total con IVA -->
                     <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang( my_fbl.get_is_imported and my_fbl.get_total_with_iva or 0.0) ]]</para></td>

@@ -278,7 +278,7 @@
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_papel_anulado ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_debit_affected ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_credit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_parent ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_parent ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(my_fbl.invoice_id.get_total) ]]</para></td>
 
 <!--
