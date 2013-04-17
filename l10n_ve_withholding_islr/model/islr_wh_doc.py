@@ -195,6 +195,7 @@ class islr_wh_doc(osv.osv):
     def validate(self, cr, uid, ids, *args):
         if args[0] in ['in_invoice', 'in_refund'] and args[1] and args[2]:
             return True
+        return False
 
     def action_done(self, cr, uid, ids, context=None):
         '''
