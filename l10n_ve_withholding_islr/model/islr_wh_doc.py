@@ -195,6 +195,7 @@ class islr_wh_doc(osv.osv):
     def validate(self, cr, uid, ids, *args):
         if args[0] in ['in_invoice', 'in_refund'] and args[1] and args[2]:
             return True
+        return False
 
     def action_done(self, cr, uid, ids, context=None):
         '''
@@ -423,7 +424,7 @@ class islr_wh_doc(osv.osv):
         doc_brw = None
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
-        OBcontext.update({'income_wh': True,
+        context.update({'income_wh': True,
                           'company_id': ret.company_id.id})
         acc_id = ret.account_id.id
         if not ret.date_uid:

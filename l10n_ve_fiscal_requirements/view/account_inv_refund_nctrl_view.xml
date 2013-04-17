@@ -8,7 +8,8 @@
             <field name="inherit_id" ref="account.view_account_invoice_refund"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='period']" position="after">
-                     <field name="nro_ctrl"/>
+                    <field name="nro_ctrl" attrs="{'required':[('loc_req','=',True)]}"/>
+                    <field name="loc_req" invisible='1'/>
                 </xpath>
             </field>
         </record>
