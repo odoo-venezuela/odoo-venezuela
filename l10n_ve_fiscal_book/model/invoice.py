@@ -5,12 +5,9 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>
+#    Coded by:       Luis Escobar <luis@vauxoo.com>
+#                    Tulio Ruiz <tulio@vauxoo.com>
 #    Planified by: Nhomar Hernandez
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,23 +22,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
-from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
-from openerp.addons import decimal_precision as dp
-
-class res_company_inherit(osv.osv):
-
-    _inherit='res.company'
-
-    _columns={
-    'product_ids':fields.many2many('product.product','product_import_rel','company_id','product_id',help='Product list to use in the importation compute'),
-
-    }
+from openerp.osv import osv, fields
 
 
+class inherited_invoice(osv.osv):
+    _inherit = "account.invoice"
 
-res_company_inherit()
+    _columns = {
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this line is related to'),
+        #TODO: THIS FIELD TO BE CHANGED TO A STORABLE FUNCTIONAL FIELD
+        #CHANGE EVEN FROM boolean to selection
+        'issue_fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this invoice needs to be add'),
+        'fb_submitted':fields.boolean('Fiscal Book Submitted?',
+                help='Indicates if this invoice is in a Fiscal Book which has'\
+                        ' being already submitted to the statutory institute'),
+
+        #~ TODO: This two fields are not set, check its use or remove (check Imex)
+        'num_import_expe': fields.char('Import File number', 15,
+            help="Import the file number for this invoice"),
+        'num_import_form': fields.char('Import Form number', 15,
+            help="Import the form number for this invoice"),
+        }
+
+inherited_invoice()

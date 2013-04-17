@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 ###########################################################################
@@ -5,11 +6,10 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
-#    Planified by: Humberto Arocha / Nhomar Hernandez
-#    Audited by: Vauxoo C.A.
+#    Coded by: Humberto Arocha           <hbto@vauxoo.com>
+#    Planified by: Humberto Arocha & Nhomar Hernandez
+#    Audited by: Humberto Arocha           <hbto@vauxoo.com>
 #############################################################################
-#    Copyright (c) 2009 Latinux Inc (http://www.latinux.com/) All Rights Reserved.
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -22,21 +22,24 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
-
-from openerp.osv import fields, osv
+##############################################################################
+from openerp.osv import osv, orm, fields
 from openerp.tools.translate import _
-from openerp.addons import decimal_precision as dp
-from openerp import netsvc
 
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    logger = netsvc.Logger()
+class account_wh_iva_line(orm.Model):
+    _inherit= "account.wh.iva.line"
     _columns = {
-        'wh_src_agent': fields.boolean('SRC Wh. Agent', help="Indicate if the partner is a SRC withholding agent"),
-        'wh_src_rate': fields.float(string='SRC Rate', digits_compute= dp.get_precision('Withhold'), help="SRC Withholding rate"),
+        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+            help='Fiscal Book where this line is related to'),
     }
-    _defaults = {
-        'wh_src_rate': lambda *a: 0,
-    }
-res_partner()
+
+    def _update_wh_iva_lines(self, cr, uid, ids, inv_id, fb_id, context=None):
+        """
+        It relate the fiscal book id to the according withholding iva lines.
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        inv = inv_obj.browse(cr, uid, inv_id, context=context)
+        if inv.wh_iva and inv.wh_iva_id:
+            awil_ids = self.search(cr, uid, ids, [('invoice_id' , '=', inv.id)], context=context)
+            self.write(cr, uid, awil_ids, {'fb_id' : fb_id }, context=context)
