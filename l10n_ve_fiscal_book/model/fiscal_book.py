@@ -588,6 +588,7 @@ class fiscal_book(orm.Model):
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
                     'ctrl_number': iwdl_brw.retention_id.number or False,
+                    'partner_name':iwdl_brw.retention_id.partner_id.name or False,
                     #~ TODO: check what fields needs to be add that refer to the book line and the wh iva line.
                 }
                 my_rank += 1
