@@ -266,7 +266,7 @@
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.rank ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_date_invoiced and time.strftime('%d/%m/%Y',time.strptime(my_fbl.get_date_invoiced,'%Y-%m-%d')) ]]</para></td>
             <td><para style="CONTENIDO">[[ my_fbl.doc_type ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.partner_vat ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOLEFT">[[ my_fbl.partner_name ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.ctrl_number ]]</para></td>

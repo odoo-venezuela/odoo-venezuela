@@ -129,7 +129,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'rif': {
             'name': 'RIF',
             'width': 25.0,
-            'value': lambda fbl: fbl.get_partner_vat,
+            'value': lambda fbl: fbl.partner_vat,
             'total': lambda fb: '',
             'help': '' },
         'razon-social': {

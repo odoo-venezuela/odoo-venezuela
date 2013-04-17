@@ -437,7 +437,7 @@
                     <!-- T. Doc. -->
                     <td><para style="CONTENIDO">[[ my_fbl.doc_type ]]</para></td>
                     <!-- RIF -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.partner_vat ]]</para></td>
                     <!-- Razon Social -->
                     <td vAlign="MIDDLE" leftPadding="0"><para style="CONTENIDOLEFT">[[ my_fbl.partner_name ]]</para></td>
                     <!-- Comprobante -->
