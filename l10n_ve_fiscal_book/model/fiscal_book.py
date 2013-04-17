@@ -631,7 +631,7 @@ class fiscal_book(orm.Model):
                                      or '01-REG',
                 'get_import_form': self.get_invoice_import_form(cr, uid, inv_brw.id, context=context),
                 'fiscal_printer': inv_brw.fiscal_printer or False,
-                'get_invoice_printer': inv_brw.invoice_printer or False,
+                'invoice_printer': inv_brw.invoice_printer or False,
                 'invoice_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
                 'get_nro_import_form': inv_brw.num_import_form_id.id or False,
                 'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
@@ -938,7 +938,7 @@ class fiscal_book_lines(orm.Model):
         #~ TODO: Ask the difference bwetween this two fields
         'fiscal_printer': fields.char(string='Fiscal machine number',
                 size=192, help=""),
-        'get_invoice_printer': fields.char(string='Fiscal printer invoice number',
+        'invoice_printer': fields.char(string='Fiscal printer invoice number',
                 size=192, help=""),
 
         #~ TODO: Ask the difference bwetween this two fields
