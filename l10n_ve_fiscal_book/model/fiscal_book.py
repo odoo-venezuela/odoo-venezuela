@@ -558,23 +558,6 @@ class fiscal_book(orm.Model):
                     res.append(iwdl_id)
         return res
 
-    #~ TODO: understand this method
-    def get_doc(self, cr, uid, inv_brw, context=None):
-        """ It returns the invoice document type
-        @param inv_brw: invoice browseable.
-        """
-        context = context or {}
-        doc_type = False
-        if inv_brw.type in ["in_invoice", "out_invoice"] and inv_brw.parent_id:
-            doc_type = "ND"
-        elif inv_brw.type in ["in_invoice", "in_refund"] and inv_brw.expedient:
-            doc_type="E"
-        elif inv_brw.type in ['in_refund', 'out_refund']:
-            doc_type = "NC"
-        elif inv_brw.type in ["in_invoice", "out_invoice"]:
-            doc_type = "F"
-        return doc_type
-
     def update_book_lines(self, cr, uid, fb_id, context=None):
         """ It updates the fiscal book lines values.
         @param fb_id: fiscal book id
@@ -628,7 +611,6 @@ class fiscal_book(orm.Model):
                 'get_credit_affected': inv_brw.parent_id and \
                                        inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                        and inv_brw.parent_id.number or False,
-                'get_doc': self.get_doc(cr, uid, inv_brw, context=context),
                 'ctrl_number': inv_brw.nro_ctrl or False,
                 'get_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
                 'partner_name': inv_brw.partner_id.name or False,
@@ -930,8 +912,6 @@ class fiscal_book_lines(orm.Model):
         #~ Apply for invoice lines
         'invoice_number': fields.char(string='Invoice number', size=64,
                 help=''),
-        'get_doc': fields.char(string='Trans. Type',
-                help='Transaction Type'),
         'get_parent': fields.char(string='Affected Document',
                 help='Parent Invoice'),
         'get_imex_date': fields.date(string='Invoice IMEX Date',

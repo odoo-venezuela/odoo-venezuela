@@ -12,7 +12,6 @@
                 <group colspan="2">
                     <field name='rank'/>
                     <field name='doc_type'/>
-                    <field name='get_doc'/>
                     <field name='invoice_id'/>
                     <field name='iwdl_id'/>
                     <field name='ctrl_number'/>
