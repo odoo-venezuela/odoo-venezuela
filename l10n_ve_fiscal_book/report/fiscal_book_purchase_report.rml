@@ -433,7 +433,7 @@
                     <!-- Fecha Doc -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.accounting_date ]]</para></td>
                     <!-- Fecha Importada -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_imex_date ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.imex_date ]]</para></td>
                     <!-- T. Doc. -->
                     <td><para style="CONTENIDO">[[ my_fbl.doc_type ]]</para></td>
                     <!-- RIF -->
