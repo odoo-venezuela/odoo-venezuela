@@ -12,7 +12,6 @@
         uos_id: product.product_uom_unit
         price_unit: 10
         name: PC3
-        concept_id: l10n_ve_withholding_islr.islr_wh_concept_demo2
         taxes_id:
         - iva0
     journal_id: account.bank_journal
