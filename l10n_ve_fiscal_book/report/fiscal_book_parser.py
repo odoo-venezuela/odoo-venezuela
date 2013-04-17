@@ -366,7 +366,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         col_tag = self._purchase_cols_list[col_number-1]
         if col_tag in self._cols_depending_on_import:
             if fbl_brw.invoice_id:
-                is_imported = fbl_brw.get_is_imported \
+                is_imported = fbl_brw.invoice_is_imported \
                               and col_number < 27 and True or False \
                               or col_number > 27 and True or False
             my_args.append(is_imported)

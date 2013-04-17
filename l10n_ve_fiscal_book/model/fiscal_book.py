@@ -63,7 +63,7 @@ class fiscal_book(orm.Model):
         for fb_brw in self.browse(cr, uid, ids, context=context):
             for fbl_brw in fb_brw.fbl_ids:
                 if fbl_brw.invoice_id:
-                    if fbl_brw.get_is_imported:
+                    if fbl_brw.invoice_is_imported:
                         res[fb_brw.id]['get_total_with_iva_i_sum']+= fbl_brw.get_total_with_iva
                     else: 
                         res[fb_brw.id]['get_total_with_iva_n_sum']+= fbl_brw.get_total_with_iva
@@ -924,7 +924,7 @@ class fiscal_book_lines(orm.Model):
         #~ TODO: 'get_import_form' field needs to be in imex module
         'get_import_form': fields.char(string="Kind of document",
                 help="Get Invoice reference"),
-        'get_is_imported': fields.boolean(string='Is an import'),
+        'invoice_is_imported': fields.boolean(string='Is an import'),
         'get_papel_anulado': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
         'get_fiscal_printer': fields.char(string='Fiscal machine number',
