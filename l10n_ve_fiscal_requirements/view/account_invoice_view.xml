@@ -40,7 +40,7 @@
                         <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         <field name="parent_id" 
-                               attrs="{'required':[('type','=','out_refund')]}" 
+                               attrs="{'invisible':[('parent_id','=',False)]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field  name="nro_ctrl" />
                         <button name="%(action_wiz_nroctrl)d" 
@@ -129,7 +129,7 @@
                         <field name="sin_cred" />
                         <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="parent_id" 
-                               attrs="{'required':[('type','=','out_refund')]}" 
+                               attrs="{'invisible':[('parent_id','=',False)]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field   name="nro_ctrl" required="1"/>
                         <button  name="%(action_wiz_nroctrl)d" 
