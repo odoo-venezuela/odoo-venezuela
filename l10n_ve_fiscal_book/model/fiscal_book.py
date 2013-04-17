@@ -526,14 +526,18 @@ class fiscal_book(orm.Model):
         return orphan_inv_ids and iwdl_obj.search(cr, uid, [('invoice_id', 'in', orphan_inv_ids)], context=context) or []
 
     def order_book_lines(self, cr, uid, fb_id, context=None):
-        """ It order the fiscal book lines chronologically by emission date.
+        """ It order the fiscal book lines chronologically acs by a date. If fiscal
+        book type is purchase then is order by emission date.
         @param fb_id: fiscal book id.
         """
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.lines')
+        order_date = { 'purchase': 'emission_date',
+                       'sale': 'accounting_date',
+                    }
         fbl_ids = [ fbl_brw.id for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
         ordered_fbl_ids = fbl_obj.search(cr, uid, [ ('id', 'in', fbl_ids) ],
-                                         order='accounting_date asc',
+                                         order=order_date[self.browse(cr, uid, fb_id, context=context).type]+' asc',
                                          context=context)
         #~ TODO: this date could change with the improve of the fiscal.book.line model
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
