@@ -453,7 +453,7 @@
                     <!-- T. Trans. -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_papel_anulado ]]</para></td>
                     <!-- Nota de Debito Afectada -->
-                    <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_debit_affected ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.debit_affected ]]</para></td>
                     <!-- Nota de Crétido Afectada -->
                     <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_credit_affected ]]</para></td>
                     <!-- Documento Afectado -->

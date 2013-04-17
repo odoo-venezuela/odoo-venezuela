@@ -26,7 +26,7 @@ string="Invoice"
                 <group colspan="2" attrs="{'invisible':[('doc_type', '!=', 'FACT')]}">
                     <field name='imex_date'/>
                     <field name='invoice_number'/>
-                    <field name='get_debit_affected'/>
+                    <field name='debit_affected'/>
                     <field name='get_credit_affected'/>
                     <field name='invoice_parent'/>
                     <field name='get_total_with_iva'/>

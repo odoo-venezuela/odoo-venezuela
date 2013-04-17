@@ -178,7 +178,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'nota-de-debito-afectada': {
             'name': 'Nota de Debito Afectada',
             'width': 33.0,
-            'value': lambda fbl: fbl.get_debit_affected,
+            'value': lambda fbl: fbl.debit_affected,
             'total': lambda fb: '',
             'help': '' },
         'nota-de-credito-afectada': {

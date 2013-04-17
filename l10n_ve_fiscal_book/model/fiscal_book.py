@@ -605,7 +605,7 @@ class fiscal_book(orm.Model):
                 'accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
                 'imex_date': imex_invoice and inv_brw.get_date_invoice or False,
-                'get_debit_affected': inv_brw.parent_id \
+                'debit_affected': inv_brw.parent_id \
                                       and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
                                       and inv_brw.parent_id.parent_id \
                                       and inv_brw.parent_id.number or False,
@@ -917,7 +917,7 @@ class fiscal_book_lines(orm.Model):
                 help='Parent Invoice'),
         'imex_date': fields.date(string='Invoice IMEX Date',
             help='Invoice Importation/Exportation date'),
-        'get_debit_affected': fields.char(string='Affected Debit Notes', 
+        'debit_affected': fields.char(string='Affected Debit Notes', 
             help='Debit notes affected'),
         'get_credit_affected': fields.char(string='Affected Credit Notes', 
             help='Credit notes affected'),
