@@ -17,7 +17,7 @@
                     <field name='iwdl_id'/>
                     <field name='ctrl_number'/>
                     <field name='get_accounting_date'/>
-                    <field name='get_emission_date'/>
+                    <field name='emission_date'/>
                     <field name='get_partner_name'/>
                     <field name='get_partner_vat'/>
                 </group>
@@ -91,7 +91,7 @@ string="Invoice"
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
                                 <field name='get_t_doc'/>
-                                <field name='get_emission_date'/>
+                                <field name='emission_date'/>
                                 <field name='get_accounting_date'/>
                                 <field name='ctrl_number'/>
                                 <field name='get_reference'/>
@@ -244,7 +244,7 @@ string="Invoice"
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
                                 <field name='get_t_doc'/>
-                                <field name='get_emission_date'/>
+                                <field name='emission_date'/>
                                 <field name='get_accounting_date'/>
                                 <field name='ctrl_number'/>
                                 <field name='get_reference'/>

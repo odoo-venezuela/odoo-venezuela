@@ -117,7 +117,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'fecha-importada': {
             'name': 'Fecha Importada',
             'width': 23.0,
-            'value': lambda fbl: fbl.get_emission_date,
+            'value': lambda fbl: fbl.emission_date,
             'total': lambda fb: '',
             'help': '' },
         't-doc': {

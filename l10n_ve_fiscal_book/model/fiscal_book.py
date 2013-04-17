@@ -601,7 +601,7 @@ class fiscal_book(orm.Model):
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
                     'get_accounting_date': iwdl_brw.date_ret or False,
-                    'get_emission_date': iwdl_brw.date or False,
+                    'emission_date': iwdl_brw.date or False,
                     'get_t_doc': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
                     'ctrl_number': iwdl_brw.retention_id.number or False,
@@ -616,7 +616,7 @@ class fiscal_book(orm.Model):
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
-                'get_emission_date': (not imex_invoice) and \
+                'emission_date': (not imex_invoice) and \
                                      inv_brw.date_document or False,
                 'get_accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
@@ -917,8 +917,8 @@ class fiscal_book_lines(orm.Model):
         'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
             help='Withholding iva line related to this book line'),
         'ctrl_number': fields.char(string='Control number', size=64, help=''),
-        'get_emission_date': fields.date(string='Emission Date',
-            help='[(invoice, get_date_document), (wh iva line, date)]'),
+        'emission_date': fields.date(string='Emission Date',
+            help='Invoice Document Date / Wh IVA Line Voucher Date'),
         'get_accounting_date': fields.date(string='Accounting Date',
             help='The day of the accounting record [(invoice, date_invoice), (wh iva line, date_ret)]'),
         'get_t_doc': fields.char(size=8, string='Doc. Type', help='Document Type'),
