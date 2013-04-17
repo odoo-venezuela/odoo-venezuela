@@ -533,7 +533,7 @@ class fiscal_book(orm.Model):
         fbl_obj = self.pool.get('fiscal.book.lines')
         fbl_ids = [ fbl_brw.id for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids ]
         ordered_fbl_ids = fbl_obj.search(cr, uid, [ ('id', 'in', fbl_ids) ],
-                                         order='get_accounting_date asc',
+                                         order='accounting_date asc',
                                          context=context)
         #~ TODO: this date could change with the improve of the fiscal.book.line model
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
@@ -600,7 +600,7 @@ class fiscal_book(orm.Model):
                 values = {
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
-                    'get_accounting_date': iwdl_brw.date_ret or False,
+                    'accounting_date': iwdl_brw.date_ret or False,
                     'emission_date': iwdl_brw.date or False,
                     'get_t_doc': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
@@ -618,7 +618,7 @@ class fiscal_book(orm.Model):
                 'rank': my_rank,
                 'emission_date': (not imex_invoice) and \
                                      inv_brw.date_document or False,
-                'get_accounting_date': (not imex_invoice) and \
+                'accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
                 'get_imex_date': imex_invoice and inv_brw.get_date_invoice or False,
                 'get_debit_affected': inv_brw.parent_id \
@@ -919,7 +919,7 @@ class fiscal_book_lines(orm.Model):
         'ctrl_number': fields.char(string='Control number', size=64, help=''),
         'emission_date': fields.date(string='Emission Date',
             help='Invoice Document Date / Wh IVA Line Voucher Date'),
-        'get_accounting_date': fields.date(string='Accounting Date',
+        'accounting_date': fields.date(string='Accounting Date',
             help='The day of the accounting record [(invoice, date_invoice), (wh iva line, date_ret)]'),
         'get_t_doc': fields.char(size=8, string='Doc. Type', help='Document Type'),
         'get_partner_name': fields.char(size=128, string='Partner Name', help=''),

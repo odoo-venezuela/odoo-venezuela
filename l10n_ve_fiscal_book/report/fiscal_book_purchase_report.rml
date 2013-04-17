@@ -431,7 +431,7 @@
                     <!-- Linea -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.rank ]]</para></td>
                     <!-- Fecha Doc -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_accounting_date ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.accounting_date ]]</para></td>
                     <!-- Fecha Importada -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_imex_date ]]</para></td>
                     <!-- T. Doc. -->

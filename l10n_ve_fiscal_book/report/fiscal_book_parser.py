@@ -111,7 +111,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'fecha-doc': {
             'name': 'Fecha Doc.',
             'width': 23.0,
-            'value': lambda fbl: fbl.get_accounting_date,
+            'value': lambda fbl: fbl.accounting_date,
             'total': lambda fb: '',
             'help': '' },
         'fecha-importada': {
