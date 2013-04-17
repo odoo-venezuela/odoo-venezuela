@@ -610,6 +610,7 @@ class fiscal_book(orm.Model):
                 'accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
                 'imex_date': imex_invoice and inv_brw.get_date_invoice or False,
+                'invoice_is_imported' : imex_invoice,
                 'debit_affected': inv_brw.parent_id \
                                       and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
                                       and inv_brw.parent_id.parent_id \
@@ -656,15 +657,28 @@ class fiscal_book(orm.Model):
         context = context or {}
         self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
         tax_types = ['exento', 'sdcf', 'reducido', 'general', 'adicional']
-        base_sum = {}.fromkeys(tax_types, 0.0)
-        tax_sum  = {}.fromkeys(tax_types, 0.0)
+        n_base_sum = {}.fromkeys(tax_types, 0.0)
+        n_tax_sum  = {}.fromkeys(tax_types, 0.0)
+        i_base_sum = {}.fromkeys(tax_types, 0.0)
+        i_tax_sum  = {}.fromkeys(tax_types, 0.0)
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
                 for ait in fbl.invoice_id.tax_line:
                     if ait.tax_id.appl_type:
-                        base_sum[ait.tax_id.appl_type] += ait.base_amount
-                        tax_sum[ait.tax_id.appl_type] += ait.tax_amount 
-        data = [ (0, 0, {'tax_type': ttype, 'base_amount_sum': base_sum[ttype], 'tax_amount_sum': tax_sum[ttype]}) for ttype in tax_types ]
+                        if fbl.invoice_is_imported:
+                            i_base_sum[ait.tax_id.appl_type] += ait.base_amount
+                            i_tax_sum[ait.tax_id.appl_type] += ait.tax_amount 
+                        else:
+                            n_base_sum[ait.tax_id.appl_type] += ait.base_amount
+                            n_tax_sum[ait.tax_id.appl_type] += ait.tax_amount 
+        data = [ (0, 0, {'tax_type': ttype,
+                         'base_amount_sum': n_base_sum[ttype],
+                         'tax_amount_sum': n_tax_sum[ttype],
+                         'international': False }) for ttype in tax_types ]
+        data.extend( [ (0, 0, {'tax_type': ttype,
+                         'base_amount_sum': i_base_sum[ttype],
+                         'tax_amount_sum': i_tax_sum[ttype],
+                         'international': True }) for ttype in tax_types ] )
         return data and self.write(cr, uid, fb_id, {'fbts_ids': data}, context=context)
 
     #~ TODO: test this method (with presice amounts)
