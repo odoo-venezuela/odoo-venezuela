@@ -584,7 +584,7 @@ class fiscal_book(orm.Model):
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
                     'accounting_date': iwdl_brw.date_ret or False,
-                    'emission_date': iwdl_brw.date or False,
+                    'emission_date': iwdl_brw.date or iwdl_brw.date_ret or False,
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
                     'ctrl_number': iwdl_brw.retention_id.number or False,
@@ -600,8 +600,9 @@ class fiscal_book(orm.Model):
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
-                'emission_date': (not imex_invoice) and \
-                                     inv_brw.date_document or False,
+                'emission_date': (not imex_invoice) \
+                                 and (inv_brw.date_document or inv_brw.date_invoice)
+                                 or False,
                 'accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
                 'imex_date': imex_invoice and inv_brw.get_date_invoice or False,
