@@ -447,7 +447,7 @@
                     <!-- Expediente Importacion -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ 'TODO' ]]</para></td>
                     <!-- Numero de Factura -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_number]]</para></td>
                     <!-- Numero Control -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.ctrl_number]]</para></td>
                     <!-- T. Trans. -->

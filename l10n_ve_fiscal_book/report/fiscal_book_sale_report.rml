@@ -268,7 +268,7 @@
             <td><para style="CONTENIDO">[[ my_fbl.doc_type ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.partner_vat ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOLEFT">[[ my_fbl.partner_name ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_number ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.ctrl_number ]]</para></td>
 
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_invoice_printer ]]</para></td>

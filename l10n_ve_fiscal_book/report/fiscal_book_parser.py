@@ -160,7 +160,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'numero-facutra': {
             'name': 'Número de Facutra',
             'width': 36.0,
-            'value': lambda fbl: fbl.get_reference,
+            'value': lambda fbl: fbl.invoice_number,
             'total': lambda fb: '',
             'help': '' },
         'numero-control': {

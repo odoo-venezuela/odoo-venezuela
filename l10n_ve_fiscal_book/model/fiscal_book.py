@@ -634,7 +634,7 @@ class fiscal_book(orm.Model):
                 'partner_name': inv_brw.partner_id.name or False,
                 'partner_vat': inv_brw.partner_id.vat \
                                    and inv_brw.partner_id.vat[2:] or 'N/A',
-                'get_reference': inv_brw.reference or False,
+                'invoice_number': inv_brw.reference or False,
                 'doc_type': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                                context=context),
                 'get_papel_anulado': inv_brw.name and \
@@ -928,7 +928,7 @@ class fiscal_book_lines(orm.Model):
         'get_withheld': fields.float('Withheld Amount'),
 
         #~ Apply for invoice lines
-        'get_reference': fields.char(string='Invoice number', size=64,
+        'invoice_number': fields.char(string='Invoice number', size=64,
                 help=''),
         'get_doc': fields.char(string='Trans. Type',
                 help='Transaction Type'),
