@@ -745,8 +745,8 @@
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT_BOLD">TOTAL VENTAS Y DEBITOS FISCAL PARA EFECTOS DE DETERMINACION</para></td>
-                <td><para style="HEADER">[[ 'TODO' ]]</para></td>
-                <td><para style="HEADER">[[ 'TODO' ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.get_total_tax_credit_debit_base_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.get_total_tax_credit_debit_tax_sum or 0.0) ]]</para></td>
             </tr>
         </blockTable>
     </section>

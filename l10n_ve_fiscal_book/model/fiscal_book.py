@@ -139,6 +139,34 @@ class fiscal_book(orm.Model):
                                  fb_brw.get_vat_reduced_n_base_sum
         return res
 
+
+    def _get_total_tax_credit_debit(self, cr, uid, ids, field_names, arg, context=None):
+        """ It returns sum of of all data in the fiscal book summary table.
+        @param field_name: ['get_total_tax_credit_debit_base_sum',
+                            'get_total_tax_credit_debit_tax_sum']"""
+        context = context or {}
+        res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            res[fb_brw.id]['get_total_tax_credit_debit_base_sum'] += \
+                fb_brw.get_vat_sdcf_i_sum + \
+                fb_brw.get_vat_general_i_base_sum + \
+                fb_brw.get_vat_additional_i_base_sum + \
+                fb_brw.get_vat_reduced_i_base_sum + \
+                fb_brw.get_vat_sdcf_n_sum + \
+                fb_brw.get_vat_general_n_base_sum + \
+                fb_brw.get_vat_additional_n_base_sum + \
+                fb_brw.get_vat_reduced_n_base_sum
+            res[fb_brw.id]['get_total_tax_credit_debit_tax_sum'] += \
+                fb_brw.get_vat_general_i_tax_sum + \
+                fb_brw.get_vat_additional_i_tax_sum + \
+                fb_brw.get_vat_reduced_i_tax_sum + \
+                fb_brw.get_vat_general_n_tax_sum + \
+                fb_brw.get_vat_additional_n_tax_sum + \
+                fb_brw.get_vat_reduced_n_tax_sum
+
+        return res
+
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
     _inherit = ['mail.thread']
@@ -276,6 +304,23 @@ class fiscal_book(orm.Model):
                 type="float", method=True, store=True,
                 string="No Gravadas y/o Sin Derecho a Crédito Fiscal",
                 help="No Gravadas y/o Sin Derecho a Crédito Fiscal"),
+
+        'get_total_tax_credit_debit_base_sum': fields.function(
+                _get_total_tax_credit_debit,
+                type="float", method=True, store=True,
+                multi="get_total_tax_credit_debit",
+                string="Base Amount for Tax (Debit/Credit) Total for \
+                (Sale/Pruchase)",
+                help="Base Imponible del Total (Débitos/Créditos) Fiscales \
+                para el libro de (Venta/Compra)"),
+        'get_total_tax_credit_debit_tax_sum': fields.function(
+                _get_total_tax_credit_debit,
+                type="float", method=True, store=True,
+                multi="get_total_tax_credit_debit",
+                string="Tax Amount for Tax (Debit/Credit) Total for \
+                (Sale/Pruchase)",
+                help="Monto Imponible del Total (Débitos/Créditos) Fiscales \
+                para el libro de (Venta/Compra)"),
 
         #~ Printable report data
         'get_partner_addr': fields.function(_get_partner_addr,
