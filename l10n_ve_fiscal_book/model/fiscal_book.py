@@ -609,7 +609,7 @@ class fiscal_book(orm.Model):
                                       and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
                                       and inv_brw.parent_id.parent_id \
                                       and inv_brw.parent_id.number or False,
-                'get_credit_affected': inv_brw.parent_id and \
+                'credit_affected': inv_brw.parent_id and \
                                        inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                        and inv_brw.parent_id.number or False,
                 'ctrl_number': inv_brw.nro_ctrl or False,
@@ -919,7 +919,7 @@ class fiscal_book_lines(orm.Model):
             help='Invoice Importation/Exportation date'),
         'debit_affected': fields.char(string='Affected Debit Notes', 
             help='Debit notes affected'),
-        'get_credit_affected': fields.char(string='Affected Credit Notes', 
+        'credit_affected': fields.char(string='Affected Credit Notes', 
             help='Credit notes affected'),
         #~ TODO: 'get_import_form' field needs to be in imex module
         'get_import_form': fields.char(string="Kind of document",
