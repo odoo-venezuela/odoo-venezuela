@@ -921,20 +921,27 @@ class fiscal_book_lines(orm.Model):
             help='Debit notes affected'),
         'credit_affected': fields.char(string='Affected Credit Notes', 
             help='Credit notes affected'),
+        'invoice_is_imported': fields.boolean(string='Is an import'),
+
         #~ TODO: 'get_import_form' field needs to be in imex module
+        #~ TODO: Ask the difference bwetween this two fields
         'get_import_form': fields.char(string="Kind of document",
                 help="Get Invoice reference"),
-        'invoice_is_imported': fields.boolean(string='Is an import'),
         'get_papel_anulado': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
+
+        #~ TODO: Ask the difference bwetween this two fields
         'get_fiscal_printer': fields.char(string='Fiscal machine number',
                 size=192, help=""),
         'get_invoice_printer': fields.char(string='Fiscal printer invoice number',
                 size=192, help=""),
+
+        #~ TODO: Ask the difference bwetween this two fields
         'invoice_import_spreadsheets': fields.date(string='Import spreadsheets',
                 help=""),
         'get_nro_import_form': fields.char(string='Import form number',
                 size=192, help=""),
+
         'get_total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),
