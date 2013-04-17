@@ -602,7 +602,7 @@ class fiscal_book(orm.Model):
                     'rank': my_rank,
                     'accounting_date': iwdl_brw.date_ret or False,
                     'emission_date': iwdl_brw.date or False,
-                    'get_t_doc': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
+                    'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
                     'ctrl_number': iwdl_brw.retention_id.number or False,
                     #~ TODO: check what fields needs to be add that refer to the book line and the wh iva line.
@@ -635,7 +635,7 @@ class fiscal_book(orm.Model):
                 'get_partner_vat': inv_brw.partner_id.vat \
                                    and inv_brw.partner_id.vat[2:] or 'N/A',
                 'get_reference': inv_brw.reference or False,
-                'get_t_doc': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
+                'doc_type': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                                context=context),
                 'get_papel_anulado': inv_brw.name and \
                                      (inv_brw.name.find('PAPELANULADO')>=0 \
@@ -921,7 +921,7 @@ class fiscal_book_lines(orm.Model):
             help='Invoice Document Date / Wh IVA Line Voucher Date'),
         'accounting_date': fields.date(string='Accounting Date',
             help='The day of the accounting record [(invoice, date_invoice), (wh iva line, date_ret)]'),
-        'get_t_doc': fields.char(size=8, string='Doc. Type', help='Document Type'),
+        'doc_type': fields.char(size=8, string='Doc. Type', help='Document Type'),
         'get_partner_name': fields.char(size=128, string='Partner Name', help=''),
         'get_partner_vat': fields.char(size=128, string='Partner TIN', 
             help=''),

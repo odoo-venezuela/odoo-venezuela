@@ -435,7 +435,7 @@
                     <!-- Fecha Importada -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_imex_date ]]</para></td>
                     <!-- T. Doc. -->
-                    <td><para style="CONTENIDO">[[ my_fbl.get_t_doc ]]</para></td>
+                    <td><para style="CONTENIDO">[[ my_fbl.doc_type ]]</para></td>
                     <!-- RIF -->
                     <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
                     <!-- Razon Social -->

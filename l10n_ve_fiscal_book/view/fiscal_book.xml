@@ -11,7 +11,7 @@
             <form string="Fiscal Book Lines">
                 <group colspan="2">
                     <field name='rank'/>
-                    <field name='get_t_doc'/>
+                    <field name='doc_type'/>
                     <field name='get_doc'/>
                     <field name='invoice_id'/>
                     <field name='iwdl_id'/>
@@ -24,7 +24,7 @@
 <!--
 string="Invoice" 
 -->
-                <group colspan="2" attrs="{'invisible':[('get_t_doc', '!=', 'FACT')]}">
+                <group colspan="2" attrs="{'invisible':[('doc_type', '!=', 'FACT')]}">
                     <field name='get_imex_date'/>
                     <field name='get_reference'/>
                     <field name='get_debit_affected'/>
@@ -90,7 +90,7 @@ string="Invoice"
                         <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
-                                <field name='get_t_doc'/>
+                                <field name='doc_type'/>
                                 <field name='emission_date'/>
                                 <field name='accounting_date'/>
                                 <field name='ctrl_number'/>
@@ -243,7 +243,7 @@ string="Invoice"
                         <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
-                                <field name='get_t_doc'/>
+                                <field name='doc_type'/>
                                 <field name='emission_date'/>
                                 <field name='accounting_date'/>
                                 <field name='ctrl_number'/>

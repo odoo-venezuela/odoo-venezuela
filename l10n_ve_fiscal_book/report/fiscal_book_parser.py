@@ -123,7 +123,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         't-doc': {
             'name': 'T. Doc.',
             'width': 15.0,
-            'value': lambda fbl: fbl.get_t_doc,
+            'value': lambda fbl: fbl.doc_type,
             'total': lambda fb: '',
             'help': '' },
         'rif': {
