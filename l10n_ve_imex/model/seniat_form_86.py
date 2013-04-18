@@ -12,8 +12,8 @@
 #~ from datetime import datetime
 from openerp.osv import fields,osv
 from openerp.tools.translate import _
-import pooler
-import decimal_precision as dp
+import openerp.pooler
+import openerp.addons.decimal_precision as dp
 import time
 #~ import netsvc
 
