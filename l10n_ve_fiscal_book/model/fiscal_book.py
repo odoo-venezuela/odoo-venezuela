@@ -682,6 +682,8 @@ class fiscal_book(orm.Model):
         #~ add book lines for invoices
         for inv_brw in self.browse(cr, uid, fb_id, context=context).invoice_ids:
             imex_invoice = self.is_invoice_imex(cr, uid, inv_brw.id, context=context)
+            iwdl_id = self._get_invoice_iwdl_id(cr, uid, fb_id, inv_brw.id,
+                                                context=context)
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
@@ -716,9 +718,7 @@ class fiscal_book(orm.Model):
                 'invoice_printer': inv_brw.invoice_printer or False,
                 'invoice_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
                 'get_nro_import_form': inv_brw.num_import_form_id.id or False,
-                'iwdl_id': self._get_invoice_iwdl_id(cr, uid, fb_id,
-                                                     inv_brw.id,
-                                                     context=context)
+                'iwdl_id': (iwdl_id not in no_match_dt_iwdl_ids) and iwdl_id or False 
             }
             my_rank += 1
             data.append((0, 0, values))
