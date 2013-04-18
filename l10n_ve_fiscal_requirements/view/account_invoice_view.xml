@@ -93,7 +93,7 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="parent_id"/>
+                    <field name="parent_id" />
                 </xpath>
             </field>
         </record>
