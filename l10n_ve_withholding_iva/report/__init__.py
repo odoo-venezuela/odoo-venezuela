@@ -26,4 +26,4 @@
 ##############################################################################
 
 import list_wh_iva
-import wittholding_vat
+import withholding_vat
