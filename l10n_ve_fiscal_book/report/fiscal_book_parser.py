@@ -214,7 +214,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'retencion-iva': {
             'name': 'Retencion IVA',
             'width': 40.0,
-            'value': lambda fbl: fbl.get_withheld,
+            'value': lambda fbl: fbl.get_wh_vat,
             'total': lambda fb: '',
             'help': '' },
 

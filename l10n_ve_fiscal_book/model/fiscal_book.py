@@ -799,12 +799,6 @@ class fiscal_book(orm.Model):
                         data.append((0, 0, {'fb_id': fb_id, 'fbl_id': fbl.id, 'ait_id': ait.id}))
                         if ait.tax_id.ret:
                             ret_tax_amount = ret_tax_amount + ait.base_amount + ait.tax_amount
-
-                            #~ TODO: check that this logic is ok
-                            if ait.invoice_id.type in ['in_refund', 'out_refund']:
-                                amount_withheld = amount_withheld + (ait.tax_amount*(-1.0))
-                            else:
-                                amount_withheld = amount_withheld + ait.tax_amount
                         else:
                             if ait.tax_id.appl_type == 'sdcf':
                                 sdcf_tax_amount = sdcf_tax_amount + ait.base_amount
@@ -815,7 +809,6 @@ class fiscal_book(orm.Model):
                 fbl_obj.write(cr, uid, fbl.id, {'get_total_with_iva': ret_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_vat_sdcf': sdcf_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_vat_exempt': exent_tax_amount}, context=context)
-                fbl_obj.write(cr, uid, fbl.id, {'get_withheld': amount_withheld}, context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
@@ -984,6 +977,19 @@ class fiscal_book_lines(orm.Model):
                                    or fbt_brw.tax_amount
         return res
 
+    def _get_wh_vat(self, cr, uid, ids, field_name, arg, context=None):
+        """ For a given book line it returns the withholding vat amount.
+        (This is a method used in functional fields).
+        @param field_name: ['get_wh_vat'].
+        """
+        context = context or {}
+        res = {}.fromkeys(ids, 0.0)
+        for fbl_brw in self.browse(cr, uid, ids, context=context):
+            if fbl_brw.iwdl_id:
+                res[fbl_brw.id] = fbl_brw.iwdl_id.amount_tax_ret
+        return res
+
+
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
     _name='fiscal.book.lines'
     _rec_name='rank'
@@ -1008,7 +1014,12 @@ class fiscal_book_lines(orm.Model):
         'partner_name': fields.char(size=128, string='Partner Name', help=''),
         'partner_vat': fields.char(size=128, string='Partner TIN', 
             help=''),
-        'get_withheld': fields.float('Withheld Amount'),
+
+        #~ Apply for wh iva lines
+        'get_wh_vat': fields.function(_get_wh_vat,
+                type="float", method=True, store=True,
+                string="Withholding VAT",
+                help="Withholding VAT"),
 
         #~ Apply for invoice lines
         'invoice_number': fields.char(string='Invoice number', size=64,

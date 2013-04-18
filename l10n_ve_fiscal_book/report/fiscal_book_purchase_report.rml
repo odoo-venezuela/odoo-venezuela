@@ -543,7 +543,7 @@
                     </td>
 
                     <!-- Retencion Iva -->
-                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_withheld) ]]</para></td>
+                    <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_wh_vat) ]]</para></td>
                 </tr>
                 </blockTable>
             </section>
