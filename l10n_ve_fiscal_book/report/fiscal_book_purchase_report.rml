@@ -668,7 +668,6 @@
     <spacer length='5mm'/>
 
     <!-- ************ TOTALS WHITHHOLDING***********-->
-<!--
     <section>
         [['.']]
         <blockTable colWidths="70mm,40mm" style="TOTALS_TABLE" repeatRows="2">
@@ -678,20 +677,19 @@
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[['RETENCIONES PERIODOS ANTERIORES']]</para></td>
-                <td><para style="CONTENIDO">[[ my_fb.get_total_wh - my_fb.get_wh_actual ]]</para></td>
+                <td><para style="CONTENIDO">[[ "my_fb.get_total_wh - my_fb.get_wh_actual" ]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[['RETENCIONES DEL PERIODO']]</para></td>
-                <td><para style="CONTENIDO">[[ formatLang(get_wh_actual(data['form'])) ]]</para></td>
+                <td><para style="CONTENIDO">[[ "formatLang(get_wh_actual(data['form']))" ]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT_BOLD">[['TOTAL RETENCIONES']]</para></td>
-                <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
+                <td><para style="CONTENIDO">[[ "formatLang(get_total_wh(data['form']))" ]]</para></td>
             </tr>
         </blockTable>
     </section>
     <spacer length='5mm'/>
--->
 
     <!-- ************ TOTALS PURCHASE BOOK************-->
     <section>
