@@ -166,6 +166,29 @@ class fiscal_book(orm.Model):
 
         return res
 
+    def _get_wh(self, cr, uid, ids, field_names, arg, context=None):
+        """ It returns sum of all data in the withholding summary table.
+        @param field_name: ['get_total_wh_sum', 'get_previous_wh_sum',
+                            'get_wh_sum']"""
+        #~ TODO: this works if its ensuring that that emmision date is always
+        #~ set and and all periods for every past dates are created.
+        context = context or {}
+        res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
+        period_obj = self.pool.get('account.period')
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            for fbl_brw in fb_brw.fbl_ids:
+                if fbl_brw.iwdl_id: 
+                    emission_period = period_obj.find(cr, uid,
+                                                      fbl_brw.emission_date,
+                                                      context=context)
+                    if emission_period[0] == fb_brw.period_id.id:
+                        res[fb_brw.id]['get_wh_sum'] += fbl_brw.iwdl_id.amount_tax_ret
+                    else: 
+                        res[fb_brw.id]['get_previous_wh_sum'] += fbl_brw.iwdl_id.amount_tax_ret
+            res[fb_brw.id]['get_total_wh_sum'] = \
+            res[fb_brw.id]['get_wh_sum'] + \
+            res[fb_brw.id]['get_previous_wh_sum']
+        return res
 
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name='fiscal.book'
@@ -321,6 +344,19 @@ class fiscal_book(orm.Model):
                 (Sale/Pruchase)",
                 help="Monto Imponible del Total (Débitos/Créditos) Fiscales \
                 para el libro de (Venta/Compra)"),
+
+        'get_wh_sum': fields.function(_get_wh,
+                type="float", method=True, store=True, multi="get_wh",
+                string="Current Period Withholding",
+                help="Second row at the withholding summary block"),
+        'get_previous_wh_sum': fields.function(_get_wh,
+                type="float", method=True, store=True, multi="get_wh",
+                string="Previous Period Withholding",
+                help="First row at the withholding summary block"),
+        'get_total_wh_sum': fields.function(_get_wh,
+                type="float", method=True, store=True, multi="get_wh",
+                string="Withholding Total",
+                help="Totalization row at the withholding summary block"),
 
         #~ Printable report data
         'get_partner_addr': fields.function(_get_partner_addr,
