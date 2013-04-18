@@ -36,7 +36,9 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
 
     Supuesto cuantitativo de procedencia.
 
-    El Compromiso de Responsabilidad Social será requerido en todas las ofertas presentadas en las modalidades de selección de Contratistas previstas en la Ley de Contrataciones Públicas, así como; en los procedimientos excluidos de la aplicación de éstas, cuyo monto total, incluidos los tributos, superen las dos mil quinientas unidades tributarias (2.500 U.T).
+    El Compromiso de Responsabilidad Social será requerido en todas las ofertas presentadas en las modalidades de selección de Contratistas 
+    previstas en la Ley de Contrataciones Públicas, así como; en los procedimientos excluidos de la aplicación de éstas, cuyo monto total, 
+    incluidos los tributos, superen las dos mil quinientas unidades tributarias (2.500 U.T).
 
 **Artículo 35**
 
