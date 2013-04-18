@@ -781,6 +781,7 @@ class islr_wh_doc_invoices(osv.osv):
                                            'invoice_id': ret_line.invoice_id.id,
                                            'retencion_islr': wh_perc[concept_id],
                                            'xml_ids': [(6, 0, xmls[concept_id])],
+                                           'iwdi_id': ret_line.id,
                                            }, context=context)
                 self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         else:
