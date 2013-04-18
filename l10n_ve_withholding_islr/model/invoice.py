@@ -157,7 +157,7 @@ class account_invoice(osv.osv):
 
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
         '''
-        Funcion para crear en el modelo islr_wh_doc
+        Creates a record in the islr_wh_doc model
         '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -190,7 +190,7 @@ class account_invoice(osv.osv):
                                  context=context)
         else:
             raise osv.except_osv(_('Invalid action !'), _(
-                "No se ha encontrado el numero de secuencia!"))
+                "A sequence number has not been found!"))
 
         self.write(cr, uid, ids, {'islr_wh_doc_id': islr_wh_doc_id,
                                   'islr_wh_doc_name': wh_ret_code})

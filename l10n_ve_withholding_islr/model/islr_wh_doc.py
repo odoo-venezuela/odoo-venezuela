@@ -139,11 +139,19 @@ class islr_wh_doc(osv.osv):
         checks invoices to be retained and have
         their fair share of taxes.
         '''
+        import pdb
+        pdb.set_trace()
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0], context=context)
         res = {}
+        #Checks for available invoices to Withhold
+        if not obj.invoice_ids:
+            raise osv.except_osv(_('Missing Invoices to Withhold Taxes!'))
+
         for wh_line in obj.invoice_ids:
+            #Checks for xml_id elements when supplier withholdings
+            #Otherwise just checks for withholding concepts if any
             if not (wh_line.islr_xml_id or wh_line.iwdl_ids):
                 res[wh_line.id] = (wh_line.invoice_id.name,
                                    wh_line.invoice_id.number, wh_line.invoice_id.reference)
@@ -202,6 +210,8 @@ class islr_wh_doc(osv.osv):
         calls the functions in charge of
         preparing the document to pass the state done
         '''
+        import pdb
+        pdb.set_trace()
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         self.action_number(cr, uid, ids, context=context)
@@ -461,11 +471,13 @@ class islr_wh_doc(osv.osv):
             writeoff_journal_id = False
             amount = line.amount_islr_ret
 
+            import pdb
+            pdb.set_trace()
+
             ret_move = line.invoice_id.ret_and_reconcile(
                 amount, acc_id, period_id, journal_id, writeoff_account_id,
                 period_id, writeoff_journal_id, ret.date_ret, name,
                 line.iwdl_ids, context=context)
-
             # make the withholding line point to that move
             rl = {
                 'move_id': ret_move['move_id'],
