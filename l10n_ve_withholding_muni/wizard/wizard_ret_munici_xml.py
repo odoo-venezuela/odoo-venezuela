@@ -68,9 +68,6 @@ def _data_save(self, cr, uid, data, context):
 
         lst.append(res)
 
-#    os.system("python /home/javier/openerp/stable/5.0/base/loc_ve_29122009/retencion_munici/wizard/prueba1.py "+period.name)
-
-
     return self._csv_write(cr, uid, lst, context)
 
 class wiz_ret_munici_xml(wizard.interface):
@@ -110,7 +107,6 @@ class wiz_ret_munici_xml(wizard.interface):
         }
     }
 wiz_ret_munici_xml('account.ret.munici.xml.seniat')
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

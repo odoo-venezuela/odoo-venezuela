@@ -424,7 +424,7 @@ class islr_wh_doc(osv.osv):
         doc_brw = None
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
-        OBcontext.update({'income_wh': True,
+        context.update({'income_wh': True,
                           'company_id': ret.company_id.id})
         acc_id = ret.account_id.id
         if not ret.date_uid:

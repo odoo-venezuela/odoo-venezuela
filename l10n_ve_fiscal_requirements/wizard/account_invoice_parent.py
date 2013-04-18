@@ -107,7 +107,7 @@ class account_invoice_parent(osv.osv_memory):
     def default_get(self, cr, uid, fields, context=None):
         res = super(account_invoice_parent, self).default_get(cr, uid, fields, context=context)
         if context.get('op_type', False):
-            res.update({'type': context.get('op_type', 'assigned')})
+            res.update({'type': context.get('op_type', 'modify')})
         return res
 
     def get_window(self, cr, uid, ids, xml_id, module, op_type, partner_id, parent_id=False, context=None):
