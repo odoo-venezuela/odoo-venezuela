@@ -650,7 +650,7 @@
                     </td>
 
                     <!-- Retencion Iva -->
-                    <td><para style="HEADER">[[ 'TODO' ]]</para></td>
+                    <td><para style="HEADER">[[ formatLang(my_fb.get_total_wh_sum) ]]</para></td>
                 </tr>
                 </blockTable>
             </section>

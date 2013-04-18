@@ -355,8 +355,10 @@ class fiscal_book(orm.Model):
                 help="First row at the withholding summary block"),
         'get_total_wh_sum': fields.function(_get_wh,
                 type="float", method=True, store=True, multi="get_wh",
-                string="Withholding Total",
-                help="Totalization row at the withholding summary block"),
+                string="VAT Withholding Sum",
+                help="Use at: \
+                1. Totalization row in Fiscal Book Line block \
+                2. Totalization row at the Withholding Summary block"),
 
         #~ Printable report data
         'get_partner_addr': fields.function(_get_partner_addr,
