@@ -86,7 +86,7 @@ class seniat_url(osv.osv):
         context = {}
         html_data = self.pool.get('seniat.url')._load_url(3, url % rif)
         html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
-        search_str = 'La condición de este contribuyente requiere la retención del '
+        search_str = 'This condition requires retention contributor'
         pos = html_data.find(search_str)
         if pos > 0:
             pos += len(search_str)
