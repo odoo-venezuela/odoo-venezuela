@@ -221,12 +221,12 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default,
                                                  context)
 
-    def _refund_cleanup_lines(self, cr, uid, lines):
+    def _refund_cleanup_lines(self, cr, uid, lines, context=None):
         '''
         initializes the fields of the lines of a refund invoice
         '''
         data = super(account_invoice, self)._refund_cleanup_lines(
-            cr, uid, lines)
+            cr, uid, lines, context=context)
         list = []
         for x, y, res in data:
             if 'concept_id' in res:
