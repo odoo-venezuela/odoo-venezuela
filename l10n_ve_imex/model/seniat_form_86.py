@@ -13,7 +13,7 @@
 from openerp.osv import fields,osv
 from openerp.tools.translate import _
 import openerp.pooler
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 import time
 #~ import netsvc
 
