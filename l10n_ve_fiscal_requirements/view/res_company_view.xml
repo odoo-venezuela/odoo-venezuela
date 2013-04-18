@@ -17,7 +17,6 @@
 
                     <field name="jour_id"/>
 
-                    <field name="acc_id"/>
                     <newline/>
 
                     <field name="acc_id" domain="[('type','in',('other','receivable','payable'))]"/>
