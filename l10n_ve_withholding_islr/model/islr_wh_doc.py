@@ -143,7 +143,14 @@ class islr_wh_doc(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0], context=context)
         res = {}
+        #Checks for available invoices to Withhold
+        if not obj.invoice_ids:
+            raise osv.except_osv(_('Missing Invoices!!!'),
+                _('You need to Add Invoices to Withhold Income Taxes!!!'))
+
         for wh_line in obj.invoice_ids:
+            #Checks for xml_id elements when withholding to supplier 
+            #Otherwise just checks for withholding concepts if any
             if not (wh_line.islr_xml_id or wh_line.iwdl_ids):
                 res[wh_line.id] = (wh_line.invoice_id.name,
                                    wh_line.invoice_id.number, wh_line.invoice_id.reference)
