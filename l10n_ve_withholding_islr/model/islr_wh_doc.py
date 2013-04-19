@@ -194,6 +194,15 @@ class islr_wh_doc(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
+
+        #~ Searching & Unlinking for concept lines from the current withholding
+        iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
+                context=context)
+        print 'iwdl_ids ', iwdl_ids 
+        if iwdl_ids:
+            iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
+
         iwd_brw = self.browse(cr, uid, ids[0], context=context)
         for iwdi_brw in iwd_brw.invoice_ids:
             iwdi_obj.load_taxes(cr, uid, iwdi_brw.id, context=context)
@@ -792,7 +801,7 @@ class islr_wh_doc_invoices(osv.osv):
                                            }, context=context)
                 self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         else:
-            #~ Searching & Unlinking for concept lines from the current invoice
+            #~ Searching & Unlinking for concept lines from the current withholding
             iwdl_ids = iwdl_obj.search(
                 cr, uid, [('iwdi_id', '=', ret_line.id)],
                 context=context)
