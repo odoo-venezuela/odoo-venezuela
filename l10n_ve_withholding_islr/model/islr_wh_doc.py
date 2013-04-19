@@ -113,7 +113,10 @@ class islr_wh_doc(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'amount_total_ret': fields.function(_get_amount_total, method=True, string='Amount Total', type='float', digits_compute=dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line', 'islr_wh_doc_id', 'Income Withholding Concept', readonly=True, states={'draft': [('readonly', False)]}, help='concept of income withholding'),
-        'invoice_ids': fields.one2many('islr.wh.doc.invoices', 'islr_wh_doc_id', 'Withheld Invoices', help='invoices to be withheld'),
+        'invoice_ids': fields.one2many('islr.wh.doc.invoices',
+            'islr_wh_doc_id', 'Withheld Invoices', readonly=True,
+            states={'draft': [('readonly', False)]}, help='invoices to be\
+            withheld'),
         'islr_wh_doc_id': fields.one2many('account.invoice', 'islr_wh_doc_id', 'Invoices', states={'draft': [('readonly', False)]}, help='refers to document income withholding tax generated in the bill'),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft': [('readonly', False)]}, help="Vendor user"),
         'automatic_income_wh': fields.boolean('Automatic Income Withhold',
