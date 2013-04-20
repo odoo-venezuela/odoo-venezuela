@@ -31,8 +31,6 @@
             </field>
         </record>
 
-
-
         <record id="account_invoice_wh_iva_supplier" model="ir.ui.view">
             <field name="name">account.invoice.wh.iva.supplier</field>
             <field name="model">account.invoice</field>
@@ -40,20 +38,20 @@
             <field name="arch" type="xml">
                 <xpath expr="//separator[@string='isep']" position="after">
                     <newline/>
-                        <group col="6" colspan="4">
-                            <field name="wh_iva"/>
-                            <field name="wh_iva_rate"/>
-                            <field name="wh_iva_id"/>
+                    <group col="4" colspan="4">
+                        <field name="wh_iva" string='Have this invoice been already VAT withheld?'/>
+                        <field name="wh_iva_rate"/>
+                        <field name="wh_iva_id" string='VAT Withholding Document'/>
+                        <newline/>
+                        <field name="vat_apply" string='Exclude this document from VAT Withholding' readonly='1'/>
+                        <group col="4" colspan="2">
+                            <button name='change_vat_apply' string='Change Vat Wh. Exclusion' icon='gtk-execute' states='draft'/>
+                            <label string='Providencia Administrativa No. SNAT/2005/0056, Exclusiones: Art. 3'/>
                         </group>
+                    </group>
                 </xpath>
-<!--
-               <xpath expr="//field[@name='address_invoice_id']" position="after">
-                    <field name="vat_apply"/>
-                </xpath>
--->
-               
                 <xpath expr='//separator[@string="isep"]' position='attributes'>
-                    <attribute name="string">Withholdings Vat</attribute>
+                    <attribute name="string">VAT Withholding</attribute>
                 </xpath>
             </field>
         </record>
