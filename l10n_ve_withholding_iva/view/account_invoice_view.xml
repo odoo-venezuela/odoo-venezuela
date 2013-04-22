@@ -45,7 +45,9 @@
                         <newline/>
                         <field name="vat_apply" string='Exclude this document from VAT Withholding' readonly='1'/>
                         <group col="4" colspan="2">
-                            <button name='change_vat_apply' string='Change Vat Wh. Exclusion' icon='gtk-execute' states='draft'/>
+                            <button name='%(action_wiz_vat_apply_wh)d'
+                                string='Change Vat Wh. Exclusion' type='action'
+                                icon='gtk-execute' states='draft'/>
                             <label string='Providencia Administrativa No. SNAT/2005/0056, Exclusiones: Art. 3'/>
                         </group>
                     </group>
