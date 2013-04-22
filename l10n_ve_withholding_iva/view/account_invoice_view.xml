@@ -48,7 +48,7 @@
                             <button name='%(action_wiz_vat_apply_wh)d'
                                 string='Change Vat Wh. Exclusion' type='action'
                                 icon='gtk-execute' states='draft'/>
-                            <label string='Providencia Administrativa No. SNAT/2005/0056, Exclusiones: Art. 3'/>
+                            <label string='Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3'/>
                         </group>
                     </group>
                 </xpath>

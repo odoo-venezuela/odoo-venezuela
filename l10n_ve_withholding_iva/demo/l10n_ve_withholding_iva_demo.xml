@@ -4,7 +4,7 @@
 <!-- Minimal Accounts for demo -->
         <record id="iva_rec" model="account.account">
             <field name="code">X11010</field>
-            <field name="name">IVA retenido por Clientes</field>
+            <field name="name">VAT withheld by Customers</field>
             <field ref="account.cas" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_asset"/>
@@ -12,7 +12,7 @@
         
         <record id="iva_pay" model="account.account">
             <field name="code">X1115</field>
-            <field name="name">IVA retenido a Proveedores</field>
+            <field name="name">VAT withheld to Suppliers</field>
             <field ref="account.cli" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_liability"/>
