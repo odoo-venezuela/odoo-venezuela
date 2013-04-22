@@ -170,8 +170,8 @@
         <blockTable colWidths="517.0, 350.0, 350.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
             <tr>
                 <td></td>
-                <td vAlign="MIDDLE"><para style="HEADER">IMPORTACIONES</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">COMPRAS INTERNAS</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE IMPORTACIONES</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES EN EL MERCADO INTERNO</para></td>
             </tr>
         </blockTable>
     </section>
