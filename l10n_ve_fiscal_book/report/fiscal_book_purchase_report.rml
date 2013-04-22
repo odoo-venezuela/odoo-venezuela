@@ -56,8 +56,7 @@
             <blockBackground colorName="#e5e2e5" start="1,1" stop="-1,1"/>
         </blockTableStyle>
         <blockTableStyle id="ENCANBEZADO_SINCOLUM_2">
-            <lineStyle kind="GRID" colorName="black" thickness="1" start="1,0" stop="2,0"/>
-            <lineStyle kind="GRID" colorName="black" thickness="1" start="1,1" stop="-1,-1"/>
+            <lineStyle kind="GRID" colorName="black" thickness="1"/>
             <blockBackground colorName="#e5e2e5" start="1,1" stop="-1,1"/>
         </blockTableStyle>
         <blockTableStyle id="TOTALS_TABLE">
@@ -167,9 +166,9 @@
 
     <!--    PURCHASE BOOK HEADERS    -->
     <section>
-        <blockTable colWidths="517.0, 350.0, 350.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
+        <blockTable colWidths="556.0, 350.0, 390.0" style="ENCANBEZADO_SINCOLUM_2" blockAlignment="LEFT">
             <tr>
-                <td></td>
+                <td vAlign="MIDDLE"><para style="HEADER">DATOS DE LA FACTURA O/Y DOCUMENTO</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE IMPORTACIONES</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES EN EL MERCADO INTERNO</para></td>
             </tr>
