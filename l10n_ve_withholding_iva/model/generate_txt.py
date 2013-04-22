@@ -75,7 +75,6 @@ class txt_iva(osv.osv):
         'type':fields.boolean('Retention Suppliers?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
         'date_start': fields.date('Begin Date',required=True,states={'draft':[('readonly',False)]}, help="Begin date of period"),
         'date_end': fields.date('End date', required=True,states={'draft':[('readonly',False)]}, help="End date of period"),
-        'type':fields.boolean('Retención Proveedores?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
         'txt_ids':fields.one2many('txt.iva.line','txt_id', readonly=True,states={'draft':[('readonly',False)]}, help='Txt field lines of ar required by SENIAT for VAT withholding'),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
