@@ -79,7 +79,7 @@ class account_invoice(osv.osv):
             }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
         'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat rate"),
         'wh_iva_id': fields.many2one('account.wh.iva', 'Wh. Vat', readonly=True, help="Withholding vat."),        
-        'vat_apply':fields.boolean('Without Vat Doc', help="This selection indicates whether generate the invoice withholding document")
+        'vat_apply':fields.boolean('Exclude this document from VAT Withholding', help="This selection indicates whether generate the invoice withholding document")
     }
 
 
