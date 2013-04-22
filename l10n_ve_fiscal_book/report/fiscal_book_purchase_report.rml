@@ -175,7 +175,7 @@
         </blockTable>
     </section>
     <section>
-        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,40.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
+        <blockTable colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,175.0" style="ENCANBEZADO_SINCOLUM" repeatRows="1">
         <tr>
             <td><para style="HEADER"></para></td>
             <td><para style="HEADER">Linea</para></td>
@@ -237,7 +237,20 @@
                     </tr></blockTable></td>
                 </tr></blockTable></section>
             </td>
-            <td><para style="HEADER">Retencion Iva</para></td>
+            <td><!-- Retenciones -->
+                <section>
+                    <para style="HEADER">Retenciones</para>
+                    <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="ENCANBEZADO_SINCOLUM_2">
+                        <tr>
+                            <td><para style="HEADER">Fecha de Factura afectada</para></td>
+                            <td><para style="HEADER">Nro Retención</para></td>
+                            <td><para style="HEADER">Débito Fiscal Base</para></td>
+                            <td><para style="HEADER">Retención %</para></td>
+                            <td><para style="HEADER">Monto Retenido</para></td>
+                        </tr>
+                    </blockTable>
+                </section>
+            </td>
         </tr>
         </blockTable>
     </section>
@@ -245,7 +258,7 @@
     <!--    PURCHASE BOOK LINES   -->
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
-        <blockTable rowHeights="8.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
+        <blockTable rowHeights="8.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,175.0" style="CONTENIDOTABLE_LINES" repeatRows="1">
         <tr>
             [[ setLang(my_fbl.ai_id.company_id.partner_id.lang) ]]
             <td vAlign="MIDDLE"></td>
@@ -363,16 +376,27 @@
                     </td>
                 </tr></blockTable></section>
             </td>
+            <td><!-- Retenciones -->
+                <section>
+                    <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0">
+                        <tr>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[['TODO']]</para></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[['TODO']]</para></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[['TODO']]</para></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[['TODO']]</para></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_wh_vat) ]]</para></td>
+                        </tr>
+                    </blockTable>
+                </section>
+            </td>
 
-            <!-- Retencion Iva -->
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_wh_vat) ]]</para></td>
         </tr>
         </blockTable>
     </section>
 
     <!--    TOTALS PURCHASE PARCIALES    -->
     <section>
-        <blockTable rowHeights="16.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,40.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        <blockTable rowHeights="16.0" colWidths="1.0,15.0,23.0,23.0,15.0,25.0,160.0,40.0,30.0,36.0,36.0,36.0,18.0,33.0,33.0,33.0,37.0,29.0,29.0,255.0,37.0,29.0,29.0,255.0,175.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td>
@@ -471,8 +495,19 @@
                 </tr></blockTable></section>
             </td>
 
-            <!-- Retencion Iva -->
-            <td><para style="HEADER">[[ formatLang(my_fb.get_total_wh_sum) ]]</para></td>
+            <td><!-- Retenciones -->
+                <section>
+                    <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="INTERNALTABLE">
+                        <tr>
+                            <td vAlign="MIDDLE"></td>
+                            <td vAlign="MIDDLE"></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[['TODO']]</para></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[['TODO']]</para></td>
+                            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fb.get_total_wh_sum) ]]</para></td>
+                        </tr>
+                    </blockTable>
+                </section>
+            </td>
         </tr>
         </blockTable>
     </section>
