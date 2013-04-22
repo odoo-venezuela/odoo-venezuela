@@ -167,7 +167,7 @@ class account_wh_munici(osv.osv):
                 if len(period_ids):
                     period_id = period_ids[0]
                 else:
-                    raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (
+                    raise osv.except_osv(_('Warning !'), _("There was not found a fiscal period for this date: '%s' please check.!") % (
                         ret.date_ret or time.strftime('%Y-%m-%d')))
             if ret.munici_line_ids:
                 for line in ret.munici_line_ids:
