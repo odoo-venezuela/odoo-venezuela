@@ -720,7 +720,6 @@ class fiscal_book(orm.Model):
                                      (inv_brw.name.find('PAPELANULADO')>=0 \
                                      and '03-ANU' or '01-REG') \
                                      or '01-REG',
-                'get_import_form': self.get_invoice_import_form(cr, uid, inv_brw.id, context=context),
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'invoice_printer': inv_brw.invoice_printer or False,
                 'invoice_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
@@ -1075,10 +1074,6 @@ class fiscal_book_lines(orm.Model):
             help='Credit notes affected'),
         'invoice_is_imported': fields.boolean(string='Is an import'),
 
-        #~ TODO: 'get_import_form' field needs to be in imex module
-        #~ TODO: Ask the difference bwetween this two fields
-        'get_import_form': fields.char(string="Kind of document",
-                help="Get Invoice reference"),
         'void_form': fields.char(string='Transaction type', size=192,
                 help="Operation Type"),
 
