@@ -7,7 +7,7 @@
         -->
         <record id="a_islr" model="account.account">
             <field name="code">XX2002</field>
-            <field name="name">Servicios de analistas, programadores y soporte</field>
+            <field name="name">Analysts Services, programmers and support</field>
             <field ref="account.rev" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_income"/>
@@ -15,7 +15,7 @@
 
         <record id="islr_rec" model="account.account">
             <field name="code">XX11006</field>
-            <field name="name">Impuestos sobre la Renta por Cobrar(ISLR)</field>
+            <field name="name">Income Taxes Receivable(ISLR)</field>
             <field ref="account.cas" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_asset"/>
@@ -23,7 +23,7 @@
         
         <record id="islr_pay" model="account.account">
             <field name="code">XX1114</field>
-            <field name="name">Impuestos sobre la Renta por Pagar(ISLR)</field>
+            <field name="name">Income Taxes Payable(ISLR)</field>
             <field ref="account.cli" name="parent_id"/>
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_liability"/>
@@ -117,12 +117,12 @@
 
        <!--Sequence-->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
-            <field name="name">Retencion de ISLR Compra</field>
+            <field name="name">Retention Purchase ISLR</field>
             <field name="code">account.journal.islr.purchase</field>
         </record>
 
         <record id="seq_wh_islr_purchase_journal" model="ir.sequence">
-            <field name="name">Retencion de ISLR Compra</field>
+            <field name="name">Retention Purchase ISLR</field>
             <field name="code">account.journal.islr.purchase</field>
             <field name="prefix">RE:</field>
             <field name="padding">6</field>
@@ -130,12 +130,12 @@
         </record>
 
         <record id="seq_wh_islr_sale_type" model="ir.sequence.type">
-            <field name="name">Retencion de ISLR Venta</field>
+            <field name="name">Retention ISLR Sale</field>
             <field name="code">account.journal.islr.sale</field>
         </record>
 
         <record id="seq_wh_islr_sale_journal" model="ir.sequence">
-            <field name="name">Retencion de ISLR Venta</field>
+            <field name="name">Retention ISLR Sale</field>
             <field name="code">account.journal.islr.sale</field>
             <field name="prefix">RE:</field>
             <field name="padding">6</field>
@@ -146,14 +146,14 @@
         Journal
         -->
         <record id="withholding_purchase_journal" model="account.journal">
-            <field name="name">DIARIO DE ISLR COMPRA</field>
+            <field name="name">DIARY OF PURCHASE ISLR</field>
             <field name="code">ISLR1</field>
             <field name="type">islr_purchase</field>
             <field name="sequence_id" ref="seq_wh_islr_purchase_journal"/>
         </record>
         
         <record id="withholding_sale_journal" model="account.journal">
-            <field name="name">DIARIO DE ISLR VENTA</field>
+            <field name="name">DIARY FOR SALE ISLR</field>
             <field name="code">ISLR2</field>
             <field name="type">islr_sale</field>
             <field name="sequence_id" ref="seq_wh_islr_sale_journal"/>

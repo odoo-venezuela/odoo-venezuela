@@ -157,7 +157,7 @@ class account_invoice(osv.osv):
 
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
         '''
-        Funcion para crear en el modelo islr_wh_doc
+        Function to create in the model islr_wh_doc
         '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids

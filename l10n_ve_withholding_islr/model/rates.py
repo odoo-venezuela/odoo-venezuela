@@ -49,14 +49,14 @@ class islr_rates(osv.osv):
         for rate in self.browse(cr,uid,ids):
             if rate.nature:
                 if rate.residence:
-                    name = 'Persona' + ' ' +'Natural' + ' ' +'Residente'
+                    name = 'Person' + ' ' +'Natural' + ' ' +'Resident'
                 else:
-                    name = 'Persona' + ' ' +'Natural' + ' ' +'No Residente'
+                    name = 'Person' + ' ' +'Natural' + ' ' +'No Resident'
             else:
                 if rate.residence:
-                    name = 'Persona' + ' ' +'Juridica' + ' ' +'Domiciliada'
+                    name = 'Person' + ' ' +'Legal' + ' ' +'Domiciled'
                 else:
-                    name = 'Persona' + ' ' +'Juridica' + ' ' +'No Domiciliada'
+                    name = 'Person' + ' ' +'Legal' + ' ' +'No Domiciled'
             res[rate.id]=name
         return res
 
