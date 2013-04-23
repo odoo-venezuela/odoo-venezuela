@@ -688,6 +688,8 @@ class fiscal_book(orm.Model):
             imex_invoice = self.is_invoice_imex(cr, uid, inv_brw.id, context=context)
             iwdl_id = self._get_invoice_iwdl_id(cr, uid, fb_id, inv_brw.id,
                                                 context=context)
+            doc_type = self.get_doc_type(cr, uid, inv_id=inv_brw.id,
+                                         context=context)
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
@@ -706,13 +708,14 @@ class fiscal_book(orm.Model):
                                        inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                        and inv_brw.parent_id.number or False,
                 'ctrl_number': inv_brw.nro_ctrl or False,
-                'invoice_parent': inv_brw.parent_id and inv_brw.parent_id.number or False,
+                'invoice_parent': (doc_type == "N/DE" or doc_type == "N/CR") \
+                                  and (inv_brw.parent_id and inv_brw.parent_id.number or False) \
+                                  or False,
                 'partner_name': inv_brw.partner_id.name or False,
                 'partner_vat': inv_brw.partner_id.vat \
                                    and inv_brw.partner_id.vat[2:] or 'N/A',
                 'invoice_number': inv_brw.reference or False,
-                'doc_type': self.get_doc_type(cr, uid, inv_id=inv_brw.id,
-                                               context=context),
+                'doc_type': doc_type,
                 'void_form': inv_brw.name and \
                                      (inv_brw.name.find('PAPELANULADO')>=0 \
                                      and '03-ANU' or '01-REG') \
@@ -913,7 +916,7 @@ class fiscal_book(orm.Model):
         """ Returns a string that indicates de document type. For withholding
         returns 'RET' and for invoice docuemnts returns different values
         depending of the invoice type: Debit Note 'N/DE', Credit Note 'N/CR',
-        Invoice 'FACT', (¿?) 'E'
+        Invoice 'FACT'.
         @param inv_id : invoice id
         @param iwdl_id: wh iva line id
         """
@@ -922,17 +925,20 @@ class fiscal_book(orm.Model):
         if inv_id:
             inv_obj = self.pool.get('account.invoice')
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-            if inv_brw.type in ["in_invoice", "out_invoice"] and inv_brw.parent_id:
+            if (inv_brw.type in ["in_invoice"] and inv_brw.parent_id) \
+                or inv_brw.type in ["in_refund"]:
                 res = "N/DE"
-            elif inv_brw.type in ["in_invoice", "in_refund"] and inv_brw.expedient:
-                res = "E"
-            elif inv_brw.type in ["in_refund", "out_refund"]:
+            elif (inv_brw.type in ["out_invoice"] and inv_brw.parent_id) \
+                 or inv_brw.type in ["out_refund"]:
                 res = "N/CR"
             elif inv_brw.type in ["in_invoice", "out_invoice"]:
                 res = "FACT"
-            return res
+
+            assert res != False , str(inv_brw)+": Error in the definition of the document type. \n There is not type category definied for your invoice."
         elif iwdl_id:
-            return 'RET'
+            res = 'RET'
+
+        return res
 
     def get_invoice_import_form(self, cr, uid, inv_id, context=None):
         """ Returns the Invoice reference
@@ -1059,8 +1065,8 @@ class fiscal_book_lines(orm.Model):
         'ctrl_number': fields.char(string='Invoice Control number', size=64, help=''),
         'invoice_number': fields.char(string='Invoice number', size=64,
                 help=''),
-        'invoice_parent': fields.char(string='Affected Document',
-                help='Parent Invoice'),
+        'invoice_parent': fields.char(string='Affected Invoice',
+                help='Parent Invoice for invoices that are ND or DC type'),
         'imex_date': fields.date(string='Imex Date',
             help='Invoice Importation/Exportation Date'),
         'debit_affected': fields.char(string='Affected Debit Notes', 
