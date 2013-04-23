@@ -677,7 +677,8 @@ class fiscal_book(orm.Model):
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name':iwdl_brw.retention_id.partner_id.name or False,
                     'affected_invoice_date': iwdl_brw.invoice_id.date_document \
-                                             or iwdl_brw.invoice_id.date_invoice
+                                             or iwdl_brw.invoice_id.date_invoice,
+                    'wh_rate': iwdl_brw.wh_iva_rate,
                 }
                 my_rank += 1
                 data.append((0, 0, values))
@@ -1032,6 +1033,8 @@ class fiscal_book_lines(orm.Model):
         'wh_number': fields.char(string='Withholding number', size=64, help=''),
         'affected_invoice_date': fields.date(string="Affected Invoice Date",
                                              help=""),
+        'wh_rate': fields.float(string="Withholding percentage",
+                                help=""),
 
         #~ Apply for invoice lines
         'ctrl_number': fields.char(string='Invoice Control number', size=64, help=''),
