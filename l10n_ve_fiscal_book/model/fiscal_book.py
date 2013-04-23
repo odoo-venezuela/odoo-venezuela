@@ -996,6 +996,20 @@ class fiscal_book_lines(orm.Model):
                 res[fbl_brw.id] = fbl_brw.iwdl_id.amount_tax_ret
         return res
 
+    def _get_based_tax_debit(self, cr, uid, ids, field_name, arg, context=None):
+        """ It Returns the sum of all tax amount for the taxes realeted to the
+        wh iva line.
+        @param field_name: ['get_based_tax_debit'].
+        """
+        #~ TODO: for all taxes realted? only a tax type group?
+        context = context or {}
+        res = {}.fromkeys(ids, 0.0)
+        awilt_obj = self.pool.get("account.wh.iva.line.tax")
+        for fbl_brw in self.browse(cr, uid, ids, context=context):
+            if fbl_brw.iwdl_id:
+                for tax in fbl_brw.iwdl_id.tax_line:
+                    res[fbl_brw.id] += tax.amount
+        return res
 
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
     _name='fiscal.book.lines'
@@ -1035,6 +1049,11 @@ class fiscal_book_lines(orm.Model):
                                              help=""),
         'wh_rate': fields.float(string="Withholding percentage",
                                 help=""),
+        'get_wh_debit_credit': fields.function(_get_based_tax_debit,
+                type="float", method=True, store=True,
+                string="Based Tax Debit",
+                help="Sum of all tax amount for the taxes realeted to the \
+                wh iva line."),
 
         #~ Apply for invoice lines
         'ctrl_number': fields.char(string='Invoice Control number', size=64, help=''),
