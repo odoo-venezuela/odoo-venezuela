@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>                                                                       
+    <data noupdate="1"> 
+
+        <!-- Sequences -->
+
+        <record id="seq_debit_purchase_type" model="ir.sequence.type">                                                                           
+            <field name="name">Nota Debito Compra</field>                 
+            <field name="code">account.journal.debit.purchase</field>            
+        </record>     
+
+        <record id="seq_debit_purchase_journal" model="ir.sequence">                                                                             
+            <field name="name">Nota de debito Compra</field>                 
+            <field name="code">account.journal.debit.purchase</field>            
+            <field name="prefix">RE:</field>                                    
+            <field name="padding">6</field>                                     
+            <field name="number_increment">1</field>                            
+        </record>
+
+        <record id="seq_debit_sale_type" model="ir.sequence.type">                                                                           
+            <field name="name">Nota Debito Venta</field>                 
+            <field name="code">account.journal.debit.sale</field>            
+        </record>     
+        
+        <record id="seq_debit_sale_journal" model="ir.sequence">                                                                             
+            <field name="name">Nota de debito Venta</field>                 
+            <field name="code">account.journal.debit.sale</field>            
+            <field name="prefix">RE:</field>                                    
+            <field name="padding">6</field>                                     
+            <field name="number_increment">1</field>                            
+        </record>
+
+        <!-- Journal -->
+
+        <record id="debit_purchase_journal" model="account.journal">      
+             <field name="name">DIARIO DE NOTA DE DEBITO COMPRA</field>                    
+             <field name="code">DBT1</field>                                    
+             <field name="type">purchase_debit</field>                            
+             <field name="sequence_id" ref="seq_debit_purchase_journal"/>      
+         </record>
+ 
+        <record id="debit_sale_journal" model="account.journal">      
+             <field name="name">DIARIO DE NOTA DE DEBITO VENTA</field>                    
+             <field name="code">DBT2</field>                                    
+             <field name="type">sale_debit</field>                            
+             <field name="sequence_id" ref="seq_debit_sale_journal"/>      
+         </record>
+
+     </data>                                                                     
+</openerp>   
