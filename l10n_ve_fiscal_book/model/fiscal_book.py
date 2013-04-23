@@ -674,9 +674,8 @@ class fiscal_book(orm.Model):
                     'emission_date': iwdl_brw.date or iwdl_brw.date_ret or False,
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                    context=context),
-                    'ctrl_number': iwdl_brw.retention_id.number or False,
+                    'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name':iwdl_brw.retention_id.partner_id.name or False,
-                    #~ TODO: check what fields needs to be add that refer to the book line and the wh iva line.
                 }
                 my_rank += 1
                 data.append((0, 0, values))
@@ -720,7 +719,10 @@ class fiscal_book(orm.Model):
                 'invoice_printer': inv_brw.invoice_printer or False,
                 'invoice_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
                 'get_nro_import_form': inv_brw.num_import_form_id.id or False,
-                'iwdl_id': (iwdl_id not in no_match_dt_iwdl_ids) and iwdl_id or False 
+                'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) and iwdl_id or False,
+                'wh_number': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
+                             and iwdl_obj.browse(cr, uid, iwdl_id,
+                             context=context).retention_id.number or False,
             }
             my_rank += 1
             data.append((0, 0, values))
@@ -997,7 +999,7 @@ class fiscal_book_lines(orm.Model):
     _rec_name='rank'
     _order = 'rank'
     _columns={
-        'rank':fields.integer('Line Position', required=True),
+
         'fb_id':fields.many2one('fiscal.book','Fiscal Book',
             help='Fiscal Book that owns this book line'),
         'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id', 
@@ -1007,7 +1009,10 @@ class fiscal_book_lines(orm.Model):
             help='Invoice related to this book line'),
         'iwdl_id':fields.many2one('account.wh.iva.line','Vat Withholding',
             help='Withholding iva line related to this book line'),
-        'ctrl_number': fields.char(string='Control number', size=64, help=''),
+
+        #~  Invoice and/or Document Data
+        'rank': fields.integer("Line", required=True,
+            help="Line Position"),
         'emission_date': fields.date(string='Emission Date',
             help='Invoice Document Date / Wh IVA Line Voucher Date'),
         'accounting_date': fields.date(string='Accounting Date',
@@ -1022,8 +1027,10 @@ class fiscal_book_lines(orm.Model):
                 type="float", method=True, store=True,
                 string="Withholding VAT",
                 help="Withholding VAT"),
+        'wh_number': fields.char(string='Withholding number', size=64, help=''),
 
         #~ Apply for invoice lines
+        'ctrl_number': fields.char(string='Invoice Control number', size=64, help=''),
         'invoice_number': fields.char(string='Invoice number', size=64,
                 help=''),
         'invoice_parent': fields.char(string='Affected Document',
