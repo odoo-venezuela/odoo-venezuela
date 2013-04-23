@@ -31,7 +31,6 @@ from openerp import netsvc
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
-    logger = netsvc.Logger()
     _columns = {
         'wh_src_agent': fields.boolean('SRC Wh. Agent', help="Indicate if the partner is a SRC withholding agent"),
         'wh_src_rate': fields.float(string='SRC Rate', digits_compute= dp.get_precision('Withhold'), help="SRC Withholding rate"),
