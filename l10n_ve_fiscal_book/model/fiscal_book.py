@@ -698,7 +698,7 @@ class fiscal_book(orm.Model):
                                  or False,
                 'accounting_date': (not imex_invoice) and \
                                         inv_brw.date_invoice or False,
-                'imex_date': imex_invoice and inv_brw.get_date_invoice or False,
+                'imex_date': imex_invoice and inv_brw.num_import_form_id.date_liq or False,
                 'invoice_is_imported' : imex_invoice,
                 'debit_affected': inv_brw.parent_id \
                                       and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
