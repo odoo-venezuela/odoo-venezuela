@@ -358,7 +358,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_administradoramengimca0"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
-            <field name="name">Factura 1. Persona Juridica Domiciliada</field>
+            <field name="name">Invoice 1. Legal Entity Resident</field>
         </record>
         
 
@@ -392,7 +392,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_gutierrezrrohgere0"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
-            <field name="name">Factura2. Persona Natural Residenciada</field>
+            <field name="name">Invoice2. Natural Person Impeached</field>
         </record>
 
         <record id="account_invoice_3" model="account.invoice">
@@ -425,7 +425,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_viajesmirandaca0"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
-            <field name="name">Factura 4. Persona Juridica No Domiciliada</field>
+            <field name="name">Invoice 4. Legal Entity No Resident</field>
         </record>
 
         <record id="account_invoice_4" model="account.invoice">
@@ -458,7 +458,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_nhomarhernandez0"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
-            <field name="name">Factura 3. Persona Natural no Residente</field>
+            <field name="name">Invoice 3. Natural Person Not Resident</field>
         </record>
         
 
@@ -490,7 +490,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_3"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
-            <field name="name">Factura4 CU.Persona Juridica No Domiciliado</field>
+            <field name="name">Invoice4 CU.Legal Entity No Resident</field>
         </record>
         <record id="account_invoice_6" model="account.invoice">
             <field name="currency_id" ref="base.VEF"/>
@@ -519,7 +519,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_1"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo2"/>
-            <field name="name">Fact3 CUS. Persona Juridica Domiciliada</field>
+            <field name="name">Invoice3 CUS. Legal Entity Resident</field>
         </record>
               
         <record id="account_invoice_7" model="account.invoice">
@@ -549,7 +549,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_4"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
-            <field name="name">Factura 2 Customer. Persona Natural No Residenciada</field>
+            <field name="name">Invoice 2 Customer. Natural Person Not Impeached</field>
         </record>
 
         <record id="account_invoice_8" model="account.invoice">
@@ -579,7 +579,7 @@
             <field eval="2.0" name="quantity"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_2"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_demo1"/>
-            <field name="name">Factura 1 Customer. Persona Natural Residenciada</field>
+            <field name="name">Invoice 1 Customer. Natural Person Impeached</field>
         </record>
 
 

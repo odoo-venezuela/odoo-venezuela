@@ -3,7 +3,7 @@
     <data>
     
 <!--
-    Menu Generico para todos los modulos de iva, islr y municipales
+    Generic Menu modules for all taxes, and municipal islr
 -->
         <menuitem id="menu_wh_configuration" name="Withholdings" parent="account.menu_finance_accounting"/>
         <menuitem id="menu_withholdings" name="Withholdings" parent="account.menu_finance"/>
