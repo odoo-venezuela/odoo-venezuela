@@ -8,8 +8,8 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
-                <xpath expr="//separator[@string='rsep']" position="after">
-                    <separator string='Social Responsability Commitment Withholding'/>
+                <xpath expr="//page[@string='Withholdings']" position="inside">
+                    <separator string='Social Responsability Commitment'/>
                     <group col="6" colspan="4">
                         <group col="6" colspan="2">
                             <field name="wh_src_rate"/>
@@ -21,9 +21,6 @@
                         </group>
                         <field name="wh_src_id"/>
                     </group>
-                </xpath>
-                <xpath expr="//separator[@string='rsep']" position='attributes'>
-                    <attribute name="string">SRC Withholdings</attribute>
                 </xpath>
             </field>
         </record>
@@ -34,8 +31,8 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
             <field name="arch" type="xml">
-                <xpath expr="//separator[@string='rsep']" position="after">
-                    <separator string='Social Responsability Commitment Withholding'/>
+                <xpath expr="//page[@string='Withholdings']" position="inside">
+                    <separator string='Social Responsability Commitment'/>
                     <group col="6" colspan="4">
                         <group col="6" colspan="2">
                             <field name="wh_src_rate"/>
@@ -47,9 +44,6 @@
                         </group>
                         <field name="wh_src_id"/>
                     </group>
-                </xpath>
-                <xpath expr='//separator[@string="rsep"]' position='attributes'>
-                    <attribute name="string">SRC Withholdings</attribute>
                 </xpath>
             </field>
         </record>

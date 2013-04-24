@@ -49,6 +49,7 @@
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
         'report/withholding_vat_report.xml',
+        'wizard/wizard_retention_view.xml',
         'view/generate_txt_view.xml',
         'view/account_invoice_view.xml',
         'view/account_view.xml',
