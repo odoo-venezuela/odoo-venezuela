@@ -395,14 +395,14 @@ class fiscal_book_report(report_sxw.rml_parse):
         if col_tag in self._cols_depending_on_tax_type:
             #~ TODO: hacer como debe ser con el nombre de los campos..
             if col_tag is 'base-imponible':
-                #~ 'fbl_brw.get_vat_reduced_base'
-                #~ 'fbl_brw.get_vat_general_base'
+                #~ 'fbl_brw.vat_reduced_base'
+                #~ 'fbl_brw.vat_general_base'
                 #~ 'fbl_brw.get_vat_general_add_base'
                 print col_number, 'soy columna base imponible'
             elif col_tag is 'monto-imponible':
-                #~ 'fbl_brw.get_vat_reduced_tax'
-                #~ 'fbl_brw.get_vat_general_tax'
-                #~ 'fbl_brw.get_vat_general_tax'
+                #~ 'fbl_brw.vat_reduced_tax'
+                #~ 'fbl_brw.vat_general_tax'
+                #~ 'fbl_brw.vat_general_tax'
                 print col_number, 'soy columna monto imponible'
             elif col_tag is '%iva':
                 print col_number, 'soy columna %iva'

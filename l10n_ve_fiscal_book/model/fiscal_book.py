@@ -822,7 +822,32 @@ class fiscal_book(orm.Model):
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
         self.update_book_taxes_summary(cr, uid, fb_id, context=context)
+        self.update_book_lines_taxes_fields(cr, uid, fb_id, context=context)
         self.update_book_taxes_amount_fields(cr, uid, fb_id, context=context)
+        return True
+
+    def update_book_lines_taxes_fields(self, cr, uid, fb_id, context=None):
+        """ Update taxes data for every line in the fiscal book given,
+        extrating de data from the fiscal book taxes associated.
+        @param fb_id: fiscal book line id.
+        """
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.lines')
+        field_names = ['vat_reduced_base', 'vat_reduced_tax',
+                       'vat_general_base', 'vat_general_tax',
+                       'vat_additional_base', 'vat_additional_tax']
+        tax_type = { 'reduced': 'reducido', 'general': 'general',
+                     'additional': 'adicional' }
+        for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids:
+            data = {}.fromkeys( field_names, 0.0)
+            for fbt_brw in fbl_brw.fbt_ids:
+                for field_name in field_names:
+                    field_tax, field_amount = field_name[4:].split('_')
+                    if fbt_brw.ait_id.tax_id.appl_type == tax_type[field_tax]:
+                        data[field_name] += field_amount == 'base' \
+                                       and fbt_brw.base_amount \
+                                       or fbt_brw.tax_amount
+            fbl_obj.write(cr, uid, fbl_brw.id, data, context=context)
         return True
 
     #~ clear book methods
@@ -970,25 +995,6 @@ class fiscal_book(orm.Model):
 
 class fiscal_book_lines(orm.Model):
 
-    def _get_vat_amount(self, cr, uid, ids, field_name, arg, context=None):
-        """
-        For a given book line it returns the a vat amount value corresponding.
-        (This is a method used in functional fields).
-        @param field_name: the name of the field that which value return [get_vat_reduced_base, get_vat_general_base, get_vat_additional_base, get_vat_reduced_tax, get_vat_general_tax,  get_vat_additional_tax].
-        """
-        context = context or {}
-        res = {}.fromkeys(ids, 0.0)
-        tax_type = { 'reduced': 'reducido', 'general': 'general',
-                     'additional': 'adicional' }
-        field_tax, field_amount = field_name[8:].split('_')
-        for fbl_id in ids:
-            for fbt_brw in self.browse(cr, uid, fbl_id, context=context).fbt_ids:
-                if fbt_brw.ait_id.tax_id.appl_type == tax_type[field_tax]:
-                    res[fbl_id] += field_amount == 'base' \
-                                   and fbt_brw.base_amount \
-                                   or fbt_brw.tax_amount
-        return res
-
     def _get_wh_vat(self, cr, uid, ids, field_name, arg, context=None):
         """ For a given book line it returns the withholding vat amount.
         (This is a method used in functional fields).
@@ -1091,29 +1097,17 @@ class fiscal_book_lines(orm.Model):
         'total_with_iva': fields.float('Total with IVA'),
         'vat_sdcf': fields.float('SDCF'),
         'vat_exempt': fields.float('Exent'),
-        'get_vat_reduced_base': fields.function(_get_vat_amount,
-                type="float", method=True, store=True,
-                string="8% Base",
+        'vat_reduced_base': fields.float(string="8% Base",
                 help="Vat Reduced Base Amount"),
-        'get_vat_general_base': fields.function(_get_vat_amount,
-                type="float", method=True, store=True,
-                string="12% Base",
+        'vat_general_base': fields.float(string="12% Base",
                 help="Vat General Base Amount"),
-        'get_vat_additional_base': fields.function(_get_vat_amount,
-                type="float", method=True, store=True,
-                string="22% Base",
+        'vat_additional_base': fields.float(string="22% Base",
                 help="Vat Generald plus Additional Base Amount"),
-        'get_vat_reduced_tax': fields.function(_get_vat_amount,
-                type="float", method=True, store=True,
-                string="8% Tax",
+        'vat_reduced_tax': fields.float(string="8% Tax",
                 help="Vat Reduced Tax Amount"),
-        'get_vat_general_tax': fields.function(_get_vat_amount,
-                type="float", method=True, store=True,
-                string="12% Tax",
+        'vat_general_tax': fields.float(string="12% Tax",
                 help="Vat General Tax Amount"),
-        'get_vat_additional_tax': fields.function(_get_vat_amount,
-                type="float", method=True, store=True,
-                string="22% Tax",
+        'vat_additional_tax': fields.float(string="22% Tax",
                 help="Vat General plus Additional Tax Amount"),
 
     }
