@@ -39,8 +39,14 @@
                     <group colspan="2" >
                      <separator colspan="6" string="Fiscal Information"/>
                         <field name="sin_cred" />
-                        <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                        <!--
+                             <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                        -->
+                        <field name="loc_req" invisible="1"/>
+                        <field name="invoice_printer" attrs="{'required':[('loc_req','=',True)]}"/>
+                        <field name="fiscal_printer" attrs="{'required':[('loc_req','=',True)]}"/>
+                        
                         <field name="parent_id" 
                                attrs="{'required':[('type','=','out_refund')]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>

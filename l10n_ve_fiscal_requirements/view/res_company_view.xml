@@ -9,6 +9,10 @@
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
 
+                <xpath expr='//page[@string="Configuration"]/group/group[@name="account_grp"]' position="inside">
+                    <field name="printer_fiscal"/>
+                </xpath>
+                
                 <xpath expr='//page[@string="Configuration"]/group/group[@name="account_grp"]' position="after">
                     <separator string="Data used by default for invoices damaged" colspan="4"/>
                 </xpath>
