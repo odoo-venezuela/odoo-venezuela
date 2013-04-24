@@ -348,17 +348,17 @@ class fiscal_book(orm.Model):
         'get_wh_sum': fields.function(_get_wh,
                 type="float", method=True, store=True, multi="get_wh",
                 string="Current Period Withholding",
-                help="Second row at the withholding summary block"),
+                help="Used at \
+                1. Totalization row in Fiscal Book Line block at Withholding VAT Column \
+                2. Second row at the Withholding Summary block"),
         'get_previous_wh_sum': fields.function(_get_wh,
                 type="float", method=True, store=True, multi="get_wh",
                 string="Previous Period Withholding",
-                help="First row at the withholding summary block"),
+                help="First row at the Withholding Summary block"),
         'get_total_wh_sum': fields.function(_get_wh,
                 type="float", method=True, store=True, multi="get_wh",
                 string="VAT Withholding Sum",
-                help="Use at: \
-                1. Totalization row in Fiscal Book Line block \
-                2. Totalization row at the Withholding Summary block"),
+                help="Totalization row at the Withholding Summary block"),
 
         #~ Printable report data
         'get_partner_addr': fields.function(_get_partner_addr,
