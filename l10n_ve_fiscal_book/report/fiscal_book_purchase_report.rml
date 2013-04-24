@@ -448,7 +448,7 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.imex_date     # Fecha de Nac. ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and 'TODO'               # Declaracion ]]</para></td>
                 <!-- Totales -->
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.get_total_with_iva                           # Total con IVA ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.total_with_iva                               # Total con IVA ]]</para></td>
                 <!-- Importaciones -->
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.get_vat_sdcf                  # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.get_vat_exempt                # Exento ]]</para></td>

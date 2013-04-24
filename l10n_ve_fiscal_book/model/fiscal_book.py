@@ -64,9 +64,9 @@ class fiscal_book(orm.Model):
             for fbl_brw in fb_brw.fbl_ids:
                 if fbl_brw.invoice_id:
                     if fbl_brw.invoice_is_imported:
-                        res[fb_brw.id]['get_total_with_iva_i_sum']+= fbl_brw.get_total_with_iva
+                        res[fb_brw.id]['get_total_with_iva_i_sum']+= fbl_brw.total_with_iva
                     else: 
-                        res[fb_brw.id]['get_total_with_iva_n_sum']+= fbl_brw.get_total_with_iva
+                        res[fb_brw.id]['get_total_with_iva_n_sum']+= fbl_brw.total_with_iva
 
             res[fb_brw.id]['get_total_with_iva_sum'] = \
                                     res[fb_brw.id]['get_total_with_iva_i_sum'] + \
@@ -815,7 +815,7 @@ class fiscal_book(orm.Model):
                                 exent_tax_amount = exent_tax_amount + ait.base_amount
                     else:
                         data.append((0,0,{'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
-                fbl_obj.write(cr, uid, fbl.id, {'get_total_with_iva': ret_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'total_with_iva': ret_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_vat_sdcf': sdcf_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'get_vat_exempt': exent_tax_amount}, context=context)
 
@@ -1088,7 +1088,7 @@ class fiscal_book_lines(orm.Model):
         'get_nro_import_form': fields.char(string='Import form number',
                 size=192, help=""),
 
-        'get_total_with_iva': fields.float('Total with IVA'),
+        'total_with_iva': fields.float('Total with IVA'),
         'get_vat_sdcf': fields.float('SDCF'),
         'get_vat_exempt': fields.float('Exent'),
         'get_vat_reduced_base': fields.function(_get_vat_amount,
