@@ -723,7 +723,7 @@ class fiscal_book(orm.Model):
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'invoice_printer': inv_brw.invoice_printer or False,
                 'invoice_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
-                'get_nro_import_form': inv_brw.num_import_form_id.id or False,
+                'custom_statement': inv_brw.num_import_form_id.name or False,
                 'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) and iwdl_id or False,
                 'wh_number': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
                              and iwdl_obj.browse(cr, uid, iwdl_id,
@@ -1091,7 +1091,7 @@ class fiscal_book_lines(orm.Model):
         #~ TODO: Ask the difference bwetween this two fields
         'invoice_import_spreadsheets': fields.date(string='Import spreadsheets',
                 help=""),
-        'get_nro_import_form': fields.char(string='Import form number',
+        'custom_statement': fields.char(string="Custom Statement",
                 size=192, help=""),
 
         'total_with_iva': fields.float('Total with IVA'),

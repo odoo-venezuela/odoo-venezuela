@@ -446,7 +446,7 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_name                                 # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_vat                                  # RIF ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.imex_date     # Fecha de Nac. ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and 'TODO'               # Declaracion ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.custom_statement  # Declaracion ]]</para></td>
                 <!-- Totales -->
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.total_with_iva                               # Total con IVA ]]</para></td>
                 <!-- Importaciones -->
