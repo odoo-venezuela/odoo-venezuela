@@ -11,7 +11,7 @@
 <!--        <menuitem id="menu_wh_customer" name="Customer Withholding" parent="account.menu_finance_receivables" sequence="300"/>-->
 <!--        <menuitem id="menu_wh_suppiler" name="Supplier Withholding" parent="account.menu_finance_payables" sequence="300"/>-->
 <!--
-        Vista Generica de Facturas de Compra para iva, islr y municipales
+        Generic View Purchase Invoice for VAT, and municipal islr
 -->
         
         <record id="wh_inv_supplier" model="ir.ui.view">
@@ -30,7 +30,7 @@
         </record>
         
 <!--
-        Vista Generica de Facturas de Venta para iva, islr y municipales
+        Generic View Sale Invoice for VAT, and municipal islr
 -->
         
         <record id="wh_inv_customer" model="ir.ui.view">
@@ -49,7 +49,7 @@
         </record>
         
 <!--
-        Vista Generica de Parnets para iva, islr y municipales
+       Generic view of parnets for taxes, and municipal islr
 -->
 
         <record id="wh_partner" model="ir.ui.view">
