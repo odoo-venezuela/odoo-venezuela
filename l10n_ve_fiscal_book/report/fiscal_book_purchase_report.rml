@@ -532,7 +532,7 @@
                 <!-- Compras Internas / Retenciones -->
                 <td><para style="HEADER">[[ ''                                                                  # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Nro Retención ]]</para></td>
-                <td><para style="HEADER">[[ 'TODO my_fbl.get_wh_debit_credit'                                   # Débito Fiscal Base ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_wh_debit_credit_sum                                       # Débito Fiscal Base ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Retención % ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_wh_sum                                                    # Monto Retenido ]]</para></td>
             </tr>

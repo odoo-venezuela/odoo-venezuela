@@ -183,6 +183,7 @@ class fiscal_book(orm.Model):
                                                       context=context)
                     if emission_period[0] == fb_brw.period_id.id:
                         res[fb_brw.id]['get_wh_sum'] += fbl_brw.iwdl_id.amount_tax_ret
+                        res[fb_brw.id]['get_wh_debit_credit_sum'] += fbl_brw.get_wh_debit_credit
                     else: 
                         res[fb_brw.id]['get_previous_wh_sum'] += fbl_brw.iwdl_id.amount_tax_ret
             res[fb_brw.id]['get_total_wh_sum'] = \
@@ -359,6 +360,11 @@ class fiscal_book(orm.Model):
                 type="float", method=True, store=True, multi="get_wh",
                 string="VAT Withholding Sum",
                 help="Totalization row at the Withholding Summary block"),
+        'get_wh_debit_credit_sum': fields.function(_get_wh,
+                type="float", method=True, store=True, multi="get_wh",
+                string="Based Tax Debit Sum",
+                help="Totalization row in Fiscal Book Line block at \
+                Based Tax Debit Column"),
 
         #~ Printable report data
         'get_partner_addr': fields.function(_get_partner_addr,
