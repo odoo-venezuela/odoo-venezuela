@@ -722,7 +722,6 @@ class fiscal_book(orm.Model):
                                      or '01-REG',
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'invoice_printer': inv_brw.invoice_printer or False,
-                'invoice_import_spreadsheets': self.get_invoice_import_spreadsheets(cr, uid, inv_brw.id, context=context),
                 'custom_statement': inv_brw.num_import_form_id.name or False,
                 'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) and iwdl_id or False,
                 'wh_number': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
@@ -983,15 +982,6 @@ class fiscal_book(orm.Model):
         return inv_brw.company_id.partner_id.country_id.id != \
                inv_brw.partner_id.country_id.id and True or False
 
-    #~ TODO: verify the logic of this function
-    def get_invoice_import_spreadsheets(self, cr, uid, inv_id, context=None):
-        """ Get Import spreadsheets (list of invoice ids)
-        @param inv_id: invoice id
-        """
-        context = context or {}
-        inv_obj = self.pool.get('account.invoice')
-
-        return inv_obj.search(cr, uid, [('num_import_form_id', '!=', False), ('state', 'in',[ 'done', 'paid', 'open']) ]) or False
 
 class fiscal_book_lines(orm.Model):
 
@@ -1087,10 +1077,6 @@ class fiscal_book_lines(orm.Model):
                 size=192, help=""),
         'invoice_printer': fields.char(string='Fiscal printer invoice number',
                 size=192, help=""),
-
-        #~ TODO: Ask the difference bwetween this two fields
-        'invoice_import_spreadsheets': fields.date(string='Import spreadsheets',
-                help=""),
         'custom_statement': fields.char(string="Custom Statement",
                 size=192, help=""),
 
