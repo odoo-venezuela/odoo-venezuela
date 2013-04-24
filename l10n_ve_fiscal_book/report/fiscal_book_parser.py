@@ -200,7 +200,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         'exento': {
             'name': 'Exento',
             'width': 29.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_vat_exempt or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.vat_exempt or 0.0,
             'total': lambda fb: 'TODO',
             'help': '' },
 

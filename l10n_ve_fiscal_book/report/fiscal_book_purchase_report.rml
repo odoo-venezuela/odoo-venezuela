@@ -451,7 +451,7 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.total_with_iva                               # Total con IVA ]]</para></td>
                 <!-- Importaciones -->
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_sdcf                      # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.get_vat_exempt                # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_exempt                    # Exento ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.get_vat_general_base          # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and '12%'                                # General | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.get_vat_general_tax           # General | Débito Fiscal ]]</para></td>
@@ -463,7 +463,7 @@
                 <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.get_vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Compras Internas -->
                 <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_sdcf                  # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.get_vat_exempt            # Exento ]]</para></td>
+                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_exempt                # Exento ]]</para></td>
                 <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.get_vat_general_base      # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and '12%'                            # General | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.get_vat_general_tax       # General | Débito Fiscal ]]</para></td>

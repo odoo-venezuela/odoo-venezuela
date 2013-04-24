@@ -817,7 +817,7 @@ class fiscal_book(orm.Model):
                         data.append((0,0,{'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
                 fbl_obj.write(cr, uid, fbl.id, {'total_with_iva': ret_tax_amount}, context=context)
                 fbl_obj.write(cr, uid, fbl.id, {'vat_sdcf': sdcf_tax_amount}, context=context)
-                fbl_obj.write(cr, uid, fbl.id, {'get_vat_exempt': exent_tax_amount}, context=context)
+                fbl_obj.write(cr, uid, fbl.id, {'vat_exempt': exent_tax_amount}, context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
@@ -1090,7 +1090,7 @@ class fiscal_book_lines(orm.Model):
 
         'total_with_iva': fields.float('Total with IVA'),
         'vat_sdcf': fields.float('SDCF'),
-        'get_vat_exempt': fields.float('Exent'),
+        'vat_exempt': fields.float('Exent'),
         'get_vat_reduced_base': fields.function(_get_vat_amount,
                 type="float", method=True, store=True,
                 string="8% Base",

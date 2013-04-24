@@ -31,7 +31,7 @@ string="Invoice"
                     <field name='invoice_parent'/>
                     <field name='total_with_iva'/>
                     <field name='vat_sdcf'/>
-                    <field name='get_vat_exempt'/>
+                    <field name='vat_exempt'/>
                     <field name='fbt_ids'/>
                 </group>
             </form>
@@ -99,7 +99,7 @@ string="Invoice"
                                 <field name='partner_vat'/>
                                 <field name='total_with_iva'/>
                                 <field name='vat_sdcf'/>
-                                <field name='get_vat_exempt'/>
+                                <field name='vat_exempt'/>
                                 <field name='fbt_ids'/>
                             </tree>
                         </field>
@@ -253,7 +253,7 @@ string="Invoice"
                                 <field name='imex_date'/>
                                 <field name='total_with_iva'/>
                                 <field name='vat_sdcf'/>
-                                <field name='get_vat_exempt'/>
+                                <field name='vat_exempt'/>
                                 <field name='fbt_ids'/>
                             </tree>
                         </field>
