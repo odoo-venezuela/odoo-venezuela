@@ -217,7 +217,7 @@
             <td><para style="CONTENIDO"></para></td>
             <td><para style="CONTENIDO">[[ get_id(data['form'],wh.id) ]]</para></td>
             <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
-            <td><para style="CONTENIDO">[[ wh.get_t_doc ]]</para></td>
+            <td><para style="CONTENIDO">[[ wh.doc_type ]]</para></td>
             <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
             <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
             <td><para style="CONTENIDO"> (- - - - -) </para></td>
@@ -265,20 +265,20 @@
             <td vAlign="MIDDLE"></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.rank ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_date_invoiced and time.strftime('%d/%m/%Y',time.strptime(my_fbl.get_date_invoiced,'%Y-%m-%d')) ]]</para></td>
-            <td><para style="CONTENIDO">[[ my_fbl.get_t_doc ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_partner_vat ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDOLEFT">[[ my_fbl.get_partner_name ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_reference ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_number ]]</para></td>
+            <td><para style="CONTENIDO">[[ my_fbl.doc_type ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.partner_vat ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDOLEFT">[[ my_fbl.partner_name ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_number ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.ctrl_number ]]</para></td>
 
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_invoice_printer ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_fiscal_printer ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.invoice_printer ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.fiscal_printer ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_nro_inport_form ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_nro_inport_expe ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.get_papel_anulado ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_debit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_credit_affected ]]</para></td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.get_parent ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_id.void_form ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.debit_affected ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.credit_affected ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ my_fbl.invoice_parent ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDOINT">[[ formatLang(my_fbl.invoice_id.get_total) ]]</para></td>
 
 <!--
@@ -319,7 +319,7 @@ TODO: ASK: Why 'fbl_tax.ait_id.invoice_id.partner_id.vat_subjected' and not 'fbl
                 </blockTable>
                 </section>
             </td>
-            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_withheld) ]]</para></td>
+            <td vAlign="MIDDLE"><para style="CONTENIDO">[[ formatLang(my_fbl.get_wh_vat) ]]</para></td>
             <td vAlign="MIDDLE"><para style="CONTENIDO">[[ get_ret(my_fb,my_fbl) ]]</para></td>
         </tr>
         </blockTable>

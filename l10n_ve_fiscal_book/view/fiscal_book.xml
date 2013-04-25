@@ -1,253 +1,384 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="view_fiscal_book_lines_form" model="ir.ui.view">
-            <field name="name">fiscal.book.lines.form</field>
-            <field name="model">fiscal.book.lines</field>
-            <field name="arch" type="xml">
-                <form string="Fiscal Book Lines">
-                    <group colspan="2">
-                        <field name='rank'/>
-                        <field name='get_t_doc'/>
-                        <field name='get_doc'/>
-                        <field name='invoice_id'/>
-                        <field name='iwdl_id'/>
-                        <field name='get_number'/>
-                        <field name='get_accounting_date'/>
-                        <field name='get_emission_date'/>
-                        <field name='get_partner_name'/>
-                        <field name='get_partner_vat'/>
-                    </group>
-<!--
-    string="Invoice" 
--->
-                    <group colspan="2" attrs="{'invisible':[('get_t_doc', '!=', 'FACT')]}">
-                        <field name='get_imex_date'/>
-                        <field name='get_reference'/>
-                        <field name='get_debit_affected'/>
-                        <field name='get_credit_affected'/>
-                        <field name='get_parent'/>
-                        <field name='get_total_with_iva'/>
-                        <field name='get_vat_sdcf'/>
-                        <field name='get_vat_exempt'/>
-                        <field name='fbt_ids'/>
-                    </group>
-                </form>
-            </field>
-        </record>
 
-        <record id="view_fiscal_book_taxes_tree" model="ir.ui.view">
-            <field name="name">fiscal.book.taxes.tree</field>
-            <field name="model">fiscal.book.taxes</field>
-            <field name="arch" type="xml">
-                <tree string="Fiscal Taxes">
-                        <field name="name"/>
-                        <field name="base_amount"/>
-                        <field name="tax_amount"/>
-                </tree>
-            </field>
-        </record>
+<!-- Generic Views -->
 
-        <record id="view_fiscal_book_tree" model="ir.ui.view">
-            <field name="name">fiscal.book.tree</field>
-            <field name="model">fiscal.book</field>
-            <field name="arch" type="xml">
-                <tree string="Fiscal Book">
-                    <field name="name"/>
-                    <field name="period_id"/>
-                    <field name="company_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="view_fiscal_book_lines_tree" model="ir.ui.view">
-            <field name="name">fiscal.book.lines.tree</field>
-            <field name="model">fiscal.book.lines</field>
-            <field name="arch" type="xml">
-                <tree string="Fiscal Book Lines">
+    <record id="view_fiscal_book_lines_form" model="ir.ui.view">
+        <field name="name">fiscal.book.lines.form</field>
+        <field name="model">fiscal.book.lines</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Book Lines">
+                <group colspan="2">
                     <field name='rank'/>
-                    <field name='get_emission_date'/>
-                    <field name='get_accounting_date'/>
-                    <field name='get_t_doc'/>
-                    <field name='get_partner_vat'/>
-                    <field name='get_partner_name'/>
-                    <field name='get_reference'/>
-                    <field name='get_number'/>
-                    <field name='get_doc'/>
-                    <field name='get_debit_affected'/>
-                    <field name='get_credit_affected'/>
-                    <field name='get_parent'/>
-                    <field name='get_total_with_iva'/>
-                    <field name='get_vat_sdcf'/>
-                    <field name='get_vat_exempt'/>
+                    <field name='doc_type'/>
+                    <field name='invoice_id'/>
+                    <field name='iwdl_id'/>
+                    <field name='ctrl_number'/>
+                    <field name='accounting_date'/>
+                    <field name='emission_date'/>
+                    <field name='partner_name'/>
+                    <field name='partner_vat'/>
+                </group>
+<!--
+string="Invoice" 
+-->
+                <group colspan="2" attrs="{'invisible':[('doc_type', '!=', 'FACT')]}">
+                    <field name='imex_date'/>
+                    <field name='invoice_number'/>
+                    <field name='debit_affected'/>
+                    <field name='credit_affected'/>
+                    <field name='invoice_parent'/>
+                    <field name='total_with_iva'/>
+                    <field name='vat_sdcf'/>
+                    <field name='vat_exempt'/>
                     <field name='fbt_ids'/>
-                </tree>
-            </field>
-        </record>
+                </group>
+            </form>
+        </field>
+    </record>
 
-        <record id="view_fiscal_book_form" model="ir.ui.view">
-            <field name="name">fiscal.book.form</field>
-            <field name="model">fiscal.book</field>
-            <field name="arch" type="xml">
-                <form string="Fiscal Book" version="7.0">
-                    <header>
-                        <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
-                        <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
-                        <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
-                    </header>
-                    <group>
-                        <field name="name"/>
-                        <field name="type" readonly='1'/>
-                        <field name="period_id" on_change="onchange_period_id()"/>
-                        <field name="company_id" invisible='1'/>
-                    </group>
-                    <notebook colspan="8">
-                        <page string="Fiscal Book Lines">
-                            <label for="fbl_ids"/>
-                            <button name="button_update_book_lines" type="object" string="Update" />
-                            <button name="clear_book_lines" type="object" string="Clear"/>
-                            <field name="fbl_ids" nolabel="1" colspan='4' readonly="True"/>
-                        </page>
-                        <page string="Fiscal Book Invoices">
-                            <label for="invoice_ids"/>
-                            <button name="button_update_book_invoices" type="object" string="Update"/>
-                            <button name="clear_book_invoices" type="object" string="Clear"/>
-                            <field name="invoice_ids" colspan='4' readonly="True"/>
-                            <label for="issue_invoice_ids"/>
-                            <button name="button_update_book_issue_invoices" type="object" string="Update"/>
-                            <button name="clear_book_issue_invoices" type="object" string="Clear"/>
-                            <field name="issue_invoice_ids" colspan='4' readonly="True"/>
-                        </page>
-                        <page string="Fiscal Book Taxes">
-                            <field name="fbt_ids" colspan='4' readonly="True"/>
-                        </page>
-                        <page string="Fiscal Book Vat Withholdings">
-                            <label for="iwdl_ids"/>
-                            <button name="button_update_book_wh_iva_lines" type="object" string="Update"/>
-                            <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
-                            <field name="iwdl_ids" colspan='4' readonly="True"/>
-                        </page>
-                        <page string="Fiscal Book Adjustments">
-                            <field name="abl_ids" nolabel="1" colspan='4'/>
-                            <group col="4" colspan="4">
-                                <separator string="Explanation about this adjustment"/>
-                                <newline/>
-                                <field name="note" nolabel="1"/>
+    <record id="view_fiscal_book_taxes_tree" model="ir.ui.view">
+        <field name="name">fiscal.book.taxes.tree</field>
+        <field name="model">fiscal.book.taxes</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Taxes">
+                    <field name="name"/>
+                    <field name="base_amount"/>
+                    <field name="tax_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fiscal_book_tree" model="ir.ui.view">
+        <field name="name">fiscal.book.tree</field>
+        <field name="model">fiscal.book</field>
+        <field name="arch" type="xml">
+            <tree string="Fiscal Book">
+                <field name="name"/>
+                <field name="period_id"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+<!-- Sale Book -->
+
+    <record id="view_fiscal_sale_book_form" model="ir.ui.view">
+        <field name="name">fiscal.sale.book.form</field>
+        <field name="model">fiscal.book</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Sale Book" version="7.0">
+                <header>
+                    <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
+                    <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
+                    <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
+                </header>
+                <group>
+                    <field name="name"/>
+                    <field name="type" readonly='1'/>
+                    <field name="period_id" on_change="onchange_period_id()"/>
+                    <field name="company_id" invisible='1'/>
+                </group>
+                <notebook colspan="8">
+                    <page string="Fiscal Book Lines">
+                        <label for="fbl_ids"/>
+                        <button name="button_update_book_lines" type="object" string="Update" />
+                        <button name="clear_book_lines" type="object" string="Clear"/>
+                        <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
+                            <tree string="Fiscal Book Lines">
+                                <field name='rank'/>
+                                <field name='doc_type'/>
+                                <field name='emission_date'/>
+                                <field name='accounting_date'/>
+                                <field name='ctrl_number'/>
+                                <field name='invoice_number'/>
+                                <field name='invoice_parent'/>
+                                <field name='partner_name'/>
+                                <field name='partner_vat'/>
+                                <field name='total_with_iva'/>
+                                <field name='vat_sdcf'/>
+                                <field name='vat_exempt'/>
+                                <field name='fbt_ids'/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Fiscal Book Invoices">
+                        <label for="invoice_ids"/>
+                        <button name="button_update_book_invoices" type="object" string="Update"/>
+                        <button name="clear_book_invoices" type="object" string="Clear"/>
+                        <field name="invoice_ids" colspan='4' readonly="True"/>
+                        <label for="issue_invoice_ids"/>
+                        <button name="button_update_book_issue_invoices" type="object" string="Update"/>
+                        <button name="clear_book_issue_invoices" type="object" string="Clear"/>
+                        <field name="issue_invoice_ids" colspan='4' readonly="True"/>
+                    </page>
+                    <page string="Fiscal Book Taxes">
+                        <field name="fbt_ids" colspan='4' readonly="True"/>
+                    </page>
+                    <page string="Fiscal Book Vat Withholdings">
+                        <label for="iwdl_ids"/>
+                        <button name="button_update_book_wh_iva_lines" type="object" string="Update"/>
+                        <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
+                        <field name="iwdl_ids" colspan='4' readonly="True"/>
+                    </page>
+                    <page string="Fiscal Book Adjustments">
+                        <field name="abl_ids" nolabel="1" colspan='4'/>
+                        <group col="4" colspan="4">
+                            <separator string="Explanation about this adjustment"/>
+                            <newline/>
+                            <field name="note" nolabel="1"/>
+                        </group>
+                    </page>
+                    <page string="Summary">
+                        <field name="fbts_ids" readonly="1">
+                            <tree string="Summary">
+                                <field name="tax_type"/>
+                                <field name="base_amount_sum"/>
+                                <field name="tax_amount_sum"/>
+                                <field name="international"/>
+                            </tree>
+                        </field>
+
+                        <group colspan="4" col="2">
+                            <group colspan="2" col="2">
+                                <field name="get_vat_sdcf_sum" readonly="True"/>
+                                <field name="get_total_with_iva_sum" readonly="True"/>
                             </group>
-                        </page>
-                        <page string="Summary">
-                            <field name="fbts_ids" readonly="1">
-                                <tree string="Summary">
-                                    <field name="tax_type"/>
-                                    <field name="base_amount_sum"/>
-                                    <field name="tax_amount_sum"/>
-                                    <field name="international"/>
-                                </tree>
-                            </field>
-
-                            <group colspan="4" col="2">
-                                <group colspan="2" col="2">
-                                    <field name="get_vat_sdcf_sum" readonly="True"/>
-                                    <field name="get_total_with_iva_sum" readonly="True"/>
-                                </group>
-                                <group colspan="1" col="2" string="Importaciones">
-                                    <field name="get_total_with_iva_i_sum" readonly="True"/>
-                                    <field name="get_vat_all_i_base_sum" readonly="True"/>
-                                    <field name="get_vat_exempt_i_sum" readonly="True"/>
-                                    <field name="get_vat_sdcf_i_sum" readonly="True"/>
-                                    <field name="get_vat_general_i_base_sum" readonly="True"/>
-                                    <field name="get_vat_general_i_tax_sum" readonly="True"/>
-                                    <field name="get_vat_additional_i_base_sum" readonly="True"/>
-                                    <field name="get_vat_additional_i_tax_sum" readonly="True"/>
-                                    <field name="get_vat_reduced_i_base_sum" readonly="True"/>
-                                    <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
-                                </group>
-                                <group colspan="1" col="2" string="Compras Internas">
-                                    <field name="get_total_with_iva_n_sum" readonly="True"/>
-                                    <field name="get_vat_all_n_base_sum" readonly="True"/>
-                                    <field name="get_vat_exempt_n_sum" readonly="True"/>
-                                    <field name="get_vat_sdcf_n_sum" readonly="True"/>
-                                    <field name="get_vat_general_n_base_sum" readonly="True"/>
-                                    <field name="get_vat_general_n_tax_sum" readonly="True"/>
-                                    <field name="get_vat_additional_n_base_sum" readonly="True"/>
-                                    <field name="get_vat_additional_n_tax_sum" readonly="True"/>
-                                    <field name="get_vat_reduced_n_base_sum" readonly="True"/>
-                                    <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
-                                </group>
+                            <group colspan="1" col="2" string="Exportaciones">
+                                <field name="get_total_with_iva_i_sum" readonly="True"/>
+                                <field name="get_vat_all_i_base_sum" readonly="True"/>
+                                <field name="get_vat_exempt_i_sum" readonly="True"/>
+                                <field name="get_vat_sdcf_i_sum" readonly="True"/>
+                                <field name="get_vat_general_i_base_sum" readonly="True"/>
+                                <field name="get_vat_general_i_tax_sum" readonly="True"/>
+                                <field name="get_vat_additional_i_base_sum" readonly="True"/>
+                                <field name="get_vat_additional_i_tax_sum" readonly="True"/>
+                                <field name="get_vat_reduced_i_base_sum" readonly="True"/>
+                                <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
                             </group>
+                            <group colspan="1" col="2" string="Mercado Interno">
+                                <field name="get_total_with_iva_n_sum" readonly="True"/>
+                                <field name="get_vat_all_n_base_sum" readonly="True"/>
+                                <field name="get_vat_exempt_n_sum" readonly="True"/>
+                                <field name="get_vat_sdcf_n_sum" readonly="True"/>
+                                <field name="get_vat_general_n_base_sum" readonly="True"/>
+                                <field name="get_vat_general_n_tax_sum" readonly="True"/>
+                                <field name="get_vat_additional_n_base_sum" readonly="True"/>
+                                <field name="get_vat_additional_n_tax_sum" readonly="True"/>
+                                <field name="get_vat_reduced_n_base_sum" readonly="True"/>
+                                <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
+                            </group>
+                        </group>
 
-                        </page>
-                    </notebook>
-                    <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
-                        <field name="base_amount"/>
-                        <field name="tax_amount"/>
-                    </group>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
-            </field>
-        </record>
+                    </page>
+                </notebook>
+                <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
+                    <field name="base_amount"/>
+                    <field name="tax_amount"/>
+                </group>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
 
-      <record model="ir.actions.act_window" id="action_fiscal_sale_book">
-            <field name="name">Fiscal Sale Book</field>
-            <field name="res_model">fiscal.book</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{'type':'sale'}</field>
-            <field name="domain">[('type','=','sale')]</field>
-        </record>
-        
-        <record model="ir.actions.act_window.view" id="action_fiscal_sale_book_tree">
-            <field name="sequence" eval="10"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_fiscal_book_tree"/> 
-            <field name="act_window_id" ref="action_fiscal_sale_book"/>
-        </record>
+    <record model="ir.actions.act_window" id="action_fiscal_sale_book">
+        <field name="name">Fiscal Sale Book</field>
+        <field name="res_model">fiscal.book</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'type':'sale'}</field>
+        <field name="domain">[('type','=','sale')]</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="action_fiscal_sale_book_form">
-            <field name="sequence" eval="20"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_fiscal_book_form"/>
-            <field name="act_window_id" ref="action_fiscal_sale_book"/>
-        </record>
-        
-        <menuitem name="Fiscal Sale Book" 
-            id="menu_fiscal_sale_book" 
-            parent="menu_fr_main"
-            action="action_fiscal_sale_book"/>
+    <record model="ir.actions.act_window.view" id="action_fiscal_sale_book_tree">
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_fiscal_book_tree"/> 
+        <field name="act_window_id" ref="action_fiscal_sale_book"/>
+    </record>
 
-      <record model="ir.actions.act_window" id="action_fiscal_purchase_book">
-            <field name="name">Fiscal Purchase Book</field>
-            <field name="res_model">fiscal.book</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{'type':'purchase'}</field>
-            <field name="domain">[('type','=','purchase')]</field>
-        </record>
-        
-        <record model="ir.actions.act_window.view" id="action_fiscal_purchase_book_tree">
-            <field name="sequence" eval="10"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_fiscal_book_tree"/> 
-            <field name="act_window_id" ref="action_fiscal_purchase_book"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="action_fiscal_sale_book_form">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_fiscal_sale_book_form"/>
+        <field name="act_window_id" ref="action_fiscal_sale_book"/>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="action_fiscal_purchase_book_form">
-            <field name="sequence" eval="20"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_fiscal_book_form"/>
-            <field name="act_window_id" ref="action_fiscal_purchase_book"/>
-        </record>
-        
-        <menuitem name="Fiscal Purchase Book" 
-            id="menu_fiscal_purchase_book" 
-            parent="menu_fr_main"
-            action="action_fiscal_purchase_book"/>
+    <menuitem name="Fiscal Sale Book" 
+        id="menu_fiscal_sale_book" 
+        parent="menu_fr_main"
+        action="action_fiscal_sale_book"/>
+
+<!-- Pruchase Book -->
+
+    <record id="view_fiscal_purchase_book_form" model="ir.ui.view">
+        <field name="name">fiscal.purchase.book.form</field>
+        <field name="model">fiscal.book</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Purchase Book" version="7.0">
+                <header>
+                    <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
+                    <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
+                    <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
+                </header>
+                <group>
+                    <field name="name"/>
+                    <field name="type" readonly='1'/>
+                    <field name="period_id" on_change="onchange_period_id()"/>
+                    <field name="company_id" invisible='1'/>
+                </group>
+                <notebook colspan="8">
+                    <page string="Fiscal Book Lines">
+                        <label for="fbl_ids"/>
+                        <button name="button_update_book_lines" type="object" string="Update" />
+                        <button name="clear_book_lines" type="object" string="Clear"/>
+                        <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
+                            <tree string="Fiscal Book Lines">
+                                <field name='rank'/>
+                                <field name='doc_type'/>
+                                <field name='emission_date'/>
+                                <field name='ctrl_number'/>
+                                <field name='invoice_number'/>
+                                <field name='invoice_parent'/>
+                                <field name='partner_name'/>
+                                <field name='partner_vat'/>
+                                <field name='imex_date'/>
+                                <field name='custom_statement'/>
+                                <field name='total_with_iva'/>
+                                <field name='vat_sdcf'/>
+                                <field name='vat_exempt'/>
+                                <field name='fbt_ids'/>
+                                <field name="vat_general_base"/>
+                                <field name="vat_general_tax"/>
+                                <field name="vat_reduced_base"/>
+                                <field name="vat_reduced_tax"/>
+                                <field name="vat_additional_base"/>
+                                <field name="vat_additional_tax"/>
+                                <field name="affected_invoice_date"/>
+                                <field name="wh_number"/>
+                                <field name="get_wh_debit_credit"/>
+                                <field name="wh_rate"/>
+                                <field name="get_wh_vat"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Fiscal Book Invoices">
+                        <label for="invoice_ids"/>
+                        <button name="button_update_book_invoices" type="object" string="Update"/>
+                        <button name="clear_book_invoices" type="object" string="Clear"/>
+                        <field name="invoice_ids" colspan='4' readonly="True"/>
+                        <label for="issue_invoice_ids"/>
+                        <button name="button_update_book_issue_invoices" type="object" string="Update"/>
+                        <button name="clear_book_issue_invoices" type="object" string="Clear"/>
+                        <field name="issue_invoice_ids" colspan='4' readonly="True"/>
+                    </page>
+                    <page string="Fiscal Book Taxes">
+                        <field name="fbt_ids" colspan='4' readonly="True"/>
+                    </page>
+                    <page string="Fiscal Book Vat Withholdings">
+                        <label for="iwdl_ids"/>
+                        <button name="button_update_book_wh_iva_lines" type="object" string="Update"/>
+                        <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
+                        <field name="iwdl_ids" colspan='4' readonly="True"/>
+                    </page>
+                    <page string="Fiscal Book Adjustments">
+                        <field name="abl_ids" nolabel="1" colspan='4'/>
+                        <group col="4" colspan="4">
+                            <separator string="Explanation about this adjustment"/>
+                            <newline/>
+                            <field name="note" nolabel="1"/>
+                        </group>
+                    </page>
+                    <page string="Summary">
+                        <field name="fbts_ids" readonly="1">
+                            <tree string="Summary">
+                                <field name="tax_type"/>
+                                <field name="base_amount_sum"/>
+                                <field name="tax_amount_sum"/>
+                                <field name="international"/>
+                            </tree>
+                        </field>
+
+                        <group colspan="4" col="2">
+                            <group colspan="2" col="2">
+                                <field name="get_vat_sdcf_sum" readonly="True"/>
+                                <field name="get_total_with_iva_sum" readonly="True"/>
+                            </group>
+                            <group colspan="1" col="2" string="Importaciones">
+                                <field name="get_total_with_iva_i_sum" readonly="True"/>
+                                <field name="get_vat_all_i_base_sum" readonly="True"/>
+                                <field name="get_vat_exempt_i_sum" readonly="True"/>
+                                <field name="get_vat_sdcf_i_sum" readonly="True"/>
+                                <field name="get_vat_general_i_base_sum" readonly="True"/>
+                                <field name="get_vat_general_i_tax_sum" readonly="True"/>
+                                <field name="get_vat_additional_i_base_sum" readonly="True"/>
+                                <field name="get_vat_additional_i_tax_sum" readonly="True"/>
+                                <field name="get_vat_reduced_i_base_sum" readonly="True"/>
+                                <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
+                            </group>
+                            <group colspan="1" col="2" string="Compras Internas">
+                                <field name="get_total_with_iva_n_sum" readonly="True"/>
+                                <field name="get_vat_all_n_base_sum" readonly="True"/>
+                                <field name="get_vat_exempt_n_sum" readonly="True"/>
+                                <field name="get_vat_sdcf_n_sum" readonly="True"/>
+                                <field name="get_vat_general_n_base_sum" readonly="True"/>
+                                <field name="get_vat_general_n_tax_sum" readonly="True"/>
+                                <field name="get_vat_additional_n_base_sum" readonly="True"/>
+                                <field name="get_vat_additional_n_tax_sum" readonly="True"/>
+                                <field name="get_vat_reduced_n_base_sum" readonly="True"/>
+                                <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
+                            </group>
+                        </group>
+
+                    </page>
+                </notebook>
+                <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
+                    <field name="base_amount"/>
+                    <field name="tax_amount"/>
+                </group>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_fiscal_purchase_book">
+        <field name="name">Fiscal Purchase Book</field>
+        <field name="res_model">fiscal.book</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'type':'purchase'}</field>
+        <field name="domain">[('type','=','purchase')]</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_fiscal_purchase_book_tree">
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_fiscal_book_tree"/> 
+        <field name="act_window_id" ref="action_fiscal_purchase_book"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_fiscal_purchase_book_form">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_fiscal_purchase_book_form"/>
+        <field name="act_window_id" ref="action_fiscal_purchase_book"/>
+    </record>
+
+    <menuitem name="Fiscal Purchase Book" 
+        id="menu_fiscal_purchase_book" 
+        parent="menu_fr_main"
+        action="action_fiscal_purchase_book"/>
 
     </data>
 </openerp>
