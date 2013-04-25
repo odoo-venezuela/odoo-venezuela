@@ -16,8 +16,10 @@ form_86_config
 						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
 -->
                     </header>
+                     <group col="4" colspan="4">
                     <field name="company_id"/>
                     <field name="journal_id"/>
+                    </group>
 				</form>
 			</field>
 		</record>
@@ -49,8 +51,10 @@ form_86_customs
 						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
 -->
                     </header>
+                    <group col="4" colspan="4">
                     <field name="code"/>
                     <field name="name"/>
+                    </group>
 				</form>
 			</field>
 		</record>

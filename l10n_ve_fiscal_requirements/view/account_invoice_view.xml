@@ -48,7 +48,7 @@
                         <field name="fiscal_printer" attrs="{'required':[('loc_req','=',True)]}"/>
                         
                         <field name="parent_id" 
-                               attrs="{'required':[('type','=','out_refund')]}" 
+                               attrs="{'invisible':[('parent_id','=',False)]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field  name="nro_ctrl" />
                         <button name="%(action_wiz_nroctrl)d" 
@@ -103,7 +103,7 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="parent_id"/>
+                    <field name="parent_id" />
                 </xpath>
             </field>
         </record>
@@ -139,7 +139,7 @@
                         <field name="sin_cred" />
                         <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="parent_id" 
-                               attrs="{'required':[('type','=','out_refund')]}" 
+                               attrs="{'invisible':[('parent_id','=',False)]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field   name="nro_ctrl" required="1"/>
                         <button  name="%(action_wiz_nroctrl)d" 
