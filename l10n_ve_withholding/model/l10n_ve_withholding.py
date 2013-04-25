@@ -27,7 +27,7 @@ from openerp.osv import fields, osv
 
 
 class account_wh_doc(osv.osv):
-    _description = 'With holding document'
+    _description = 'Withholding document'
     _name = 'account.wh.doc'
     _columns = {
         'model_parent': fields.char('Parent Object', size=64, required=True, select=1, help="parent for relationship between withholding"),

@@ -88,6 +88,7 @@ We now have a configuration wizard after this module install.
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
+        'demo/journal_demo.xml',
     ],
     'test': [
         'test/control_number.yml',

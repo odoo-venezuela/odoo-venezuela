@@ -26,19 +26,27 @@
                     </group>
                     <newline/>
                 </xpath>
+                
                 <xpath expr="//page[@string='Payments']" position="after">
-                    <page string="Debit-Credit Notes">
+                    <page string="Debit-Credit Notes" attrs="{'invisible':['|','|',('type','=','in_refund'),('type','=','out_refund'),('parent_id','!=',False)]}">
                         <newline/>
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                     </page>
                 </xpath>
+                
                 <xpath expr="//page[@string='Other Info']/group/group[2]" position="after">
                       
                     <group colspan="2" >
                      <separator colspan="6" string="Fiscal Information"/>
                         <field name="sin_cred" />
-                        <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                        <!--
+                             <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
+                        -->
+                        <field name="loc_req" invisible="1"/>
+                        <field name="invoice_printer" attrs="{'required':[('loc_req','=',True)]}"/>
+                        <field name="fiscal_printer" attrs="{'required':[('loc_req','=',True)]}"/>
+                        
                         <field name="parent_id" 
                                attrs="{'required':[('type','=','out_refund')]}" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
@@ -152,15 +160,16 @@
                     <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
                 </xpath>
 -->
-
+                
                 <xpath expr="//page[@string='Payments']" position="after">
-                    <page string="Debit-Credit Notes">
+                    <page string="Debit-Credit Notes" attrs="{'invisible':['|','|',('type','=','in_refund'),('type','=','out_refund'),('parent_id','!=',False)]}">
                         <field name="child_ids" 
                                nolabel="1" 
                                widget="many2many" 
                                domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
                     </page>
                 </xpath>
+                
                 <xpath expr="//button[@string='Refund Invoice']" position="after">
                     <button name="%(action_account_invoice_debit)d" 
                             type='action' 
