@@ -128,7 +128,7 @@ class account_invoice_refund(osv.osv_memory):
         """ 
         @param ids: the account invoice refund’s ID or list of IDs
         """
-        wzd_brw = self.browse(cr,uid,ids[0],context=context)_
+        wzd_brw = self.browse(cr,uid,ids[0],context=context)
         brw = self.browse(cr,uid,ids[0],context=context)
         inv_obj = self.pool.get('account.invoice')
         reconcile_obj = self.pool.get('account.move.reconcile')
