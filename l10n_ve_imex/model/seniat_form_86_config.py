@@ -25,39 +25,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-#~ from datetime import datetime
-from openerp.osv import fields,osv
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 import openerp.pooler
-#~ import openerp.addons.decimal_precision as dp 
-#~ import time
-#~ import netsvc
 
-
-##---------------------------------------------------------------------------------------- seniat_form_86_config
 
 class form_86_config(osv.osv):
     '''
     Stores common config parameters for form_86 data
     '''
-    
+
     _name = 'form.86.config'
-
     _description = ''
-
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ _internal methods
-
-    ##------------------------------------------------------------------------------------ function fields
+    _rec_name = "company_id"
 
     _columns = {
         'company_id':fields.many2one('res.company','Company', required=True, readonly=True, ondelete='restrict'),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, ondelete='restrict'),  
         }
-        
-    _rec_name = "company_id"
-        
 
     _defaults = {
         'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'form.86.config',context=c),
@@ -67,23 +52,8 @@ class form_86_config(osv.osv):
         ('company_id_uniq', 'UNIQUE(company_id)', 'The company must be unique!'),
         ]
 
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-
-    ##------------------------------------------------------------------------------------ buttons (object)
-
-    ##------------------------------------------------------------------------------------ on_change...
-
-    ##------------------------------------------------------------------------------------ create write unlink
-
-    ##------------------------------------------------------------------------------------ Workflow
-
 form_86_config()
 
-
-
-##---------------------------------------------------------------------------------------- form_86_customs
 
 class form_86_customs(osv.osv):
     '''
@@ -91,10 +61,7 @@ class form_86_customs(osv.osv):
     '''
 
     _name = 'form.86.customs'
-
     _description = ''
-
-    ##------------------------------------------------------------------------------------
     
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
@@ -104,8 +71,7 @@ class form_86_customs(osv.osv):
         for item in so_brw:
             res.append((item.id, '[%s] %s'%(item.code, item.name)))
         return res
-        
-        
+
     def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
         #~ Based on account.account.name_search...
         res =  super(form_86_customs, self).name_search(cr, user, name, args, operator, context, limit)    
@@ -114,10 +80,6 @@ class form_86_customs(osv.osv):
             if ids:
                 res = self.name_get(cr, user, ids, context=context)
         return res
-
-    ##------------------------------------------------------------------------------------ _internal methods
-
-    ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
         'code': fields.char('Code', size=16, required=True, readonly=False),   
@@ -131,23 +93,8 @@ class form_86_customs(osv.osv):
         ('code_uniq', 'UNIQUE(code)', 'The code must be unique!'),
         ]
 
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-
-    ##------------------------------------------------------------------------------------ buttons (object)
-
-    ##------------------------------------------------------------------------------------ on_change...
-
-    ##------------------------------------------------------------------------------------ create write unlink
-
-    ##------------------------------------------------------------------------------------ Workflow
-
 form_86_customs()
 
-
-
-##---------------------------------------------------------------------------------------- form_86_custom_taxes
 
 class form_86_custom_taxes(osv.osv):
     '''
@@ -155,14 +102,9 @@ class form_86_custom_taxes(osv.osv):
     '''
 
     _name = 'form.86.custom.taxes'
-
     _description = ''
-    
     _order = 'sequence'
 
-
-    ##------------------------------------------------------------------------------------
-   
     def name_get(self,cr, uid, ids, context):
         if not len(ids):
             return []
@@ -171,10 +113,6 @@ class form_86_custom_taxes(osv.osv):
         for item in so_brw:
             res.append((item.id, '[%s] %s - %s'%(item.code,item.ref,item.name)))
         return res
-        
-    ##------------------------------------------------------------------------------------ _internal methods
-
-    ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
         'code': fields.char('Code', size=16, required=True, readonly=False),   
@@ -196,18 +134,6 @@ class form_86_custom_taxes(osv.osv):
         ('code_uniq', 'UNIQUE(code,company_id)', 'The code must be unique! (for this comany)'),
         ('sequence_uniq', 'UNIQUE(sequence,company_id)', 'The sequence must be unique! (for this comany)'),
         ]
-
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-
-    ##------------------------------------------------------------------------------------ buttons (object)
-
-    ##------------------------------------------------------------------------------------ on_change...
-
-    ##------------------------------------------------------------------------------------ create write unlink
-
-    ##------------------------------------------------------------------------------------ Workflow
 
 form_86_custom_taxes()
 

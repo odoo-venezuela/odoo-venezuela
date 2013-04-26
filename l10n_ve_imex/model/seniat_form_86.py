@@ -24,25 +24,17 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-#~ from datetime import datetime
-from openerp.osv import fields,osv
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 import openerp.pooler
 import openerp.addons.decimal_precision as dp
 import time
-#~ import netsvc
-
-
-##---------------------------------------------------------------------------------------- seniat_form_86
 
 class seniat_form_86(osv.osv):
 
     _name = 'seniat.form.86'
-
     _description = ''
 
-    ##------------------------------------------------------------------------------------
-    
     def name_get(self,cr, uid, ids, context):
         if not len(ids):
             return []
@@ -52,8 +44,6 @@ class seniat_form_86(osv.osv):
             res.append((item.id, 'F86 # %s - %s'%(item.name,item.ref or '')))
         return res
 
-    ##------------------------------------------------------------------------------------ _internal methods
-    
     def _amount_total(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for f86 in self.browse(cr, uid, ids, context=context):
@@ -62,8 +52,7 @@ class seniat_form_86(osv.osv):
                 amount_total += line.amount
             res[f86.id] = amount_total
         return res
-        
-        
+
     def _default_line_ids(self, cr, uid, context=None):
         """ 
         Gets default line_ids from form_86_custom_taxes
@@ -75,8 +64,7 @@ class seniat_form_86(osv.osv):
             vat = obj_ct.browse(cr,uid,id,context=context)
             res.append({'tax_code':id,'amount':0.0,'vat_detail':vat.vat_detail})
         return res
-        
-        
+
     def _gen_account_move_line(self, company_id, account_id, partner_id, name, debit, credit):
         return (0,0,{
                 'auto' : True,
@@ -88,9 +76,6 @@ class seniat_form_86(osv.osv):
                 'credit': credit,
                 'reconcile':False,
                 })        
-
-
-    ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
         'name': fields.char('Form #', size=16, required=True, readonly=True, states={'draft':[('readonly',False)]}),
@@ -122,10 +107,6 @@ class seniat_form_86(osv.osv):
         ('name_uniq', 'UNIQUE(name)', 'The form # must be unique!'),      
         ]
 
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-    
     def create_account_move_lines(self, cr, uid, f86, context=None):
         """
         Creates the account.move.lines from line_ids detail except for taxes with "vat_detail", 
@@ -155,8 +136,7 @@ class seniat_form_86(osv.osv):
         
         lines.reverse() ## set real order ;-)
         return lines
-                
-        
+
     def create_account_move(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -199,29 +179,18 @@ class seniat_form_86(osv.osv):
                     self.write(cr, uid, f86.id, {'move_id':move_id},context)
         return move_ids        
 
-    ##------------------------------------------------------------------------------------ buttons (object)
-    
-    ##------------------------------------------------------------------------------------ on_change...
-
-    ##------------------------------------------------------------------------------------ create write unlink
-
-    ##------------------------------------------------------------------------------------ Workflow
-    
     def button_draft(self, cr, uid, ids, context=None):
         vals={'state':'draft'}
         return self.write(cr,uid,ids,vals,context)
-
 
     def button_open(self, cr, uid, ids, context=None):
         self.create_account_move(cr, uid, ids, context)
         vals={'state':'open'}
         return self.write(cr,uid,ids,vals,context)
 
-
     def button_done(self, cr, uid, ids, context=None):
         vals={'state':'done'}
         return self.write(cr,uid,ids,vals,context)
-
 
     def button_cancel(self, cr, uid, ids, context=None):
         f86 = self.browse(cr,uid,ids[0],context=context)
@@ -232,10 +201,8 @@ class seniat_form_86(osv.osv):
             self.pool.get('account.move').unlink(cr,uid,[f86_move_id],context)
         return self.write(cr,uid,ids,vals,context)
 
-
     def test_draft(self, cr, uid, ids, *args):
         return True
-
 
     def test_open(self, cr, uid, ids, *args):
         so_brw = self.browse(cr,uid,ids,context={})
@@ -259,10 +226,8 @@ class seniat_form_86(osv.osv):
                 raise osv.except_osv(_('Warning!'),_('Not all invoices related to the import spreadsheet correspond to invoices relating to VAT')) 
         return True
 
-
     def test_done(self, cr, uid, ids, *args):
         return True
-
 
     def test_cancel(self, cr, uid, ids, *args):
         if len(ids) != 1:
@@ -277,25 +242,13 @@ class seniat_form_86(osv.osv):
                     raise osv.except_osv(_('Error!'),_('Can\'t cancel a import while invoice state <> "Draft" ([%s] %s, %s)')%inv.name,inv.partner_id.name,inv.reference)
         return True
 
-
 seniat_form_86()
 
-
-
-##---------------------------------------------------------------------------------------- seniat_form_86
 
 class seniat_form_86_lines(osv.osv):
 
     _name = 'seniat.form.86.lines'
-
-    _description = ''
-
-    ##------------------------------------------------------------------------------------
-    
-    ##------------------------------------------------------------------------------------ _internal methods
-    
-    ##------------------------------------------------------------------------------------ function fields
-    
+    _description = ''    
     _rec_name = 'tax_code'
 
     _columns = {
@@ -313,18 +266,6 @@ class seniat_form_86_lines(osv.osv):
         ('code_uniq', 'UNIQUE(line_id,tax_code)', 'The code must be unique! (for this form)'),
         ]
 
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-
-    ##------------------------------------------------------------------------------------ buttons (object)
-    
-    ##------------------------------------------------------------------------------------ on_change...
-
-    ##------------------------------------------------------------------------------------ create write unlink
-    
-    ##------------------------------------------------------------------------------------ Workflow
-
 seniat_form_86_lines()
 
 
@@ -333,15 +274,7 @@ seniat_form_86_lines()
 class seniat_form_86_lines_vat(osv.osv):
 
     _name = 'seniat.form_86.lines.vat'
-
     _description = ''
-
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ _internal methods
-
-    ##------------------------------------------------------------------------------------ function fields
-    
     _rec_name = 'reference'
 
     _columns = {
@@ -361,14 +294,6 @@ class seniat_form_86_lines_vat(osv.osv):
         ('base_amount_gt_zero', 'CHECK (base_amount>0)', 'The base amount must be > 0!'),
         ('tax_amount_zero', 'CHECK (tax_amount>=0)', 'The tax amount must be >= 0!'),
         ]
-
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-
-    ##------------------------------------------------------------------------------------ buttons (object)
-
-    ##------------------------------------------------------------------------------------ on_change...
     
     """
     def on_change_line_vat_id(self, cr, uid, ids, line_vat_id):
@@ -406,9 +331,5 @@ class seniat_form_86_lines_vat(osv.osv):
             inv = obj_inv.browse(cr,uid,invoice_id)
             res = {'value':{'partner_id':inv.partner_id.id,'reference':inv.reference}}
         return res
-
-    ##------------------------------------------------------------------------------------ create write unlink
-
-    ##------------------------------------------------------------------------------------ Workflow
 
 seniat_form_86_lines_vat()
