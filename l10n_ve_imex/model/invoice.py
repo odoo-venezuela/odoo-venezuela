@@ -1,31 +1,37 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
-#    Company: Tecvemar, c.a.
-#    Author: Juan V. Márquez L.
-#    Creation Date: 10/04/2012
-#    Version: 0.0.0.0
+###############################################################################
+#    Module Writen to OpenERP, Open Source Management Solution
+#    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
+#    All Rights Reserved
+############# Credits #########################################################
+#    Coded by:  Juan Marzquez (Tecvemar, c.a.) <jmarquez@tecvemar.com.ve>
+#               Katherine Zaoral               <katherine.zaoral@vauxoo.com>
+#    Planified by:
+#                Juan Marquez                  <jmarquez@tecvemar.com.ve>
+#                Humberto Arocha               <hbto@vauxoo.com>
+#    Audited by: Humberto Arocha               <hbto@vauxoo.com>
+###############################################################################
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
-#    Description:
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
 #
-#
-##############################################################################
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 from openerp.osv import osv
 from openerp.osv import fields
 
 
-##---------------------------------------------------------------------------------------- inherited_invoice
-
 class inherited_invoice(osv.osv):
 
     _inherit = "account.invoice"
-
-
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ _internal methods
-
-    ##------------------------------------------------------------------------------------ function fields
 
     _columns = {
         'customs_form_id':fields.many2one('seniat.form.86', 'Import file number', change_default=True, required=False, readonly=True, 
@@ -33,14 +39,6 @@ class inherited_invoice(osv.osv):
                              domain = [('state','=',('draft'))], help="The related form 86 for this import invoice (only draft)"), 
         }
 
-    ##------------------------------------------------------------------------------------
-
-    ##------------------------------------------------------------------------------------ public methods
-
-    ##------------------------------------------------------------------------------------ buttons (object)
-
-    ##------------------------------------------------------------------------------------ on_change...
-    
     def on_change_customs_form_id(self, cr, uid, ids, customs_form_id):
         res = {}
         if customs_form_id:
@@ -48,10 +46,6 @@ class inherited_invoice(osv.osv):
             res = {'value':{'num_import_form':imp.name,'import_invo':imp.date_liq}}
         return res
 
-    ##------------------------------------------------------------------------------------ create write unlink
-
-    ##------------------------------------------------------------------------------------ Workflow
-    
     def test_open(self, cr, uid, ids, *args):
         so_brw = self.browse(cr,uid,ids,context={})
         for item in so_brw:
