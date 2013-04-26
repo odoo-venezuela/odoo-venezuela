@@ -77,12 +77,12 @@ class account_invoice(osv.osv):
         @param uid: Integer value of the user
         """
         context = context or {}
-        res = False
+        res = True
         rc_obj = self.pool.get('res.company')
         rc_brw = rc_obj.browse(cr, uid, uid, context=context)
         
         if rc_brw.country_id and rc_brw.country_id.code == 'VE' and rc_brw.printer_fiscal:
-            res = True
+            res = False
         return res
 
     _inherit = 'account.invoice'
