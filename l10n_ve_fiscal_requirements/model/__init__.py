@@ -22,11 +22,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import account 
-import invoice
-import partner
-import res_users
 import res_company
+import account 
+import partner
+import invoice
+import res_users
 import seniat_url
 import l10n_ut
 import account_tax
