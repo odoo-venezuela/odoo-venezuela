@@ -11,13 +11,12 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Withholdings']" position="after">
-                    <page string="Local Withholdings">
+                <xpath expr="//page[@string='Withholdings']" position="inside">
+                    <separator string='Social Responsability Commitment Withholding'/> 
                         <group col="4" colspan="2">
                                 <field name="wh_src_agent"/>
                                 <field name="wh_src_rate"/>
                         </group>
-                    </page>
                 </xpath>
             </field>
         </record>

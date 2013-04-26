@@ -109,7 +109,10 @@ class islr_wh_doc(osv.osv):
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
         'amount_total_ret': fields.function(_get_amount_total, method=True, string='Amount Total', type='float', digits_compute=dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line', 'islr_wh_doc_id', 'Income Withholding Concept', readonly=True, states={'draft': [('readonly', False)]}, help='concept of income withholding'),
-        'invoice_ids': fields.one2many('islr.wh.doc.invoices', 'islr_wh_doc_id', 'Withheld Invoices', help='invoices to be withheld'),
+        'invoice_ids': fields.one2many('islr.wh.doc.invoices',
+            'islr_wh_doc_id', 'Withheld Invoices', readonly=True,
+            states={'draft': [('readonly', False)]}, help='invoices to be\
+            withheld'),
         'islr_wh_doc_id': fields.one2many('account.invoice', 'islr_wh_doc_id', 'Invoices', states={'draft': [('readonly', False)]}, help='refers to document income withholding tax generated in the bill'),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft': [('readonly', False)]}, help="Vendor user"),
         'automatic_income_wh': fields.boolean('Automatic Income Withhold',
@@ -138,7 +141,14 @@ class islr_wh_doc(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj = self.browse(cr, uid, ids[0], context=context)
         res = {}
+        #Checks for available invoices to Withhold
+        if not obj.invoice_ids:
+            raise osv.except_osv(_('Missing Invoices!!!'),
+                _('You need to Add Invoices to Withhold Income Taxes!!!'))
+
         for wh_line in obj.invoice_ids:
+            #Checks for xml_id elements when withholding to supplier 
+            #Otherwise just checks for withholding concepts if any
             if not (wh_line.islr_xml_id or wh_line.iwdl_ids):
                 res[wh_line.id] = (wh_line.invoice_id.name,
                                    wh_line.invoice_id.number, wh_line.invoice_id.reference)
@@ -177,6 +187,15 @@ class islr_wh_doc(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
+
+        #~ Searching & Unlinking for concept lines from the current withholding
+        iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
+                context=context)
+        print 'iwdl_ids ', iwdl_ids 
+        if iwdl_ids:
+            iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
+
         iwd_brw = self.browse(cr, uid, ids[0], context=context)
         for iwdi_brw in iwd_brw.invoice_ids:
             iwdi_obj.load_taxes(cr, uid, iwdi_brw.id, context=context)
@@ -185,6 +204,7 @@ class islr_wh_doc(osv.osv):
     def validate(self, cr, uid, ids, *args):
         if args[0] in ['in_invoice', 'in_refund'] and args[1] and args[2]:
             return True
+        return False
 
     def action_done(self, cr, uid, ids, context=None):
         """ Call the functions in charge of preparing the document 
@@ -400,7 +420,7 @@ class islr_wh_doc(osv.osv):
         doc_brw = None
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
-        OBcontext.update({'income_wh': True,
+        context.update({'income_wh': True,
                           'company_id': ret.company_id.id})
         acc_id = ret.account_id.id
         if not ret.date_uid:
@@ -767,10 +787,11 @@ class islr_wh_doc_invoices(osv.osv):
                                            'invoice_id': ret_line.invoice_id.id,
                                            'retencion_islr': wh_perc[concept_id],
                                            'xml_ids': [(6, 0, xmls[concept_id])],
+                                           'iwdi_id': ret_line.id,
                                            }, context=context)
                 self._get_wh(cr, uid, iwdl_id, concept_id, context=context)
         else:
-            #~ Searching & Unlinking for concept lines from the current invoice
+            #~ Searching & Unlinking for concept lines from the current withholding
             iwdl_ids = iwdl_obj.search(
                 cr, uid, [('iwdi_id', '=', ret_line.id)],
                 context=context)
@@ -898,6 +919,29 @@ class islr_wh_doc_invoices(osv.osv):
             'concept_code': rate_code,  # La consigo tambien pero desde el rate
         }
 
+    def unlink(self, cr, uid, ids, context=None):
+        """
+        Delete records with given ids but previously unassign the invoice
+        that were related to the withholding document.
+
+        :param cr: database cursor
+        :param uid: current user id
+        :param ids: id or list of ids
+        :param context: (optional) context arguments, like lang, time zone
+        :return: True
+
+        """
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_obj = self.pool.get('account.invoice')
+        for iwdi_brw in self.browse(cr,uid,ids,context=context):
+            if iwdi_brw.invoice_id:
+                iwdi_brw.invoice_id.write({'islr_wh_doc_id':False},
+                        context=context)
+
+        return super(islr_wh_doc_invoices,self).unlink(cr, uid, ids,
+                context=context)
+
 islr_wh_doc_invoices()
 
 
@@ -929,7 +973,8 @@ class islr_wh_doc_line(osv.osv):
         'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
         'islr_rates_id': fields.many2one('islr.rates', 'Rates', help="Withhold rates"),
         'xml_ids': fields.one2many('islr.xml.wh.line', 'islr_wh_doc_line_id', 'XML Lines', help='XML withhold invoice line id'),
-        'iwdi_id': fields.many2one('islr.wh.doc.invoices', 'Withheld Invoice', help="Withheld Invoices"),
+        'iwdi_id': fields.many2one('islr.wh.doc.invoices', 'Withheld Invoice',
+        ondelete='cascade', help="Withheld Invoices"),
     }
 
 islr_wh_doc_line()

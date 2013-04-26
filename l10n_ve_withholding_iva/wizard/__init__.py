@@ -23,5 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 import account_invoice_refund
+import wizard_retention
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

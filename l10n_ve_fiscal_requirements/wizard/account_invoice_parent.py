@@ -110,7 +110,7 @@ class account_invoice_parent(osv.osv_memory):
         """
         res = super(account_invoice_parent, self).default_get(cr, uid, fields, context=context)
         if context.get('op_type', False):
-            res.update({'type': context.get('op_type', 'assigned')})
+            res.update({'type': context.get('op_type', 'modify')})
         return res
 
     def get_window(self, cr, uid, ids, xml_id, module, op_type, partner_id, parent_id=False, context=None):
@@ -140,7 +140,7 @@ class account_invoice_parent(osv.osv_memory):
             raise osv.except_osv(_('User Error'), _('Assign parent invoice, Please check the box to confirm that you agree!'))
         return True
 
-    def check_incest(self, cr, uid, ids, child_id, parent_id, context=None):
+    def check_recursion(self, cr, uid, ids, child_id,parent_id, context=None):
         """ Checks that have not recursion between parent and children   
         @param child_id: child id
         @param parent_id: parent id
@@ -167,7 +167,7 @@ class account_invoice_parent(osv.osv_memory):
         active_id = context.get('active_id', False)
         parent_id = form.get('parent_id', False)
         partner_id = form.get('partner_id', False)
-        self.check_incest(cr, uid, ids, active_id, parent_id, context)
+        self.check_recursion(cr, uid, ids, active_id, parent_id, context)
         inv_obj = self.pool.get('account.invoice')
         inv_brw = inv_obj.browse(cr, uid, active_id,context=context)
 
@@ -209,7 +209,7 @@ class account_invoice_parent(osv.osv_memory):
         active_id = context.get('active_id', False)
         parent_id = form.get('parent_id', False)
         partner_id = form.get('partner_id', False)
-        self.check_incest(cr, uid, ids, active_id, parent_id, context)
+        self.check_recursion(cr, uid, ids, active_id, parent_id, context)
         inv_obj = self.pool.get('account.invoice')
         inv_brw = inv_obj.browse(cr, uid, active_id,context=context)
 

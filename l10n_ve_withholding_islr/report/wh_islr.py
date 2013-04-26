@@ -26,6 +26,7 @@
 
 from openerp.report import report_sxw
 from openerp.osv import osv
+from openerp.tools.translate import _ 
 
 class rep_comprobante_islr(report_sxw.rml_parse):
     
@@ -42,7 +43,7 @@ class rep_comprobante_islr(report_sxw.rml_parse):
             return []
 
         addr_obj = self.pool.get('res.partner')
-        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
+        addr_inv = _('NO INVOICE ADDRESS DEFINED')
         addr_inv={}
         if idp:                
             addr = addr_obj.browse(self.cr,self.uid, idp)
@@ -50,7 +51,7 @@ class rep_comprobante_islr(report_sxw.rml_parse):
             (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
             (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
             (addr.city and ('%s, '%addr.city.title()) or '')+ \
-            (addr.country_id and ('%s '%addr.country_id.name.title()) or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
+            (addr.country_id and ('%s '%addr.country_id.name.title()) or '') or _('NO INVOICE ADDRESS DEFINED')
 
             #~ addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv 

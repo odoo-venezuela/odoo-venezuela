@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+ 
+ 
+ <menuitem id="menu_finance_fiscal_settings" name="VE Fiscal Settings" parent="account.menu_finance_configuration" sequence="60"/>
+ 
+ 
+ 
+ 
+    </data>
+</openerp>

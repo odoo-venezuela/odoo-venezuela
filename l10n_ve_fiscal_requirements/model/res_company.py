@@ -36,7 +36,8 @@ class res_company(osv.osv):
     _columns = {
         'jour_id': fields.many2one('account.journal', 'Journal', required=False, help="Default journal for damaged invoices"),
         'acc_id': fields.many2one('account.account', 'Account', required=False, help="Default account used for invoices and lines from damaged invoices"),
-    }
+        'printer_fiscal' : fields.boolean('Manages fiscal printer', help='Indicates that the company can operate a fiscal printer'),
+        }
 
     def create(self, cr, uid, vals, context=None):
         """ To create a new record,

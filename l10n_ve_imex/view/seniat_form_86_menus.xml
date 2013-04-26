@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data> 
+
+<!--
+Config parent menu
+-->
+
+        <menuitem name="Import/Export - SENIAT - Form 99086"
+            id="menu_form_86_config_group" 
+            parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings"
+            sequence="80"/>
+
+<!--
+form_86_config    
+-->
+
+        <record model="ir.actions.act_window" id="action_form_86_config">
+            <field name="name">Configuration</field>
+            <field name="res_model">form.86.config</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+		</record>   
+
+        <menuitem 
+            id="menu_action_form_86_config" 
+            parent="menu_form_86_config_group" 
+            action="action_form_86_config"/>        
+
+<!--
+form_86_customs    
+-->
+
+        <record model="ir.actions.act_window" id="action_form_86_customs">
+            <field name="name">Customs</field>
+            <field name="res_model">form.86.customs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>   
+
+        <menuitem 
+            id="menu_action_form_86_customs" 
+            parent="menu_form_86_config_group" 
+            action="action_form_86_customs"/>        
+            
+<!--
+form_86_customs_tax_codes    
+-->
+
+        <record model="ir.actions.act_window" id="action_form_86_custom_taxes">
+            <field name="name">Tax codes</field>
+            <field name="res_model">form.86.custom.taxes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>   
+
+        <menuitem 
+            id="menu_action_form_86_custom_taxes" 
+            parent="menu_form_86_config_group" 
+            action="action_form_86_custom_taxes"/>                 
+
+            
+<!--
+seniat_form_86    
+-->
+		
+
+        <record model="ir.actions.act_window" id="action_seniat_form_86">
+            <field name="name">SENIAT - Form 99086</field>
+            <field name="res_model">seniat.form.86</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+           
+		<menuitem 
+			id="menu_finance_forma" 
+			name="Custom Tax Form" 
+			parent="account.menu_finance" 
+			sequence="8"/>
+       
+        <menuitem 
+            id="menu_action_seniat_form_86" 
+            parent="menu_finance_forma" 
+            action="action_seniat_form_86"/>                 
+            
+    </data>
+</openerp>

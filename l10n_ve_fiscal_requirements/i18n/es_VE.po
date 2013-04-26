@@ -595,8 +595,8 @@ msgstr "VAT number consulted"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,sin_cred:0
-msgid "Tax Excempt"
-msgstr "Tax Excempt"
+msgid "Tax Exempt"
+msgstr "Tax Exempt"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_refund.py:163

@@ -25,26 +25,27 @@
 
 from openerp.osv import fields, osv
 
-def _models_retencion_get(self, cr, uid, context={}):
-    """ List document for link with account entry
-    """
-    obj = self.pool.get('ir.model.fields')
-    wh_doc_obj = self.pool.get('account.wh.doc')
-    wh_doc_ids = wh_doc_obj.search(cr, uid, [])
-    wh_doc_reads = wh_doc_obj.read(cr, uid, wh_doc_ids, ['model_parent'])
-    wh_doc_lst = [x['model_parent'] for x in wh_doc_reads]
-    ids = obj.search(cr, uid, [('model','in',wh_doc_lst)])
-    res = []
-    done = {}
-    for o in obj.browse(cr, uid, ids, context=context):
-        if o.model_id.id not in done:
-            res.append( [o.model_id.model, o.model_id.name])
-            done[o.model_id.id] = True
-    return res
 
 
 class account_move_line(osv.osv):
     _inherit = 'account.move.line'
+    
+    def _models_retencion_get(self, cr, uid, context={}):
+        """ List document for link with account entry
+        """
+        obj = self.pool.get('ir.model.fields')
+        wh_doc_obj = self.pool.get('account.wh.doc')
+        wh_doc_ids = wh_doc_obj.search(cr, uid, [])
+        wh_doc_reads = wh_doc_obj.read(cr, uid, wh_doc_ids, ['model_parent'])
+        wh_doc_lst = [x['model_parent'] for x in wh_doc_reads]
+        ids = obj.search(cr, uid, [('model','in',wh_doc_lst)])
+        res = []
+        done = {}
+        for o in obj.browse(cr, uid, ids, context=context):
+            if o.model_id.id not in done:
+                res.append( [o.model_id.model, o.model_id.name])
+                done[o.model_id.id] = True
+        return res
     
     def _document_get(self, cr, uid, ids, field_name, arg, context=None):
         """ Link document with account entry

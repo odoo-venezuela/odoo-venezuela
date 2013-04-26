@@ -76,10 +76,9 @@ class txt_iva(osv.osv):
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="proof status"),
         'period_id':fields.many2one('account.period','Period',required=True,readonly=True,states={'draft':[('readonly',False)]}, help='fiscal period' ),
-        'type':fields.boolean('Supplier withholding?',required=True,states={'draft':[('readonly',False)]}, help="if this is retention to supplier"),
+        'type':fields.boolean('Retention Suppliers?',required=True,states={'draft':[('readonly',False)]}, help="Select the type of retention to make"),
         'date_start': fields.date('Begin Date',required=True,states={'draft':[('readonly',False)]}, help="Begin date of period"),
         'date_end': fields.date('End date', required=True,states={'draft':[('readonly',False)]}, help="End date of period"),
-        'type':fields.boolean('Customer withholding?',required=True,states={'draft':[('readonly',False)]}, help="if this is retention to customer"),
         'txt_ids':fields.one2many('txt.iva.line','txt_id', readonly=True,states={'draft':[('readonly',False)]}, help='Txt field lines of ar required by SENIAT for VAT withholding'),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Withholding total amount', help="Monto Total Retenido"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Taxable total amount', help="Total de la Base Imponible"),

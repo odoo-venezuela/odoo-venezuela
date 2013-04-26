@@ -45,11 +45,28 @@ class account_invoice_refund(osv.osv_memory):
             
             res.update({'period': period_id})
         return res
+   
+    def _get_loc_req(self, cr, uid, context=None):
+        """Get if a field is required or not by a Localization
+        @param uid: Integer value of the user
+        """
+        context = context or {}
+        res = False
+        rc_obj = self.pool.get('res.company')
+        rc_brw = rc_obj.browse(cr, uid, uid, context=context)
+        if rc_brw.country_id and rc_brw.country_id.code == 'VE':
+            res= True
+        return res
     
     
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, help="Code used for intern invoice control"),    
+        'loc_req':fields.boolean('Required by Localization', help='This fields is for technical use'), 
     }
+
+    _defaults ={
+        'loc_req': _get_loc_req
+            }
 
     def _get_journal(self, cr, uid, context=None):
         """ Return journal depending of the invoice type

@@ -119,4 +119,3 @@ wiz_ret_munici_xml('account.ret.munici.xml.seniat')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-l10n_ve_withholding_iva/model/invoice.py

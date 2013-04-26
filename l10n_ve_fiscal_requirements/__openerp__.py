@@ -70,6 +70,7 @@ We now have a configuration wizard after this module install.
     'update_xml': [
         'security/security_view.xml',
         'security/ir.model.access.csv',
+        'view/fr_view.xml',
         'wizard/wizard_invoice_nro_ctrl_view.xml',
         'wizard/wizard_url_seniat_view.xml',
         'wizard/update_info_partner.xml',
@@ -87,6 +88,7 @@ We now have a configuration wizard after this module install.
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
+        'demo/journal_demo.xml',
     ],
     'test': [
         'test/control_number.yml',

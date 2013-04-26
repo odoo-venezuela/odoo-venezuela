@@ -27,6 +27,7 @@ import time
 from openerp.report import report_sxw
 from openerp.osv import osv
 import openerp.pooler
+from openerp.tools.translate import _ 
 
 class wh_muni_report(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -44,10 +45,10 @@ class wh_muni_report(report_sxw.rml_parse):
             return []
 
         addr_obj = self.pool.get('res.partner')
-        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
+        addr_inv = _('NO FINANCIAL MANAGEMENT DEFINED')
         if idp:                
             addr = addr_obj.browse(self.cr,self.uid, idp)
-            addr_inv =addr.type == 'invoice' and  (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
+            addr_inv =addr.type == 'invoice' and  (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '') or _('NO FINANCIAL MANAGEMENT DEFINED')
         return addr_inv 
 
 

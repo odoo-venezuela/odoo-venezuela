@@ -159,7 +159,7 @@ class account_invoice(osv.osv):
         return iwhdi_ids
 
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
-        """ Funcion para crear en el modelo islr_wh_doc
+        """ Function to create in the model islr_wh_doc
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -222,11 +222,11 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default,
                                                  context)
 
-    def _refund_cleanup_lines(self, cr, uid, lines):
+    def _refund_cleanup_lines(self, cr, uid, lines, context=None):
         """ Initializes the fields of the lines of a refund invoice
         """
         data = super(account_invoice, self)._refund_cleanup_lines(
-            cr, uid, lines)
+            cr, uid, lines, context=context)
         list = []
         for x, y, res in data:
             if 'concept_id' in res:

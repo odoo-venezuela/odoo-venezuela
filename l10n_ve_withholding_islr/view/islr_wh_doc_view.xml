@@ -273,7 +273,9 @@
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
                                             <field name="move_id"/>
+                                            <!--
                                             <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                            -->
                                         </form>
                                     </field>
                                 </page>

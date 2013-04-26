@@ -29,6 +29,7 @@ import time
 from openerp.report import report_sxw
 from openerp.osv import osv
 import openerp.pooler
+from openerp.tools.translate import _ 
 
 class rep_comprobante(report_sxw.rml_parse):
     #Variables Globales----------------------------------------------------
@@ -70,7 +71,7 @@ class rep_comprobante(report_sxw.rml_parse):
             return []
 
         addr_obj = self.pool.get('res.partner')
-        addr_inv = 'NO HAY DIRECCION FISCAL DEFINIDA'
+        addr_inv = _('NO FISCAL ADDRESS DEFINED')
         addr_inv={}
         if idp:                
             addr = addr_obj.browse(self.cr,self.uid, idp)
@@ -78,7 +79,7 @@ class rep_comprobante(report_sxw.rml_parse):
             (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
             (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
             (addr.city and ('%s, '%addr.city.title()) or '')+ \
-            (addr.country_id and ('%s '%addr.country_id.name.title()) or '') or 'NO HAY DIRECCION FISCAL DEFINIDA'
+            (addr.country_id and ('%s '%addr.country_id.name.title()) or '') or _('NO INVOICE ADDRESS DEFINED')
             #~ addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv 
 
@@ -122,13 +123,13 @@ class rep_comprobante(report_sxw.rml_parse):
                 k=-1
                 no_fac_afe = rl.invoice_id.parent_id and rl.invoice_id.parent_id.reference or ''
 
-            #~ Codigo para cumplir los cambios en el nuevo uso del campo ret, 
-            #~ y la relacion nueva en account.invoice.tax
+            #~ Code to meet the changes in the new use field ret, 
+            #~ and the new relation in account.invoice.tax
             
             for txl in rl.invoice_id.tax_line:
-                #~ Aqui se esta revisando son los impuestos que estan
-                #~ en la factura solo con el fin de poder obtener
-                #~ solo los impuestos que no son objeto de retencion
+                #~ Here being reviewed the taxes they are
+                #~ in the invoice only in order to obtain
+                #~ only taxes that are not subject to withholding
 
                 a= (txl.name and txl.name.find('SDCF')!=-1)
                 b= (txl.tax_id and not txl.tax_id.ret)
@@ -177,10 +178,10 @@ class rep_comprobante(report_sxw.rml_parse):
                 tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type],0.0) + txl.amount
                 tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type],0.0) + txl.amount_ret
                 
-                #~ TODO: ESTO SE DEBE SOLUCIONAR, MEDIANTE EL USO DEL CAMPO RET 
-                #~ EN EL MODELO ACCOUNT.TAX, DE TAL MANERA QUE SI EL IMPUESTO APARECE
-                #~ CON EL VALOR EN FALSE, Y DADO QUE AHORA CONTAMOS CON UN TAX_ID EN ACCOUNT.INVOICE.TAX
-                #~ PODEMOS HACER EL RASTREO HASTA EL ACCOUNT.TAX
+                #~ TODO: THIS MUST BE SOLVED THROUGH THE USE OF THE FIELD RET 
+                #~ IN THE MODEL ACCOUNT.TAX, SO THAT APPEARS IF THE TAX
+                #~ WITH VALUE FALSE, AND BECAUSE NOW WE HAVE A TAX_ID IN ACCOUNT.INVOICE.TAX
+                #~ CAN DO TRACKING TO ACCOUNT.TAX
                 if txl.name.find('SDCF')!=-1:
                     tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type],0.0) + (txl.base+txl.amount)
                     sdcf = True
