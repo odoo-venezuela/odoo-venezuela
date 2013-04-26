@@ -31,7 +31,7 @@ msgstr "SENIAT - Forma 86  # %s):\n"
 "	Agente: %s"
 
 #. module: l10n_ve_imex
-#: help:account.invoice,num_import_form_id:0
+#: help:account.invoice,customs_form_id:0
 msgid "The related form 86 for this import invoice (only draft and open forms)"
 msgstr "La planilla de importacion (F86) asociada a esta factura (solo planillas en borador y abiertas)"
 
@@ -109,7 +109,7 @@ msgid "The sequence must be unique! (for this comany)"
 msgstr "La secuencia debe ser única! (para la companía)"
 
 #. module: l10n_ve_imex
-#: field:account.invoice,num_import_form_id:0
+#: field:account.invoice,customs_form_id:0
 msgid "Import file number"
 msgstr "Exp. importación"
 

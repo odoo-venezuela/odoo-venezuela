@@ -797,7 +797,7 @@ class fiscal_book(orm.Model):
                                  or False,
                 'accounting_date': (not imex_invoice) and \
                                    inv_brw.date_invoice or False,
-                'imex_date': imex_invoice and inv_brw.num_import_form_id.date_liq or False,
+                'imex_date': imex_invoice and inv_brw.customs_form_id.date_liq or False,
                 'invoice_is_imported': imex_invoice,
                 'debit_affected': inv_brw.parent_id \
                                   and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
@@ -821,7 +821,7 @@ class fiscal_book(orm.Model):
                              or '01-REG',
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'invoice_printer': inv_brw.invoice_printer or False,
-                'custom_statement': inv_brw.num_import_form_id.name or False,
+                'custom_statement': inv_brw.customs_form_id.name or False,
                 'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
                             and iwdl_id or False,
                 'wh_number': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
@@ -1104,7 +1104,7 @@ class fiscal_book(orm.Model):
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        return inv_brw.num_import_form_id and True or False
+        return inv_brw.customs_form_id and True or False
 
 
 class fiscal_book_lines(orm.Model):

@@ -8,8 +8,8 @@
             <field name="inherit_id" ref="l10n_ve_fiscal_requirements.account_invoice_ext_view_supp_form_loc_ve"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='nro_ctrl']" position="before">
-                     <field name="num_import_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
-                            on_change="on_change_num_import_form_id(num_import_form_id)"/>      
+                     <field name="customs_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
+                            on_change="on_change_customs_form_id(customs_form_id)"/>      
                 </xpath>
             </field>
         </record>
