@@ -1097,14 +1097,14 @@ class fiscal_book(orm.Model):
         return inv_brw.reference or False
 
     def is_invoice_imex(self, cr, uid, inv_id, context=None):
-        """ Boolean method that verify is a invoice is imported.
+        """ Boolean method that verify is a invoice is imported by cheking the
+        customs form associated. 
         @param inv_id: invoice id
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        return inv_brw.company_id.partner_id.country_id.id != \
-            inv_brw.partner_id.country_id.id and True or False
+        return inv_brw.num_import_form_id and True or False
 
 
 class fiscal_book_lines(orm.Model):
