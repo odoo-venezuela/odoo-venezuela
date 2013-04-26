@@ -40,17 +40,22 @@ class form_86_config(osv.osv):
     _rec_name = "company_id"
 
     _columns = {
-        'company_id':fields.many2one('res.company','Company', required=True, readonly=True, ondelete='restrict'),
-        'journal_id': fields.many2one('account.journal', 'Journal', required=True, ondelete='restrict'),  
-        }
+        'company_id': fields.many2one('res.company', 'Company', required=True,
+                                      readonly=True, ondelete='restrict'),
+        'journal_id': fields.many2one('account.journal', 'Journal',
+                                      required=True, ondelete='restrict'),
+    }
 
     _defaults = {
-        'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'form.86.config',context=c),
-        }
+        'company_id': lambda self, cr, uid, c:
+        self.pool.get('res.company')._company_default_get(
+            cr, uid, 'form.86.config', context=c),
+    }
 
     _sql_constraints = [
-        ('company_id_uniq', 'UNIQUE(company_id)', 'The company must be unique!'),
-        ]
+        ('company_id_uniq', 'UNIQUE(company_id)',
+         'The company must be unique!'),
+    ]
 
 form_86_config()
 
@@ -62,36 +67,39 @@ class form_86_customs(osv.osv):
 
     _name = 'form.86.customs'
     _description = ''
-    
+
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
             return []
-        so_brw = self.browse(cr,uid,ids,context={})
+        so_brw = self.browse(cr, uid, ids, context={})
         res = []
         for item in so_brw:
-            res.append((item.id, '[%s] %s'%(item.code, item.name)))
+            res.append((item.id, '[%s] %s' % (item.code, item.name)))
         return res
 
-    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
+    def name_search(self, cr, user, name, args=None, operator='ilike',
+                    context=None, limit=100):
         #~ Based on account.account.name_search...
-        res =  super(form_86_customs, self).name_search(cr, user, name, args, operator, context, limit)    
+        res = super(form_86_customs, self).name_search(
+            cr, user, name, args, operator, context, limit)
         if not res and name:
-            ids = self.search(cr, user, [('code', '=like', name+"%")]+args, limit=limit)
+            ids = self.search(cr, user, [(
+                'code', '=like', name+"%")]+args, limit=limit)
             if ids:
                 res = self.name_get(cr, user, ids, context=context)
         return res
 
     _columns = {
-        'code': fields.char('Code', size=16, required=True, readonly=False),   
+        'code': fields.char('Code', size=16, required=True, readonly=False),
         'name': fields.char('Name', size=64, required=True, readonly=False),
-        }
+    }
 
     _defaults = {
-        }
+    }
 
-    _sql_constraints = [     
+    _sql_constraints = [
         ('code_uniq', 'UNIQUE(code)', 'The code must be unique!'),
-        ]
+    ]
 
 form_86_customs()
 
@@ -105,35 +113,47 @@ class form_86_custom_taxes(osv.osv):
     _description = ''
     _order = 'sequence'
 
-    def name_get(self,cr, uid, ids, context):
+    def name_get(self, cr, uid, ids, context):
         if not len(ids):
             return []
         res = []
         so_brw = self.browse(cr, uid, ids, context)
         for item in so_brw:
-            res.append((item.id, '[%s] %s - %s'%(item.code,item.ref,item.name)))
+            res.append((item.id, '[%s] %s - %s' % (
+                item.code, item.ref, item.name)))
         return res
 
     _columns = {
-        'code': fields.char('Code', size=16, required=True, readonly=False),   
+        'code': fields.char('Code', size=16, required=True, readonly=False),
         'name': fields.char('Name', size=64, required=True, readonly=False),
-        'ref': fields.char('Ref', size=16, required=False, readonly=False),   
-        'sequence': fields.integer('Sequence'), 
-        'partner_id': fields.many2one('res.partner', 'Partner', change_default=True, ondelete='restrict'),
-        'account_id':fields.many2one('account.account', 'Account to pay', domain="[('type','!=','view')]", ondelete='restrict',help="This account will be used for expenses related to taxes"), 
-        'vat_detail':fields.boolean('Tax detail',help="Set true if this is vat related tax"),
-        'company_id': fields.many2one('res.company','Company',required=True, readonly=True, ondelete='restrict'),
-        }
+        'ref': fields.char('Ref', size=16, required=False, readonly=False),
+        'sequence': fields.integer('Sequence'),
+        'partner_id': fields.many2one('res.partner', 'Partner',
+                                      change_default=True,
+                                      ondelete='restrict'),
+        'account_id': fields.many2one('account.account', 'Account to pay',
+                                      domain="[('type','!=','view')]",
+                                      ondelete='restrict',
+                                      help="This account will be used for \
+                                      expenses related to taxes"),
+        'vat_detail': fields.boolean('Tax detail', help="Set true if this is \
+        vat related tax"),
+        'company_id': fields.many2one('res.company', 'Company', required=True,
+                                      readonly=True, ondelete='restrict'),
+    }
 
     _defaults = {
-        'company_id':lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr,uid,'form.86.config',context=c),
+        'company_id': lambda self, cr, uid, c:
+        self.pool.get('res.company')._company_default_get(
+            cr, uid, 'form.86.config', context=c),
         'vat_detail': False,
-        }
+    }
 
-    _sql_constraints = [     
-        ('code_uniq', 'UNIQUE(code,company_id)', 'The code must be unique! (for this comany)'),
-        ('sequence_uniq', 'UNIQUE(sequence,company_id)', 'The sequence must be unique! (for this comany)'),
-        ]
+    _sql_constraints = [
+        ('code_uniq', 'UNIQUE(code,company_id)',
+         'The code must be unique! (for this comany)'),
+        ('sequence_uniq', 'UNIQUE(sequence,company_id)',
+         'The sequence must be unique! (for this comany)'),
+    ]
 
 form_86_custom_taxes()
-
