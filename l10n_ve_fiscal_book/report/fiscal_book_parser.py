@@ -325,19 +325,19 @@ class fiscal_book_report(report_sxw.rml_parse):
         #~ configuring:
         self._add_total_string()
 
-        print '\n-----------------------------'
-        print 'Number of columns', self._get_num_of_cols(),' + 1 at first'
-        print 'Table width', self._get_table_width()
-        print 'Colums widths'
-        for col_num, col_tag in enumerate(self._purchase_cols_list,  start=1):
-            print '  ', col_num, '\t', self._get_col_width(col_tag), '\t', self._cols[col_tag]['name']
-        print '-----------------------------\n'
+        #~ print '\n-----------------------------'
+        #~ print 'Number of columns', self._get_num_of_cols(),' + 1 at first'
+        #~ print 'Table width', self._get_table_width()
+        #~ print 'Colums widths'
+        #~ for col_num, col_tag in enumerate(self._purchase_cols_list,  start=1):
+            #~ print '  ', col_num, '\t', self._get_col_width(col_tag), '\t', self._cols[col_tag]['name']
+        #~ print '-----------------------------\n'
 
         self._set_macro_cols_width()
-        print 'importaciones', 'compras-internas', 'datos-factura-documento', \
-              '"', self._cols['datos-factura-documento']['width'], ', ', \
-              self._cols['importaciones']['width'], ', ', \
-              self._cols['compras-internas']['width'], '"'
+        #~ print 'importaciones', 'compras-internas', 'datos-factura-documento', \
+              #~ '"', self._cols['datos-factura-documento']['width'], ', ', \
+              #~ self._cols['importaciones']['width'], ', ', \
+              #~ self._cols['compras-internas']['width'], '"'
 
     def _get_month(self, fb):
         """
