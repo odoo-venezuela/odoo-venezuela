@@ -75,7 +75,7 @@ def _data_save(self, cr, uid, data, context):
 
     return self._csv_write(cr, uid, lst, context)
 
-class wiz_ret_munici_xml(wizard.interface)
+class wiz_ret_munici_xml(wizard.interface):
 
     def _csv_write(self, cr, uid, data, context):
         """ To create csv archive with data parameter information
