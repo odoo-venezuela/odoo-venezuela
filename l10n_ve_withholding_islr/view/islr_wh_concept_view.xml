@@ -3,7 +3,7 @@
     <data>
     <!-- 
     =====================================================
-    CONCEPT OF RETENTION, TASAS
+    CONCEPT OF RETENTION, RATES
     =====================================================
     --> 
         <record id="view_wh_concept_filter" model="ir.ui.view">

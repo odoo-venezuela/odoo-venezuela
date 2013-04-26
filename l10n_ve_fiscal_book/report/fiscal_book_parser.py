@@ -32,69 +32,61 @@ class fiscal_book_report(report_sxw.rml_parse):
     #~ _description = '''Fiscal Book for Venezuela'''
 
     _tax_types = ['8%', '12%', '22%']
-    _taxes_cols_list = [
+    _impuestos_cols = [
         'base-imponible',
         '%iva',
-        'monto-impuesto',
-    ]
-
-    _purchase_cols_list = [
-        'linea',
-        'fecha-doc',
-        'fecha-importada',
-        't-doc',
-        'rif',
-        'razon-social',
-        'comprobante',
-        'planilla-importacion',
-        'expediente-importacion',
-        'numero-facutra',
-        'numero-control',
-        't-trans',
-        'nota-de-debito-afectada',
-        'nota-de-credito-afectada',
-        'documento-afectado',
-        #~ IMPORTACIONES
-            'total-con-iva',
-            'sdcf',
-            'exento',
-            #~ '_vat-reduced',
-                'base-imponible',
-                '%iva',
-                'monto-impuesto',
-            #~ '_vat-general',
-                'base-imponible',
-                '%iva',
-                'monto-impuesto',
-            #~ '_vat-additional',
-                'base-imponible',
-                '%iva',
-                'monto-impuesto',
-        #~ COMPRAS INTERNAS
-            'total-con-iva',
-            'sdcf',
-            'exento',
-            #~ '_vat-reduced',
-                'base-imponible',
-                '%iva',
-                'monto-impuesto',
-            #~ '_vat-general',
-                'base-imponible',
-                '%iva',
-                'monto-impuesto',
-            #~ '_vat-additional',
-                'base-imponible',
-                '%iva',
-                'monto-impuesto',
-        'retencion-iva',
-    ]
+        'monto-impuesto'
+        ]
 
     _purchase_macro_cols_list = [
+        'datos-factura-documento',
         'importaciones',
         'compras-internas',
-        '_first-macro-cols',
-        '_last-macro-cols',
+        ]
+
+    _datos_factura_documento_cols = [
+        'linea',
+        't-doc',
+        'fecha-doc',
+        'numero-control',
+        'numero-facutra',
+        'documento-afectado',
+        'razon-social',
+        'rif',
+        'fecha-importada',
+        'total-con-iva',
+        ]
+
+    _importaciones_cols = [
+        'sdcf',
+        'exento',
     ]
+    _importaciones_cols.extend(_impuestos_cols)   #~ '_vat-general'
+    _importaciones_cols.extend(_impuestos_cols)   #~ '_vat-reduced'
+    _importaciones_cols.extend(_impuestos_cols)   #~ '_vat-additional'
+
+    _compras_internas_cols = [
+        'sdcf',
+        'exento',
+        ]
+    _compras_internas_cols.extend(_impuestos_cols)   #~ '_vat-general'
+    _compras_internas_cols.extend(_impuestos_cols)   #~ '_vat-reduced'
+    _compras_internas_cols.extend(_impuestos_cols)   #~ '_vat-additional'
+
+    _retenciones_cols = [
+        'ret-fecha-factura-afectada',
+        'ret-number',
+        'debito-fiscal-base',
+        'ret-percent',
+        'ret-monto-retenido',
+        ]
+
+    _compras_internas_cols.extend(_retenciones_cols)
+    
+    _purchase_cols_list = list()
+    _purchase_cols_list.extend(_datos_factura_documento_cols)
+    _purchase_cols_list.extend(_importaciones_cols)
+    _purchase_cols_list.extend(_compras_internas_cols)
 
     _cols_depending_on_import = ['total-con-iva', 'sdcf', 'exento', \
                                  'base-imponible', '%iva', 'monto-impuesto']
@@ -111,31 +103,31 @@ class fiscal_book_report(report_sxw.rml_parse):
         'fecha-doc': {
             'name': 'Fecha Doc.',
             'width': 23.0,
-            'value': lambda fbl: fbl.get_accounting_date,
+            'value': lambda fbl: fbl.accounting_date,
             'total': lambda fb: '',
             'help': '' },
         'fecha-importada': {
             'name': 'Fecha Importada',
             'width': 23.0,
-            'value': lambda fbl: fbl.get_emission_date,
+            'value': lambda fbl: fbl.emission_date,
             'total': lambda fb: '',
             'help': '' },
         't-doc': {
             'name': 'T. Doc.',
             'width': 15.0,
-            'value': lambda fbl: fbl.get_t_doc,
+            'value': lambda fbl: fbl.doc_type,
             'total': lambda fb: '',
             'help': '' },
         'rif': {
             'name': 'RIF',
             'width': 25.0,
-            'value': lambda fbl: fbl.get_partner_vat,
+            'value': lambda fbl: fbl.partner_vat,
             'total': lambda fb: '',
             'help': '' },
         'razon-social': {
             'name': 'Razon Social',
             'width': 160.0,
-            'value': lambda fbl: fbl.get_partner_name,
+            'value': lambda fbl: fbl.partner_name,
             'total': lambda fb: '',
             'help': '' },
         'comprobante': {
@@ -148,74 +140,68 @@ class fiscal_book_report(report_sxw.rml_parse):
         'planilla-importacion': {
             'name': 'Planilla de Importación',
             'width': 30.0,
-            'value': lambda fbl: fbl.get_import_form,
+            'value': lambda fbl: 'TODO',
             'total': lambda fb: '',
             'help': '' },
         'expediente-importacion': {
             'name': 'Expediente de Importacion',
             'width': 36.0,
-            'value': lambda fbl: fbl.invoice_id.import_spreadsheet_name,
+            'value': lambda fbl: 'TODO',
             'total': lambda fb: '',
             'help': '' },
         'numero-facutra': {
             'name': 'Número de Facutra',
             'width': 36.0,
-            'value': lambda fbl: fbl.get_reference,
+            'value': lambda fbl: fbl.invoice_number,
             'total': lambda fb: '',
             'help': '' },
         'numero-control': {
             'name': 'Número Control',
             'width': 36.0,
-            'value': lambda fbl: fbl.get_number,
+            'value': lambda fbl: fbl.ctrl_number,
             'total': lambda fb: '',
             'help': '' },
         't-trans': {
             'name': 'T. Trans.',
             'width': 18.0,
-            'value': lambda fbl: fbl.get_papel_anulado,
+            'value': lambda fbl: fbl.void_form,
             'total': lambda fb: '',
             'help': '' },
         'nota-de-debito-afectada': {
             'name': 'Nota de Debito Afectada',
             'width': 33.0,
-            'value': lambda fbl: fbl.get_debit_affected,
+            'value': lambda fbl: fbl.debit_affected,
             'total': lambda fb: '',
             'help': '' },
         'nota-de-credito-afectada': {
             'name': 'Nota de Credito Afectada',
             'width': 33.0,
-            'value': lambda fbl: fbl.get_credit_affected,
+            'value': lambda fbl: fbl.credit_affected,
             'total': lambda fb: '',
             'help': '' },
         'documento-afectado': {
             'name': 'Documento Afectado',
             'width': 33.0,
-            'value': lambda fbl: fbl.get_parent,
+            'value': lambda fbl: fbl.invoice_parent,
             'total': lambda fb: '',
             'help': '' },
         'total-con-iva': {
             'name': 'Total con Iva',
             'width': 37.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_total_with_iva or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.total_with_iva or 0.0,
             'total': lambda fb: 'TODO',
             'help': '' },
         'sdcf': {
             'name': 'SDCF',
             'width': 29.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_vat_sdcf or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.vat_sdcf or 0.0,
             'total': lambda fb: 'TODO',
             'help': '' },
         'exento': {
             'name': 'Exento',
             'width': 29.0,
-            'value': lambda fbl, is_imported: is_imported and fbl.get_vat_exempt or 0.0,
+            'value': lambda fbl, is_imported: is_imported and fbl.vat_exempt or 0.0,
             'total': lambda fb: 'TODO',
-            'help': '' },
-        'retencion-iva': {
-            'name': 'Retencion IVA',
-            'width': 40.0,
-            'value': lambda fbl: fbl.get_withheld,
-            'total': lambda fb: '',
             'help': '' },
 
         #~ taxes columns
@@ -256,25 +242,53 @@ class fiscal_book_report(report_sxw.rml_parse):
             'total': lambda fb: '',
             'help': '' },
 
+        #~ WITHHOLDING COLUMS
+        'ret-fecha-factura-afectada': {
+            'name': 'Fecha de Factura afectada',
+            'width': 35.0,
+            'value': lambda fbl: 'TODO',
+            'total': lambda fb: '',
+            'help': '' },
+        'ret-number': {
+            'name': 'Nro Retención',
+            'width': 35.0,
+            'value': lambda fbl: 'TODO',
+            'total': lambda fb: '',
+            'help': '' },
+        'debito-fiscal-base': {
+            'name': 'Débito Fiscal Base',
+            'width': 35.0,
+            'value': lambda fbl: 'TODO',
+            'total': lambda fb: '',
+            'help': '' },
+        'ret-percent': {
+            'name': 'Retención %',
+            'width': 35.0,
+            'value': lambda fbl: 'TODO',
+            'total': lambda fb: '',
+            'help': '' },
+        'ret-monto-retenido': {
+            'name': 'Monto Retenido',
+            'width': 35.0,
+            'value': lambda fbl: fbl.get_wh_vat,
+            'total': lambda fb: '',
+            'help': '' },
+
         #~ MACRO COLS
         'importaciones': {
-            'name': 'IMPORTACIONES',
+            'name': 'OPERACIONES DE IMPORTACIONES',
             'width': None,
             'value': lambda fbl: '',
             'total': lambda fb: '',
             'help': '' },
         'compras-internas': {
-            'name': 'COMPRAS INTERNAS',
+            'name': 'OPERACIONES EN EL MERCADO INTERNO',
             'width': None,
             'value': lambda fbl: '',
             'total': lambda fb: '',
             'help': '' },
-        '_first-macro-cols': {
-            'width': None,
-            'value': lambda fbl: '',
-            'total': lambda fb: '',
-            'help': '' },
-        '_last-macro-cols': {
+        'datos-factura-documento': {
+            'name': 'DATOS DE LA FACTURA O/Y DOCUMENTO',
             'width': None,
             'value': lambda fbl: '',
             'total': lambda fb: '',
@@ -298,6 +312,7 @@ class fiscal_book_report(report_sxw.rml_parse):
             'get_col_width': self._get_col_width,
             'get_col_total': self._get_col_total,
             'add_total_string': self._add_total_string,
+            'set_macro_cols_width': self._set_macro_cols_width,
 
             #~ TODO: use this function after the bug for repeatIn arg3 is solve.
             'get_cols': self._get_cols,
@@ -317,6 +332,12 @@ class fiscal_book_report(report_sxw.rml_parse):
         for col_num, col_tag in enumerate(self._purchase_cols_list,  start=1):
             print '  ', col_num, '\t', self._get_col_width(col_tag), '\t', self._cols[col_tag]['name']
         print '-----------------------------\n'
+
+        self._set_macro_cols_width()
+        print 'importaciones', 'compras-internas', 'datos-factura-documento', \
+              '"', self._cols['datos-factura-documento']['width'], ', ', \
+              self._cols['importaciones']['width'], ', ', \
+              self._cols['compras-internas']['width'], '"'
 
     def _get_month(self, fb):
         """
@@ -366,7 +387,7 @@ class fiscal_book_report(report_sxw.rml_parse):
         col_tag = self._purchase_cols_list[col_number-1]
         if col_tag in self._cols_depending_on_import:
             if fbl_brw.invoice_id:
-                is_imported = fbl_brw.get_is_imported \
+                is_imported = fbl_brw.invoice_is_imported \
                               and col_number < 27 and True or False \
                               or col_number > 27 and True or False
             my_args.append(is_imported)
@@ -374,14 +395,14 @@ class fiscal_book_report(report_sxw.rml_parse):
         if col_tag in self._cols_depending_on_tax_type:
             #~ TODO: hacer como debe ser con el nombre de los campos..
             if col_tag is 'base-imponible':
-                #~ 'fbl_brw.get_vat_reduced_base'
-                #~ 'fbl_brw.get_vat_general_base'
+                #~ 'fbl_brw.vat_reduced_base'
+                #~ 'fbl_brw.vat_general_base'
                 #~ 'fbl_brw.get_vat_general_add_base'
                 print col_number, 'soy columna base imponible'
             elif col_tag is 'monto-imponible':
-                #~ 'fbl_brw.get_vat_reduced_tax'
-                #~ 'fbl_brw.get_vat_general_tax'
-                #~ 'fbl_brw.get_vat_general_tax'
+                #~ 'fbl_brw.vat_reduced_tax'
+                #~ 'fbl_brw.vat_general_tax'
+                #~ 'fbl_brw.vat_general_tax'
                 print col_number, 'soy columna monto imponible'
             elif col_tag is '%iva':
                 print col_number, 'soy columna %iva'
@@ -422,12 +443,29 @@ class fiscal_book_report(report_sxw.rml_parse):
         """ It returns the tax columns group width."""
         context = context or {}
         return sum( [ self._get_col_width(col_name) \
-                      for col_name in self._taxes_cols_list ] )
+                      for col_name in self._impuestos_cols ] )
 
     def _add_total_string(self, context=None):
         """ Set the column where de TOTAL tag will be print """
         context = context or {}
         self._cols['razon-social']['total'] = lambda x: 'TOTALES'
+        return True
+
+    def _set_macro_cols_width(self, context=None):
+        """ Returns the list of cols widht for every marco column. """
+        context = context or {}
+        self._cols['datos-factura-documento']['width'] = \
+            sum( [ self._get_col_width(col_name) \
+                   for col_name in self._datos_factura_documento_cols ] )
+
+        self._cols['importaciones']['width'] = \
+            sum( [ self._get_col_width(col_name) \
+                   for col_name in self._importaciones_cols ] )
+
+        self._cols['compras-internas']['width'] = \
+            sum( [ self._get_col_width(col_name) \
+                   for col_name in self._compras_internas_cols ] )
+
         return True
 
 report_sxw.report_sxw(

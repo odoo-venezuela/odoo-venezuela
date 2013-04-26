@@ -105,7 +105,7 @@ class account_wh_src(osv.osv):
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
-            ],'Estado', readonly=True, help="Estado del Comprobante"),
+            ],'Estado', readonly=True, help="Status Voucher"),
         'date_ret': fields.date('Withholding date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
         'date': fields.date('Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','!=','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
@@ -114,7 +114,7 @@ class account_wh_src(osv.osv):
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
         'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
-        'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
+        'line_ids': fields.one2many('account.wh.src.line', 'wh_id', 'Local withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Invoices which deductions will be made"),
         'wh_amount': fields.float('Amount', required=False, digits_compute= dp.get_precision('Withhold'), help="Amount withheld"),
         
         'uid_wh_agent': fields.function(_get_wh_agent, type='boolean', string="uid_wh_agent", store=False, help='indicates whether the current user is agent'),
@@ -201,18 +201,18 @@ class account_wh_src(osv.osv):
         brw = self.browse(cr,uid,ids[0],context)
         line_ids = brw.line_ids
         if not line_ids:
-            raise osv.except_osv(_('Procedimiento invalido!'),_("No hay lineas de retencion"))
+            raise osv.except_osv(_('Invalid Procedure!'),_("No retention lines"))
         
         res = [True]
         res+=[False for i in line_ids if i.wh_amount <= 0.0 or i.base_amount  <= 0.0 or i.wh_src_rate  <= 0.0 ]
         if not all(res):
-            raise osv.except_osv(_('Procedimiento invalido!'),_("Verificar que las lineas de retencion\nno tenga Valores nulos (0.00)"))
+            raise osv.except_osv(_('Invalid Procedure!'),_("Verify retention lines not have Null values(0.00)"))
         
         res = 0.0
         for i in line_ids:
             res+=i.wh_amount
         if abs(res - brw.wh_amount) > 0.0001:
-            raise osv.except_osv(_('Procedimiento invalido!'),_("Verificar la suma de las retenciones"))
+            raise osv.except_osv(_('Invalid Procedure!'),_("Check the amount of withholdings"))
         
         inv_ids = [i.invoice_id.id for i in brw.line_ids]
         if inv_ids:
@@ -231,15 +231,15 @@ class account_wh_src(osv.osv):
         return self.write(cr,uid,ids,{'state':'done'})
         
     def action_cancel(self,cr,uid,ids,context={}):
-        raise osv.except_osv(_('Procedimiento invalido!'),_("Por el momento, el sistema no le permite Cancelar estas Retenciones."))
+        raise osv.except_osv(_('Invalid Procedure!'),_("For the moment, the systmen does not allow cancell these withholdings."))
         return True
         
     def copy(self,cr,uid,id,default,context=None):
-        raise osv.except_osv('Procedimiento invalido!',"No puede duplicar lineas")
+        raise osv.except_osv('Invalid Procedure!',"You can not duplicate lines")
         return True
         
     def unlink(self, cr, uid, ids, context=None):
-        raise osv.except_osv('Procedimiento invalido!',"No puede eliminar lineas")
+        raise osv.except_osv('Invalid Procedure!!',"You can not delete lines")
         return True
 
 

@@ -8,7 +8,7 @@
                 <form string="Are you sure you want to do this?" version="7.0">
                     <group colspan='4'>
                         <field name="vat_apply" />
-                        <label string='Providencia Administrativa No. SNAT/2005/0056, Exclusiones: Art. 3'/>
+                        <label string='Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3'/>
                         <newline/>
                         <label string='By Checking this option you will exclude this document from being withheld'/>
                     </group>

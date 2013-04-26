@@ -8,7 +8,7 @@
                 <form string="Wizard to search partner on SENIAT">
                     <group colspan="4">
                     <field name="vat" />
-                    <button name="search_partner_seniat" string="Buscar RIF" type="object" icon="terp-check" />
+                    <button name="search_partner_seniat" string="Search RIF" type="object" icon="terp-check" />
                     </group>
                     <separator string="VAT number consulted" />
                     <group colspan="4" >

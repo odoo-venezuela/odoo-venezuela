@@ -45,14 +45,14 @@
 
         <!-- Journals for account.wh.src --> 
         <record id="withholding_scr_purchase_journal" model="account.journal">
-            <field name="name">DIARIO DE SRC PARA PROVEEDORES</field>
+            <field name="name">DIARIO DE CRS PARA PROVEEDORES</field>
             <field name="code">srcP</field>
             <field name="type">src_purchase</field>
             <field name="sequence_id" ref="seq_account_wh_src_supplier"/>
         </record>
         
         <record id="withholding_src_sale_journal" model="account.journal">
-            <field name="name">DIARIO DE SRC PARA CLIENTES</field>
+            <field name="name">DIARIO DE CRS PARA CLIENTES</field>
             <field name="code">srcC</field>
             <field name="type">src_sale</field>
             <field name="sequence_id" ref="seq_account_retencion_src_customer"/>

@@ -54,12 +54,10 @@ class product_product(osv.osv):
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
             
-            concept_id = concept_obj.search(cr, uid, [('id','<>',None)])
-            
-            if concept_id:
-                concept_id = concept_obj.search(cr, uid, [('name','ilike','NO APLICA RETENCION')])[0]
-            else:
-                raise osv.except_osv(_('Invalid action !'),_("Must create the concept of income withholding"))
+            concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)])
+            concept_id = concept_id and concept_id[0] or False 
+            if not concept_id:
+                 raise osv.except_osv(_('Invalid action !'),_("Must create the concept of income withholding"))
                 
         return {'value' : {'concept_id':concept_id or False}} 
 

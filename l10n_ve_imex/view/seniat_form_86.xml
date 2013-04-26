@@ -14,7 +14,7 @@ seniat_form_86
 					<header>
 						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
                     </header>
-                    <group col="8" colspan="8">
+                    <group col="4" colspan="4">
                         <field name="name"/>
                         <field name="ref"/>
                         <field name="broker_id"/>
@@ -22,7 +22,7 @@ seniat_form_86
                     </group>
                     <notebook colspan="4">
                         <page string="General info">
-                            <group col="8" colspan="8">
+                            <group col="4" colspan="4">
                                 <field name="ref_reg"/>
                                 <field name="date_reg"/>
                                 <field name="ref_liq"/>
