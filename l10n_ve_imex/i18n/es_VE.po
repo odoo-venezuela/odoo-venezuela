@@ -21,7 +21,7 @@ msgid "Account to pay"
 msgstr "Cuentas por Pagar"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:157
+#: code:addons/l10n_ve_imex/model/customs_form.py:157
 #, python-format
 msgid "SENIAT - Forma 86  # %s):\n"
 "	Reference: %s\n"
@@ -46,7 +46,7 @@ msgid "This account will be used for expenses related to taxes"
 msgstr "Cuenta para los gastos asociados a el impuesto"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:145
+#: code:addons/l10n_ve_imex/model/customs_form.py:145
 #, python-format
 msgid "Please set a valid configuration"
 msgstr "Debe establecer una configuración válida"
@@ -93,7 +93,7 @@ msgid "Tax codes"
 msgstr "Códigos de impuestos"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:122
+#: code:addons/l10n_ve_imex/model/customs_form.py:122
 #, python-format
 msgid "No account found, please check customs taxes settings (%s)"
 msgstr "No se encontró la cuenta, verifique la configuracion de: Códigos de impuestos (%s)"
@@ -152,7 +152,7 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:226
+#: code:addons/l10n_ve_imex/model/customs_form.py:226
 #, python-format
 msgid "Can't cancel a import while account move state <> \"Draft\""
 msgstr "Imposible cancelar el registro cuando el estado del asiento <> \"Borrador\""
@@ -196,7 +196,7 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:211
+#: code:addons/l10n_ve_imex/model/customs_form.py:211
 #, python-format
 msgid "You must indicate a amount"
 msgstr "Debe indicar el monto"
@@ -213,7 +213,7 @@ msgid "The Document you have been entering for this Partner has already been rec
 msgstr "El documento indicado ya está registrado para esta empresa"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:223
+#: code:addons/l10n_ve_imex/model/customs_form.py:223
 #, python-format
 msgid "Multiple operations not allowed"
 msgstr "Operaciones múltiples no permitidas"
@@ -229,10 +229,10 @@ msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:122
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:145
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:223
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:226
+#: code:addons/l10n_ve_imex/model/customs_form.py:122
+#: code:addons/l10n_ve_imex/model/customs_form.py:145
+#: code:addons/l10n_ve_imex/model/customs_form.py:223
+#: code:addons/l10n_ve_imex/model/customs_form.py:226
 #, python-format
 msgid "Error!"
 msgstr "Error!"
@@ -273,7 +273,7 @@ msgid "General info"
 msgstr "Información general"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:213
+#: code:addons/l10n_ve_imex/model/customs_form.py:213
 #, python-format
 msgid "You must indicate a liquidation date "
 msgstr "Debe indicar la fecha de liquidación"
@@ -332,8 +332,8 @@ msgid "Done"
 msgstr "Listo"
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:211
-#: code:addons/l10n_ve_imex/model/seniat_form_86.py:213
+#: code:addons/l10n_ve_imex/model/customs_form.py:211
+#: code:addons/l10n_ve_imex/model/customs_form.py:213
 #, python-format
 msgid "Warning!"
 msgstr "Atención!"

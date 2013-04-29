@@ -25,6 +25,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-import seniat_form_86_config
-import seniat_form_86
+import customs_form_config
+import customs_form
 import invoice
