@@ -50,13 +50,13 @@ class customs_form(osv.osv):
         res = {}
         for f86 in self.browse(cr, uid, ids, context=context):
             amount_total = 0.0
-            for line in f86.line_ids:
+            for line in f86.cfl_ids:
                 amount_total += line.amount
             res[f86.id] = amount_total
         return res
 
-    def _default_line_ids(self, cr, uid, context=None):
-        """ Gets default line_ids from customs_duty. """
+    def _default_cfl_ids(self, cr, uid, context=None):
+        """ Gets default cfl_ids from customs_duty. """
         obj_ct = self.pool.get('customs.duty')
         ct_ids = obj_ct.search(cr, uid, [], context=context)
         res = []
@@ -109,7 +109,7 @@ class customs_form(osv.osv):
             'customs.facility', 'Customs Facility', change_default=True,
             readonly=True, states={'draft': [('readonly', False)]},
             ondelete='restrict'),
-        'line_ids': fields.one2many('customs.form.line', 'customs_form_id',
+        'cfl_ids': fields.one2many('customs.form.line', 'customs_form_id',
                                     'Tax lines', readonly=True,
                                     states={'draft': [('readonly', False)]}),
         'amount_total': fields.function(_amount_total, method=True,
@@ -134,7 +134,7 @@ class customs_form(osv.osv):
         self.pool.get('res.company')._company_default_get(cr, uid,
                                                           'customs.form',
                                                           context=c),
-        'line_ids': _default_line_ids,
+        'cfl_ids': _default_cfl_ids,
         'state': lambda *a: 'draft',
     }
 
@@ -143,16 +143,16 @@ class customs_form(osv.osv):
     ]
 
     def create_account_move_lines(self, cr, uid, f86, context=None):
-        """ Creates the account.move.lines from line_ids detail except for
+        """ Creates the account.move.lines from cfl_ids detail except for
         taxes with "vat_detail", in this case create debits from
-        line_ids.imex_tax_line and get debit account from account_tax model
+        cfl_ids.imex_tax_line and get debit account from account_tax model
         """
         lines = []
         company_id = context.get('f86_company_id')
         f86_cfg = context.get('f86_config')
 
         #~ expenses
-        for line in f86.line_ids:
+        for line in f86.cfl_ids:
             debits = []
             if line.tax_code.vat_detail:
                 for vat in line.imex_tax_line:
@@ -270,7 +270,7 @@ class customs_form(osv.osv):
                                      _('You must indicate a amount'))
             f86_invoices = [i.id for i in f86.invoice_ids]  # related inv list
             vat_invoices = []  # for tax (vat) related invoices
-            for line in f86.line_ids:
+            for line in f86.cfl_ids:
                 if line.vat_detail:
                     vat_total = line.amount
                     for vat in line.imex_tax_line:

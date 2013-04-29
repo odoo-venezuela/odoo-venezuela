@@ -219,7 +219,7 @@ msgid "Multiple operations not allowed"
 msgstr "Operaciones múltiples no permitidas"
 
 #. module: l10n_ve_imex
-#: field:customs.form,line_ids:0
+#: field:customs.form,cfl_ids:0
 msgid "Lines"
 msgstr "Lineas"
 
