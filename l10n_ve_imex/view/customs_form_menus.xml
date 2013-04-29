@@ -7,70 +7,70 @@ Config parent menu
 -->
 
         <menuitem name="Import/Export - SENIAT - Form 99086"
-            id="menu_form_86_config_group" 
+            id="menu_customs_form_config_group" 
             parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings"
             sequence="80"/>
 
 <!--
-form_86_config    
+customs_form_config    
 -->
 
-        <record model="ir.actions.act_window" id="action_form_86_config">
+        <record model="ir.actions.act_window" id="action_customs_form_config">
             <field name="name">Configuration</field>
-            <field name="res_model">form.86.config</field>
+            <field name="res_model">customs.form.config</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
 		</record>   
 
         <menuitem 
-            id="menu_action_form_86_config" 
-            parent="menu_form_86_config_group" 
-            action="action_form_86_config"/>        
+            id="menu_action_customs_form_config" 
+            parent="menu_customs_form_config_group" 
+            action="action_customs_form_config"/>        
 
 <!--
-form_86_customs    
+customs_facility    
 -->
 
-        <record model="ir.actions.act_window" id="action_form_86_customs">
+        <record model="ir.actions.act_window" id="action_customs_facility">
             <field name="name">Customs</field>
-            <field name="res_model">form.86.customs</field>
+            <field name="res_model">customs.facility</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>   
 
         <menuitem 
-            id="menu_action_form_86_customs" 
-            parent="menu_form_86_config_group" 
-            action="action_form_86_customs"/>        
+            id="menu_action_customs_facility" 
+            parent="menu_customs_form_config_group" 
+            action="action_customs_facility"/>        
             
 <!--
-form_86_customs_tax_codes    
+customs_facility_tax_codes    
 -->
 
-        <record model="ir.actions.act_window" id="action_form_86_custom_taxes">
+        <record model="ir.actions.act_window" id="action_customs_duty">
             <field name="name">Tax codes</field>
-            <field name="res_model">form.86.custom.taxes</field>
+            <field name="res_model">customs.duty</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>   
 
         <menuitem 
-            id="menu_action_form_86_custom_taxes" 
-            parent="menu_form_86_config_group" 
-            action="action_form_86_custom_taxes"/>                 
+            id="menu_action_customs_duty" 
+            parent="menu_customs_form_config_group" 
+            action="action_customs_duty"/>                 
 
             
 <!--
-seniat_form_86    
+customs_form
 -->
 		
 
-        <record model="ir.actions.act_window" id="action_seniat_form_86">
+        <record model="ir.actions.act_window" id="action_customs_form">
             <field name="name">SENIAT - Form 99086</field>
-            <field name="res_model">seniat.form.86</field>
+            <field name="res_model">customs.form</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -83,9 +83,9 @@ seniat_form_86
 			sequence="8"/>
        
         <menuitem 
-            id="menu_action_seniat_form_86" 
+            id="menu_action_customs_form" 
             parent="menu_finance_forma" 
-            action="action_seniat_form_86"/>                 
+            action="action_customs_form"/>                 
             
     </data>
 </openerp>
