@@ -179,7 +179,7 @@ msgid "The form # must be unique!"
 msgstr "El número de planilla debe ser único!"
 
 #. module: l10n_ve_imex
-#: field:customs.form.line,line_id:0
+#: field:customs.form.line,customs_form_id:0
 msgid "Line"
 msgstr "Línea"
 

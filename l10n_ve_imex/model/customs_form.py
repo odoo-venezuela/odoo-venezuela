@@ -109,7 +109,7 @@ class customs_form(osv.osv):
                                      change_default=True, readonly=True,
                                      states={'draft': [('readonly', False)]},
                                      ondelete='restrict'),
-        'line_ids': fields.one2many('customs.form.line', 'line_id',
+        'line_ids': fields.one2many('customs.form.line', 'customs_form_id',
                                     'Tax lines', readonly=True,
                                     states={'draft': [('readonly', False)]}),
         'amount_total': fields.function(_amount_total, method=True,
@@ -326,8 +326,8 @@ class customs_form_line(osv.osv):
     _rec_name = 'tax_code'
 
     _columns = {
-        'line_id': fields.many2one('customs.form', 'Line', required=True,
-                                   ondelete='cascade'),
+        'customs_form_id': fields.many2one('customs.form', 'Customs',
+                                           required=True, ondelete='cascade'),
         'tax_code': fields.many2one('customs.duty', 'Tax',
                                     ondelete='restrict', required=True,
                                     readonly=False),
@@ -346,7 +346,7 @@ class customs_form_line(osv.osv):
     }
 
     _sql_constraints = [
-        ('code_uniq', 'UNIQUE(line_id,tax_code)',
+        ('code_uniq', 'UNIQUE(customs_form_id,tax_code)',
          'The code must be unique! (for this form)'),
     ]
 

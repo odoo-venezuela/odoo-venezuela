@@ -109,7 +109,7 @@ class inheried_account_invoice_tax(osv.osv):
         #~ if customs_form_line_id:
             #~ line_obj = self.pool.get('customs.form.line')
             #~ invoices = [i.id for i in line_obj.browse(
-                #~ cr, uid, customs_form_line_id).line_id.invoice_ids]
+                #~ cr, uid, customs_form_line_id).customs_form_id.invoice_ids]
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 
