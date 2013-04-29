@@ -66,4 +66,75 @@ class inherited_invoice(osv.osv):
                     % item.customs_form_id.name)
         return super(account_invoice, self).test_open(cr, uid, ids, args)
 
-inherited_invoice()
+
+class inheried_account_invoice_tax(osv.osv):
+
+    _inherit = 'account.invoice.tax'
+
+    _columns = {
+        'line_vat_id': fields.many2one('seniat.form.86.lines', 'Vat line',
+                                       required=True, ondelete='cascade'),
+        'imex_inv_id': fields.many2one('account.invoice', 'Imex Invoice',
+                                       ondelete='cascade', select=True),
+        'partner_id': fields.related('imex_inv_id', 'partner_id',
+                                     type='many2one', relation='res.partner',
+                                     string='Supplier'),
+        'reference': fields.related('invoice_id', 'reference', type='char',
+                                    string='Invoice ref', size=64, store=False,
+                                    readonly=True),
+        'base_amount': fields.float(
+            'Base amount',
+            required=True,
+            digits_compute=dp.get_precision('Account')),
+        'tax_amount': fields.float(
+            'Tax amount',
+            digits_compute=dp.get_precision('Account'),
+            required=True),
+    }
+
+    _defaults = {
+    }
+
+    #~ _sql_constraints = [
+        #~ ('base_amount_gt_zero', 'CHECK (base_amount>0)',
+         #~ 'The base amount must be > 0!'),
+        #~ ('tax_amount_zero', 'CHECK (tax_amount>=0)',
+         #~ 'The tax amount must be >= 0!'),
+    #~ ]
+
+    #~ def on_change_line_vat_id(self, cr, uid, ids, line_vat_id):
+        #~ '''
+        #~ Create a domain to filter invoice_id for invoices listed in
+        #~ seniat_form_86.invoice_ids only
+        #~ http://help.openerp.com/question/11180/how-to-create-a-domain-for-
+        #~ field-in-parentparent-model/
+        #~ '''
+        #~ res = {}
+        #~ if line_vat_id:
+            #~ line_obj = self.pool.get('seniat.form.86.lines')
+            #~ invoices = [i.id for i in line_obj.browse(
+                #~ cr, uid, line_vat_id).line_id.invoice_ids]
+            #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
+        #~ return res
+
+    def on_change_amount(self, cr, uid, ids, tax_id, base_amount,
+                         tax_amount):
+        """ To autocompute base or tax, only for percent based taxes. """
+        res = {}
+        if tax_id:
+            obj_vat = self.pool.get('account.tax')
+            vat = obj_vat.browse(cr, uid, tax_id)
+            if vat.type == 'percent':
+                if base_amount == 0 and tax_amount > 0:
+                    base_amount = round(tax_amount / vat.amount, 2)
+                res = {'value': {'base_amount': base_amount}}
+        return res
+
+    def on_change_invoice_id(self, cr, uid, ids, invoice_id):
+        res = {}
+        if invoice_id:
+            obj_inv = self.pool.get('account.invoice')
+            inv = obj_inv.browse(cr, uid, invoice_id)
+            res = {'value': {'partner_id': inv.partner_id.id,
+                             'reference': inv.reference}}
+        return res
