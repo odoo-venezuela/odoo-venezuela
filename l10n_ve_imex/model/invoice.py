@@ -82,10 +82,6 @@ class inheried_account_invoice_tax(osv.osv):
         'reference': fields.related('invoice_id', 'reference', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
-        'base_amount': fields.float(
-            'Base amount',
-            required=True,
-            digits_compute=dp.get_precision('Account')),
         'tax_amount': fields.float(
             'Tax amount',
             digits_compute=dp.get_precision('Account'),
@@ -96,7 +92,7 @@ class inheried_account_invoice_tax(osv.osv):
     }
 
     #~ _sql_constraints = [
-        #~ ('base_amount_gt_zero', 'CHECK (base_amount>0)',
+        #~ ('base_gt_zero', 'CHECK (base>0)',
          #~ 'The base amount must be > 0!'),
         #~ ('tax_amount_zero', 'CHECK (tax_amount>=0)',
          #~ 'The tax amount must be >= 0!'),
@@ -117,7 +113,7 @@ class inheried_account_invoice_tax(osv.osv):
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 
-    def on_change_amount(self, cr, uid, ids, tax_id, base_amount,
+    def on_change_amount(self, cr, uid, ids, tax_id, base,
                          tax_amount):
         """ To autocompute base or tax, only for percent based taxes. """
         res = {}
@@ -125,9 +121,9 @@ class inheried_account_invoice_tax(osv.osv):
             obj_vat = self.pool.get('account.tax')
             vat = obj_vat.browse(cr, uid, tax_id)
             if vat.type == 'percent':
-                if base_amount == 0 and tax_amount > 0:
-                    base_amount = round(tax_amount / vat.amount, 2)
-                res = {'value': {'base_amount': base_amount}}
+                if base == 0 and tax_amount > 0:
+                    base = round(tax_amount / vat.amount, 2)
+                res = {'value': {'base': base}}
         return res
 
     def on_change_invoice_id(self, cr, uid, ids, invoice_id):
