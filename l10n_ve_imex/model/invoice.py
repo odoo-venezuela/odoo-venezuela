@@ -39,6 +39,10 @@ class inherited_invoice(osv.osv):
             states={'draft': [('readonly', False)]}, ondelete='restrict',
             domain=[('state', '=', ('draft'))],
             help="The related form 86 for this import invoice (only draft)"),
+        'imex_tax_line': fields.one2many(
+            'account.invoice.tax', 'imex_inv_id', 'Vat lines',
+            attrs="{'readonly':[('vat_detail','=',True)], \
+            'required':[('vat_detail','=',True)]}"),
     }
 
     def on_change_customs_form_id(self, cr, uid, ids, customs_form_id):
