@@ -48,9 +48,9 @@ seniat_form_86
                                             <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
                                             <field name="partner_id"/>
                                             <field name="reference"/>
-                                            <field name="acc_tax_id" widget="selection"/>
-                                            <field name="base_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)"/>
-                                            <field name="tax_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)" sum="Tax amount total"/>
+                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
+                                            <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)" sum="Tax amount total"/>
                                         </tree>
                                         <form>
 <!--
@@ -59,9 +59,9 @@ seniat_form_86
                                             <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
                                             <field name="partner_id"/>
                                             <field name="reference"/>
-                                            <field name="acc_tax_id" widget="selection"/>
-                                            <field name="base_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)"/>
-                                            <field name="tax_amount" on_change="on_change_amount(acc_tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
+                                            <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
                                         </form>
                                     </field>    
                                 </form>

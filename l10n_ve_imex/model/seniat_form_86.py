@@ -157,9 +157,9 @@ class seniat_form_86(osv.osv):
             if line.tax_code.vat_detail:
                 for vat in line.imex_tax_line:
                     debits.append(
-                        {'account_id': vat.acc_tax_id.account_collected_id.id,
+                        {'account_id': vat.tax_id.account_collected_id.id,
                          'amount': vat.tax_amount,
-                         'tax_info': ' (%s)' % vat.acc_tax_id.name})
+                         'tax_info': ' (%s)' % vat.tax_id.name})
             else:
                 debits.append({'account_id': line.tax_code.account_id.id,
                                'amount': line.amount, 'tax_info': ''})
@@ -366,9 +366,6 @@ class inheried_account_invoice_tax(osv.osv):
         'reference': fields.related('invoice_id', 'reference', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
-        'acc_tax_id': fields.many2one(
-            'account.tax', 'Account Tax ', required=True, ondelete='restrict',
-            domain=[('type_tax_use', '=', 'purchase')], help=""),
         'base_amount': fields.float(
             'Base amount',
             required=True,
@@ -404,13 +401,13 @@ class inheried_account_invoice_tax(osv.osv):
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 
-    def on_change_amount(self, cr, uid, ids, acc_tax_id, base_amount,
+    def on_change_amount(self, cr, uid, ids, tax_id, base_amount,
                          tax_amount):
         """ To autocompute base or tax, only for percent based taxes. """
         res = {}
-        if acc_tax_id:
+        if tax_id:
             obj_vat = self.pool.get('account.tax')
-            vat = obj_vat.browse(cr, uid, acc_tax_id)
+            vat = obj_vat.browse(cr, uid, tax_id)
             if vat.type == 'percent':
                 if base_amount == 0 and tax_amount > 0:
                     base_amount = round(tax_amount / vat.amount, 2)

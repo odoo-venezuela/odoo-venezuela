@@ -375,7 +375,7 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,acc_tax_id:0
+#: field:form.86.custom.taxes,tax_id:0
 msgid "Account Tax "
 msgstr "Impuesto"
 
