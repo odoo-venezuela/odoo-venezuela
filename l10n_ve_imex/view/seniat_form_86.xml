@@ -49,8 +49,8 @@ seniat_form_86
                                             <field name="partner_id"/>
                                             <field name="reference"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
-                                            <field name="base" on_change="on_change_amount(tax_id, base, tax_amount)"/>
-                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base, tax_amount)" sum="Tax amount total"/>
+                                            <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
+                                            <field name="amount" on_change="on_change_amount(tax_id, base, amount)" sum="Tax amount total"/>
                                         </tree>
                                         <form>
 <!--
@@ -60,8 +60,8 @@ seniat_form_86
                                             <field name="partner_id"/>
                                             <field name="reference"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
-                                            <field name="base" on_change="on_change_amount(tax_id, base, tax_amount)"/>
-                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base, tax_amount)"/>
+                                            <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
+                                            <field name="amount" on_change="on_change_amount(tax_id, base, amount)"/>
                                         </form>
                                     </field>    
                                 </form>

@@ -158,7 +158,7 @@ class seniat_form_86(osv.osv):
                 for vat in line.imex_tax_line:
                     debits.append(
                         {'account_id': vat.tax_id.account_collected_id.id,
-                         'amount': vat.tax_amount,
+                         'amount': vat.amount,
                          'tax_info': ' (%s)' % vat.tax_id.name})
             else:
                 debits.append({'account_id': line.tax_code.account_id.id,
@@ -274,7 +274,7 @@ class seniat_form_86(osv.osv):
                 if line.vat_detail:
                     vat_total = line.amount
                     for vat in line.imex_tax_line:
-                        vat_total -= vat.tax_amount
+                        vat_total -= vat.amount
                         if vat.invoice_id.id not in vat_invoices:
                             vat_invoices.append(vat.invoice_id.id)
                     if abs(vat_total) > 0.001:
