@@ -68,9 +68,9 @@ seniat_form_86
 -->
 		
 
-        <record model="ir.actions.act_window" id="action_seniat_form_86">
+        <record model="ir.actions.act_window" id="action_customs_form">
             <field name="name">SENIAT - Form 99086</field>
-            <field name="res_model">seniat.form.86</field>
+            <field name="res_model">customs.form</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -83,9 +83,9 @@ seniat_form_86
 			sequence="8"/>
        
         <menuitem 
-            id="menu_action_seniat_form_86" 
+            id="menu_action_customs_form" 
             parent="menu_finance_forma" 
-            action="action_seniat_form_86"/>                 
+            action="action_customs_form"/>                 
             
     </data>
 </openerp>

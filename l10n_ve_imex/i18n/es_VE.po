@@ -57,7 +57,7 @@ msgid "Tax"
 msgstr "Impuesto"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,custom_id:0
+#: field:customs.form,custom_id:0
 msgid "Custom"
 msgstr "Aduana"
 
@@ -67,22 +67,22 @@ msgid "The code must be unique! (for this comany)"
 msgstr "El código debe ser único! (para la companía)"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,state:0
+#: field:customs.form,state:0
 msgid "State"
 msgstr "Estado"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
+#: view:customs.form:0
 msgid "Other"
 msgstr "Otros"
 
 #. module: l10n_ve_imex
-#: selection:seniat.form.86,state:0
+#: selection:customs.form,state:0
 msgid "Draft"
 msgstr "Borrador"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,move_id:0
+#: field:customs.form,move_id:0
 msgid "Account move"
 msgstr "Asiento contable"
 
@@ -99,7 +99,7 @@ msgid "No account found, please check customs taxes settings (%s)"
 msgstr "No se encontró la cuenta, verifique la configuracion de: Códigos de impuestos (%s)"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,date_liq:0
+#: field:customs.form,date_liq:0
 msgid "liq. date"
 msgstr "Fecha liq."
 
@@ -114,13 +114,13 @@ msgid "Import file number"
 msgstr "Exp. importación"
 
 #. module: l10n_ve_imex
-#: help:seniat.form.86,move_id:0
+#: help:customs.form,move_id:0
 msgid "The move of this entry line."
 msgstr "El asiento de esta entrada."
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
-#: field:seniat.form.86,amount_total:0
+#: view:customs.form:0
+#: field:customs.form,amount_total:0
 msgid "Amount total"
 msgstr "Amount total"
 
@@ -147,7 +147,7 @@ msgstr "Ref"
 #. module: l10n_ve_imex
 #: field:form.86.config,company_id:0
 #: field:form.86.custom.taxes,company_id:0
-#: field:seniat.form.86,company_id:0
+#: field:customs.form,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
@@ -158,7 +158,7 @@ msgid "Can't cancel a import while account move state <> \"Draft\""
 msgstr "Imposible cancelar el registro cuando el estado del asiento <> \"Borrador\""
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,broker_id:0
+#: field:customs.form,broker_id:0
 msgid "Broker"
 msgstr "Agente"
 
@@ -169,12 +169,12 @@ msgid "Customs"
 msgstr "Aduanas"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,date:0
+#: field:customs.form,date:0
 msgid "Date"
 msgstr "Fecha"
 
 #. module: l10n_ve_imex
-#: sql_constraint:seniat.form.86:0
+#: sql_constraint:customs.form:0
 msgid "The form # must be unique!"
 msgstr "El número de planilla debe ser único!"
 
@@ -190,8 +190,8 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
-#: field:seniat.form.86,narration:0
+#: view:customs.form:0
+#: field:customs.form,narration:0
 msgid "Notes"
 msgstr "Notas"
 
@@ -219,12 +219,12 @@ msgid "Multiple operations not allowed"
 msgstr "Operaciones múltiples no permitidas"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,line_ids:0
+#: field:customs.form,line_ids:0
 msgid "Lines"
 msgstr "Lineas"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
+#: view:customs.form:0
 msgid "Taxes"
 msgstr "Impuestos"
 
@@ -248,19 +248,19 @@ msgid "Import/Export - SENIAT - Form 99086"
 msgstr "Importar/Exportar - SENIAT - Forma 99086"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,date_reg:0
+#: field:customs.form,date_reg:0
 msgid "Reg. date"
 msgstr "Fecha Reg."
 
 #. module: l10n_ve_imex
-#: selection:seniat.form.86,state:0
+#: selection:customs.form,state:0
 msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_seniat_form_86
-msgid "seniat.form.86"
-msgstr "seniat.form.86"
+#: model:ir.model,name:l10n_ve_imex.model_customs_form
+msgid "customs.form"
+msgstr "customs.form"
 
 #. module: l10n_ve_imex
 #: model:ir.model,name:l10n_ve_imex.model_form_86_custom_taxes
@@ -268,7 +268,7 @@ msgid "form.86.custom.taxes"
 msgstr "form.86.custom.taxes"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
+#: view:customs.form:0
 msgid "General info"
 msgstr "Información general"
 
@@ -285,23 +285,23 @@ msgid "Code"
 msgstr "Código"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,ref_liq:0
+#: field:customs.form,ref_liq:0
 msgid "Liq. number"
 msgstr "Nro. Liq."
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,ref:0
+#: field:customs.form,ref:0
 msgid "Reference"
 msgstr "Referencia"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,invoice_ids:0
+#: field:customs.form,invoice_ids:0
 msgid "Related invoices"
 msgstr "Facturas relacionadas"
 
 #. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_seniat_form_86
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_seniat_form_86
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_form
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_form
 msgid "SENIAT - Form 99086"
 msgstr "SENIAT - Forma 99086"
 
@@ -311,7 +311,7 @@ msgid "Sequence"
 msgstr "Secuencia"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,ref_reg:0
+#: field:customs.form,ref_reg:0
 msgid "Reg. number"
 msgstr "Nro. Reg."
 
@@ -321,13 +321,13 @@ msgid "form.86.config"
 msgstr "form.86.config"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
+#: view:customs.form:0
 msgid "Reset to draft"
 msgstr "Cambiar a borrador"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
-#: selection:seniat.form.86,state:0
+#: view:customs.form:0
+#: selection:customs.form,state:0
 msgid "Done"
 msgstr "Listo"
 
@@ -344,12 +344,12 @@ msgid "Invoice"
 msgstr "Factura"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86,name:0
+#: field:customs.form,name:0
 msgid "Form #"
 msgstr "Nº Planilla"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
+#: view:customs.form:0
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -364,8 +364,8 @@ msgid "customs.form.line"
 msgstr "customs.form.line"
 
 #. module: l10n_ve_imex
-#: view:seniat.form.86:0
-#: selection:seniat.form.86,state:0
+#: view:customs.form:0
+#: selection:customs.form,state:0
 msgid "Open"
 msgstr "Abierto"
 

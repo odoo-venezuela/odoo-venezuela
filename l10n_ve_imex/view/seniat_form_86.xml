@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    
-<!--
-seniat_form_86    
--->
 
-        <record id="view_seniat_form_86_form" model="ir.ui.view">
-            <field name="name">seniat.form.86.form</field>
-            <field name="model">seniat.form.86</field>
+        <record id="view_customs_form_form" model="ir.ui.view">
+            <field name="name">customs.form.form</field>
+            <field name="model">customs.form</field>
             <field name="arch" type="xml">
                 <form string="Seniat" version='7.0'>
 					<header>
@@ -87,10 +83,9 @@ seniat_form_86
             </field>
         </record>
 
-
-        <record id="view_seniat_form_86_tree" model="ir.ui.view" >
-            <field name="name">seniat.form.86.tree</field>
-            <field name="model">seniat.form.86</field>
+        <record id="view_customs_form_tree" model="ir.ui.view" >
+            <field name="name">customs.form.tree</field>
+            <field name="model">customs.form</field>
             <field name="arch" type="xml">
                 <tree string="SENIAT" colors="red:state in ('draft');gray:state in ('cancel');darkgreen:state in ('open')">
                     <field name="name"/>

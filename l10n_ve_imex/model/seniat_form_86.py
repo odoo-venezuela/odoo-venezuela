@@ -31,9 +31,9 @@ import openerp.addons.decimal_precision as dp
 import time
 
 
-class seniat_form_86(osv.osv):
+class customs_form(osv.osv):
 
-    _name = 'seniat.form.86'
+    _name = 'customs.form'
     _description = ''
 
     def name_get(self, cr, uid, ids, context):
@@ -132,7 +132,7 @@ class seniat_form_86(osv.osv):
         'date': lambda *a: time.strftime('%Y-%m-%d'),
         'company_id': lambda self, cr, uid, c:
         self.pool.get('res.company')._company_default_get(cr, uid,
-                                                          'seniat.form.86',
+                                                          'customs.form',
                                                           context=c),
         'line_ids': _default_line_ids,
         'state': lambda *a: 'draft',
@@ -326,7 +326,7 @@ class customs_form_line(osv.osv):
     _rec_name = 'tax_code'
 
     _columns = {
-        'line_id': fields.many2one('seniat.form.86', 'Line', required=True,
+        'line_id': fields.many2one('customs.form', 'Line', required=True,
                                    ondelete='cascade'),
         'tax_code': fields.many2one('form.86.custom.taxes', 'Tax',
                                     ondelete='restrict', required=True,

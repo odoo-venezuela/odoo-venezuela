@@ -35,7 +35,7 @@ class inherited_invoice(osv.osv):
 
     _columns = {
         'customs_form_id': fields.many2one(
-            'seniat.form.86', 'Import file number', change_default=True,
+            'customs.form', 'Import file number', change_default=True,
             required=False, readonly=True,
             states={'draft': [('readonly', False)]}, ondelete='restrict',
             domain=[('state', '=', ('draft'))],
@@ -49,7 +49,7 @@ class inherited_invoice(osv.osv):
     def on_change_customs_form_id(self, cr, uid, ids, customs_form_id):
         res = {}
         if customs_form_id:
-            imp = self.pool.get('seniat.form.86').browse(cr, uid,
+            imp = self.pool.get('customs.form').browse(cr, uid,
                                                          customs_form_id,
                                                          context=None)
             res = {'value': {'num_import_form': imp.name,
@@ -98,7 +98,7 @@ class inheried_account_invoice_tax(osv.osv):
     #~ def on_change_line_vat_id(self, cr, uid, ids, line_vat_id):
         #~ '''
         #~ Create a domain to filter invoice_id for invoices listed in
-        #~ seniat_form_86.invoice_ids only
+        #~ customs_form.invoice_ids only
         #~ http://help.openerp.com/question/11180/how-to-create-a-domain-for-
         #~ field-in-parentparent-model/
         #~ '''
