@@ -73,7 +73,7 @@ class inheried_account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
 
     _columns = {
-        'line_vat_id': fields.many2one('seniat.form.86.lines', 'Vat line',
+        'line_vat_id': fields.many2one('customs.form.line', 'Vat line',
                                        required=True, ondelete='cascade'),
         'imex_inv_id': fields.many2one('account.invoice', 'Imex Invoice',
                                        ondelete='cascade', select=True),
@@ -104,7 +104,7 @@ class inheried_account_invoice_tax(osv.osv):
         #~ '''
         #~ res = {}
         #~ if line_vat_id:
-            #~ line_obj = self.pool.get('seniat.form.86.lines')
+            #~ line_obj = self.pool.get('customs.form.line')
             #~ invoices = [i.id for i in line_obj.browse(
                 #~ cr, uid, line_vat_id).line_id.invoice_ids]
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}

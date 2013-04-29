@@ -52,7 +52,7 @@ msgid "Please set a valid configuration"
 msgstr "Debe establecer una configuración válida"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86.lines,tax_code:0
+#: field:customs.form.line,tax_code:0
 msgid "Tax"
 msgstr "Impuesto"
 
@@ -135,7 +135,7 @@ msgid "form.86.customs"
 msgstr "form.86.customs"
 
 #. module: l10n_ve_imex
-#: sql_constraint:seniat.form.86.lines:0
+#: sql_constraint:customs.form.line:0
 msgid "The code must be unique! (for this form)"
 msgstr "El código debe ser único! (para la companía)"
 
@@ -179,7 +179,7 @@ msgid "The form # must be unique!"
 msgstr "El número de planilla debe ser único!"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86.lines,line_id:0
+#: field:customs.form.line,line_id:0
 msgid "Line"
 msgstr "Línea"
 
@@ -238,7 +238,7 @@ msgid "Error!"
 msgstr "Error!"
 
 #. module: l10n_ve_imex
-#: field:seniat.form.86.lines,amount:0
+#: field:customs.form.line,amount:0
 msgid "Amount"
 msgstr "Monto"
 
@@ -359,9 +359,9 @@ msgid "Partner"
 msgstr "Proveedor"
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_seniat_form_86_lines
-msgid "seniat.form.86.lines"
-msgstr "seniat.form.86.lines"
+#: model:ir.model,name:l10n_ve_imex.model_customs_form_line
+msgid "customs.form.line"
+msgstr "customs.form.line"
 
 #. module: l10n_ve_imex
 #: view:seniat.form.86:0

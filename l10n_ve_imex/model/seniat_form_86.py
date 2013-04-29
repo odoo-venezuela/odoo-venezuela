@@ -109,7 +109,7 @@ class seniat_form_86(osv.osv):
                                      change_default=True, readonly=True,
                                      states={'draft': [('readonly', False)]},
                                      ondelete='restrict'),
-        'line_ids': fields.one2many('seniat.form.86.lines', 'line_id',
+        'line_ids': fields.one2many('customs.form.line', 'line_id',
                                     'Tax lines', readonly=True,
                                     states={'draft': [('readonly', False)]}),
         'amount_total': fields.function(_amount_total, method=True,
@@ -319,9 +319,9 @@ class seniat_form_86(osv.osv):
         return True
 
 
-class seniat_form_86_lines(osv.osv):
+class customs_form_line(osv.osv):
 
-    _name = 'seniat.form.86.lines'
+    _name = 'customs.form.line'
     _description = ''
     _rec_name = 'tax_code'
 

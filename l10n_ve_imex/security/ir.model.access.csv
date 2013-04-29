@@ -7,5 +7,5 @@
 "form_86_custom_taxes_manager","form.86.custom.taxes.manager","model_form_86_custom_taxes","account.group_account_manager",1,1,1,1
 "seniat_form_86_user","seniat.form.86.user","model_seniat_form_86","account.group_account_user",1,1,1,0
 "seniat_form_86_manager","seniat.form.86.manager","model_seniat_form_86","account.group_account_manager",1,1,1,1
-"seniat_form_86_lines_user","seniat.form.86.lines.user","model_seniat_form_86_lines","account.group_account_user",1,1,1,0
-"seniat_form_86_lines_manager","seniat.form.86.lines.manager","model_seniat_form_86_lines","account.group_account_manager",1,1,1,1
+"customs_form_line_user","customs.form.line.user","model_customs_form_line","account.group_account_user",1,1,1,0
+"customs_form_line_manager","customs.form.line.manager","model_customs_form_line","account.group_account_manager",1,1,1,1
