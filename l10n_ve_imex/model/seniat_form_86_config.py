@@ -57,8 +57,6 @@ class form_86_config(osv.osv):
          'The company must be unique!'),
     ]
 
-form_86_config()
-
 
 class form_86_customs(osv.osv):
     '''
@@ -100,8 +98,6 @@ class form_86_customs(osv.osv):
     _sql_constraints = [
         ('code_uniq', 'UNIQUE(code)', 'The code must be unique!'),
     ]
-
-form_86_customs()
 
 
 class form_86_custom_taxes(osv.osv):
@@ -156,4 +152,3 @@ class form_86_custom_taxes(osv.osv):
          'The sequence must be unique! (for this comany)'),
     ]
 
-form_86_custom_taxes()

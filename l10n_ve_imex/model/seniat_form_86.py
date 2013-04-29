@@ -318,8 +318,6 @@ class seniat_form_86(osv.osv):
                         inv.partner_id.name, inv.reference)
         return True
 
-seniat_form_86()
-
 
 class seniat_form_86_lines(osv.osv):
 
@@ -351,8 +349,6 @@ class seniat_form_86_lines(osv.osv):
         ('code_uniq', 'UNIQUE(line_id,tax_code)',
          'The code must be unique! (for this form)'),
     ]
-
-seniat_form_86_lines()
 
 
 class seniat_form_86_lines_vat(osv.osv):
@@ -434,4 +430,3 @@ class seniat_form_86_lines_vat(osv.osv):
                              'reference': inv.reference}}
         return res
 
-seniat_form_86_lines_vat()
