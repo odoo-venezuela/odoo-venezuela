@@ -82,7 +82,7 @@ class inheried_account_invoice_tax(osv.osv):
         'partner_id': fields.related('imex_inv_id', 'partner_id',
                                      type='many2one', relation='res.partner',
                                      string='Supplier'),
-        'reference': fields.related('invoice_id', 'reference', type='char',
+        'reference': fields.related('imex_inv_id', 'reference', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
     }
