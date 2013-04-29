@@ -43,10 +43,10 @@ class wh_muni_report(report_sxw.rml_parse):
             return []
 
         addr_obj = self.pool.get('res.partner')
-        addr_inv = _('NO FINANCIAL MANAGEMENT DEFINED')
+        addr_inv = _('NO INVOICE ADDRESS DEFINED')
         if idp:                
             addr = addr_obj.browse(self.cr,self.uid, idp)
-            addr_inv =addr.type == 'invoice' and  (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '') or _('NO FINANCIAL MANAGEMENT DEFINED')
+            addr_inv =addr.type == 'invoice' and  (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '') or _('NO INVOICE ADDRESS DEFINED')
         return addr_inv 
 
 
