@@ -166,7 +166,7 @@
         <record id="res_partner_administradoramengimca0" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
             <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
+            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
@@ -204,7 +204,7 @@
         <record id="res_partner_nhomarhernandez0" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
             <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
+            <field eval="&quot;&quot;&quot;AV SAN JUAN EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-555.09.01&quot;&quot;&quot;" name="fax"/>
@@ -223,7 +223,7 @@
         <record id="res_partner_viajesmirandaca0" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
             <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
+            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
@@ -246,7 +246,7 @@
         <record id="res_partner_1" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
             <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV SAN JUAN NO TE IMPORTA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
+            <field eval="&quot;&quot;&quot;AV SAN JUAN CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-299.09.01&quot;&quot;&quot;" name="fax"/>
@@ -266,7 +266,7 @@
         <record id="res_partner_2" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
             <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
+            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
@@ -286,7 +286,7 @@
         <record id="res_partner_3" model="res.partner">
             <field eval="0" name="islr_withholding_agent"/>
             <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA SI TE IMPORTA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
+            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
             <field name="country_id" ref="base.VEF"/>
             <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
             <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
