@@ -36,7 +36,7 @@ msgid "The related form 86 for this import invoice (only draft and open forms)"
 msgstr "La planilla de importacion (F86) asociada a esta factura (solo planillas en borador y abiertas)"
 
 #. module: l10n_ve_imex
-#: sql_constraint:form.86.config:0
+#: sql_constraint:customs.form.config:0
 msgid "The company must be unique!"
 msgstr "La Compañía debe ser unica!"
 
@@ -145,7 +145,7 @@ msgid "Ref"
 msgstr "Ref"
 
 #. module: l10n_ve_imex
-#: field:form.86.config,company_id:0
+#: field:customs.form.config,company_id:0
 #: field:form.86.custom.taxes,company_id:0
 #: field:customs.form,company_id:0
 msgid "Company"
@@ -184,8 +184,8 @@ msgid "Line"
 msgstr "Línea"
 
 #. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_form_86_config
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_form_86_config
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_form_config
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_form_config
 msgid "Configuration"
 msgstr "Configuración"
 
@@ -243,7 +243,7 @@ msgid "Amount"
 msgstr "Monto"
 
 #. module: l10n_ve_imex
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_form_86_config_group
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_customs_form_config_group
 msgid "Import/Export - SENIAT - Form 99086"
 msgstr "Importar/Exportar - SENIAT - Forma 99086"
 
@@ -316,9 +316,9 @@ msgid "Reg. number"
 msgstr "Nro. Reg."
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_form_86_config
-msgid "form.86.config"
-msgstr "form.86.config"
+#: model:ir.model,name:l10n_ve_imex.model_customs_form_config
+msgid "customs.form.config"
+msgstr "customs.form.config"
 
 #. module: l10n_ve_imex
 #: view:customs.form:0
@@ -370,7 +370,7 @@ msgid "Open"
 msgstr "Abierto"
 
 #. module: l10n_ve_imex
-#: field:form.86.config,journal_id:0
+#: field:customs.form.config,journal_id:0
 msgid "Journal"
 msgstr "Diario"
 

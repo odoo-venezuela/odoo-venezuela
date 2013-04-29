@@ -2,9 +2,9 @@
 <openerp>
     <data>
         
-        <record model="ir.rule" id="form_86_config_comp_rule">
-            <field name="name">Form 86 config company rule</field>
-            <field name="model_id" ref="model_form_86_config"/>
+        <record model="ir.rule" id="customs_form_config_comp_rule">
+            <field name="name">FCustoms Form Config Company Rule</field>
+            <field name="model_id" ref="model_customs_form_config"/>
             <field name="global" eval="True"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
         </record>

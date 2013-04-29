@@ -196,7 +196,7 @@ class customs_form(osv.osv):
             if f86.move_id:  # ~ The move is already done, nothing to do
                 return []
         obj_move = self.pool.get('account.move')
-        obj_cfg = self.pool.get('form.86.config')
+        obj_cfg = self.pool.get('customs.form.config')
         company_id = self.pool.get('res.users').browse(
             cr, uid, uid, context=context).company_id.id
         company = self.pool.get('res.company').browse(cr, uid, company_id,

@@ -30,12 +30,12 @@ from openerp.tools.translate import _
 import openerp.pooler
 
 
-class form_86_config(osv.osv):
+class customs_form_config(osv.osv):
     '''
     Stores common config parameters for form_86 data
     '''
 
-    _name = 'form.86.config'
+    _name = 'customs.form.config'
     _description = ''
     _rec_name = "company_id"
 
@@ -49,7 +49,7 @@ class form_86_config(osv.osv):
     _defaults = {
         'company_id': lambda self, cr, uid, c:
         self.pool.get('res.company')._company_default_get(
-            cr, uid, 'form.86.config', context=c),
+            cr, uid, 'customs.form.config', context=c),
     }
 
     _sql_constraints = [
@@ -141,7 +141,7 @@ class form_86_custom_taxes(osv.osv):
     _defaults = {
         'company_id': lambda self, cr, uid, c:
         self.pool.get('res.company')._company_default_get(
-            cr, uid, 'form.86.config', context=c),
+            cr, uid, 'customs.form.config', context=c),
         'vat_detail': False,
     }
 

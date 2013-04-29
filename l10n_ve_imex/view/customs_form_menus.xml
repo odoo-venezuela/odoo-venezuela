@@ -7,26 +7,26 @@ Config parent menu
 -->
 
         <menuitem name="Import/Export - SENIAT - Form 99086"
-            id="menu_form_86_config_group" 
+            id="menu_customs_form_config_group" 
             parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings"
             sequence="80"/>
 
 <!--
-form_86_config    
+customs_form_config    
 -->
 
-        <record model="ir.actions.act_window" id="action_form_86_config">
+        <record model="ir.actions.act_window" id="action_customs_form_config">
             <field name="name">Configuration</field>
-            <field name="res_model">form.86.config</field>
+            <field name="res_model">customs.form.config</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
 		</record>   
 
         <menuitem 
-            id="menu_action_form_86_config" 
-            parent="menu_form_86_config_group" 
-            action="action_form_86_config"/>        
+            id="menu_action_customs_form_config" 
+            parent="menu_customs_form_config_group" 
+            action="action_customs_form_config"/>        
 
 <!--
 form_86_customs    
@@ -42,7 +42,7 @@ form_86_customs
 
         <menuitem 
             id="menu_action_form_86_customs" 
-            parent="menu_form_86_config_group" 
+            parent="menu_customs_form_config_group" 
             action="action_form_86_customs"/>        
             
 <!--
@@ -59,7 +59,7 @@ form_86_customs_tax_codes
 
         <menuitem 
             id="menu_action_form_86_custom_taxes" 
-            parent="menu_form_86_config_group" 
+            parent="menu_customs_form_config_group" 
             action="action_form_86_custom_taxes"/>                 
 
             
