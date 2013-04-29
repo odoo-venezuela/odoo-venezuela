@@ -800,11 +800,6 @@ msgid "Number used to manage pre-printed invoices, by law you will need to put h
 msgstr "Number used to manage pre-printed invoices, by law you will need to put here this number to be able to declarate on Fiscal reports correctly."
 
 #. module: l10n_ve_fiscal_requirements
-#: field:account.invoice,expedient:0
-msgid "Dossier"
-msgstr "Dossier"
-
-#. module: l10n_ve_fiscal_requirements
 #: view:account.invoice:0
 msgid "Fiscal Information"
 msgstr "Fiscal Information"
@@ -871,11 +866,6 @@ msgstr "You can run this process just if the invoice have Control Number, please
 #, python-format
 msgid "Data Insufficient !"
 msgstr "Datos Insuficientes !"
-
-#. module: l10n_ve_fiscal_requirements
-#: help:account.invoice,expedient:0
-msgid "If it is true, it means this is a landindg form, you will need to load this format as an purchase invoice to declarate on Book"
-msgstr "If it is true, it means this is a landindg form, you will need to load this format as an purchase invoice to declarate on Book"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice

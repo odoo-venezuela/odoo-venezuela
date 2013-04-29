@@ -741,11 +741,6 @@ msgid "Seniat Updated"
 msgstr ""
 
 #. module: l10n_ve_fiscal_requirements
-#: field:account.invoice,expedient:0
-msgid "Dossier"
-msgstr ""
-
-#. module: l10n_ve_fiscal_requirements
 #: view:account.invoice:0
 msgid "Fiscal Information"
 msgstr ""
@@ -885,11 +880,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_requirements
 #: field:wizard.seniat.url,url2:0
 msgid "URL2"
-msgstr ""
-
-#. module: l10n_ve_fiscal_requirements
-#: help:account.invoice,expedient:0
-msgid "If it is true, it means this is a landindg form"
 msgstr ""
 
 #. module: l10n_ve_fiscal_requirements
