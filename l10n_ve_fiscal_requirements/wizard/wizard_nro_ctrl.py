@@ -31,6 +31,8 @@ class wiz_nroctrl(osv.osv_memory):
     _description = "Wizard that changes the invoice control number"
 
     def set_noctrl(self, cr, uid, ids, context=None):
+        """ Change control number of the invoice
+        """
         if context is None:
             context={}
         data = self.pool.get('wiz.nroctrl').read(cr, uid, ids)[0]

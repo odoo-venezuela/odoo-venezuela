@@ -40,22 +40,20 @@ class res_company(osv.osv):
         }
 
     def create(self, cr, uid, vals, context=None):
-        '''
-        to create a new record,
+        """ To create a new record,
         adds a Boolean field to true
         indicates that the partner is a company
-        '''
+        """
         if context is None:
             context = {}
         context.update({'create_company': True})
         return super(res_company, self).create(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, values, context=None):
-        '''
-        to write a new record,
+        """ To write a new record,
         adds a Boolean field to true
         indicates that the partner is a company
-        '''
+        """
         context = context or {}
         context.update({'create_company': True})
         return super(res_company, self).write(cr, uid, ids, values, context=context)

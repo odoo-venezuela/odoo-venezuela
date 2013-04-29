@@ -40,6 +40,8 @@ class account_invoice_debit(osv.osv_memory):
     }
 
     def _get_journal(self, cr, uid, context=None):
+        """ Return partner journal depending of the invoice type
+        """
         obj_journal = self.pool.get('account.journal')
         if context is None:
             context = {}
@@ -61,6 +63,8 @@ class account_invoice_debit(osv.osv_memory):
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
+        """ Change fields position in the view 
+        """
         if context is None:
             context = {}
         
@@ -82,8 +86,7 @@ class account_invoice_debit(osv.osv_memory):
         return res
 
     def _get_orig(self, cr, uid, inv, ref, context=None):
-        """
-        Return  default origin value
+        """ Return default origin value
         """
         if context is None:
             context = {}
@@ -94,11 +97,10 @@ class account_invoice_debit(osv.osv_memory):
         return orig
 
     def compute_debit(self, cr, uid, ids, context=None):
-        """
-        @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: the account invoice refund’s ID or list of IDs
-
+        """ Create a debit note
+        @param cr: The current row, from the database cursor,
+        @param uid: The current user’s ID for security checks,
+        @param ids: The account invoice refund’s ID or list of IDs
         """
         inv_obj = self.pool.get('account.invoice')
         reconcile_obj = self.pool.get('account.move.reconcile')
@@ -216,6 +218,8 @@ class account_invoice_debit(osv.osv_memory):
         return result
 
     def invoice_debit(self, cr, uid, ids, context=None):
+        """ Call method compute_debit
+        """
         if context is None:
             context = {}
         return self.compute_debit(cr, uid, ids, context=context)

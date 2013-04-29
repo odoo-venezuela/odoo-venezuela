@@ -33,9 +33,8 @@ from openerp import netsvc
 
 
 class account_invoice_line(osv.osv):
-    '''
-    It adds a field that determines if a line has been retained or not
-    '''
+    """ It adds a field that determines if a line has been retained or not
+    """
     _inherit = "account.invoice.line"
     _columns = {
         'apply_wh': fields.boolean('Withheld',
@@ -55,10 +54,18 @@ class account_invoice_line(osv.osv):
                           type='out_invoice', partner_id=False,
                           fposition_id=False, price_unit=False,
                           currency_id=False, context=None, company_id=None):
-        '''
-        Onchange to show the concept of retention associated with the product
+        """ Onchange information of the product invoice line
         at once in the line of the bill
-        '''
+        @param product: new product for the invoice line
+        @param uom: new measuring unit of product
+        @param qty: new quantity for the invoice line
+        @param name: new description for the invoice line
+        @param type: invoice type
+        @param partner_id: partner of the invoice
+        @param fposition_id: fiscal position of the invoice
+        @param price_unit: new Unit Price for the invoice line
+        @param currency_id: 
+        """
         if context is None:
             context = {}
         data = super(
@@ -78,10 +85,9 @@ class account_invoice_line(osv.osv):
         return data
 
     def create(self, cr, uid, vals, context=None):
-        '''
-        initialilizes the fields wh_xml_id and apply_wh,
+        """ Initialilizes the fields wh_xml_id and apply_wh,
         when it comes to a new line
-        '''
+        """
         if context is None:
             context = {}
 
@@ -122,18 +128,16 @@ class account_invoice(osv.osv):
 ## BEGIN OF REWRITING ISLR
 
     def check_invoice_type(self, cr, uid, ids, context=None):
-        '''
-        This method check if the given invoice record is from a supplier
-        '''
+        """ This method check if the given invoice record is from a supplier
+        """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         inv_brw = self.browse(cr, uid, ids[0], context=context)
         return inv_brw.type in ('in_invoice', 'in_refund')
 
     def check_withholdable_concept(self, cr, uid, ids, context=None):
-        '''
-        Check if the given invoice record is ISLR Withholdable
-        '''
+        """ Check if the given invoice record is ISLR Withholdable
+        """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
@@ -141,10 +145,9 @@ class account_invoice(osv.osv):
 
     def _create_doc_invoices(self, cr, uid, ids, islr_wh_doc_id,
                              context=None):
-        '''
-        This method link the invoices to be withheld
+        """ This method link the invoices to be withheld
         with the withholding document.
-        '''
+        """
         # TODO: CHECK IF THIS METHOD SHOULD BE HERE OR IN THE ISLR WH DOC
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -156,9 +159,8 @@ class account_invoice(osv.osv):
         return iwhdi_ids
 
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
-        '''
-        Function to create in the model islr_wh_doc
-        '''
+        """ Function to create in the model islr_wh_doc
+        """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
@@ -201,10 +203,9 @@ class account_invoice(osv.osv):
         return islr_wh_doc_id
 
     def copy(self, cr, uid, id, default=None, context=None):
-        '''
-        inicializes the fields islr_wh_doc and status
+        """ Inicializes the fields islr_wh_doc and status
         when the line is duplicated
-        '''
+        """
         if default is None:
             default = {}
 
@@ -222,9 +223,8 @@ class account_invoice(osv.osv):
                                                  context)
 
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
-        '''
-        initializes the fields of the lines of a refund invoice
-        '''
+        """ Initializes the fields of the lines of a refund invoice
+        """
         data = super(account_invoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
         list = []
@@ -240,8 +240,7 @@ class account_invoice(osv.osv):
         return list
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):
-        """
-        Method that check if wh income is validated in invoice refund.
+        """ Method that check if wh income is validated in invoice refund.
         @params: ids: list of invoices.
         return: True: the wh income is validated.
                 False: the wh income is not validated.
@@ -265,6 +264,16 @@ class account_invoice(osv.osv):
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, pay_journal_id,
                         writeoff_acc_id, writeoff_period_id, writeoff_journal_id, date,
                         name, context=None):
+        """ Generate move lines in corresponding account                            
+        @param to_wh: whether or not withheld                                   
+        @param period_id: Period                                                
+        @param pay_journal_id: pay journal of the invoice                       
+        @param writeoff_acc_id: account where canceled                          
+        @param writeoff_period_id: period where canceled                        
+        @param writeoff_journal_id: journal where canceled                      
+        @param date: current date                                               
+        @param name: description
+        """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh,
