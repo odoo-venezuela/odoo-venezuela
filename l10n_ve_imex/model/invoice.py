@@ -73,8 +73,10 @@ class inheried_account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
 
     _columns = {
-        'line_vat_id': fields.many2one('customs.form.line', 'Vat line',
-                                       required=True, ondelete='cascade'),
+        'customs_form_line_id': fields.many2one('customs.form.line',
+                                                'Vat line',
+                                                 required=True,
+                                                 ondelete='cascade'),
         'imex_inv_id': fields.many2one('account.invoice', 'Imex Invoice',
                                        ondelete='cascade', select=True),
         'partner_id': fields.related('imex_inv_id', 'partner_id',
@@ -95,7 +97,8 @@ class inheried_account_invoice_tax(osv.osv):
          #~ 'The tax amount must be >= 0!'),
     #~ ]
 
-    #~ def on_change_line_vat_id(self, cr, uid, ids, line_vat_id):
+    #~ def on_change_customs_form_line_id(self, cr, uid, ids,
+        #~                                customs_form_line_id):
         #~ '''
         #~ Create a domain to filter invoice_id for invoices listed in
         #~ customs_form.invoice_ids only
@@ -103,10 +106,10 @@ class inheried_account_invoice_tax(osv.osv):
         #~ field-in-parentparent-model/
         #~ '''
         #~ res = {}
-        #~ if line_vat_id:
+        #~ if customs_form_line_id:
             #~ line_obj = self.pool.get('customs.form.line')
             #~ invoices = [i.id for i in line_obj.browse(
-                #~ cr, uid, line_vat_id).line_id.invoice_ids]
+                #~ cr, uid, customs_form_line_id).line_id.invoice_ids]
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 

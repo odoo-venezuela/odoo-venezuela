@@ -334,7 +334,7 @@ class customs_form_line(osv.osv):
         'amount': fields.float('Amount', required=True,
                                digits_compute=dp.get_precision('Account')),
         'imex_tax_line': fields.one2many(
-            'account.invoice.tax', 'line_vat_id', 'Vat lines',
+            'account.invoice.tax', 'customs_form_line_id', 'Vat lines',
             attrs="{'readonly':[('vat_detail','=',True)], \
             'required':[('vat_detail','=',True)]}"),
         'vat_detail': fields.related('tax_code', 'vat_detail', type='boolean',
