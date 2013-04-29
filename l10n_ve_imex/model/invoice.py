@@ -26,6 +26,7 @@
 ###############################################################################
 
 from openerp.osv import osv, fields
+import openerp.addons.decimal_precision as dp
 
 
 class inherited_invoice(osv.osv):
