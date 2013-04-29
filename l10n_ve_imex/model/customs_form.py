@@ -105,7 +105,7 @@ class customs_form(osv.osv):
         'date_liq': fields.date('liq. date', required=True, readonly=True,
                                 states={'draft': [('readonly', False)]},
                                 select=True),
-        'custom_id': fields.many2one('form.86.customs', 'Custom',
+        'custom_id': fields.many2one('customs.facility', 'Custom',
                                      change_default=True, readonly=True,
                                      states={'draft': [('readonly', False)]},
                                      ondelete='restrict'),

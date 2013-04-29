@@ -29,24 +29,24 @@ customs_form_config
             action="action_customs_form_config"/>        
 
 <!--
-form_86_customs    
+customs_facility    
 -->
 
-        <record model="ir.actions.act_window" id="action_form_86_customs">
+        <record model="ir.actions.act_window" id="action_customs_facility">
             <field name="name">Customs</field>
-            <field name="res_model">form.86.customs</field>
+            <field name="res_model">customs.facility</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>   
 
         <menuitem 
-            id="menu_action_form_86_customs" 
+            id="menu_action_customs_facility" 
             parent="menu_customs_form_config_group" 
-            action="action_form_86_customs"/>        
+            action="action_customs_facility"/>        
             
 <!--
-form_86_customs_tax_codes    
+customs_facility_tax_codes    
 -->
 
         <record model="ir.actions.act_window" id="action_customs_duty">

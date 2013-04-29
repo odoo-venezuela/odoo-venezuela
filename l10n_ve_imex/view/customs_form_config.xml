@@ -38,12 +38,12 @@ customs_form_config
 
 
 <!--
-form_86_customs    
+customs_facility    
 -->
 
-        <record id="view_form_86_customs_form" model="ir.ui.view">
-            <field name="name">form.86.customs.form</field>
-            <field name="model">form.86.customs</field>
+        <record id="view_customs_facility_form" model="ir.ui.view">
+            <field name="name">customs.facility.form</field>
+            <field name="model">customs.facility</field>
             <field name="arch" type="xml">
                 <form string="Customs" version='7.0'>
 					<header>
@@ -60,9 +60,9 @@ form_86_customs
 		</record>
 
 
-        <record id="view_form_86_customs_tree" model="ir.ui.view">
-            <field name="name">form.86.customs.tree</field>
-            <field name="model">form.86.customs</field>
+        <record id="view_customs_facility_tree" model="ir.ui.view">
+            <field name="name">customs.facility.tree</field>
+            <field name="model">customs.facility</field>
             <field name="arch" type="xml">
                 <tree string="Customs">
                     <field name="code"/>
@@ -73,7 +73,7 @@ form_86_customs
 
 
 <!--
-form_86_customs_tax_codes    
+customs_facility_tax_codes    
 -->
 
         <record id="view_customs_duty_form" model="ir.ui.view">

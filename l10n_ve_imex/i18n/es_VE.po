@@ -125,14 +125,14 @@ msgid "Amount total"
 msgstr "Amount total"
 
 #. module: l10n_ve_imex
-#: sql_constraint:form.86.customs:0
+#: sql_constraint:customs.facility:0
 msgid "The code must be unique!"
 msgstr "El código debe ser único!"
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_form_86_customs
-msgid "form.86.customs"
-msgstr "form.86.customs"
+#: model:ir.model,name:l10n_ve_imex.model_customs_facility
+msgid "customs.facility"
+msgstr "customs.facility"
 
 #. module: l10n_ve_imex
 #: sql_constraint:customs.form.line:0
@@ -163,8 +163,8 @@ msgid "Broker"
 msgstr "Agente"
 
 #. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_form_86_customs
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_form_86_customs
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_facility
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_facility
 msgid "Customs"
 msgstr "Aduanas"
 
@@ -203,7 +203,7 @@ msgstr "Debe indicar el monto"
 
 #. module: l10n_ve_imex
 #: field:customs.duty,name:0
-#: field:form.86.customs,name:0
+#: field:customs.facility,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -280,7 +280,7 @@ msgstr "Debe indicar la fecha de liquidación"
 
 #. module: l10n_ve_imex
 #: field:customs.duty,code:0
-#: field:form.86.customs,code:0
+#: field:customs.facility,code:0
 msgid "Code"
 msgstr "Código"
 

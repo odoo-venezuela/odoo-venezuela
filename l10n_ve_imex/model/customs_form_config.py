@@ -58,12 +58,12 @@ class customs_form_config(osv.osv):
     ]
 
 
-class form_86_customs(osv.osv):
+class customs_facility(osv.osv):
     '''
     Stores a list with Venezuela's customs
     '''
 
-    _name = 'form.86.customs'
+    _name = 'customs.facility'
     _description = ''
 
     def name_get(self, cr, uid, ids, context=None):
@@ -78,7 +78,7 @@ class form_86_customs(osv.osv):
     def name_search(self, cr, user, name, args=None, operator='ilike',
                     context=None, limit=100):
         #~ Based on account.account.name_search...
-        res = super(form_86_customs, self).name_search(
+        res = super(customs_facility, self).name_search(
             cr, user, name, args, operator, context, limit)
         if not res and name:
             ids = self.search(cr, user, [(
