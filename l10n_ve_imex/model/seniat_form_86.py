@@ -379,12 +379,12 @@ class inheried_account_invoice_tax(osv.osv):
     _defaults = {
     }
 
-    _sql_constraints = [
-        ('base_amount_gt_zero', 'CHECK (base_amount>0)',
-         'The base amount must be > 0!'),
-        ('tax_amount_zero', 'CHECK (tax_amount>=0)',
-         'The tax amount must be >= 0!'),
-    ]
+    #~ _sql_constraints = [
+        #~ ('base_amount_gt_zero', 'CHECK (base_amount>0)',
+         #~ 'The base amount must be > 0!'),
+        #~ ('tax_amount_zero', 'CHECK (tax_amount>=0)',
+         #~ 'The tax amount must be >= 0!'),
+    #~ ]
 
     #~ def on_change_line_vat_id(self, cr, uid, ids, line_vat_id):
         #~ '''
