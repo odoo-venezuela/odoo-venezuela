@@ -39,7 +39,7 @@
                                     <field name="imex_tax_line" colspan="4" nolabel="1" required="1" attrs="{'invisible':[('vat_detail','!=',True)]}">
                                         <tree string="Vat tax detail" editable="bottom">
 <!--
-                                            <field name="customs_form_line_id" invisible="1" on_change="on_change_customs_form_line_id(customs_form_line_id)"/>
+                                            <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
                                             <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
                                             <field name="partner_id"/>
@@ -50,7 +50,7 @@
                                         </tree>
                                         <form>
 <!--
-                                            <field name="customs_form_line_id" invisible="1" on_change="on_change_customs_form_line_id(customs_form_line_id)"/>
+                                            <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
                                             <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
                                             <field name="partner_id"/>
