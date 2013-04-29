@@ -145,7 +145,7 @@ class seniat_form_86(osv.osv):
     def create_account_move_lines(self, cr, uid, f86, context=None):
         """ Creates the account.move.lines from line_ids detail except for
         taxes with "vat_detail", in this case create debits from
-        line_ids.line_vat_ids and get debit account from account_tax model
+        line_ids.imex_tax_line and get debit account from account_tax model
         """
         lines = []
         company_id = context.get('f86_company_id')
@@ -155,7 +155,7 @@ class seniat_form_86(osv.osv):
         for line in f86.line_ids:
             debits = []
             if line.tax_code.vat_detail:
-                for vat in line.line_vat_ids:
+                for vat in line.imex_tax_line:
                     debits.append(
                         {'account_id': vat.acc_tax_id.account_collected_id.id,
                          'amount': vat.tax_amount,
@@ -273,7 +273,7 @@ class seniat_form_86(osv.osv):
             for line in f86.line_ids:
                 if line.vat_detail:
                     vat_total = line.amount
-                    for vat in line.line_vat_ids:
+                    for vat in line.imex_tax_line:
                         vat_total -= vat.tax_amount
                         if vat.invoice_id.id not in vat_invoices:
                             vat_invoices.append(vat.invoice_id.id)
@@ -333,8 +333,8 @@ class seniat_form_86_lines(osv.osv):
                                     readonly=False),
         'amount': fields.float('Amount', required=True,
                                digits_compute=dp.get_precision('Account')),
-        'line_vat_ids': fields.one2many(
-            'seniat.form_86.lines.vat', 'line_vat_id', 'Vat lines',
+        'imex_tax_line': fields.one2many(
+            'account.invoice.tax', 'line_vat_id', 'Vat lines',
             attrs="{'readonly':[('vat_detail','=',True)], \
             'required':[('vat_detail','=',True)]}"),
         'vat_detail': fields.related('tax_code', 'vat_detail', type='boolean',
@@ -351,22 +351,18 @@ class seniat_form_86_lines(osv.osv):
     ]
 
 
-class seniat_form_86_lines_vat(osv.osv):
+class inheried_account_invoice_tax(osv.osv):
 
-    _name = 'seniat.form_86.lines.vat'
-    _description = ''
-    _rec_name = 'reference'
+    _inherit = 'account.invoice.tax'
 
     _columns = {
         'line_vat_id': fields.many2one('seniat.form.86.lines', 'Vat line',
                                        required=True, ondelete='cascade'),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice Reference',
-                                      ondelete='restrict', select=True,
-                                      required=True),
-        'partner_id': fields.related('invoice_id', 'partner_id',
+        'imex_inv_id': fields.many2one('account.invoice', 'Imex Invoice',
+                                       ondelete='cascade', select=True),
+        'partner_id': fields.related('imex_inv_id', 'partner_id',
                                      type='many2one', relation='res.partner',
-                                     string='Supplier', store=False,
-                                     readonly=True),
+                                     string='Supplier'),
         'reference': fields.related('invoice_id', 'reference', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
