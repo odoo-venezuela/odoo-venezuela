@@ -49,18 +49,18 @@ form_86_customs
 form_86_customs_tax_codes    
 -->
 
-        <record model="ir.actions.act_window" id="action_form_86_custom_taxes">
+        <record model="ir.actions.act_window" id="action_customs_duty">
             <field name="name">Tax codes</field>
-            <field name="res_model">form.86.custom.taxes</field>
+            <field name="res_model">customs.duty</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>   
 
         <menuitem 
-            id="menu_action_form_86_custom_taxes" 
+            id="menu_action_customs_duty" 
             parent="menu_customs_form_config_group" 
-            action="action_form_86_custom_taxes"/>                 
+            action="action_customs_duty"/>                 
 
             
 <!--

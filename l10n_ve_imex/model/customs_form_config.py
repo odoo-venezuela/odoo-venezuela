@@ -100,12 +100,12 @@ class form_86_customs(osv.osv):
     ]
 
 
-class form_86_custom_taxes(osv.osv):
+class customs_duty(osv.osv):
     '''
     A list of the concepts for taxes in form_86
     '''
 
-    _name = 'form.86.custom.taxes'
+    _name = 'customs.duty'
     _description = ''
     _order = 'sequence'
 

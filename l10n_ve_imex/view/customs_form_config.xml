@@ -76,9 +76,9 @@ form_86_customs
 form_86_customs_tax_codes    
 -->
 
-        <record id="view_form_86_custom_taxes_form" model="ir.ui.view">
-            <field name="name">form.86.custom.taxes.form</field>
-            <field name="model">form.86.custom.taxes</field>
+        <record id="view_customs_duty_form" model="ir.ui.view">
+            <field name="name">customs.duty.form</field>
+            <field name="model">customs.duty</field>
             <field name="arch" type="xml">
                 <form string="Custom Taxes">
                     <field name="code"/>
@@ -94,9 +94,9 @@ form_86_customs_tax_codes
 		</record>
 
 
-        <record id="view_form_86_custom_taxes_tree" model="ir.ui.view">
-            <field name="name">form.86.custom.taxes.tree</field>
-            <field name="model">form.86.custom.taxes</field>
+        <record id="view_customs_duty_tree" model="ir.ui.view">
+            <field name="name">customs.duty.tree</field>
+            <field name="model">customs.duty</field>
             <field name="arch" type="xml">
                 <tree string="Custom Taxes">
                     <field name="code"/>

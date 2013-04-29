@@ -3,8 +3,8 @@
 "customs_form_config_manager","customs.form.config.manager","model_customs_form_config","account.group_account_manager",1,1,1,1
 "form_86_customs_user","form.86.customs.user","model_form_86_customs","account.group_account_user",1,0,0,0
 "form_86_customs_manager","form.86.customs.manager","model_form_86_customs","account.group_account_manager",1,1,1,1
-"form_86_custom_taxes_user","form.86.custom.taxes.user","model_form_86_custom_taxes","account.group_account_user",1,0,0,0
-"form_86_custom_taxes_manager","form.86.custom.taxes.manager","model_form_86_custom_taxes","account.group_account_manager",1,1,1,1
+"customs_duty_user","customs.duty.user","model_customs_duty","account.group_account_user",1,0,0,0
+"customs_duty_manager","customs.duty.manager","model_customs_duty","account.group_account_manager",1,1,1,1
 "customs_form_user","customs.form.user","model_customs_form","account.group_account_user",1,1,1,0
 "customs_form_manager","customs.form.manager","model_customs_form","account.group_account_manager",1,1,1,1
 "customs_form_line_user","customs.form.line.user","model_customs_form_line","account.group_account_user",1,1,1,0

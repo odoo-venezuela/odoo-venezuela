@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,account_id:0
+#: field:customs.duty,account_id:0
 msgid "Account to pay"
 msgstr "Cuentas por Pagar"
 
@@ -41,7 +41,7 @@ msgid "The company must be unique!"
 msgstr "La Compañía debe ser unica!"
 
 #. module: l10n_ve_imex
-#: help:form.86.custom.taxes,account_id:0
+#: help:customs.duty,account_id:0
 msgid "This account will be used for expenses related to taxes"
 msgstr "Cuenta para los gastos asociados a el impuesto"
 
@@ -62,7 +62,7 @@ msgid "Custom"
 msgstr "Aduana"
 
 #. module: l10n_ve_imex
-#: sql_constraint:form.86.custom.taxes:0
+#: sql_constraint:customs.duty:0
 msgid "The code must be unique! (for this comany)"
 msgstr "El código debe ser único! (para la companía)"
 
@@ -87,8 +87,8 @@ msgid "Account move"
 msgstr "Asiento contable"
 
 #. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_form_86_custom_taxes
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_form_86_custom_taxes
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_duty
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_duty
 msgid "Tax codes"
 msgstr "Códigos de impuestos"
 
@@ -104,7 +104,7 @@ msgid "liq. date"
 msgstr "Fecha liq."
 
 #. module: l10n_ve_imex
-#: sql_constraint:form.86.custom.taxes:0
+#: sql_constraint:customs.duty:0
 msgid "The sequence must be unique! (for this comany)"
 msgstr "La secuencia debe ser única! (para la companía)"
 
@@ -140,13 +140,13 @@ msgid "The code must be unique! (for this form)"
 msgstr "El código debe ser único! (para la companía)"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,ref:0
+#: field:customs.duty,ref:0
 msgid "Ref"
 msgstr "Ref"
 
 #. module: l10n_ve_imex
 #: field:customs.form.config,company_id:0
-#: field:form.86.custom.taxes,company_id:0
+#: field:customs.duty,company_id:0
 #: field:customs.form,company_id:0
 msgid "Company"
 msgstr "Compañía"
@@ -202,7 +202,7 @@ msgid "You must indicate a amount"
 msgstr "Debe indicar el monto"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,name:0
+#: field:customs.duty,name:0
 #: field:form.86.customs,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -263,9 +263,9 @@ msgid "customs.form"
 msgstr "customs.form"
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_form_86_custom_taxes
-msgid "form.86.custom.taxes"
-msgstr "form.86.custom.taxes"
+#: model:ir.model,name:l10n_ve_imex.model_customs_duty
+msgid "customs.duty"
+msgstr "customs.duty"
 
 #. module: l10n_ve_imex
 #: view:customs.form:0
@@ -279,7 +279,7 @@ msgid "You must indicate a liquidation date "
 msgstr "Debe indicar la fecha de liquidación"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,code:0
+#: field:customs.duty,code:0
 #: field:form.86.customs,code:0
 msgid "Code"
 msgstr "Código"
@@ -306,7 +306,7 @@ msgid "SENIAT - Form 99086"
 msgstr "SENIAT - Forma 99086"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,sequence:0
+#: field:customs.duty,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
 
@@ -354,7 +354,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,partner_id:0
+#: field:customs.duty,partner_id:0
 msgid "Partner"
 msgstr "Proveedor"
 
@@ -375,7 +375,7 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: l10n_ve_imex
-#: field:form.86.custom.taxes,tax_id:0
+#: field:customs.duty,tax_id:0
 msgid "Account Tax "
 msgstr "Impuesto"
 

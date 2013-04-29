@@ -56,8 +56,8 @@ class customs_form(osv.osv):
         return res
 
     def _default_line_ids(self, cr, uid, context=None):
-        """ Gets default line_ids from form_86_custom_taxes. """
-        obj_ct = self.pool.get('form.86.custom.taxes')
+        """ Gets default line_ids from customs_duty. """
+        obj_ct = self.pool.get('customs.duty')
         ct_ids = obj_ct.search(cr, uid, [], context=context)
         res = []
         for id in ct_ids:
@@ -328,7 +328,7 @@ class customs_form_line(osv.osv):
     _columns = {
         'line_id': fields.many2one('customs.form', 'Line', required=True,
                                    ondelete='cascade'),
-        'tax_code': fields.many2one('form.86.custom.taxes', 'Tax',
+        'tax_code': fields.many2one('customs.duty', 'Tax',
                                     ondelete='restrict', required=True,
                                     readonly=False),
         'amount': fields.float('Amount', required=True,
