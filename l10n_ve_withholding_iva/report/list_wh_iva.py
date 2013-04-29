@@ -52,40 +52,60 @@ class list_wh_iva(report_sxw.rml_parse):
         })
         
     def _get_total_amount_doc(self,doc_id):
+        """ Return iva total amount   
+        """
         total=0
         for line in self.pool.get('txt.iva').browse(self.cr,self.uid, doc_id).txt_ids:
             total+=line.invoice_id.amount_total
         return total
         
     def _get_alicuota(self,txt_line):
+        """ Return alicuota
+        """
         return self.pool.get('txt.iva').get_alicuota(self.cr,self.uid,txt_line)
         
     def _get_amount_exempt(self,txt_line):
+        """ Return amount exempt
+        """
         amount_exempt,amount_untaxed = self.pool.get('txt.iva').get_amount_exempt_document(self.cr,self.uid,txt_line)
         self.total_amount_exempt+=amount_exempt
         return amount_exempt
 
     def _get_total_amount_exempt(self):
+        """ Return total amount exempt
+        """
         return self.total_amount_exempt
 
     def _get_amount_untaxed(self,txt_line):
+        """ Return untaxed amount
+        """
         amount_exempt,amount_untaxed = self.pool.get('txt.iva').get_amount_exempt_document(self.cr,self.uid,txt_line)
         self.total_amount_untaxed+=amount_untaxed
         return amount_untaxed
         
     def _get_total_amount_untaxed(self):
+        """ Return untaxed total amount
+        """
         return self.total_amount_untaxed
                 
     def _get_control_number(self,txt_line):
+        """ Return control number
+        """
         return self.pool.get('txt.iva').get_number(self.cr,self.uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)    
 
     def _get_type_document(self,line):
+        """ Return document type
+        """
         return self.pool.get('txt.iva').get_type_document(self.cr,self.uid,line)
 
     def _get_document_number(self,txt_id,txt_line):
+        """ Return document number
+        """
         return self.pool.get('txt.iva').get_document_number(self.cr,self.uid,txt_id,txt_line,'inv_number')
 
     def _get_document_affected(self,line):
+        """ Return affected document
+        """
         return self.pool.get('txt.iva').get_document_affected(self.cr,self.uid,line)
 
 report_sxw.report_sxw(

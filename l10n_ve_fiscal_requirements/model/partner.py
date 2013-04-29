@@ -41,33 +41,25 @@ class res_partner(osv.osv):
     _inherit = 'res.partner'
 
     def _get_country_code(self, cr, uid, context=None):
-        '''
-        return the country code
-        of the user company. If not exists, 
-        return XX.
-        '''
+        """ Return the country code of the user company. If not exists, return XX.
+        """
         context = context or {}
         user_company = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id
         return user_company.partner_id and user_company.partner_id.country_id \
                 and user_company.partner_id.country_id.code or 'XX'
 
     def default_get(self, cr, uid, fields, context=None):
-        '''
-        load the country code
-        of the user company to form to be
-        created.
-        '''
+        """ Load the country code of the user company to form to be created.
+        """
         context = context or {}
         res = super(res_partner, self).default_get(cr, uid, fields, context=context)
         res.update({'uid_country': self._get_country_code(cr,uid,context=context)})
         return res
 
     def _get_uid_country(self, cr, uid, ids, field_name, args, context=None):
-        '''
-        returns a dictionary of key 
-        ids as invoices, and value the country code
+        """ Return a dictionary of key ids as invoices, and value the country code
         of the user company.
-        '''
+        """
         context = context or {}
         res= {}.fromkeys(ids,self._get_country_code(cr,uid,context=context))
         return res
@@ -82,11 +74,8 @@ class res_partner(osv.osv):
     }
 
     def name_search(self,cr,uid,name='',args=[],operator='ilike',context=None,limit=80):
-        '''
-        gets el id of the partner
-        with the vat or the name and return the
-        name
-        '''
+        """ Gets el id of the partner with the vat or the name and return the name
+        """
         if context is None: 
             context={}
         ids= []
@@ -100,11 +89,9 @@ class res_partner(osv.osv):
     Required Invoice Address
     '''
     def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
-        '''
-        returns true if the partner
-        is a company of Venezuela and if the
+        """ Return true if the partner is a company of Venezuela and if the
         address is for billing.
-        '''
+        """
         partner_obj = self.browse(cr,uid,ids[0])
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE' and not partner_obj.parent_id:
                 res = partner_obj.type == 'invoice'
@@ -117,13 +104,10 @@ class res_partner(osv.osv):
         return True
 
     def _check_vat_uniqueness_def(self, cr, uid, ids, current_vat,list_node_tree, context=None):
-        '''
-        receiving nodes in the tree 
-        that are not members of the current partner
-        level, and the remainder of the assembly 
-        to ensure that the partner at the same
+        """ Receiving nodes in the tree that are not members of the current partner
+        level, and the remainder of the assembly to ensure that the partner at the same
         level as the current vat has different.
-        '''
+        """
         
         if context is None: context = {}
         nodes = self.search(cr, uid, [] )
@@ -132,10 +116,8 @@ class res_partner(osv.osv):
         return not nodes
 
     def _check_vat_uniqueness(self, cr, uid, ids, context=None):
-        '''
-        check that the vat is unique
-        in the level where the partner in the tree
-        '''
+        """ Check that the vat is unique in the level where the partner in the tree
+        """
         if context is None: context = {}
         
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
@@ -168,7 +150,7 @@ class res_partner(osv.osv):
         return True    
 
     def _check_vat_mandatory(self, cr, uid, ids, context=None):
-        '''This method will check the vat mandatoriness in partners
+        """ This method will check the vat mandatoriness in partners
         for those user logged on with a Venezuelan Company
         
         The method will return True when:
@@ -180,7 +162,7 @@ class res_partner(osv.osv):
                 +) partner is_company=True AND parent_id is not NULL
                 +) partner with parent_id is NULL 
                 +) partner with parent_id is NOT NULL AND type of address is invoice   
-            '''
+        """
         if context is None: context = {}
         # Avoiding Egg-Chicken Syndrome
         # TODO: Refine this approach this is big exception
@@ -214,9 +196,8 @@ class res_partner(osv.osv):
         return True
 
     def _validate(self, cr, uid, ids, context=None):
-        '''
-        validates the fields
-        '''
+        """ Validates the fields
+        """
             
         #In the original orm.py openerp does not allow using
         #context within the constraint because we have to yield 
@@ -259,9 +240,8 @@ class res_partner(osv.osv):
     ]
  
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
-        '''
-        checks the syntax of the vat
-        '''
+        """ Checks the syntax of the vat
+        """
         if context is None:
             context={}
         if not value:
@@ -280,10 +260,9 @@ class res_partner(osv.osv):
             return super(res_partner,self).vat_change(cr, uid, ids, value, context=context)
 
     def check_vat_ve(self, vat, context = None):
-        '''
-        Check Venezuelan VAT number, locally called RIF.
+        """ Check Venezuelan VAT number, locally called RIF.
         RIF: JXXXXXXXXX RIF VENEZOLAN IDENTIFICATION CARD: VXXXXXXXXX FOREIGN IDENTIFICATION CARD: EXXXXXXXXX
-        '''
+        """
         
         if context is None:
             context={}
@@ -294,21 +273,17 @@ class res_partner(osv.osv):
         return False
         
     def update_rif(self, cr, uid, ids, context=None):
-        '''
-        load the rif and name of the partner
-        from the database seniat
-        '''
+        """ Load the rif and name of the partner from the database seniat
+        """
         if context is None:
             context = {}
         su_obj = self.pool.get('seniat.url')
         return su_obj.update_rif(cr, uid, ids, context=context)
 
     def button_check_vat(self, cr, uid, ids, context=None):
-        '''
-        is called by the button that load
-        information of the partner from database 
+        """ Is called by the button that load information of the partner from database 
         SENIAT
-        '''
+        """
         if context is None: context = {}
         context.update({'update_fiscal_information':True})
         super(res_partner, self).button_check_vat(cr, uid, ids, context=context)

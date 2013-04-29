@@ -19,6 +19,8 @@ class wh_src_report(report_sxw.rml_parse):
         
 
     def get_empresa(self, partner_id):
+        """ Get information company
+        """
         obj_addr = self.pool.get('res.partner')
         res = {}
         for row in obj_addr.browse(self.cr, self.uid, partner_id):

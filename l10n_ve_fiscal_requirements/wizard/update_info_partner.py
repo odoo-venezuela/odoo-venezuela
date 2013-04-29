@@ -24,12 +24,11 @@ from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
 class update_info_partner(osv.osv_memory):
-    """
-    OpenERP osv memory wizard : update_info_partner
-    """
     _name = 'update.info.partner'
     
     def update_info(self, cr, uid, ids, context={}):
+        """ OpenERP osv memory wizard : update_info_partner
+        """
         aux=[]
         seniat_url_obj = self.pool.get('seniat.url')
         cr.execute('''SELECT id FROM res_partner WHERE vat ilike 'VE%';''')

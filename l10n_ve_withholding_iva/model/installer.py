@@ -29,14 +29,15 @@ import openerp.addons
 import base64
 
 class wh_vat_installer(osv.osv_memory):
-    """
-    wh_vat_installer
+    """ wh_vat_installer
     """
     _name='l10n_ve_withholding_iva.installer'
     _inherit = 'res.config.installer'
     _description = __doc__
     
     def default_get(self, cr, uid, fields, context=None):
+        """ Return information relating to the withholding regime 
+        """
         data = super(wh_vat_installer, self).default_get(cr, uid, fields, context=context)
         gaceta = open(addons.get_module_resource('l10n_ve_withholding_iva','files', 'RegimendeRetencionesdelIVA.odt'),'rb')
         data['gaceta'] = base64.encodestring(gaceta.read())
@@ -78,16 +79,15 @@ class wh_iva_config(osv.osv_memory):
     }
 
     def _show_company_data(self, cr, uid, context=None):
-        '''
-        We only want to show the default company data in demo mode, otherwise users tend to forget
+        """ We only want to show the default company data in demo mode, otherwise users tend to forget
         to fill in the real company data in their production databases
-        '''
+        """
         return self.pool.get('ir.model.data').get_object(cr, uid, 
                                                             'base',
                                              'module_meta_information').demo
 
     def default_get(self, cr, uid, fields_list=None, context=None):
-        """ get default company if any, and the various other fields
+        """ Get default company if any, and the various other fields
         from the company's fields
         """
         defaults = super(wh_iva_config, self)\
@@ -104,6 +104,11 @@ class wh_iva_config(osv.osv_memory):
         return defaults
 
     def _create_journal(self, cr, uid, name, type, code):
+        """ Create a journal
+        @param name: journal name
+        @param type: journal type
+        @param code: code for journal
+        """
         self.pool.get("account.journal").create(cr, uid, { 
             'name': name,
             'type': type,
@@ -112,8 +117,7 @@ class wh_iva_config(osv.osv_memory):
         )
 
     def execute(self, cr, uid, ids, context=None):
-        '''
-        In this method I will configure all needs for work out of the box with 
+        """ In this method I will configure all needs for work out of the box with 
         This module,
         First: Setting if The company will be agent of retention.
         Second: Create Minimal Journals.
@@ -121,7 +125,7 @@ class wh_iva_config(osv.osv_memory):
         Fourth: Ask if you have internet conexion and you want to connect to 
         SENIAT
         and update all your partners information.
-        '''
+        """
         user=self.pool.get('res.users').browse(cr,uid,[uid],context)
         wiz_data=self.read(cr,uid,ids[0],context)
         p_obj=self.pool.get('res.partner')

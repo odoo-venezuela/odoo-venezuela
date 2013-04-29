@@ -32,6 +32,8 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     def _retenida(self, cr, uid, ids, name, args, context):
+        """ Verify whether withholding was applied to the invoice 
+        """
         res = {}
         if context is None:
             context = {}
@@ -41,6 +43,8 @@ class account_invoice(osv.osv):
 
 
     def _get_inv_from_line(self, cr, uid, ids, context={}):
+        """ Return invoice from journal items
+        """
         context = context or {}
         move = {}
         for line in self.pool.get('account.move.line').browse(cr, uid, ids):
@@ -56,6 +60,8 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
+        """ Return invoice from reconciled lines
+        """
         context = context or {}
         move = {}
         for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
@@ -85,7 +91,14 @@ class account_invoice(osv.osv):
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
-
+        """ Return withholding iva rate of the partner and other data
+        @param type: Invoice type
+        @param partner_id: Partner id of the invoice
+        @param date_invoice: Date invoice
+        @param payment_term: Payment terms
+        @param partner_bank_id: Partner bank id of the invoice
+        @param company_id: Company id
+        """
         data = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id,
             date_invoice, payment_term, partner_bank_id, company_id)
         if partner_id:
@@ -95,6 +108,8 @@ class account_invoice(osv.osv):
 
 
     def create(self, cr, uid, vals, context={}):
+        """ To the create an invoice is saved the withholding iva rate of the partner
+        """
         context = context or {}
         partner_id = vals.get('partner_id',False)
         if partner_id:
@@ -103,6 +118,8 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).create(cr, uid, vals, context)
 
     def copy(self, cr, uid, id, default=None, context=None):
+        """ Initialized fields to the copy a register
+        """
         context = context or {}
         if default is None:
             default = {}
@@ -112,6 +129,8 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def test_retenida(self, cr, uid, ids, *args):     
+        """ Verify if this invoice is withhold 
+        """
         type2journal = {'out_invoice': 'iva_sale', 'in_invoice': 'iva_purchase', 'out_refund': 'iva_sale', 'in_refund': 'iva_purchase'}
         type_inv = self.browse(cr, uid, ids[0]).type
         type_journal = type2journal.get(type_inv, 'iva_purchase')      
@@ -130,6 +149,8 @@ class account_invoice(osv.osv):
 
 
     def wh_iva_line_create(self, cr, uid, inv):
+        """ Create line with iva withholding
+        """
         wh_iva_rate = inv.type in ('in_invoice', 'in_refund') and inv.partner_id.wh_iva_rate or inv.type in ('out_invoice', 'out_refund') and inv.company_id.partner_id.wh_iva_rate
         return (0, False, {
             'name': inv.name or inv.number,
@@ -138,6 +159,8 @@ class account_invoice(osv.osv):
         })
 
     def action_wh_iva_supervisor(self, cr, uid, ids, *args):
+        """ Validate the currencys are equal
+        """
         user_obj= self.pool.get('res.users')
         user_brw= user_obj.browse(cr,uid,uid)
         print 
@@ -154,6 +177,8 @@ class account_invoice(osv.osv):
 
 
     def action_wh_iva_create(self, cr, uid, ids, *args):
+        """ Create iva whithholding line
+        """
         wh_iva_obj = self.pool.get('account.wh.iva')
         for inv in self.browse(cr, uid, ids):
             if inv.wh_iva_id:
@@ -183,6 +208,8 @@ class account_invoice(osv.osv):
         return ret_id
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
+        """ Recalculate taxes in invoice 
+        """
         if not context:
             context = {}
 
@@ -196,13 +223,17 @@ class account_invoice(osv.osv):
         return True
 
     def button_reset_taxes(self, cr, uid, ids, context=None):
+        """ It makes two function calls related taxes reset
+        """
         context = context or {}
         super(account_invoice, self).button_reset_taxes(cr, uid, ids, context)
         self.button_reset_taxes_ret(cr, uid, ids, context)
         
         return True
 
-    def _withholding_partner(self, cr, uid, ids, context=None):  
+    def _withholding_partner(self, cr, uid, ids, context=None):
+        """ I verify that the provider retains or not
+        """
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)
@@ -214,20 +245,21 @@ class account_invoice(osv.osv):
         return False
 
     def _withholdable_tax(self, cr, uid, ids, context=None):
+        """ Verify that existing withholding in invoice 
+        """
         if context is None:
             context={}
         return any([line.tax_id.ret for line in self.browse(cr, uid, ids[0], context=context).tax_line])
 
     def check_withholdable(self, cr, uid, ids, context=None):
-        '''
-        This will test for Refund invoice trying to find out
+        """ This will test for Refund invoice trying to find out
         if its regarding parent is in the same fortnight.
         
         return True if invoice is type 'in_invoice'
         return True if invoice is type 'in_refund' and parent_id invoice
                 are both in the same fortnight.
         return False otherwise
-        '''
+        """
         per_obj = self.pool.get('account.period')
         if context is None:
             context={}
@@ -242,6 +274,8 @@ class account_invoice(osv.osv):
         return False
 
     def check_wh_apply(self, cr, uid, ids, context=None):
+        """ Apply withholding to the invoice
+        """
         if context is None:
             context={}
         invo_brw = self.browse(cr,uid,ids[0],context=context)
@@ -256,6 +290,16 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=None):
+        """ Generate move lines in corresponding account
+        @param to_wh: whether or not withheld
+        @param period_id: Period 
+        @param pay_journal_id: pay journal of the invoice
+        @param writeoff_acc_id: account where canceled
+        @param writeoff_period_id: period where canceled
+        @param writeoff_journal_id: journal where canceled
+        @param date: current date
+        @param name: description
+        """
         if context is None: context = {}
         res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
@@ -288,8 +332,7 @@ class account_invoice(osv.osv):
         return res
 
     def validate_wh_iva_done(self, cr, uid, ids, context=None):
-        """
-        Method that check if wh vat is validated in invoice refund.
+        """ Method that check if wh vat is validated in invoice refund.
         @params: ids: list of invoices.
         return: True: the wh vat is validated.
                 False: the wh vat is not validated.
@@ -316,6 +359,8 @@ class account_invoice_tax(osv.osv):
     }
 
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
+        """ Calculate withholding amount 
+        """
         context = context or {}
         res = {}
         inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)

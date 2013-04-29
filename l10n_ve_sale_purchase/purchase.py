@@ -42,9 +42,8 @@ class purchase_order_line(osv.osv):
     }
     
     def product_id_change(self, cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order=False, fiscal_position=False, date_planned=False, name=False, price_unit=False, notes=False):
-        '''
-        This method loads the withholding concept to a product automatically
-        '''        
+        """ This method loads the withholding concept to a product automatically
+        """        
         def get_concept():
             concept_obj = self.pool.get('islr.wh.concept')
             concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)])
@@ -65,6 +64,8 @@ class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
+        """ Update concept_id field to the prepare line
+        """
         data = super(purchase_order, self)._prepare_inv_line( cr, uid, account_id, order_line, context=context)
         data.update({'concept_id':order_line and order_line.concept_id and order_line.concept_id.id   })
         return data

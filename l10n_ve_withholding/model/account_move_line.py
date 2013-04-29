@@ -31,9 +31,8 @@ class account_move_line(osv.osv):
     _inherit = 'account.move.line'
     
     def _models_retencion_get(self, cr, uid, context={}):
-        '''
-        List document for link with account entry
-        '''
+        """ List document for link with account entry
+        """
         obj = self.pool.get('ir.model.fields')
         wh_doc_obj = self.pool.get('account.wh.doc')
         wh_doc_ids = wh_doc_obj.search(cr, uid, [])
@@ -49,9 +48,8 @@ class account_move_line(osv.osv):
         return res
     
     def _document_get(self, cr, uid, ids, field_name, arg, context=None):
-        '''
-        Link document with account entry
-        '''
+        """ Link document with account entry
+        """
         res = {}
         obj = self.pool.get('ir.model.fields')
 

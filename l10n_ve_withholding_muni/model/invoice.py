@@ -34,6 +34,17 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id,
                             writeoff_period_id, writeoff_journal_id, date,
                             name, context=None):
+        """ Generate move lines in corresponding account                            
+        @param to_wh: whether or not withheld                                   
+        @param period_id: Period                                                
+        @param pay_journal_id: pay journal of the invoice                       
+        @param writeoff_acc_id: account where canceled                          
+        @param writeoff_period_id: period where canceled                        
+        @param writeoff_journal_id: journal where canceled                      
+        @param date: current date                                               
+        @param name: description                                                
+        """
+
         context = context or {}
         res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh,
                             period_id, pay_journal_id, writeoff_acc_id,
@@ -63,6 +74,8 @@ class account_invoice(osv.osv):
         return res
 
     def _retenida_munici(self, cr, uid, ids, name, args, context=None):
+        """ Check that all is well in the log lines
+        """
         context = context or {}
         res = {}
         for id in ids:
@@ -70,6 +83,8 @@ class account_invoice(osv.osv):
         return res
 
     def test_retenida_muni(self, cr, uid, ids, *args):
+        """ Check that all lines having their share account
+        """
         type2journal = {'out_invoice': 'mun_sale',
                         'out_refund': 'mun_sale',
                         'in_invoice': 'mun_purchase',
@@ -91,6 +106,8 @@ class account_invoice(osv.osv):
         return ok
 
     def _get_inv_munici_from_line(self, cr, uid, ids, context=None):
+        """ Return invoice from journal items
+        """
         context = context or {}
         move = {}
         aml_brw = self.pool.get('account.move.line').browse(cr, uid, ids)
@@ -108,6 +125,8 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _get_inv_munici_from_reconcile(self, cr, uid, ids, context=None):
+        """ Return invoice from reconciled lines
+        """
         context = context or {}
         move = {}
         amr_brw = self.pool.get('account.move.reconcile').browse(cr, uid, ids)

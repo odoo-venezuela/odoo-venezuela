@@ -31,9 +31,7 @@ class account_invoice_refund(osv.osv_memory):
     _inherit = 'account.invoice.refund'
 
     def validate_wh(self, cr, uid, ids, context=None):
-        """
-        Method that validate if invoice has non-yet processed VAT withholds.
-
+        """ Method that validate if invoice has non-yet processed VAT withholds.
         return: True: if invoice is does not have wh's or it does have and those ones are validated.
                 False: if invoice is does have and those wh's are not yet validated.
         """

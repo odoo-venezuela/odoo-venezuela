@@ -31,6 +31,8 @@ class wiz_updatename(osv.osv_memory):
     _description = "Wizard that changes the partner name"
 
     def set_name(self, cr, uid, ids, context):
+        """ Change value of the name field
+        """
         data = self.pool.get('wiz.updatename').read(cr, uid, ids)[0]
         print ids
         if not data['sure']:
@@ -48,6 +50,8 @@ class wiz_updatename(osv.osv_memory):
     }
 
     def _get_name(self, cr, uid, context=None):
+        """ Get name field value
+        """
         if context is None:
             context = {}
         partner_obj = self.pool.get('res.partner')

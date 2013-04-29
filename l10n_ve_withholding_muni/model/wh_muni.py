@@ -34,12 +34,17 @@ from openerp.addons import decimal_precision as dp
 class account_wh_munici(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
+        """ Return invoice type 
+        """
         if context is None:
             context = {}
         type = context.get('type', 'in_invoice')
         return type
 
     def _get_journal(self, cr, uid, context=None):
+        """ Return the journal to the journal items that coresspond to local
+        retention depending on the invoice
+        """
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
@@ -54,6 +59,8 @@ class account_wh_munici(osv.osv):
             return False
 
     def _get_currency(self, cr, uid, context=None):
+        """ Return company currency
+        """
         if context is None:
             context = {}
         user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
@@ -108,6 +115,8 @@ class account_wh_munici(osv.osv):
     ]
 
     def action_confirm(self, cr, uid, ids, context=None):
+        """ Verifies the amount withheld and the document is confirmed
+        """
         if context is None:
             context = {}
         obj = self.pool.get('account.wh.munici').browse(cr, uid, ids)
@@ -121,6 +130,8 @@ class account_wh_munici(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, *args):
+        """ Generate sequence for empty number fields in account_wh_munici records
+        """
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number '
@@ -136,6 +147,8 @@ class account_wh_munici(osv.osv):
         return True
 
     def action_done(self, cr, uid, ids, context=None):
+        """ The document is done
+        """
         if context is None:
             context = {}
         self.action_number(cr, uid, ids)
@@ -143,6 +156,8 @@ class account_wh_munici(osv.osv):
         return True
 
     def action_move_create(self, cr, uid, ids, context=None):
+        """ Create movements associated with retention and reconcile 
+        """
         if context is None:
             context = {}
         inv_obj = self.pool.get('account.invoice')
@@ -192,6 +207,10 @@ class account_wh_munici(osv.osv):
         return True
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+        """ Changing the partner is again determinated accounts and lines retain for document                                                      
+        @param type: invoice type                                               
+        @param partner_id: vendor or buyer                                      
+        """        
         acc_id = False
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
@@ -208,6 +227,8 @@ class account_wh_munici(osv.osv):
         return result
 
     def _update_check(self, cr, uid, ids, partner_id, context=None):
+        """ Check if the invoices are selected partner
+        """
         if context is None:
             context = {}
         if ids:
@@ -224,6 +245,8 @@ class account_wh_munici(osv.osv):
         return True
 
     def _new_check(self, cr, uid, values, context=None):
+        """ Check amount withheld and Check if the invoices are selected partner
+        """
         if context is None:
             context = {}
         lst_inv = []
@@ -249,6 +272,8 @@ class account_wh_munici(osv.osv):
         return True
 
     def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
+        """ Validate invoices before update records
+        """
         if context is None:
             context = {}
         ret = self.browse(cr, uid, ids[0])
@@ -261,6 +286,8 @@ class account_wh_munici(osv.osv):
         return super(account_wh_munici, self).write(cr, uid, ids, vals, context=context)
 
     def create(self, cr, uid, vals, context=None, check=True):
+        """ Validate before create record
+        """
         if context is None:
             context = {}
         if check:
@@ -274,6 +301,8 @@ account_wh_munici()
 class account_wh_munici_line(osv.osv):
 
     def default_get(self, cr, uid, fields, context=None):
+        """ Default for munici_context field
+        """
         if context is None:
             context = {}
         data = super(account_wh_munici_line, self).default_get(cr,
@@ -307,6 +336,9 @@ class account_wh_munici_line(osv.osv):
     ]
 
     def onchange_invoice_id(self, cr, uid, ids, invoice_id, context=None):
+        """ Validate that the bill is no longer assigned to retention
+        @param invoice_id: invoice id
+        """
         if context is None:
             context = {}
         lines = []
@@ -319,8 +351,7 @@ class account_wh_munici_line(osv.osv):
             ok = True
             res = self.pool.get(
                 'account.invoice').browse(cr, uid, invoice_id, context)
-            cr.execute(
-                'select retention_id from account_wh_munici_line where invoice_id=%s',
+            cr.execute('select retention_id from account_wh_munici_line where invoice_id=%s',
                 (invoice_id,))
             ret_ids = cr.fetchone()
             ok = ok and bool(ret_ids)

@@ -43,6 +43,9 @@ account_wh_iva()
 class account_wh_iva_line_tax(osv.osv):
     
     def _set_amount_ret(self, cr, uid, id, name, value, arg, ctx=None):
+        """ Change withholding amount into iva line
+        @param value: new value for retention amount
+        """
         if ctx is None: 
             ctx = {}
         if not self.browse(cr,uid,id,context=ctx).wh_vat_line_id.retention_id.type=='out_invoice':
@@ -54,6 +57,8 @@ class account_wh_iva_line_tax(osv.osv):
         return True
         
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
+        """ Return withholding amount
+        """
         if context is None: context=None
         res = {}
         
@@ -91,6 +96,9 @@ account_wh_iva_line_tax()
 class account_wh_iva_line(osv.osv):
 
     def _get_tax_lines(self, cr, uid, tax_id_brw, context=None):
+        """ Return dictionary with tax line data
+        @param tax_id_brw: tax object
+        """
         if context is None: context = {}
         return {
             'inv_tax_id':tax_id_brw.id,
@@ -103,8 +111,11 @@ class account_wh_iva_line(osv.osv):
         }
     
     def load_taxes(self, cr, uid, ids, context=None):
+        """ Clean and load again tax lines of the withholding voucher
+        """
         if context is None: context = {}
         awilt_obj = self.pool.get('account.wh.iva.line.tax')
+        
         for ret_line in self.browse(cr, uid, ids, context):
             lines = []
             if ret_line.invoice_id:
@@ -125,6 +136,8 @@ class account_wh_iva_line(osv.osv):
         return True
 
     def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+        """ Return amount total each line
+        """
         res = {}
         for ret_line in self.browse(cr, uid, ids, context):
             res[ret_line.id] = {
@@ -157,6 +170,9 @@ class account_wh_iva_line(osv.osv):
     ] 
 
     def invoice_id_change(self, cr, uid, ids, invoice, context=None):
+        """ Return invoice data to assign to withholding vat
+        @param invoice: invoice for assign a withholding vat
+        """
         if context is None:
             context = {}
         if not invoice:
@@ -183,6 +199,8 @@ account_wh_iva_line()
 class account_wh_iva(osv.osv):
 
     def _amount_ret_all(self, cr, uid, ids, name, args, context=None):
+        """ Return withholding amount total each line
+        """
         res = {}
         for retention in self.browse(cr, uid, ids, context):
             res[retention.id] = {
@@ -196,12 +214,16 @@ class account_wh_iva(osv.osv):
         return res
         
     def _get_type(self, cr, uid, context=None):
+        """ Return invoice type
+        """
         if context is None:
             context = {}
         type = context.get('type', 'in_invoice')
         return type
 
     def _get_journal(self, cr, uid, context):
+        """ Return a iva journal depending of invoice type
+        """
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
@@ -214,6 +236,8 @@ class account_wh_iva(osv.osv):
             return False
 
     def _get_currency(self, cr, uid, context):
+        """ Return currency to use
+        """
         user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
         if user.company_id:
             return user.company_id.currency_id.id
@@ -261,12 +285,15 @@ class account_wh_iva(osv.osv):
 
     }
     def action_cancel(self,cr,uid,ids,context={}):
+        """ Call cancel_move and return True
+        """
         self.cancel_move(cr,uid,ids)
         return True
     
     
     def cancel_move(self,cr,uid,ids, *args):
-        
+        """ Delete move lines related with withholding vat and cancel
+        """
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
         for ret in ret_brw:
@@ -282,12 +309,19 @@ class account_wh_iva(osv.osv):
     
         
     def _get_valid_wh(self, cr, uid, amount_ret, amount, wh_iva_rate, offset=0.5,  context=None):
-        '''This method can be override in a way that
-        you can afford your own value for the offset'''
+        """ This method can be override in a way that
+        you can afford your own value for the offset
+        @param amount_ret: withholding amount
+        @param amount: invoice amount
+        @param wh_iva_rate: iva rate
+        @param offset: compensation
+        """
         if context is None: context = {}
         return amount_ret >= amount * (wh_iva_rate - offset)/100.0 and amount_ret <= amount * (wh_iva_rate + offset)/100.0
     
     def check_wh_taxes(self, cr, uid, ids, context=None):
+        """ Check that are valid and that amount retention is not greater than amount 
+        """
         if context is None: context = {}
         res = {}
         note = _('Taxes in the following invoices have been miscalculated\n\n')
@@ -309,6 +343,8 @@ class account_wh_iva(osv.osv):
         return True
 
     def check_vat_wh(self, cr, uid, ids, context={}):
+        """ Check whether the bill will need to withhold taxes
+        """
         obj = self.browse(cr, uid, ids[0])
         res = {}
         for wh_line in obj.wh_lines:
@@ -324,9 +360,7 @@ class account_wh_iva(osv.osv):
         return True
         
     def check_invoice_nro_ctrl(self, cr, uid, ids, context=None):
-        """
-        Method that check if the control number of the invoice is set
-
+        """ Method that check if the control number of the invoice is set
         Return: True if the control number is set, and raise an exception
         when is not.
         """
@@ -347,9 +381,7 @@ class account_wh_iva(osv.osv):
         return True
         
     def write_wh_invoices(self, cr, uid, ids, context=None):
-        """
-        Method that writes the wh vat id in sale invoices.
-    
+        """ Method that writes the wh vat id in sale invoices.
         Return: True: write successfully.
                 False: write unsuccessfully.
         """
@@ -362,9 +394,8 @@ class account_wh_iva(osv.osv):
         return True
 
     def _check_partner(self, cr, uid, ids, context={}):
-        '''
-        Determine if a given partner is a VAT Withholding Agent
-        '''
+        """ Determine if a given partner is a VAT Withholding Agent
+        """
         agt = False
         obj = self.browse(cr, uid, ids[0])
         if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
@@ -383,6 +414,8 @@ class account_wh_iva(osv.osv):
 
 
     def wh_iva_seq_get(self, cr, uid, context=None):
+        """ Generate sequences for records of withholding iva
+        """
         pool_seq=self.pool.get('ir.sequence')
         cr.execute("select id,number_next,number_increment,prefix,suffix,padding from ir_sequence where code='account.wh.iva' and active=True")
         res = cr.dictfetchone()
@@ -395,6 +428,8 @@ class account_wh_iva(osv.osv):
 
 
     def action_number(self, cr, uid, ids, *args):
+        """ Update records numbers
+        """
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number ' \
@@ -410,12 +445,16 @@ class account_wh_iva(osv.osv):
         return True
     
     def action_date_ret(self,cr,uid,ids,context=None):
+        """ Undated records will be assigned the current date
+        """
         for wh in self.browse(cr, uid, ids, context):
             wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
         return True
 
 
     def action_move_create(self, cr, uid, ids, context=None):
+        """ Create movements associated with retention and reconcile
+        """
         inv_obj = self.pool.get('account.invoice')
         user_obj = self.pool.get('res.users')
         per_obj = self.pool.get('account.period')
@@ -464,6 +503,8 @@ class account_wh_iva(osv.osv):
         return True
     
     def _withholdable_tax_(self, cr, uid, ids, context=None):
+        """ Return lines with withholdable taxes 
+        """
         if context is None:
             context={}
         account_invo_obj = self.pool.get('account.invoice')
@@ -471,6 +512,11 @@ class account_wh_iva(osv.osv):
         return acc_id
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
+        """ Changing the partner is again determinated accounts and lines retain
+        for document
+        @param type: invoice type
+        @param partner_id: vendor or buyer
+        """
         if context is None: context = {}
             
         acc_id = False
@@ -512,6 +558,9 @@ class account_wh_iva(osv.osv):
         return res
 
     def _new_check(self, cr, uid, values, context={}):
+        """ Verify that the partner associated of the invoice is correct
+        @param values: Contain withholding lines, partner id and invoice_id
+        """
         lst_inv = []
 
         if 'wh_lines' in values and values['wh_lines']:
@@ -533,6 +582,8 @@ class account_wh_iva(osv.osv):
         return True
 
     def compute_amount_wh(self, cr, uid, ids, context=None):
+        """ Calculate withholding amount each line
+        """
         res = {}
         if context is None:
             context = {}      
@@ -545,6 +596,8 @@ class account_wh_iva(osv.osv):
 
 
     def copy(self, cr, uid, id, default=None, context=None):
+        """ Update fields when duplicating
+        """
         if not default:
             default = {}
         if context is None:

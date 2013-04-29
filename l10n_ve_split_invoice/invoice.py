@@ -31,9 +31,8 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def split_invoice(self, cr, uid, ids):
-        '''
-        Split the invoice when the lines exceed the maximum set for the company
-        '''
+        """ Split the invoice when the lines exceed the maximum set for the company
+        """
         for inv in self.browse(cr, uid, ids):
             inv_id =False
             if inv.company_id.lines_invoice < 1:
@@ -75,6 +74,8 @@ class account_invoice(osv.osv):
         return True
 
     def action_date_assign(self, cr, uid, ids, *args):
+        """ Return assigned dat
+        """
         data = super(account_invoice, self).action_date_assign(cr, uid, ids, *args)
         self.split_invoice(cr,uid,ids)
         return True

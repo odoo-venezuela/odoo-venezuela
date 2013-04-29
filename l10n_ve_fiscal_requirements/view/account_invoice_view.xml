@@ -44,8 +44,8 @@
                         <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
                         -->
                         <field name="loc_req" invisible="1"/>
-                        <field name="invoice_printer" attrs="{'required':[('loc_req','=',True)]}"/>
-                        <field name="fiscal_printer" attrs="{'required':[('loc_req','=',True)]}"/>
+                        <field name="invoice_printer" attrs="{'invisible':[('loc_req','=',True)]}"/>
+                        <field name="fiscal_printer" attrs="{'invisible':[('loc_req','=',True)]}"/>
                         
                         <field name="parent_id" 
                                attrs="{'invisible':[('parent_id','=',False)]}" 

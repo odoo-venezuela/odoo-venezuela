@@ -41,6 +41,8 @@ class islr_xml_wh_doc(osv.osv):
     _description = 'Generate XML'
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
+        """ Return withhold total amount
+        """
         res = {}
         for xml in self.browse(cr,uid,ids,context):
             res[xml.id]= 0.0
@@ -49,6 +51,8 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
+        """ Return base total amount
+        """
         res = {}
         for xml in self.browse(cr,uid,ids,context):
             res[xml.id]= 0.0
@@ -83,6 +87,8 @@ class islr_xml_wh_doc(osv.osv):
     }
 
     def period_return(self,cr,uid,context=None):
+        """ Return current period
+        """
         period_obj = self.pool.get('account.period')
         fecha = time.strftime('%m/%Y')
         period_id = period_obj.search(cr,uid,[('code','=',fecha)])
@@ -92,6 +98,9 @@ class islr_xml_wh_doc(osv.osv):
             return False
 
     def search_period(self,cr,uid,ids,period_id,context=None):
+        """ Return islr lines associated with the period_id
+        @param period_id: period associated with returned islr lines
+        """
         if context is None:
             context = {}
         res ={'value':{}}
@@ -103,6 +112,8 @@ class islr_xml_wh_doc(osv.osv):
                 return res
                 
     def name_get(self, cr, uid, ids, context={}):
+        """ Return id and name of all records
+        """
         if not len(ids):
             return []
         
@@ -110,21 +121,28 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     def action_anular1(self, cr, uid, ids, context={}):
+        """ Return the document to draft status
+        """
         return self.write(cr, uid, ids, {'state':'draft'})
 
     def action_confirm1(self, cr, uid, ids, context={}):
+        """ Passes the document to state confirmed
+        """
         return self.write(cr, uid, ids, {'state':'confirmed'})
 
     def action_done1(self, cr, uid, ids, context={}):
+        """ Passes the document to state done
+        """
         root = self._xml(cr,uid,ids)
         self._write_attachment(cr,uid,ids,root,context)
         self.write(cr, uid, ids, {'state':'done'})
         return True
 
     def _write_attachment(self, cr,uid,ids,root,context):
-        '''
-        Codify the xml, to save it in the database and be able to see it in the client as an attachment
-        '''
+        """ Codify the xml, to save it in the database and be able to 
+        see it in the client as an attachment
+        @param root: data of the document in xml
+        """
         fecha = time.strftime('%Y_%m_%d_%H%M%S')
         name = 'ISLR_' + fecha +'.'+ 'xml'
         self.pool.get('ir.attachment').create(cr, uid, {
@@ -139,6 +157,10 @@ class islr_xml_wh_doc(osv.osv):
         self.log(cr, uid, ids[0], _("File XML %s generated.") % name)
 
     def indent(self,elem, level=0):
+        """ Return indented text
+        @param level: number of spaces for indentation
+        @param elem: text to indentig
+        """
         i = "\n" + level*"  "
         if len(elem):
             if not elem.text or not elem.text.strip():
@@ -155,6 +177,8 @@ class islr_xml_wh_doc(osv.osv):
 
 
     def _xml(self, cr,uid,ids):
+        """ Transform this document to XML format
+        """
         root = ''
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
@@ -221,11 +245,16 @@ class islr_xml_wh_line(osv.osv):
     }
 
     def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):
+        """ Changing the partner, the partner_vat field is updated.
+        """
         partner_brw = self.pool.get('res.partner').browse(cr,uid,partner_id)
         return {'value' : {'partner_vat':partner_brw.vat[2:]}} 
         
         
     def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
+        """ Changing the rate of the islr, the porcent_rete and concept_code fields
+        is updated.
+        """
         rate_brw = self.pool.get('islr.rates').browse(cr,uid,rate_id)
         return {'value' : {'porcent_rete':rate_brw.wh_perc,'concept_code':rate_brw.code}} 
 

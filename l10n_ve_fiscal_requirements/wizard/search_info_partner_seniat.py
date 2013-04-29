@@ -35,6 +35,8 @@ class search_info_partner_seniat(osv.osv_memory):
     }
 
     def search_partner_seniat(self, cr, uid, ids, context=None):
+        """ Check vat of the partner and update iva rate
+        """
         if context is None:
             context={}
         this = self.browse(cr, uid, ids)[0]

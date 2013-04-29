@@ -28,11 +28,10 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
-        '''
-        returns the journal which is 
+        """ Return the journal which is 
         used in the current user's company, otherwise
         it does not exist, return false
-        '''
+        """
         
         if context is None:
             context = {}
@@ -50,11 +49,10 @@ class account_invoice(osv.osv):
             return super(account_invoice, self)._get_journal(cr, uid, context=context)
     
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
-        '''
-        return false when it is found 
+        """ Return false when it is found 
         that the bill is not out_invoice or out_refund,
         and it is not unique to the partner.
-        '''
+        """
         
         if context is None: context={}
         inv_brw = self.browse(cr, uid, ids, context=context)
@@ -77,12 +75,12 @@ class account_invoice(osv.osv):
         @param uid: Integer value of the user
         """
         context = context or {}
-        res = False
+        res = True
         rc_obj = self.pool.get('res.company')
         rc_brw = rc_obj.browse(cr, uid, uid, context=context)
         
         if rc_brw.country_id and rc_brw.country_id.code == 'VE' and rc_brw.printer_fiscal:
-            res = True
+            res = False
         return res
 
     _inherit = 'account.invoice'
@@ -109,11 +107,10 @@ class account_invoice(osv.osv):
          ]
 
     def copy(self, cr, uid, id, default={}, context=None):
-        '''
-        allows you to duplicate a record,
+        """ Allows you to duplicate a record,
         child_ids, nro_ctrl and reference fields are
         cleaned, because they must be unique
-        '''
+        """
         if context is None:
             context = {}
         default.update({

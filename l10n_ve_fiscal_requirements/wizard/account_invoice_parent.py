@@ -43,6 +43,8 @@ class account_invoice_parent(osv.osv_memory):
     }
 
     def _get_partner(self, cr, uid, context=None):
+        """ Return invoice partner
+        """
         inv_obj = self.pool.get('account.invoice')
         if context is None:
             context = {}
@@ -57,11 +59,10 @@ class account_invoice_parent(osv.osv_memory):
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-        
+        """ Change fields position in the view 
+        """
         if context is None:
             context = {}
-        
-        
         journal_obj = self.pool.get('account.journal')
         res = super(account_invoice_parent,self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         if view_type == 'form':
@@ -105,12 +106,20 @@ class account_invoice_parent(osv.osv_memory):
         return res
 
     def default_get(self, cr, uid, fields, context=None):
+        """ Change value for default of the type field
+        """
         res = super(account_invoice_parent, self).default_get(cr, uid, fields, context=context)
         if context.get('op_type', False):
             res.update({'type': context.get('op_type', 'modify')})
         return res
 
     def get_window(self, cr, uid, ids, xml_id, module, op_type, partner_id, parent_id=False, context=None):
+        """ Update values (op_type, partner_id and parent_id) in the window  
+        @param xml_id:
+        @param op_type:
+        @param partner_id:
+        @param parent_id:
+        """
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         #we get the model
@@ -125,16 +134,25 @@ class account_invoice_parent(osv.osv_memory):
         return result
 
     def check_sure(self, cr, uid, ids, ok, context=None):
+        """ Checks if the user is sure 
+        """
         if not ok:
             raise osv.except_osv(_('User Error'), _('Assign parent invoice, Please check the box to confirm that you agree!'))
         return True
 
     def check_recursion(self, cr, uid, ids, child_id,parent_id, context=None):
+        """ Checks that have not recursion between parent and children   
+        @param child_id: child id
+        @param parent_id: parent id
+        """
         if child_id == parent_id:
             raise osv.except_osv(_('User Error'), _('Current invoice is the same father invoice, Credit or debit note have to be diferent of parent invoice, Please choise another one!'))
         return True
 
     def check_grandfather(self, cr, uid, ids, parent_id, context=None):
+        """ Check that parent_id having parent
+        @param parent_id:
+        """
         inv_obj = self.pool.get('account.invoice')
         inv_parent_brw = inv_obj.browse(cr, uid, parent_id, context=context)
         if inv_parent_brw.parent_id:
@@ -142,6 +160,9 @@ class account_invoice_parent(osv.osv_memory):
         return True
 
     def action_assigned(self, cr, uid, ids, form, context=None):
+        """ Check that credit or debit note having assigned invoice
+        @param form: fields values
+        """
         self.check_sure(cr, uid, ids, form['sure'], context)
         active_id = context.get('active_id', False)
         parent_id = form.get('parent_id', False)
@@ -163,6 +184,9 @@ class account_invoice_parent(osv.osv_memory):
 
 
     def action_unlink(self, cr, uid, ids, form, context=None):
+        """ Remove the parent of the partner
+        @param form: fields values parent_id and partner_id
+        """
         self.check_sure(cr, uid, ids, form['sure'], context)
         active_id = context.get('active_id', False)
         parent_id = form.get('parent_id', False)
@@ -178,6 +202,9 @@ class account_invoice_parent(osv.osv_memory):
         return result
 
     def action_modify(self, cr, uid, ids, form, context=None):
+        """ Modify parent of the partner
+        @param form: fields values parent_id and partner_id  
+        """
         self.check_sure(cr, uid, ids, form['sure'], context)
         active_id = context.get('active_id', False)
         parent_id = form.get('parent_id', False)
@@ -196,6 +223,8 @@ class account_invoice_parent(osv.osv_memory):
 
 
     def invoice_operation(self, cr, uid, ids, context=None):
+        """ General method that calls a function depending of the data['type']
+        """
         if context is None:
             context = {}
         data = self.read(cr, uid, ids)[0]

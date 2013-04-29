@@ -28,6 +28,8 @@ class wizard_url_seniat(osv.osv_memory):
 
 
     def _get_url(self,cr,uid,ids,context=None):
+        """ Get seniat web page
+        """
         url= self.pool.get('seniat.url')
         url_ids = url.search(cr, uid,[])
         if len(url_ids)>1:
