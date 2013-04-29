@@ -57,7 +57,7 @@ msgid "Tax"
 msgstr "Impuesto"
 
 #. module: l10n_ve_imex
-#: field:customs.form,custom_id:0
+#: field:customs.form,customs_facility_id:0
 msgid "Custom"
 msgstr "Aduana"
 
