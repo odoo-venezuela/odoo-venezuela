@@ -10,6 +10,7 @@
             rml="l10n_ve_fiscal_book/report/fiscal_book_sale_report.rml"
             auto="True"
             menu="False"
+            header="False"
         />
 
         <report
@@ -20,6 +21,7 @@
             rml="l10n_ve_fiscal_book/report/fiscal_book_purchase_report.rml"
             auto="True"
             menu="False"
+            header="False"
         />
 
     </data>
