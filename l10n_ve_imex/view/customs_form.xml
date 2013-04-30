@@ -46,8 +46,10 @@
                                             <field name="partner_id"/>
                                             <field name="reference"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection" on_change="on_change_tax_id(tax_id)"/>
-                                            <field name="name"/>
-                                            <field name="account_id"/>
+                                            <field name="name"  invisible="1"/>
+                                            <field name="account_id" invisible="1"/>
+                                            <field name="base" invisible="1"/>
+                                            <field name="amount" invisible="1"/>
                                             <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
                                             <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)" sum="Tax amount total"/>
                                         </tree>

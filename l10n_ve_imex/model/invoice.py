@@ -127,7 +127,15 @@ class inheried_account_invoice_tax(osv.osv):
             if vat.type == 'percent':
                 if base_amount == 0 and tax_amount > 0:
                     base_amount = round(tax_amount / vat.amount, 2)
-                res = {'value': {'base_amount': base_amount}}
+                    res = {'value': {'base_amount': base_amount,
+                                     'base': base_amount,
+                                     'amount': tax_amount}}
+
+                if base_amount > 0 and tax_amount == 0:
+                    res = {'value': {'base_amount': 0.0,
+                                   'base': 0.0,
+                                   'amount': tax_amount}}
+
         return res
 
     def on_change_invoice_id(self, cr, uid, ids, invoice_id):
