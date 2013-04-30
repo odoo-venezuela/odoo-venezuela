@@ -288,7 +288,7 @@ string="Invoice"
                         <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
                         <field name="iwdl_ids" colspan='4' readonly="True"/>
                     </page>
-                    <page string="Fiscal Book Adjustments">
+                    <page string="Fiscal Book Adjustments" invisible="1">
                         <field name="abl_ids" nolabel="1" colspan='4'/>
                         <group col="4" colspan="4">
                             <separator string="Explanation about this adjustment"/>
