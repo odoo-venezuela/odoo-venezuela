@@ -15,7 +15,15 @@
                                     on_change="on_change_customs_form_id(customs_form_id)"/>
                         </group>
                         <separator colspan="6" string="Imex Taxes"/>
-                        <field name="imex_tax_line"/>
+                        <field name="imex_tax_line">
+                            <tree>
+                                <field name="name"/>
+                                <field name="account_id"/>
+                                <field name="base_amount"/>
+                                <field name="tax_amount"/>
+                            </tree>
+                        </field>
+                        
                     </page>
                 </xpath>
             </field>
