@@ -41,12 +41,15 @@ class inherited_invoice(osv.osv):
             domain=[('state', '=', ('draft'))],
             help="The related form 86 for this import invoice (only draft)"),
         'imex_tax_line': fields.one2many(
-            'account.invoice.tax', 'imex_inv_id', 'Vat lines',
+            'account.invoice.tax', 'imex_inv_id', 'Vat lines', readonly=True,
             attrs="{'readonly':[('vat_detail','=',True)], \
-            'required':[('vat_detail','=',True)]}"),
-        'expedient':fields.boolean('Dossier', help="If it is true, it means \
-            this is a landindg form, you will need to load this format as an \
-            purchase invoice to declarate on Book"),
+            'required':[('vat_detail','=',True)]}",),
+        'expedient':fields.boolean('Dossier', readonly=True,
+                                   states={'draft':[('readonly',False)]},
+                                   help="If it is true, it means this is a \
+                                   landindg form, you will need to load this \
+                                   format as an purchase invoice to declarate \
+                                   on Book"),
     }
 
     def on_change_customs_form_id(self, cr, uid, ids, customs_form_id):
