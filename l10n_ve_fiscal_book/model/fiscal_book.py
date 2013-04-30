@@ -912,8 +912,8 @@ class fiscal_book(orm.Model):
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                ret_tax_amount = sdcf_tax_amount = exent_tax_amount = \
-                    amount_withheld = 0.0
+                total_w_iva_amount = fbl.invoice_id.amount_untaxed
+                sdcf_tax_amount = exent_tax_amount = amount_withheld = 0.0
                 taxes = fbl.invoice_is_imported \
                         and fbl.invoice_id.imex_tax_line \
                         or fbl.invoice_id.tax_line
@@ -922,18 +922,17 @@ class fiscal_book(orm.Model):
                         data.append((0, 0, {'fb_id': fb_id,
                                             'fbl_id': fbl.id,
                                             'ait_id': ait.id}))
-                        if ait.tax_id.ret:
-                            ret_tax_amount += ait.base_amount + ait.tax_amount
-                        else:
-                            if ait.tax_id.appl_type == 'sdcf':
-                                sdcf_tax_amount += ait.base_amount
-                            if ait.tax_id.appl_type == 'exento':
-                                exent_tax_amount += ait.base_amount
+
+                        total_w_iva_amount += ait.tax_amount
+                        if ait.tax_id.appl_type == 'sdcf':
+                            sdcf_tax_amount += ait.base_amount
+                        if ait.tax_id.appl_type == 'exento':
+                            exent_tax_amount += ait.base_amount
                     else:
                         data.append((0, 0, {'fb_id':
                                     fb_id, 'fbl_id': False, 'ait_id': ait.id}))
                 fbl_obj.write(
-                    cr, uid, fbl.id, {'total_with_iva': ret_tax_amount},
+                    cr, uid, fbl.id, {'total_with_iva': total_w_iva_amount},
                     context=context)
                 fbl_obj.write(
                     cr, uid, fbl.id, {'vat_sdcf': sdcf_tax_amount},
