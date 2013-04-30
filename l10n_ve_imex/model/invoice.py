@@ -138,3 +138,16 @@ class inheried_account_invoice_tax(osv.osv):
             res = {'value': {'partner_id': inv.partner_id.id,
                              'reference': inv.reference}}
         return res
+
+    def on_change_tax_id(self, cr, uid, ids, tax_id, context=None):
+        context = context or {}
+        res = {}
+        if tax_id:
+            at_obj = self.pool.get('account.tax')
+            tax_brw = at_obj.browse(cr, uid, tax_id, context=context)
+            if tax_brw:
+                res = {'value': {'account_id': tax_brw.account_collected_id.id,
+                                 'name': tax_brw.name}}
+        else:
+            res = {'value': {'account_id': False, 'name': False}}
+        return res

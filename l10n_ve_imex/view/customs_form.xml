@@ -45,7 +45,7 @@
                                                    domain="[('customs_form_id','!=', False)]"/>
                                             <field name="partner_id"/>
                                             <field name="reference"/>
-                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
+                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection" on_change="on_change_tax_id(tax_id)"/>
                                             <field name="name"/>
                                             <field name="account_id"/>
                                             <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
@@ -58,7 +58,7 @@
                                             <field name="imex_inv_id" on_change="on_change_invoice_id(imex_inv_id)"/>
                                             <field name="partner_id"/>
                                             <field name="reference"/>
-                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
+                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection" on_change="on_change_tax_id(tax_id)"/>
                                             <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
                                             <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
                                         </form>
