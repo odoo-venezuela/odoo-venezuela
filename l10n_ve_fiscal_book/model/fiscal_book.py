@@ -884,11 +884,15 @@ class fiscal_book(orm.Model):
         tax_amount = base_amount = 0.0
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                for ait in fbl.invoice_id.tax_line:
+                taxes = fbl.invoice_is_imported \
+                        and fbl.invoice_id.imex_tax_line \
+                        or fbl.invoice_id.tax_line
+                for ait in taxes:
                     if ait.tax_id:
-                        base_amount = base_amount + ait.base_amount
+                        base_amount += ait.base_amount
                         if ait.tax_id.ret:
-                            tax_amount = tax_amount + ait.tax_amount
+                            tax_amount += ait.tax_amount
+
         return self.write(cr, uid, fb_id,
                           {'tax_amount': tax_amount,
                            'base_amount': base_amount},
