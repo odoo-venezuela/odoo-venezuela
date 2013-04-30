@@ -158,7 +158,7 @@ class customs_form(osv.osv):
                 for vat in line.imex_tax_line:
                     debits.append(
                         {'account_id': vat.tax_id.account_collected_id.id,
-                         'amount': vat.amount,
+                         'amount': vat.tax_amount,
                          'tax_info': ' (%s)' % vat.tax_id.name})
             else:
                 debits.append({'account_id': line.tax_code.account_id.id,
