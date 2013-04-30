@@ -166,7 +166,7 @@
                 </td>
                 <td>
                     <para styleda="HEADERDOC">Libro: Compras </para>
-                    <para style="HEADERDOC">Correspodiente al Mes de [[ get_month(my_fb)[0] ]] del año [[ get_month(my_fb)[1] ]]</para>
+                    <para style="HEADERDOC">[[ my_fb.get_month_year ]]</para>
                     <para style="HEADERDOC">[[ 'Desde: %s'%formatLang( my_fb.period_id.date_start, date=True) ]]</para>
                     <para style="HEADERDOC">[[ 'Hasta: %s'%formatLang( my_fb.period_id.date_stop, date=True) ]]</para>
                 </td>

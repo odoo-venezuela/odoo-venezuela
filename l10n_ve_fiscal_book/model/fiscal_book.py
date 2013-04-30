@@ -26,6 +26,7 @@
 from openerp.osv import osv, orm, fields
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
+import time
 
 
 class fiscal_book(orm.Model):
@@ -52,6 +53,21 @@ class fiscal_book(orm.Model):
                     (addr.country_id and addr.country_id.name or '') + \
                     ', TELF.:' + (addr.phone or '') or \
                     'NO HAY DIRECCION FISCAL DEFINIDA'
+        return res
+
+    def _get_month_year(self, cr, uid, ids, field_name, arg, context=None):
+        """ It returns an string with the information of the the year and month
+        of the fiscal book.
+        @param field_name: field [get_month_year]
+        """
+        context = context or {}
+        months=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        res = {}.fromkeys(ids, '')
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            month = months[time.strptime(fb_brw.period_id.date_start,"%Y-%m-%d")[1]-1]
+            year = time.strptime(fb_brw.period_id.date_start,"%Y-%m-%d")[0]
+            res[fb_brw.id] = "Correspodiente al Mes de " + str(month) + " del año " + str(year)
         return res
 
     def _get_total_with_iva_sum(self, cr, uid, ids, field_names, arg,
@@ -443,6 +459,10 @@ class fiscal_book(orm.Model):
             _get_partner_addr,
             type="text", method=True,
             help='Partner address printable format'),
+        'get_month_year': fields.function(
+            _get_month_year,
+            type="text", method=True,
+            help='Year and Month ot the Fiscal book period'),
     }
 
     _defaults = {
