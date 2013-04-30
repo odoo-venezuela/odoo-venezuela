@@ -853,14 +853,17 @@ class fiscal_book(orm.Model):
         i_tax_sum = {}.fromkeys(tax_types, 0.0)
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                for ait in fbl.invoice_id.tax_line:
-                    if ait.tax_id.appl_type:
-                        if fbl.invoice_is_imported:
+                if fbl.invoice_is_imported:
+                    for ait in fbl.invoice_id.imex_tax_line:
+                        if ait.tax_id.appl_type:
                             i_base_sum[ait.tax_id.appl_type] += ait.base_amount
                             i_tax_sum[ait.tax_id.appl_type] += ait.tax_amount
-                        else:
+                else:
+                    for ait in fbl.invoice_id.tax_line:
+                        if ait.tax_id.appl_type:
                             n_base_sum[ait.tax_id.appl_type] += ait.base_amount
                             n_tax_sum[ait.tax_id.appl_type] += ait.tax_amount
+
         data = [(0, 0, {'tax_type': ttype,
                         'base_amount_sum': n_base_sum[ttype],
                         'tax_amount_sum': n_tax_sum[ttype],
