@@ -115,16 +115,16 @@ class inheried_account_invoice_tax(osv.osv):
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 
-    def on_change_amount(self, cr, uid, ids, tax_id, base, amount):
+    def on_change_amount(self, cr, uid, ids, tax_id, base_amount, tax_amount):
         """ To autocompute base or tax, only for percent based taxes. """
         res = {}
         if tax_id:
             obj_vat = self.pool.get('account.tax')
             vat = obj_vat.browse(cr, uid, tax_id)
             if vat.type == 'percent':
-                if base == 0 and amount > 0:
-                    base = round(amount / vat.amount, 2)
-                res = {'value': {'base': base}}
+                if base_amount == 0 and tax_amount > 0:
+                    base_amount = round(tax_amount / vat.amount, 2)
+                res = {'value': {'base_amount': base_amount}}
         return res
 
     def on_change_invoice_id(self, cr, uid, ids, invoice_id):

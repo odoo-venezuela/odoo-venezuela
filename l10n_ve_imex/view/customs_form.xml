@@ -41,23 +41,26 @@
 <!--
                                             <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
-                                            <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
+                                            <field name="imex_inv_id" on_change="on_change_invoice_id(imex_inv_id)"
+                                                   domain="[('customs_form_id','!=', False)]"/>
                                             <field name="partner_id"/>
                                             <field name="reference"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
-                                            <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
-                                            <field name="amount" on_change="on_change_amount(tax_id, base, amount)" sum="Tax amount total"/>
+                                            <field name="name"/>
+                                            <field name="account_id"/>
+                                            <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)" sum="Tax amount total"/>
                                         </tree>
                                         <form>
 <!--
                                             <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
-                                            <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
+                                            <field name="imex_inv_id" on_change="on_change_invoice_id(imex_inv_id)"/>
                                             <field name="partner_id"/>
                                             <field name="reference"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
-                                            <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
-                                            <field name="amount" on_change="on_change_amount(tax_id, base, amount)"/>
+                                            <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
                                         </form>
                                     </field>    
                                 </form>

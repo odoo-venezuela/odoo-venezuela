@@ -206,7 +206,8 @@ class customs_form(osv.osv):
             f86_cfg = obj_cfg.browse(cr, uid, cfg_id[0], context=context)
         else:
             raise osv.except_osv(_('Error!'),
-                                 _('Please set a valid configuration'))
+                                 _('Please set a valid configuration in \
+                                 the imex settings'))
         date = time.strftime('%Y-%m-%d')
         context.update({'f86_company_id': company_id, 'f86_config': f86_cfg})
         move_ids = []
@@ -274,9 +275,9 @@ class customs_form(osv.osv):
                 if line.vat_detail:
                     vat_total = line.amount
                     for vat in line.imex_tax_line:
-                        vat_total -= vat.amount
-                        if vat.invoice_id.id not in vat_invoices:
-                            vat_invoices.append(vat.invoice_id.id)
+                        vat_total -= vat.tax_amount
+                        if vat.imex_inv_id.id not in vat_invoices:
+                            vat_invoices.append(vat.imex_inv_id.id)
                     if abs(vat_total) > 0.001:
                         raise osv.except_osv(
                             _('Warning!'),
