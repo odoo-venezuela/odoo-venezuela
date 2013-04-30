@@ -875,7 +875,6 @@ class fiscal_book(orm.Model):
         return data and self.write(cr, uid, fb_id, {'fbts_ids': data},
                                    context=context)
 
-    #~ TODO: test this method (with presice amounts)
     def update_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
         """ It update the base_amount and the tax_amount field for fiscal book.
         @param fb_id: fiscal book id
