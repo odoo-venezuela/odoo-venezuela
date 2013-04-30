@@ -8,7 +8,7 @@
             model="fiscal.book"
             name="fiscal.book.sale"
             rml="l10n_ve_fiscal_book/report/fiscal_book_sale_report.rml"
-            auto="False"
+            auto="True"
             menu="False"
         />
 
@@ -18,7 +18,7 @@
             model="fiscal.book"
             name="fiscal.book.purchase"
             rml="l10n_ve_fiscal_book/report/fiscal_book_purchase_report.rml"
-            auto="False"
+            auto="True"
             menu="False"
         />
 

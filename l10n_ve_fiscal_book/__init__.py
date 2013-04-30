@@ -29,6 +29,5 @@
 #
 ##############################################################################
 
-import model 
-import report
+import model
 import wizard
