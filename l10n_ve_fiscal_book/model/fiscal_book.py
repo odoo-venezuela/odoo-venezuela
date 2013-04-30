@@ -908,7 +908,10 @@ class fiscal_book(orm.Model):
             if fbl.invoice_id:
                 ret_tax_amount = sdcf_tax_amount = exent_tax_amount = \
                     amount_withheld = 0.0
-                for ait in fbl.invoice_id.tax_line:
+                taxes = fbl.invoice_is_imported \
+                        and fbl.invoice_id.imex_tax_line \
+                        or fbl.invoice_id.tax_line
+                for ait in taxes:
                     if ait.tax_id:
                         data.append((0, 0, {'fb_id': fb_id,
                                             'fbl_id': fbl.id,
