@@ -134,6 +134,7 @@
             <blockRightPadding lenght="0"/>
             <blockTopPadding lenght="0"/>
             <blockBottomPadding lenght="0"/>
+            <blockValign value="MIDDLE"/>
         </blockTableStyle>
 
         <blockTableStyle id="NEW-CONTENIDOTABLE-LINES">
@@ -221,7 +222,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="37.0" style="NEW-HEADER">
+                                <blockTable colWidths="37.0" style="NEW-HEADER" rowHeights="12">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Total con IVA</para></td>
                                     </tr>
