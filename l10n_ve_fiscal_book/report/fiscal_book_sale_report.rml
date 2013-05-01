@@ -134,6 +134,7 @@
             <blockRightPadding lenght="0"/>
             <blockTopPadding lenght="0"/>
             <blockBottomPadding lenght="0"/>
+            <blockValign value="MIDDLE"/>
         </blockTableStyle>
 
         <blockTableStyle id="NEW-CONTENIDOTABLE-LINES">
@@ -179,16 +180,16 @@
 
     <!--    SALE BOOK HEADERS    -->
     <section>
-        <blockTable colWidths="421.0, 37.0, 310.0, 485.0" style="NEW-HEADER" blockAlignment="LEFT">
+        <blockTable colWidths="346.0, 37.0, 345.0, 485.0" style="NEW-HEADER" blockAlignment="LEFT">
             <tr>
                 <td>
-                    <blockTable colWidths="421.0" style="NEW-HEADER">
+                    <blockTable colWidths="346.0" style="NEW-HEADER">
                         <tr>
                             <td vAlign="MIDDLE"><para style="HEADER">DATOS DE LA FACTURA O/Y DOCUMENTO</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0, 75.0" style="NEW-HEADER">
+                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0" style="NEW-HEADER">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Linea</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">T. Doc.</para></td>
@@ -198,16 +199,6 @@
                                         <td vAlign="MIDDLE"><para style="HEADER">Factura Afectada</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">Razon Social</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">RIF</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Liquidación de Aduana</para>
-                                            <section>
-                                            <blockTable colWidths="35.0, 40.0" style="NEW-HEADER">
-                                                <tr>
-                                                    <td><para style="HEADER">Fecha de Nac.</para></td>
-                                                    <td><para style="HEADER">Declaracion</para></td>
-                                                </tr>
-                                            </blockTable>
-                                            </section>
-                                        </td>
                                     </tr>
                                 </blockTable>
                             </td>
@@ -221,7 +212,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="37.0" style="NEW-HEADER">
+                                <blockTable colWidths="37.0" style="NEW-HEADER" rowHeights="12">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Total con IVA</para></td>
                                     </tr>
@@ -231,25 +222,25 @@
                     </blockTable>
                 </td>
                 <td>
-                    <blockTable colWidths="310.0" style="NEW-HEADER">
+                    <blockTable colWidths="345.0" style="NEW-HEADER">
                         <tr>
-                            <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE IMPORTACIONES</para></td>
+                            <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE EXPORTACION</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
+                                <blockTable colWidths="75.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
                                     <tr>
                                         <td>
-                                            <blockTable colWidths="40.0" style="NEW-HEADER">
+                                            <blockTable colWidths="75.0" style="NEW-HEADER">
                                                 <tr>
-                                                    <td><para style="HEADER">No Gravado</para></td>
+                                                    <td vAlign="MIDDLE"><para style="HEADER">Datos Generales</para></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="20.0, 20.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="35.0, 40.0" style="NEW-HEADER">
                                                             <tr>
-                                                                <td><para style="HEADER">SDCF</para></td>
-                                                                <td><para style="HEADER">Exento</para></td>
+                                                                <td><para style="HEADER">Fecha Aduana</para></td>
+                                                                <td><para style="HEADER">Declaración</para></td>
                                                             </tr>
                                                         </blockTable>
                                                     </td>
@@ -430,9 +421,9 @@
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0, 35.0, 40.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0,
                        37.0,
-                       20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       35.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
@@ -445,13 +436,11 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_parent                               # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_name                                 # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_vat                                  # RIF ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.imex_date          # Fecha de Nac. ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.custom_statement   # Declaracion ]]</para></td>
                 <!-- Totales -->
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.total_with_iva                               # Total con IVA ]]</para></td>
-                <!-- Importaciones -->
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_sdcf                          # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_exempt                        # Exento ]]</para></td>
+                <!-- Exportaciones -->
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.imex_date         # Fecha de Nac. ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.custom_statement  # Declaracion ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_base                  # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '12%'                                    # General | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_tax                   # General | Débito Fiscal ]]</para></td>
@@ -461,7 +450,7 @@
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_base               # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '22%'                                    # Adicional | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_tax                # Adicional | Débito Fiscal ]]</para></td>
-                <!-- Compras Internas -->
+                <!-- Ventas Internas -->
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_sdcf                  # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_exempt                # Exento ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_base          # General | Base Imponible ]]</para></td>
@@ -473,7 +462,7 @@
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '22%'                            # Adicional | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
-                <!-- Compras Internas / Retenciones -->
+                <!-- Ventas Internas / Retenciones -->
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.affected_invoice_date                     # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.wh_number                                 # Nro Retención ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.get_wh_debit_credit                       # Débito Fiscal Base ]]</para></td>
@@ -486,9 +475,9 @@
     <!--    TOTALS SALE PARCIALES    -->
     <section>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0, 35.0, 40.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0,
                        37.0,
-                       20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       35.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
@@ -501,13 +490,11 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ 'TOTALES'                                           # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # RIF ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Fecha de Nac. ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Declaracion ]]</para></td>
                 <!-- Totales -->
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fb.get_total_with_iva_sum                        # Total con IVA ]]</para></td>
                 <!-- Importaciones -->
-                <td><para style="HEADER">[[ my_fb.get_vat_sdcf_i_sum                                            # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_exempt_i_sum                                          # Exento ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Fecha de Nac. ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Declaracion ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_i_base_sum                                    # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_i_tax_sum                                     # General | Débito Fiscal ]]</para></td>
@@ -517,7 +504,7 @@
                 <td><para style="HEADER">[[ my_fb.get_vat_additional_i_base_sum                                 # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_additional_i_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
-                <!-- Compras Internas -->
+                <!-- Ventas Internas -->
                 <td><para style="HEADER">[[ my_fb.get_vat_sdcf_n_sum                                            # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_exempt_n_sum                                          # Exento ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_n_base_sum                                    # General | Base Imponible ]]</para></td>
@@ -529,7 +516,7 @@
                 <td><para style="HEADER">[[ my_fb.get_vat_additional_n_base_sum                                 # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_additional_n_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
-                <!-- Compras Internas / Retenciones -->
+                <!-- Ventas Internas / Retenciones -->
                 <td><para style="HEADER">[[ ''                                                                  # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Nro Retención ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_wh_debit_credit_sum                                       # Débito Fiscal Base ]]</para></td>
