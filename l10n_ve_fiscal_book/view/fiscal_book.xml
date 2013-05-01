@@ -101,18 +101,18 @@ string="Invoice"
 
                                 <field name='custom_statement'/>
                                 <field name='imex_date'/>
-                                <field name='vat_sdcf'/>
-                                <field name='vat_exempt'/>
-                                <field name="vat_general_tax"/>
-                                <field name="vat_reduced_base"/>
-                                <field name="vat_reduced_tax"/>
-                                <field name="vat_additional_base"/>
-                                <field name="vat_additional_tax"/>
+                                <field name='vat_sdcf' sum=""/>
+                                <field name='vat_exempt' sum=""/>
+                                <field name="vat_general_tax" sum=""/>
+                                <field name="vat_reduced_base" sum=""/>
+                                <field name="vat_reduced_tax" sum=""/>
+                                <field name="vat_additional_base" sum=""/>
+                                <field name="vat_additional_tax" sum=""/>
                                 <field name="affected_invoice_date"/>
                                 <field name="wh_number"/>
-                                <field name="get_wh_debit_credit"/>
+                                <field name="get_wh_debit_credit" sum=""/>
                                 <field name="wh_rate"/>
-                                <field name="get_wh_vat"/>
+                                <field name="get_wh_vat" sum=""/>
                             </tree>
                         </field>
                     </page>
@@ -264,20 +264,20 @@ string="Invoice"
                                 <field name='imex_date'/>
                                 <field name='custom_statement'/>
                                 <field name='type'/>
-                                <field name='total_with_iva'/>
-                                <field name='vat_sdcf'/>
-                                <field name='vat_exempt'/>
-                                <field name="vat_general_base"/>
-                                <field name="vat_general_tax"/>
-                                <field name="vat_reduced_base"/>
-                                <field name="vat_reduced_tax"/>
-                                <field name="vat_additional_base"/>
-                                <field name="vat_additional_tax"/>
+                                <field name='total_with_iva' sum=""/>
+                                <field name='vat_sdcf' sum=""/>
+                                <field name='vat_exempt' sum=""/>
+                                <field name="vat_general_base" sum=""/>
+                                <field name="vat_general_tax" sum=""/>
+                                <field name="vat_reduced_base" sum=""/>
+                                <field name="vat_reduced_tax" sum=""/>
+                                <field name="vat_additional_base" sum=""/>
+                                <field name="vat_additional_tax" sum=""/>
                                 <field name="affected_invoice_date"/>
                                 <field name="wh_number"/>
-                                <field name="get_wh_debit_credit"/>
+                                <field name="get_wh_debit_credit" sum=""/>
                                 <field name="wh_rate"/>
-                                <field name="get_wh_vat"/>
+                                <field name="get_wh_vat" sum=""/>
                             </tree>
                         </field>
                     </page>
