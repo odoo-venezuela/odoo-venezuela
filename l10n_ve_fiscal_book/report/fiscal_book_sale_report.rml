@@ -6,20 +6,17 @@
     A2 Size ( 420 x 594 mm - 16.5 x 23.4 inches )
     A3 Size ( 297 x 420 mm - 11.7 x 16.5 inches )
 -->
-    <template pageSize="(25in,20in)" title="Test" author="Katherine Zaoral" allowSplitting="20" showBoundary="0">
-<!--
-    <template>[[ setTag('template', 'template', { 'pageSize': "(25in,20in)", 'title': "Test", 'author': "Katherine Zaoral", 'allowSplitting': "20", 'showBoundary': "0" } ) ]]
--->
+    <template pageSize="(42.0cm, 29.27cm)" title="Test" author="Katherine Zaoral" allowSplitting="20" showBoundary="1">
         <pageTemplate id="first">
             <pageGraphics>
                 <setFont name="Times-Roman" size="9"/>
                 <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
-                <drawString x="25cm" y="0.5cm">Pagina <pageNumber/></drawString>
+                <drawString x="39cm" y="0.5cm">Pagina <pageNumber/></drawString>
                 <lineMode width="0.7"/>
-                <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
+                <lines>2.0cm 2.0cm 40.0cm 2.0cm</lines>
                 <setFont name="Times-Roman" size="8"/>
             </pageGraphics>
-            <frame id="first" x1="5.0" y1="15.0" width="20in" height="15in"/>
+            <frame id="first" x1="2.0" y1="2.0" width="42.0cm" height="29.27cm"/>
         </pageTemplate>
     </template>
 
@@ -158,7 +155,7 @@
     <para>[[repeatIn( objects ,'my_fb')]]</para>
 
     <!--    REPORT HEADER   -->
-    <blockTable colWidths="499.0,190.0,260.0" style="HEADERTABLE">
+    <blockTable colWidths="633.0,190.0,260.0" style="HEADERTABLE">
        <tr>
            [[ setLang(my_fb.company_id.partner_id.lang) ]]
            <td>
@@ -176,20 +173,20 @@
                 </td>
             </tr>
         </blockTable>
-    <spacer length="2mm"/>
+    <spacer length="10mm"/>
 
     <!--    SALE BOOK HEADERS    -->
     <section>
-        <blockTable colWidths="346.0, 37.0, 345.0, 485.0" style="NEW-HEADER" blockAlignment="LEFT">
+        <blockTable colWidths="303.0, 37.0, 333.0, 485.0" style="NEW-HEADER" blockAlignment="LEFT">
             <tr>
                 <td>
-                    <blockTable colWidths="346.0" style="NEW-HEADER">
+                    <blockTable colWidths="303.0" style="NEW-HEADER">
                         <tr>
                             <td vAlign="MIDDLE"><para style="HEADER">DATOS DE LA FACTURA O/Y DOCUMENTO</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0" style="NEW-HEADER">
+                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0" style="NEW-HEADER">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Linea</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">T. Doc.</para></td>
@@ -222,24 +219,24 @@
                     </blockTable>
                 </td>
                 <td>
-                    <blockTable colWidths="345.0" style="NEW-HEADER">
+                    <blockTable colWidths="333.0" style="NEW-HEADER">
                         <tr>
                             <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE EXPORTACION</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="75.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
+                                <blockTable colWidths="63.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
                                     <tr>
                                         <td>
-                                            <blockTable colWidths="75.0" style="NEW-HEADER">
+                                            <blockTable colWidths="63.0" style="NEW-HEADER">
                                                 <tr>
-                                                    <td vAlign="MIDDLE"><para style="HEADER">Datos Generales</para></td>
+                                                    <td vAlign="MIDDLE"><para style="HEADER">Datos Generales de Aduana</para></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 40.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="23.0, 40.0" style="NEW-HEADER">
                                                             <tr>
-                                                                <td><para style="HEADER">Fecha Aduana</para></td>
+                                                                <td><para style="HEADER">Fecha</para></td>
                                                                 <td><para style="HEADER">Declaración</para></td>
                                                             </tr>
                                                         </blockTable>
@@ -421,9 +418,9 @@
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0,
                        37.0,
-                       35.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       23.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
@@ -475,9 +472,9 @@
     <!--    TOTALS SALE PARCIALES    -->
     <section>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 160.0, 25.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0,
                        37.0,
-                       35.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       23.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
