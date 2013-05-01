@@ -289,13 +289,15 @@ class fiscal_book(orm.Model):
             _totalization,
             type="float", method=True, store=True,
             string="NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL",
-            help="NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL"),
+            help="Sum of sdcf and exempt totalization columns for domestic \
+            transactions"),
         'get_vat_sdcf_i_sum': fields.function(
             _totalization,
             type="float", method=True, store=True,
             string="IMPORTACIONES NO GRAVADAS Y/O SIN DERECHO A CREDITO \
             FISCAL",
-            help="IMPORTACIONES NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL"),
+            help="Sum of sdcf and exempt totalization columns for \
+            international transactions"),
         'get_vat_general_i_base_sum': fields.function(
             _totalization,
             type="float", method=True, store=True,
@@ -410,8 +412,8 @@ class fiscal_book(orm.Model):
             _get_vat_sdcf_sum,
             type="float", method=True, store=True,
             string="No Gravadas y/o Sin Derecho a Crédito Fiscal",
-            help="No Gravadas y/o Sin Derecho a Crédito Fiscal"),
-
+            help="Sum of sdcf and exempt totalization columns for domestic \
+            and international transactions"),
         'get_total_tax_credit_debit_base_sum': fields.function(
             _get_total_tax_credit_debit,
             type="float", method=True, store=True,
