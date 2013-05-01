@@ -1254,38 +1254,35 @@ class fiscal_book_lines(orm.Model):
             help="Fiscal Book Line Type. Type of transtaction: \
               - Purchase: International or Domestic. \
               - Sales: Expertation, Tax Payer, No Tax Payer."),
- 
         'void_form': fields.char(string='Transaction type', size=192,
                                  help="Operation Type"),
-
         'fiscal_printer': fields.char(string='Fiscal machine number',
                                       size=192, help=""),
         'invoice_printer': fields.char(string='Fiscal printer invoice number',
                                        size=192, help=""),
         'custom_statement': fields.char(string="Custom Statement",
                                         size=192, help=""),
-
-        'total_with_iva': fields.float('Total with IVA'),
-        'vat_sdcf': fields.float('SDCF'),
-        'vat_exempt': fields.float('Exent'),
-        'vat_reduced_base': fields.float(
-            string="RED BASE",
-            help="Vat Reduced Base Amount"),
-        'vat_general_base': fields.float(
-            string="GRAL BASE",
-            help="Vat General Base Amount"),
-        'vat_additional_base': fields.float(
-            string="ADD BASE",
-            help="Vat Generald plus Additional Base Amount"),
-        'vat_reduced_tax': fields.float(
-            string="RED TAX",
-            help="Vat Reduced Tax Amount"),
-        'vat_general_tax': fields.float(
-            string="GRAL TAX",
-            help="Vat General Tax Amount"),
-        'vat_additional_tax': fields.float(
-            string="ADD TAX",
-            help="Vat General plus Additional Tax Amount"),
+        #~ -- taxes fields
+        'total_with_iva': fields.float('Total with IVA', help="Sub Total \
+                                       of the invoice (untaxed amount) plus \
+                                       all tax amount of the related taxes"),
+        'vat_sdcf': fields.float("SDCF", help="Not entitled to tax credit \
+                                 (The field name correspond to the spanih \
+                                 acronym for 'Sin Derecho a Credito Fiscal')"),
+        'vat_exempt': fields.float("Exempt", help="Exempt is a Tax with 0 \
+                                   tax percentage"),
+        'vat_reduced_base': fields.float("RED BASE", help="Vat Reduced Base \
+                                         Amount"),
+        'vat_reduced_tax': fields.float("RED TAX", help="Vat Reduced Tax \
+                                        Amount"),
+        'vat_general_base': fields.float("GRAL BASE",help="Vat General Base \
+                                         Amount"),
+        'vat_general_tax': fields.float("GRAL TAX", help="Vat General Tax \
+                                        Amount"),
+        'vat_additional_base': fields.float("ADD BASE", help="Vat Generald \
+                                            plus Additional Base Amount"),
+        'vat_additional_tax': fields.float("ADD TAX", help="Vat General plus \
+                                           Additional Tax Amount"),
     }
 
 
