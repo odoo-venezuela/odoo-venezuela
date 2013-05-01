@@ -82,7 +82,7 @@ class fiscal_book(orm.Model):
         for fb_brw in self.browse(cr, uid, ids, context=context):
             for fbl_brw in fb_brw.fbl_ids:
                 if fbl_brw.invoice_id:
-                    if fbl_brw.invoice_is_imported:
+                    if fbl_brw.type in ['im','ex']:
                         res[fb_brw.id]['get_total_with_iva_i_sum'] += \
                             fbl_brw.total_with_iva
                     else:
@@ -818,7 +818,8 @@ class fiscal_book(orm.Model):
                 'accounting_date': (not imex_invoice) and \
                                    inv_brw.date_invoice or False,
                 'imex_date': imex_invoice and inv_brw.customs_form_id.date_liq or False,
-                'invoice_is_imported': imex_invoice,
+                'type': self.get_transaction_type(cr, uid, fb_id, inv_brw.id,
+                                                  context=context),
                 'debit_affected': inv_brw.parent_id \
                                   and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] \
                                   and inv_brw.parent_id.parent_id \
@@ -873,7 +874,7 @@ class fiscal_book(orm.Model):
         i_tax_sum = {}.fromkeys(tax_types, 0.0)
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                if fbl.invoice_is_imported:
+                if fbl.type in ['im','ex']:
                     for ait in fbl.invoice_id.imex_tax_line:
                         if ait.tax_id.appl_type:
                             i_base_sum[ait.tax_id.appl_type] += ait.base_amount
@@ -903,7 +904,7 @@ class fiscal_book(orm.Model):
         tax_amount = base_amount = 0.0
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                taxes = fbl.invoice_is_imported \
+                taxes = fbl.type in ['im','ex'] \
                         and fbl.invoice_id.imex_tax_line \
                         or fbl.invoice_id.tax_line
                 for ait in taxes:
@@ -934,7 +935,7 @@ class fiscal_book(orm.Model):
             if fbl.invoice_id:
                 total_w_iva_amount = fbl.invoice_id.amount_untaxed
                 sdcf_tax_amount = exent_tax_amount = amount_withheld = 0.0
-                taxes = fbl.invoice_is_imported \
+                taxes = fbl.type in ['im','ex'] \
                         and fbl.invoice_id.imex_tax_line \
                         or fbl.invoice_id.tax_line
                 for ait in taxes:
@@ -1134,6 +1135,21 @@ class fiscal_book(orm.Model):
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
         return inv_brw.customs_form_id and True or False
 
+    def get_transaction_type(self, cr, uid, fb_id, inv_id, context=None):
+        """ Method that returns the type of the fiscal book line related to the
+        given invoice by cheking the customs form associated and the fiscal
+        book type.
+        @param fb_id: fiscal book id
+        @param inv_id: invoice id
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
+        return inv_brw.customs_form_id \
+               and (fb_brw.type == 'sale' and 'ex' or 'im') \
+               or (fb_brw.type == 'purchase' and 'do' \
+                  or (inv_brw.partner_id.vat_subjected and 'tp' or 'ntp' ))
 
 class fiscal_book_lines(orm.Model):
 
@@ -1228,8 +1244,17 @@ class fiscal_book_lines(orm.Model):
                                       help='Debit notes affected'),
         'credit_affected': fields.char(string='Affected Credit Notes',
                                        help='Credit notes affected'),
-        'invoice_is_imported': fields.boolean(string='Is an import'),
-
+        'type': fields.selection(
+            [('im', 'International'),
+             ('do', 'Domestic'),
+             ('ex', 'Exportation'),
+             ('tp', 'Tax Payer'),
+             ('ntp', 'No Tax Payer')],
+            string = 'Type', required=True,
+            help="Fiscal Book Line Type. Type of transtaction: \
+              - Purchase: International or Domestic. \
+              - Sales: Expertation, Tax Payer, No Tax Payer."),
+ 
         'void_form': fields.char(string='Transaction type', size=192,
                                  help="Operation Type"),
 

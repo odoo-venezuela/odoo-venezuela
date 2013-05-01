@@ -445,34 +445,34 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_parent                               # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_name                                 # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_vat                                  # RIF ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.imex_date     # Fecha de Nac. ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.custom_statement  # Declaracion ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.imex_date          # Fecha de Nac. ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.custom_statement   # Declaracion ]]</para></td>
                 <!-- Totales -->
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.total_with_iva                               # Total con IVA ]]</para></td>
                 <!-- Importaciones -->
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_sdcf                      # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_exempt                    # Exento ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_general_base              # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and '12%'                                # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_general_tax               # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_reduced_base              # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and '8%'                                 # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_reduced_tax               # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_additional_base           # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and '22%'                                # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.invoice_is_imported and my_fbl.vat_additional_tax            # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_sdcf                      # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_exempt                    # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_general_base              # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and '12%'                                # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_general_tax               # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_reduced_base              # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and '8%'                                 # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_reduced_tax               # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_additional_base           # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and '22%'                                # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.vat_additional_tax            # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Compras Internas -->
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_sdcf                  # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_exempt                # Exento ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_general_base          # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and '12%'                            # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_general_tax           # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_reduced_base          # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and '8%'                             # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_reduced_tax           # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and '22%'                            # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ not my_fbl.invoice_is_imported and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_sdcf                  # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_exempt                # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_general_base          # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and '12%'                            # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_general_tax           # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_reduced_base          # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and '8%'                             # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_reduced_tax           # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and '22%'                            # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['im'] and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Compras Internas / Retenciones -->
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.affected_invoice_date                     # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.wh_number                                 # Nro Retención ]]</para></td>
