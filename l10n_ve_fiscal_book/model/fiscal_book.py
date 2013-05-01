@@ -1269,22 +1269,22 @@ class fiscal_book_lines(orm.Model):
         'vat_sdcf': fields.float('SDCF'),
         'vat_exempt': fields.float('Exent'),
         'vat_reduced_base': fields.float(
-            string="8% Base",
+            string="RED BASE",
             help="Vat Reduced Base Amount"),
         'vat_general_base': fields.float(
-            string="12% Base",
+            string="GRAL BASE",
             help="Vat General Base Amount"),
         'vat_additional_base': fields.float(
-            string="22% Base",
+            string="ADD BASE",
             help="Vat Generald plus Additional Base Amount"),
         'vat_reduced_tax': fields.float(
-            string="8% Tax",
+            string="RED TAX",
             help="Vat Reduced Tax Amount"),
         'vat_general_tax': fields.float(
-            string="12% Tax",
+            string="GRAL TAX",
             help="Vat General Tax Amount"),
         'vat_additional_tax': fields.float(
-            string="22% Tax",
+            string="ADD TAX",
             help="Vat General plus Additional Tax Amount"),
     }
 
