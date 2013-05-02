@@ -310,7 +310,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0, 90.0, 90.0, 90.0, 175.0" style="NEW-HEADER">
+                                <blockTable colWidths="40.0, 270.0, 270.0, 175.0" style="NEW-HEADER">
                                     <tr>
                                         <td>
                                             <blockTable colWidths="40.0" style="NEW-HEADER">
@@ -329,114 +329,147 @@
                                                 </tr>
                                             </blockTable>
                                         </td>
+
                                         <td>
-                                            <blockTable colWidths="90.0" style="NEW-HEADER">
+                                            <blockTable colWidths="270" style="NEW-HEADER">
                                                 <tr>
-                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota General</para></td>
+                                                    <td vAlign="MIDDLE"><para style="HEADER">Contribuyente</para></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="90.0, 90.0, 90.0" style="NEW-HEADER">
                                                             <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alicuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                <td>
+                                                                    <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">Ventas o Servicios Gravados Alicuota General</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">Base Imponible</para></td>
+                                                                                        <td><para style="HEADER">Alicuota</para></td>
+                                                                                        <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
+                                                                <td>
+                                                                    <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Reducida</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">Base Imponible</para></td>
+                                                                                        <td><para style="HEADER">Alicuota</para></td>
+                                                                                        <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
+                                                                <td>
+                                                                    <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Adicional</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">Base Imponible</para></td>
+                                                                                        <td><para style="HEADER">Alicuota</para></td>
+                                                                                        <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
                                                             </tr>
                                                         </blockTable>
                                                     </td>
                                                 </tr>
                                             </blockTable>
                                         </td>
+
                                         <td>
-                                            <blockTable colWidths="90.0" style="NEW-HEADER">
+                                            <blockTable colWidths="270" style="NEW-HEADER">
                                                 <tr>
-                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Reducida</para></td>
+                                                    <td vAlign="MIDDLE"><para style="HEADER">No Contribuyente</para></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="90.0, 90.0, 90.0" style="NEW-HEADER">
                                                             <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alicuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                <td>
+                                                                    <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">Ventas o Servicios Gravados Alicuota General</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">Base Imponible</para></td>
+                                                                                        <td><para style="HEADER">Alicuota</para></td>
+                                                                                        <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
+                                                                <td>
+                                                                    <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Reducida</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">Base Imponible</para></td>
+                                                                                        <td><para style="HEADER">Alicuota</para></td>
+                                                                                        <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
+                                                                <td>
+                                                                    <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Adicional</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">Base Imponible</para></td>
+                                                                                        <td><para style="HEADER">Alicuota</para></td>
+                                                                                        <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
                                                             </tr>
                                                         </blockTable>
                                                     </td>
                                                 </tr>
                                             </blockTable>
                                         </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                <tr>
-                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Adicional</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alicuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                <tr>
-                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota General</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alicuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                <tr>
-                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Reducida</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alicuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                <tr>
-                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Adicional</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alicuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
+
                                         <td>
                                             <blockTable colWidths="175.0" style="NEW-HEADER">
                                                 <tr>
@@ -444,7 +477,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="NEW-HEADER" rowHeights="12.0">
                                                             <tr>
                                                                 <td><para style="HEADER">Fecha Factura Afect.</para></td>
                                                                 <td><para style="HEADER">Nro Retención</para></td>
