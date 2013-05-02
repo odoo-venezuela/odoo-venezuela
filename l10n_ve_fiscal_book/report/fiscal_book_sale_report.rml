@@ -176,7 +176,7 @@
 
     <!--    SALE BOOK HEADERS    -->
     <section>
-        <blockTable colWidths="303.0, 37.0, 333.0, 755.0" style="NEW-HEADER" blockAlignment="LEFT">
+        <blockTable colWidths="303.0, 37.0, 333.0, 795.0" style="NEW-HEADER" blockAlignment="LEFT">
             <tr>
                 <td>
                     <blockTable colWidths="303.0" style="NEW-HEADER">
@@ -185,7 +185,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0" style="NEW-HEADER">
+                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0" style="NEW-HEADER" rowHeights="18">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Linea</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">T. Doc.</para></td>
@@ -208,7 +208,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="37.0" style="NEW-HEADER" rowHeights="12">
+                                <blockTable colWidths="37.0" style="NEW-HEADER" rowHeights="18">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Total con IVA</para></td>
                                     </tr>
@@ -224,7 +224,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="63.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
+                                <blockTable colWidths="63.0, 90.0, 90.0, 90.0" style="NEW-HEADER" rowHeights="18">
                                     <tr>
                                         <td>
                                             <blockTable colWidths="63.0" style="NEW-HEADER">
@@ -233,7 +233,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="23.0, 40.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="23.0, 40.0" style="NEW-HEADER" rowHeights="12">
                                                             <tr>
                                                                 <td><para style="HEADER">Fecha</para></td>
                                                                 <td><para style="HEADER">Declaración</para></td>
@@ -250,7 +250,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER" rowHeights="12">
                                                             <tr>
                                                                 <td><para style="HEADER">Base Imponible</para></td>
                                                                 <td><para style="HEADER">Alicuota</para></td>
@@ -268,7 +268,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER" rowHeights="12">
                                                             <tr>
                                                                 <td><para style="HEADER">Base Imponible</para></td>
                                                                 <td><para style="HEADER">Alicuota</para></td>
@@ -286,7 +286,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER" rowHeights="12">
                                                             <tr>
                                                                 <td><para style="HEADER">Base Imponible</para></td>
                                                                 <td><para style="HEADER">Alicuota</para></td>
@@ -304,41 +304,40 @@
                     </blockTable>
                 </td>
                 <td>
-                    <blockTable colWidths="755.0" style="NEW-HEADER">
+                    <blockTable colWidths="795.0" style="NEW-HEADER">
                         <tr>
                             <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES EN EL MERCADO INTERNO</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="40.0, 270.0, 270.0, 175.0" style="NEW-HEADER">
+                                <blockTable colWidths="310.0, 310.0, 175.0" style="NEW-HEADER">
                                     <tr>
                                         <td>
-                                            <blockTable colWidths="40.0" style="NEW-HEADER">
-                                                <tr>
-                                                    <td><para style="HEADER">No Gravado</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="20.0, 20.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">SDCF</para></td>
-                                                                <td><para style="HEADER">Exento</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-
-                                        <td>
-                                            <blockTable colWidths="270" style="NEW-HEADER">
+                                            <blockTable colWidths="310.0" style="NEW-HEADER">
                                                 <tr>
                                                     <td vAlign="MIDDLE"><para style="HEADER">Contribuyente</para></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="90.0, 90.0, 90.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="40.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
                                                             <tr>
+                                                                <td>
+                                                                    <blockTable colWidths="40.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">No Gravado</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="20.0, 20.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">SDCF</para></td>
+                                                                                        <td><para style="HEADER">Exento</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
                                                                 <td>
                                                                     <blockTable colWidths="90.0" style="NEW-HEADER">
                                                                         <tr>
@@ -401,14 +400,31 @@
                                         </td>
 
                                         <td>
-                                            <blockTable colWidths="270" style="NEW-HEADER">
+                                            <blockTable colWidths="310.0" style="NEW-HEADER">
                                                 <tr>
                                                     <td vAlign="MIDDLE"><para style="HEADER">No Contribuyente</para></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <blockTable colWidths="90.0, 90.0, 90.0" style="NEW-HEADER">
+                                                        <blockTable colWidths="40.0, 90.0, 90.0, 90.0" style="NEW-HEADER">
                                                             <tr>
+                                                                <td>
+                                                                    <blockTable colWidths="40.0" style="NEW-HEADER">
+                                                                        <tr>
+                                                                            <td><para style="HEADER">No Gravado</para></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <blockTable colWidths="20.0, 20.0" style="NEW-HEADER">
+                                                                                    <tr>
+                                                                                        <td><para style="HEADER">SDCF</para></td>
+                                                                                        <td><para style="HEADER">Exento</para></td>
+                                                                                    </tr>
+                                                                                </blockTable>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </blockTable>
+                                                                </td>
                                                                 <td>
                                                                     <blockTable colWidths="90.0" style="NEW-HEADER">
                                                                         <tr>
@@ -479,7 +495,7 @@
                                                     <td>
                                                         <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="NEW-HEADER" rowHeights="12.0">
                                                             <tr>
-                                                                <td><para style="HEADER">Fecha Factura Afect.</para></td>
+                                                                <td><para style="HEADER">Fecha de Factura Afectada</para></td>
                                                                 <td><para style="HEADER">Nro Retención</para></td>
                                                                 <td><para style="HEADER">Débito Fiscal Base</para></td>
                                                                 <td><para style="HEADER">Retención %</para></td>
@@ -508,7 +524,7 @@
                        37.0,
                        23.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
-                                      35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
                 <!-- Datos de la factura y/o documento -->
@@ -523,38 +539,41 @@
                 <!-- Totales -->
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.total_with_iva                               # Total con IVA ]]</para></td>
                 <!-- Exportaciones -->
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.imex_date         # Fecha de Nac. ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.custom_statement  # Declaracion ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_base                  # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '12%'                                    # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_tax                   # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_reduced_base                  # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '8%'                                     # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_reduced_tax                   # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_base               # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '22%'                                    # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_tax                # Adicional | Débito Fiscal ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.imex_date          # Fecha de Nac. ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.custom_statement   # Declaracion ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_base                   # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '12%'                                     # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_tax                    # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_reduced_base                   # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '8%'                                      # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_reduced_tax                    # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_base                # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '22%'                                     # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_tax                 # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas -->
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_sdcf                  # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_exempt                # Exento ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_base          # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '12%'                            # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_tax           # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_reduced_base          # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '8%'                             # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_reduced_tax           # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '22%'                            # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_base          # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '12%'                            # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_tax           # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_reduced_base          # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '8%'                             # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_reduced_tax           # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '22%'                            # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_sdcf                           # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_exempt                         # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_general_base                   # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and '12%'                                     # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_general_tax                    # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_reduced_base                   # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and '8%'                                      # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_reduced_tax                    # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_additional_base                # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and '22%'                                     # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_additional_tax                 # Adicional | Débito Fiscal ]]</para></td>
+
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_sdcf                          # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_exempt                        # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_general_base                  # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and '12%'                                    # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_general_tax                   # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_reduced_base                  # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and '8%'                                     # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_reduced_tax                   # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_additional_base               # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and '22%'                                    # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type in ['ntp'] and my_fbl.vat_additional_tax                # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas / Retenciones -->
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.affected_invoice_date                     # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.wh_number                                 # Nro Retención ]]</para></td>
@@ -572,7 +591,7 @@
                        37.0,
                        23.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
-                                      35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
                 <!-- Datos de la factura y/o documento -->
@@ -610,6 +629,8 @@
                 <td><para style="HEADER">[[ my_fb.get_vat_additional_n_base_sum                                 # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_additional_n_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_sdcf_n_sum                                            # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_exempt_n_sum                                          # Exento ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_n_base_sum                                    # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_n_tax_sum                                     # General | Débito Fiscal ]]</para></td>
