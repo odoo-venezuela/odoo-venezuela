@@ -269,28 +269,11 @@ class fiscal_book(orm.Model):
             type="float", method=True, store=True,
             multi="get_total_with_iva",
             string='International Total with VAT Sum'),
-        'get_total_with_iva_n_sum': fields.function(
-            _get_total_with_iva_sum,
-            type="float", method=True, store=True,
-            multi="get_total_with_iva",
-            string='Domestic Total with VAT Sum'),
-
         'get_vat_exempt_i_sum': fields.function(
             _totalization,
             type="float", method=True, store=True,
             string="Exempt International Purchase Sum",
             help="Exempt International Purchase Sum"),
-        'get_vat_exempt_n_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            string="Exempt Domestic Purchase Sum",
-            help="Exempt Domestic Purchase Sum"),
-        'get_vat_sdcf_n_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            string="NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL",
-            help="Sum of sdcf and exempt totalization columns for domestic \
-            transactions"),
         'get_vat_sdcf_i_sum': fields.function(
             _totalization,
             type="float", method=True, store=True,
@@ -346,6 +329,28 @@ class fiscal_book(orm.Model):
             (Crédito Fiscal).",
             help="Importaciones Gravadas por Alícuota Reducida \
             (Crédito Fiscal)."),
+        'get_vat_all_i_base_sum': fields.function(
+            _get_vat_all_base_sum,
+            type="float", method=True, store=True,
+            string="International base sum (reduced, general and additional)",
+            help="International base sum (reduced, general and additional)"),
+
+        'get_total_with_iva_n_sum': fields.function(
+            _get_total_with_iva_sum,
+            type="float", method=True, store=True,
+            multi="get_total_with_iva",
+            string='Domestic Total with VAT Sum'),
+        'get_vat_exempt_n_sum': fields.function(
+            _totalization,
+            type="float", method=True, store=True,
+            string="Exempt Domestic Purchase Sum",
+            help="Exempt Domestic Purchase Sum"),
+        'get_vat_sdcf_n_sum': fields.function(
+            _totalization,
+            type="float", method=True, store=True,
+            string="NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL",
+            help="Sum of sdcf and exempt totalization columns for domestic \
+            transactions"),
         'get_vat_general_n_base_sum': fields.function(
             _totalization,
             type="float", method=True, store=True,
@@ -390,12 +395,6 @@ class fiscal_book(orm.Model):
             digits_compute=dp.get_precision('Account'),
             string="Internas Gravadas por Alícuota Reducida (Crédito Fiscal).",
             help="Internas Gravadas por Alícuota Reducida (Crédito Fiscal)."),
-
-        'get_vat_all_i_base_sum': fields.function(
-            _get_vat_all_base_sum,
-            type="float", method=True, store=True,
-            string="International base sum (reduced, general and additional)",
-            help="International base sum (reduced, general and additional)"),
         'get_vat_all_n_base_sum': fields.function(
             _get_vat_all_base_sum,
             type="float", method=True, store=True,
@@ -431,6 +430,7 @@ class fiscal_book(orm.Model):
             help="Monto Imponible del Total (Débitos/Créditos) Fiscales para \
             el libro de (Venta/Compra)"),
 
+        #~ Withholding fields
         'get_wh_sum': fields.function(
             _get_wh,
             type="float", method=True, store=True, multi="get_wh",
