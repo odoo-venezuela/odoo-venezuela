@@ -9,8 +9,8 @@
     "website" : "http://openerp.com.ve",
     "category" : "Generic Modules/Accounting",
     "update_xml" : [
-        "view/l10n_ve_vat_write_off.xml",
         "report/l10n_ve_vat_write_off_report.xml",
+        "view/l10n_ve_vat_write_off.xml",
     ],
     "active": False,
     "installable": True,
