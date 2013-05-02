@@ -6,23 +6,22 @@
     A2 Size ( 420 x 594 mm - 16.5 x 23.4 inches )
     A3 Size ( 297 x 420 mm - 11.7 x 16.5 inches )
 -->
-    <template pageSize="(42.0cm, 29.27cm)" title="Test" author="Katherine Zaoral" allowSplitting="20" showBoundary="1">
+    <template pageSize="(59.4cm, 42.0cm)" title="Test" author="Katherine Zaoral" allowSplitting="20" showBoundary="0">
         <pageTemplate id="first">
             <pageGraphics>
-                <setFont name="Times-Roman" size="9"/>
-                <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
-                <drawString x="39cm" y="0.5cm">Pagina <pageNumber/></drawString>
+                <setFont name="Times-Roman" size="10"/>
+                <drawString x="2.5cm" y="2.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
+                <drawString x="55cm" y="2.5cm">Pagina <pageNumber/></drawString>
                 <lineMode width="0.7"/>
-                <lines>2.0cm 2.0cm 40.0cm 2.0cm</lines>
-                <setFont name="Times-Roman" size="8"/>
+                <lines>2.0cm 3.0cm 57.4cm 3.0cm</lines>
             </pageGraphics>
-            <frame id="first" x1="2.0" y1="2.0" width="42.0cm" height="29.27cm"/>
+            <frame id="first" x1="2.0cm" y1="2.0cm" width="55.4cm" height="38.0cm"/>
         </pageTemplate>
     </template>
 
     <stylesheet>
 
-        <blockTableStyle id="HEADERTABLE">
+        <blockTableStyle id="HEADER-REPORT-TABLE">
             <blockAlignment value="LEFT"/>
             <blockValign value="TOP"/>
             <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,0" stop="14,0"/>
@@ -155,7 +154,7 @@
     <para>[[repeatIn( objects ,'my_fb')]]</para>
 
     <!--    REPORT HEADER   -->
-    <blockTable colWidths="633.0,190.0,260.0" style="HEADERTABLE">
+    <blockTable colWidths="28.81cm,11.08cm,15.51cm" style="HEADER-REPORT-TABLE">
        <tr>
            [[ setLang(my_fb.company_id.partner_id.lang) ]]
            <td>
