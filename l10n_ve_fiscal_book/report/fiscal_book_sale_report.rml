@@ -177,7 +177,7 @@
 
     <!--    SALE BOOK HEADERS    -->
     <section>
-        <blockTable colWidths="303.0, 37.0, 333.0, 485.0" style="NEW-HEADER" blockAlignment="LEFT">
+        <blockTable colWidths="303.0, 37.0, 333.0, 755.0" style="NEW-HEADER" blockAlignment="LEFT">
             <tr>
                 <td>
                     <blockTable colWidths="303.0" style="NEW-HEADER">
@@ -305,13 +305,13 @@
                     </blockTable>
                 </td>
                 <td>
-                    <blockTable colWidths="485.0" style="NEW-HEADER">
+                    <blockTable colWidths="755.0" style="NEW-HEADER">
                         <tr>
                             <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES EN EL MERCADO INTERNO</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0, 175.0" style="NEW-HEADER">
+                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0, 90.0, 90.0, 90.0, 175.0" style="NEW-HEADER">
                                     <tr>
                                         <td>
                                             <blockTable colWidths="40.0" style="NEW-HEADER">
@@ -324,6 +324,60 @@
                                                             <tr>
                                                                 <td><para style="HEADER">SDCF</para></td>
                                                                 <td><para style="HEADER">Exento</para></td>
+                                                            </tr>
+                                                        </blockTable>
+                                                    </td>
+                                                </tr>
+                                            </blockTable>
+                                        </td>
+                                        <td>
+                                            <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                <tr>
+                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota General</para></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                            <tr>
+                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                <td><para style="HEADER">Alicuota</para></td>
+                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                            </tr>
+                                                        </blockTable>
+                                                    </td>
+                                                </tr>
+                                            </blockTable>
+                                        </td>
+                                        <td>
+                                            <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                <tr>
+                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Reducida</para></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                            <tr>
+                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                <td><para style="HEADER">Alicuota</para></td>
+                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                            </tr>
+                                                        </blockTable>
+                                                    </td>
+                                                </tr>
+                                            </blockTable>
+                                        </td>
+                                        <td>
+                                            <blockTable colWidths="90.0" style="NEW-HEADER">
+                                                <tr>
+                                                    <td><para style="HEADER">Ventas o Servicios Gravados Alicuota Adicional</para></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER">
+                                                            <tr>
+                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                <td><para style="HEADER">Alicuota</para></td>
+                                                                <td><para style="HEADER">Débito Fiscal</para></td>
                                                             </tr>
                                                         </blockTable>
                                                     </td>
@@ -422,6 +476,7 @@
                        37.0,
                        23.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                                      35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
                 <!-- Datos de la factura y/o documento -->
@@ -459,6 +514,15 @@
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '22%'                            # Adicional | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_base          # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '12%'                            # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_general_tax           # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_reduced_base          # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '8%'                             # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_reduced_tax           # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_base       # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and '22%'                            # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fbl.type not in ['ex'] and my_fbl.vat_additional_tax        # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas / Retenciones -->
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.affected_invoice_date                     # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.iwdl_id and my_fbl.wh_number                                 # Nro Retención ]]</para></td>
@@ -476,6 +540,7 @@
                        37.0,
                        23.0, 40.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                                      35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
             <tr>
                 <!-- Datos de la factura y/o documento -->
@@ -504,6 +569,15 @@
                 <!-- Ventas Internas -->
                 <td><para style="HEADER">[[ my_fb.get_vat_sdcf_n_sum                                            # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_exempt_n_sum                                          # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_general_n_base_sum                                    # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_general_n_tax_sum                                     # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_reduced_n_base_sum                                    # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ ''                                                                  # Reducido | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_reduced_n_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_additional_n_base_sum                                 # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.get_vat_additional_n_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_n_base_sum                                    # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.get_vat_general_n_tax_sum                                     # General | Débito Fiscal ]]</para></td>
