@@ -75,118 +75,83 @@ class fiscal_book(orm.Model):
         """ It returns sum of of all columns total with iva of the fiscal book
         lines.
         @param field_name: ['get_total_with_iva_sum',
-                            'get_total_with_iva_i_sum',
-                            'get_total_with_iva_n_sum']"""
+                            'get_total_with_iva_imex_sum',
+                            'get_total_with_iva_do_sum',
+                            'get_total_with_iva_tp_sum',
+                            'get_total_with_iva_ntp_sum',
+                            ]"""
         context = context or {}
         res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
+        op_types = ["imex", "do", "tp", "ntp"]
         for fb_brw in self.browse(cr, uid, ids, context=context):
             for fbl_brw in fb_brw.fbl_ids:
                 if fbl_brw.invoice_id:
-                    if fbl_brw.type in ['im','ex']:
-                        res[fb_brw.id]['get_total_with_iva_i_sum'] += \
-                            fbl_brw.total_with_iva
-                    else:
-                        res[fb_brw.id]['get_total_with_iva_n_sum'] += \
-                            fbl_brw.total_with_iva
+                    fbl_op_type = fbl_brw.type in ['im', 'ex'] and 'imex' \
+                        or fbl_brw.type
+                    res[fb_brw.id]["get_total_with_iva_" + fbl_op_type + "_sum"] += \
+                        fbl_brw.total_with_iva
 
             res[fb_brw.id]['get_total_with_iva_sum'] = \
-                res[fb_brw.id]['get_total_with_iva_i_sum'] + \
-                res[fb_brw.id]['get_total_with_iva_n_sum']
-
-        return res
-
-    def _totalization(self, cr, uid, ids, field_name, arg, context=None):
-        """ It returns summation of a fiscal book tax column (Using
-        fiscal.book.taxes.summary).
-        @param: field [ 'get_vat_exempt_i_sum', 'get_vat_exempt_n_sum',
-            'get_vat_sdcf_n_sum', 'get_vat_sdcf_i_sum',
-            'get_vat_general_i_base_sum', 'get_vat_general_i_tax_sum',
-            'get_vat_additional_i_base_sum', 'get_vat_additional_i_tax_sum',
-            'get_vat_reduced_i_base_sum', 'get_vat_reduced_i_tax_sum',
-            'get_vat_general_n_base_sum', 'get_vat_general_n_tax_sum',
-            'get_vat_additional_n_base_sum', 'get_vat_additional_n_tax_sum',
-            'get_vat_reduced_n_base_sum', 'get_vat_reduced_n_tax_sum' ]
-        """
-        context = context or {}
-        res = {}.fromkeys(ids, 0.0)
-        fbts_obj = self.pool.get('fiscal.book.taxes.summary')
-
-        #~ Identifying the field
-        field_info = field_name[8:][:-4].split('_')
-        field_tax, field_scope, field_amount = (len(field_info) == 3) \
-            and field_info \
-            or field_info + ['base']
-
-        #~ Translation between the fb fields names and the fbts records data.
-        tax_type = {'exempt': 'exento', 'sdcf': 'sdcf', 'reduced': 'reducido',
-                    'general': 'general', 'additional': 'adicional'}
-        amount_type = {'base': 'base_amount_sum', 'tax': 'tax_amount_sum'}
-        scope_type = {'n': False, 'i': True}
-
-        #~ Calculate
-        for fb_brw in self.browse(cr, uid, ids, context=context):
-            for fbts_brw in fb_brw.fbts_ids:
-                if fbts_brw.tax_type == tax_type[field_tax] and fbts_brw.international == scope_type[field_scope]:
-                    res[fb_brw.id] = \
-                        getattr(fbts_brw, amount_type[field_amount])
+                sum( [ res[fb_brw.id]["get_total_with_iva_" + optype + "_sum"]
+                for optype in op_types ] )
         return res
 
     def _get_vat_sdcf_sum(self, cr, uid, ids, field_name, arg, context=None):
-        """ It returns international and domestic purchase SDCF summation.
+        """ It returns the SDCF sumation of purchase (imported, domestic) or
+        sale (exportation, tax payer, no tax payer) operations types.
         @param field_name: field ['get_vat_sdcf_sum'] """
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
-        for fb_id in ids:
-            fb_obj = self.browse(cr, uid, fb_id, context=context)
-            res[fb_id] = fb_obj.get_vat_sdcf_n_sum + fb_obj.get_vat_sdcf_i_sum
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            res[fb_brw.id] = fb_brw.type == 'purchase' \
+                and (fb_brw.get_vat_sdcf_imex_sum + fb_brw.get_vat_sdcf_do_sum) \
+                or (fb_brw.get_vat_sdcf_imex_sum + fb_brw.get_vat_sdcf_tp_sum +
+                fb_brw.get_vat_sdcf_ntp_sum)
         return res
 
     def _get_vat_all_base_sum(self, cr, uid, ids, field_name, arg,
                               context=None):
         """ It calculate sum of all tax base (reduced, general and additional)
-        for international and domestic scope.
-        @param field_name: field ['get_vat_all_i_base_sum',
-                                  'get_vat_all_n_base_sum' ]
+        for international, domestic, tax payer or no tax payer operation type.
+        @param field_name: field ['get_vat_all_imex_base_sum',
+                                  'get_vat_all_do_base_sum',
+                                  'get_vat_all_tp_base_sum',
+                                  'get_vat_all_ntp_base_sum' ]
         """
-        #~ TODO: it works, but can be optimized.
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
+        field_op = ''.join(''.join(field_name.split('get_vat_all_')).split('_base_sum'))
         for fb_brw in self.browse(cr, uid, ids, context=context):
-            if field_name == 'get_vat_all_i_base_sum':
-                res[fb_brw.id] = fb_brw.get_vat_general_i_base_sum + \
-                    fb_brw.get_vat_additional_i_base_sum + \
-                    fb_brw.get_vat_reduced_i_base_sum
-            if field_name == 'get_vat_all_n_base_sum':
-                res[fb_brw.id] = fb_brw.get_vat_general_n_base_sum + \
-                    fb_brw.get_vat_additional_n_base_sum + \
-                    fb_brw.get_vat_reduced_n_base_sum
+            res[fb_brw.id] = \
+                getattr(fb_brw, "get_vat_general_" + field_op + "_base_sum") + \
+                getattr(fb_brw, "get_vat_additional_" + field_op +
+                        "_base_sum") + \
+                getattr(fb_brw, "get_vat_reduced_" + field_op + "_base_sum")
         return res
 
     def _get_total_tax_credit_debit(self, cr, uid, ids, field_names, arg,
                                     context=None):
         """ It returns sum of of all data in the fiscal book summary table.
         @param field_name: ['get_total_tax_credit_debit_base_sum',
-                            'get_total_tax_credit_debit_tax_sum']"""
+                            'get_total_tax_credit_debit_tax_sum']
+        """
+        #~ TODO: summations of all taxes types? only ret types?
         context = context or {}
         res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
         for fb_brw in self.browse(cr, uid, ids, context=context):
-            res[fb_brw.id]['get_total_tax_credit_debit_base_sum'] += \
-                fb_brw.get_vat_sdcf_i_sum + \
-                fb_brw.get_vat_general_i_base_sum + \
-                fb_brw.get_vat_additional_i_base_sum + \
-                fb_brw.get_vat_reduced_i_base_sum + \
-                fb_brw.get_vat_sdcf_n_sum + \
-                fb_brw.get_vat_general_n_base_sum + \
-                fb_brw.get_vat_additional_n_base_sum + \
-                fb_brw.get_vat_reduced_n_base_sum
-            res[fb_brw.id]['get_total_tax_credit_debit_tax_sum'] += \
-                fb_brw.get_vat_general_i_tax_sum + \
-                fb_brw.get_vat_additional_i_tax_sum + \
-                fb_brw.get_vat_reduced_i_tax_sum + \
-                fb_brw.get_vat_general_n_tax_sum + \
-                fb_brw.get_vat_additional_n_tax_sum + \
-                fb_brw.get_vat_reduced_n_tax_sum
+            op_types = fb_brw.type == 'purchase' and ['imex', 'do'] \
+                or ['imex', 'tp', 'ntp']
+            tax_types = ['reduced', 'general', 'additional']
 
+            res[fb_brw.id]['get_total_tax_credit_debit_base_sum'] += \
+                sum( [ getattr(fb_brw, 'get_vat_' + ttax + '_' + op + '_base_sum')
+                       for ttax in tax_types
+                       for op in op_types ] )
+
+            res[fb_brw.id]['get_total_tax_credit_debit_tax_sum'] += \
+                sum( [ getattr(fb_brw, 'get_vat_' + ttax + '_' + op + '_tax_sum')
+                       for ttax in tax_types
+                       for op in op_types ] )
         return res
 
     def _get_wh(self, cr, uid, ids, field_names, arg, context=None):
@@ -263,173 +228,6 @@ class fiscal_book(orm.Model):
                                    a Fiscal Book'),
         'note': fields.text('Note', required=True),
 
-        #~ Totalization fields depending on international scope
-        'get_total_with_iva_i_sum': fields.function(
-            _get_total_with_iva_sum,
-            type="float", method=True, store=True,
-            multi="get_total_with_iva",
-            string='International Total with VAT Sum'),
-        'get_vat_exempt_i_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            string="Exempt International Purchase Sum",
-            help="Exempt International Purchase Sum"),
-        'get_vat_sdcf_i_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            string="IMPORTACIONES NO GRAVADAS Y/O SIN DERECHO A CREDITO \
-            FISCAL",
-            help="Sum of sdcf and exempt totalization columns for \
-            international transactions"),
-        'get_vat_general_i_base_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Importaciones Gravadas por Alícuota General \
-            (Base Imponible).",
-            help="Importaciones Gravadas por Alícuota General \
-            (Base Imponible)."),
-        'get_vat_general_i_tax_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Importaciones Gravadas por Alícuota General \
-            (Crédito Fiscal)",
-            help="Importaciones Gravadas por Alícuota General \
-            (Crédito Fiscal)."),
-        'get_vat_additional_i_base_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Importaciones Gravadas por Alícuota Gral. más Adicional \
-            (Base Imponible).",
-            help="Importaciones Gravadas por Alícuota Gral. más Adicional \
-            (Base Imponible)."),
-        'get_vat_additional_i_tax_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Importaciones Gravadas por Alícuota Gral. más Adicional \
-            (Crédito Fiscal).",
-            help="Importaciones Gravadas por Alícuota Gral. más Adicional \
-            (Crédito Fiscal)."),
-        'get_vat_reduced_i_base_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Importaciones Gravadas por Alícuota Reducida \
-            (Base Imponible).",
-            help="Importaciones Gravadas por Alícuota Reducida \
-            (Base Imponible)."),
-        'get_vat_reduced_i_tax_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Importaciones Gravadas por Alícuota Reducida \
-            (Crédito Fiscal).",
-            help="Importaciones Gravadas por Alícuota Reducida \
-            (Crédito Fiscal)."),
-        'get_vat_all_i_base_sum': fields.function(
-            _get_vat_all_base_sum,
-            type="float", method=True, store=True,
-            string="International base sum (reduced, general and additional)",
-            help="International base sum (reduced, general and additional)"),
-
-        'get_total_with_iva_n_sum': fields.function(
-            _get_total_with_iva_sum,
-            type="float", method=True, store=True,
-            multi="get_total_with_iva",
-            string='Domestic Total with VAT Sum'),
-        'get_vat_exempt_n_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            string="Exempt Domestic Purchase Sum",
-            help="Exempt Domestic Purchase Sum"),
-        'get_vat_sdcf_n_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            string="NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL",
-            help="Sum of sdcf and exempt totalization columns for domestic \
-            transactions"),
-        'get_vat_general_n_base_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Internas Gravadas sólo por Alícuota General \
-            (Base Imponible).",
-            help="Internas Gravadas sólo por Alícuota General \
-            (Base Imponible)."),
-        'get_vat_general_n_tax_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Internas Gravadas sólo por Alícuota General \
-            (Crédito Fiscal).",
-            help="Internas Gravadas sólo por Alícuota General \
-            (Crédito Fiscal)."),
-        'get_vat_additional_n_base_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Internas Gravadas sólo por Alícuota General más Adicional \
-            (Base Imponible).",
-            help="Internas Gravadas sólo por Alícuota General más Adicional \
-            (Base Imponible)."),
-        'get_vat_additional_n_tax_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Internas Gravadas sólo por Alícuota General más Adicional \
-            (Crédito Fiscal).",
-            help="Internas Gravadas sólo por Alícuota General más Adicional \
-            (Crédito Fiscal)."),
-        'get_vat_reduced_n_base_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Internas Gravadas por Alícuota Reducida (Base Imponible).",
-            help="Internas Gravadas por Alícuota Reducida (Base Imponible)."),
-        'get_vat_reduced_n_tax_sum': fields.function(
-            _totalization,
-            type="float", method=True, store=True,
-            digits_compute=dp.get_precision('Account'),
-            string="Internas Gravadas por Alícuota Reducida (Crédito Fiscal).",
-            help="Internas Gravadas por Alícuota Reducida (Crédito Fiscal)."),
-        'get_vat_all_n_base_sum': fields.function(
-            _get_vat_all_base_sum,
-            type="float", method=True, store=True,
-            string="Domestic base sum (reduced, general and additional)",
-            help="Domestic base sum (reduced, general and additional)"),
-
-        #~ Totalization fields that covers all scopes
-        'get_total_with_iva_sum': fields.function(
-            _get_total_with_iva_sum,
-            type="float", method=True, store=True,
-            multi="get_total_with_iva",
-            string='Total with VAT Sum'),
-        'get_vat_sdcf_sum': fields.function(
-            _get_vat_sdcf_sum,
-            type="float", method=True, store=True,
-            string="No Gravadas y/o Sin Derecho a Crédito Fiscal",
-            help="Sum of sdcf and exempt totalization columns for domestic \
-            and international transactions"),
-        'get_total_tax_credit_debit_base_sum': fields.function(
-            _get_total_tax_credit_debit,
-            type="float", method=True, store=True,
-            multi="get_total_tax_credit_debit",
-            string="Base Amount for Tax (Debit/Credit) Total for \
-            (Sale/Pruchase)",
-            help="Base Imponible del Total (Débitos/Créditos) Fiscales para \
-            el libro de (Venta/Compra)"),
-        'get_total_tax_credit_debit_tax_sum': fields.function(
-            _get_total_tax_credit_debit,
-            type="float", method=True, store=True,
-            multi="get_total_tax_credit_debit",
-            string="Tax Amount for Tax (Debit/Credit) Total for \
-            (Sale/Pruchase)",
-            help="Monto Imponible del Total (Débitos/Créditos) Fiscales para \
-            el libro de (Venta/Compra)"),
-
         #~ Withholding fields
         'get_wh_sum': fields.function(
             _get_wh,
@@ -465,6 +263,250 @@ class fiscal_book(orm.Model):
             _get_month_year,
             type="text", method=True,
             help='Year and Month ot the Fiscal book period'),
+
+        #~ Totalization fields for all type of transactions
+        'get_total_with_iva_sum': fields.function(
+            _get_total_with_iva_sum,
+            type="float", method=True, store=True,
+            multi="get_total_with_iva",
+            string='Total amount with VAT',
+            help="Total with VAT Sum (Import/Export, Domestic, Tax Payer and \
+            No Tax Payer"),
+        'get_vat_sdcf_sum': fields.function(
+            _get_vat_sdcf_sum,
+            type="float", method=True, store=True,
+            string="Exempt and SDCF Tax Sum",
+            help="Exempt and Non entitled to tax credit totalization. Sum of SDCF and Exempt Tax Totalization columns for all \
+            transaction types"),
+        'get_total_tax_credit_debit_base_sum': fields.function(
+            _get_total_tax_credit_debit,
+            type="float", method=True, store=True,
+            multi="get_total_tax_credit_debit",
+            string="Tax Credit Total Base Amount",
+            help="Uses at \
+            1. purchase: total row at summary taxes.\
+            2. sales: row at summary taxes."),
+        'get_total_tax_credit_debit_tax_sum': fields.function(
+            _get_total_tax_credit_debit,
+            type="float", method=True, store=True,
+            multi="get_total_tax_credit_debit",
+            string="Tax Credit Total Tax Amount"),
+
+        #~ Totalization fields for international transactions
+        'get_total_with_iva_imex_sum': fields.function(
+            _get_total_with_iva_sum,
+            type="float", method=True, store=True,
+            multi="get_total_with_iva",
+            string="Total amount with VAT",
+            help="Imported/Exported Total with VAT Totalization"),
+        'get_vat_all_imex_base_sum': fields.function(
+            _get_vat_all_base_sum,
+            type="float", method=True, store=True,
+            string="International Taxable Amount",
+            help="Sum of International Tax Base Amounts (reduced, general \
+            and additional)"),
+        'get_vat_exempt_imex_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Exempt Tax",
+            help="Import/Export Exempt Tax Totalization: Sum of Exempt column for international transactions"),
+        'get_vat_sdcf_imex_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="SDCF Tax",
+            help="Import/Export SDCF Tax Totalization: Sum of SDCF column for \
+            international transactions"),
+        'get_vat_general_imex_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxable Amount",
+            help="General VAT Taxed Imports/Exports Base Amount. Sum of \
+            General VAT Base column for international transactions"),
+        'get_vat_general_imex_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxed Amount",
+            help="General VAT Taxed Imports/Exports Tax Amount. Sum of \
+            General VAT Tax column for international transactions"),
+        'get_vat_additional_imex_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxable Amount",
+            help="Additional VAT Taxed Imports/Exports Base Amount. Sum of \
+            Additional VAT Base column for international transactions"),
+        'get_vat_additional_imex_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxed Amount",
+            help="Additional VAT Taxed Imports/Exports Tax Amount. Sum of \
+            Additional VAT Tax column for international transactions"),
+        'get_vat_reduced_imex_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxable Amount",
+            help="Reduced VAT Taxed Imports/Exports Base Amount. Sum of \
+            Reduced VAT Base column for international transactions"),
+        'get_vat_reduced_imex_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxed Amount",
+            help="Reduced VAT Taxed Imports/Exports Tax Amount. Sum of \
+            Reduced VAT Tax column for international transactions"),
+
+        #~ Apply only for purchase book
+        #~ Totalization fields for domestic transactions
+        'get_total_with_iva_do_sum': fields.function(
+            _get_total_with_iva_sum,
+            type="float", method=True, store=True,
+            multi="get_total_with_iva",
+            string='Total amount with VAT',
+            help="Domestic Total with VAT Totalization"),
+        'get_vat_all_do_base_sum': fields.function(
+            _get_vat_all_base_sum,
+            type="float", method=True, store=True,
+            string="Domestic Taxable Amount",
+            help="Sum of all domestic transaction base amounts (reduced, \
+            general and additional)"),
+        'get_vat_exempt_do_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Exempt Tax",
+            help="Domestic Exempt Tax Totalization. Sum of Exempt column for \
+            domestic transactions"),
+        'get_vat_sdcf_do_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="SDCF Tax",
+            help="Domestic SDCF Tax Totalization. Sum of SDCF column for \
+            domestic transactions"),
+        'get_vat_general_do_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxable Amount",
+            help="General VAT Taxed Domestic Base Amount Totalization. " \
+            "Sum of General VAT Base column for domestic transactions"),
+        'get_vat_general_do_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxed Amount",
+            help="General VAT Taxed Domestic Tax Amount Totalization. " \
+            "Sum of General VAT Tax column for domestic transactions"),
+        'get_vat_additional_do_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxable Amount",
+            help="Additional VAT Taxed Domestic Base Amount Totalization. "
+            "Sum of Additional VAT Base column for domestic transactions"),
+        'get_vat_additional_do_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxed Amount",
+            help="Additional VAT Taxed Domestic Tax Amount Totalization. "
+            "Sum of Additional VAT Tax column for domestic transactions"),
+        'get_vat_reduced_do_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxable Amount",
+            help="Reduced VAT Taxed Domestic Base Amount Totalization. "
+            "Sum of Reduced VAT Base column for domestic transactions"),
+        'get_vat_reduced_do_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxed Amount",
+            help="Reduced VAT Taxed Domestic Tax Amount Totalization. "
+            "Sum of Reduced VAT Tax column for domestic transactions"),
+
+        #~ Apply only for sale book
+        #~ Totalization fields for tax payer and no tax payer transactions
+        'get_total_with_iva_tp_sum': fields.function(
+            _get_total_with_iva_sum,
+            type="float", method=True, store=True,
+            multi="get_total_with_iva",
+            string="Total amount with VAT",
+            help="Tax Payer Total with VAT Totalization"),
+        'get_vat_all_tp_base_sum': fields.function(
+            _get_vat_all_base_sum,
+            type="float", method=True, store=True,
+            string="Tax Payer Taxable Amount",
+            help="Sum of all Tax Payer Grand Base Sum (reduced, general and " \
+            "additional taxes)"),
+        'get_vat_exempt_tp_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Exempt Tax",
+            help="Tax Payer Exempt Tax Totalization. Sum of Exempt column " \
+            "for tax payer transactions"),
+        'get_vat_sdcf_tp_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="SDCF Tax",
+            help="Tax Payer SDCF Tax Totalization. Sum of SDCF column for " \
+            "tax payer transactions"),
+        'get_vat_general_tp_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxable Amount",
+            help="General VAT Taxed Tax Payer Base Amount Totalization. " \
+            "Sum of General VAT Base column for taxy payer transactions"),
+        'get_vat_general_tp_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxed Amount",
+            help="General VAT Taxed Tax Payer Tax Amount Totalization. " \
+            "Sum of General VAT Tax column for tax payer transactions"),
+        'get_vat_additional_tp_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxable Amount",
+            help="Additional VAT Taxed Tax Payer Base Amount Totalization. " \
+            "Sum of Additional VAT Base column for tax payer transactions"),
+        'get_vat_additional_tp_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxed Amount",
+            help="Additional VAT Taxed Tax Payer Tax Amount Totalization. " \
+            "Sum of Additional VAT Tax column for tax payer transactions"),
+        'get_vat_reduced_tp_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxable Amount",
+            help="Reduced VAT Taxed Tax Payer Base Amount Totalization. " \
+            "Sum of Reduced VAT Base column for tax payer transactions"),
+        'get_vat_reduced_tp_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxed Amount",
+            help="Reduced VAT Taxed Tax Payer Tax Amount Totalization. " \
+            "Sum of Reduced VAT Tax column for tax payer transactions"),
+
+        'get_total_with_iva_ntp_sum': fields.function(
+            _get_total_with_iva_sum,
+            type="float", method=True, store=True,
+            multi="get_total_with_iva",
+            string="Total amount with VAT",
+            help="No Tax Payer Total with VAT Totalization"),
+        'get_vat_all_ntp_base_sum': fields.function(
+            _get_vat_all_base_sum,
+            type="float", method=True, store=True,
+            string="No Tax Payer Taxable Amount",
+            help="No Tax Payer Grand Base Totalization. Sum of all no tax " \
+            "payer tax bases (reduced, general and additional)"),
+        'get_vat_exempt_ntp_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Exempt Tax",
+            help="No Tax Payer Exempt Tax Totalization. Sum of Exempt " \
+            "column for no tax payer transactions"),
+        'get_vat_sdcf_ntp_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="SDCF Tax",
+            help="No Tax Payer SDCF Tax Totalization. Sum of SDCF column " \
+            "for no tax payer transactions"),
+        'get_vat_general_ntp_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxable Amount",
+            help="General VAT Taxed No Tax Payer Base Amount Totalization. " \
+            "Sum of General VAT Base column for taxy payer transactions"),
+        'get_vat_general_ntp_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="General VAT Taxed Amount",
+            help="General VAT Taxed No Tax Payer Tax Amount Totalization. " \
+            "Sum of General VAT Tax column for no tax payer transactions"),
+        'get_vat_additional_ntp_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxable Amount",
+            help="Additional VAT Taxed No Tax Payer Base Amount Totalization. " \
+            "Sum of Additional VAT Base column for no tax payer transactions"),
+        'get_vat_additional_ntp_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Additional VAT Taxed Amount",
+            help="Additional VAT Taxed No Tax Payer Tax Amount Totalization. " \
+            "Sum of Additional VAT Tax column for no tax payer transactions"),
+        'get_vat_reduced_ntp_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxable Amount",
+            help="Reduced VAT Taxed No Tax Payer Base Amount Totalization. " \
+            "Sum of Reduced VAT Base column for no tax payer transactions"),
+        'get_vat_reduced_ntp_tax_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Reduced VAT Taxed Amount",
+            help="Reduced VAT Taxed No Tax Payer Tax Amount Totalization. " \
+            "Sum of Reduced VAT Tax column for no tax payer transactions"),
     }
 
     _defaults = {
@@ -861,8 +903,6 @@ class fiscal_book(orm.Model):
 
         return True
 
-    #~ TODO: Optimization. This method could be transform in a method for
-    #~ function field fbts tax y base sum.
     def update_book_taxes_summary(self, cr, uid, fb_id, context=None):
         """ It update the summaroty of taxes by type for this book.
         @param fb_id: fiscal book id
@@ -870,39 +910,44 @@ class fiscal_book(orm.Model):
         context = context or {}
         self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
         tax_types = ['exento', 'sdcf', 'reducido', 'general', 'adicional']
-        n_base_sum = {}.fromkeys(tax_types, 0.0)
-        n_tax_sum = {}.fromkeys(tax_types, 0.0)
-        i_base_sum = {}.fromkeys(tax_types, 0.0)
-        i_tax_sum = {}.fromkeys(tax_types, 0.0)
+        op_types = self.browse(cr, uid, fb_id, context=context).type \
+            == 'sale' and ['ex', 'tp', 'ntp'] or ['im', 'do']
+        base_sum = {}.fromkeys(op_types)
+        tax_sum = base_sum.copy()
+        for op_type in op_types:
+            tax_sum[op_type] = {}.fromkeys(tax_types, 0.0)
+            base_sum[op_type] = {}.fromkeys(tax_types, 0.0)
+
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                if fbl.type in ['im','ex']:
-                    for ait in fbl.invoice_id.imex_tax_line:
-                        if ait.tax_id.appl_type:
-                            i_base_sum[ait.tax_id.appl_type] += ait.base_amount
-                            i_tax_sum[ait.tax_id.appl_type] += ait.tax_amount
-                else:
-                    for ait in fbl.invoice_id.tax_line:
-                        if ait.tax_id.appl_type:
-                            n_base_sum[ait.tax_id.appl_type] += ait.base_amount
-                            n_tax_sum[ait.tax_id.appl_type] += ait.tax_amount
+                tax_lines = fbl.type in ['im','ex'] \
+                    and fbl.invoice_id.imex_tax_line \
+                    or fbl.invoice_id.tax_line 
+                for ait in tax_lines:
+                    if ait.tax_id.appl_type:
+                        base_sum[fbl.type][ait.tax_id.appl_type] += \
+                            ait.base_amount
+                        tax_sum[fbl.type][ait.tax_id.appl_type] += \
+                            ait.tax_amount
 
-        data = [(0, 0, {'tax_type': ttype,
-                        'base_amount_sum': n_base_sum[ttype],
-                        'tax_amount_sum': n_tax_sum[ttype],
-                        'international': False}) for ttype in tax_types]
-        data.extend([(0, 0, {'tax_type': ttype,
-                             'base_amount_sum': i_base_sum[ttype],
-                             'tax_amount_sum': i_tax_sum[ttype],
-                             'international': True}) for ttype in tax_types])
+        data = [ (0, 0, {'tax_type': ttype, 'op_type': optype,
+                         'base_amount_sum': base_sum[optype][ttype],
+                         'tax_amount_sum': tax_sum[optype][ttype]
+                        })
+                 for ttype in tax_types
+                 for optype in op_types
+               ]
         return data and self.write(cr, uid, fb_id, {'fbts_ids': data},
                                    context=context)
 
     def update_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
-        """ It update the base_amount and the tax_amount field for fiscal book.
+        """ It update the base_amount and the tax_amount field for book, and
+        extract data from the book tax summary to store fields inside the
+        book model.
         @param fb_id: fiscal book id
         """
         context = context or {}
+        #~ totalization of book tax amount and base amount fields
         tax_amount = base_amount = 0.0
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
@@ -915,10 +960,120 @@ class fiscal_book(orm.Model):
                         if ait.tax_id.ret:
                             tax_amount += ait.tax_amount
 
+        self.write(cr, uid, fb_id, {'tax_amount': tax_amount,
+                   'base_amount': base_amount}, context=context)
+
+        #~ totalization of book taxable and taxed amount for every tax type and
+        #~ operation type
+        vat_fields = [
+            'get_vat_exempt_imex_sum',
+            'get_vat_sdcf_imex_sum',
+            'get_vat_general_imex_base_sum',
+            'get_vat_general_imex_tax_sum',
+            'get_vat_additional_imex_base_sum',
+            'get_vat_additional_imex_tax_sum',
+            'get_vat_reduced_imex_base_sum',
+            'get_vat_reduced_imex_tax_sum',
+            'get_vat_exempt_do_sum',
+            'get_vat_sdcf_do_sum',
+            'get_vat_general_do_base_sum',
+            'get_vat_general_do_tax_sum',
+            'get_vat_additional_do_base_sum',
+            'get_vat_additional_do_tax_sum',
+            'get_vat_reduced_do_base_sum',
+            'get_vat_reduced_do_tax_sum',
+            'get_vat_exempt_tp_sum',
+            'get_vat_sdcf_tp_sum',
+            'get_vat_general_tp_base_sum',
+            'get_vat_general_tp_tax_sum',
+            'get_vat_additional_tp_base_sum',
+            'get_vat_additional_tp_tax_sum',
+            'get_vat_reduced_tp_base_sum',
+            'get_vat_reduced_tp_tax_sum',
+            'get_vat_exempt_ntp_sum',
+            'get_vat_sdcf_ntp_sum',
+            'get_vat_general_ntp_base_sum',
+            'get_vat_general_ntp_tax_sum',
+            'get_vat_additional_ntp_base_sum',
+            'get_vat_additional_ntp_tax_sum',
+            'get_vat_reduced_ntp_base_sum',
+            'get_vat_reduced_ntp_tax_sum',
+            ]
+        data = {}.fromkeys(vat_fields)
+        for field_name in vat_fields:
+            data[field_name] = \
+                self.update_vat_fields(cr, uid, fb_id, field_name,
+                                       context=context)
+        self.write(cr, uid, fb_id, data, context=context)
         return self.write(cr, uid, fb_id,
                           {'tax_amount': tax_amount,
                            'base_amount': base_amount},
                           context=context)
+
+    def update_vat_fields(self, cr, uid, fb_id, field_name, context=None):
+        """ It returns summation of a fiscal book tax column (Using
+        fiscal.book.taxes.summary).
+        @param: field_name [
+            'get_vat_sdcf_imex_sum',
+            'get_vat_exempt_imex_sum',
+            'get_vat_general_imex_base_sum',
+            'get_vat_general_imex_tax_sum',
+            'get_vat_additional_imex_base_sum',
+            'get_vat_additional_imex_tax_sum',
+            'get_vat_reduced_imex_base_sum',
+            'get_vat_reduced_imex_tax_sum',
+
+            'get_vat_sdcf_do_sum',
+            'get_vat_exempt_do_sum',
+            'get_vat_general_do_base_sum',
+            'get_vat_general_do_tax_sum',
+            'get_vat_additional_do_base_sum',
+            'get_vat_additional_do_tax_sum',
+            'get_vat_reduced_do_base_sum',
+            'get_vat_reduced_do_tax_sum'
+
+            'get_vat_sdcf_tp_sum',
+            'get_vat_exempt_tp_sum',
+            'get_vat_general_tp_base_sum',
+            'get_vat_general_tp_tax_sum',
+            'get_vat_additional_tp_base_sum',
+            'get_vat_additional_tp_tax_sum',
+            'get_vat_reduced_tp_base_sum',
+            'get_vat_reduced_tp_tax_sum'
+
+            'get_vat_sdcf_ntp_sum',
+            'get_vat_exempt_ntp_sum',
+            'get_vat_general_ntp_base_sum',
+            'get_vat_general_ntp_tax_sum',
+            'get_vat_additional_ntp_base_sum',
+            'get_vat_additional_ntp_tax_sum',
+            'get_vat_reduced_ntp_base_sum',
+            'get_vat_reduced_ntp_tax_sum'
+        ]
+        """
+        context = context or {}
+        res = 0.0
+        fbts_obj = self.pool.get('fiscal.book.taxes.summary')
+
+        #~ Identifying the field
+        field_info = field_name[8:][:-4].split('_')
+        field_tax, field_op, field_amount = (len(field_info) == 3) \
+            and field_info \
+            or field_info + ['base']
+
+        #~ Translation between the fb fields names and the fbts records data.
+        tax_type = {'exempt': 'exento', 'sdcf': 'sdcf', 'reduced': 'reducido',
+                    'general': 'general', 'additional': 'adicional'}
+        amount_type = {'base': 'base_amount_sum', 'tax': 'tax_amount_sum'}
+
+        #~ Calculate
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
+        if field_op == 'imex':
+            field_op = fb_brw.type == 'purchase' and 'im' or 'ex'
+        for fbts_brw in fb_brw.fbts_ids:
+            if fbts_brw.tax_type == tax_type[field_tax] and fbts_brw.op_type == field_op:
+                res = getattr(fbts_brw, amount_type[field_amount])
+        return res
 
     def link_book_lines_and_taxes(self, cr, uid, fb_id, context=None):
         """ Updates the fiscal book taxes. Link the tax with the corresponding
@@ -1247,14 +1402,14 @@ class fiscal_book_lines(orm.Model):
         'credit_affected': fields.char(string='Affected Credit Notes',
                                        help='Credit notes affected'),
         'type': fields.selection(
-            [('im', 'International'),
+            [('im', 'Import'),
              ('do', 'Domestic'),
              ('ex', 'Exportation'),
              ('tp', 'Tax Payer'),
              ('ntp', 'No Tax Payer')],
-            string = 'Type', required=True,
-            help="Fiscal Book Line Type. Type of transtaction: \
-              - Purchase: International or Domestic. \
+            string = 'Transaction Type', required=True,
+            help="Book line transtaction type: \
+              - Purchase: Import or Domestic. \
               - Sales: Expertation, Tax Payer, No Tax Payer."),
         'void_form': fields.char(string='Transaction type', size=192,
                                  help="Operation Type"),
@@ -1323,7 +1478,7 @@ class fiscal_book_taxes_summary(orm.Model):
 
     _description = "Venezuela's Sale & Purchase Fiscal Book Taxes Summary"
     _name = 'fiscal.book.taxes.summary'
-
+    _order = 'op_type, tax_type asc'
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book'),
         'tax_type': fields.selection(
@@ -1333,11 +1488,19 @@ class fiscal_book_taxes_summary(orm.Model):
              ('reducido', 'Reducted Aliquot'),
              ('adicional', 'General Aliquot + Additional')],
             'Tax Type'),
+        'op_type': fields.selection(
+            [('im', 'Import'),
+             ('do', 'Domestic'),
+             ('ex', 'Exportation'),
+             ('tp', 'Tax Payer'),
+             ('ntp', 'No Tax Payer')],
+            string = 'Operation Type',
+            help="Operation Type: \
+              - Purchase: Import or Domestic. \
+              - Sales: Expertation, Tax Payer, No Tax Payer."),
         'base_amount_sum': fields.float('Taxable Amount Sum'),
         'tax_amount_sum': fields.float('Taxed Amount Sum'),
-        'international': fields.boolean('International'),
     }
-
 
 class adjustment_book_line(orm.Model):
 

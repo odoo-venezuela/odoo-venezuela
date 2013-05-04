@@ -103,6 +103,7 @@ string="Invoice"
                                 <field name='imex_date'/>
                                 <field name='vat_sdcf' sum=""/>
                                 <field name='vat_exempt' sum=""/>
+                                <field name="vat_general_base" sum=""/>
                                 <field name="vat_general_tax" sum=""/>
                                 <field name="vat_reduced_base" sum=""/>
                                 <field name="vat_reduced_tax" sum=""/>
@@ -146,41 +147,55 @@ string="Invoice"
                     <page string="Summary">
                         <field name="fbts_ids" readonly="1">
                             <tree string="Summary">
+                                <field name="op_type"/>
                                 <field name="tax_type"/>
                                 <field name="base_amount_sum"/>
                                 <field name="tax_amount_sum"/>
-                                <field name="international"/>
                             </tree>
                         </field>
 
-                        <group colspan="4" col="2">
-                            <group colspan="2" col="2">
+                        <group colspan="4" col="3" string="Taxes Totalization">
+                            <group colspan="3" col="3">
+                                <group colspan="1" col="2" string="Exportation">
+                                    <field name="get_total_with_iva_imex_sum" readonly="True"/>
+                                    <field name="get_vat_all_imex_base_sum" readonly="True"/>
+                                    <field name="get_vat_exempt_imex_sum" readonly="True"/>
+                                    <field name="get_vat_sdcf_imex_sum" readonly="True"/>
+                                    <field name="get_vat_general_imex_base_sum" readonly="True"/>
+                                    <field name="get_vat_general_imex_tax_sum" readonly="True"/>
+                                    <field name="get_vat_additional_imex_base_sum" readonly="True"/>
+                                    <field name="get_vat_additional_imex_tax_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_imex_base_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_imex_tax_sum" readonly="True"/>
+                                </group>
+                                <group colspan="1" col="2" string="Tax Payer">
+                                    <field name="get_total_with_iva_tp_sum" readonly="True"/>
+                                    <field name="get_vat_all_tp_base_sum" readonly="True"/>
+                                    <field name="get_vat_exempt_tp_sum" readonly="True"/>
+                                    <field name="get_vat_sdcf_tp_sum" readonly="True"/>
+                                    <field name="get_vat_general_tp_base_sum" readonly="True"/>
+                                    <field name="get_vat_general_tp_tax_sum" readonly="True"/>
+                                    <field name="get_vat_additional_tp_base_sum" readonly="True"/>
+                                    <field name="get_vat_additional_tp_tax_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_tp_base_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_tp_tax_sum" readonly="True"/>
+                                </group>
+                                <group colspan="1" col="2" string="No Tax Payer">
+                                    <field name="get_total_with_iva_ntp_sum" readonly="True"/>
+                                    <field name="get_vat_all_ntp_base_sum" readonly="True"/>
+                                    <field name="get_vat_exempt_ntp_sum" readonly="True"/>
+                                    <field name="get_vat_sdcf_ntp_sum" readonly="True"/>
+                                    <field name="get_vat_general_ntp_base_sum" readonly="True"/>
+                                    <field name="get_vat_general_ntp_tax_sum" readonly="True"/>
+                                    <field name="get_vat_additional_ntp_base_sum" readonly="True"/>
+                                    <field name="get_vat_additional_ntp_tax_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_ntp_base_sum" readonly="True"/>
+                                    <field name="get_vat_reduced_ntp_tax_sum" readonly="True"/>
+                                </group>
+                            </group>
+                            <group colspan="3" col="2" string="All Transactions">
                                 <field name="get_vat_sdcf_sum" readonly="True"/>
                                 <field name="get_total_with_iva_sum" readonly="True"/>
-                            </group>
-                            <group colspan="1" col="2" string="Exportaciones">
-                                <field name="get_total_with_iva_i_sum" readonly="True"/>
-                                <field name="get_vat_all_i_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_i_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_i_sum" readonly="True"/>
-                                <field name="get_vat_general_i_base_sum" readonly="True"/>
-                                <field name="get_vat_general_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
-                            </group>
-                            <group colspan="1" col="2" string="Mercado Interno">
-                                <field name="get_total_with_iva_n_sum" readonly="True"/>
-                                <field name="get_vat_all_n_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_n_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_n_sum" readonly="True"/>
-                                <field name="get_vat_general_n_base_sum" readonly="True"/>
-                                <field name="get_vat_general_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
                             </group>
                         </group>
 
@@ -311,10 +326,10 @@ string="Invoice"
                     <page string="Summary">
                         <field name="fbts_ids" readonly="1">
                             <tree string="Summary">
+                                <field name="op_type"/>
                                 <field name="tax_type"/>
                                 <field name="base_amount_sum"/>
                                 <field name="tax_amount_sum"/>
-                                <field name="international"/>
                             </tree>
                         </field>
 
@@ -323,29 +338,29 @@ string="Invoice"
                                 <field name="get_vat_sdcf_sum" readonly="True"/>
                                 <field name="get_total_with_iva_sum" readonly="True"/>
                             </group>
-                            <group colspan="1" col="2" string="Importaciones">
-                                <field name="get_total_with_iva_i_sum" readonly="True"/>
-                                <field name="get_vat_all_i_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_i_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_i_sum" readonly="True"/>
-                                <field name="get_vat_general_i_base_sum" readonly="True"/>
-                                <field name="get_vat_general_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
+                            <group colspan="1" col="2" string="Importations">
+                                <field name="get_total_with_iva_imex_sum" readonly="True"/>
+                                <field name="get_vat_all_imex_base_sum" readonly="True"/>
+                                <field name="get_vat_exempt_imex_sum" readonly="True"/>
+                                <field name="get_vat_sdcf_imex_sum" readonly="True"/>
+                                <field name="get_vat_general_imex_base_sum" readonly="True"/>
+                                <field name="get_vat_general_imex_tax_sum" readonly="True"/>
+                                <field name="get_vat_additional_imex_base_sum" readonly="True"/>
+                                <field name="get_vat_additional_imex_tax_sum" readonly="True"/>
+                                <field name="get_vat_reduced_imex_base_sum" readonly="True"/>
+                                <field name="get_vat_reduced_imex_tax_sum" readonly="True"/>
                             </group>
-                            <group colspan="1" col="2" string="Compras Internas">
-                                <field name="get_total_with_iva_n_sum" readonly="True"/>
-                                <field name="get_vat_all_n_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_n_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_n_sum" readonly="True"/>
-                                <field name="get_vat_general_n_base_sum" readonly="True"/>
-                                <field name="get_vat_general_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
+                            <group colspan="1" col="2" string="Domestic">
+                                <field name="get_total_with_iva_do_sum" readonly="True"/>
+                                <field name="get_vat_all_do_base_sum" readonly="True"/>
+                                <field name="get_vat_exempt_do_sum" readonly="True"/>
+                                <field name="get_vat_sdcf_do_sum" readonly="True"/>
+                                <field name="get_vat_general_do_base_sum" readonly="True"/>
+                                <field name="get_vat_general_do_tax_sum" readonly="True"/>
+                                <field name="get_vat_additional_do_base_sum" readonly="True"/>
+                                <field name="get_vat_additional_do_tax_sum" readonly="True"/>
+                                <field name="get_vat_reduced_do_base_sum" readonly="True"/>
+                                <field name="get_vat_reduced_do_tax_sum" readonly="True"/>
                             </group>
                         </group>
 
