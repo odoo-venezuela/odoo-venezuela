@@ -185,7 +185,7 @@ class fiscal_book(orm.Model):
                                     help='Amount used as Taxing Base'),
         'tax_amount': fields.float('Taxed Amount',
                                    help='Taxed Amount on Taxing Base'),
-        'fbl_ids': fields.one2many('fiscal.book.lines', 'fb_id', 'Book Lines',
+        'fbl_ids': fields.one2many('fiscal.book.line', 'fb_id', 'Book Lines',
                                    help='Lines being recorded in the book'),
         'fbt_ids': fields.one2many('fiscal.book.taxes', 'fb_id', 'Tax Lines',
                                    help='Taxes being recorded in the book'),
@@ -767,7 +767,7 @@ class fiscal_book(orm.Model):
         @param fb_id: fiscal book id.
         """
         context = context or {}
-        fbl_obj = self.pool.get('fiscal.book.lines')
+        fbl_obj = self.pool.get('fiscal.book.line')
         order_date = {'purchase': 'emission_date',
                       'sale': 'accounting_date'}
         fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
@@ -808,7 +808,7 @@ class fiscal_book(orm.Model):
         data = []
         my_rank = 1
         iwdl_obj = self.pool.get('account.wh.iva.line')
-        fbl_obj = self.pool.get('fiscal.book.lines')
+        fbl_obj = self.pool.get('fiscal.book.line')
         #~ delete book lines
         fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
             cr, uid, fb_id, context=context).fbl_ids]
@@ -1107,7 +1107,7 @@ class fiscal_book(orm.Model):
         @param fb_id: the id of the current fiscal book """
         context = context or {}
         fbt_obj = self.pool.get('fiscal.book.taxes')
-        fbl_obj = self.pool.get('fiscal.book.lines')
+        fbl_obj = self.pool.get('fiscal.book.line')
         #~ delete book taxes
         fbt_ids = fbt_obj.search(cr, uid, [('fb_id', '=', fb_id)],
                                  context=context)
@@ -1158,7 +1158,7 @@ class fiscal_book(orm.Model):
         @param fb_id: fiscal book line id.
         """
         context = context or {}
-        fbl_obj = self.pool.get('fiscal.book.lines')
+        fbl_obj = self.pool.get('fiscal.book.line')
         field_names = ['vat_reduced_base', 'vat_reduced_tax',
                        'vat_general_base', 'vat_general_tax',
                        'vat_additional_base', 'vat_additional_tax']
@@ -1198,7 +1198,7 @@ class fiscal_book(orm.Model):
     def clear_book_lines(self, cr, uid, ids, context=None):
         """ It delete all book lines loaded in the book. """
         context = context or {}
-        fbl_obj = self.pool.get("fiscal.book.lines")
+        fbl_obj = self.pool.get("fiscal.book.line")
         for fb_id in ids:
             fbl_brws = self.browse(cr, uid, fb_id, context=context).fbl_ids
             fbl_ids = [fbl.id for fbl in fbl_brws]
@@ -1405,7 +1405,7 @@ class fiscal_book_lines(orm.Model):
         return res
 
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
-    _name = 'fiscal.book.lines'
+    _name = 'fiscal.book.line'
     _rec_name = 'rank'
     _order = 'rank'
     _columns = {
@@ -1522,7 +1522,7 @@ class fiscal_book_taxes(orm.Model):
             'fiscal.book', 'Fiscal Book',
             help='Fiscal Book where this tax is related to'),
         'fbl_id': fields.many2one(
-            'fiscal.book.lines', 'Fiscal Book Lines',
+            'fiscal.book.line', 'Fiscal Book Lines',
             help='Fiscal Book Lines where this tax is related to'),
         'base_amount': fields.related('ait_id', 'base_amount',
                                       relation="account.invoice.tax",

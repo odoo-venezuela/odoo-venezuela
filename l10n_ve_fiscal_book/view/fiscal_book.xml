@@ -5,8 +5,8 @@
 <!-- Generic Views -->
 
     <record id="view_fiscal_book_lines_form" model="ir.ui.view">
-        <field name="name">fiscal.book.lines.form</field>
-        <field name="model">fiscal.book.lines</field>
+        <field name="name">fiscal.book.line.form</field>
+        <field name="model">fiscal.book.line</field>
         <field name="arch" type="xml">
             <form string="Fiscal Book Lines">
                 <group colspan="2">
