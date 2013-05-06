@@ -102,7 +102,7 @@
 					  <td align="center">1</td>
 					  <td><font size=2>Ventas Internas no Gravadas</font></td>
 					  <td align="center">40</td>
-					  <td align="right">${vwo.p_get_vat_sdcf_do_sum}
+					  <td align="right">${vwo.p_do_sdcf_vat_sum}
 					  </td>
 					  <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;">&nbsp;</td>
 				   </tr>
@@ -117,29 +117,29 @@
 					<td align="center">3</td>
 					<td><font size=2>Ventas Internas Gravadas por Al&iacute;cuota General</font></td>
 					<td align="center">42</td>
-					<td align="right">${vwo.p_get_vat_general_do_base_sum}
+					<td align="right">${vwo.p_do_general_vat_base_sum}
 					</td>
 					<td align="center">43</td>
-					<td align="right">${vwo.p_get_vat_general_do_tax_sum}</td>
+					<td align="right">${vwo.p_do_general_vat_tax_sum}</td>
 				 </tr>
 				 <tr>
 					<td align="center">4</td>
 					<td><font size=2>Ventas Internas Gravadas por Al&iacute;cuota General m&aacute;s Al&iacute;cuota Adicional</font></td>
 					<td align="center">442</td>
-					<td align="right">${vwo.p_get_vat_additional_do_base_sum}
+					<td align="right">${vwo.p_do_additional_vat_base_sum}
 					</td>
 					<td align="center">452</td>
-					<td align="right">${vwo.p_get_vat_additional_do_tax_sum}
+					<td align="right">${vwo.p_do_additional_vat_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">5</td>
 					<td><font size=2>Ventas Internas Gravadas por Al&iacute;cuota Reducida&nbsp;</font></td>
 					<td align="center">443</td>
-					<td align="right">${vwo.p_get_vat_reduced_do_base_sum}
+					<td align="right">${vwo.p_do_reduced_vat_base_sum}
 					</td>
 					<td align="center">453</td>
-					<td align="right">${vwo.p_get_vat_reduced_do_tax_sum}
+					<td align="right">${vwo.p_do_reduced_vat_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
@@ -190,60 +190,60 @@
 					<td width="4%" align="center">11</td>
 					<td width="67%"><font size=2>Importaci&oacute;n Gravadas por Al&iacute;cuota General</font></td>
 					<td width="4%" align="center">31</td>
-					<td width="15%" align="right">${vwo.s_get_vat_general_imex_base_sum}
+					<td width="15%" align="right">${vwo.s_imex_general_vat_base_sum}
 					</td>
 					<td width="4%" align="center">32</td>
-					<td width="15%" align="right">${vwo.s_get_vat_general_imex_tax_sum}
+					<td width="15%" align="right">${vwo.s_imex_general_vat_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">12</td>
 					<td><font size=2>Importaciones Gravadas por Al&iacute;cuota General m&aacute;s Al&iacute;cuota Adicional</font></td>
 					<td align="center">312</td>
-					<td align="right">${vwo.s_get_vat_additional_imex_base_sum}
+					<td align="right">${vwo.s_imex_additional_vat_base_sum}
 					</td>
 					<td align="center">322</td>
-					<td align="right">${vwo.s_get_vat_additional_imex_tax_sum}
+					<td align="right">${vwo.s_imex_additional_vat_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">13</td>
 					<td><font size=2>Importaciones Gravadas por Al&iacute;cuota Reducida</font></td>
 					<td align="center">313</td>
-					<td align="right">${vwo.s_get_vat_reduced_imex_base_sum}
+					<td align="right">${vwo.s_imex_reduced_vat_base_sum}
 					</td>
 					<td align="center">323</td>
-					<td align="right">${vwo.s_get_vat_reduced_imex_tax_sum}
+					<td align="right">${vwo.s_imex_reduced_vat_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">14</td>
 					<td><font size=2>Compras Internas Gravadas  por Al&iacute;cuota General</font></td>
 					<td align="center">33</td>
-					<td align="right">${vwo.s_get_vat_general_do_base_sum}
+					<td align="right">${vwo.s_do_general_vat_base_sum}
 					</td>
 					<td align="center">34</td>
-					<td align="right">${vwo.s_get_vat_general_do_tax_sum}
+					<td align="right">${vwo.s_do_general_vat_tax_sum}
 					</td>
 				 </tr>
 				 <tr>
 					<td align="center">15</td>
 					<td><font size=2>Compras Internas Gravadas  por Al&iacute;cuota General m&aacute;s Al&iacute;cuota Adicional</font></td>
 					<td align="center">332</td>
-					<td align="right">${vwo.s_get_vat_additional_do_base_sum}
+					<td align="right">${vwo.s_do_additional_vat_base_sum}
 					</td>
 					<td align="center">342</td>
-					<td align="right">${vwo.s_get_vat_additional_do_tax_sum}
+					<td align="right">${vwo.s_do_additional_vat_tax_sum}
 					</td>
 				 </tr>
 		   <tr>
 			  <td align="center">16</td>
 			  <td><font size=2>Compras Internas Gravadas por Al&iacute;cuota Reducida</font></td>
 			  <td align="center">333</td>
-			  <td align="right">${vwo.s_get_vat_reduced_do_base_sum}
+			  <td align="right">${vwo.s_do_reduced_vat_base_sum}
 			  </td>
 			  <td align="center">343</td>
-			  <td align="right">${vwo.s_get_vat_reduced_do_tax_sum}
+			  <td align="right">${vwo.s_do_reduced_vat_tax_sum}
 			  </td>
 		   </tr>
 		   <tr>

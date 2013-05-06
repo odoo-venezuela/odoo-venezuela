@@ -104,9 +104,9 @@ class fiscal_book(orm.Model):
         res = {}.fromkeys(ids, 0.0)
         for fb_brw in self.browse(cr, uid, ids, context=context):
             res[fb_brw.id] = fb_brw.type == 'purchase' \
-                and (fb_brw.get_vat_sdcf_imex_sum + fb_brw.get_vat_sdcf_do_sum) \
-                or (fb_brw.get_vat_sdcf_imex_sum + fb_brw.get_vat_sdcf_tp_sum +
-                fb_brw.get_vat_sdcf_ntp_sum)
+                and (fb_brw.imex_sdcf_vat_sum + fb_brw.do_sdcf_vat_sum) \
+                or (fb_brw.imex_sdcf_vat_sum + fb_brw.tp_sdcf_vat_sum +
+                fb_brw.ntp_sdcf_vat_sum)
         return res
 
     def _get_vat_all_base_sum(self, cr, uid, ids, field_name, arg,
@@ -123,10 +123,9 @@ class fiscal_book(orm.Model):
         field_op = ''.join(''.join(field_name.split('get_vat_all_')).split('_base_sum'))
         for fb_brw in self.browse(cr, uid, ids, context=context):
             res[fb_brw.id] = \
-                getattr(fb_brw, "get_vat_general_" + field_op + "_base_sum") + \
-                getattr(fb_brw, "get_vat_additional_" + field_op +
-                        "_base_sum") + \
-                getattr(fb_brw, "get_vat_reduced_" + field_op + "_base_sum")
+                getattr(fb_brw, field_op + "_general_vat_base_sum") + \
+                getattr(fb_brw, field_op + "_additional_vat_base_sum") + \
+                getattr(fb_brw, field_op + "_reduced_vat_base_sum")
         return res
 
     def _get_total_tax_credit_debit(self, cr, uid, ids, field_names, arg,
@@ -144,12 +143,12 @@ class fiscal_book(orm.Model):
             tax_types = ['reduced', 'general', 'additional']
 
             res[fb_brw.id]['get_total_tax_credit_debit_base_sum'] += \
-                sum( [ getattr(fb_brw, 'get_vat_' + ttax + '_' + op + '_base_sum')
+                sum( [ getattr(fb_brw, op + '_' + ttax + '_vat_base_sum')
                        for ttax in tax_types
                        for op in op_types ] )
 
             res[fb_brw.id]['get_total_tax_credit_debit_tax_sum'] += \
-                sum( [ getattr(fb_brw, 'get_vat_' + ttax + '_' + op + '_tax_sum')
+                sum( [ getattr(fb_brw, op + '_' + ttax + '_vat_tax_sum')
                        for ttax in tax_types
                        for op in op_types ] )
         return res
@@ -305,41 +304,41 @@ class fiscal_book(orm.Model):
             string="International Taxable Amount",
             help="Sum of International Tax Base Amounts (reduced, general \
             and additional)"),
-        'get_vat_exempt_imex_sum': fields.float(
+        'imex_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
             help="Import/Export Exempt Tax Totalization: Sum of Exempt column for international transactions"),
-        'get_vat_sdcf_imex_sum': fields.float(
+        'imex_sdcf_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="SDCF Tax",
             help="Import/Export SDCF Tax Totalization: Sum of SDCF column for \
             international transactions"),
-        'get_vat_general_imex_base_sum': fields.float(
+        'imex_general_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxable Amount",
             help="General VAT Taxed Imports/Exports Base Amount. Sum of \
             General VAT Base column for international transactions"),
-        'get_vat_general_imex_tax_sum': fields.float(
+        'imex_general_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxed Amount",
             help="General VAT Taxed Imports/Exports Tax Amount. Sum of \
             General VAT Tax column for international transactions"),
-        'get_vat_additional_imex_base_sum': fields.float(
+        'imex_additional_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxable Amount",
             help="Additional VAT Taxed Imports/Exports Base Amount. Sum of \
             Additional VAT Base column for international transactions"),
-        'get_vat_additional_imex_tax_sum': fields.float(
+        'imex_additional_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
             help="Additional VAT Taxed Imports/Exports Tax Amount. Sum of \
             Additional VAT Tax column for international transactions"),
-        'get_vat_reduced_imex_base_sum': fields.float(
+        'imex_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
             help="Reduced VAT Taxed Imports/Exports Base Amount. Sum of \
             Reduced VAT Base column for international transactions"),
-        'get_vat_reduced_imex_tax_sum': fields.float(
+        'imex_reduced_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxed Amount",
             help="Reduced VAT Taxed Imports/Exports Tax Amount. Sum of \
@@ -359,42 +358,42 @@ class fiscal_book(orm.Model):
             string="Domestic Taxable Amount",
             help="Sum of all domestic transaction base amounts (reduced, \
             general and additional)"),
-        'get_vat_exempt_do_sum': fields.float(
+        'do_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
             help="Domestic Exempt Tax Totalization. Sum of Exempt column for \
             domestic transactions"),
-        'get_vat_sdcf_do_sum': fields.float(
+        'do_sdcf_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="SDCF Tax",
             help="Domestic SDCF Tax Totalization. Sum of SDCF column for \
             domestic transactions"),
-        'get_vat_general_do_base_sum': fields.float(
+        'do_general_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxable Amount",
             help="General VAT Taxed Domestic Base Amount Totalization. " \
             "Sum of General VAT Base column for domestic transactions"),
-        'get_vat_general_do_tax_sum': fields.float(
+        'do_general_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxed Amount",
             help="General VAT Taxed Domestic Tax Amount Totalization. " \
             "Sum of General VAT Tax column for domestic transactions"),
-        'get_vat_additional_do_base_sum': fields.float(
+        'do_additional_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxable Amount",
             help="Additional VAT Taxed Domestic Base Amount Totalization. "
             "Sum of Additional VAT Base column for domestic transactions"),
-        'get_vat_additional_do_tax_sum': fields.float(
+        'do_additional_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
             help="Additional VAT Taxed Domestic Tax Amount Totalization. "
             "Sum of Additional VAT Tax column for domestic transactions"),
-        'get_vat_reduced_do_base_sum': fields.float(
+        'do_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
             help="Reduced VAT Taxed Domestic Base Amount Totalization. "
             "Sum of Reduced VAT Base column for domestic transactions"),
-        'get_vat_reduced_do_tax_sum': fields.float(
+        'do_reduced_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxed Amount",
             help="Reduced VAT Taxed Domestic Tax Amount Totalization. "
@@ -414,42 +413,42 @@ class fiscal_book(orm.Model):
             string="Tax Payer Taxable Amount",
             help="Sum of all Tax Payer Grand Base Sum (reduced, general and " \
             "additional taxes)"),
-        'get_vat_exempt_tp_sum': fields.float(
+        'tp_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
             help="Tax Payer Exempt Tax Totalization. Sum of Exempt column " \
             "for tax payer transactions"),
-        'get_vat_sdcf_tp_sum': fields.float(
+        'tp_sdcf_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="SDCF Tax",
             help="Tax Payer SDCF Tax Totalization. Sum of SDCF column for " \
             "tax payer transactions"),
-        'get_vat_general_tp_base_sum': fields.float(
+        'tp_general_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxable Amount",
             help="General VAT Taxed Tax Payer Base Amount Totalization. " \
             "Sum of General VAT Base column for taxy payer transactions"),
-        'get_vat_general_tp_tax_sum': fields.float(
+        'tp_general_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxed Amount",
             help="General VAT Taxed Tax Payer Tax Amount Totalization. " \
             "Sum of General VAT Tax column for tax payer transactions"),
-        'get_vat_additional_tp_base_sum': fields.float(
+        'tp_additional_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxable Amount",
             help="Additional VAT Taxed Tax Payer Base Amount Totalization. " \
             "Sum of Additional VAT Base column for tax payer transactions"),
-        'get_vat_additional_tp_tax_sum': fields.float(
+        'tp_additional_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
             help="Additional VAT Taxed Tax Payer Tax Amount Totalization. " \
             "Sum of Additional VAT Tax column for tax payer transactions"),
-        'get_vat_reduced_tp_base_sum': fields.float(
+        'tp_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
             help="Reduced VAT Taxed Tax Payer Base Amount Totalization. " \
             "Sum of Reduced VAT Base column for tax payer transactions"),
-        'get_vat_reduced_tp_tax_sum': fields.float(
+        'tp_reduced_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxed Amount",
             help="Reduced VAT Taxed Tax Payer Tax Amount Totalization. " \
@@ -467,42 +466,42 @@ class fiscal_book(orm.Model):
             string="No Tax Payer Taxable Amount",
             help="No Tax Payer Grand Base Totalization. Sum of all no tax " \
             "payer tax bases (reduced, general and additional)"),
-        'get_vat_exempt_ntp_sum': fields.float(
+        'ntp_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
             help="No Tax Payer Exempt Tax Totalization. Sum of Exempt " \
             "column for no tax payer transactions"),
-        'get_vat_sdcf_ntp_sum': fields.float(
+        'ntp_sdcf_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="SDCF Tax",
             help="No Tax Payer SDCF Tax Totalization. Sum of SDCF column " \
             "for no tax payer transactions"),
-        'get_vat_general_ntp_base_sum': fields.float(
+        'ntp_general_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxable Amount",
             help="General VAT Taxed No Tax Payer Base Amount Totalization. " \
             "Sum of General VAT Base column for taxy payer transactions"),
-        'get_vat_general_ntp_tax_sum': fields.float(
+        'ntp_general_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxed Amount",
             help="General VAT Taxed No Tax Payer Tax Amount Totalization. " \
             "Sum of General VAT Tax column for no tax payer transactions"),
-        'get_vat_additional_ntp_base_sum': fields.float(
+        'ntp_additional_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxable Amount",
             help="Additional VAT Taxed No Tax Payer Base Amount Totalization. " \
             "Sum of Additional VAT Base column for no tax payer transactions"),
-        'get_vat_additional_ntp_tax_sum': fields.float(
+        'ntp_additional_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
             help="Additional VAT Taxed No Tax Payer Tax Amount Totalization. " \
             "Sum of Additional VAT Tax column for no tax payer transactions"),
-        'get_vat_reduced_ntp_base_sum': fields.float(
+        'ntp_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
             help="Reduced VAT Taxed No Tax Payer Base Amount Totalization. " \
             "Sum of Reduced VAT Base column for no tax payer transactions"),
-        'get_vat_reduced_ntp_tax_sum': fields.float(
+        'ntp_reduced_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxed Amount",
             help="Reduced VAT Taxed No Tax Payer Tax Amount Totalization. " \
@@ -966,38 +965,38 @@ class fiscal_book(orm.Model):
         #~ totalization of book taxable and taxed amount for every tax type and
         #~ operation type
         vat_fields = [
-            'get_vat_exempt_imex_sum',
-            'get_vat_sdcf_imex_sum',
-            'get_vat_general_imex_base_sum',
-            'get_vat_general_imex_tax_sum',
-            'get_vat_additional_imex_base_sum',
-            'get_vat_additional_imex_tax_sum',
-            'get_vat_reduced_imex_base_sum',
-            'get_vat_reduced_imex_tax_sum',
-            'get_vat_exempt_do_sum',
-            'get_vat_sdcf_do_sum',
-            'get_vat_general_do_base_sum',
-            'get_vat_general_do_tax_sum',
-            'get_vat_additional_do_base_sum',
-            'get_vat_additional_do_tax_sum',
-            'get_vat_reduced_do_base_sum',
-            'get_vat_reduced_do_tax_sum',
-            'get_vat_exempt_tp_sum',
-            'get_vat_sdcf_tp_sum',
-            'get_vat_general_tp_base_sum',
-            'get_vat_general_tp_tax_sum',
-            'get_vat_additional_tp_base_sum',
-            'get_vat_additional_tp_tax_sum',
-            'get_vat_reduced_tp_base_sum',
-            'get_vat_reduced_tp_tax_sum',
-            'get_vat_exempt_ntp_sum',
-            'get_vat_sdcf_ntp_sum',
-            'get_vat_general_ntp_base_sum',
-            'get_vat_general_ntp_tax_sum',
-            'get_vat_additional_ntp_base_sum',
-            'get_vat_additional_ntp_tax_sum',
-            'get_vat_reduced_ntp_base_sum',
-            'get_vat_reduced_ntp_tax_sum',
+            'imex_exempt_vat_sum',
+            'imex_sdcf_vat_sum',
+            'imex_general_vat_base_sum',
+            'imex_general_vat_tax_sum',
+            'imex_additional_vat_base_sum',
+            'imex_additional_vat_tax_sum',
+            'imex_reduced_vat_base_sum',
+            'imex_reduced_vat_tax_sum',
+            'do_exempt_vat_sum',
+            'do_sdcf_vat_sum',
+            'do_general_vat_base_sum',
+            'do_general_vat_tax_sum',
+            'do_additional_vat_base_sum',
+            'do_additional_vat_tax_sum',
+            'do_reduced_vat_base_sum',
+            'do_reduced_vat_tax_sum',
+            'tp_exempt_vat_sum',
+            'tp_sdcf_vat_sum',
+            'tp_general_vat_base_sum',
+            'tp_general_vat_tax_sum',
+            'tp_additional_vat_base_sum',
+            'tp_additional_vat_tax_sum',
+            'tp_reduced_vat_base_sum',
+            'tp_reduced_vat_tax_sum',
+            'ntp_exempt_vat_sum',
+            'ntp_sdcf_vat_sum',
+            'ntp_general_vat_base_sum',
+            'ntp_general_vat_tax_sum',
+            'ntp_additional_vat_base_sum',
+            'ntp_additional_vat_tax_sum',
+            'ntp_reduced_vat_base_sum',
+            'ntp_reduced_vat_tax_sum',
             ]
         data = {}.fromkeys(vat_fields)
         for field_name in vat_fields:
@@ -1014,41 +1013,41 @@ class fiscal_book(orm.Model):
         """ It returns summation of a fiscal book tax column (Using
         fiscal.book.taxes.summary).
         @param: field_name [
-            'get_vat_sdcf_imex_sum',
-            'get_vat_exempt_imex_sum',
-            'get_vat_general_imex_base_sum',
-            'get_vat_general_imex_tax_sum',
-            'get_vat_additional_imex_base_sum',
-            'get_vat_additional_imex_tax_sum',
-            'get_vat_reduced_imex_base_sum',
-            'get_vat_reduced_imex_tax_sum',
+            'imex_sdcf_vat_sum',
+            'imex_exempt_vat_sum',
+            'imex_general_vat_base_sum',
+            'imex_general_vat_tax_sum',
+            'imex_additional_vat_base_sum',
+            'imex_additional_vat_tax_sum',
+            'imex_reduced_vat_base_sum',
+            'imex_reduced_vat_tax_sum',
 
-            'get_vat_sdcf_do_sum',
-            'get_vat_exempt_do_sum',
-            'get_vat_general_do_base_sum',
-            'get_vat_general_do_tax_sum',
-            'get_vat_additional_do_base_sum',
-            'get_vat_additional_do_tax_sum',
-            'get_vat_reduced_do_base_sum',
-            'get_vat_reduced_do_tax_sum'
+            'do_sdcf_vat_sum',
+            'do_exempt_vat_sum',
+            'do_general_vat_base_sum',
+            'do_general_vat_tax_sum',
+            'do_additional_vat_base_sum',
+            'do_additional_vat_tax_sum',
+            'do_reduced_vat_base_sum',
+            'do_reduced_vat_tax_sum'
 
-            'get_vat_sdcf_tp_sum',
-            'get_vat_exempt_tp_sum',
-            'get_vat_general_tp_base_sum',
-            'get_vat_general_tp_tax_sum',
-            'get_vat_additional_tp_base_sum',
-            'get_vat_additional_tp_tax_sum',
-            'get_vat_reduced_tp_base_sum',
-            'get_vat_reduced_tp_tax_sum'
+            'tp_sdcf_vat_sum',
+            'tp_exempt_vat_sum',
+            'tp_general_vat_base_sum',
+            'tp_general_vat_tax_sum',
+            'tp_additional_vat_base_sum',
+            'tp_additional_vat_tax_sum',
+            'tp_reduced_vat_base_sum',
+            'tp_reduced_vat_tax_sum'
 
-            'get_vat_sdcf_ntp_sum',
-            'get_vat_exempt_ntp_sum',
-            'get_vat_general_ntp_base_sum',
-            'get_vat_general_ntp_tax_sum',
-            'get_vat_additional_ntp_base_sum',
-            'get_vat_additional_ntp_tax_sum',
-            'get_vat_reduced_ntp_base_sum',
-            'get_vat_reduced_ntp_tax_sum'
+            'ntp_sdcf_vat_sum',
+            'ntp_exempt_vat_sum',
+            'ntp_general_vat_base_sum',
+            'ntp_general_vat_tax_sum',
+            'ntp_additional_vat_base_sum',
+            'ntp_additional_vat_tax_sum',
+            'ntp_reduced_vat_base_sum',
+            'ntp_reduced_vat_tax_sum'
         ]
         """
         context = context or {}
@@ -1056,8 +1055,10 @@ class fiscal_book(orm.Model):
         fbts_obj = self.pool.get('fiscal.book.taxes.summary')
 
         #~ Identifying the field
-        field_info = field_name[8:][:-4].split('_')
-        field_tax, field_op, field_amount = (len(field_info) == 3) \
+        field_info = field_name[:-4].split('_')
+        field_info.remove('vat')
+
+        field_op, field_tax, field_amount = (len(field_info) == 3) \
             and field_info \
             or field_info + ['base']
 
@@ -1205,8 +1206,44 @@ class fiscal_book(orm.Model):
     def clear_book_taxes_amount_fields(self, cr, uid, fb_id, context=None):
         """ Clean amount taxes fields in fiscal book """
         context = context or {}
-        return self.write(cr, uid, fb_id,
-                          {'tax_amount': 0.0, 'base_amount': 0.0},
+        vat_fields = [
+            'tax_amount',
+            'base_amount',
+            'imex_exempt_vat_sum',
+            'imex_sdcf_vat_sum',
+            'imex_general_vat_base_sum',
+            'imex_general_vat_tax_sum',
+            'imex_additional_vat_base_sum',
+            'imex_additional_vat_tax_sum',
+            'imex_reduced_vat_base_sum',
+            'imex_reduced_vat_tax_sum',
+            'do_exempt_vat_sum',
+            'do_sdcf_vat_sum',
+            'do_general_vat_base_sum',
+            'do_general_vat_tax_sum',
+            'do_additional_vat_base_sum',
+            'do_additional_vat_tax_sum',
+            'do_reduced_vat_base_sum',
+            'do_reduced_vat_tax_sum',
+            'tp_exempt_vat_sum',
+            'tp_sdcf_vat_sum',
+            'tp_general_vat_base_sum',
+            'tp_general_vat_tax_sum',
+            'tp_additional_vat_base_sum',
+            'tp_additional_vat_tax_sum',
+            'tp_reduced_vat_base_sum',
+            'tp_reduced_vat_tax_sum',
+            'ntp_exempt_vat_sum',
+            'ntp_sdcf_vat_sum',
+            'ntp_general_vat_base_sum',
+            'ntp_general_vat_tax_sum',
+            'ntp_additional_vat_base_sum',
+            'ntp_additional_vat_tax_sum',
+            'ntp_reduced_vat_base_sum',
+            'ntp_reduced_vat_tax_sum',
+            ]
+
+        return self.write(cr, uid, fb_id, {}.fromkeys(vat_fields, 0.0),
                           context=context)
 
     def clear_book_invoices(self, cr, uid, ids, context=None):

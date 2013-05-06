@@ -75,7 +75,7 @@
                                             <td align="center" width="30">1</td>
                                             <td>Ventas Internas no Gravadas</td>
                                             <td align="center" width="30">40</td>
-                                            <td align="right" width="100"><field name='p_get_vat_sdcf_do_sum'/></td>
+                                            <td align="right" width="100"><field name='p_do_sdcf_vat_sum'/></td>
                                             <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
                                         </tr>
                                         <tr>
@@ -88,25 +88,25 @@
                                             <td align="center">3</td>
                                             <td>Ventas Internas Gravadas por Alícuota General</td>
                                             <td align="center">42</td>
-                                            <td align="right" width="100"><field name='p_get_vat_general_do_base_sum'/></td>
+                                            <td align="right" width="100"><field name='p_do_general_vat_base_sum'/></td>
                                             <td align="center" width="30">43</td>
-                                            <td align="right"><field name='p_get_vat_general_do_tax_sum'/></td>
+                                            <td align="right"><field name='p_do_general_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">4</td>
                                             <td>Ventas Internas Gravadas por Alícuota General más Alícuota Adicional</td>
                                             <td align="center">442</td>
-                                            <td align="right"><field name='p_get_vat_additional_do_base_sum'/></td>
+                                            <td align="right"><field name='p_do_additional_vat_base_sum'/></td>
                                             <td align="center">452</td>
-                                            <td align="right"><field name='p_get_vat_additional_do_tax_sum'/></td>
+                                            <td align="right"><field name='p_do_additional_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">5</td>
                                             <td>Ventas Internas Gravadas por Alícuota Reducida</td>
                                             <td align="center">443</td>
-                                            <td align="right"><field name='p_get_vat_reduced_do_base_sum'/></td>
+                                            <td align="right"><field name='p_do_reduced_vat_base_sum'/></td>
                                             <td align="center">453</td>
-                                            <td align="right"><field name='p_get_vat_reduced_do_tax_sum'/></td>
+                                            <td align="right"><field name='p_do_reduced_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">6</td>
@@ -154,49 +154,49 @@
                                             <td align="center">11</td>
                                             <td>Importación Gravadas por Alícuota General</td>
                                             <td align="center">31</td>
-                                            <td align="right"><field name='s_get_vat_general_imex_base_sum'/></td>
+                                            <td align="right"><field name='s_imex_general_vat_base_sum'/></td>
                                             <td align="center">32</td>
-                                            <td align="right"><field name='s_get_vat_general_imex_tax_sum'/></td>
+                                            <td align="right"><field name='s_imex_general_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">12</td>
                                             <td>Importaciones Gravadas por Alícuota General más Alícuota Adicional</td>
                                             <td align="center">312</td>
-                                            <td align="right"><field name='s_get_vat_additional_imex_base_sum'/></td>
+                                            <td align="right"><field name='s_imex_additional_vat_base_sum'/></td>
                                             <td align="center">322</td>
-                                            <td align="right"><field name='s_get_vat_additional_imex_tax_sum'/></td>
+                                            <td align="right"><field name='s_imex_additional_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">13</td>
                                             <td>Importaciones Gravadas por Alícuota Reducida</td>
                                             <td align="center">313</td>
-                                            <td align="right"><field name='s_get_vat_reduced_imex_base_sum'/></td>
+                                            <td align="right"><field name='s_imex_reduced_vat_base_sum'/></td>
                                             <td align="center">323</td>
-                                            <td align="right"><field name='s_get_vat_reduced_imex_tax_sum'/></td>
+                                            <td align="right"><field name='s_imex_reduced_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">14</td>
                                             <td>Compras Internas Gravadas por Alícuota General</td>
                                             <td align="center">33</td>
-                                            <td align="right"><field name='s_get_vat_general_do_base_sum'/></td>
+                                            <td align="right"><field name='s_do_general_vat_base_sum'/></td>
                                             <td align="center">34</td>
-                                            <td align="right"><field name='s_get_vat_general_do_tax_sum'/></td>
+                                            <td align="right"><field name='s_do_general_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">15</td>
                                             <td>Compras Internas Gravadas por Alícuota General más Alícuota Adicional</td>
                                             <td align="center">332</td>
-                                            <td align="right"><field name='s_get_vat_additional_do_base_sum'/></td>
+                                            <td align="right"><field name='s_do_additional_vat_base_sum'/></td>
                                             <td align="center">342</td>
-                                            <td align="right"><field name='s_get_vat_additional_do_tax_sum'/></td>
+                                            <td align="right"><field name='s_do_additional_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">16</td>
                                             <td>Compras Internas Gravadas por Alícuota Reducida</td>
                                             <td align="center">333</td>
-                                            <td align="right"><field name='s_get_vat_reduced_do_base_sum'/></td>
+                                            <td align="right"><field name='s_do_reduced_vat_base_sum'/></td>
                                             <td align="center">343</td>
-                                            <td align="right"><field name='s_get_vat_reduced_do_tax_sum'/></td>
+                                            <td align="right"><field name='s_do_reduced_vat_tax_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">17</td>

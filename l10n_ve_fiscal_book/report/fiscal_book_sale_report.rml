@@ -608,38 +608,38 @@
                 <!-- Importaciones -->
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Fecha de Nac. ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Declaracion ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_general_imex_base_sum                                    # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.imex_general_vat_base_sum                                    # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_general_imex_tax_sum                                     # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_reduced_imex_base_sum                                    # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.imex_general_vat_tax_sum                                     # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.imex_reduced_vat_base_sum                                    # Reducido | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_reduced_imex_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_additional_imex_base_sum                                 # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.imex_reduced_vat_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.imex_additional_vat_base_sum                                 # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_additional_imex_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.imex_additional_vat_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas -->
-                <td><para style="HEADER">[[ my_fb.get_vat_sdcf_do_sum                                            # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_exempt_do_sum                                          # Exento ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_general_do_base_sum                                    # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_sdcf_vat_sum                                            # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_exempt_vat_sum                                          # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_general_vat_base_sum                                    # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_general_do_tax_sum                                     # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_reduced_do_base_sum                                    # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_general_vat_tax_sum                                     # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_reduced_vat_base_sum                                    # Reducido | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_reduced_do_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_additional_do_base_sum                                 # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_reduced_vat_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_additional_vat_base_sum                                 # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_additional_do_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_sdcf_do_sum                                            # SDCF ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_exempt_do_sum                                          # Exento ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_general_do_base_sum                                    # General | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_additional_vat_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_sdcf_vat_sum                                            # SDCF ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_exempt_vat_sum                                          # Exento ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_general_vat_base_sum                                    # General | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # General | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_general_do_tax_sum                                     # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_reduced_do_base_sum                                    # Reducido | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_general_vat_tax_sum                                     # General | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_reduced_vat_base_sum                                    # Reducido | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Reducido | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_reduced_do_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_additional_do_base_sum                                 # Adicional | Base Imponible ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_reduced_vat_tax_sum                                     # Reducido | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_additional_vat_base_sum                                 # Adicional | Base Imponible ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Adicional | Alicuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.get_vat_additional_do_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
+                <td><para style="HEADER">[[ my_fb.do_additional_vat_tax_sum                                  # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas / Retenciones -->
                 <td><para style="HEADER">[[ ''                                                                  # Fecha Factura Afect. ]]</para></td>
                 <td><para style="HEADER">[[ ''                                                                  # Nro Retención ]]</para></td>
@@ -681,18 +681,18 @@
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">VENTAS INTERNAS GRAVADAS SÓLO POR ALICUOTA GENERAL</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_general_imex_base_sum or 0.0) ]]</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_general_imex_tax_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_general_vat_base_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_general_vat_tax_sum or 0.0) ]]</para></td>
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_imex_base_sum or 0.0) ]]</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_additional_imex_tax_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_additional_vat_base_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_additional_vat_tax_sum or 0.0) ]]</para></td>
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">IMPORTACIONES GRAVADAS POR ALICUOTA REDUCIDA</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_imex_base_sum or 0.0) ]]</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.get_vat_reduced_imex_tax_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_reduced_vat_base_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_reduced_vat_tax_sum or 0.0) ]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT_BOLD">TOTAL VENTAS Y DEBITOS FISCALES PARA EFECTOS DE DETERMINACION</para></td>
