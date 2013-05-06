@@ -170,7 +170,7 @@ string="Invoice"
                                 </group>
                                 <group colspan="1" col="2" string="Tax Payer">
                                     <field name="get_total_with_iva_tp_sum" readonly="True"/>
-                                    <field name="get_vat_all_tp_base_sum" readonly="True"/>
+                                    <field name="tp_vat_base_sum" readonly="True"/>
                                     <field name="tp_exempt_vat_sum" readonly="True"/>
                                     <field name="tp_sdcf_vat_sum" readonly="True"/>
                                     <field name="tp_general_vat_base_sum" readonly="True"/>
@@ -182,7 +182,7 @@ string="Invoice"
                                 </group>
                                 <group colspan="1" col="2" string="No Tax Payer">
                                     <field name="get_total_with_iva_ntp_sum" readonly="True"/>
-                                    <field name="get_vat_all_ntp_base_sum" readonly="True"/>
+                                    <field name="ntp_vat_base_sum" readonly="True"/>
                                     <field name="ntp_exempt_vat_sum" readonly="True"/>
                                     <field name="ntp_sdcf_vat_sum" readonly="True"/>
                                     <field name="ntp_general_vat_base_sum" readonly="True"/>
@@ -352,7 +352,7 @@ string="Invoice"
                             </group>
                             <group colspan="1" col="2" string="Domestic">
                                 <field name="get_total_with_iva_do_sum" readonly="True"/>
-                                <field name="get_vat_all_do_base_sum" readonly="True"/>
+                                <field name="do_vat_base_sum" readonly="True"/>
                                 <field name="do_exempt_vat_sum" readonly="True"/>
                                 <field name="do_sdcf_vat_sum" readonly="True"/>
                                 <field name="do_general_vat_base_sum" readonly="True"/>
