@@ -527,7 +527,7 @@
 
             <tr>
                 <td><para style="HEADERLEFT">COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL</para></td>
-                <td><para style="HEADER">[[ formatLang(my_fb.do_sdcf_vat_sum or 0.0) ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.do_sdcf_and_exempt_sum or 0.0) ]]</para></td>
                 <td><para style="HEADER">[[ formatLang(0.0) ]]</para></td>
             </tr>
             <tr>

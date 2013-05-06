@@ -290,6 +290,12 @@ class fiscal_book(orm.Model):
             type="float", method=True, store=True,
             multi="get_total_tax_credit_debit",
             string="Tax Credit Total Tax Amount"),
+        'do_sdcf_and_exempt_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
+            string="Domestic Untaxed VAT Sum",
+            help="SDCF and Exempt sum for domestict transanctions. "
+            "At Sale book represent the sum of Tax Payer and No Tax payer"
+            "transactions."),
 
         #~ Totalization fields for international transactions
         'get_total_with_iva_imex_sum': fields.function(
@@ -946,6 +952,7 @@ class fiscal_book(orm.Model):
         @param fb_id: fiscal book id
         """
         context = context or {}
+        data = {}
         #~ totalization of book tax amount and base amount fields
         tax_amount = base_amount = 0.0
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
@@ -959,8 +966,8 @@ class fiscal_book(orm.Model):
                         if ait.tax_id.ret:
                             tax_amount += ait.tax_amount
 
-        self.write(cr, uid, fb_id, {'tax_amount': tax_amount,
-                   'base_amount': base_amount}, context=context)
+        data['tax_amount'] = tax_amount
+        data['base_amount'] = base_amount
 
         #~ totalization of book taxable and taxed amount for every tax type and
         #~ operation type
@@ -998,16 +1005,19 @@ class fiscal_book(orm.Model):
             'ntp_reduced_vat_base_sum',
             'ntp_reduced_vat_tax_sum',
             ]
-        data = {}.fromkeys(vat_fields)
         for field_name in vat_fields:
             data[field_name] = \
                 self.update_vat_fields(cr, uid, fb_id, field_name,
                                        context=context)
-        self.write(cr, uid, fb_id, data, context=context)
-        return self.write(cr, uid, fb_id,
-                          {'tax_amount': tax_amount,
-                           'base_amount': base_amount},
-                          context=context)
+
+        #~ more complex totalization of amounts.
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
+        data['do_sdcf_and_exempt_sum'] = fb_brw.type == 'sale' \
+            and ( data['tp_exempt_vat_sum'] + data['tp_sdcf_vat_sum'] + \
+                data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum'] ) \
+            or ( data['do_exempt_vat_sum'] + data['do_sdcf_vat_sum'] )
+
+        return self.write(cr, uid, fb_id, data, context=context)
 
     def update_vat_fields(self, cr, uid, fb_id, field_name, context=None):
         """ It returns summation of a fiscal book tax column (Using

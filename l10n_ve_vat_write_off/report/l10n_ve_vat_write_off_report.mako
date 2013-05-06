@@ -102,7 +102,7 @@
 					  <td align="center">1</td>
 					  <td><font size=2>Ventas Internas no Gravadas</font></td>
 					  <td align="center">40</td>
-					  <td align="right">${vwo.p_do_sdcf_vat_sum}
+					  <td align="right">${vwo.s_do_sdcf_and_exempt_sum}
 					  </td>
 					  <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;">&nbsp;</td>
 				   </tr>

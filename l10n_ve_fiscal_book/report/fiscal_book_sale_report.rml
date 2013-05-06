@@ -672,7 +672,7 @@
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">VENTAS INTERNAS NO GRAVADAS</para></td>
-                <td><para style="HEADER">[[ 'TODO' ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.do_sdcf_and_exempt_sum or 0.0) ]]</para></td>
                 <td><para style="HEADER">[[ 'TODO' ]]</para></td>
             </tr>
             <tr>

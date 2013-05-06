@@ -75,7 +75,7 @@
                                             <td align="center" width="30">1</td>
                                             <td>Ventas Internas no Gravadas</td>
                                             <td align="center" width="30">40</td>
-                                            <td align="right" width="100"><field name='p_do_sdcf_vat_sum'/></td>
+                                            <td align="right" width="100"><field name='s_do_sdcf_and_exempt_sum'/></td>
                                             <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
                                         </tr>
                                         <tr>
