@@ -113,8 +113,7 @@ class fiscal_book(orm.Model):
                               context=None):
         """ It calculate sum of all tax base (reduced, general and additional)
         for international, domestic, tax payer or no tax payer operation type.
-        @param field_name: field ['get_vat_all_imex_base_sum',
-                                  'get_vat_all_do_base_sum',
+        @param field_name: field ['get_vat_all_do_base_sum',
                                   'get_vat_all_tp_base_sum',
                                   'get_vat_all_ntp_base_sum' ]
         """
@@ -304,12 +303,12 @@ class fiscal_book(orm.Model):
             multi="get_total_with_iva",
             string="Total amount with VAT",
             help="Imported/Exported Total with VAT Totalization"),
-        'get_vat_all_imex_base_sum': fields.function(
-            _get_vat_all_base_sum,
-            type="float", method=True, store=True,
+        'imex_vat_base_sum': fields.float(
+            digits_compute=dp.get_precision('Account'),
             string="International Taxable Amount",
-            help="Sum of International Tax Base Amounts (reduced, general \
-            and additional)"),
+            help="Sum of International Tax Base Amounts (reduced, general and"
+            " additional). Used at 2nd row in thw Sale book's summary with "
+            "Exportation Sales title"),
         'imex_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
@@ -1016,6 +1015,10 @@ class fiscal_book(orm.Model):
             and ( data['tp_exempt_vat_sum'] + data['tp_sdcf_vat_sum'] + \
                 data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum'] ) \
             or ( data['do_exempt_vat_sum'] + data['do_sdcf_vat_sum'] )
+
+        data['imex_vat_base_sum'] = \
+            sum( [ data["imex_" + ttax + "_vat_base_sum"]
+                   for ttax in ["general", "additional", "reduced"] ] )
 
         return self.write(cr, uid, fb_id, data, context=context)
 

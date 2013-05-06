@@ -82,7 +82,7 @@
                                             <td align="center">2</td>
                                             <td>Ventas de Exportación</td>
                                             <td align="center">41</td>
-                                            <td align="right"><field name='p_get_vat_all_imex_base_sum'/></td>
+                                            <td align="right"><field name='s_imex_vat_base_sum'/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">3</td>

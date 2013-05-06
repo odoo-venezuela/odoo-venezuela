@@ -158,7 +158,7 @@ string="Invoice"
                             <group colspan="3" col="3">
                                 <group colspan="1" col="2" string="Exportation">
                                     <field name="get_total_with_iva_imex_sum" readonly="True"/>
-                                    <field name="get_vat_all_imex_base_sum" readonly="True"/>
+                                    <field name="imex_vat_base_sum" readonly="True"/>
                                     <field name="imex_exempt_vat_sum" readonly="True"/>
                                     <field name="imex_sdcf_vat_sum" readonly="True"/>
                                     <field name="imex_general_vat_base_sum" readonly="True"/>
@@ -340,7 +340,7 @@ string="Invoice"
                             </group>
                             <group colspan="1" col="2" string="Importations">
                                 <field name="get_total_with_iva_imex_sum" readonly="True"/>
-                                <field name="get_vat_all_imex_base_sum" readonly="True"/>
+                                <field name="imex_vat_base_sum" readonly="True"/>
                                 <field name="imex_exempt_vat_sum" readonly="True"/>
                                 <field name="imex_sdcf_vat_sum" readonly="True"/>
                                 <field name="imex_general_vat_base_sum" readonly="True"/>

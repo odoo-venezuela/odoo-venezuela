@@ -677,7 +677,7 @@
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">VENTAS DE EXPORTACIÓN</para></td>
-                <td><para style="HEADER">[[ 'TODO' ]]</para></td>
+                <td><para style="HEADER">[[ formatLang(my_fb.imex_vat_base_sum or 0.0) ]]</para></td>
                 <td><para style="HEADER">[[ 'TODO' ]]</para></td>
             </tr>
             <tr>

@@ -110,7 +110,7 @@
 					  <td align="center">2</td>
 					  <td><font size=2>Ventas de Exportaci&oacute;n</font></td>
 					  <td align="center">41</td>
-					  <td align="right">${vwo.p_get_vat_all_imex_base_sum}
+					  <td align="right">${vwo.s_imex_vat_base_sum}
 					  </td>
 				   </tr>
 				   <tr>
