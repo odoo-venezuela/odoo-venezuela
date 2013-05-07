@@ -206,7 +206,7 @@ class fiscal_book(orm.Model):
                                    'Adjustment Lines',
                                    help='Adjustment Lines being recorded in \
                                    a Fiscal Book'),
-        'note': fields.text('Note', required=True),
+        'note': fields.text('Note'),
 
         #~ Withholding fields
         'get_wh_sum': fields.function(
