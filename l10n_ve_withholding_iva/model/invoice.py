@@ -158,12 +158,12 @@ class account_invoice(osv.osv):
             'wh_iva_rate': wh_iva_rate,
         })
 
-    def action_wh_iva_supervisor(self, cr, uid, ids, *args):
+    def action_wh_iva_supervisor(self, cr, uid, ids, context=None):
         """ Validate the currencys are equal
         """
+        context = context or {}
         user_obj= self.pool.get('res.users')
         user_brw= user_obj.browse(cr,uid,uid)
-        print 
         for inv in self.browse(cr, uid, ids):
             if inv.amount_total==0.0 and inv.currency_id.id != user_brw.company_id.currency_id.id:
                 raise osv.except_osv('Invalid Action !', _('The currency of the invoice does not match with the currency of the company. Check this please'))
@@ -176,9 +176,10 @@ class account_invoice(osv.osv):
         return True
 
 
-    def action_wh_iva_create(self, cr, uid, ids, *args):
+    def action_wh_iva_create(self, cr, uid, ids, context=None):
         """ Create iva whithholding line
         """
+        context = context or {}
         wh_iva_obj = self.pool.get('account.wh.iva')
         for inv in self.browse(cr, uid, ids):
             if inv.wh_iva_id:
