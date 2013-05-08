@@ -47,7 +47,6 @@ TODO:
         'view/l10n_ve_withholding_view.xml',
         'view/account_view.xml',
         'workflow/wh_action_server.xml',
-#        'workflow/account_workflow.xml',
     ],
     'demo_xml': [],
     'test': ['test/wh_pay_invoice.yml'],
