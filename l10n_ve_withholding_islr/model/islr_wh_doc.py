@@ -811,9 +811,9 @@ class islr_wh_doc_invoices(osv.osv):
         return True
 
     def _get_partners(self, cr, uid, invoice):
-        """ Se obtiene: el id del vendedor, el id del comprador de la 
-        factura y el campo booleano que determina si el comprador es 
-        agente de retencion.
+        """ Is obtained: the seller's id, the buyer's id
+        invoice and boolean field that determines whether the buyer is 
+        retention agent.
         """
         if invoice.type == 'in_invoice' or invoice.type == 'in_refund':
             vendor = invoice.partner_id
@@ -825,10 +825,10 @@ class islr_wh_doc_invoices(osv.osv):
         return (vendor, buyer, buyer.islr_withholding_agent)
 
     def _get_residence(self, cr, uid, vendor, buyer):
-        """ Se determina si la direccion fiscal del comprador es la misma 
-        que la del vendedor, con el fin de luego obtener la tasa asociada.
-        Retorna True si es una persona domiciliada o residente. Retorna 
-        False si es, no Residente o No Domicialiado.
+        """It determines whether the tax form buyer address is the same
+        that the seller, then in order to obtain the associated rate.
+        Returns True if a person is resident. Returns 
+        False if is not resident.
         """
         vendor_address = self._get_country_fiscal(cr, uid, vendor)
         buyer_address = self._get_country_fiscal(cr, uid, buyer)
@@ -840,8 +840,8 @@ class islr_wh_doc_invoices(osv.osv):
         return False
 
     def _get_nature(self, cr, uid, partner_id):
-        """ Se obtiene la naturaleza del vendedor a partir del RIF, retorna 
-        True si es persona de tipo natural, y False si es juridica.
+        """ It obtained the nature of the seller from VAT, returns 
+        True if natural person, and False if is legal.
         """
         if not partner_id.vat:
             raise osv.except_osv(_('Invalid action !'), _(
@@ -854,10 +854,10 @@ class islr_wh_doc_invoices(osv.osv):
                 return False
 
     def _get_rate(self, cr, uid, concept_id, residence, nature, context):
-        """ Se obtiene la tasa del concepto de retencion, siempre y 
-        cuando exista uno asociado a las especificaciones:
-        La naturaleza del vendedor coincida con una tasa.
-        La residencia del vendedor coindica con una tasa.
+        """ Rate is obtained from the concept of retention, provided 
+        if there is one associated with the specifications:
+        The vendor's nature matches a rate.
+        The vendor's residence matches a rate.
         """
         ut_obj = self.pool.get('l10n.ut')
         rate_brw_lst = self.pool.get(
@@ -866,9 +866,9 @@ class islr_wh_doc_invoices(osv.osv):
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
                 rate_brw_minimum = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.minimum, False, context)  # metodo que transforma los UVT en pesos
+                    cr, uid, rate_brw.minimum, False, context)  # Method that transforms the UVT in pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.subtract, False, context)  # metodo que transforma los UVT en pesos
+                    cr, uid, rate_brw.subtract, False, context)  # Method that transforms the UVT in pesos
                 return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
         return ()
 
@@ -904,19 +904,19 @@ class islr_wh_doc_invoices(osv.osv):
             'account_invoice_id': ail_brw.invoice_id.id,
             'islr_wh_doc_line_id': False,
             'islr_xml_wh_doc': False,
-            'wh': wh,  # Debo buscarlo
-            'base': ail_brw.price_subtotal,  # La consigo tambien pero desde el rate
-            'period_id': False,  # Debemos revisar la definicion porque esta en NOT NULL
+            'wh': wh,  # I must to look
+            'base': ail_brw.price_subtotal,  # I get it too but from the rate
+            'period_id': False,  # We review the definition because it is in NOT NULL
             'invoice_number': ail_brw.invoice_id.reference,
-            'rate_id': rate_id,  # La consigo tambien pero desde el rate
-            'partner_id': ail_brw.invoice_id.partner_id.id,  # Warning Depende de si es cliente o proveedor
+            'rate_id': rate_id,  # I get it too but from the rate
+            'partner_id': ail_brw.invoice_id.partner_id.id,  # Warning Depends if is a customer or supplier
             'concept_id': ail_brw.concept_id.id,
-            'partner_vat': vendor.vat[2:12],  # Warning Depende si es cliente o proveedor
-            'porcent_rete': rate_wh_perc,  # La consigo tambien pero desde el rate
+            'partner_vat': vendor.vat[2:12],  # Warning Depends if is a customer or supplier
+            'porcent_rete': rate_wh_perc,  # I get it too but from the rate
             'control_number': ail_brw.invoice_id.nro_ctrl,
-            'sustract': rate_subtract,  # La consigo tambien pero desde el rate
+            'sustract': rate_subtract,  # I get it too but from the rate
             'account_invoice_line_id': ail_brw.id,
-            'concept_code': rate_code,  # La consigo tambien pero desde el rate
+            'concept_code': rate_code,  # I get it too but from the rate
         }
 
     def unlink(self, cr, uid, ids, context=None):

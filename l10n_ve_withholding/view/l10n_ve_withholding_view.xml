@@ -3,15 +3,15 @@
     <data>
     
 <!--
-    Menu Generico para todos los modulos de iva, islr y municipales
+    Generic menu for all modules of vat, income withholding and municipal
 -->
-        <menuitem id="menu_wh_configuration" name="Withholdings" parent="account.menu_finance_accounting"/>
+        <menuitem id="menu_wh_configuration" name="Withholdings" parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings"/>
         <menuitem id="menu_withholdings" name="Withholdings" parent="account.menu_finance"/>
 
 <!--        <menuitem id="menu_wh_customer" name="Customer Withholding" parent="account.menu_finance_receivables" sequence="300"/>-->
 <!--        <menuitem id="menu_wh_suppiler" name="Supplier Withholding" parent="account.menu_finance_payables" sequence="300"/>-->
 <!--
-        Vista Generica de Facturas de Compra para iva, islr y municipales
+        Generic view Purchase Invoice for vat, income withholdings and municipal
 -->
         
         <record id="wh_inv_supplier" model="ir.ui.view">
@@ -30,7 +30,7 @@
         </record>
         
 <!--
-        Vista Generica de Facturas de Venta para iva, islr y municipales
+        Generic view Sale Invoice for vat, income withholding and municipal
 -->
         
         <record id="wh_inv_customer" model="ir.ui.view">
@@ -49,7 +49,7 @@
         </record>
         
 <!--
-        Vista Generica de Parnets para iva, islr y municipales
+        Generic view of Parnets for vat, income withholding and municipal
 -->
 
         <record id="wh_partner" model="ir.ui.view">

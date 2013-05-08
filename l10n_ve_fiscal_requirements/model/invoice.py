@@ -76,8 +76,9 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         res = True
+        ru_brw = self.pool.get('res.users').browse(cr,uid,uid,context=context)
         rc_obj = self.pool.get('res.company')
-        rc_brw = rc_obj.browse(cr, uid, uid, context=context)
+        rc_brw = rc_obj.browse(cr, uid, ru_brw.company_id.id, context=context)
         
         if rc_brw.country_id and rc_brw.country_id.code == 'VE' and rc_brw.printer_fiscal:
             res = False
