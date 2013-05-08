@@ -63,7 +63,7 @@ If you want be able to propose withholding concepts from sales and purchases you
             "view/product_view.xml",
             "view/islr_xml_wh.xml",
             "workflow/islr_wh_workflow.xml",
-            "workflow/account_workflow.xml",
+            "workflow/wh_action_server.xml",
             #"edi/islr_wh_doc_action_data.xml",
     ],
     'test': [

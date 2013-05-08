@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <!-- Server Actions  -->
+        <record id="wh_iva_srv_act" model="ir.actions.server">
+            <field name="name">IVA Withholding Server Action</field>
+            <field name="model_id" ref="model_account_invoice"/>
+            <field name="state">code</field>
+            <field name="condition">True</field>
+            <field eval="3" name="sequence"/>
+            <field name="type">ir.actions.server</field>
+            <field name="code">object.check_wh_apply() and \
+object.check_withholdable() and \
+object.action_wh_iva_supervisor() and \
+object.action_wh_iva_create()</field>
+        </record>
+        <record id="l10n_ve_withholding.multiact_wh_srv_act" model="ir.actions.server">
+            <field name="child_ids" eval='[(4,ref("wh_iva_srv_act"))]'/>
+        </record>
+    </data>
+</openerp>
