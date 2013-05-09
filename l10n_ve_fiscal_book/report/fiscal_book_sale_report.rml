@@ -185,22 +185,41 @@
 
     <!--    SALE BOOK HEADERS    -->
     <section>
-        <blockTable colWidths="303.0, 37.0, 373.0, 795.0" style="NEW-HEADER" blockAlignment="LEFT">
+        <blockTable colWidths="375.0, 37.0, 373.0, 795.0" style="NEW-HEADER" blockAlignment="LEFT">
             <tr>
                 <td>
-                    <blockTable colWidths="303.0" style="NEW-HEADER">
+                    <blockTable colWidths="375.0" style="NEW-HEADER">
                         <tr>
                             <td vAlign="MIDDLE"><para style="HEADER">DATOS DE LA FACTURA O/Y DOCUMENTO</para></td>
                         </tr>
                         <tr>
                             <td>
-                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0" style="NEW-HEADER" rowHeights="18">
+                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 72.0, 23.0, 130.0, 25.0" style="NEW-HEADER" rowHeights="18">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">Linea</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">T. Doc.</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">Fecha Doc.</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">Numero Control</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">Numero de Documento</para></td>
+
+                                        <td>
+                                            <blockTable colWidths="72.0" style="NEW-HEADER">
+                                                <tr>
+                                                    <td vAlign="MIDDLE"><para style="HEADER">Impresora Fiscal</para></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <blockTable colWidths="36.0, 36.0" style="NEW-HEADER" rowHeights="12">
+                                                            <tr>
+                                                                <td vAlign="MIDDLE"><para style="HEADER">Numero Impresora</para></td>
+                                                                <td vAlign="MIDDLE"><para style="HEADER">Numero de Factura</para></td>
+                                                            </tr>
+                                                        </blockTable>
+                                                    </td>
+                                                </tr>
+                                            </blockTable>
+                                        </td>
+
                                         <td vAlign="MIDDLE"><para style="HEADER">Factura Afectada</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">Razon Social</para></td>
                                         <td vAlign="MIDDLE"><para style="HEADER">RIF</para></td>
@@ -546,7 +565,7 @@
     <section>
         <para>[[repeatIn( my_fb.fbl_ids,'my_fbl')]]</para>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 36.0, 23.0, 130.0, 25.0,
                        37.0,
                        23.0, 40.0,    20.0, 20.0,          35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
@@ -559,6 +578,8 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.emission_date                                # Fecha Doc.]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.ctrl_number                                  # Numero Control ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_number                               # Numero de Doc ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.fiscal_printer                               # Numero Impresora ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_printer                              # Numero de Factura de impresora ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_parent                               # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_name                                 # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_vat                                  # RIF ]]</para></td>
@@ -615,7 +636,7 @@
     <!--    TOTALS SALE PARCIALES    -->
     <section>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 23.0, 130.0, 25.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 36.0, 23.0, 130.0, 25.0,
                        37.0,
                        23.0, 40.0,    20.0, 20.0,          35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
@@ -628,6 +649,8 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Fecha Doc.]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero Control ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero de Doc ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero Impresora ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero de Factura de impresora ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ 'TOTALES'                                           # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # RIF ]]</para></td>
