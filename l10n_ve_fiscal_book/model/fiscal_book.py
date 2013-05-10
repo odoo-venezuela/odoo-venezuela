@@ -1437,9 +1437,10 @@ class fiscal_book_lines(orm.Model):
                                    book line'),
         'parent_id': fields.many2one(
             "fiscal.book.line",
-            string="No Tax Payer Consolidated Line",
-            help="Indicate the id of the consolidated line where this no tax "
-            "payer line belongs"),
+            string="Consolidated Line",
+            ondelete='cascade',
+            help="No Tax Payer Consolidated Line. Indicate the id of the "
+            "consolidated line where this no tax payer line belongs"),
         'parent_left': fields.integer('Left Parent', select=1),
         'parent_right': fields.integer('Right Parent', select=1),
         'child_ids': fields.one2many(
