@@ -187,7 +187,7 @@ class txt_iva(osv.osv):
         context = context or {}
         number='0'
         if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
-            number = txt_line.invoice_id.parent_id.reference
+            number = txt_line.invoice_id.parent_id.supplier_invoice_number
         elif txt_line.invoice_id.parent_id: 
             number = txt_line.invoice_id.parent_id.number
         return number
@@ -218,10 +218,10 @@ class txt_iva(osv.osv):
         context = context or {}
         number=0
         if txt_line.invoice_id.type in ['in_invoice','in_refund']:
-            if not txt_line.invoice_id.reference:
+            if not txt_line.invoice_id.supplier_invoice_number:
                 raise osv.except_osv(_('Invalid action !'),_("Unable to make txt file, because the bill has no reference number free!"))
             else:
-                number = self.get_number(cr,uid,txt_line.invoice_id.reference.strip(),inv_type,20)
+                number = self.get_number(cr,uid,txt_line.invoice_id.supplier_invoice_number.strip(),inv_type,20)
         elif txt_line.invoice_id.number:
             number = self.get_number(cr,uid,txt_line.invoice_id.number.strip(),inv_type,20)
         return number

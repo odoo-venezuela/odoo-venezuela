@@ -151,7 +151,7 @@
                     <blockTable colWidths="20.0mm,25.0mm,25.0mm,10.0mm,63.0mm,25.0mm,15.0mm,20.0mm" style="Tabla3">
                       <tr>
                         <td><para style="TCENTER">[[ formatLang(c.invoice_id.date_document,date='True') ]]</para></td>   
-                        <td><para style="TCENTER">[[ c.invoice_id.reference ]]</para></td>  
+                        <td><para style="TCENTER">[[ c.invoice_id.supplier_invoice_number ]]</para></td>  
                         <td><para style="TCENTER">[[ c.invoice_id.nro_ctrl ]]</para></td>
                         <td>
                             <para style="TCENTER">[[ c.invoice_id.type and c.invoice_id.type=='in_refund' and 'N.C.' or removeParentNode('para') ]]</para>
