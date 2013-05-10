@@ -130,5 +130,5 @@ class inheried_account_invoice_tax(osv.osv):
             obj_inv = self.pool.get('account.invoice')
             inv = obj_inv.browse(cr, uid, invoice_id)
             res = {'value': {'partner_id': inv.partner_id.id,
-                             'reference': inv.reference}}
+                             'reference': inv.supplier_invoice_number}}
         return res

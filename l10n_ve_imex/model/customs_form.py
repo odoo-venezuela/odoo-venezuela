@@ -224,7 +224,7 @@ class customs_form(osv.osv):
             }
             for inv in f86.invoice_ids:
                 str_inv = _('\n\tSupplier: %-40s Reference: %s') % \
-                (inv.partner_id.name, inv.reference)
+                (inv.partner_id.name, inv.supplier_invoice_number)
                 move['narration'] = '%s%s' % (move['narration'], str_inv)
             lines = self.create_account_move_lines(cr, uid, f86, context)
             if lines:
@@ -315,7 +315,7 @@ class customs_form(osv.osv):
                         _('Error!'),
                         _('Can\'t cancel a import while invoice state <> \
                         "Draft" ([%s] %s, %s)') % inv.name,
-                        inv.partner_id.name, inv.reference)
+                        inv.partner_id.name, inv.supplier_invoice_number)
         return True
 
 
