@@ -124,7 +124,7 @@ class account_wh_munici(osv.osv):
         for i in obj[0].munici_line_ids:
             if i.amount >= i.invoice_id.check_total * 0.15:
                 raise osv.except_osv(_('Invalid action !'), _(
-                    "The line containing the document '%s' looks as if the amount withheld was wrong please check.!") % (i.invoice_id.reference))
+                    "The line containing the document '%s' looks as if the amount withheld was wrong please check.!") % (i.invoice_id.supplier_invoice_number))
             total += i.amount
         self.write(cr, uid, ids, {'amount': total})
         return True

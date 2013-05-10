@@ -171,7 +171,7 @@
       <blockTable colWidths="527.0" style="Tabla3">
         <tr>
           <td>
-            <para style="P20">COMPROBANTE DE RETENCION DE IMPUESTOS MUNICIPALES DE FACTURA: <font face="Helvetica" size="9.0">[[ l.invoice_id.reference ]]</font></para>
+            <para style="P20">COMPROBANTE DE RETENCION DE IMPUESTOS MUNICIPALES DE FACTURA: <font face="Helvetica" size="9.0">[[ l.invoice_id.supplier_invoice_number ]]</font></para>
           </td>
         </tr>
       </blockTable>
