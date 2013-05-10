@@ -11,6 +11,7 @@
             <form string="Fiscal Book Lines">
                 <group colspan="2">
                     <field name='rank'/>
+                    <field name='type' invisible="1"/>
                     <field name='doc_type'/>
                     <field name='invoice_id'/>
                     <field name='iwdl_id'/>
@@ -33,6 +34,10 @@ string="Invoice"
                     <field name='vat_sdcf'/>
                     <field name='vat_exempt'/>
                     <field name='fbt_ids'/>
+                </group>
+                <group colspan="4" attrs="{'invisible':[('type', 'not in', ('ntp',) )]}">
+                    <label for='child_ids'/>
+                    <field name='child_ids' nolabel="1" colspan="4"/>
                 </group>
             </form>
         </field>
@@ -204,6 +209,7 @@ string="Invoice"
                         <label for="ntp_fbl_ids"/>
                         <field name="ntp_fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
+                                <field name='parent_id'/>
                                 <field name='rank'/>
                                 <field name='emission_date'/>
                                 <field name='fiscal_printer'/>

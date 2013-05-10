@@ -1418,6 +1418,7 @@ class fiscal_book_lines(orm.Model):
     _name = 'fiscal.book.line'
     _rec_name = 'rank'
     _order = 'rank'
+    _parent_store = "True"
     _columns = {
 
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
@@ -1434,6 +1435,18 @@ class fiscal_book_lines(orm.Model):
         'iwdl_id': fields.many2one('account.wh.iva.line', 'Vat Withholding',
                                    help='Withholding iva line related to this \
                                    book line'),
+        'parent_id': fields.many2one(
+            "fiscal.book.line",
+            string="No Tax Payer Consolidated Line",
+            help="Indicate the id of the consolidated line where this no tax "
+            "payer line belongs"),
+        'parent_left': fields.integer('Left Parent', select=1),
+        'parent_right': fields.integer('Right Parent', select=1),
+        'child_ids': fields.one2many(
+            "fiscal.book.line",
+            "parent_id",
+            string="No Tax Payer Detail Line",
+            help="No Tax Payer Group of book lines that this line represent"),
 
         #~  Invoice and/or Document Data
         'rank': fields.integer("Line", required=True, help="Line Position"),
