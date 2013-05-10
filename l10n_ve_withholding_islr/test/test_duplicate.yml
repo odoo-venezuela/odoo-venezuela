@@ -23,7 +23,7 @@
     self.write(cr, uid, [invoice_id], 
             {'journal_id': ref("account.expenses_journal"), 
              'nro_ctrl':'DUPLINV00',
-               'reference':'110011'})
+               'supplier_invoice_number':'110011'})
     acc_brw=self.browse(cr, uid, invoice_id)
     self.button_reset_taxes(cr, uid, [invoice_id])
     # update check total
@@ -56,7 +56,7 @@
     self.write(cr, uid, [invoice_id], 
             {'journal_id': ref("account.expenses_journal"), 
              'nro_ctrl':'DUPLINV00NOTAX',
-               'reference':'110011NOTAX'})
+               'supplier_invoice_number':'110011NOTAX'})
     acc_brw=self.browse(cr, uid, invoice_id)
     self.button_reset_taxes(cr, uid, [invoice_id])
     # update check total

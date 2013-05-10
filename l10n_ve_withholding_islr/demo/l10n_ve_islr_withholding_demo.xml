@@ -335,7 +335,7 @@
             <field name="nro_ctrl">00-786347</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
-            <field name="reference">libre-0003873</field>
+            <field name="supplier_invoice_number">libre-0003873</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -369,7 +369,7 @@
             <field name="nro_ctrl">00-65323</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
-            <field name="reference">libre-003873</field>
+            <field name="supplier_invoice_number">libre-003873</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -402,7 +402,7 @@
             <field name="nro_ctrl">00-0003873298</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
-            <field name="reference">libre-00238738</field>
+            <field name="supplier_invoice_number">libre-00238738</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
@@ -435,7 +435,7 @@
             <field name="nro_ctrl">00-00084787</field>
             <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
-            <field name="reference">libre-0082387</field>
+            <field name="supplier_invoice_number">libre-0082387</field>
             <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="state">draft</field>
