@@ -163,7 +163,7 @@ class account_invoice_debit(osv.osv_memory):
 
         #we get original data of invoice to create a new invoice that is the copy of the original
         invoice = inv_obj.read(cr, uid, [inv.id],
-                    ['name', 'type', 'number', 'reference',
+                    ['name', 'type', 'number', 'supplier_invoice_number',
                     'comment', 'date_due', 'partner_id',
                     'partner_insite', 'partner_contact',
                     'partner_ref', 'payment_term', 'account_id',
@@ -174,7 +174,7 @@ class account_invoice_debit(osv.osv_memory):
         invoice_lines = []
         tax_lines = []
         #Add origin, parent and comment values
-        orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
+        orig = self._get_orig(cr, uid, inv, invoice['supplier_invoice_number'], context)
         invoice.update({
             'type': inv.type,
             'date_invoice': date,

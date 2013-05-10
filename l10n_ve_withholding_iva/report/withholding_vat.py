@@ -121,7 +121,7 @@ class rep_comprobante(report_sxw.rml_parse):
             no_fac_afe = rl.invoice_id.origin or ''
             if rl.invoice_id.type in ['in_refund', 'out_refund']:
                 k=-1
-                no_fac_afe = rl.invoice_id.parent_id and rl.invoice_id.parent_id.reference or ''
+                no_fac_afe = rl.invoice_id.parent_id and rl.invoice_id.parent_id.supplier_invoice_number or ''
 
             #~ Code to meet the changes in the new use field ret, 
             #~ and the new relation in account.invoice.tax
@@ -149,11 +149,11 @@ class rep_comprobante(report_sxw.rml_parse):
 
                 d1 = {
                     'fecha': rl.invoice_id.date_document,
-                    'nro_fact': rl.invoice_id.reference,
+                    'nro_fact': rl.invoice_id.supplier_invoice_number,
                     'nro': rl.invoice_id.number,
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
-                    'nro_ncre': rl.invoice_id.reference,
-                    'nro_ndeb': rl.invoice_id.reference,
+                    'nro_ncre': rl.invoice_id.supplier_invoice_number,
+                    'nro_ndeb': rl.invoice_id.supplier_invoice_number,
                     'porcenta': rl.invoice_id.partner_id.wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
@@ -190,11 +190,11 @@ class rep_comprobante(report_sxw.rml_parse):
 
                 d1 = {
                     'fecha': rl.invoice_id.date_document,
-                    'nro_fact': rl.invoice_id.reference,
+                    'nro_fact': rl.invoice_id.supplier_invoice_number,
                     'nro': rl.invoice_id.number,
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
-                    'nro_ncre': rl.invoice_id.reference,
-                    'nro_ndeb': rl.invoice_id.reference,
+                    'nro_ncre': rl.invoice_id.supplier_invoice_number,
+                    'nro_ndeb': rl.invoice_id.supplier_invoice_number,
                     'porcenta': rl.invoice_id.partner_id.wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,

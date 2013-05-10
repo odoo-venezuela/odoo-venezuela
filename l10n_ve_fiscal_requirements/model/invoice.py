@@ -61,8 +61,8 @@ class account_invoice(osv.osv):
             ids_ivo.append(inv.id)
             if inv.type in ('out_invoice','out_refund'):
                 return True
-            inv_ids = inv.nro_ctrl is not '' and inv.nro_ctrl is not False and inv.reference is not False and self.search(cr,uid,
-                        ['|',('nro_ctrl','=',inv.nro_ctrl and inv.nro_ctrl.strip() ),('reference','=',inv.reference and inv.reference.strip()),
+            inv_ids = inv.nro_ctrl is not '' and inv.nro_ctrl is not False and inv.supplier_invoice_number is not False and self.search(cr,uid,
+                        ['|',('nro_ctrl','=',inv.nro_ctrl and inv.nro_ctrl.strip() ),('supplier_invoice_number','=',inv.supplier_invoice_number and inv.supplier_invoice_number.strip()),
                         ('type','=',inv.type),
                         ('partner_id','=',inv.partner_id.id)],
                         context=context) or []
@@ -117,7 +117,7 @@ class account_invoice(osv.osv):
         default.update({
             'child_ids':[],
             'nro_ctrl':None,
-            'reference':None, 
+            'supplier_invoice_number':None, 
         })
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 account_invoice()

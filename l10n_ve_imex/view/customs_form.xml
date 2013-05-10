@@ -43,7 +43,7 @@
 -->
                                             <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
                                             <field name="partner_id"/>
-                                            <field name="reference"/>
+                                            <field name="supplier_invoice_number"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
                                             <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
                                             <field name="amount" on_change="on_change_amount(tax_id, base, amount)" sum="Tax amount total"/>
@@ -54,7 +54,7 @@
 -->
                                             <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
                                             <field name="partner_id"/>
-                                            <field name="reference"/>
+                                            <field name="supplier_invoice_number"/>
                                             <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
                                             <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
                                             <field name="amount" on_change="on_change_amount(tax_id, base, amount)"/>

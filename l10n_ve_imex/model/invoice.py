@@ -81,7 +81,7 @@ class inheried_account_invoice_tax(osv.osv):
         'partner_id': fields.related('imex_inv_id', 'partner_id',
                                      type='many2one', relation='res.partner',
                                      string='Supplier'),
-        'reference': fields.related('imex_inv_id', 'reference', type='char',
+        'supplier_invoice_number': fields.related('imex_inv_id', 'supplier_invoice_number', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
     }
@@ -130,5 +130,5 @@ class inheried_account_invoice_tax(osv.osv):
             obj_inv = self.pool.get('account.invoice')
             inv = obj_inv.browse(cr, uid, invoice_id)
             res = {'value': {'partner_id': inv.partner_id.id,
-                             'reference': inv.reference}}
+                             'supplier_invoice_number': inv.supplier_invoice_number}}
         return res

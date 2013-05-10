@@ -330,7 +330,7 @@ class account_wh_iva(osv.osv):
             for tax in wh_line.tax_line:
                 if not self._get_valid_wh(cr, uid, tax.amount_ret, tax.amount, tax.wh_vat_line_id.wh_iva_rate, context=context):
                     if not res.get(wh_line.id, False):
-                        note += _('\tInvoice: %s, %s, %s\n')%(wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference or '/')
+                        note += _('\tInvoice: %s, %s, %s\n')%(wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.supplier_invoice_number or '/')
                         res[wh_line.id] = True
                     note += '\t\t%s\n'%tax.name
                 if tax.amount_ret > tax.amount:
@@ -349,7 +349,7 @@ class account_wh_iva(osv.osv):
         res = {}
         for wh_line in obj.wh_lines:
             if not wh_line.tax_line:
-                res[wh_line.id] = (wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference)
+                res[wh_line.id] = (wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.supplier_invoice_number)
         if res:
             note = _('The Following Invoices Have not already been withheld:\n\n')
             for i in res:
@@ -370,7 +370,7 @@ class account_wh_iva(osv.osv):
         res = {}
         for wh_line in obj.wh_lines:
             if not wh_line.invoice_id.nro_ctrl:
-                res[wh_line.id] = (wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.reference)
+                res[wh_line.id] = (wh_line.invoice_id.name,wh_line.invoice_id.number,wh_line.invoice_id.supplier_invoice_number)
         if res:
             note = _('The Following Invoices will not be withheld:\n\n')
             for i in res:
@@ -485,7 +485,7 @@ class account_wh_iva(osv.osv):
                     writeoff_account_id,writeoff_journal_id = False, False
                     amount = line.amount_tax_ret
                     if line.invoice_id.type in ['in_invoice','in_refund']:
-                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.reference or '')
+                        name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.supplier_invoice_number or '')
                     else:
                         name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],

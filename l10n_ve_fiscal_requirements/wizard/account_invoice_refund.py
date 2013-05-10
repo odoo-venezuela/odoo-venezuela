@@ -258,7 +258,7 @@ class account_invoice_refund(osv.osv_memory):
                                         )
                     if mode == 'modify':
                         invoice = inv_obj.read(cr, uid, [inv.id],
-                                    ['name', 'type', 'number', 'reference',
+                                    ['name', 'type', 'number', 'supplier_invoice_number',
                                     'comment', 'date_due', 'partner_id',
                                     'partner_insite', 'partner_contact',
                                     'partner_ref', 'payment_term', 'account_id',
@@ -272,7 +272,7 @@ class account_invoice_refund(osv.osv_memory):
                         tax_lines = inv_tax_obj.browse(cr, uid, invoice['tax_line'], context=context)
                         tax_lines = inv_obj._refund_cleanup_lines(cr, uid, tax_lines)
                         #Add origin value
-                        orig = self._get_orig(cr, uid, inv, invoice['reference'], context)
+                        orig = self._get_orig(cr, uid, inv, invoice['supplier_invoice_number'], context)
                         invoice.update({
                             'type': inv.type,
                             'date_invoice': date,
@@ -313,11 +313,11 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             
             if wzd_brw.filter_refund == 'cancel':
-                orig = self._get_orig(cr, uid, inv, inv.reference, context)
+                orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'name':wzd_brw.description},context=context)
             
             if wzd_brw.filter_refund == 'refund':
-                orig = self._get_orig(cr, uid, inv, inv.reference, context)
+                orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'name':wzd_brw.description},context=context)
             return result
 
