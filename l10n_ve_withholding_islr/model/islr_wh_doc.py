@@ -151,7 +151,7 @@ class islr_wh_doc(osv.osv):
             #Otherwise just checks for withholding concepts if any
             if not (wh_line.islr_xml_id or wh_line.iwdl_ids):
                 res[wh_line.id] = (wh_line.invoice_id.name,
-                                   wh_line.invoice_id.number, wh_line.invoice_id.reference)
+                                   wh_line.invoice_id.number, wh_line.invoice_id.supplier_invoice_number)
         if res:
             note = _('The Following Invoices Have not yet been withheld:\n\n')
             for i in res:
@@ -449,7 +449,7 @@ class islr_wh_doc(osv.osv):
         for line in ret.invoice_ids:
             if ret.type in ('in_invoice', 'in_refund'):
                 name = 'COMP. RET. ISLR ' + ret.number + \
-                    ' Doc. ' + (line.invoice_id.reference or '')
+                    ' Doc. ' + (line.invoice_id.supplier_invoice_number or '')
             else:
                 name = 'COMP. RET. ISLR ' + ret.number + \
                     ' Doc. ' + (line.invoice_id.number or '')
@@ -527,7 +527,7 @@ class islr_wh_doc(osv.osv):
         if not name:
             if invoice.type in ['in_invoice', 'in_refund']:
                 name = 'COMP. RET. ISLR ' + ret.number + \
-                    ' Doc. ' + (invoice.reference or '')
+                    ' Doc. ' + (invoice.supplier_invoice_number or '')
             else:
                 name = 'COMP. RET. ISLR ' + ret.number + \
                     ' Doc. ' + (invoice.number or '')
@@ -907,7 +907,7 @@ class islr_wh_doc_invoices(osv.osv):
             'wh': wh,  # I must to look
             'base': ail_brw.price_subtotal,  # I get it too but from the rate
             'period_id': False,  # We review the definition because it is in NOT NULL
-            'invoice_number': ail_brw.invoice_id.reference,
+            'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
             'rate_id': rate_id,  # I get it too but from the rate
             'partner_id': ail_brw.invoice_id.partner_id.id,  # Warning Depends if is a customer or supplier
             'concept_id': ail_brw.concept_id.id,
