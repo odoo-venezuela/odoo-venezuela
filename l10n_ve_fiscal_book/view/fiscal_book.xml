@@ -200,6 +200,33 @@ string="Invoice"
                         </group>
 
                     </page>
+                    <page string="No Tax Payer Detail">
+                        <label for="ntp_fbl_ids"/>
+                        <field name="ntp_fbl_ids" nolabel="1" colspan='4' readonly="True">
+                            <tree string="Fiscal Book Lines">
+                                <field name='rank'/>
+                                <field name='emission_date'/>
+                                <field name='fiscal_printer'/>
+                                <field name='z_report'/>
+                                <field name='invoice_printer'/>
+                                <field name='invoice_number'/>
+                                <field name='ctrl_number'/>
+                                <field name='invoice_parent'/>
+                                <field name='partner_name'/>
+                                <field name='partner_vat'/>
+                                <field name='total_with_iva' sum=""/>
+                                <field name='vat_sdcf' sum=""/>
+                                <field name='vat_exempt' sum=""/>
+                                <field name="vat_general_base" sum=""/>
+                                <field name="vat_general_tax" sum=""/>
+                                <field name="vat_reduced_base" sum=""/>
+                                <field name="vat_reduced_tax" sum=""/>
+                                <field name="vat_additional_base" sum=""/>
+                                <field name="vat_additional_tax" sum=""/>
+                            </tree>
+                        </field>
+                    </page>
+
                 </notebook>
                 <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
                     <field name="base_amount"/>

@@ -400,6 +400,12 @@ class fiscal_book(orm.Model):
 
         #~ Apply only for sale book
         #~ Totalization fields for tax payer and no tax payer transactions
+        'ntp_fbl_ids': fields.one2many("fiscal.book.line", "ntp_fb_id",
+                                       string = "No Tax Payer Detail Lines",
+                                       help="No Tax Payer Lines that are"
+                                       " grouped by the statement law that"
+                                       " represent the data of are consolidate"
+                                       "book lines"),
         'get_total_with_iva_tp_sum': fields.function(
             _get_total_with_iva_sum,
             type="float", method=True, store=True,
@@ -1416,6 +1422,9 @@ class fiscal_book_lines(orm.Model):
 
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
                                  help='Fiscal Book that owns this book line'),
+        'ntp_fb_id': fields.many2one("fiscal.book", "No Tax Payer Detail",
+                                 help="Fiscal Book that owns this book line"
+                                 "This Book is only for no tax payer lines"),
         'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id',
                                    string='Tax Lines', help='Tax Lines being \
                                    recorded in a Fiscal Book'),
