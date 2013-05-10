@@ -874,8 +874,10 @@ class fiscal_book(orm.Model):
                 'partner_name': inv_brw.partner_id.name or False,
                 'partner_vat': inv_brw.partner_id.vat \
                                and inv_brw.partner_id.vat[2:] or 'N/A',
-                'invoice_number': not inv_brw.fiscal_printer and \
-                    inv_brw.reference or False,
+                'invoice_number': (not inv_brw.fiscal_printer) and
+                    (self.browse(cr, uid, fb_id, context=context).type == 'sale'
+                     and inv_brw.number or inv_brw.supplier_invoice_number )
+                    or False,
                 'doc_type': doc_type,
                 'void_form': inv_brw.name and \
                              (inv_brw.name.find('PAPELANULADO') >= 0 \
