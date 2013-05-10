@@ -313,11 +313,11 @@ class account_invoice_refund(osv.osv_memory):
             result['domain'] = invoice_domain
             
             if wzd_brw.filter_refund == 'cancel':
-                orig = self._get_orig(cr, uid, inv, inv.reference, context)
+                orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':orig,'name':wzd_brw.description},context=context)
             
             if wzd_brw.filter_refund == 'refund':
-                orig = self._get_orig(cr, uid, inv, inv.reference, context)
+                orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
                 inv_obj.write(cr,uid,created_inv[0],{'origin':inv.origin,'name':wzd_brw.description},context=context)
             return result
 
