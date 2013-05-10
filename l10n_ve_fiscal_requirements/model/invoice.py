@@ -95,6 +95,7 @@ class account_invoice(osv.osv):
         #TODO": maybe it must be a many2one to declared FiscalPrinter when FiscalV is ready
         'fiscal_printer' : fields.char('Fiscal printer number', size=64, required=False,help="Fiscal printer number, generally is the id number of the printer."),
         'loc_req':fields.boolean('Required by Localization', help='This fields is for technical use'),
+        'z_report': fields.char(string='Report Z', size=64, help=""),
     }
 
     _defaults ={

@@ -883,6 +883,7 @@ class fiscal_book(orm.Model):
                              or '01-REG',
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'invoice_printer': inv_brw.invoice_printer or False,
+                'z_report': inv_brw.z_report or False,
                 'custom_statement': inv_brw.customs_form_id.name or False,
                 'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
                             and iwdl_id or False,
@@ -1484,6 +1485,7 @@ class fiscal_book_lines(orm.Model):
                                       size=192, help=""),
         'invoice_printer': fields.char(string='Fiscal printer invoice number',
                                        size=192, help=""),
+        'z_report': fields.char(string='Report Z', size=64, help=""),
         'custom_statement': fields.char(string="Custom Statement",
                                         size=192, help=""),
         #~ -- taxes fields
