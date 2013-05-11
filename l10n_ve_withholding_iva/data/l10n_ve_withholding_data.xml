@@ -10,7 +10,7 @@
         </record>
 
         <record id="seq_type_account_wh_iva_purchase" model="ir.sequence.type">
-            <field name="name">Vat Withholding purchase</field>
+            <field name="name">Purchase Vat Withholding</field>
             <field name="code">account.wh.iva.in_invoice</field>
         </record>
 
@@ -25,7 +25,7 @@
         </record>
 
         <record id="seq_account_wh_iva_purchase" model="ir.sequence">
-            <field name="name">Vat Withholding purchase</field>
+            <field name="name">Purchase Vat Withholding</field>
             <field name="code">account.wh.iva.in_invoice</field>
             <field name="prefix">%(year)s-%(month)s-</field>
             <field name="padding">8</field>
