@@ -4,7 +4,7 @@
 
     <!-- 
     =====================================================
-    Withholding vat line
+    Vat Withholding line
     =====================================================
     -->  
 
@@ -83,7 +83,7 @@
 
     <!--
     =====================================================
-    Withholding vat
+    Vat Withholding
     =====================================================
     -->
 
@@ -240,7 +240,7 @@
         
 
         <record model="ir.actions.act_window" id="action_account_wh_iva_customer">
-            <field name="name">Withholding vat customer</field>
+            <field name="name">Vat Withholding customer</field>
             <field name="res_model">account.wh.iva</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
@@ -272,7 +272,7 @@
 
 
         <record model="ir.actions.act_window" id="action_account_wh_iva_supplier">
-            <field name="name">Withholding vat supplier</field>
+            <field name="name">Vat Withholding supplier</field>
             <field name="res_model">account.wh.iva</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>

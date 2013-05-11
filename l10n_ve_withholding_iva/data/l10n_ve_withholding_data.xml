@@ -5,19 +5,19 @@
         <!-- Sequences type for account.wh.iva --> 
 
         <record id="seq_type_account_wh_iva" model="ir.sequence.type">
-            <field name="name">Withholding vat Sale</field>
+            <field name="name">Vat Withholding Sale</field>
             <field name="code">account.wh.iva</field>
         </record>
 
         <record id="seq_type_account_wh_iva_purchase" model="ir.sequence.type">
-            <field name="name">Withholding vat purchase</field>
+            <field name="name">Vat Withholding purchase</field>
             <field name="code">account.wh.iva.in_invoice</field>
         </record>
 
         <!-- Sequences for account.wh.iva --> 
 
         <record id="seq_account_wh_iva" model="ir.sequence">
-            <field name="name">Withholding vat</field>
+            <field name="name">Vat Withholding</field>
             <field name="code">account.wh.iva</field>
             <field name="prefix">RE:</field>
             <field name="padding">8</field>
@@ -25,7 +25,7 @@
         </record>
 
         <record id="seq_account_wh_iva_purchase" model="ir.sequence">
-            <field name="name">Withholding vat purchase</field>
+            <field name="name">Vat Withholding purchase</field>
             <field name="code">account.wh.iva.in_invoice</field>
             <field name="prefix">%(year)s-%(month)s-</field>
             <field name="padding">8</field>

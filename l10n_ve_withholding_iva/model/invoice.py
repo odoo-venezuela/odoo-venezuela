@@ -83,8 +83,8 @@ class account_invoice(osv.osv):
                 'account.move.line': (_get_inv_from_line, None, 50),
                 'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
             }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
-        'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Withholding vat rate"),
-        'wh_iva_id': fields.many2one('account.wh.iva', 'Wh. Vat', readonly=True, help="Withholding vat."),        
+        'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding rate"),
+        'wh_iva_id': fields.many2one('account.wh.iva', 'Wh. Vat', readonly=True, help="Vat Withholding."),        
         'vat_apply':fields.boolean('Exclude this document from VAT Withholding', help="This selection indicates whether generate the invoice withholding document")
     }
 
@@ -355,7 +355,7 @@ account_invoice()
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
-        'amount_ret': fields.float('Withholding amount', digits_compute= dp.get_precision('Withhold'), help="Withholding vat amount"),
+        'amount_ret': fields.float('Withholding amount', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding amount"),
         'base_ret': fields.float('Amount', digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),
     }
 
