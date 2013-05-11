@@ -883,7 +883,7 @@ msgstr "Número"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_supplier
-msgid "Vat Withholding supplier"
+msgid "Supplier Vat Withholding"
 msgstr "Retención IVA-Proveedores"
 
 #. module: l10n_ve_withholding_iva
