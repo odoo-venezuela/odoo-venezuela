@@ -240,7 +240,7 @@
         
 
         <record model="ir.actions.act_window" id="action_account_wh_iva_customer">
-            <field name="name">Vat Withholding customer</field>
+            <field name="name">Customer Vat Withholding</field>
             <field name="res_model">account.wh.iva</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>

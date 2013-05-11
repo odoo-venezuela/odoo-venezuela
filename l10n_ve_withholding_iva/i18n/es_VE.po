@@ -776,7 +776,7 @@ msgstr "Cuentas de retención de impuestos"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_customer
-msgid "Vat Withholding customer"
+msgid "Customer Vat Withholding"
 msgstr "Retención del IVA del cliente"
 
 #. module: l10n_ve_withholding_iva
