@@ -5,7 +5,7 @@
         <!-- Sequences type for account.wh.iva --> 
 
         <record id="seq_type_account_wh_iva" model="ir.sequence.type">
-            <field name="name">Vat Withholding Sale</field>
+            <field name="name">Sale Vat Withholding</field>
             <field name="code">account.wh.iva</field>
         </record>
 
