@@ -17,12 +17,12 @@ msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: view:l10n_ve_withholding_iva.installer:0
-msgid "Withholding VAT for Venezuelan laws"
+msgid "VAT Withholding for Venezuelan laws"
 msgstr "Retención del IVA para leyes Venezolanas."
 
 #. module: l10n_ve_withholding_iva
 #: view:account.wh.iva:0
-msgid "Print Voucher Withholding VAT"
+msgid "Print Voucher VAT Withholding"
 msgstr "Imprimir comprobante de retención"
 
 #. module: l10n_ve_withholding_iva
@@ -265,7 +265,7 @@ msgstr "Cancelado"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_customer
-msgid "Customer Withholding VAT "
+msgid "Customer VAT Withholding "
 msgstr "Retención IVA-Clientes"
 
 #. module: l10n_ve_withholding_iva
@@ -315,7 +315,7 @@ msgstr "Retención del IVA"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_supplier
-msgid "Supplier Withholding VAT "
+msgid "Supplier VAT Withholding "
 msgstr "Retencion IVA- Proveedores"
 
 #. module: l10n_ve_withholding_iva
