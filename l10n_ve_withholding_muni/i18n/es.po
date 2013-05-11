@@ -60,7 +60,7 @@ msgstr "Proveedor de Retención Municipal "
 
 #. module: l10n_ve_withholding_muni
 #: view:account.invoice:0
-msgid "Withholdings Vat"
+msgid "Vat Withholding"
 msgstr "Retenciones del IVA"
 
 #. module: l10n_ve_withholding_muni

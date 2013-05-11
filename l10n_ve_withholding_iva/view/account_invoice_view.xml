@@ -26,7 +26,7 @@
             
                
                 <xpath expr='//separator[@string="isep"]' position='attributes'>
-                    <attribute name="string">Withholdings Vat</attribute>
+                    <attribute name="string">Vat Withholding</attribute>
                 </xpath>
             </field>
         </record>

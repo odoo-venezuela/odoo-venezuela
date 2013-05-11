@@ -505,7 +505,7 @@ msgstr "Retención de IVA."
 #. module: l10n_ve_withholding_iva
 #: view:account.invoice:0
 #: view:res.partner:0
-msgid "Withholdings Vat"
+msgid "Vat Withholding"
 msgstr "Retenciones del IVA"
 
 #. module: l10n_ve_withholding_iva
