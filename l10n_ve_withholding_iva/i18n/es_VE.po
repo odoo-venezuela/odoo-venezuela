@@ -17,7 +17,7 @@ msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: view:l10n_ve_withholding_iva.installer:0
-msgid "Withholding VAT for Venezuelan laws"
+msgid "VAT Withholding for Venezuelan laws"
 msgstr "Retención del IVA para leyes Venezolanas."
 
 #. module: l10n_ve_withholding_iva
@@ -27,7 +27,7 @@ msgstr "Cuenta de entrada"
 
 #. module: l10n_ve_withholding_iva
 #: view:account.wh.iva:0
-msgid "Print Voucher Withholding VAT"
+msgid "Print Voucher VAT Withholding"
 msgstr "Imprimir comprobante de retención"
 
 #. module: l10n_ve_withholding_iva
@@ -119,7 +119,7 @@ msgstr "_Cerrado"
 
 #. module: l10n_ve_withholding_iva
 #: field:account.tax,wh_vat_paid_account_id:0
-msgid "Refund Withholding VAT Account"
+msgid "Refund VAT Withholding Account"
 msgstr "Cuenta para devolución de retención de IVA"
 
 #. module: l10n_ve_withholding_iva
@@ -171,7 +171,7 @@ msgstr "Error ! El cliente o proveedor debe ser agente de retención del IVA ."
 
 #. module: l10n_ve_withholding_iva
 #: help:account.invoice,wh_iva_id:0
-msgid "Withholding vat."
+msgid "Vat Withholding."
 msgstr "Retención de IVA."
 
 #. module: l10n_ve_withholding_iva
@@ -321,7 +321,7 @@ msgstr "Cancelado"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_customer
-msgid "Customer Withholding VAT "
+msgid "Customer VAT Withholding "
 msgstr "Retención IVA-Clientes"
 
 #. module: l10n_ve_withholding_iva
@@ -376,7 +376,7 @@ msgstr "Retención del IVA"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_supplier
-msgid "Supplier Withholding VAT "
+msgid "Supplier VAT Withholding "
 msgstr "Retencion IVA- Proveedores"
 
 #. module: l10n_ve_withholding_iva
@@ -549,7 +549,7 @@ msgstr "Archivo TXT %s generado."
 #. module: l10n_ve_withholding_iva
 #: help:account.invoice.tax,amount_ret:0
 #: help:account.wh.iva.line.tax,amount_ret:0
-msgid "Withholding vat amount"
+msgid "Vat Withholding amount"
 msgstr "Monto de retención del IVA"
 
 #. module: l10n_ve_withholding_iva
@@ -661,7 +661,7 @@ msgstr "Retención"
 
 #. module: l10n_ve_withholding_iva
 #: help:account.invoice,wh_iva_id:0
-msgid "Withholding vat."
+msgid "Vat Withholding."
 msgstr "Retención de IVA."
 
 #. module: l10n_ve_withholding_iva
@@ -741,7 +741,7 @@ msgstr "Total Base Imponible"
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva,wh_lines:0
 #: help:account.wh.iva,wh_lines:0
-msgid "Withholding vat lines"
+msgid "Vat Withholding lines"
 msgstr "Líneas de retención del IVA"
 
 #. module: l10n_ve_withholding_iva
@@ -776,7 +776,7 @@ msgstr "Cuentas de retención de impuestos"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_customer
-msgid "Withholding vat customer"
+msgid "Customer Vat Withholding"
 msgstr "Retención del IVA del cliente"
 
 #. module: l10n_ve_withholding_iva
@@ -990,7 +990,7 @@ msgstr "No hay periodos creado para el día señalado %s!"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_supplier
-msgid "Withholding vat supplier"
+msgid "Supplier Vat Withholding"
 msgstr "Retención IVA-Proveedores"
 
 #. module: l10n_ve_withholding_iva
@@ -1066,7 +1066,7 @@ msgstr "AGENTE DE RETENCION"
 
 #. module: l10n_ve_withholding_iva
 #: field:account.tax,wh_vat_collected_account_id:0
-msgid "Invoice Withholding VAT Account"
+msgid "Invoice VAT Withholding Account"
 msgstr "Cuenta Factura con retención de IVA"
 
 #. module: l10n_ve_withholding_iva
@@ -1093,7 +1093,7 @@ msgstr "Descripción acerca de la declaración de retención"
 #: help:account.invoice,wh_iva_rate:0
 #: help:account.wh.iva.line,wh_iva_rate:0
 #: help:res.partner,wh_iva_rate:0
-msgid "Withholding vat rate"
+msgid "Vat Withholding rate"
 msgstr "Tasa de Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
@@ -1133,18 +1133,18 @@ msgstr "Diario"
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva.line,retention_id:0
 #: help:account.wh.iva.line,retention_id:0
-msgid "Withholding vat"
+msgid "Vat Withholding"
 msgstr "Retención del IVA"
 
 #. module: l10n_ve_withholding_iva
 #: view:account.invoice:0
-msgid "Withholdings Vat"
+msgid "Vat Withholding"
 msgstr "Retenciones del IVA"
 
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva.line.tax,wh_vat_line_id:0
-msgid "Withholding VAT Line"
-msgstr "Linea Retención de  Withholding VAT Line"
+msgid "VAT Withholding Line"
+msgstr "Linea Retención de  VAT Withholding Line"
 
 #. module: l10n_ve_withholding_iva
 #: field:txt.iva,amount_total_ret:0
@@ -1350,13 +1350,13 @@ msgstr "Atención !"
 #. module: l10n_ve_withholding_iva
 #: code:addons/l10n_ve_withholding_iva/model/installer.py:77
 #, python-format
-msgid "Journal Withholding VAT Sale"
+msgid "Journal VAT Withholding Sale"
 msgstr "Diario-Retención de IVA(Ventas)"
 
 #. module: l10n_ve_withholding_iva
 #: code:addons/l10n_ve_withholding_iva/model/installer.py:76
 #, python-format
-msgid "Journal Withholding VAT Purchase"
+msgid "Journal VAT Withholding Purchase"
 msgstr "Diario-Retención de IVA(Compras)"
 
 #. module: l10n_ve_withholding_iva
