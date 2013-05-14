@@ -768,21 +768,26 @@ class fiscal_book(orm.Model):
             context=context) or []
 
     def order_book_lines(self, cr, uid, fb_id, context=None):
-        """ It order the fiscal book lines chronologically acs by a date.
-        If fiscal book type is purchase then is order by emission date.
-        @param fb_id: fiscal book id.
+        """ It orders book lines by a set of criteria:
+            - chronologically ascendant date (For purchase book by
+              emission date, for sale book by accounting date).
+            - ascendant ordering for fiscal printer ascending number.
+            - ascendant ordering for z report number.
+            - ascendant ordering for invoice number.
+        @param fb_id: book id.
         """
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
-        order_date = {'purchase': 'emission_date',
-                      'sale': 'accounting_date'}
+        book_type = self.browse(cr, uid, fb_id, context=context).type
+        date_order = book_type == 'purchase' and 'emission_date' \
+            or 'accounting_date'
         fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
             cr, uid, fb_id, context=context).fbl_ids]
         ordered_fbl_ids = fbl_obj.search(
             cr, uid, [('id', 'in', fbl_ids)],
-            order=order_date[self.browse(cr, uid, fb_id, context=context).type] + ' asc',
-            context=context)
-        #~ TODO: this date could change with the improve of the fbl model
+            order=date_order + ' asc, fiscal_printer asc, z_report asc, '
+            'invoice_number asc', context=context)
+
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
         return True
