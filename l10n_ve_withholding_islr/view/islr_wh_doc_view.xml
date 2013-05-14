@@ -34,7 +34,6 @@
             <field name="arch" type="xml">
                 <search string="Search Income Withholding">
                    <group col="10" colspan="4">
-                        <filter name="to_process" string="To Process" domain="[('state','=','to_process')]" help="To Process Income Withholding"/>
                         <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Income Withholding"/>
                         <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Confirmed Income Withholding"/>
                         <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Income Withholding"/>
