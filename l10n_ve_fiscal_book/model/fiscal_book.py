@@ -525,34 +525,6 @@ class fiscal_book(orm.Model):
 
     #~ action methods
 
-    def button_update_book_invoices(self, cr, uid, ids, context=None):
-        """ It take the instance of fiscal book and do the update of invoices.
-        """
-        context = context or {}
-        self.update_book_invoices(cr, uid, ids[0], context=context)
-        self.update_book_taxes_amount_fields(cr, uid, ids[0], context=context)
-        return True
-
-    def button_update_book_issue_invoices(self, cr, uid, ids, context=None):
-        """ Take the instance of fiscal book and do the update of issue
-        invoices. """
-        context = context or {}
-        self.update_book_issue_invoices(cr, uid, ids[0], context=context)
-        return True
-
-    def button_update_book_wh_iva_lines(self, cr, uid, ids, context=None):
-        """ Take the instance of fiscal book and do the update of wh iva lines.
-        """
-        context = context or {}
-        self.update_book_wh_iva_lines(cr, uid, ids[0], context=context)
-        return True
-
-    def button_update_book_lines(self, cr, uid, ids, context=None):
-        """ Take the instance of fiscal book and do the update book lines. """
-        context = context or {}
-        self.update_book_lines(cr, uid, ids[0], context=context)
-        return True
-
     def onchange_period_id(self, cr, uid, ids, context=None):
         """ It make clear all stuff of book. """
         context = context or {}
