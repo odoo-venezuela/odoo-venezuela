@@ -88,9 +88,11 @@ string="Invoice"
                 </group>
                 <notebook colspan="8">
                     <page string="Fiscal Book Lines">
+
                         <label for="fbl_ids"/>
                         <button name="button_update_book_lines" type="object" string="Update" />
                         <button name="clear_book_lines" type="object" string="Clear"/>
+
                         <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
@@ -103,9 +105,10 @@ string="Invoice"
                                 <field name='partner_vat'/>
                                 <field name='total_with_iva'  sum=""/>
                                 <field name='type'/>
-
                                 <field name='custom_statement'/>
                                 <field name='imex_date'/>
+                                <field name='fiscal_printer'/>
+                                <field name='z_report'/>
                                 <field name='vat_sdcf'/>
                                 <field name='vat_exempt'/>
                                 <field name="vat_general_base"/>
@@ -214,7 +217,6 @@ string="Invoice"
                                 <field name='emission_date'/>
                                 <field name='fiscal_printer'/>
                                 <field name='z_report'/>
-                                <field name='invoice_printer'/>
                                 <field name='invoice_number'/>
                                 <field name='ctrl_number'/>
                                 <field name='invoice_parent'/>

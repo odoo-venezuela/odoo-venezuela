@@ -588,11 +588,12 @@ class fiscal_book(orm.Model):
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
+            self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
-            fbl_ids = [fbl.id for fbl in fb_brw.fbl_ids]
-            self.update_book_issue_invoices(cr, uid, fb_brw.id,
-                                            context=context)
+            if fb_brw.type == 'sale':
+                self.update_book_ntp_lines(cr, uid, fb_brw.id, context=context)
+            self.order_book_lines(cr, uid, fb_brw.id, context=context)
         return True
 
     def update_book_invoices(self, cr, uid, fb_id, context=None):
@@ -619,9 +620,9 @@ class fiscal_book(orm.Model):
         return True
 
     def _get_issue_invoice_ids(self, cr, uid, fb_id, context=None):
-        """
-        It returns ids from not open or paid invoices regarding to the type and
+        """ It returns ids from not open or paid invoices regarding to the type and
         period of the fiscal book order by date invoiced.
+        @param fb_id: fiscal book id.
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
@@ -778,15 +779,15 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
-        book_type = self.browse(cr, uid, fb_id, context=context).type
-        date_order = book_type == 'purchase' and 'emission_date' \
-            or 'accounting_date'
         fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
             cr, uid, fb_id, context=context).fbl_ids]
-        ordered_fbl_ids = fbl_obj.search(
-            cr, uid, [('id', 'in', fbl_ids)],
-            order=date_order + ' asc, fiscal_printer asc, z_report asc, '
-            'invoice_number asc', context=context)
+        order_criteria = \
+            self.browse(cr, uid, fb_id, context=context).type == 'sale' \
+            and 'accounting_date asc, fiscal_printer asc, z_report asc, invoice_number asc' \
+            or 'emission_date asc, invoice_number asc'
+
+        ordered_fbl_ids = fbl_obj.search(cr, uid, [('id', 'in', fbl_ids)],
+                                         order=order_criteria, context=context)
 
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
@@ -885,17 +886,16 @@ class fiscal_book(orm.Model):
                 'partner_name': inv_brw.partner_id.name or False,
                 'partner_vat': inv_brw.partner_id.vat \
                                and inv_brw.partner_id.vat[2:] or 'N/A',
-                'invoice_number': (not inv_brw.fiscal_printer) and
-                    (self.browse(cr, uid, fb_id, context=context).type == 'sale'
-                     and inv_brw.number or inv_brw.supplier_invoice_number )
-                    or False,
+                'invoice_number': inv_brw.fiscal_printer
+                    and inv_brw.invoice_printer
+                    or (self.browse(cr, uid, fb_id, context=context).type == 'sale'
+                        and inv_brw.number or inv_brw.supplier_invoice_number),
                 'doc_type': doc_type,
                 'void_form': inv_brw.name and \
                              (inv_brw.name.find('PAPELANULADO') >= 0 \
                              and '03-ANU' or '01-REG') \
                              or '01-REG',
                 'fiscal_printer': inv_brw.fiscal_printer or False,
-                'invoice_printer': inv_brw.invoice_printer or False,
                 'z_report': inv_brw.z_report or False,
                 'custom_statement': inv_brw.customs_form_id.name or False,
                 'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
@@ -909,10 +909,143 @@ class fiscal_book(orm.Model):
 
         if data:
             self.write(cr, uid, fb_id, {'fbl_ids': data}, context=context)
-            self.order_book_lines(cr, uid, fb_id, context=context)
             self.link_book_lines_and_taxes(cr, uid, fb_id, context=context)
 
         return True
+
+    def get_grouped_lines_ids(self, cr, uid, fbl_groups_list, order_field, context=None):
+        """ Extract book lines ids groups according to the given citeria.
+        @param fbl_groups_list: list of book lines ids.
+        @param order_field: order criteria (emission_date, accounting_date),
+            fiscal_printer, z_report.
+        """
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.line')
+        groups_list = list()
+        no_group_list = list()
+        is_group = False
+        group_value = False
+
+        groups_values = \
+            list(set([ getattr(line_brw, order_field)
+                       for fbl_group_ids in fbl_groups_list
+                       for line_brw in fbl_obj.browse(cr, uid, fbl_group_ids, context=context) 
+                     ]))
+
+        group_dict = {}.fromkeys(groups_values)
+        for value in group_dict.keys():
+            group_dict[value] = list()
+
+        for fbl_group_ids in fbl_groups_list:
+           for line_brw in fbl_obj.browse(cr, uid, fbl_group_ids, context=context):
+                group_dict[getattr(line_brw, order_field)].append(line_brw.id)
+
+        for value in group_dict.keys():
+            if len(group_dict[value]) > 1:
+                groups_list.append(group_dict[value])
+            else:
+                no_group_list.extend(group_dict[value])
+
+        return groups_list, no_group_list
+
+    def update_book_ntp_lines(self, cr, uid, fb_id, context=None):
+        """ It consolidate no tax payer book lines into one line considering
+        the consecutiveness and next criteria: fiscal printer and z report.
+        This consolidated groups are move to another field: No Tax Payer Detail
+        operations. (This only applys when is a sale book)
+        @param fb_id: fiscal book id
+        """
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.line')
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
+        #~ extracting ntp lines
+        ntp_lines = [ fbl_brw.id for fbl_brw in fb_brw.fbl_ids
+                      if fbl_brw.type == 'ntp' ]
+        no_group_list = list()
+        groups_list = [ [fbl_id] for fbl_id in ntp_lines ]
+        #~ TODO: Be carefull with de date criteria order.
+        order_criteria = ['emission_date']
+        if fb_brw.company_id.printer_fiscal:
+            order_criteria.extend(['fiscal_printer', 'z_report'])
+
+        for criteria in order_criteria:
+            groups_list, tmp_no_group_list = \
+                self.get_grouped_lines_ids(cr, uid, groups_list, criteria,
+                                           context=context)
+            no_group_list.extend(tmp_no_group_list) 
+            #~ print criteria, groups_list, 'no group', no_group_list
+
+        #~ print 'no_group_list:', no_group_list 
+        #~ print 'groups_list:', groups_list
+
+        # re-write no group lines (set partner name and vat).
+        if no_group_list:
+            fbl_obj.write(cr, uid, no_group_list,
+                      {'partner_name': 'No Contribuyente',
+                       'partner_vat': False}, context=context)
+
+        # re-write group info.
+        for group_ids in groups_list:
+            consolidate_line_id = \
+                self.create_consolidate_line(cr, uid, fb_id, group_ids,
+                                             context=context)
+
+            # move group lines to no tax payer lines.
+            fbl_obj.write(cr, uid, group_ids,
+                          {'fb_id': False,
+                           'ntp_fb_id': fb_id,
+                           'parent_id': consolidate_line_id },
+                          context=context)
+        return True
+
+    def create_consolidate_line(self, cr, uid, fb_id, group_ids, context=None):
+        """ Create a New consolidate no tax payer line for a group of no tax
+        payer operations.
+        @param fb_id: fiscal book line id.
+        @param group_ids: lines ids to be consolidated.
+        """
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.line')
+        float_colums = ['total_with_iva', 'vat_sdcf', 'vat_exempt',
+                        'vat_reduced_base', 'vat_reduced_tax',
+                        'vat_general_base', 'vat_general_tax',
+                        'vat_additional_base', 'vat_additional_tax']
+
+        #~ delete ntp book lines
+        ntp_fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
+            cr, uid, fb_id, context=context).ntp_fbl_ids]
+        fbl_obj.unlink(cr, uid, ntp_fbl_ids, context=context)
+
+        first_item_brw = fbl_obj.browse(cr, uid, group_ids[0], context=context)
+        last_item_brw = fbl_obj.browse(cr, uid, group_ids[-1:], context=context)[0]
+        group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
+        # fill common value
+        values = {
+            'fb_id': first_item_brw.fb_id.id,
+            'invoice_id': False,
+            'parent_id': False,
+            'child_ids': [(6, 0, group_ids)],
+            'rank': first_item_brw.id,
+            'emission_date': first_item_brw.emission_date,
+            'accounting_date': first_item_brw.accounting_date,
+            'doc_type': first_item_brw.doc_type,
+            'partner_name': 'No Contribuyente',
+            'partner_vat': False,
+            'invoice_number': 'Desde: ' \
+                + str(first_item_brw.invoice_number) \
+                + ' ... Hasta: ' + str(last_item_brw.invoice_number),
+            'invoice_parent': False,
+            'debit_affected': False,
+            'credit_affected': False,
+            'type': first_item_brw.type,
+            'fiscal_printer': first_item_brw.fiscal_printer,
+            'z_report': first_item_brw.z_report,
+        }
+        # fill totalization values
+        for col in float_colums:
+            values[col] = sum([ getattr(brw, col) for brw in group_brws ])
+
+        return fbl_obj.create(cr, uid, values, context=context)
 
     def update_book_taxes_summary(self, cr, uid, fb_id, context=None):
         """ It update the summaroty of taxes by type for this book.
@@ -1218,6 +1351,9 @@ class fiscal_book(orm.Model):
             fbl_brws = self.browse(cr, uid, fb_id, context=context).fbl_ids
             fbl_ids = [fbl.id for fbl in fbl_brws]
             fbl_obj.unlink(cr, uid, fbl_ids, context=context)
+            ntp_fbl_brws = self.browse(cr, uid, fb_id, context=context).fbl_ids
+            ntp_fbl_ids = [fbl.id for fbl in ntp_fbl_brws]
+            fbl_obj.unlink(cr, uid, ntp_fbl_ids, context=context)
             self.clear_book_taxes_amount_fields(cr, uid, fb_id,
                                                 context=context)
         return True
@@ -1425,7 +1561,6 @@ class fiscal_book_lines(orm.Model):
     _order = 'rank'
     _parent_store = "True"
     _columns = {
-
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
                                  help='Fiscal Book that owns this book line'),
         'ntp_fb_id': fields.many2one("fiscal.book", "No Tax Payer Detail",
@@ -1489,7 +1624,10 @@ class fiscal_book_lines(orm.Model):
         'ctrl_number': fields.char(string='Invoice Control number', size=64,
                                    help=''),
         'invoice_number': fields.char(string='Invoice number', size=64,
-                                      help=''),
+                                      help="Invoice Number. In case of use"
+                                      " of fiscal printer this field will "
+                                      " store the invoice number generate"
+                                      " by the fiscal printer machine"),
         'invoice_parent': fields.char(
             string='Affected Invoice',
             help='Parent Invoice for invoices that are ND or DC type'),
@@ -1513,8 +1651,6 @@ class fiscal_book_lines(orm.Model):
                                  help="Operation Type"),
         'fiscal_printer': fields.char(string='Fiscal machine number',
                                       size=192, help=""),
-        'invoice_printer': fields.char(string='Fiscal printer invoice number',
-                                       size=192, help=""),
         'z_report': fields.char(string='Report Z', size=64, help=""),
         'custom_statement': fields.char(string="Custom Statement",
                                         size=192, help=""),
