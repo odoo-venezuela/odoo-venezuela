@@ -15,9 +15,14 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
+
+                <xpath expr='//field[@name="vat_subjected"]' position='replace'>
+                </xpath>
+
                 <xpath expr="//separator[@string='isep']" position="after">
                     <newline/>
-                            <group col="4" colspan="2">
+                            <group col="6" colspan="2">
+                                <field name="vat_subjected"/>
                                 <field name="wh_iva_agent"/>
                                 <field name="wh_iva_rate"/>
                             </group>
@@ -25,6 +30,7 @@
                 <xpath expr='//separator[@string="isep"]' position='attributes'>
                     <attribute name="string">VAT Withholding</attribute>
                 </xpath>
+
             </field>
         </record>
     </data>
