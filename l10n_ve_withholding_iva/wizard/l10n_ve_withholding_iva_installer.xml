@@ -3,7 +3,7 @@
   <data>
 <!-- Show the Law and Next Step Wizard. -->
     <record id="view_withholding_iva_installer" model="ir.ui.view">
-      <field name="name">Form View: Withholding VAT</field>
+      <field name="name">Form View: VAT Withholding</field>
       <field name="model">l10n_ve_withholding_iva.installer</field>
       <field name="type">form</field>
       <field name="inherit_id" ref="base.res_config_installer"/>
@@ -13,7 +13,7 @@
                   <attribute name="string">Withholding IVA Configuration</attribute>
               </form>
               <separator string="title" position="attributes">
-                   <attribute name="string">Withholding VAT for Venezuelan laws</attribute>
+                   <attribute name="string">VAT Withholding for Venezuelan laws</attribute>
               </separator>
               <xpath expr="//label[@string='description']" position="attributes">
                   <attribute name="string">This Module will allow to track - manage and input all transactions where you need to consider make a withholding IVA</attribute>

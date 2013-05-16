@@ -70,12 +70,12 @@ class wh_iva_config(osv.osv_memory):
     _columns = {
         'name': fields.char('Name', 64, help='name'),
         'wh':fields.boolean('Are You Withholding Agent?', help='if is withholding agent'),
-        'journal_purchase_vat': fields.char("Journal Wh VAT Purchase", 64, help="Journal for purchase operations involving Withholding VAT"),
-        'journal_sale_vat': fields.char("Journal Wh VAT Sale", 64, help="Journal for sale operations involving Withholding VAT"),
+        'journal_purchase_vat': fields.char("Journal Wh VAT Purchase", 64, help="Journal for purchase operations involving VAT Withholding"),
+        'journal_sale_vat': fields.char("Journal Wh VAT Sale", 64, help="Journal for sale operations involving VAT Withholding"),
     }
     _defaults = {
-        'journal_purchase_vat': _("Journal Withholding VAT Purchase"),
-        'journal_sale_vat': _("Journal Withholding VAT Sale"),
+        'journal_purchase_vat': _("Journal VAT Withholding Purchase"),
+        'journal_sale_vat': _("Journal VAT Withholding Sale"),
     }
 
     def _show_company_data(self, cr, uid, context=None):
