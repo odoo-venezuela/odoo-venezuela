@@ -199,7 +199,6 @@ string="Invoice"
                         <field name="ntp_fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name='parent_id'/>
-                                <field name='rank'/>
                                 <field name='emission_date'/>
                                 <field name='fiscal_printer'/>
                                 <field name='z_report'/>
