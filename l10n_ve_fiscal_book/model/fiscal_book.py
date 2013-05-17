@@ -750,20 +750,30 @@ class fiscal_book(orm.Model):
         @param fb_id: book id.
         """
         context = context or {}
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
         fbl_obj = self.pool.get('fiscal.book.line')
-        fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
-            cr, uid, fb_id, context=context).fbl_ids]
-        order_criteria = \
-            self.browse(cr, uid, fb_id, context=context).type == 'sale' \
+        fbl_ids = [line_brw.id for line_brw in fb_brw.fbl_ids]
+        order_criteria = fb_brw.type == 'sale' \
             and 'accounting_date asc, fiscal_printer asc, z_report asc, invoice_number asc' \
             or 'emission_date asc, invoice_number asc'
-
         ordered_fbl_ids = fbl_obj.search(cr, uid, [('id', 'in', fbl_ids)],
                                          order=order_criteria, context=context)
 
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
+
+        ordered_ntp_ids = fbl_obj.browse(cr, uid, self.order_group_by_date(
+            cr, uid, [line_brw.id for line_brw in fb_brw.ntp_fbl_ids],
+            context=context), context=context)
+
+        for rank, line_brw in enumerate(ordered_ntp_ids, 1):
+            fbl_obj.write(cr, uid, line_brw.id,
+                          {'rank': rank + (1000000 * line_brw.parent_id.rank)},
+                          context=context)
+
         return True
+
+
 
     def _get_no_match_date_iwdl_ids(self, cr, uid, fb_id, context=None):
         """ It returns a list of wh iva lines ids that have a invoice in the
@@ -957,7 +967,7 @@ class fiscal_book(orm.Model):
         #~ print 'groups_list:', groups_list
 
         groups_list = \
-            [ self.order_group_by_date(cr, uid, fb_id, group_ids, context=context)
+            [ self.order_group_by_date(cr, uid, group_ids, context=context)
               for group_ids in groups_list ]
 
         # re-write no group lines (set partner name and vat).
@@ -980,9 +990,8 @@ class fiscal_book(orm.Model):
                           context=context)
         return True
 
-    def order_group_by_date(self, cr, uid, fb_id, group_ids, context=None):
+    def order_group_by_date(self, cr, uid, group_ids, context=None):
         """ Return a list of order group items by asc invoice number.
-        @param fb_id: fiscal book id.
         @param group_ids: ids of the item that are in a same group
         """
         context = context or {}
