@@ -988,9 +988,20 @@ class fiscal_book(orm.Model):
             cr, uid, fb_id, context=context).ntp_fbl_ids]
         fbl_obj.unlink(cr, uid, ntp_fbl_ids, context=context)
 
+        # order group items by asc invoice number.
+        group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
+        ordered_inv_nums = \
+            list(set([ item.invoice_number for item in group_brws ]))
+        ordered_inv_nums.sort()
+
+        print 'ordered_inv_nums', ordered_inv_nums
+        group_ids = [ item.id
+                      for number in ordered_inv_nums
+                      for item in group_brws
+                      if item.invoice_number == number ]
+
         first_item_brw = fbl_obj.browse(cr, uid, group_ids[0], context=context)
         last_item_brw = fbl_obj.browse(cr, uid, group_ids[-1:], context=context)[0]
-        group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
         # fill common value
         values = {
             'fb_id': first_item_brw.fb_id.id,
