@@ -930,6 +930,12 @@ class fiscal_book(orm.Model):
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
+
+        #~ delete old ntp book lines
+        ntp_fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
+            cr, uid, fb_id, context=context).ntp_fbl_ids]
+        fbl_obj.unlink(cr, uid, ntp_fbl_ids, context=context)
+
         #~ extracting ntp lines
         ntp_lines = [ fbl_brw.id for fbl_brw in fb_brw.fbl_ids
                       if fbl_brw.type == 'ntp' ]
@@ -982,11 +988,6 @@ class fiscal_book(orm.Model):
                         'vat_reduced_base', 'vat_reduced_tax',
                         'vat_general_base', 'vat_general_tax',
                         'vat_additional_base', 'vat_additional_tax']
-
-        #~ delete ntp book lines
-        ntp_fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
-            cr, uid, fb_id, context=context).ntp_fbl_ids]
-        fbl_obj.unlink(cr, uid, ntp_fbl_ids, context=context)
 
         # order group items by asc invoice number.
         group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
