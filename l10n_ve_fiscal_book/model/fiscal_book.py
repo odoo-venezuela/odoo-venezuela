@@ -956,6 +956,10 @@ class fiscal_book(orm.Model):
         #~ print 'no_group_list:', no_group_list 
         #~ print 'groups_list:', groups_list
 
+        groups_list = \
+            [ self.order_group_by_date(cr, uid, fb_id, group_ids, context=context)
+              for group_ids in groups_list ]
+
         # re-write no group lines (set partner name and vat).
         if no_group_list:
             fbl_obj.write(cr, uid, no_group_list,
@@ -976,6 +980,21 @@ class fiscal_book(orm.Model):
                           context=context)
         return True
 
+    def order_group_by_date(self, cr, uid, fb_id, group_ids, context=None):
+        """ Return a list of order group items by asc invoice number.
+        @param fb_id: fiscal book id.
+        @param group_ids: ids of the item that are in a same group
+        """
+        context = context or {}
+        fbl_obj = self.pool.get('fiscal.book.line')
+        group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
+        ordered_inv_nums = [ item.invoice_number for item in group_brws ]
+        ordered_inv_nums.sort()
+        return [ item.id
+                 for number in ordered_inv_nums
+                 for item in group_brws
+                 if item.invoice_number == number ]
+
     def create_consolidate_line(self, cr, uid, fb_id, group_ids, context=None):
         """ Create a New consolidate no tax payer line for a group of no tax
         payer operations.
@@ -989,18 +1008,7 @@ class fiscal_book(orm.Model):
                         'vat_general_base', 'vat_general_tax',
                         'vat_additional_base', 'vat_additional_tax']
 
-        # order group items by asc invoice number.
         group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
-        ordered_inv_nums = \
-            list(set([ item.invoice_number for item in group_brws ]))
-        ordered_inv_nums.sort()
-
-        print 'ordered_inv_nums', ordered_inv_nums
-        group_ids = [ item.id
-                      for number in ordered_inv_nums
-                      for item in group_brws
-                      if item.invoice_number == number ]
-
         first_item_brw = fbl_obj.browse(cr, uid, group_ids[0], context=context)
         last_item_brw = fbl_obj.browse(cr, uid, group_ids[-1:], context=context)[0]
         # fill common value
@@ -1542,7 +1550,7 @@ class fiscal_book_lines(orm.Model):
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
     _name = 'fiscal.book.line'
     _rec_name = 'rank'
-    _order = 'rank'
+    _order = 'parent_id, rank'
     _parent_store = "True"
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
