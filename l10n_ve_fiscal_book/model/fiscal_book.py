@@ -559,7 +559,7 @@ class fiscal_book(orm.Model):
 
     #~ action methods
 
-    def onchange_period_id(self, cr, uid, ids, context=None):
+    def onchange_field_clear_book(self, cr, uid, ids, context=None):
         """ It make clear all stuff of book. """
         context = context or {}
         self.clear_book(cr, uid, ids, context=context)
@@ -597,7 +597,7 @@ class fiscal_book(orm.Model):
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
-            if fb_brw.type == 'sale':
+            if fb_brw.article_number in ['77', '78']:
                 self.update_book_ntp_lines(cr, uid, fb_brw.id, context=context)
             self.order_book_lines(cr, uid, fb_brw.id, context=context)
         return True
