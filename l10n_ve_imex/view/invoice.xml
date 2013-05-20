@@ -7,9 +7,24 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="l10n_ve_fiscal_requirements.account_invoice_ext_view_supp_form_loc_ve"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='nro_ctrl']" position="before">
-                     <field name="customs_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
-                            on_change="on_change_customs_form_id(customs_form_id)"/>      
+                <xpath expr="//page[@string='Debit-Credit Notes']" position="after">
+                    <page string="Imex">
+                        <group colspan="4" col="2">
+                            <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
+                            <field name="customs_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
+                                    on_change="on_change_customs_form_id(customs_form_id)"/>
+                        </group>
+                        <separator colspan="6" string="Imex Taxes"/>
+                        <field name="imex_tax_line">
+                            <tree>
+                                <field name="name"/>
+                                <field name="account_id"/>
+                                <field name="base_amount"/>
+                                <field name="tax_amount"/>
+                            </tree>
+                        </field>
+                        
+                    </page>
                 </xpath>
             </field>
         </record>

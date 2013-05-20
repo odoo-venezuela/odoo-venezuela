@@ -43,3 +43,5 @@ class account_wh_iva_line(orm.Model):
         if inv.wh_iva and inv.wh_iva_id:
             awil_ids = self.search(cr, uid, ids, [('invoice_id' , '=', inv.id)], context=context)
             self.write(cr, uid, awil_ids, {'fb_id' : fb_id }, context=context)
+        return True
+

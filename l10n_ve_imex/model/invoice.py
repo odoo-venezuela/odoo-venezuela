@@ -35,15 +35,21 @@ class inherited_invoice(osv.osv):
 
     _columns = {
         'customs_form_id': fields.many2one(
-            'customs.form', 'Import file number', change_default=True,
+            'customs.form', 'Customs form', change_default=True,
             required=False, readonly=True,
             states={'draft': [('readonly', False)]}, ondelete='restrict',
             domain=[('state', '=', ('draft'))],
             help="The related form 86 for this import invoice (only draft)"),
         'imex_tax_line': fields.one2many(
-            'account.invoice.tax', 'imex_inv_id', 'Vat lines',
+            'account.invoice.tax', 'imex_inv_id', 'Vat lines', readonly=True,
             attrs="{'readonly':[('vat_detail','=',True)], \
-            'required':[('vat_detail','=',True)]}"),
+            'required':[('vat_detail','=',True)]}",),
+        'expedient':fields.boolean('Dossier', readonly=True,
+                                   states={'draft':[('readonly',False)]},
+                                   help="If it is true, it means this is a \
+                                   landindg form, you will need to load this \
+                                   format as an purchase invoice to declarate \
+                                   on Book"),
     }
 
     def on_change_customs_form_id(self, cr, uid, ids, customs_form_id):
@@ -112,16 +118,24 @@ class inheried_account_invoice_tax(osv.osv):
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 
-    def on_change_amount(self, cr, uid, ids, tax_id, base, amount):
+    def on_change_amount(self, cr, uid, ids, tax_id, base_amount, tax_amount):
         """ To autocompute base or tax, only for percent based taxes. """
         res = {}
         if tax_id:
             obj_vat = self.pool.get('account.tax')
             vat = obj_vat.browse(cr, uid, tax_id)
             if vat.type == 'percent':
-                if base == 0 and amount > 0:
-                    base = round(amount / vat.amount, 2)
-                res = {'value': {'base': base}}
+                if base_amount == 0 and tax_amount > 0:
+                    base_amount = round(tax_amount / vat.amount, 2)
+                    res = {'value': {'base_amount': base_amount,
+                                     'base': base_amount,
+                                     'amount': tax_amount}}
+
+                if base_amount > 0 and tax_amount == 0:
+                    res = {'value': {'base_amount': 0.0,
+                                   'base': 0.0,
+                                   'amount': tax_amount}}
+
         return res
 
     def on_change_invoice_id(self, cr, uid, ids, invoice_id):
@@ -131,4 +145,17 @@ class inheried_account_invoice_tax(osv.osv):
             inv = obj_inv.browse(cr, uid, invoice_id)
             res = {'value': {'partner_id': inv.partner_id.id,
                              'supplier_invoice_number': inv.supplier_invoice_number}}
+        return res
+
+    def on_change_tax_id(self, cr, uid, ids, tax_id, context=None):
+        context = context or {}
+        res = {}
+        if tax_id:
+            at_obj = self.pool.get('account.tax')
+            tax_brw = at_obj.browse(cr, uid, tax_id, context=context)
+            if tax_brw:
+                res = {'value': {'account_id': tax_brw.account_collected_id.id,
+                                 'name': tax_brw.name}}
+        else:
+            res = {'value': {'account_id': False, 'name': False}}
         return res

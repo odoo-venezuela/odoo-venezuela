@@ -5,12 +5,13 @@
 <!-- Generic Views -->
 
     <record id="view_fiscal_book_lines_form" model="ir.ui.view">
-        <field name="name">fiscal.book.lines.form</field>
-        <field name="model">fiscal.book.lines</field>
+        <field name="name">fiscal.book.line.form</field>
+        <field name="model">fiscal.book.line</field>
         <field name="arch" type="xml">
             <form string="Fiscal Book Lines">
                 <group colspan="2">
                     <field name='rank'/>
+                    <field name='type' invisible="1"/>
                     <field name='doc_type'/>
                     <field name='invoice_id'/>
                     <field name='iwdl_id'/>
@@ -28,11 +29,15 @@ string="Invoice"
                     <field name='invoice_number'/>
                     <field name='debit_affected'/>
                     <field name='credit_affected'/>
-                    <field name='invoice_parent'/>
+                    <field name='affected_invoice'/>
                     <field name='total_with_iva'/>
                     <field name='vat_sdcf'/>
                     <field name='vat_exempt'/>
                     <field name='fbt_ids'/>
+                </group>
+                <group colspan="4" attrs="{'invisible':[('type', 'not in', ('ntp',) )]}">
+                    <label for='child_ids'/>
+                    <field name='child_ids' nolabel="1" colspan="4"/>
                 </group>
             </form>
         </field>
@@ -78,49 +83,53 @@ string="Invoice"
                 <group>
                     <field name="name"/>
                     <field name="type" readonly='1'/>
-                    <field name="period_id" on_change="onchange_period_id()"/>
+                    <field name="article_number" on_change="onchange_field_clear_book()"/>
+                    <field name="period_id" on_change="onchange_field_clear_book()"/>
                     <field name="company_id" invisible='1'/>
                 </group>
                 <notebook colspan="8">
                     <page string="Fiscal Book Lines">
-                        <label for="fbl_ids"/>
-                        <button name="button_update_book_lines" type="object" string="Update" />
-                        <button name="clear_book_lines" type="object" string="Clear"/>
                         <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
                                 <field name='doc_type'/>
                                 <field name='emission_date'/>
-                                <field name='accounting_date'/>
                                 <field name='ctrl_number'/>
                                 <field name='invoice_number'/>
-                                <field name='invoice_parent'/>
+                                <field name='affected_invoice'/>
                                 <field name='partner_name'/>
                                 <field name='partner_vat'/>
-                                <field name='total_with_iva'/>
+                                <field name='total_with_iva'  sum=""/>
+                                <field name='type'/>
+                                <field name='custom_statement'/>
+                                <field name='imex_date'/>
+                                <field name='fiscal_printer'/>
+                                <field name='z_report'/>
                                 <field name='vat_sdcf'/>
                                 <field name='vat_exempt'/>
-                                <field name='fbt_ids'/>
+                                <field name="vat_general_base"/>
+                                <field name="vat_general_tax"/>
+                                <field name="vat_reduced_base"/>
+                                <field name="vat_reduced_tax"/>
+                                <field name="vat_additional_base"/>
+                                <field name="vat_additional_tax"/>
+                                <field name="affected_invoice_date"/>
+                                <field name="wh_number"/>
+                                <field name="get_wh_debit_credit" sum=""/>
+                                <field name="wh_rate"/>
+                                <field name="get_wh_vat" sum=""/>
                             </tree>
                         </field>
                     </page>
                     <page string="Fiscal Book Invoices">
-                        <label for="invoice_ids"/>
-                        <button name="button_update_book_invoices" type="object" string="Update"/>
-                        <button name="clear_book_invoices" type="object" string="Clear"/>
                         <field name="invoice_ids" colspan='4' readonly="True"/>
                         <label for="issue_invoice_ids"/>
-                        <button name="button_update_book_issue_invoices" type="object" string="Update"/>
-                        <button name="clear_book_issue_invoices" type="object" string="Clear"/>
                         <field name="issue_invoice_ids" colspan='4' readonly="True"/>
                     </page>
                     <page string="Fiscal Book Taxes">
                         <field name="fbt_ids" colspan='4' readonly="True"/>
                     </page>
                     <page string="Fiscal Book Vat Withholdings">
-                        <label for="iwdl_ids"/>
-                        <button name="button_update_book_wh_iva_lines" type="object" string="Update"/>
-                        <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
                         <field name="iwdl_ids" colspan='4' readonly="True"/>
                     </page>
                     <page string="Fiscal Book Adjustments">
@@ -134,45 +143,84 @@ string="Invoice"
                     <page string="Summary">
                         <field name="fbts_ids" readonly="1">
                             <tree string="Summary">
+                                <field name="op_type"/>
                                 <field name="tax_type"/>
                                 <field name="base_amount_sum"/>
                                 <field name="tax_amount_sum"/>
-                                <field name="international"/>
                             </tree>
                         </field>
 
-                        <group colspan="4" col="2">
-                            <group colspan="2" col="2">
+                        <group colspan="4" col="3" string="Taxes Totalization">
+                            <group colspan="3" col="3">
+                                <group colspan="1" col="2" string="Exportation">
+                                    <field name="get_total_with_iva_imex_sum" readonly="True"/>
+                                    <field name="imex_vat_base_sum" readonly="True"/>
+                                    <field name="imex_exempt_vat_sum" readonly="True"/>
+                                    <field name="imex_sdcf_vat_sum" readonly="True"/>
+                                    <field name="imex_general_vat_base_sum" readonly="True"/>
+                                    <field name="imex_general_vat_tax_sum" readonly="True"/>
+                                    <field name="imex_additional_vat_base_sum" readonly="True"/>
+                                    <field name="imex_additional_vat_tax_sum" readonly="True"/>
+                                    <field name="imex_reduced_vat_base_sum" readonly="True"/>
+                                    <field name="imex_reduced_vat_tax_sum" readonly="True"/>
+                                </group>
+                                <group colspan="1" col="2" string="Tax Payer">
+                                    <field name="get_total_with_iva_tp_sum" readonly="True"/>
+                                    <field name="tp_vat_base_sum" readonly="True"/>
+                                    <field name="tp_exempt_vat_sum" readonly="True"/>
+                                    <field name="tp_sdcf_vat_sum" readonly="True"/>
+                                    <field name="tp_general_vat_base_sum" readonly="True"/>
+                                    <field name="tp_general_vat_tax_sum" readonly="True"/>
+                                    <field name="tp_additional_vat_base_sum" readonly="True"/>
+                                    <field name="tp_additional_vat_tax_sum" readonly="True"/>
+                                    <field name="tp_reduced_vat_base_sum" readonly="True"/>
+                                    <field name="tp_reduced_vat_tax_sum" readonly="True"/>
+                                </group>
+                                <group colspan="1" col="2" string="No Tax Payer">
+                                    <field name="get_total_with_iva_ntp_sum" readonly="True"/>
+                                    <field name="ntp_vat_base_sum" readonly="True"/>
+                                    <field name="ntp_exempt_vat_sum" readonly="True"/>
+                                    <field name="ntp_sdcf_vat_sum" readonly="True"/>
+                                    <field name="ntp_general_vat_base_sum" readonly="True"/>
+                                    <field name="ntp_general_vat_tax_sum" readonly="True"/>
+                                    <field name="ntp_additional_vat_base_sum" readonly="True"/>
+                                    <field name="ntp_additional_vat_tax_sum" readonly="True"/>
+                                    <field name="ntp_reduced_vat_base_sum" readonly="True"/>
+                                    <field name="ntp_reduced_vat_tax_sum" readonly="True"/>
+                                </group>
+                            </group>
+                            <group colspan="3" col="2" string="All Transactions">
                                 <field name="get_vat_sdcf_sum" readonly="True"/>
                                 <field name="get_total_with_iva_sum" readonly="True"/>
-                            </group>
-                            <group colspan="1" col="2" string="Exportaciones">
-                                <field name="get_total_with_iva_i_sum" readonly="True"/>
-                                <field name="get_vat_all_i_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_i_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_i_sum" readonly="True"/>
-                                <field name="get_vat_general_i_base_sum" readonly="True"/>
-                                <field name="get_vat_general_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
-                            </group>
-                            <group colspan="1" col="2" string="Mercado Interno">
-                                <field name="get_total_with_iva_n_sum" readonly="True"/>
-                                <field name="get_vat_all_n_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_n_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_n_sum" readonly="True"/>
-                                <field name="get_vat_general_n_base_sum" readonly="True"/>
-                                <field name="get_vat_general_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
                             </group>
                         </group>
 
                     </page>
+                    <page string="No Tax Payer Detail" attrs="{'invisible': [('article_number', 'not in', ['77','78'])]}">
+                        <field name="ntp_fbl_ids" nolabel="1" colspan='4' readonly="True">
+                            <tree string="Fiscal Book Lines">
+                                <field name='parent_id'/>
+                                <field name='emission_date'/>
+                                <field name='fiscal_printer'/>
+                                <field name='z_report'/>
+                                <field name='invoice_number'/>
+                                <field name='ctrl_number'/>
+                                <field name='affected_invoice'/>
+                                <field name='partner_name'/>
+                                <field name='partner_vat'/>
+                                <field name='total_with_iva' sum=""/>
+                                <field name='vat_sdcf' sum=""/>
+                                <field name='vat_exempt' sum=""/>
+                                <field name="vat_general_base" sum=""/>
+                                <field name="vat_general_tax" sum=""/>
+                                <field name="vat_reduced_base" sum=""/>
+                                <field name="vat_reduced_tax" sum=""/>
+                                <field name="vat_additional_base" sum=""/>
+                                <field name="vat_additional_tax" sum=""/>
+                            </tree>
+                        </field>
+                    </page>
+
                 </notebook>
                 <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
                     <field name="base_amount"/>
@@ -231,14 +279,11 @@ string="Invoice"
                 <group>
                     <field name="name"/>
                     <field name="type" readonly='1'/>
-                    <field name="period_id" on_change="onchange_period_id()"/>
+                    <field name="period_id" on_change="onchange_field_clear_book()"/>
                     <field name="company_id" invisible='1'/>
                 </group>
                 <notebook colspan="8">
                     <page string="Fiscal Book Lines">
-                        <label for="fbl_ids"/>
-                        <button name="button_update_book_lines" type="object" string="Update" />
-                        <button name="clear_book_lines" type="object" string="Clear"/>
                         <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name='rank'/>
@@ -246,15 +291,15 @@ string="Invoice"
                                 <field name='emission_date'/>
                                 <field name='ctrl_number'/>
                                 <field name='invoice_number'/>
-                                <field name='invoice_parent'/>
+                                <field name='affected_invoice'/>
                                 <field name='partner_name'/>
                                 <field name='partner_vat'/>
                                 <field name='imex_date'/>
                                 <field name='custom_statement'/>
-                                <field name='total_with_iva'/>
+                                <field name='type'/>
+                                <field name='total_with_iva' sum=""/>
                                 <field name='vat_sdcf'/>
                                 <field name='vat_exempt'/>
-                                <field name='fbt_ids'/>
                                 <field name="vat_general_base"/>
                                 <field name="vat_general_tax"/>
                                 <field name="vat_reduced_base"/>
@@ -263,32 +308,24 @@ string="Invoice"
                                 <field name="vat_additional_tax"/>
                                 <field name="affected_invoice_date"/>
                                 <field name="wh_number"/>
-                                <field name="get_wh_debit_credit"/>
+                                <field name="get_wh_debit_credit" sum=""/>
                                 <field name="wh_rate"/>
-                                <field name="get_wh_vat"/>
+                                <field name="get_wh_vat" sum=""/>
                             </tree>
                         </field>
                     </page>
                     <page string="Fiscal Book Invoices">
-                        <label for="invoice_ids"/>
-                        <button name="button_update_book_invoices" type="object" string="Update"/>
-                        <button name="clear_book_invoices" type="object" string="Clear"/>
                         <field name="invoice_ids" colspan='4' readonly="True"/>
                         <label for="issue_invoice_ids"/>
-                        <button name="button_update_book_issue_invoices" type="object" string="Update"/>
-                        <button name="clear_book_issue_invoices" type="object" string="Clear"/>
                         <field name="issue_invoice_ids" colspan='4' readonly="True"/>
                     </page>
                     <page string="Fiscal Book Taxes">
                         <field name="fbt_ids" colspan='4' readonly="True"/>
                     </page>
                     <page string="Fiscal Book Vat Withholdings">
-                        <label for="iwdl_ids"/>
-                        <button name="button_update_book_wh_iva_lines" type="object" string="Update"/>
-                        <button name="clear_book_iwdl_ids" type="object" string="Clear"/>
                         <field name="iwdl_ids" colspan='4' readonly="True"/>
                     </page>
-                    <page string="Fiscal Book Adjustments">
+                    <page string="Fiscal Book Adjustments" invisible="1">
                         <field name="abl_ids" nolabel="1" colspan='4'/>
                         <group col="4" colspan="4">
                             <separator string="Explanation about this adjustment"/>
@@ -299,10 +336,10 @@ string="Invoice"
                     <page string="Summary">
                         <field name="fbts_ids" readonly="1">
                             <tree string="Summary">
+                                <field name="op_type"/>
                                 <field name="tax_type"/>
                                 <field name="base_amount_sum"/>
                                 <field name="tax_amount_sum"/>
-                                <field name="international"/>
                             </tree>
                         </field>
 
@@ -311,29 +348,29 @@ string="Invoice"
                                 <field name="get_vat_sdcf_sum" readonly="True"/>
                                 <field name="get_total_with_iva_sum" readonly="True"/>
                             </group>
-                            <group colspan="1" col="2" string="Importaciones">
-                                <field name="get_total_with_iva_i_sum" readonly="True"/>
-                                <field name="get_vat_all_i_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_i_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_i_sum" readonly="True"/>
-                                <field name="get_vat_general_i_base_sum" readonly="True"/>
-                                <field name="get_vat_general_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_i_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_i_tax_sum" readonly="True"/>
+                            <group colspan="1" col="2" string="Importations">
+                                <field name="get_total_with_iva_imex_sum" readonly="True"/>
+                                <field name="imex_vat_base_sum" readonly="True"/>
+                                <field name="imex_exempt_vat_sum" readonly="True"/>
+                                <field name="imex_sdcf_vat_sum" readonly="True"/>
+                                <field name="imex_general_vat_base_sum" readonly="True"/>
+                                <field name="imex_general_vat_tax_sum" readonly="True"/>
+                                <field name="imex_additional_vat_base_sum" readonly="True"/>
+                                <field name="imex_additional_vat_tax_sum" readonly="True"/>
+                                <field name="imex_reduced_vat_base_sum" readonly="True"/>
+                                <field name="imex_reduced_vat_tax_sum" readonly="True"/>
                             </group>
-                            <group colspan="1" col="2" string="Compras Internas">
-                                <field name="get_total_with_iva_n_sum" readonly="True"/>
-                                <field name="get_vat_all_n_base_sum" readonly="True"/>
-                                <field name="get_vat_exempt_n_sum" readonly="True"/>
-                                <field name="get_vat_sdcf_n_sum" readonly="True"/>
-                                <field name="get_vat_general_n_base_sum" readonly="True"/>
-                                <field name="get_vat_general_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_base_sum" readonly="True"/>
-                                <field name="get_vat_additional_n_tax_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_base_sum" readonly="True"/>
-                                <field name="get_vat_reduced_n_tax_sum" readonly="True"/>
+                            <group colspan="1" col="2" string="Domestic">
+                                <field name="get_total_with_iva_do_sum" readonly="True"/>
+                                <field name="do_vat_base_sum" readonly="True"/>
+                                <field name="do_exempt_vat_sum" readonly="True"/>
+                                <field name="do_sdcf_vat_sum" readonly="True"/>
+                                <field name="do_general_vat_base_sum" readonly="True"/>
+                                <field name="do_general_vat_tax_sum" readonly="True"/>
+                                <field name="do_additional_vat_base_sum" readonly="True"/>
+                                <field name="do_additional_vat_tax_sum" readonly="True"/>
+                                <field name="do_reduced_vat_base_sum" readonly="True"/>
+                                <field name="do_reduced_vat_tax_sum" readonly="True"/>
                             </group>
                         </group>
 

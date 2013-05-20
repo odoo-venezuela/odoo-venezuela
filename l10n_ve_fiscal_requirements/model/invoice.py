@@ -91,11 +91,11 @@ class account_invoice(osv.osv):
         'parent_id':fields.many2one('account.invoice', 'Parent Invoice', readonly=True, states={'draft':[('readonly',False)]}, help='When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note. if you are in a refund document, this field must be loaded, if you are in a out_invoice document plus this data filled it means this is a debit note'),
         'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}, help='This field is to know when it applyies what Credit Notes and Debit Notes are related to it'),
         'date_document': fields.date("Document Date", help="Administrative date, generally is the date printed on invoice, this date is used to show in the Purchase Fiscal book", select=True),
-        'expedient':fields.boolean('Dossier', help="If it is true, it means this is a landindg form, you will need to load this format as an purchase invoice to declarate on Book"),
         'invoice_printer' : fields.char('Fiscal printer invoice number', size=64, required=False,help="Fiscal printer invoice number, is the number of the invoice on the fiscal printer"),
         #TODO": maybe it must be a many2one to declared FiscalPrinter when FiscalV is ready
         'fiscal_printer' : fields.char('Fiscal printer number', size=64, required=False,help="Fiscal printer number, generally is the id number of the printer."),
         'loc_req':fields.boolean('Required by Localization', help='This fields is for technical use'),
+        'z_report': fields.char(string='Report Z', size=64, help=""),
     }
 
     _defaults ={
