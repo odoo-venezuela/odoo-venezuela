@@ -941,28 +941,25 @@ class fiscal_book(orm.Model):
         fbl_obj = self.pool.get('fiscal.book.line')
         groups_list = list()
         no_group_list = list()
-        is_group = False
-        group_value = False
 
-        groups_values = \
-            list(set([ getattr(line_brw, order_field)
-                       for fbl_group_ids in fbl_groups_list
-                       for line_brw in fbl_obj.browse(cr, uid, fbl_group_ids, context=context) 
-                     ]))
-
-        group_dict = {}.fromkeys(groups_values)
-        for value in group_dict.keys():
-            group_dict[value] = list()
-
-        for fbl_group_ids in fbl_groups_list:
-           for line_brw in fbl_obj.browse(cr, uid, fbl_group_ids, context=context):
+        for group_ids in fbl_groups_list:
+            group_brw = fbl_obj.browse(cr, uid, group_ids, context=context)
+            #~ extract set of values for the order condition
+            group_values = list(set([ getattr(line_brw, order_field)
+                           for line_brw in group_brw ]))
+            #~ initializing storable group variable.
+            group_dict = {}.fromkeys(group_values)
+            for value in group_dict.keys():
+                group_dict[value] = list()
+            #~ separating items to the corresponding sub group.
+            for line_brw in group_brw:
                 group_dict[getattr(line_brw, order_field)].append(line_brw.id)
 
-        for value in group_dict.keys():
-            if len(group_dict[value]) > 1:
-                groups_list.append(group_dict[value])
-            else:
-                no_group_list.extend(group_dict[value])
+            for value in group_dict.keys():
+                if len(group_dict[value]) > 1:
+                    groups_list.append(group_dict[value])
+                else:
+                    no_group_list.extend(group_dict[value])
 
         return groups_list, no_group_list
 
@@ -986,7 +983,7 @@ class fiscal_book(orm.Model):
         ntp_lines = [ fbl_brw.id for fbl_brw in fb_brw.fbl_ids
                       if fbl_brw.type == 'ntp' ]
         no_group_list = list()
-        groups_list = [ [fbl_id] for fbl_id in ntp_lines ]
+        groups_list = [[ fbl_id for fbl_id in ntp_lines ]]
 
         #~ define book article cirteria
         #~ TODO: Be carefull with de date criteria order.
