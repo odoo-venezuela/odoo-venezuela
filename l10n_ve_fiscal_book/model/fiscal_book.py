@@ -231,15 +231,16 @@ class fiscal_book(orm.Model):
         'article_number': fields.selection(
             _get_article_number_types,
             string = "Article Number",
-            help="Article number describing the sale book special features" \
+            help="Article number describing the fiscal book special features" \
             " according to the Venezuelan RLIVA statement for fiscal" \
             " accounting books. Options:"
-            " - Art. 76: Reflects every individual operation datail."
-            " - Art. 77: Groups no tax payer operations in one "
+            " - Art. 75: Pruchase Book."
+            " - Art. 76: Sale Book. Reflects every individual operation datail."
+            " - Art. 77: Sale Book. Groups no tax payer operations in one "
             " consolidated line. Only fiscal billing."
-            " - Art. 78: Hybrid for 76 and 77 article. Show automatic and "
-            " mechanized operations in individual way, and groups fiscal "
-            " billing operationss in one consolidated line." ),
+            " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show"
+            " automatic and mechanized operations in individual way, and "
+            " groups fiscal billing operationss in one consolidated line." ),
 
         #~ Withholding fields
         'get_wh_sum': fields.function(
