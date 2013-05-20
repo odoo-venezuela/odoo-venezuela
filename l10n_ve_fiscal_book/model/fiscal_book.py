@@ -207,6 +207,20 @@ class fiscal_book(orm.Model):
                                    help='Adjustment Lines being recorded in \
                                    a Fiscal Book'),
         'note': fields.text('Note'),
+        'article_number': fields.selection(
+            [('76', 'Article 76'),
+             ('77', 'Article 77'),
+             ('78', 'Article 78')],
+            string = "Article Number",
+            help="Article number describing the sale book special features" \
+            " according to the Venezuelan RLIVA statement for fiscal" \
+            " accounting books. Options:"
+            " - Art. 76: Reflects every individual operation datail."
+            " - Art. 77: Groups no tax payer operations in one "
+            " consolidated line. Only fiscal billing."
+            " - Art. 78: Hybrid for 76 and 77 article. Show automatic and "
+            " mechanized operations in individual way, and groups fiscal "
+            " billing operationss in one consolidated line." ),
 
         #~ Withholding fields
         'get_wh_sum': fields.function(

@@ -83,6 +83,7 @@ string="Invoice"
                 <group>
                     <field name="name"/>
                     <field name="type" readonly='1'/>
+                    <field name="article_number"/>
                     <field name="period_id" on_change="onchange_period_id()"/>
                     <field name="company_id" invisible='1'/>
                 </group>
