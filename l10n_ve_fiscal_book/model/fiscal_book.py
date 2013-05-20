@@ -41,6 +41,20 @@ class fiscal_book(orm.Model):
             cr, uid, uid, context=context).company_id
         if context.get('type') == 'sale':
             return company_brw.printer_fiscal and '78' or '76'
+        else:
+            return '75'
+
+    def _get_article_number_types(self, cr, uid, context=None):
+        context = context or {}
+        company_brw = self.pool.get('res.users').browse(
+            cr, uid, uid, context=context).company_id
+        if context.get('type') == 'sale':
+            if company_brw.printer_fiscal:
+                return  [('77', 'Article 77'), ('78', 'Article 78')]
+            else:
+                return  [('76', 'Article 76')]
+        else:
+            return [('75', 'Article 75')]
 
     def _get_partner_addr(self, cr, uid, ids, field_name, arg, context=None):
         """ It returns Partner address in printable format for the fiscal book
@@ -215,9 +229,7 @@ class fiscal_book(orm.Model):
                                    a Fiscal Book'),
         'note': fields.text('Note'),
         'article_number': fields.selection(
-            [('76', 'Article 76'),
-             ('77', 'Article 77'),
-             ('78', 'Article 78')],
+            _get_article_number_types,
             string = "Article Number",
             help="Article number describing the sale book special features" \
             " according to the Venezuelan RLIVA statement for fiscal" \
