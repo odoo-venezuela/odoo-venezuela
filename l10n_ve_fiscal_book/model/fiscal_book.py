@@ -987,6 +987,8 @@ class fiscal_book(orm.Model):
                       if fbl_brw.type == 'ntp' ]
         no_group_list = list()
         groups_list = [ [fbl_id] for fbl_id in ntp_lines ]
+
+        #~ define book article cirteria
         #~ TODO: Be carefull with de date criteria order.
         order_criteria = ['emission_date']
         if fb_brw.company_id.printer_fiscal:
