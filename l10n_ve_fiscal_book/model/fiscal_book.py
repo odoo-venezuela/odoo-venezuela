@@ -839,13 +839,14 @@ class fiscal_book(orm.Model):
         my_rank = 1
         iwdl_obj = self.pool.get('account.wh.iva.line')
         fbl_obj = self.pool.get('fiscal.book.line')
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
         #~ delete book lines
         fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
             cr, uid, fb_id, context=context).fbl_ids]
         fbl_obj.unlink(cr, uid, fbl_ids, context=context)
 
         #~ add book lines for withholding iva lines
-        if self.browse(cr, uid, fb_id, context=context).iwdl_ids:
+        if fb_brw.iwdl_ids:
             orphan_iwdl_ids = self._get_orphan_iwdl_ids(cr, uid, fb_id,
                                                         context=context)
             no_match_dt_iwdl_ids = \
@@ -863,6 +864,11 @@ class fiscal_book(orm.Model):
                                                   context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name': iwdl_brw.retention_id.partner_id.name or False,
+                    'affected_invoice': iwdl_brw.invoice_id.fiscal_printer
+                        and iwdl_brw.invoice_id.invoice_printer
+                        or (fb_brw.type == 'sale'
+                            and iwdl_brw.invoice_id.number
+                            or iwdl_brw.invoice_id.supplier_invoice_number),
                     'affected_invoice_date': iwdl_brw.invoice_id.date_document \
                                              or iwdl_brw.invoice_id.date_invoice,
                     'wh_rate': iwdl_brw.wh_iva_rate,
@@ -898,16 +904,17 @@ class fiscal_book(orm.Model):
                                    inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                    and inv_brw.parent_id.number or False,
                 'ctrl_number': inv_brw.nro_ctrl or False,
-                'invoice_parent': (doc_type == "N/DE" or doc_type == "N/CR") \
-                                  and (inv_brw.parent_id and inv_brw.parent_id.number or False) \
-                                  or False,
+                'affected_invoice': (doc_type == "N/DE" or doc_type == "N/CR") \
+                                    and (inv_brw.parent_id and inv_brw.parent_id.number or False) \
+                                    or False,
                 'partner_name': inv_brw.partner_id.name or False,
                 'partner_vat': inv_brw.partner_id.vat \
                                and inv_brw.partner_id.vat[2:] or 'N/A',
                 'invoice_number': inv_brw.fiscal_printer
                     and inv_brw.invoice_printer
-                    or (self.browse(cr, uid, fb_id, context=context).type == 'sale'
-                        and inv_brw.number or inv_brw.supplier_invoice_number),
+                    or (fb_brw.type == 'sale'
+                        and inv_brw.number
+                        or inv_brw.supplier_invoice_number),
                 'doc_type': doc_type,
                 'void_form': inv_brw.name and \
                              (inv_brw.name.find('PAPELANULADO') >= 0 \
@@ -1068,7 +1075,6 @@ class fiscal_book(orm.Model):
             'invoice_number': 'Desde: ' \
                 + str(first_item_brw.invoice_number) \
                 + ' ... Hasta: ' + str(last_item_brw.invoice_number),
-            'invoice_parent': False,
             'debit_affected': False,
             'credit_affected': False,
             'type': first_item_brw.type,
@@ -1635,7 +1641,11 @@ class fiscal_book_lines(orm.Model):
         'doc_type': fields.char('Doc. Type', size=8, help='Document Type'),
         'partner_name': fields.char(size=128, string='Partner Name', help=''),
         'partner_vat': fields.char(size=128, string='Partner TIN', help=''),
-
+        'affected_invoice': fields.char(
+            string='Affected Invoice',
+            help="For an invoice line type means parent invoice for a Debit "
+            " or Credit Note. For an withholding line type means the invoice"
+            " number related to the withholding"),
         #~ Apply for wh iva lines
         'get_wh_vat': fields.function(_get_wh_vat,
                                       type="float", method=True, store=True,
@@ -1662,9 +1672,6 @@ class fiscal_book_lines(orm.Model):
                                       " of fiscal printer this field will "
                                       " store the invoice number generate"
                                       " by the fiscal printer machine"),
-        'invoice_parent': fields.char(
-            string='Affected Invoice',
-            help='Parent Invoice for invoices that are ND or DC type'),
         'imex_date': fields.date(string='Imex Date',
                                  help='Invoice Importation/Exportation Date'),
         'debit_affected': fields.char(string='Affected Debit Notes',

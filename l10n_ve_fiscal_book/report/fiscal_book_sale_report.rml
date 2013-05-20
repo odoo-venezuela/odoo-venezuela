@@ -580,7 +580,7 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_number                               # Numero de Doc ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.fiscal_printer                               # Numero Impresora ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.z_report                                     # Reporte Z ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_parent                               # Factura Afectada ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.affected_invoice                             # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_name                                 # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_vat                                  # RIF ]]</para></td>
                 <!-- Totales -->

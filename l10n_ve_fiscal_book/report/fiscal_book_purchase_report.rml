@@ -364,7 +364,7 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.emission_date                                # Fecha Doc.]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.ctrl_number                                  # Numero Control ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_number                               # Numero de Doc ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.invoice_parent                               # Factura Afectada ]]</para></td>
+                <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.affected_invoice                             # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_name                                 # Razon Social ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.partner_vat                                  # RIF ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['im'] and my_fbl.imex_date          # Fecha de Nac. ]]</para></td>
