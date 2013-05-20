@@ -231,6 +231,7 @@ class fiscal_book(orm.Model):
         'article_number': fields.selection(
             _get_article_number_types,
             string = "Article Number",
+            required=True,
             help="Article number describing the fiscal book special features" \
             " according to the Venezuelan RLIVA statement for fiscal" \
             " accounting books. Options:"
