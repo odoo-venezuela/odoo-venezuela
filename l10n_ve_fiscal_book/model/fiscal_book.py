@@ -979,17 +979,15 @@ class fiscal_book(orm.Model):
             cr, uid, fb_id, context=context).ntp_fbl_ids]
         fbl_obj.unlink(cr, uid, ntp_fbl_ids, context=context)
 
-        #~ extracting ntp lines
+        #~ extracting mather ntp lines
         ntp_lines = [ fbl_brw.id for fbl_brw in fb_brw.fbl_ids
-                      if fbl_brw.type == 'ntp' ]
+                      if fbl_brw.type == 'ntp' and fbl_brw.fiscal_printer]
         no_group_list = list()
         groups_list = [[ fbl_id for fbl_id in ntp_lines ]]
 
-        #~ define book article cirteria
+        #~ define book groups cirteria
         #~ TODO: Be carefull with de date criteria order.
-        order_criteria = ['emission_date']
-        if fb_brw.company_id.printer_fiscal:
-            order_criteria.extend(['fiscal_printer', 'z_report'])
+        order_criteria = ['emission_date', 'fiscal_printer', 'z_report']
 
         for criteria in order_criteria:
             groups_list, tmp_no_group_list = \
