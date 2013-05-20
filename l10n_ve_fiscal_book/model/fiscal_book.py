@@ -35,6 +35,13 @@ class fiscal_book(orm.Model):
         context = context or {}
         return context.get('type', 'purchase')
 
+    def _get_article_number(self, cr, uid, context=None):
+        context = context or {}
+        company_brw = self.pool.get('res.users').browse(
+            cr, uid, uid, context=context).company_id
+        if context.get('type') == 'sale':
+            return company_brw.printer_fiscal and '78' or '76'
+
     def _get_partner_addr(self, cr, uid, ids, field_name, arg, context=None):
         """ It returns Partner address in printable format for the fiscal book
         report.
@@ -530,6 +537,7 @@ class fiscal_book(orm.Model):
         'type': _get_type,
         'company_id': lambda s, c, u, ctx: \
             s.pool.get('res.users').browse(c, u, u, context=ctx).company_id.id,
+        'article_number': _get_article_number,
     }
 
     _sql_constraints = [
