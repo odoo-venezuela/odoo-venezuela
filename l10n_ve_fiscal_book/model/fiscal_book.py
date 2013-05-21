@@ -1037,6 +1037,13 @@ class fiscal_book(orm.Model):
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
         group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
+
+        #~ Conversion of consolidated invoice number to 
+        for line_brw in group_brws:
+            if line_brw.invoice_number.startswith('Desde: '):
+                line_brw.invoice_number = line_brw.invoice_number[7:].split(' ... Hasta: ')[0]
+                print 'line_brw.invoice_number', line_brw.invoice_number
+
         ordered_inv_nums = [ item.invoice_number for item in group_brws ]
         ordered_inv_nums.sort()
         return [ item.id
