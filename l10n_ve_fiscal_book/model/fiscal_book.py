@@ -798,6 +798,29 @@ class fiscal_book(orm.Model):
         for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
 
+        #~ re-write consolidate lines to complete invoice number
+        #~ format: 'Desde: XXXX ... Hasta: XXXX'
+        consol_lines_brws = [ line_brw
+                              for line_brw in fb_brw.fbl_ids
+                              if line_brw.child_ids ]
+
+        for consol_lines_brw in consol_lines_brws:
+            child_ids = self.order_group_by_invoice_number(
+                cr, uid,
+                [line_brw.id for line_brw in consol_lines_brw.child_ids],
+                context=context)
+
+            first_item_brw = \
+                fbl_obj.browse(cr, uid, child_ids[0], context=context)
+            last_item_brw = \
+                fbl_obj.browse(cr, uid, child_ids[-1:], context=context)[0]
+
+            data = { 'invoice_number': 'Desde: ' \
+                  + str(first_item_brw.invoice_number) \
+                  + ' ... Hasta: ' + str(last_item_brw.invoice_number),}
+            fbl_obj.write( cr, uid, consol_lines_brw.id, data, context=context)
+
+        #~ order ntp lines
         ordered_ntp_ids = fbl_obj.browse(cr, uid, self.order_group_by_invoice_number(
             cr, uid, [line_brw.id for line_brw in fb_brw.ntp_fbl_ids],
             context=context), context=context)
@@ -1042,7 +1065,6 @@ class fiscal_book(orm.Model):
         for line_brw in group_brws:
             if line_brw.invoice_number.startswith('Desde: '):
                 line_brw.invoice_number = line_brw.invoice_number[7:].split(' ... Hasta: ')[0]
-                print 'line_brw.invoice_number', line_brw.invoice_number
 
         ordered_inv_nums = [ item.invoice_number for item in group_brws ]
         ordered_inv_nums.sort()
@@ -1066,7 +1088,6 @@ class fiscal_book(orm.Model):
 
         group_brws = fbl_obj.browse(cr, uid, group_ids, context=context)
         first_item_brw = fbl_obj.browse(cr, uid, group_ids[0], context=context)
-        last_item_brw = fbl_obj.browse(cr, uid, group_ids[-1:], context=context)[0]
         # fill common value
         values = {
             'fb_id': first_item_brw.fb_id.id,
@@ -1079,9 +1100,10 @@ class fiscal_book(orm.Model):
             'doc_type': first_item_brw.doc_type,
             'partner_name': 'No Contribuyente',
             'partner_vat': False,
-            'invoice_number': 'Desde: ' \
-                + str(first_item_brw.invoice_number) \
-                + ' ... Hasta: ' + str(last_item_brw.invoice_number),
+            #~ TODO: This field will be overwrite after the ordering line step
+            #~ in this update process. The invoice_number field will be like
+            #~ 'Desde: child[0].invoice_number ... Hasta: child[-1].invoice_number'
+            'invoice_number': first_item_brw.invoice_number,
             'debit_affected': False,
             'credit_affected': False,
             'type': first_item_brw.type,
