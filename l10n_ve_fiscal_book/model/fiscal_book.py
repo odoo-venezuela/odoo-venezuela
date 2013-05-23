@@ -860,6 +860,8 @@ class fiscal_book(orm.Model):
                     'affected_invoice_date': iwdl_brw.invoice_id.date_document \
                                              or iwdl_brw.invoice_id.date_invoice,
                     'wh_rate': iwdl_brw.wh_iva_rate,
+                    'type': iwdl_brw.invoice_id.type in \
+                            ('in_refund','in_invoice') and 'do' or 'tp',
                 }
                 my_rank += 1
                 data.append((0, 0, values))
@@ -916,6 +918,8 @@ class fiscal_book(orm.Model):
                 'wh_number': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
                               and iwdl_obj.browse(cr, uid, iwdl_id,
                               context=context).retention_id.number or False,
+                'type': inv_brw.type in ('in_refund','in_invoice') and 'do' \
+                        or 'tp',
             }
             my_rank += 1
             data.append((0, 0, values))
