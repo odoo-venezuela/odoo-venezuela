@@ -1,21 +1,21 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
   <data>
         <record model="ir.ui.view" id="view_vat_search">
             <field name="name">search.info.partner.seniat.form</field>
             <field name="model">search.info.partner.seniat</field>
             <field name="arch" type="xml">
-                <form string="Wizard to search partner on SENIAT">
+                <form string="Wizard to search partner on SENIAT" version="7.0">
                     <group colspan="4">
-                    <field name="vat" />
-                    <button name="search_partner_seniat" string="Search RIF" type="object" icon="terp-check" />
+                    <field name="vat"/>
+                    <button name="search_partner_seniat" string="Search RIF" type="object" icon="terp-check"/>
                     </group>
-                    <separator string="VAT number consulted" />
-                    <group colspan="4" >
-                    <field name="name" readonly='True'/>
-                    <field name="wh_iva_agent" readonly='True'/>
-                    <field name="wh_iva_rate" readonly='True'/>
-                    <field name="vat_subjected" readonly='True'/>
+                    <separator string="VAT number consulted"/>
+                    <group colspan="4">
+                    <field name="name" readonly="True"/>
+                    <field name="wh_iva_agent" readonly="True"/>
+                    <field name="wh_iva_rate" readonly="True"/>
+                    <field name="vat_subjected" readonly="True"/>
                     </group>
                 </form>
             </field>
@@ -31,13 +31,9 @@
         </record>
         
         
-        <menuitem name="Search RIF" id="wizard_vat_search_action_menu" 
-            parent="account.menu_finance_receivables" action="wizard_vat_search_action"
-            sequence="400"/>
+        <menuitem name="Search RIF" id="wizard_vat_search_action_menu" parent="account.menu_finance_receivables" action="wizard_vat_search_action" sequence="400"/>
             
-        <menuitem name="Search RIF" id="wizard_vat_search_action_pay_menu" 
-            parent="account.menu_finance_payables" action="wizard_vat_search_action"
-            sequence="400"/>
+        <menuitem name="Search RIF" id="wizard_vat_search_action_pay_menu" parent="account.menu_finance_payables" action="wizard_vat_search_action" sequence="400"/>
 
   </data>
 </openerp>

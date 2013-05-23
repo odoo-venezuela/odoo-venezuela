@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
         <record model="ir.ui.view" id="wizard_retention_form">
@@ -6,18 +6,18 @@
             <field name="model">wiz.vat.apply.wh</field>
             <field name="arch" type="xml">
                 <form string="Are you sure you want to do this?" version="7.0">
-                    <group colspan='4'>
-                        <field name="vat_apply" />
-                        <label string='Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3'/>
+                    <group colspan="4">
+                        <field name="vat_apply"/>
+                        <label string="Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3"/>
                         <newline/>
-                        <label string='By Checking this option you will exclude this document from being withheld'/>
+                        <label string="By Checking this option you will exclude this document from being withheld"/>
                     </group>
-                    <group colspan='2'>
-                        <field name="sure" />
+                    <group colspan="2">
+                        <field name="sure"/>
                     </group>
                     <footer>
                         <button name="set_retention" string="Confirm" type="object" icon="terp-check" class="oe_highlight"/>
-                        <button special='cancel' string="Cancel" icon="terp-gtk-stop" class="oe_link" />
+                        <button special="cancel" string="Cancel" icon="terp-gtk-stop" class="oe_link"/>
                     </footer>
                 </form>
             </field>

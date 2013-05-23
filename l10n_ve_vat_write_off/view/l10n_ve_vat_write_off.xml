@@ -1,29 +1,28 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type="text/css" ?>
-    <openerp>
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/css" ?><openerp>
         <data>
             <record id="view_vat_write_off_form" model="ir.ui.view">
                 <field name="name">vat.write.off.form</field>
                 <field name="model">vat.write.off</field>
                 <field name="arch" type="xml">
-                    <form string="Fiscal Book Lines" version='7.0'>
+                    <form string="Fiscal Book Lines" version="7.0">
                         <header>
-                            <button name="%(report_vat_write_off)d" type="action" string="Print FORMA 30" class="oe_highlight" />
-                            <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
+                            <button name="%(report_vat_write_off)d" type="action" string="Print FORMA 30" class="oe_highlight"/>
+                            <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
                         </header>
-                        <separator string="FORMA 30" />
+                        <separator string="FORMA 30"/>
                         <group colspan="4" col="4">
 <!--
                             <field name='purchase_fb_id' domain="[('state', '=', 'done'),('type', '=', 'purchase'),('period_id', '=', period_id),]" />
                             <field name='sale_fb_id' domain="[('state', '=', 'done'),('type', '=', 'sale'),('period_id', '=', period_id),]" />
 -->
-                        <field name='purchase_fb_id'/>
-                        <field name='sale_fb_id'/>
+                        <field name="purchase_fb_id"/>
+                        <field name="sale_fb_id"/>
                         </group>
                         <table width="880" align="center" cellpadding="0" cellspacing="0" border="1">
                             <tr>
                                 <td colspan="4" align="center"><strong>PERÍODO DE IMPOSICIÓN:</strong>
-                                    <field name='period_id' />
+                                    <field name="period_id"/>
                                 </td>
                             </tr>
                             <tr>
@@ -41,7 +40,7 @@
                             <tr>
                                 <td bgcolor="#dedede" colspan="2" xml:space="preserve">SI ESTA ES UNA DECLARACIÓN SUSTITUTIVA O COMPLEMENTARIA; FECHA</td>
                                 <td><strong>FECHA:</strong>
-                                    <field name="start_date" string="Fecha" />
+                                    <field name="start_date" string="Fecha"/>
                                 </td>
                             </tr>
                             <tr>
@@ -52,10 +51,10 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <field name='company_id' />
+                                    <field name="company_id"/>
                                 </td>
                                 <td colspan="2">
-                                    <field name='vat' />
+                                    <field name="vat"/>
                                 </td>
                             </tr>
                         </table>
@@ -75,38 +74,38 @@
                                             <td align="center" width="30">1</td>
                                             <td>Ventas Internas no Gravadas</td>
                                             <td align="center" width="30">40</td>
-                                            <td align="right" width="100"><field name='s_do_sdcf_and_exempt_sum'/></td>
-                                            <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td align="right" width="100"><field name="s_do_sdcf_and_exempt_sum"/></td>
+                                            <td colspan="2" rowspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">2</td>
                                             <td>Ventas de Exportación</td>
                                             <td align="center">41</td>
-                                            <td align="right"><field name='s_imex_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_imex_vat_base_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">3</td>
                                             <td>Ventas Internas Gravadas por Alícuota General</td>
                                             <td align="center">42</td>
-                                            <td align="right" width="100"><field name='p_do_general_vat_base_sum'/></td>
+                                            <td align="right" width="100"><field name="p_do_general_vat_base_sum"/></td>
                                             <td align="center" width="30">43</td>
-                                            <td align="right"><field name='p_do_general_vat_tax_sum'/></td>
+                                            <td align="right"><field name="p_do_general_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">4</td>
                                             <td>Ventas Internas Gravadas por Alícuota General más Alícuota Adicional</td>
                                             <td align="center">442</td>
-                                            <td align="right"><field name='p_do_additional_vat_base_sum'/></td>
+                                            <td align="right"><field name="p_do_additional_vat_base_sum"/></td>
                                             <td align="center">452</td>
-                                            <td align="right"><field name='p_do_additional_vat_tax_sum'/></td>
+                                            <td align="right"><field name="p_do_additional_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">5</td>
                                             <td>Ventas Internas Gravadas por Alícuota Reducida</td>
                                             <td align="center">443</td>
-                                            <td align="right"><field name='p_do_reduced_vat_base_sum'/></td>
+                                            <td align="right"><field name="p_do_reduced_vat_base_sum"/></td>
                                             <td align="center">453</td>
-                                            <td align="right"><field name='p_do_reduced_vat_tax_sum'/></td>
+                                            <td align="right"><field name="p_do_reduced_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">6</td>
@@ -133,7 +132,7 @@
                                             <td colspan="3"><strong>Total Débitos Fiscales</strong>
                                             </td>
                                             <td align="center">49</td>
-                                            <td align="right"><field name='p_tax_amount'/></td>
+                                            <td align="right"><field name="p_tax_amount"/></td>
                                         </tr>
                                         <tr>
                                             <td bgcolor="#dedede" colspan="2" xml:space="preserve"><strong>CRÉDITOS FISCALES</strong>
@@ -147,64 +146,64 @@
                                             <td align="center">10</td>
                                             <td>Compras no Gravadas y/o sin Derecho a Crédito Fiscal</td>
                                             <td align="center">30</td>
-                                            <td align="right"><field name='s_get_vat_sdcf_sum'/></td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" xml:space="preserve"></td>
+                                            <td align="right"><field name="s_get_vat_sdcf_sum"/></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">11</td>
                                             <td>Importación Gravadas por Alícuota General</td>
                                             <td align="center">31</td>
-                                            <td align="right"><field name='s_imex_general_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_imex_general_vat_base_sum"/></td>
                                             <td align="center">32</td>
-                                            <td align="right"><field name='s_imex_general_vat_tax_sum'/></td>
+                                            <td align="right"><field name="s_imex_general_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">12</td>
                                             <td>Importaciones Gravadas por Alícuota General más Alícuota Adicional</td>
                                             <td align="center">312</td>
-                                            <td align="right"><field name='s_imex_additional_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_imex_additional_vat_base_sum"/></td>
                                             <td align="center">322</td>
-                                            <td align="right"><field name='s_imex_additional_vat_tax_sum'/></td>
+                                            <td align="right"><field name="s_imex_additional_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">13</td>
                                             <td>Importaciones Gravadas por Alícuota Reducida</td>
                                             <td align="center">313</td>
-                                            <td align="right"><field name='s_imex_reduced_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_imex_reduced_vat_base_sum"/></td>
                                             <td align="center">323</td>
-                                            <td align="right"><field name='s_imex_reduced_vat_tax_sum'/></td>
+                                            <td align="right"><field name="s_imex_reduced_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">14</td>
                                             <td>Compras Internas Gravadas por Alícuota General</td>
                                             <td align="center">33</td>
-                                            <td align="right"><field name='s_do_general_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_do_general_vat_base_sum"/></td>
                                             <td align="center">34</td>
-                                            <td align="right"><field name='s_do_general_vat_tax_sum'/></td>
+                                            <td align="right"><field name="s_do_general_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">15</td>
                                             <td>Compras Internas Gravadas por Alícuota General más Alícuota Adicional</td>
                                             <td align="center">332</td>
-                                            <td align="right"><field name='s_do_additional_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_do_additional_vat_base_sum"/></td>
                                             <td align="center">342</td>
-                                            <td align="right"><field name='s_do_additional_vat_tax_sum'/></td>
+                                            <td align="right"><field name="s_do_additional_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">16</td>
                                             <td>Compras Internas Gravadas por Alícuota Reducida</td>
                                             <td align="center">333</td>
-                                            <td align="right"><field name='s_do_reduced_vat_base_sum'/></td>
+                                            <td align="right"><field name="s_do_reduced_vat_base_sum"/></td>
                                             <td align="center">343</td>
-                                            <td align="right"><field name='s_do_reduced_vat_tax_sum'/></td>
+                                            <td align="right"><field name="s_do_reduced_vat_tax_sum"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">17</td>
                                             <td>Total Compras y Créditos Fiscales del Período</td>
                                             <td align="center">35</td>
-                                            <td align="right" style="border-bottom: #666666 solid 1px;border-right: #666666 solid 1px;"><field name='s_base_amount'/></td>
+                                            <td align="right" style="border-bottom: #666666 solid 1px;border-right: #666666 solid 1px;"><field name="s_base_amount"/></td>
                                             <td align="center">36</td>
-                                            <td align="right"><field name='s_tax_amount'/></td>
+                                            <td align="right"><field name="s_tax_amount"/></td>
                                         </tr>
                                         <tr>
                                             <td align="center">18</td>
@@ -259,7 +258,7 @@
                                             <td colspan="3"><strong>Total Créditos Fiscales</strong>
                                             </td>
                                             <td align="center">39</td>
-                                            <td align="right"><field name='s_tax_amount'/></td>
+                                            <td align="right"><field name="s_tax_amount"/></td>
                                         </tr>
                                         <tr>
                                             <td colspan="6" bgcolor="#dedede" align="left" xml:space="preserve"><strong>AUTOLIQUIDACIÓN (BsF)</strong>
@@ -283,21 +282,21 @@
                                             <td>Impuesto pagado en Declaración(es) Sustituida(s)</td>
                                             <td align="center">22</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">30</td>
                                             <td>Retenciones Descontadas en Declaración(es) Sustituida(s)</td>
                                             <td align="center">51</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">31</td>
                                             <td>Percepciones Descontadas en Declaración(es) Sustituida(s)</td>
                                             <td align="center">24</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">32</td>
@@ -310,35 +309,35 @@
                                             <td>Retenciones Acumuladas por Descontar</td>
                                             <td align="center">54</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">34</td>
                                             <td>Retenciones del Período</td>
                                             <td align="center">66</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">35</td>
                                             <td>Créditos Adquiridos por Cesión de Retenciones</td>
                                             <td align="center">72</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">36</td>
                                             <td>Recuperación de Retenciones Solicitado (saldo con antigüedad mayor a dos períodos impositivos)</td>
                                             <td align="center">73</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">37</td>
                                             <td>Total Retenciones</td>
                                             <td align="center">74</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">38</td>
@@ -351,7 +350,7 @@
                                             <td>Saldo de Retenciones de IVA no aplicado</td>
                                             <td align="center">67</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">40</td>
@@ -364,35 +363,35 @@
                                             <td>Percepciones Acumuladas en Importaciones por Descontar</td>
                                             <td align="center">57</td>
                                             <td align="right">""</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">42</td>
                                             <td>Percepciones del Período</td>
                                             <td align="center">68</td>
                                             <td align="right">""</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">43</td>
                                             <td>Créditos Adquiridos por Cesión de Percepciones</td>
                                             <td align="center">75</td>
                                             <td align="right">""</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">44</td>
                                             <td>Recuperación de Percepciones Solicitado (saldo con antigüedad mayor a dos períodos impositivos)</td>
                                             <td align="center">76</td>
                                             <td align="right">""</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">45</td>
                                             <td>Total Percepciones</td>
                                             <td align="center">77</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">46</td>
@@ -405,7 +404,7 @@
                                             <td>Saldo de Percepciones en Aduanas no Aplicado</td>
                                             <td align="center">69</td>
                                             <td align="right">0</td>
-                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;border-right: #666666 solid 1px;" xml:space="preserve"></td>
+                                            <td colspan="2" align="center" bgcolor="#dedede" style="border-bottom: #666666 solid 1px;border-right: #666666 solid 1px;" xml:space="preserve"/>
                                         </tr>
                                         <tr>
                                             <td align="center">48</td>
@@ -429,11 +428,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         
-        <menuitem name="VAT Write Off" 
-            id="view_vat_write_off_menu" 
-            parent="l10n_ve_fiscal_book.menu_fr_main"
-            action="view_vat_write_off_action"/>
+        <menuitem name="VAT Write Off" id="view_vat_write_off_menu" parent="l10n_ve_fiscal_book.menu_fr_main" action="view_vat_write_off_action"/>
 
     </data>
 </openerp>
-

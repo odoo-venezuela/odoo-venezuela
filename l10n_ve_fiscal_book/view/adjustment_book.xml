@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -12,7 +12,7 @@
             <field name="name">adjustment.book.line.form</field>
             <field name="model">adjustment.book.line</field>
             <field name="arch" type="xml">
-                <form string="Adjustment Book Line">
+                <form string="Adjustment Book Line" version="7.0">
                     <group col="4" colspan="4">
                         <field name="date_accounting" select="1"/>
                         <field name="date_admin" select="1"/>
@@ -73,8 +73,3 @@
         </record>
     </data>
 </openerp>
-
-
-
-
-

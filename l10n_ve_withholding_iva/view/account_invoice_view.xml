@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -25,7 +25,7 @@
                 </xpath>
             
                
-                <xpath expr='//separator[@string="isep"]' position='attributes'>
+                <xpath expr="//separator[@string=&quot;isep&quot;]" position="attributes">
                     <attribute name="string">Vat Withholding</attribute>
                 </xpath>
             </field>
@@ -39,20 +39,18 @@
                 <xpath expr="//separator[@string='isep']" position="after">
                     <newline/>
                     <group col="4" colspan="4">
-                        <field name="wh_iva" string='Have this invoice been already VAT withheld?'/>
+                        <field name="wh_iva" string="Have this invoice been already VAT withheld?"/>
                         <field name="wh_iva_rate"/>
-                        <field name="wh_iva_id" string='VAT Withholding Document'/>
+                        <field name="wh_iva_id" string="VAT Withholding Document"/>
                         <newline/>
-                        <field name="vat_apply" string='Exclude this document from VAT Withholding' readonly='1'/>
+                        <field name="vat_apply" string="Exclude this document from VAT Withholding" readonly="1"/>
                         <group col="4" colspan="2">
-                            <button name='%(action_wiz_vat_apply_wh)d'
-                                string='Change Vat Wh. Exclusion' type='action'
-                                icon='gtk-execute' states='draft'/>
-                            <label string='Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3'/>
+                            <button name="%(action_wiz_vat_apply_wh)d" string="Change Vat Wh. Exclusion" type="action" icon="gtk-execute" states="draft"/>
+                            <label string="Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3"/>
                         </group>
                     </group>
                 </xpath>
-                <xpath expr='//separator[@string="isep"]' position='attributes'>
+                <xpath expr="//separator[@string=&quot;isep&quot;]" position="attributes">
                     <attribute name="string">VAT Withholding</attribute>
                 </xpath>
             </field>
@@ -63,7 +61,7 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="/tree/field[@name='origin']" position="after">
+                <xpath expr="//field[@name='origin']" position="after">
                     <field name="wh_iva"/>
                 </xpath>
             </field>

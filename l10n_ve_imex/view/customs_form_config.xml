@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
     
@@ -10,7 +10,7 @@ customs_form_config
             <field name="name">customs.form.config.form</field>
             <field name="model">customs.form.config</field>
             <field name="arch" type="xml">
-                <form string="Customs Form Config" version='7.0'>
+                <form string="Customs Form Config" version="7.0">
 					<header>
 <!--
 						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
@@ -45,7 +45,7 @@ customs_facility
             <field name="name">customs.facility.form</field>
             <field name="model">customs.facility</field>
             <field name="arch" type="xml">
-                <form string="Customs" version='7.0'>
+                <form string="Customs" version="7.0">
 					<header>
 <!--
 						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
@@ -80,7 +80,7 @@ customs_facility_tax_codes
             <field name="name">customs.duty.form</field>
             <field name="model">customs.duty</field>
             <field name="arch" type="xml">
-                <form string="Custom Taxes">
+                <form string="Custom Taxes" version="7.0">
                     <field name="code"/>
                     <field name="name"/>
                     <field name="ref"/>

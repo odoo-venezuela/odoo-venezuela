@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
         <record model="ir.ui.view" id="fiscal_book_wizard_form">
@@ -29,12 +29,7 @@
             <field name="target">new</field>
         </record>
         
-        <menuitem
-            id="menu_fr_main"
-            name="Fiscal Reporting"
-            parent="account.menu_finance_reporting"
-            groups="account.group_account_manager"
-        />
+        <menuitem id="menu_fr_main" name="Fiscal Reporting" parent="account.menu_finance_reporting" groups="account.group_account_manager"/>
 
 <!--
         TIP: Old menu item for wizard, it dosent work right now

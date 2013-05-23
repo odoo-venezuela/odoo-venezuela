@@ -1,15 +1,14 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
   <data>
 <!-- Show the Law and Next Step Wizard. -->
     <record id="view_withholding_iva_installer" model="ir.ui.view">
       <field name="name">Form View: VAT Withholding</field>
       <field name="model">l10n_ve_withholding_iva.installer</field>
-      <field name="type">form</field>
       <field name="inherit_id" ref="base.res_config_installer"/>
       <field name="arch" type="xml">
           <data>
-              <form position="attributes">
+              <form position="attributes" version="7.0">
                   <attribute name="string">Withholding IVA Configuration</attribute>
               </form>
               <separator string="title" position="attributes">
@@ -20,16 +19,14 @@
               </xpath>
               <xpath expr="//button[@string='Install Modules']" position="replace">
                 <button colspan="1" icon="gtk-close" special="cancel" string="_Close" invisible="not context.get('menu',False)"/>
-                <button name="action_next" icon="gtk-go-forward"
-                        type="object" string="Configure" colspan="1" invisible="context.get('menu',False)"/>
+                <button name="action_next" icon="gtk-go-forward" type="object" string="Configure" colspan="1" invisible="context.get('menu',False)"/>
               </xpath>
               <xpath expr="//button[@string='Skip']" position="replace">
-                <button name="action_skip" icon="gtk-jump-to" special="cancel"
-                        type="object" string="Skip" colspan="1" invisible="context.get('menu',False)"/>
+                <button name="action_skip" icon="gtk-jump-to" special="cancel" type="object" string="Skip" colspan="1" invisible="context.get('menu',False)"/>
               </xpath>
-              <xpath expr='//separator[@string="vsep"]' position='attributes'>
-                  <attribute name='string'></attribute>
-                  <attribute name='rowspan'>15</attribute>
+              <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
+                  <attribute name="string"/>
+                  <attribute name="rowspan">15</attribute>
                 </xpath>
                 <group colspan="8" position="replace">
               <group colspan="8" height="550" width="550">
@@ -70,23 +67,18 @@
       <field name="context">{'menu':True}</field> 
     </record>
 
-    <menuitem parent="l10n_ve_withholding.menu_wh_configuration" 
-        name="Withholding Vat"
-        id="menu_withholding_iva" sequence="70" />
-    <menuitem parent="menu_withholding_iva" name="Vat Configurator"
-        action="action_withholding_iva_wizard"
-        id="menu_action_withholding_iva_wizard" sequence="70" />
+    <menuitem parent="l10n_ve_withholding.menu_wh_configuration" name="Withholding Vat" id="menu_withholding_iva" sequence="70"/>
+    <menuitem parent="menu_withholding_iva" name="Vat Configurator" action="action_withholding_iva_wizard" id="menu_action_withholding_iva_wizard" sequence="70"/>
 
         <!-- configuration view -->
 
     <record id="view_config_wh_vat" model="ir.ui.view">
         <field name="name">Configure Picking Policy for Sales Order </field>
         <field name="model">wh_iva.config</field>
-        <field name="type">form</field>
         <field name="inherit_id" ref="base.res_config_view_base"/>
         <field name="arch" type="xml">
           <data>
-            <form position="attributes">
+            <form position="attributes" version="7.0">
               <attribute name="string">Company and Accounting Withholding Configurator</attribute>
             </form>
             <separator string="title" position="attributes">
@@ -95,9 +87,9 @@
               <xpath expr="//label[@string='description']" position="attributes">
                 <attribute name="string">Setup your Withholding Values.</attribute>
               </xpath>
-            <xpath expr='//separator[@string="vsep"]' position='attributes'>
-                  <attribute name='rowspan'>15</attribute>
-                  <attribute name='string'></attribute>
+            <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
+                  <attribute name="rowspan">15</attribute>
+                  <attribute name="string"/>
               </xpath>
             <group string="res_config_contents" position="replace">
               <field name="journal_purchase_vat" colspan="4" groups="base.group_extended"/>
@@ -105,7 +97,7 @@
               <field name="name" invisible="1" groups="base.group_extended"/>
               <field name="wh" groups="base.group_extended"/>
             </group>
-            <xpath expr='//button[@name="action_skip"]' position='replace'/>
+            <xpath expr="//button[@name=&quot;action_skip&quot;]" position="replace"/>
           </data>
         </field>
     </record>
@@ -129,5 +121,3 @@
     </record>
   </data>
 </openerp>
-
-

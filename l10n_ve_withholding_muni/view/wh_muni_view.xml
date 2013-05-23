@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -26,7 +26,7 @@
             <field name="name">account.wh.munici.line.form</field>
             <field name="model">account.wh.munici.line</field>
             <field name="arch" type="xml">
-                <form string="Local Withholding line ">
+                <form string="Local Withholding line " version="7.0">
                     <notebook>
                         <page string="Linea">
                             <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('wh_local', '=', False)]"/>
@@ -62,16 +62,16 @@
                         <field name="code"/>
                         <field name="number"/>
                         <field name="partner_id"/>
-                        <field name="journal_id"  widget="selection" string="Journal"/>
+                        <field name="journal_id" widget="selection" string="Journal"/>
                         <field name="date_ret"/>
                     </group>
                     <newline/>
                     <group expand="1" string="Group By...">
                         <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Accounting Date of Withhold" icon="terp-go-month" domain="[]"  context="{'group_by':'date_ret'}"/>
+                        <filter string="Accounting Date of Withhold" icon="terp-go-month" domain="[]" context="{'group_by':'date_ret'}"/>
                     </group>
                </search>
             </field>
@@ -103,7 +103,7 @@
             <field name="name">account.wh.munici.form</field>
             <field name="model">account.wh.munici</field>
             <field name="arch" type="xml">
-                <form string="Local Withholding">
+                <form string="Local Withholding" version="7.0">
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','mun_purchase')]"/>
                         <field name="type"/>
@@ -115,8 +115,8 @@
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
-                        <field name="date" />
-                        <field name="amount" />
+                        <field name="date"/>
+                        <field name="amount"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
@@ -160,11 +160,7 @@
             <field name="act_window_id" ref="action_account_wh_muni_customer"/>
         </record>
 
-        <menuitem
-            id="menu_action_account_wh_muni_customer"
-            name="Local Withholding Customer"
-            parent="account.menu_finance_receivables"
-            action="action_account_wh_muni_customer"/>
+        <menuitem id="menu_action_account_wh_muni_customer" name="Local Withholding Customer" parent="account.menu_finance_receivables" action="action_account_wh_muni_customer"/>
 
 
 
@@ -192,11 +188,7 @@
             <field name="act_window_id" ref="action_account_wh_muni_supplier"/>
         </record>
 
-        <menuitem
-            id="menu_action_account_wh_muni_supplier"
-            name="Local Withholding Supplier"
-            parent="account.menu_finance_payables"
-            action="action_account_wh_muni_supplier"/>
+        <menuitem id="menu_action_account_wh_muni_supplier" name="Local Withholding Supplier" parent="account.menu_finance_payables" action="action_account_wh_muni_supplier"/>
 
     </data>
 </openerp>

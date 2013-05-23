@@ -1,14 +1,13 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
   <data>
     <record id="fiscal_req_config_view" model="ir.ui.view">
         <field name="name">Configure Venezuelan Fiscal Requirements </field>
         <field name="model">fiscal.requirements.config</field>
-        <field name="type">form</field>
         <field name="inherit_id" ref="base.res_config_view_base"/>
         <field name="arch" type="xml">
           <data>
-            <form position="attributes">
+            <form position="attributes" version="7.0">
               <attribute name="string">Fiscal Requirements Configurator</attribute>
             </form>
             <separator string="title" position="attributes">
@@ -22,16 +21,16 @@ your company data from the SENIAT's database and
 update it on your system for you
                   </attribute>
               </xpath>
-            <xpath expr='//separator[@string="vsep"]' position='attributes'>
-                  <attribute name='rowspan'>15</attribute>
-                  <attribute name='string'></attribute>
+            <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
+                  <attribute name="rowspan">15</attribute>
+                  <attribute name="string"/>
               </xpath>
             <group string="res_config_contents" position="replace">
               <field name="vat" on_change="onchange_update_rif(vat)" groups="base.group_extended"/>
               <newline/>
               <field name="name" groups="base.group_extended"/>
               <newline/>
-              <field name="vat_subjected" groups="base.group_extended" />
+              <field name="vat_subjected" groups="base.group_extended"/>
               <newline/>
               <field name="add" groups="base.group_extended" widget="text"/>
             </group>

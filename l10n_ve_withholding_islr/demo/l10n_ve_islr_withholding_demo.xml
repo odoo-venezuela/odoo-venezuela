@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data noupdate="1">
 
@@ -55,20 +55,20 @@
             <field name="concept_id" ref="islr_wh_concept_demo1"/>
         </record>
         <record id="islr_rates_0033" model="islr.rates">
-            <field eval="'003'" name="code" />
-            <field eval="1" name="nature" />
-            <field eval="0" name="residence" />
-            <field eval="0.00" name="minimum" />
-            <field eval="90.00" name="base" />
-            <field eval="34.00" name="wh_perc" />
-            <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_demo1" />
+            <field eval="'003'" name="code"/>
+            <field eval="1" name="nature"/>
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="90.00" name="base"/>
+            <field eval="34.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_demo1"/>
         </record>
         <record id="islr_rates_0044" model="islr.rates">
             <field eval="'004'" name="code"/>
             <field eval="0" name="nature"/>
             <field eval="1" name="residence"/>
-            <field eval="0.32" name="minimum" />
+            <field eval="0.32" name="minimum"/>
             <field eval="100.00" name="base"/>
             <field eval="5.00" name="wh_perc"/>
             <field eval="0.00" name="subtract"/>
@@ -85,14 +85,14 @@
             <field name="concept_id" ref="islr_wh_concept_demo2"/>
         </record>
         <record id="islr_rates_0199" model="islr.rates">
-            <field eval="'019'" name="code" />
-            <field eval="1" name="nature" />
-            <field eval="0" name="residence" />
-            <field eval="0.00" name="minimum" />
-            <field eval="100.00" name="base" />
-            <field eval="34.00" name="wh_perc" />
-            <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_demo2" />
+            <field eval="'019'" name="code"/>
+            <field eval="1" name="nature"/>
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="34.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_demo2"/>
         </record>
         <record id="islr_rates_0201" model="islr.rates">
             <field eval="'020'" name="code"/>
@@ -105,14 +105,14 @@
             <field name="concept_id" ref="islr_wh_concept_demo2"/>
         </record>
         <record id="islr_0212" model="islr.rates">
-            <field eval="'021'" name="code" />
-            <field eval="0" name="nature" />
-            <field eval="0" name="residence" />
-            <field eval="0.00" name="minimum" />
-            <field eval="100.00" name="base" />
-            <field eval="5.00" name="wh_perc" />
-            <field eval="0.00" name="subtract" />
-            <field name="concept_id" ref="islr_wh_concept_demo2" />
+            <field eval="'021'" name="code"/>
+            <field eval="0" name="nature"/>
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_demo2"/>
         </record>
 
        <!--Sequence-->

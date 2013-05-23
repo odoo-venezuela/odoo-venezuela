@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -21,7 +21,7 @@
                             <field name="islr_exempt"/>
                         </group>
                 </xpath>
-                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
                     <attribute name="string">Income Withholding</attribute>
                 </xpath>
             </field>
@@ -29,4 +29,3 @@
 
     </data>
 </openerp>
-

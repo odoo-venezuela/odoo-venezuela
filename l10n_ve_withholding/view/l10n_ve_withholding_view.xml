@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
     
@@ -20,10 +20,10 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Invoice']" position="after">
-                   <page string="Withholdings" >
-                        <separator colspan='4' string="vsep"/>
-                        <separator colspan='4' string="isep"/>
-                        <separator colspan='4' string="rsep"/>
+                   <page string="Withholdings">
+                        <separator colspan="4" string="vsep"/>
+                        <separator colspan="4" string="isep"/>
+                        <separator colspan="4" string="rsep"/>
                     </page> 
                 </xpath>
             </field>
@@ -39,10 +39,10 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Invoice Lines']" position="after">
-                   <page string="Withholdings" >
-                        <separator colspan='4' string="vsep"/>
-                        <separator colspan='4' string="isep"/>
-                        <separator colspan='4' string="rsep"/>
+                   <page string="Withholdings">
+                        <separator colspan="4" string="vsep"/>
+                        <separator colspan="4" string="isep"/>
+                        <separator colspan="4" string="rsep"/>
                     </page> 
                 </xpath>
             </field>
@@ -58,12 +58,12 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Internal Notes']" position="after">
-                   <page string="Withholdings" >
-                        <separator colspan='4' string="vsep"/>
+                   <page string="Withholdings">
+                        <separator colspan="4" string="vsep"/>
                         <newline/>
-                        <separator colspan='4' string="isep"/>
+                        <separator colspan="4" string="isep"/>
                         <newline/>
-                        <separator colspan='4' string="rsep"/>
+                        <separator colspan="4" string="rsep"/>
                     </page> 
                 </xpath>
             </field>

@@ -1,18 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
-        <report
-            id="report_vat_write_off"
-            string="FORMA 30"
-            model="vat.write.off"
-            name="report.vat.write.off"
-            file="l10n_ve_vat_write_off/report/l10n_ve_vat_write_off_report.mako"
-            header="False"
-            report_type="webkit"
-            menu="False"
-        />
+        <report id="report_vat_write_off" string="FORMA 30" model="vat.write.off" name="report.vat.write.off" file="l10n_ve_vat_write_off/report/l10n_ve_vat_write_off_report.mako" header="False" report_type="webkit" menu="False"/>
 
     </data>
 </openerp>
-
