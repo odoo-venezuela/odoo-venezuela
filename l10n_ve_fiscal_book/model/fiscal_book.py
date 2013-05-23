@@ -1347,34 +1347,26 @@ class fiscal_book(orm.Model):
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                total_w_iva_amount = fbl.invoice_id.amount_untaxed
-                sdcf_tax_amount = exent_tax_amount = amount_withheld = 0.0
+                amount_field_data = \
+                    { 'total_with_iva': fbl.invoice_id.amount_untaxed,
+                      'vat_sdcf': 0.0, 'vat_exempt': 0.0 }
                 taxes = fbl.type in ['im','ex'] \
-                        and fbl.invoice_id.imex_tax_line \
-                        or fbl.invoice_id.tax_line
+                    and fbl.invoice_id.imex_tax_line \
+                    or fbl.invoice_id.tax_line
                 for ait in taxes:
                     if ait.tax_id:
                         data.append((0, 0, {'fb_id': fb_id,
                                             'fbl_id': fbl.id,
                                             'ait_id': ait.id}))
-
-                        total_w_iva_amount += ait.tax_amount
+                        amount_field_data['total_with_iva'] += ait.tax_amount
                         if ait.tax_id.appl_type == 'sdcf':
-                            sdcf_tax_amount += ait.base_amount
+                            amount_field_data['vat_sdcf'] += ait.base_amount
                         if ait.tax_id.appl_type == 'exento':
-                            exent_tax_amount += ait.base_amount
+                            amount_field_data['vat_exempt'] += ait.base_amount
                     else:
                         data.append((0, 0, {'fb_id':
                                     fb_id, 'fbl_id': False, 'ait_id': ait.id}))
-                fbl_obj.write(
-                    cr, uid, fbl.id, {'total_with_iva': total_w_iva_amount},
-                    context=context)
-                fbl_obj.write(
-                    cr, uid, fbl.id, {'vat_sdcf': sdcf_tax_amount},
-                    context=context)
-                fbl_obj.write(
-                    cr, uid, fbl.id, {'vat_exempt': exent_tax_amount},
-                    context=context)
+                fbl_obj.write(cr, uid, fbl.id, amount_field_data, context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
