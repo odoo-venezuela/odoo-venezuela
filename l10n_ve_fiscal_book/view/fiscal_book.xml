@@ -99,12 +99,12 @@ string="Invoice"
                                 <field name="affected_invoice"/>
                                 <field name="partner_name"/>
                                 <field name="partner_vat"/>
-                                <field name="total_with_iva" sum=""/>
                                 <field name="type"/>
                                 <field name="custom_statement"/>
                                 <field name="imex_date"/>
                                 <field name="fiscal_printer"/>
                                 <field name="z_report"/>
+                                <field name="total_with_iva" sum=""/>
                                 <field name="vat_sdcf"/>
                                 <field name="vat_exempt"/>
                                 <field name="vat_general_base"/>
