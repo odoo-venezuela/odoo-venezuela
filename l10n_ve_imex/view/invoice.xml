@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
         
@@ -11,8 +11,7 @@
                     <page string="Imex">
                         <group colspan="4" col="2">
                             <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
-                            <field name="customs_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" 
-                                    on_change="on_change_customs_form_id(customs_form_id)"/>
+                            <field name="customs_form_id" attrs="{'readonly':[('expedient','=',False)],'required':[('expedient','=',True)]}" on_change="on_change_customs_form_id(customs_form_id)"/>
                         </group>
                         <separator colspan="6" string="Imex Taxes"/>
                         <field name="imex_tax_line">

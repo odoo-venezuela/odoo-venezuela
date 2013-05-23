@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -19,7 +19,7 @@
                     <field name="amount_total_ret"/>
                     <field name="amount_total_base"/>
                     <field name="type"/>
-                    <field name="company_id" invisible='1'/>
+                    <field name="company_id" invisible="1"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -29,7 +29,7 @@
             <field name="name">generate.txt.iva.form</field>
             <field name="model">txt.iva</field>
             <field name="arch" type="xml">
-                <form string="Withholding lines for TXT">
+                <form string="Withholding lines for TXT" version="7.0">
                     <group col="4" colspan="4">
                         <field name="name"/>
                         <field name="type"/>
@@ -42,7 +42,7 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding lines">
-                            <field name="txt_ids" nolabel="1"  colspan='4' widget="one2many_list">
+                            <field name="txt_ids" nolabel="1" colspan="4" widget="one2many_list">
                                 <tree string="Field of lines TXT">
                                     <field name="partner_id"/>
                                     <field name="invoice_id"/>
@@ -55,8 +55,8 @@
                                 <field name="state" select="2" colspan="4"/>
                                 <button name="action_generate_lines_txt" string="Lines Generate TXT" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
                                 <button name="action_confirm" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
-                                <button name="action_done" string="Make TXT" states="confirmed" type="object"  icon="gtk-ok"/>
-                                <button name="action_anular" string="Canlce" states="confirmed,done" type="object"  icon="gtk-cancel"/>
+                                <button name="action_done" string="Make TXT" states="confirmed" type="object" icon="gtk-ok"/>
+                                <button name="action_anular" string="Canlce" states="confirmed,done" type="object" icon="gtk-cancel"/>
                             </group>
                             <group col="2" colspan="2">
                                 <field name="amount_total_ret"/>
@@ -64,7 +64,7 @@
                             </group>
                         </page>
                           <page string="Other information">
-                               <field name="company_id" />
+                               <field name="company_id"/>
                           </page>
                                                                                     
                     </notebook>
@@ -95,7 +95,7 @@
                     <group expand="0" string="Group By...">
                         <filter string="Period" icon="terp-go-month" context="{'group_by':'period_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Type" context="{'group_by':'type'}"/>
                         <separator orientation="vertical"/>
@@ -128,10 +128,7 @@
             <field name="act_window_id" ref="action_generate_text_iva"/>
         </record>
 
-        <menuitem name="Generate TXT" 
-            id="menu_action_generate_txt_iva" 
-            parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting"
-            action="action_generate_text_iva"/>
+        <menuitem name="Generate TXT" id="menu_action_generate_txt_iva" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting" action="action_generate_text_iva"/>
 
     </data>
 </openerp>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -6,9 +6,9 @@
             <field name="name">customs.form.form</field>
             <field name="model">customs.form</field>
             <field name="arch" type="xml">
-                <form string="Seniat" version='7.0'>
+                <form string="Seniat" version="7.0">
 					<header>
-						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}' />
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
                     </header>
                     <group col="4" colspan="4">
                         <field name="name"/>
@@ -30,7 +30,7 @@
                                     <field name="tax_code"/>
                                     <field name="amount" sum="Amount total"/>
                                 </tree>
-                                <form string="Tax lines">
+                                <form string="Tax lines" version="7.0">
                                     <group col="8" colspan="8">
                                         <field name="tax_code" colspan="6"/>
                                         <field name="amount"/>
@@ -48,7 +48,7 @@
                                             <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
                                             <field name="amount" on_change="on_change_amount(tax_id, base, amount)" sum="Tax amount total"/>
                                         </tree>
-                                        <form>
+                                        <form version="7.0">
 <!--
                                             <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
@@ -83,7 +83,7 @@
             </field>
         </record>
 
-        <record id="view_customs_form_tree" model="ir.ui.view" >
+        <record id="view_customs_form_tree" model="ir.ui.view">
             <field name="name">customs.form.tree</field>
             <field name="model">customs.form</field>
             <field name="arch" type="xml">

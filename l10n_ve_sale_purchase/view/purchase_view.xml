@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -11,11 +11,10 @@
             <record model="ir.ui.view" id="view_purchase_order_line_form_concept_islr">
             <field name="name">purchase_order_line_form_concept_islr</field>
             <field name="model">purchase.order.line</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
             <field name="arch" type="xml">
                 <field name="product_id" position="after">
-                <field name="concept_id" required='1'/>
+                <field name="concept_id" required="1"/>
                 </field>
             </field>
             </record>
@@ -24,11 +23,10 @@
             <record model="ir.ui.view" id="view_purchase_order_form_concept_islr">
                 <field name="name">purchase_order_form_concept_islr</field>
                 <field name="model">purchase.order</field>
-                <field name="type">form</field>
                 <field name="inherit_id" ref="purchase.purchase_order_form"/>
                 <field name="arch" type="xml">
                 <xpath expr="//field[@name='product_qty']" position="before">
-                    <field name="concept_id" required='1'/>
+                    <field name="concept_id" required="1"/>
                 </xpath>
                 </field>
             </record>

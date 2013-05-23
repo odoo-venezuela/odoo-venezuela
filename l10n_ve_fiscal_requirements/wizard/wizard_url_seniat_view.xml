@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
         <record id="view_wizard_url_seniat" model="ir.ui.view">
             <field name="name">view.wizard.seniat.url</field>
             <field name="model">wizard.seniat.url</field>
             <field name="arch" type="xml">
-                <form string="Update Url From Seniat">
+                <form string="Update Url From Seniat" version="7.0">
                     <separator string="URL Seniat for Partner Information" colspan="4"/>
                     <field name="url1"/>
                     <newline/>
@@ -30,7 +30,6 @@
             <field name="view_id" ref="view_wizard_url_seniat"/>
             <field name="target">new</field>
         </record>
-        <menuitem name="Update URL Seniat" id="wizard_url_seniat_action2" 
-            parent="base.menu_res_company_global" action="wizard_url_seniat_action"/>
+        <menuitem name="Update URL Seniat" id="wizard_url_seniat_action2" parent="base.menu_res_company_global" action="wizard_url_seniat_action"/>
     </data>
 </openerp>

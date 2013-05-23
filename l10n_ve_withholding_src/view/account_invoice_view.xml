@@ -1,23 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
         <record id="account_invoice_wh_src_customer" model="ir.ui.view">
             <field name="name">account.invoice.wh.src.customer</field>
             <field name="model">account.invoice</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_customer"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Withholdings']" position="inside">
-                    <separator string='Social Responsability Commitment'/>
+                    <separator string="Social Responsability Commitment"/>
                     <group col="6" colspan="4">
                         <group col="6" colspan="2">
                             <field name="wh_src_rate"/>
-                            <button  name="%(action_wiz_retention)d" 
-                                 type='action' 
-                                 string='Change SRC Wh. Rate' 
-                                 icon="gtk-execute" 
-                                 attrs="{'invisible': ['|',('state','=', 'draft'),('state','=', 'paid')]}"/>
+                            <button name="%(action_wiz_retention)d" type="action" string="Change SRC Wh. Rate" icon="gtk-execute" attrs="{'invisible': ['|',('state','=', 'draft'),('state','=', 'paid')]}"/>
                         </group>
                         <field name="wh_src_id"/>
                     </group>
@@ -28,19 +23,14 @@
         <record id="account_invoice_wh_src_supplier" model="ir.ui.view">
             <field name="name">account.invoice.wh.src.supplier</field>
             <field name="model">account.invoice</field>
-            <field name="type">form</field>
             <field name="inherit_id" ref="l10n_ve_withholding.wh_inv_supplier"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Withholdings']" position="inside">
-                    <separator string='Social Responsability Commitment'/>
+                    <separator string="Social Responsability Commitment"/>
                     <group col="6" colspan="4">
                         <group col="6" colspan="2">
                             <field name="wh_src_rate"/>
-                            <button  name="%(action_wiz_retention)d" 
-                                 type='action' 
-                                 string='Change SRC Wh. Rate' 
-                                 icon="gtk-execute" 
-                                 attrs="{'invisible': ['|',('state','=', 'draft'),('state','=', 'paid')]}"/>
+                            <button name="%(action_wiz_retention)d" type="action" string="Change SRC Wh. Rate" icon="gtk-execute" attrs="{'invisible': ['|',('state','=', 'draft'),('state','=', 'paid')]}"/>
                         </group>
                         <field name="wh_src_id"/>
                     </group>

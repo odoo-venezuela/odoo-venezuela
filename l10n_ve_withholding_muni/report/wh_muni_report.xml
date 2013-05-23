@@ -1,16 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-        <report
-            auto="True" 
-            id="report_wh_muni" 
-            model="account.wh.munici" 
-            name="wh.muni.report" 
-            rml="l10n_ve_withholding_muni/report/wh_muni_report.rml"
-            string="Comprobante Retencion Municipal"
-            menu="True"
-            header="False"
-            />
+        <report auto="True" id="report_wh_muni" model="account.wh.munici" name="wh.muni.report" rml="l10n_ve_withholding_muni/report/wh_muni_report.rml" string="Comprobante Retencion Municipal" menu="True" header="False"/>
 
 
     </data>

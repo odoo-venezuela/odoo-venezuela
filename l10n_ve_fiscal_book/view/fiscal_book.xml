@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -8,36 +8,36 @@
         <field name="name">fiscal.book.line.form</field>
         <field name="model">fiscal.book.line</field>
         <field name="arch" type="xml">
-            <form string="Fiscal Book Lines">
+            <form string="Fiscal Book Lines" version="7.0">
                 <group colspan="2">
-                    <field name='rank'/>
-                    <field name='type' invisible="1"/>
-                    <field name='doc_type'/>
-                    <field name='invoice_id'/>
-                    <field name='iwdl_id'/>
-                    <field name='ctrl_number'/>
-                    <field name='accounting_date'/>
-                    <field name='emission_date'/>
-                    <field name='partner_name'/>
-                    <field name='partner_vat'/>
+                    <field name="rank"/>
+                    <field name="type" invisible="1"/>
+                    <field name="doc_type"/>
+                    <field name="invoice_id"/>
+                    <field name="iwdl_id"/>
+                    <field name="ctrl_number"/>
+                    <field name="accounting_date"/>
+                    <field name="emission_date"/>
+                    <field name="partner_name"/>
+                    <field name="partner_vat"/>
                 </group>
 <!--
 string="Invoice" 
 -->
                 <group colspan="2" attrs="{'invisible':[('doc_type', '!=', 'FACT')]}">
-                    <field name='imex_date'/>
-                    <field name='invoice_number'/>
-                    <field name='debit_affected'/>
-                    <field name='credit_affected'/>
-                    <field name='affected_invoice'/>
-                    <field name='total_with_iva'/>
-                    <field name='vat_sdcf'/>
-                    <field name='vat_exempt'/>
-                    <field name='fbt_ids'/>
+                    <field name="imex_date"/>
+                    <field name="invoice_number"/>
+                    <field name="debit_affected"/>
+                    <field name="credit_affected"/>
+                    <field name="affected_invoice"/>
+                    <field name="total_with_iva"/>
+                    <field name="vat_sdcf"/>
+                    <field name="vat_exempt"/>
+                    <field name="fbt_ids"/>
                 </group>
                 <group colspan="4" attrs="{'invisible':[('type', 'not in', ('ntp',) )]}">
-                    <label for='child_ids'/>
-                    <field name='child_ids' nolabel="1" colspan="4"/>
+                    <label for="child_ids"/>
+                    <field name="child_ids" nolabel="1" colspan="4"/>
                 </group>
             </form>
         </field>
@@ -78,35 +78,35 @@ string="Invoice"
                     <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
                     <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
                     <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
                 </header>
                 <group>
                     <field name="name"/>
-                    <field name="type" readonly='1'/>
+                    <field name="type" readonly="1"/>
                     <field name="article_number" on_change="onchange_field_clear_book()"/>
                     <field name="period_id" on_change="onchange_field_clear_book()"/>
-                    <field name="company_id" invisible='1'/>
+                    <field name="company_id" invisible="1"/>
                 </group>
                 <notebook colspan="8">
                     <page string="Fiscal Book Lines">
-                        <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
+                        <field name="fbl_ids" nolabel="1" colspan="4" readonly="True">
                             <tree string="Fiscal Book Lines">
-                                <field name='rank'/>
-                                <field name='doc_type'/>
-                                <field name='emission_date'/>
-                                <field name='ctrl_number'/>
-                                <field name='invoice_number'/>
-                                <field name='affected_invoice'/>
-                                <field name='partner_name'/>
-                                <field name='partner_vat'/>
-                                <field name='total_with_iva'  sum=""/>
-                                <field name='type'/>
-                                <field name='custom_statement'/>
-                                <field name='imex_date'/>
-                                <field name='fiscal_printer'/>
-                                <field name='z_report'/>
-                                <field name='vat_sdcf'/>
-                                <field name='vat_exempt'/>
+                                <field name="rank"/>
+                                <field name="doc_type"/>
+                                <field name="emission_date"/>
+                                <field name="ctrl_number"/>
+                                <field name="invoice_number"/>
+                                <field name="affected_invoice"/>
+                                <field name="partner_name"/>
+                                <field name="partner_vat"/>
+                                <field name="total_with_iva" sum=""/>
+                                <field name="type"/>
+                                <field name="custom_statement"/>
+                                <field name="imex_date"/>
+                                <field name="fiscal_printer"/>
+                                <field name="z_report"/>
+                                <field name="vat_sdcf"/>
+                                <field name="vat_exempt"/>
                                 <field name="vat_general_base"/>
                                 <field name="vat_general_tax"/>
                                 <field name="vat_reduced_base"/>
@@ -122,18 +122,18 @@ string="Invoice"
                         </field>
                     </page>
                     <page string="Fiscal Book Invoices">
-                        <field name="invoice_ids" colspan='4' readonly="True"/>
+                        <field name="invoice_ids" colspan="4" readonly="True"/>
                         <label for="issue_invoice_ids"/>
-                        <field name="issue_invoice_ids" colspan='4' readonly="True"/>
+                        <field name="issue_invoice_ids" colspan="4" readonly="True"/>
                     </page>
                     <page string="Fiscal Book Taxes">
-                        <field name="fbt_ids" colspan='4' readonly="True"/>
+                        <field name="fbt_ids" colspan="4" readonly="True"/>
                     </page>
                     <page string="Fiscal Book Vat Withholdings">
-                        <field name="iwdl_ids" colspan='4' readonly="True"/>
+                        <field name="iwdl_ids" colspan="4" readonly="True"/>
                     </page>
                     <page string="Fiscal Book Adjustments">
-                        <field name="abl_ids" nolabel="1" colspan='4'/>
+                        <field name="abl_ids" nolabel="1" colspan="4"/>
                         <group col="4" colspan="4">
                             <separator string="Explanation about this adjustment"/>
                             <newline/>
@@ -197,20 +197,20 @@ string="Invoice"
 
                     </page>
                     <page string="No Tax Payer Detail" attrs="{'invisible': [('article_number', 'not in', ['77','78'])]}">
-                        <field name="ntp_fbl_ids" nolabel="1" colspan='4' readonly="True">
+                        <field name="ntp_fbl_ids" nolabel="1" colspan="4" readonly="True">
                             <tree string="Fiscal Book Lines">
-                                <field name='parent_id'/>
-                                <field name='emission_date'/>
-                                <field name='fiscal_printer'/>
-                                <field name='z_report'/>
-                                <field name='invoice_number'/>
-                                <field name='ctrl_number'/>
-                                <field name='affected_invoice'/>
-                                <field name='partner_name'/>
-                                <field name='partner_vat'/>
-                                <field name='total_with_iva' sum=""/>
-                                <field name='vat_sdcf' sum=""/>
-                                <field name='vat_exempt' sum=""/>
+                                <field name="parent_id"/>
+                                <field name="emission_date"/>
+                                <field name="fiscal_printer"/>
+                                <field name="z_report"/>
+                                <field name="invoice_number"/>
+                                <field name="ctrl_number"/>
+                                <field name="affected_invoice"/>
+                                <field name="partner_name"/>
+                                <field name="partner_vat"/>
+                                <field name="total_with_iva" sum=""/>
+                                <field name="vat_sdcf" sum=""/>
+                                <field name="vat_exempt" sum=""/>
                                 <field name="vat_general_base" sum=""/>
                                 <field name="vat_general_tax" sum=""/>
                                 <field name="vat_reduced_base" sum=""/>
@@ -222,7 +222,7 @@ string="Invoice"
                     </page>
 
                 </notebook>
-                <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
+                <group string="Total Taxing Base &amp; Total Taxed Amount" col="4">
                     <field name="base_amount"/>
                     <field name="tax_amount"/>
                 </group>
@@ -258,10 +258,7 @@ string="Invoice"
         <field name="act_window_id" ref="action_fiscal_sale_book"/>
     </record>
 
-    <menuitem name="Fiscal Sale Book" 
-        id="menu_fiscal_sale_book" 
-        parent="menu_fr_main"
-        action="action_fiscal_sale_book"/>
+    <menuitem name="Fiscal Sale Book" id="menu_fiscal_sale_book" parent="menu_fr_main" action="action_fiscal_sale_book"/>
 
 <!-- Pruchase Book -->
 
@@ -274,32 +271,32 @@ string="Invoice"
                     <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
                     <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
                     <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"draft":"blue","open":"green","done":"red"}'/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
                 </header>
                 <group>
                     <field name="name"/>
-                    <field name="type" readonly='1'/>
+                    <field name="type" readonly="1"/>
                     <field name="period_id" on_change="onchange_field_clear_book()"/>
-                    <field name="company_id" invisible='1'/>
+                    <field name="company_id" invisible="1"/>
                 </group>
                 <notebook colspan="8">
                     <page string="Fiscal Book Lines">
-                        <field name="fbl_ids" nolabel="1" colspan='4' readonly="True">
+                        <field name="fbl_ids" nolabel="1" colspan="4" readonly="True">
                             <tree string="Fiscal Book Lines">
-                                <field name='rank'/>
-                                <field name='doc_type'/>
-                                <field name='emission_date'/>
-                                <field name='ctrl_number'/>
-                                <field name='invoice_number'/>
-                                <field name='affected_invoice'/>
-                                <field name='partner_name'/>
-                                <field name='partner_vat'/>
-                                <field name='imex_date'/>
-                                <field name='custom_statement'/>
-                                <field name='type'/>
-                                <field name='total_with_iva' sum=""/>
-                                <field name='vat_sdcf'/>
-                                <field name='vat_exempt'/>
+                                <field name="rank"/>
+                                <field name="doc_type"/>
+                                <field name="emission_date"/>
+                                <field name="ctrl_number"/>
+                                <field name="invoice_number"/>
+                                <field name="affected_invoice"/>
+                                <field name="partner_name"/>
+                                <field name="partner_vat"/>
+                                <field name="imex_date"/>
+                                <field name="custom_statement"/>
+                                <field name="type"/>
+                                <field name="total_with_iva" sum=""/>
+                                <field name="vat_sdcf"/>
+                                <field name="vat_exempt"/>
                                 <field name="vat_general_base"/>
                                 <field name="vat_general_tax"/>
                                 <field name="vat_reduced_base"/>
@@ -315,18 +312,18 @@ string="Invoice"
                         </field>
                     </page>
                     <page string="Fiscal Book Invoices">
-                        <field name="invoice_ids" colspan='4' readonly="True"/>
+                        <field name="invoice_ids" colspan="4" readonly="True"/>
                         <label for="issue_invoice_ids"/>
-                        <field name="issue_invoice_ids" colspan='4' readonly="True"/>
+                        <field name="issue_invoice_ids" colspan="4" readonly="True"/>
                     </page>
                     <page string="Fiscal Book Taxes">
-                        <field name="fbt_ids" colspan='4' readonly="True"/>
+                        <field name="fbt_ids" colspan="4" readonly="True"/>
                     </page>
                     <page string="Fiscal Book Vat Withholdings">
-                        <field name="iwdl_ids" colspan='4' readonly="True"/>
+                        <field name="iwdl_ids" colspan="4" readonly="True"/>
                     </page>
                     <page string="Fiscal Book Adjustments" invisible="1">
-                        <field name="abl_ids" nolabel="1" colspan='4'/>
+                        <field name="abl_ids" nolabel="1" colspan="4"/>
                         <group col="4" colspan="4">
                             <separator string="Explanation about this adjustment"/>
                             <newline/>
@@ -376,7 +373,7 @@ string="Invoice"
 
                     </page>
                 </notebook>
-                <group string='Total Taxing Base &amp; Total Taxed Amount' col='4'>
+                <group string="Total Taxing Base &amp; Total Taxed Amount" col="4">
                     <field name="base_amount"/>
                     <field name="tax_amount"/>
                 </group>
@@ -412,10 +409,7 @@ string="Invoice"
         <field name="act_window_id" ref="action_fiscal_purchase_book"/>
     </record>
 
-    <menuitem name="Fiscal Purchase Book" 
-        id="menu_fiscal_purchase_book" 
-        parent="menu_fr_main"
-        action="action_fiscal_purchase_book"/>
+    <menuitem name="Fiscal Purchase Book" id="menu_fiscal_purchase_book" parent="menu_fr_main" action="action_fiscal_purchase_book"/>
 
     </data>
 </openerp>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -16,12 +16,12 @@
                 <xpath expr="//separator[@string='vsep']" position="after">
                     <newline/>
                     <group col="6" colspan="4">
-                        <field name="status" colspan='2'/>
-                        <field name="islr_wh_doc_id" colspan='2'/>
+                        <field name="status" colspan="2"/>
+                        <field name="islr_wh_doc_id" colspan="2"/>
                         <newline/>
                     </group>
                 </xpath>
-                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
                     <attribute name="string">Income Withholding</attribute>
                 </xpath>
             </field>
@@ -35,12 +35,12 @@
                 <xpath expr="//separator[@string='vsep']" position="after">
                     <newline/>
                     <group col="6" colspan="4">
-                        <field name="status" colspan='2'/>
-                        <field name="islr_wh_doc_id" colspan='2'/>
+                        <field name="status" colspan="2"/>
+                        <field name="islr_wh_doc_id" colspan="2"/>
                         <newline/>
                     </group>
                 </xpath>
-                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
                 <attribute name="string">Income Withholding</attribute>
                 </xpath>
             </field>
@@ -74,7 +74,7 @@
             <field name="inherit_id" ref="account.view_invoice_line_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='product_id']" position="before">
-                    <field name="concept_id"  required="1"/>
+                    <field name="concept_id" required="1"/>
                 </xpath>
             </field>
         </record>
@@ -85,7 +85,7 @@
             <field name="inherit_id" ref="account.view_invoice_line_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
-                    <field name="concept_id"  required="1"/>
+                    <field name="concept_id" required="1"/>
                 </xpath>
             </field>
         </record>

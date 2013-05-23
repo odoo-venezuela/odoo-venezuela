@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
         <record id="view_wizard_invoice_nro_ctrl" model="ir.ui.view">
             <field name="name">view.wizard.invoice.nro.ctrl</field>
             <field name="model">wizard.invoice.nro.ctrl</field>
             <field name="arch" type="xml">
-                <form string="Create an invoice to justify the damaged one">
+                <form string="Create an invoice to justify the damaged one" version="7.0">
                     <group colspan="8" col="8">
                         <field name="invoice_id"/>
                         <field name="date"/>
@@ -28,9 +28,6 @@
             <field name="target">new</field>
             <field name="context">{'menu': True}</field>
         </record>
-        <menuitem name="Declare damaged paper" id="wizard_invoice_nro_ctrl_action" 
-            parent="account.menu_finance_receivables" action="wizard_invoice_nro_control_action"
-            sequence="200"
-        />
+        <menuitem name="Declare damaged paper" id="wizard_invoice_nro_ctrl_action" parent="account.menu_finance_receivables" action="wizard_invoice_nro_control_action" sequence="200"/>
     </data>
 </openerp>

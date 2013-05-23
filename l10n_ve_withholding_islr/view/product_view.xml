@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -11,7 +11,7 @@
                     <newline/>
                     <separator string="Concept of Income Withholding"/>
                     <newline/>
-                    <group col='6' colspan='6' >
+                    <group col="6" colspan="6">
                         <field name="concept_id"/>
                     </group>
                     <newline/>

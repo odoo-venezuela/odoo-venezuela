@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
     <!-- 
@@ -23,7 +23,7 @@
             <field name="name">tasas_form</field>
             <field name="model">islr.rates</field>
             <field name="arch" type="xml">
-                <form string="Rates">
+                <form string="Rates" version="7.0">
                     <field name="name" colspan="4"/>
                     <newline/>
                     <field name="code"/>
@@ -70,7 +70,7 @@
             <field name="name">islr.wh.concept_form</field>
             <field name="model">islr.wh.concept</field>
             <field name="arch" type="xml">
-                <form string="Concept of Income Withholding">
+                <form string="Concept of Income Withholding" version="7.0">
                     <group colspan="4" col="4">
                         <field name="name"/>
                         <field name="withholdable"/>
@@ -79,7 +79,7 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Rates" attrs="{'readonly':[('withholdable','=',False)]}">
-                            <field name="rate_ids" nolabel="1" />
+                            <field name="rate_ids" nolabel="1"/>
                         </page>
                     </notebook>
                 </form>
@@ -109,14 +109,6 @@
             <field name="act_window_id" ref="action_wh_islr_concept"/>
         </record>
         
-        <menuitem name="Concept of Income Withholding" 
-            id="menu_action_concept_retention" 
-            parent="menu_wh_configuration_islr"
-            action="action_wh_islr_concept"/>
+        <menuitem name="Concept of Income Withholding" id="menu_action_concept_retention" parent="menu_wh_configuration_islr" action="action_wh_islr_concept"/>
     </data>
 </openerp>
-
-
-
-
-

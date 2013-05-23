@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data> 
 
@@ -6,10 +6,7 @@
 Config parent menu
 -->
 
-        <menuitem name="Import/Export - SENIAT - Form 99086"
-            id="menu_customs_form_config_group" 
-            parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings"
-            sequence="80"/>
+        <menuitem name="Import/Export - SENIAT - Form 99086" id="menu_customs_form_config_group" parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings" sequence="80"/>
 
 <!--
 customs_form_config    
@@ -23,10 +20,7 @@ customs_form_config
             <field name="view_mode">tree,form</field>
 		</record>   
 
-        <menuitem 
-            id="menu_action_customs_form_config" 
-            parent="menu_customs_form_config_group" 
-            action="action_customs_form_config"/>        
+        <menuitem id="menu_action_customs_form_config" parent="menu_customs_form_config_group" action="action_customs_form_config"/>        
 
 <!--
 customs_facility    
@@ -40,10 +34,7 @@ customs_facility
             <field name="view_mode">tree,form</field>
         </record>   
 
-        <menuitem 
-            id="menu_action_customs_facility" 
-            parent="menu_customs_form_config_group" 
-            action="action_customs_facility"/>        
+        <menuitem id="menu_action_customs_facility" parent="menu_customs_form_config_group" action="action_customs_facility"/>        
             
 <!--
 customs_facility_tax_codes    
@@ -57,10 +48,7 @@ customs_facility_tax_codes
             <field name="view_mode">tree,form</field>
         </record>   
 
-        <menuitem 
-            id="menu_action_customs_duty" 
-            parent="menu_customs_form_config_group" 
-            action="action_customs_duty"/>                 
+        <menuitem id="menu_action_customs_duty" parent="menu_customs_form_config_group" action="action_customs_duty"/>                 
 
             
 <!--
@@ -76,16 +64,9 @@ customs_form
             <field name="view_mode">tree,form</field>
         </record>
            
-		<menuitem 
-			id="menu_finance_forma" 
-			name="Custom Tax Form" 
-			parent="account.menu_finance" 
-			sequence="8"/>
+		<menuitem id="menu_finance_forma" name="Custom Tax Form" parent="account.menu_finance" sequence="8"/>
        
-        <menuitem 
-            id="menu_action_customs_form" 
-            parent="menu_finance_forma" 
-            action="action_customs_form"/>                 
+        <menuitem id="menu_action_customs_form" parent="menu_finance_forma" action="action_customs_form"/>                 
             
     </data>
 </openerp>

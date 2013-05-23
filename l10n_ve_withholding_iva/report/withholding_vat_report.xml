@@ -1,16 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-        <report
-            id="withholding_vat" 
-            model="account.wh.iva" 
-            name="account.wh.iva"
-            rml="addons/l10n_ve_withholding_iva/report/withholding_vat_report.rml" 
-            string="Voucher VAT Withholding"
-            auto="False"
-            header="True"
-            menu="False"
-            />
+        <report id="withholding_vat" model="account.wh.iva" name="account.wh.iva" rml="addons/l10n_ve_withholding_iva/report/withholding_vat_report.rml" string="Voucher VAT Withholding" auto="False" header="True" menu="False"/>
             
     </data>
 </openerp>

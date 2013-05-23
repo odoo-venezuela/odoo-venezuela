@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -54,9 +54,6 @@
             <field name="search_view_id" ref="view_l10n_ut_filter"/>
             <field name="help">With Tax Unit you can create and manage the tax unit. The Tax Unit is established under the law of each country, is used for the withholding income and withholding vat.</field>
         </record>
-        <menuitem 
-            parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings" 
-            id="menu_action_l10n_ut_tree" 
-            action="act_l10n_ut_tree"/>      
+        <menuitem parent="l10n_ve_fiscal_requirements.menu_finance_fiscal_settings" id="menu_action_l10n_ut_tree" action="act_l10n_ut_tree"/>      
     </data>
 </openerp>
