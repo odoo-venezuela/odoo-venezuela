@@ -636,7 +636,7 @@
     <!--    TOTALS SALE PARCIALES    -->
     <section>
         <blockTable style="NEW-CONTENIDOTABLE-LINES" blockAlignment="LEFT"
-            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 36.0, 36.0, 23.0, 130.0, 25.0,
+            colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 36.0, 23.0,    130.0, 25.0,
                        37.0,
                        23.0, 40.0,    20.0, 20.0,          35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
@@ -650,7 +650,6 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero Control ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero de Doc ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero Impresora ]]</para></td>
-                <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Numero de Factura de impresora ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Reporte Z ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Factura Afectada ]]</para></td>
                 <td vAlign="MIDDLE"><para style="HEADER">[[ 'TOTALES'                                           # Razon Social ]]</para></td>
