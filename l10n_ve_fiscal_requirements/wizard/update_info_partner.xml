@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -8,7 +8,7 @@
             <field name="name">view.update.info.partner</field>
             <field name="model">update.info.partner</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form string="" version="7.0">
                     <separator string="Are you sure you want to do this?" colspan="4"/>
                     <group colspan="8" col="8">
                             <button icon="gtk-ok" name="update_info" type="object" string="Yes"/>
@@ -27,8 +27,6 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem name="Update All Partner Information" id="wizard_update_all_partner_information" 
-            parent="menu_finance_partner_fiscal_information" action="wizard_update_info_partner"
-        />
+        <menuitem name="Update All Partner Information" id="wizard_update_all_partner_information" parent="menu_finance_partner_fiscal_information" action="wizard_update_info_partner"/>
     </data>
 </openerp>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -16,7 +16,7 @@
             <field name="inherit_id" ref="l10n_ve_withholding.wh_partner"/>
             <field name="arch" type="xml">
 
-                <xpath expr='//field[@name="vat_subjected"]' position='replace'>
+                <xpath expr="//field[@name=&quot;vat_subjected&quot;]" position="replace">
                 </xpath>
 
                 <xpath expr="//separator[@string='isep']" position="after">
@@ -27,7 +27,7 @@
                                 <field name="wh_iva_rate"/>
                             </group>
                 </xpath>
-                <xpath expr='//separator[@string="isep"]' position='attributes'>
+                <xpath expr="//separator[@string=&quot;isep&quot;]" position="attributes">
                     <attribute name="string">VAT Withholding</attribute>
                 </xpath>
 

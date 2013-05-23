@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -42,9 +42,9 @@
                     <group expand="1" string="Group By...">
                         <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Accounting Date of Withhold" domain="[]"  context="{'group_by':'date_ret'}"/>
+                        <filter string="Accounting Date of Withhold" domain="[]" context="{'group_by':'date_ret'}"/>
                     </group>
                </search>
             </field>
@@ -54,7 +54,7 @@
             <field name="name">islr.wh.doc_line_tree</field>
             <field name="model">islr.wh.doc.line</field>
             <field name="arch" type="xml">
-                <tree string="Lines Income Withholding" editable="bottom" >
+                <tree string="Lines Income Withholding" editable="bottom">
                     <field name="name"/>
                     <field name="concept_id"/>
                     <field name="retencion_islr"/>
@@ -68,11 +68,11 @@
             <field name="name">islr.wh.doc.line_form</field>
             <field name="model">islr.wh.doc.line</field>
             <field name="arch" type="xml">
-                <form string="Lines Income Withholding">
-                    <field name="concept_id"  colspan='6'/>
-                    <field name="move_id"  colspan='6'/>
+                <form string="Lines Income Withholding" version="7.0">
+                    <field name="concept_id" colspan="6"/>
+                    <field name="move_id" colspan="6"/>
                     <newline/>
-                    <field name="xml_ids" nolabel="1"  colspan='4'>
+                    <field name="xml_ids" nolabel="1" colspan="4">
                         <tree string="Detail of the Concept of Income Withholding">
                             <field name="rate_id"/>
                             <field name="wh"/>
@@ -105,15 +105,15 @@
             <field name="name">islr.wh.doc_form_customers</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <form string="Customer Income Withholding" version='7.0'>
+                <form string="Customer Income Withholding" version="7.0">
                     <header>
                             <button name="compute_amount_wh" states="draft" string="Compute Income Withholding" type="object" icon="terp-stock_format-scientific"/>
                             <button name="act_confirm" string="Confirmed" states="draft" icon="gtk-go-forward"/>
-                            <button name="act_done" string="Done" states="confirmed" icon="gtk-execute" />
+                            <button name="act_done" string="Done" states="confirmed" icon="gtk-execute"/>
                             <button name="%(voucher_report_withholding_islr)d" string="Print Income Withholding" states="done" colspan="3" type="action" icon="gtk-execute"/>
-                            <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done"  icon="gtk-cancel"  />
+                            <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done" icon="gtk-cancel"/>
                             <button name="act_draft" colspan="2" string="Set to draft" states="cancel" icon="gtk-go-forward"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors='{"confirmed":"blue"}'/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <group colspan="4" col="6">
                         <field name="journal_id" domain="[('type','=','islr_sale')]"/>
@@ -121,16 +121,16 @@
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id" readonly="1"/>
-                        <field name="date_ret" />
+                        <field name="date_ret"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="date_uid"/>
-                        <field name="automatic_income_wh" invisible='0' readonly="1"/>
+                        <field name="automatic_income_wh" invisible="0" readonly="1"/>
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
-                                    <field name='invoice_ids' nolabel='1'>
+                                    <field name="invoice_ids" nolabel="1">
                                         <tree string="Invoices">
                                             <field name="invoice_id"/>
                                             <field name="iwdl_ids"/> 
@@ -138,27 +138,24 @@
                                             <field name="base_ret"/>
                                             <field name="move_id"/>
                                         </tree>
-                                        <form string="Invoices">
-                                            <field
-                                                name="invoice_id"
-                                                domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
-                                                colspan='6'/>
+                                        <form string="Invoices" version="7.0">
+                                            <field name="invoice_id" domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]" colspan="6"/>
                                             <newline/>
-                                            <field name="iwdl_ids" nolabel="1" colspan='4' > 
-                                                <tree string='Concepts' editable='top'>
-                                                    <field name='concept_id' readonly='1'/>
-                                                    <field name='retencion_islr' readonly='0'/>
-                                                    <field name='amount' readonly='0'/>
+                                            <field name="iwdl_ids" nolabel="1" colspan="4"> 
+                                                <tree string="Concepts" editable="top">
+                                                    <field name="concept_id" readonly="1"/>
+                                                    <field name="retencion_islr" readonly="0"/>
+                                                    <field name="amount" readonly="0"/>
                                                 </tree>
                                             </field>
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
                                             <field name="move_id"/>
-                                            <button type='object' name='load_taxes' string='Load taxes' icon='gtk-execute'/>
+                                            <button type="object" name="load_taxes" string="Load taxes" icon="gtk-execute"/>
                                         </form>
                                     </field>
                                 </page>
-                                <page string="Invoices" invisible='1'>
+                                <page string="Invoices" invisible="1">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['out_invoice','out_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
                                 <page string="Concept of Income Withholding">
@@ -196,9 +193,9 @@
                     <group expand="1" string="Group By...">
                         <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Accounting Date of Withhold" domain="[]"  context="{'group_by':'date_ret'}"/>
+                        <filter string="Accounting Date of Withhold" domain="[]" context="{'group_by':'date_ret'}"/>
                     </group>
                </search>
             </field>
@@ -225,15 +222,15 @@
             <field name="name">islr.wh.doc_form_suppliers</field>
             <field name="model">islr.wh.doc</field>
             <field name="arch" type="xml">
-                <form string="Supplier Income Withholding" version='7.0'>
+                <form string="Supplier Income Withholding" version="7.0">
                     <header>
                             <button name="compute_amount_wh" states="draft" string="Compute Income Withholding" type="object" icon="terp-stock_format-scientific"/>
                             <button name="act_confirm" string="Confirmed" states="draft" icon="gtk-go-forward"/>
-                            <button name="act_done" string="Done" states="confirmed" icon="gtk-execute" />
+                            <button name="act_done" string="Done" states="confirmed" icon="gtk-execute"/>
                             <button name="%(voucher_report_withholding_islr)d" string="Print Income Withholding" states="done" colspan="3" type="action" icon="gtk-execute"/>
-                            <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done"  icon="gtk-cancel"  />
+                            <button name="act_cancel" string="Cancel" states="draft,progress,confirmed,done" icon="gtk-cancel"/>
                             <button name="act_draft" colspan="2" string="Set to draft" states="cancel" icon="gtk-go-forward"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors='{"confirmed":"blue"}'/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <group colspan="4" col="6">
                         <field name="journal_id" domain="[('type','=','islr_purchase')]"/>
@@ -241,25 +238,22 @@
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('supplier','=',True)]"/>
                         <field name="currency_id" readonly="1"/>
-                        <field name="date_ret" />
+                        <field name="date_ret"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="number"/>
-                        <field name="date_uid" />
+                        <field name="date_uid"/>
                         <field name="automatic_income_wh" readonly="1"/>
                     </group>
                             <notebook colspan="6">
                                 <page string="Invoices to Be Withheld">
-                                    <field name="invoice_ids" nolabel='1'>
-                                        <form string="Invoices">
-                                            <field
-                                                name="invoice_id"
-                                                domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"
-                                                colspan='6'/>
+                                    <field name="invoice_ids" nolabel="1">
+                                        <form string="Invoices" version="7.0">
+                                            <field name="invoice_id" domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]" colspan="6"/>
                                             <newline/>
                          
-                                            <field name="islr_xml_id" nolabel="1"  colspan='4' > 
+                                            <field name="islr_xml_id" nolabel="1" colspan="4"> 
                                                 <tree string="Detail of the Concept of Income Withholding">
                                                     <field name="concept_code"/>
                                                     <field name="rate_id"/>
@@ -278,13 +272,13 @@
                                         </form>
                                     </field>
                                 </page>
-                                <page string="Invoices" invisible='1'>
+                                <page string="Invoices" invisible="1">
                                     <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
                                 </page>
                                 <page string="Income Withholding Concepts">
                                     <field colspan="6" name="concept_ids" nolabel="1">
                                         <tree string="Income Withholding Concepts">
-                                            <field name="name" invisible='1'/>
+                                            <field name="name" invisible="1"/>
                                             <field name="invoice_id"/>
                                             <field name="concept_id"/>
                                             <field name="base_amount"/>
@@ -293,12 +287,12 @@
                                             <field name="amount"/>
                                             <field name="move_id"/>
                                         </tree>
-                                        <form string="Income Withholding Concepts">
+                                        <form string="Income Withholding Concepts" version="7.0">
                                             <field name="invoice_id"/>
                                             <newline/>
-                                            <field name="concept_id"  colspan='6'/>
+                                            <field name="concept_id" colspan="6"/>
                                             <newline/>
-                                            <field name="xml_ids" nolabel="1"  colspan='4'>
+                                            <field name="xml_ids" nolabel="1" colspan="4">
                                                 <tree string="Detail of the Concept of Income Withholding">
                                                     <field name="concept_code"/>
                                                     <field name="rate_id"/>
@@ -311,7 +305,7 @@
                                             <field name="subtract"/>
                                             <field name="retencion_islr"/>
                                             <field name="amount"/>
-                                            <field name="move_id"  colspan='6'/>
+                                            <field name="move_id" colspan="6"/>
                                         </form>
                                     </field>
                                 </page>
@@ -351,11 +345,7 @@
             <field name="act_window_id" ref="action_wh_islr_customer"/>
         </record>
 
-        <menuitem
-            id="menu_action_wh_islr_customer"
-            name="Customer Income Withholding"
-            parent="account.menu_finance_receivables"
-            action="action_wh_islr_customer"/>
+        <menuitem id="menu_action_wh_islr_customer" name="Customer Income Withholding" parent="account.menu_finance_receivables" action="action_wh_islr_customer"/>
 
         <record model="ir.actions.act_window" id="action_wh_islr_supplier">
             <field name="name">Supplier Income Withholding</field>
@@ -382,16 +372,7 @@
             <field name="act_window_id" ref="action_wh_islr_supplier"/>
         </record>
 
-        <menuitem
-            id="menu_action_wh_islr_supplier"
-            name="Supplier Income Withholding" 
-            parent="account.menu_finance_payables"
-            action="action_wh_islr_supplier"/>
+        <menuitem id="menu_action_wh_islr_supplier" name="Supplier Income Withholding" parent="account.menu_finance_payables" action="action_wh_islr_supplier"/>
 
     </data>
 </openerp>
-
-
-
-
-

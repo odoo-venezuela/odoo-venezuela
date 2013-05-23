@@ -1,14 +1,13 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
   <data>
     <record id="split_invoice_config_view" model="ir.ui.view">
         <field name="name">Configure Number of Lines in Your Customer Invoices </field>
         <field name="model">split.invoice.config</field>
-        <field name="type">form</field>
         <field name="inherit_id" ref="base.res_config_view_base"/>
         <field name="arch" type="xml">
           <data>
-            <form position="attributes">
+            <form position="attributes" version="7.0">
               <attribute name="string">Split Invoice Configurator</attribute>
             </form>
             <separator string="title" position="attributes">
@@ -20,15 +19,15 @@ Configure your company with the maximum number
 of lines in your customer invoices
                   </attribute>
               </xpath>
-            <xpath expr='//separator[@string="vsep"]' position='attributes'>
-                  <attribute name='rowspan'>5</attribute>
-                  <attribute name='string'></attribute>
+            <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">
+                  <attribute name="rowspan">5</attribute>
+                  <attribute name="string"/>
               </xpath>
             <group string="res_config_contents" position="replace">
               <field name="name" groups="base.group_extended"/>
               <newline/>
             </group>
-            <xpath expr='//button[@name="action_skip"]' position='replace'/>
+            <xpath expr="//button[@name=&quot;action_skip&quot;]" position="replace"/>
           </data>
         </field>
     </record>

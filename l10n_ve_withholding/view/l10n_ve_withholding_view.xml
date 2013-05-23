@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
     
@@ -20,10 +20,10 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Invoice']" position="after">
-                   <page string="Withholdings" >
-                        <separator colspan='4' string="vsep"/>
-                        <separator colspan='4' string="isep"/>
-                        <separator colspan='4' string="rsep"/>
+                   <page string="Withholdings">
+                        <separator colspan="4" string="vsep"/>
+                        <separator colspan="4" string="isep"/>
+                        <separator colspan="4" string="rsep"/>
                     </page> 
                 </xpath>
             </field>
@@ -39,10 +39,10 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Invoice Lines']" position="after">
-                   <page string="Withholdings" >
-                        <separator colspan='4' string="vsep"/>
-                        <separator colspan='4' string="isep"/>
-                        <separator colspan='4' string="rsep"/>
+                   <page string="Withholdings">
+                        <separator colspan="4" string="vsep"/>
+                        <separator colspan="4" string="isep"/>
+                        <separator colspan="4" string="rsep"/>
                     </page> 
                 </xpath>
             </field>
@@ -58,68 +58,15 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Internal Notes']" position="after">
-                   <page string="Withholdings" >
-                        <separator colspan='4' string="vsep"/>
+                   <page string="Withholdings">
+                        <separator colspan="4" string="vsep"/>
                         <newline/>
-                        <separator colspan='4' string="isep"/>
+                        <separator colspan="4" string="isep"/>
                         <newline/>
-                        <separator colspan='4' string="rsep"/>
+                        <separator colspan="4" string="rsep"/>
                     </page> 
                 </xpath>
             </field>
         </record>        
-
-
-        <!--
-          =======================
-          Withholdings Document
-          =======================
-        -->
-        <record id="view_account_wh_doc_tree" model="ir.ui.view">
-            <field name="name">account.wh.doc.tree</field>
-            <field name="model">account.wh.doc</field>
-            <field name="arch" type="xml">
-                <tree string="Documents">
-                    <field name="model_parent" select="1"/>
-                    <field name="model_child" select="1"/>
-                </tree>
-            </field>
-        </record>
-        <record id="view_account_wh_doc_form" model="ir.ui.view">
-            <field name="name">account.wh.doc.form</field>
-            <field name="model">account.wh.doc</field>
-            <field name="arch" type="xml">
-                <form string="Documents">
-                    <field name="model_parent" select="1"/>
-                    <field name="model_child" select="1"/>
-                </form>
-            </field>
-        </record>
-
-        <record id="wh_doc_action" model="ir.actions.act_window">
-            <field name="name">Withholdings Document</field>
-            <field name="type">ir.actions.act_window</field>            
-            <field name="res_model">account.wh.doc</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help">Create and manage the withholding documents in account move line.</field>            
-        </record>
-
-
-        <record id="action_wh_doc_tree" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_account_wh_doc_tree"/>            
-            <field name="act_window_id" ref="wh_doc_action"/>
-        </record>
-
-        <record id="action_wh_doc_form" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_account_wh_doc_form"/>
-            <field name="act_window_id" ref="wh_doc_action"/>
-        </record>
-
-        <menuitem id="menu_wh_doc" action="wh_doc_action" parent="menu_wh_configuration"/>
-                
     </data>
 </openerp>

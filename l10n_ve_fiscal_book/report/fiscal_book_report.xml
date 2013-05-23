@@ -1,28 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
-        <report
-            id="report_fiscal_book_sale"
-            string="Sale Book Report"
-            model="fiscal.book"
-            name="fiscal.book.sale"
-            rml="l10n_ve_fiscal_book/report/fiscal_book_sale_report.rml"
-            auto="True"
-            menu="False"
-            header="False"
-        />
+        <report id="report_fiscal_book_sale" string="Sale Book Report" model="fiscal.book" name="fiscal.book.sale" rml="l10n_ve_fiscal_book/report/fiscal_book_sale_report.rml" auto="True" menu="False" header="False"/>
 
-        <report
-            id="report_fiscal_book_purchase"
-            string="Purchase Book Report"
-            model="fiscal.book"
-            name="fiscal.book.purchase"
-            rml="l10n_ve_fiscal_book/report/fiscal_book_purchase_report.rml"
-            auto="True"
-            menu="False"
-            header="False"
-        />
+        <report id="report_fiscal_book_purchase" string="Purchase Book Report" model="fiscal.book" name="fiscal.book.purchase" rml="l10n_ve_fiscal_book/report/fiscal_book_purchase_report.rml" auto="True" menu="False" header="False"/>
 
     </data>
 </openerp>

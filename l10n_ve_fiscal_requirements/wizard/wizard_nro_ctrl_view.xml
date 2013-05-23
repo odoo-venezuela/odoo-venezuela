@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
         <record model="ir.ui.view" id="wizard_nro_ctrl_form">
             <field name="name">wizard.nro.ctrl.form</field>
             <field name="model">wiz.nroctrl</field>
             <field name="arch" type="xml">
-                <form string="Changing the Control Number">
-                    <field name="name" />
-                    <separator string="Are you sure you want to do this?" colspan="4" />
-                    <field name="sure" />
-                    <button special='cancel' string="Cancel" icon="terp-gtk-stop" />
-                    <button name="set_noctrl" string="Confirm" type="object" icon="terp-check" />
+                <form string="Changing the Control Number" version="7.0">
+                    <field name="name"/>
+                    <separator string="Are you sure you want to do this?" colspan="4"/>
+                    <field name="sure"/>
+                    <button special="cancel" string="Cancel" icon="terp-gtk-stop"/>
+                    <button name="set_noctrl" string="Confirm" type="object" icon="terp-check"/>
                 </form>
             </field>
         </record>
@@ -26,4 +26,3 @@
     
     </data>
 </openerp>
-

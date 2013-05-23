@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -13,17 +13,12 @@
             <field name="model">account.wh.iva.line</field>
             <field name="arch" type="xml">
                 <tree string="Withholding Lines">
-                    <button name="load_taxes" 
-                            string="Load Taxes" 
-                            type="object"  
-                            icon="gtk-ok"
-                            colspan='2'
-                            help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>
+                    <button name="load_taxes" string="Load Taxes" type="object" icon="gtk-ok" colspan="2" help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>
                     <field name="name"/>
                     <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
-                    <field name="wh_iva_rate" />
+                    <field name="wh_iva_rate"/>
                     <field name="tax_line"/>
                     <field name="move_id"/>
                 </tree>
@@ -34,7 +29,7 @@
             <field name="name">account.wh.iva.line.form</field>
             <field name="model">account.wh.iva.line</field>
             <field name="arch" type="xml">
-                <form string="Withholding Lines">
+                <form string="Withholding Lines" version="7.0">
                     <notebook>
                         <page string="Withheld Invoice">
                             <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
@@ -42,37 +37,31 @@
                             <field name="move_id"/>
                             <group colspan="4">
                                 <field name="tax_line" nolabel="1">
-                                    <tree string="Taxes" editable='top'>
+                                    <tree string="Taxes" editable="top">
                                         <field name="name"/>
-                                        <field name="base" />
-                                        <field name="amount" />
-                                        <field name="amount_ret" />
+                                        <field name="base"/>
+                                        <field name="amount"/>
+                                        <field name="amount_ret"/>
                                     </tree>
-                                    <form string="Taxes">
-                                        <field  colspan="4" name="name"/>
-                                        <field name="tax_id" />
-                                        <field name="base" />
-                                        <field name="amount" />
-                                        <field name="amount_ret" />
-                                        <field name="company_id" />
+                                    <form string="Taxes" version="7.0">
+                                        <field colspan="4" name="name"/>
+                                        <field name="tax_id"/>
+                                        <field name="base"/>
+                                        <field name="amount"/>
+                                        <field name="amount_ret"/>
+                                        <field name="company_id"/>
                                     </form>
                                 </field>
                             </group>
-                            <separator colspan='4'/>
-                            <field name="wh_iva_rate" colspan='2' invisible='True'/>
+                            <separator colspan="4"/>
+                            <field name="wh_iva_rate" colspan="2" invisible="True"/>
                                 <group col="2" colspan="2">
                                     <field name="amount_tax_ret"/>
                                     <field name="base_ret"/>
                                 </group>
                                 <group col="4" colspan="4">
                                     <separator string="Please, if there are not taxes loaded, Click on Load Taxes" colspan="4"/>
-                                    <button
-                                        name="load_taxes" 
-                                        string="Load Taxes" 
-                                        type="object"  
-                                        icon="gtk-ok"
-                                        colspan='2'
-                                        help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>
+                                    <button name="load_taxes" string="Load Taxes" type="object" icon="gtk-ok" colspan="2" help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>
                                 </group>
                         </page>
                     </notebook>
@@ -101,16 +90,16 @@
                         <field name="code"/>
                         <field name="number"/>
                         <field name="partner_id"/>
-                        <field name="journal_id"  widget="selection" string="Journal"/>
+                        <field name="journal_id" widget="selection" string="Journal"/>
                         <field name="date_ret"/>
                     </group>
                     <newline/>
                     <group expand="1" string="Group By...">
                         <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Accounting Date of Withhold" icon="terp-go-month" domain="[]"  context="{'group_by':'date_ret'}"/>
+                        <filter string="Accounting Date of Withhold" icon="terp-go-month" domain="[]" context="{'group_by':'date_ret'}"/>
                     </group>
                </search>
             </field>
@@ -143,15 +132,15 @@
             <field name="name">account.wh.iva.form</field>
             <field name="model">account.wh.iva</field>
             <field name="arch" type="xml">
-                <form string="Supplier Withholding Vat" version='7.0'>
+                <form string="Supplier Withholding Vat" version="7.0">
                     <header>
                         <button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/>
                         <button name="wh_iva_confirmed" states="draft" string="Confirm" icon="gtk-go-forward"/>
                         <button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/>
                         <button name="%(withholding_vat)d" type="action" colspan="2" states="done" string="Print VAT Withholding" icon="gtk-execute"/>
-                        <button name="cancel" colspan="2"  states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
-                        <button name="set_to_draft" colspan="2"  states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors='{"confirmed":"blue"}'/>
+                        <button name="cancel" colspan="2" states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
+                        <button name="set_to_draft" colspan="2" states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','iva_purchase')]"/>
@@ -164,7 +153,7 @@
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
-                        <field name="date" />
+                        <field name="date"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
@@ -194,27 +183,26 @@
             <field name="name">account.wh.iva.form.customer</field>
             <field name="model">account.wh.iva</field>
             <field name="arch" type="xml">
-                <form string="Customer Withholding Vat" version='7.0'>
+                <form string="Customer Withholding Vat" version="7.0">
                     <header>
                         <button name="wh_iva_confirmed" states="draft" string="Confirm" icon="gtk-go-forward"/>
                         <button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/>
-                        <button name="%(withholding_vat)d" type="action" states="done" string="Print Voucher VAT Withholding" icon="gtk-execute"/>
                         <button name="cancel" states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
-                        <button name="set_to_draft"   states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors='{"confirmed":"blue"}'/>
+                        <button name="set_to_draft" states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','iva_sale')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('wh_iva_agent','=',True), ('customer','=',True)]"/>
-                        <field name="currency_id" />
-                        <field name="date_ret" />
+                        <field name="currency_id"/>
+                        <field name="date_ret"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
                         <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
-                        <field name="date" />
+                        <field name="date"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
@@ -263,11 +251,7 @@
             <field name="act_window_id" ref="action_account_wh_iva_customer"/>
         </record>
 
-        <menuitem
-            id="menu_action_account_wh_iva_customer"
-            name="Customer VAT Withholding "
-            parent="account.menu_finance_receivables"
-            action="action_account_wh_iva_customer"/>
+        <menuitem id="menu_action_account_wh_iva_customer" name="Customer VAT Withholding " parent="account.menu_finance_receivables" action="action_account_wh_iva_customer"/>
 
 
 
@@ -295,11 +279,7 @@
             <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
         </record>
 
-        <menuitem
-            id="menu_action_account_wh_iva_supplier"
-            name="Supplier VAT Withholding "
-            parent="account.menu_finance_payables"
-            action="action_account_wh_iva_supplier"/>
+        <menuitem id="menu_action_account_wh_iva_supplier" name="Supplier VAT Withholding " parent="account.menu_finance_payables" action="action_account_wh_iva_supplier"/>
 
     </data>
 </openerp>

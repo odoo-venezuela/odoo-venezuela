@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
 
@@ -12,22 +12,22 @@
             <field name="name">islr.xml.wh.line_form</field>
             <field name="model">islr.xml.wh.line</field>
             <field name="arch" type="xml">
-                <form string="Export in XML data">
+                <form string="Export in XML data" version="7.0">
                     <newline/>
                         <separator string="Supplier to Withhold" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
-                        <field name="partner_id" colspan="4" on_change="onchange_partner_vat(partner_id)" />
+                        <field name="partner_id" colspan="4" on_change="onchange_partner_vat(partner_id)"/>
                         <field name="partner_vat"/>
                     </group>
                     <newline/>
                     <separator string="Concept of Income Withholding" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
-                        <field name="concept_id" colspan="4" />
-                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)" />
-                        <field name="porcent_rete" />
-                        <field name="concept_code" />
+                        <field name="concept_id" colspan="4"/>
+                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)"/>
+                        <field name="porcent_rete"/>
+                        <field name="concept_code"/>
                     </group>
                     <newline/>
                     <separator string="Invoice" colspan="6"/>
@@ -35,15 +35,15 @@
                     <group col="4" colspan="4">
                         <field name="account_invoice_line_id" colspan="4"/>
                         <field name="period_id" colspan="4"/>
-                        <field name="invoice_number" />
-                        <field name="control_number" />
+                        <field name="invoice_number"/>
+                        <field name="control_number"/>
                     </group>
                     <newline/>
                     <separator string="Rates" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
-                        <field name="base" />
-                        <field name="wh" />
+                        <field name="base"/>
+                        <field name="wh"/>
                     </group>
                 </form>
             </field>
@@ -54,7 +54,7 @@
             <field name="name">islr.xml.wh.doc_tree</field>
             <field name="model">islr.xml.wh.doc</field>
             <field name="arch" type="xml">
-                <tree string="Lines Withholding for XML" >
+                <tree string="Lines Withholding for XML">
                     <field name="name"/>
                     <field name="company_id"/>
                     <field name="period_id"/>
@@ -66,12 +66,12 @@
             <field name="name">islr.xml.wh.doc_form</field>
             <field name="model">islr.xml.wh.doc</field>
             <field name="arch" type="xml">
-                <form string="Lines Withholding for XML">
+                <form string="Lines Withholding for XML" version="7.0">
                     <field name="name"/>
                     <field name="period_id" widget="selection" domain="[('state','=','draft')]"/>
                     <notebook colspan="4">
                         <page string="Lines Withholding">
-                            <field name="xml_ids" nolabel="1"  colspan='4' widget="many2many" domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]">
+                            <field name="xml_ids" nolabel="1" colspan="4" widget="many2many" domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]">
                                 <tree string="Detail of the XML">
                                     <field name="partner_vat"/>
                                     <field name="partner_id"/>
@@ -85,8 +85,8 @@
                             <group col="4" colspan="2">
                                 <field name="state" colspan="4"/>
                                 <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
-                                <button name="action_done1" string="Validate XML" states="confirmed" type="object"  icon="gtk-ok"/>
-                                <button name="action_anular1" string="Invalidate" states="confirmed,done" type="object"  icon="gtk-cancel"/>
+                                <button name="action_done1" string="Validate XML" states="confirmed" type="object" icon="gtk-ok"/>
+                                <button name="action_anular1" string="Invalidate" states="confirmed,done" type="object" icon="gtk-cancel"/>
                             </group>
                             <group col="2" colspan="2">
                                 <field name="amount_total_ret"/>
@@ -94,7 +94,7 @@
                              </group>
                          </page>
                          <page string="Other information">
-                             <field name="company_id" />
+                             <field name="company_id"/>
                          </page>
                     </notebook>
                 </form>
@@ -119,9 +119,9 @@
                     </group>
                     <newline/>
                     <group expand="1" string="Group By...">
-                        <filter string="Period" domain="[]" />
+                        <filter string="Period" domain="[]"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
                     </group>
                </search>
             </field>
@@ -150,14 +150,7 @@
             <field name="act_window_id" ref="action_xml_islr"/>
         </record>
         
-        <menuitem name="Generate file XML" 
-            id="menu_action_xml_islr" 
-            parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting"
-            action="action_xml_islr"/>
+        <menuitem name="Generate file XML" id="menu_action_xml_islr" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting" action="action_xml_islr"/>
 
     </data>
 </openerp>
-
-
-
-

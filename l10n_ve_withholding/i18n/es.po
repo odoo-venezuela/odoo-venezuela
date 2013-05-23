@@ -15,10 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: l10n_ve_withholding
-#: view:account.wh.doc:0
-msgid "Documents"
-msgstr "Documentos"
 
 #. module: l10n_ve_withholding
 #: model:ir.actions.act_window,help:l10n_ve_withholding.wh_doc_action
@@ -45,11 +41,6 @@ msgstr "Gestión de retenciones de las leyes venezolanas"
 #: view:account.move:0
 msgid "State"
 msgstr "Estado"
-
-#. module: l10n_ve_withholding
-#: field:account.move.line,res_id:0
-msgid "Document"
-msgstr "Documento"
 
 #. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_journal
@@ -130,11 +121,6 @@ msgid "Taxes missing !"
 msgstr "Impuestos faltantes !"
 
 #. module: l10n_ve_withholding
-#: field:account.wh.doc,model_parent:0
-msgid "Parent Object"
-msgstr "Objeto padre"
-
-#. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_invoice_tax
 msgid "Invoice Tax"
 msgstr "Impuesto de factura"
@@ -150,11 +136,6 @@ msgstr "Impuesto"
 #, python-format
 msgid "Global taxes defined, but are not in invoice lines !"
 msgstr "Los impuestos globales definidos, pero no están en las líneas de factura !"
-
-#. module: l10n_ve_withholding
-#: field:account.wh.doc,model_child:0
-msgid "Child Object"
-msgstr "Objeto hijo"
 
 #. module: l10n_ve_withholding
 #: view:account.move:0
@@ -178,11 +159,6 @@ msgstr "El código del diario debe ser único por compañía !"
 #: model:ir.model,name:l10n_ve_withholding.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
-
-#. module: l10n_ve_withholding
-#: model:ir.model,name:l10n_ve_withholding.model_account_wh_doc
-msgid "With holding document"
-msgstr "Documentos con retención"
 
 #. module: l10n_ve_withholding
 #: constraint:account.move.line:0

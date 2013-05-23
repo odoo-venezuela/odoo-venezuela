@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <openerp>
   <data>
     <record id="wh_islr_config_view" model="ir.ui.view">
@@ -7,11 +7,11 @@
         <field name="inherit_id" ref="base.res_config_view_base"/>
         <field name="arch" type="xml">
           <data>
-            <form position="attributes">
+            <form position="attributes" version="7.0">
               <attribute name="string">Income withholding Configuration</attribute>
             </form>
             
-            <xpath expr='//group[@string="res_config_contents"]' position='before'>
+            <xpath expr="//group[@string=&quot;res_config_contents&quot;]" position="before">
                  <group colspan="4" col="8">
                    <group colspan="1" width="220">
                     <label align="0.0" string="Configure your company's income withholding" width="200" colspan="2"/>
@@ -32,13 +32,13 @@
               <newline/>
               <field name="journal_sale" groups="base.group_extended"/>
               <newline/>
-              <field name="account_purchase" groups="base.group_extended" />
+              <field name="account_purchase" groups="base.group_extended"/>
               <newline/>
-              <field name="account_sale" groups="base.group_extended" />
+              <field name="account_sale" groups="base.group_extended"/>
               <newline/>
-              <field name="wh_agent" groups="base.group_extended" />
+              <field name="wh_agent" groups="base.group_extended"/>
             </group>
-            <xpath expr='//button[@name="action_skip"]' position='replace'/>
+            <xpath expr="//button[@name=&quot;action_skip&quot;]" position="replace"/>
           </data>
         </field>
     </record>
@@ -60,4 +60,3 @@
     </record>
   </data>
 </openerp>
-
