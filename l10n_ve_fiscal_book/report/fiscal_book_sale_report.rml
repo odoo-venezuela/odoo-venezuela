@@ -167,7 +167,7 @@
        <tr>
            [[ setLang(my_fb.company_id.partner_id.lang) ]]
            <td>
-               <para style="HEADERDOC">[[ company.partner_id.name ]] [[ company.partner_id.vat[2:] ]]</para>
+               <para style="HEADERDOC">[[ my_fb.company_id.partner_id.name ]] [[ my_fb.company_id.partner_id.vat[2:] ]]</para>
                   <para style="HEADERDOC">[[ my_fb.get_partner_addr ]]</para>
                 </td>
                 <td>
