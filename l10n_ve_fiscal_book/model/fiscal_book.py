@@ -854,6 +854,7 @@ class fiscal_book(orm.Model):
                                                   context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name': iwdl_brw.retention_id.partner_id.name or False,
+                    'partner_vat': iwdl_brw.retention_id.partner_id.vat or False,
                     'affected_invoice': iwdl_brw.invoice_id.fiscal_printer
                         and iwdl_brw.invoice_id.invoice_printer
                         or (fb_brw.type == 'sale'
