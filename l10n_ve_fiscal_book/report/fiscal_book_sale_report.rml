@@ -35,7 +35,7 @@
                     <spacer length="0.5cm"/>
 
                     <!--    SALE BOOK HEADERS    -->
-                    <blockTable colWidths="375.0, 37.0, 373.0, 795.0" style="NEW-HEADER" blockAlignment="LEFT">
+                    <blockTable colWidths="375.0, 37.0, 103.0, 795.0" style="NEW-HEADER" blockAlignment="LEFT">
                         <tr>
                             <td>
                                 <blockTable colWidths="375.0" style="NEW-HEADER">
@@ -96,13 +96,13 @@
                                 </blockTable>
                             </td>
                             <td>
-                                <blockTable colWidths="373.0" style="NEW-HEADER">
+                                <blockTable colWidths="103.0" style="NEW-HEADER">
                                     <tr>
                                         <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE EXPORTACION</para></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <blockTable colWidths="63.0, 40.0, 90.0, 90.0, 90.0" style="NEW-HEADER" rowHeights="18">
+                                            <blockTable colWidths="63.0, 40.0" style="NEW-HEADER" rowHeights="18">
                                                 <tr>
                                                     <td>
                                                         <blockTable colWidths="63.0" style="NEW-HEADER">
@@ -132,60 +132,6 @@
                                                                         <tr>
                                                                             <td><para style="HEADER">SDCF</para></td>
                                                                             <td><para style="HEADER">Exento</para></td>
-                                                                        </tr>
-                                                                    </blockTable>
-                                                                </td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                    <td>
-                                                        <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Ventas o Servicios Gravados Alícuota General</para></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER" rowHeights="12">
-                                                                        <tr>
-                                                                            <td><para style="HEADER">Base Imponible</para></td>
-                                                                            <td><para style="HEADER">Alícuota</para></td>
-                                                                            <td><para style="HEADER">Débito Fiscal</para></td>
-                                                                        </tr>
-                                                                    </blockTable>
-                                                                </td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                    <td>
-                                                        <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Ventas o Servicios Gravados Alícuota Reducida</para></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER" rowHeights="12">
-                                                                        <tr>
-                                                                            <td><para style="HEADER">Base Imponible</para></td>
-                                                                            <td><para style="HEADER">Alícuota</para></td>
-                                                                            <td><para style="HEADER">Débito Fiscal</para></td>
-                                                                        </tr>
-                                                                    </blockTable>
-                                                                </td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                    <td>
-                                                        <blockTable colWidths="90.0" style="NEW-HEADER">
-                                                            <tr>
-                                                                <td><para style="HEADER">Ventas o Servicios Gravados Alícuota Adicional</para></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <blockTable colWidths="35.0, 20.0, 35.0" style="NEW-HEADER" rowHeights="12">
-                                                                        <tr>
-                                                                            <td><para style="HEADER">Base Imponible</para></td>
-                                                                            <td><para style="HEADER">Alícuota</para></td>
-                                                                            <td><para style="HEADER">Débito Fiscal</para></td>
                                                                         </tr>
                                                                     </blockTable>
                                                                 </td>
@@ -575,7 +521,7 @@
         <blockTable style="NEW-CONTENIDOTABLE-LINES"
             colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 36.0, 23.0, 130.0, 25.0,
                        37.0,
-                       23.0, 40.0,    20.0, 20.0,          35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       23.0, 40.0,    20.0, 20.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
@@ -598,15 +544,6 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.custom_statement   # Declaracion ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_sdcf                           # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_exempt                         # Exento ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_base                   # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '12%'                                     # General | Alícuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_general_tax                    # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_reduced_base                   # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '8%'                                      # Reducido | Alícuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_reduced_tax                    # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_base                # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and '22%'                                     # Adicional | Alícuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fbl.type in ['ex'] and my_fbl.vat_additional_tax                 # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas / Contribuyentes -->
                 <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_sdcf                           # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fbl.type in ['tp'] and my_fbl.vat_exempt                         # Exento ]]</para></td>
@@ -646,7 +583,7 @@
         <blockTable style="NEW-CONTENIDOTABLE-LINES"
             colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 36.0, 23.0,    130.0, 25.0,
                        37.0,
-                       23.0, 40.0,    20.0, 20.0,          35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
+                       23.0, 40.0,    20.0, 20.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        20.0, 20.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,    35.0, 20.0, 35.0,
                        35.0, 35.0, 35.0, 35.0, 35.0">
@@ -669,15 +606,6 @@
                 <td vAlign="MIDDLE"><para style="HEADER">[[ ''                                                  # Declaracion ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.imex_sdcf_vat_sum                                             # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.imex_exempt_vat_sum                                           # Exento ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.imex_general_vat_base_sum                                     # General | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ ''                                                                  # General | Alícuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.imex_general_vat_tax_sum                                      # General | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.imex_reduced_vat_base_sum                                     # Reducido | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ ''                                                                  # Reducido | Alícuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.imex_reduced_vat_tax_sum                                      # Reducido | Débito Fiscal ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.imex_additional_vat_base_sum                                  # Adicional | Base Imponible ]]</para></td>
-                <td><para style="HEADER">[[ ''                                                                  # Adicional | Alícuota ]]</para></td>
-                <td><para style="HEADER">[[ my_fb.imex_additional_vat_tax_sum                                   # Adicional | Débito Fiscal ]]</para></td>
                 <!-- Ventas Internas / Contribuyentes -->
                 <td><para style="HEADER">[[ my_fb.tp_sdcf_vat_sum                                               # SDCF ]]</para></td>
                 <td><para style="HEADER">[[ my_fb.tp_exempt_vat_sum                                             # Exento ]]</para></td>
