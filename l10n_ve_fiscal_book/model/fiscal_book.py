@@ -694,8 +694,15 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
+        fb_brw = self.browse(cr, uid, fb_id, context=context)
         #~ Relate wh iva lines
         iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
+
+        if fb_brw.type == "sale" \
+                and fb_brw.company_id.partner_id.wh_iva_agent and iwdl_ids:
+            raise osv.except_osv(_("Error!"),
+                  _("You have withholdings registred but you are not a withholding agent"))
+
         iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': fb_id}, context=context)
         #~ Unrelate wh iva lines (period book change, wh iva line have been
         #~ cancel or have change its period)
