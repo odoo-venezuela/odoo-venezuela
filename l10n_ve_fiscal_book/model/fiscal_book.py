@@ -1236,6 +1236,9 @@ class fiscal_book(orm.Model):
                 sum( [ data[optype + '_' + ttax + "_vat_base_sum"]
                        for ttax in ["general", "additional", "reduced"] ] )
 
+        data['imex_vat_base_sum'] += \
+            data['imex_exempt_vat_sum'] + data['imex_sdcf_vat_sum']
+
         #~ sale book domestic fields transformations (ntp and tp sums)
         if fb_brw.type == 'sale':
 
