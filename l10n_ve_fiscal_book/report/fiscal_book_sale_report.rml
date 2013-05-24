@@ -15,7 +15,7 @@
                 <lineMode width="0.7"/>
                 <lines>2.0cm 3.0cm 57.4cm 3.0cm</lines>
             </pageGraphics>
-            <frame id="first" x1="2.0cm" y1="2.0cm" width="55.4cm" height="38.0cm"/>
+            <frame id="first" x1="2.0cm" y1="3.5cm" width="55.4cm" height="36.5cm"/>
         </pageTemplate>
     </template>
 
