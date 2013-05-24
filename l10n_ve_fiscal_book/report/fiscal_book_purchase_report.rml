@@ -553,19 +553,6 @@
         </blockTable>
     </section>
 
-<!--
-<blockTable colWidths="110.0" style="INTERNALTABLE">
-    <tr>
-        <td vAlign="MIDDLE">
-            <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable') ]]</para>
-    <nextPage/>
-    OJO AQUI el next page estaba comentado.
-        </td>
-    </tr>
-</blockTable>
-
--->
-
   </section>
   </story>
 </document>
