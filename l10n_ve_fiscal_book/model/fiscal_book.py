@@ -595,6 +595,7 @@ class fiscal_book(orm.Model):
         taxes. """
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
+            self.clear_book(cr, uid, [fb_brw.id], context=context)
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
@@ -625,8 +626,8 @@ class fiscal_book(orm.Model):
         return True
 
     def _get_issue_invoice_ids(self, cr, uid, fb_id, context=None):
-        """ It returns ids from not open or paid invoices regarding to the type and
-        period of the fiscal book order by date invoiced.
+        """ It returns ids from not open or paid invoices regarding to the type
+        and period of the fiscal book order by date invoiced.
         @param fb_id: fiscal book id.
         """
         context = context or {}
@@ -644,7 +645,6 @@ class fiscal_book(orm.Model):
              '&', '&', ('period_id', '=', fb_brw.period_id.id), ('type', 'in', inv_type),
                        ('state', 'not in', inv_state)],
             order='date_invoice asc', context=context)
-
         return issue_inv_ids
 
     def update_book_issue_invoices(self, cr, uid, fb_id, context=None):
@@ -708,12 +708,11 @@ class fiscal_book(orm.Model):
         return True
 
     def _get_book_taxes_ids(self, cr, uid, fb_id, context=None):
-        """ It returns account invoice taxes IDSs from the fiscal book
+        """ It returns account invoice taxes IDs from the fiscal book
         invoices.
         @param fb_id: fiscal book id
         """
         context = context or {}
-        inv_obj = self.pool.get('account.invoice')
         ait_ids = []
         for inv_brw in self.browse(cr, uid, fb_id,
                                    context=context).invoice_ids:
@@ -721,18 +720,11 @@ class fiscal_book(orm.Model):
         return ait_ids
 
     def update_book_taxes(self, cr, uid, fb_id, context=None):
-        """ It relate/unrelate the invoices taxes from the period to the book.
+        """ It relate the invoices taxes from the period to the book.
         @param fb_id: fiscal book id
         """
         context = context or {}
-        fbt_obj = self.pool.get('fiscal.book.taxes')
-        fb_brw = self.browse(cr, uid, fb_id, context=context)
         ait_ids = self._get_book_taxes_ids(cr, uid, fb_id, context=context)
-        fbt_ids = fbt_obj.search(cr, uid, [('fb_id', '=', fb_id)],
-                                 context=context)
-        #~ Unrelate taxes
-        fbt_obj.unlink(cr, uid, fbt_ids, context=context)
-        #~ Relate taxes
         data = map(lambda x: (0, 0, {'ait_id': x}), ait_ids)
         self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
         return True
@@ -828,10 +820,6 @@ class fiscal_book(orm.Model):
         iwdl_obj = self.pool.get('account.wh.iva.line')
         fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
-        #~ delete book lines
-        fbl_ids = [fbl_brw.id for fbl_brw in self.browse(
-            cr, uid, fb_id, context=context).fbl_ids]
-        fbl_obj.unlink(cr, uid, fbl_ids, context=context)
 
         #~ add book lines for withholding iva lines
         if fb_brw.iwdl_ids:
@@ -1340,12 +1328,7 @@ class fiscal_book(orm.Model):
         book line and update the fields of sum taxes in the book.
         @param fb_id: the id of the current fiscal book """
         context = context or {}
-        fbt_obj = self.pool.get('fiscal.book.taxes')
         fbl_obj = self.pool.get('fiscal.book.line')
-        #~ delete book taxes
-        fbt_ids = fbt_obj.search(cr, uid, [('fb_id', '=', fb_id)],
-                                 context=context)
-        fbt_obj.unlink(cr, uid, fbt_ids, context=context)
         #~ write book taxes
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
@@ -1422,7 +1405,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_lines(self, cr, uid, ids, context=None):
-        """ It delete all book lines loaded in the book. """
+        """ It delete all book lines loaded in the book """
         context = context or {}
         fbl_obj = self.pool.get("fiscal.book.line")
         for fb_id in ids:
@@ -1434,7 +1417,7 @@ class fiscal_book(orm.Model):
         return True
 
     def clear_book_taxes(self, cr, uid, ids, context=None):
-        """ It delete all book taxes loaded in the book. """
+        """ It delete all book taxes loaded in the book """
         context = context or {}
         fbt_obj = self.pool.get("fiscal.book.taxes")
         for fb_id in ids:
