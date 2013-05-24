@@ -882,7 +882,7 @@ class fiscal_book(orm.Model):
                 'credit_affected': inv_brw.parent_id and \
                                    inv_brw.parent_id.type in ['in_refund', 'out_refund'] \
                                    and inv_brw.parent_id.number or False,
-                'ctrl_number': inv_brw.nro_ctrl or False,
+                'ctrl_number': not inv_brw.fiscal_printer and inv_brw.nro_ctrl or False,
                 'affected_invoice': (doc_type == "N/DE" or doc_type == "N/CR") \
                                     and (inv_brw.parent_id and inv_brw.parent_id.number or False) \
                                     or False,
