@@ -6,7 +6,7 @@
     A2 Size ( 420 x 594 mm - 16.5 x 23.4 inches )
     A3 Size ( 297 x 420 mm - 11.7 x 16.5 inches )
 -->
-    <template pageSize="(59.4cm, 42.0cm)" title="Fiscal Book" author="Katherine Zaoral" allowSplitting="20" showBoundary="1">
+    <template pageSize="(59.4cm, 42.0cm)" title="Fiscal Book" author="Katherine Zaoral" allowSplitting="20" showBoundary="0">
         <pageTemplate id="first">
             <pageGraphics>
 
@@ -486,7 +486,7 @@
         <blockTable colWidths="70mm,40mm" style="SUMMARY-TABLE" repeatRows="2">
             <tr>
                 <td><para style="HEADER">[['RESUMEN RETENCIONES']]</para></td>
-                <td><para style="HEADER">RET. DEBITO FISCAL</para></td>
+                <td><para style="HEADER">RET. CRÉDITO FISCAL</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[['RETENCIONES PERIODOS ANTERIORES']]</para></td>
@@ -511,7 +511,7 @@
             <tr>
                 <td><para style="HEADER">RESUMEN</para></td>
                 <td><para style="HEADER">BASE IMPONIBLE</para></td>
-                <td><para style="HEADER">DEBITO FISCAL</para></td>
+                <td><para style="HEADER">CRÉDITO FISCAL</para></td>
             </tr>
             <tr>
                 <td><para style="HEADERLEFT">IMPORTACIONES NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL</para></td>
@@ -555,7 +555,7 @@
                 <td><para style="HEADER">[[ formatLang(my_fb.do_reduced_vat_tax_sum or 0.0) ]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT_BOLD">TOTAL VENTAS Y DEBITOS FISCAL PARA EFECTOS DE DETERMINACION</para></td>
+                <td><para style="CONTENIDOLEFT_BOLD">TOTAL COMPRAS Y CRÉDITOS FISCAL PARA EFECTOS DE DETERMINACION</para></td>
                 <td><para style="HEADER">[[ formatLang(my_fb.get_total_tax_credit_debit_base_sum or 0.0) ]]</para></td>
                 <td><para style="HEADER">[[ formatLang(my_fb.get_total_tax_credit_debit_tax_sum or 0.0) ]]</para></td>
             </tr>
