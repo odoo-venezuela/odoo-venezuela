@@ -1,18 +1,17 @@
 <?xml version="1.0"?>
-<document filename="test.pdf" invariant="1">
+<document filename="book.pdf" invariant="1">
 <!--
     info: http://www.dpandi.com/paper/
     Royal Size ( 20 x 25 inches )
     A2 Size ( 420 x 594 mm - 16.5 x 23.4 inches )
     A3 Size ( 297 x 420 mm - 11.7 x 16.5 inches )
 -->
-    <template pageSize="(59.4cm, 42.0cm)" title="Test" author="Katherine Zaoral" allowSplitting="20" showBoundary="1">
+    <template pageSize="(59.4cm, 42.0cm)" title="Fiscal Book" author="Katherine Zaoral" allowSplitting="20" showBoundary="0">
         <pageTemplate id="first">
             <pageGraphics>
 
                 <!--    PAGE HEADER    -->
                 <place x="2cm" y="36.7cm" width="59.4cm" height="3.33cm">
-
                     <!--    REPORT HEADER   -->
                     <blockTable colWidths="28.81cm, 11.08cm, 15.51cm" style="HEADER-REPORT-TABLE">
                        <tr>
@@ -33,7 +32,9 @@
                             </tr>
                         </blockTable>
                     <spacer length="0.5cm"/>
+                </place>
 
+                <place x="6.6cm" y="34.5cm" width="59.4cm" height="3.33cm">
                     <!--    SALE BOOK HEADERS    -->
                     <blockTable colWidths="375.0, 37.0, 103.0, 795.0" style="NEW-HEADER" blockAlignment="LEFT">
                         <tr>
