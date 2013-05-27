@@ -28,6 +28,7 @@
                             </td>
                             <td>
                                     <para style="HEADERDOC" fontName="Times-Roman">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
+                                    <para style="POPINFO">[[ my_fb.state == 'draft' and 'GETTING READY' or my_fb.state == 'confirmed' and 'APPROVED BY MANAGER' or my_fb.state == 'done' and '' ]]</para>
                             </td>
                         </tr>
                     </blockTable>
@@ -347,6 +348,7 @@
         <paraStyle name="CONTENIDOLEFT" fontName="Times-Roman" fontSize="4.5" leading="4.7" alignment="LEFT"/>
         <paraStyle name="HEADERLEFT" fontName="Times-Roman" fontSize="4.0" leading="6" alignment="LEFT"/>
         <paraStyle name="CONTENIDOLEFT_BOLD" fontName="Times-Bold" fontSize="7.0" leading="6" alignment="LEFT"/>
+        <paraStyle name="POPINFO" fontName="Times-Bold" fontSize="18.0" textColor="red" leading="6" alignment="LEFT"/>
 
   </stylesheet>
   <images/>
