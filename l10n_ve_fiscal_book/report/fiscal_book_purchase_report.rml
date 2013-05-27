@@ -1,14 +1,291 @@
 <?xml version="1.0"?>
-<document filename="test.pdf" invariant="1">
+<document filename="book.pdf" invariant="1">
 <!--
     info: http://www.dpandi.com/paper/
     Royal Size ( 20 x 25 inches )
     A2 Size ( 420 x 594 mm - 16.5 x 23.4 inches )
     A3 Size ( 297 x 420 mm - 11.7 x 16.5 inches )
 -->
-    <template pageSize="(59.4cm, 42.0cm)" title="Test" author="Katherine Zaoral" allowSplitting="20" showBoundary="0">
+    <template pageSize="(59.4cm, 42.0cm)" title="Fiscal Book" author="Katherine Zaoral" allowSplitting="20" showBoundary="1">
         <pageTemplate id="first">
             <pageGraphics>
+
+                <!--    PAGE HEADER    -->
+                <place x="2cm" y="36.7cm" width="59.4cm" height="3.33cm">
+                    <!--    REPORT HEADER   -->
+                    <blockTable colWidths="28.81cm,11.08cm,15.51cm" style="HEADER-REPORT-TABLE">
+                       <tr>
+                           [[ setLang(my_fb.company_id.partner_id.lang) ]]
+                           <td>
+                               <para style="HEADERDOC">[[ company.partner_id.name ]] [[ company.partner_id.vat[2:] ]]</para>
+                                  <para style="HEADERDOC">[[ my_fb.get_partner_addr ]]</para>
+                            </td>
+                            <td>
+                                    <para style="HEADERDOC">Libro: Compras </para>
+                                    <para style="HEADERDOC">[[ my_fb.get_month_year ]]</para>
+                                    <para style="HEADERDOC">[[ 'Desde: %s'%formatLang( my_fb.period_id.date_start, date=True) ]]</para>
+                                    <para style="HEADERDOC">[[ 'Hasta: %s'%formatLang( my_fb.period_id.date_stop, date=True) ]]</para>
+                            </td>
+                            <td>
+                                    <para style="HEADERDOC" fontName="Times-Roman">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
+                            </td>
+                        </tr>
+                    </blockTable>
+                    <spacer length="0.5cm"/>
+                </place>
+
+                <place x="8.34cm" y="34.3cm" width="59.4cm" height="3.33cm">
+                    <!--    PURCHASE BOOK HEADERS    -->
+                    <section>
+                        <blockTable colWidths="379.0, 37.0, 310.0, 485.0" style="HEADER-BOOK-TABLE" blockAlignment="LEFT">
+                            <tr>
+                                <td>
+                                    <blockTable colWidths="379.0" style="HEADER-BOOK-TABLE">
+                                        <tr>
+                                            <td vAlign="MIDDLE"><para style="HEADER">DATOS DE LA FACTURA O/Y DOCUMENTO</para></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 130.0, 25.0, 63.0" style="HEADER-BOOK-TABLE">
+                                                    <tr>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Linea</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">T. Doc.</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Fecha Doc.</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Numero Control</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Numero de Documento</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Factura Afectada</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Razon Social</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">RIF</para></td>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Liquidación de Aduana</para>
+                                                            <section>
+                                                            <blockTable colWidths="23.0, 40.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Fecha Nac.</para></td>
+                                                                    <td><para style="HEADER">Declaración</para></td>
+                                                                </tr>
+                                                            </blockTable>
+                                                            </section>
+                                                        </td>
+                                                    </tr>
+                                                </blockTable>
+                                            </td>
+                                        </tr>
+                                    </blockTable>
+                                </td>
+                                <td>
+                                    <blockTable colWidths="37.0" style="HEADER-BOOK-TABLE">
+                                        <tr>
+                                            <td vAlign="MIDDLE"><para style="HEADER">TOTALES</para></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <blockTable colWidths="37.0" style="HEADER-BOOK-TABLE" rowHeights="12">
+                                                    <tr>
+                                                        <td vAlign="MIDDLE"><para style="HEADER">Total con IVA</para></td>
+                                                    </tr>
+                                                </blockTable>
+                                            </td>
+                                        </tr>
+                                    </blockTable>
+                                </td>
+                                <td>
+                                    <blockTable colWidths="310.0" style="HEADER-BOOK-TABLE">
+                                        <tr>
+                                            <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE IMPORTACIONES</para></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0" style="HEADER-BOOK-TABLE">
+                                                    <tr>
+                                                        <td>
+                                                            <blockTable colWidths="40.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">No Gravado</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="20.0, 20.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">SDCF</para></td>
+                                                                                <td><para style="HEADER">Exento</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota General</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                                <td><para style="HEADER">Alícuota</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Reducida</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                                <td><para style="HEADER">Alícuota</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Adicional</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                                <td><para style="HEADER">Alícuota</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                    </tr>
+                                                </blockTable>
+                                            </td>
+                                        </tr>
+                                    </blockTable>
+                                </td>
+                                <td>
+                                    <blockTable colWidths="485.0" style="HEADER-BOOK-TABLE">
+                                        <tr>
+                                            <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES EN EL MERCADO INTERNO</para></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0, 175.0" style="HEADER-BOOK-TABLE">
+                                                    <tr>
+                                                        <td>
+                                                            <blockTable colWidths="40.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">No Gravado</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="20.0, 20.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">SDCF</para></td>
+                                                                                <td><para style="HEADER">Exento</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota General</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                                <td><para style="HEADER">Alícuota</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Reducida</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                                <td><para style="HEADER">Alícuota</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Adicional</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Base Imponible</para></td>
+                                                                                <td><para style="HEADER">Alícuota</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                        <td>
+                                                            <blockTable colWidths="175.0" style="HEADER-BOOK-TABLE">
+                                                                <tr>
+                                                                    <td><para style="HEADER">Retenciones</para></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="HEADER-BOOK-TABLE">
+                                                                            <tr>
+                                                                                <td><para style="HEADER">Fecha Factura Afect.</para></td>
+                                                                                <td><para style="HEADER">Nro Retención</para></td>
+                                                                                <td><para style="HEADER">Débito Fiscal Base</para></td>
+                                                                                <td><para style="HEADER">Retención %</para></td>
+                                                                                <td><para style="HEADER">Monto Retenido</para></td>
+                                                                            </tr>
+                                                                        </blockTable>
+                                                                    </td>
+                                                                </tr>
+                                                            </blockTable>
+                                                        </td>
+                                                    </tr>
+                                                </blockTable>
+                                            </td>
+                                        </tr>
+                                    </blockTable>
+                                </td>
+                            </tr>
+                        </blockTable>
+                    </section>
+                </place>
+
+                <!--    PAGE FOOTER    -->
                 <setFont name="Times-Roman" size="10"/>
                 <drawString x="2.5cm" y="2.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
                 <drawString x="55cm" y="2.5cm">Pagina <pageNumber/></drawString>
@@ -17,7 +294,7 @@
                 <drawString x="25cm" y="2.5cm"> Printed in Report Lab using OpenERP</drawString>
                 <lines>2.0cm 3.0cm 57.4cm 3.0cm</lines>
             </pageGraphics>
-            <frame id="first" x1="2.0cm" y1="3.5cm" width="55.4cm" height="36.5cm"/>
+            <frame id="first" x1="2.0cm" y1="3.5cm" width="55.4cm" height="33.7cm"/>
         </pageTemplate>
     </template>
 
@@ -79,276 +356,6 @@
   <!--  PURCHASE BOOKS  -->
   <section>
     <para>[[repeatIn( objects ,'my_fb')]]</para>
-
-    <!--    REPORT HEADER   -->
-    <blockTable colWidths="28.81cm,11.08cm,15.51cm" style="HEADER-REPORT-TABLE">
-       <tr>
-           [[ setLang(my_fb.company_id.partner_id.lang) ]]
-           <td>
-               <para style="HEADERDOC">[[ company.partner_id.name ]] [[ company.partner_id.vat[2:] ]]</para>
-                  <para style="HEADERDOC">[[ my_fb.get_partner_addr ]]</para>
-                </td>
-                <td>
-                    <para style="HEADERDOC">Libro: Compras </para>
-                    <para style="HEADERDOC">[[ my_fb.get_month_year ]]</para>
-                    <para style="HEADERDOC">[[ 'Desde: %s'%formatLang( my_fb.period_id.date_start, date=True) ]]</para>
-                    <para style="HEADERDOC">[[ 'Hasta: %s'%formatLang( my_fb.period_id.date_stop, date=True) ]]</para>
-                </td>
-                <td>
-                    <para style="HEADERDOC" fontName="Times-Roman">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
-                </td>
-            </tr>
-        </blockTable>
-    <spacer length="10mm"/>
-
-    <!--    PURCHASE BOOK HEADERS    -->
-    <section>
-        <blockTable colWidths="379.0, 37.0, 310.0, 485.0" style="HEADER-BOOK-TABLE" blockAlignment="LEFT">
-            <tr>
-                <td>
-                    <blockTable colWidths="379.0" style="HEADER-BOOK-TABLE">
-                        <tr>
-                            <td vAlign="MIDDLE"><para style="HEADER">DATOS DE LA FACTURA O/Y DOCUMENTO</para></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <blockTable colWidths="15.0, 15.0, 23.0, 36.0, 36.0, 36.0, 130.0, 25.0, 63.0" style="HEADER-BOOK-TABLE">
-                                    <tr>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Linea</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">T. Doc.</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Fecha Doc.</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Numero Control</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Numero de Documento</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Factura Afectada</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Razon Social</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">RIF</para></td>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Liquidación de Aduana</para>
-                                            <section>
-                                            <blockTable colWidths="23.0, 40.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Fecha Nac.</para></td>
-                                                    <td><para style="HEADER">Declaración</para></td>
-                                                </tr>
-                                            </blockTable>
-                                            </section>
-                                        </td>
-                                    </tr>
-                                </blockTable>
-                            </td>
-                        </tr>
-                    </blockTable>
-                </td>
-                <td>
-                    <blockTable colWidths="37.0" style="HEADER-BOOK-TABLE">
-                        <tr>
-                            <td vAlign="MIDDLE"><para style="HEADER">TOTALES</para></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <blockTable colWidths="37.0" style="HEADER-BOOK-TABLE" rowHeights="12">
-                                    <tr>
-                                        <td vAlign="MIDDLE"><para style="HEADER">Total con IVA</para></td>
-                                    </tr>
-                                </blockTable>
-                            </td>
-                        </tr>
-                    </blockTable>
-                </td>
-                <td>
-                    <blockTable colWidths="310.0" style="HEADER-BOOK-TABLE">
-                        <tr>
-                            <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES DE IMPORTACIONES</para></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0" style="HEADER-BOOK-TABLE">
-                                    <tr>
-                                        <td>
-                                            <blockTable colWidths="40.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">No Gravado</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="20.0, 20.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">SDCF</para></td>
-                                                                <td><para style="HEADER">Exento</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota General</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alícuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Reducida</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alícuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Adicional</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alícuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                    </tr>
-                                </blockTable>
-                            </td>
-                        </tr>
-                    </blockTable>
-                </td>
-                <td>
-                    <blockTable colWidths="485.0" style="HEADER-BOOK-TABLE">
-                        <tr>
-                            <td vAlign="MIDDLE"><para style="HEADER">OPERACIONES EN EL MERCADO INTERNO</para></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <blockTable colWidths="40.0, 90.0, 90.0, 90.0, 175.0" style="HEADER-BOOK-TABLE">
-                                    <tr>
-                                        <td>
-                                            <blockTable colWidths="40.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">No Gravado</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="20.0, 20.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">SDCF</para></td>
-                                                                <td><para style="HEADER">Exento</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota General</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alícuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Reducida</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alícuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="90.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Compras o Servicios Gravados Alícuota Adicional</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 20.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Base Imponible</para></td>
-                                                                <td><para style="HEADER">Alícuota</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                        <td>
-                                            <blockTable colWidths="175.0" style="HEADER-BOOK-TABLE">
-                                                <tr>
-                                                    <td><para style="HEADER">Retenciones</para></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <blockTable colWidths="35.0, 35.0, 35.0, 35.0, 35.0" style="HEADER-BOOK-TABLE">
-                                                            <tr>
-                                                                <td><para style="HEADER">Fecha Factura Afect.</para></td>
-                                                                <td><para style="HEADER">Nro Retención</para></td>
-                                                                <td><para style="HEADER">Débito Fiscal Base</para></td>
-                                                                <td><para style="HEADER">Retención %</para></td>
-                                                                <td><para style="HEADER">Monto Retenido</para></td>
-                                                            </tr>
-                                                        </blockTable>
-                                                    </td>
-                                                </tr>
-                                            </blockTable>
-                                        </td>
-                                    </tr>
-                                </blockTable>
-                            </td>
-                        </tr>
-                    </blockTable>
-                </td>
-            </tr>
-        </blockTable>
-    </section>
 
     <!--    PURCHASE BOOK LINES   -->
     <section>
