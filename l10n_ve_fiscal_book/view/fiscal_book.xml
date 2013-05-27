@@ -272,10 +272,14 @@ string="Invoice"
         <field name="arch" type="xml">
             <form string="Fiscal Purchase Book" version="7.0">
                 <header>
-                    <button name="update_book" type="object" string="Update Book" class="oe_highlight"/>
-                    <button name="clear_book" type="object" string="Clear Book" class="oe_highlight"/>
-                    <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
+                    <button name="update_book" type="object" string="Update Book" states="draft" class="oe_highlight"/>
+                    <button name="clear_book" type="object" string="Clear Book" states="draft" class="oe_highlight"/>
+                    <button name="%(fiscal_book_wizard_act)d" type="action" string="Print Book" states="draft,confirmed,done" class="oe_highlight"/>
+                    <button name="act_confirm" string="Confirm" states="draft" icon="gtk-go-forward"/>
+                    <button name="act_done" string="Done" states="confirmed" icon="gtk-execute"/>
+                    <button name="act_cancel" string="Cancel" states="confirmed,done" icon="gtk-cancel"/>
+                    <button name="act_draft" colspan="2" string="Set to draft" states="cancel" icon="gtk-go-forward"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;confirmed&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
                 </header>
                 <group>
                     <field name="name"/>
