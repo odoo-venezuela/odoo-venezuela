@@ -60,6 +60,7 @@ Parágrafo Segundo: El registro de las operaciones contenidas en el reporte glob
         "view/adjustment_book.xml",
         "view/fiscal_book.xml",
         "report/fiscal_book_report.xml",
+        "workflow/fb_workflow.xml",
         "security/fiscal_book_security.xml",
         "security/ir.model.access.csv"
     ],
