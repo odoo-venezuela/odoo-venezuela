@@ -1,13 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-
-<!-- 
-    =====================================================
-    Averiguar para que funciona esta vista
-    =====================================================
-    -->
-
         <record id="view_islr_wh_doc_invoices_tree_" model="ir.ui.view">
             <field name="name">islr.wh.doc.invoices_tree</field>
             <field name="model">islr.wh.doc.invoices</field>
@@ -59,7 +52,6 @@
                     <field name="concept_id"/>
                     <field name="retencion_islr"/>
                     <field name="amount"/>
-                    <field name="move_id"/>
                 </tree>
             </field>
         </record>
@@ -70,7 +62,6 @@
             <field name="arch" type="xml">
                 <form string="Lines Income Withholding" version="7.0">
                     <field name="concept_id" colspan="6"/>
-                    <field name="move_id" colspan="6"/>
                     <newline/>
                     <field name="xml_ids" nolabel="1" colspan="4">
                         <tree string="Detail of the Concept of Income Withholding">
@@ -285,7 +276,6 @@
                                             <field name="retencion_islr"/>
                                             <field name="subtract"/>
                                             <field name="amount"/>
-                                            <field name="move_id"/>
                                         </tree>
                                         <form string="Income Withholding Concepts" version="7.0">
                                             <field name="invoice_id"/>
@@ -305,7 +295,6 @@
                                             <field name="subtract"/>
                                             <field name="retencion_islr"/>
                                             <field name="amount"/>
-                                            <field name="move_id" colspan="6"/>
                                         </form>
                                     </field>
                                 </page>

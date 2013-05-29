@@ -970,7 +970,6 @@ class islr_wh_doc_line(osv.osv):
         'concept_id': fields.many2one('islr.wh.concept', 'Withholding Concept', help="Withholding concept associated with this rate"),
         'retencion_islr': fields.float('Withholding Rate', digits_compute=dp.get_precision('Withhold ISLR'), help="Withholding Rate"),
         'retention_rate': fields.function(_retention_rate, method=True, string='Withholding Rate', type='float', help="Withhold rate has been applied to the invoice", digits_compute=dp.get_precision('Withhold ISLR')),
-        'move_id': fields.many2one('account.move', 'Journal Entry', readonly=True, help="Accounting voucher"),
         'islr_rates_id': fields.many2one('islr.rates', 'Rates', help="Withhold rates"),
         'xml_ids': fields.one2many('islr.xml.wh.line', 'islr_wh_doc_line_id', 'XML Lines', help='XML withhold invoice line id'),
         'iwdi_id': fields.many2one('islr.wh.doc.invoices', 'Withheld Invoice',

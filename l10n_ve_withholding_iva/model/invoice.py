@@ -183,8 +183,7 @@ class account_invoice(osv.osv):
         wh_iva_obj = self.pool.get('account.wh.iva')
         for inv in self.browse(cr, uid, ids):
             if inv.wh_iva_id:
-                #raise osv.except_osv('Invalid Action !', _('This invoice is already withholded'))
-                return 0
+                return False 
             ret_line = []
             if inv.type in ('out_invoice', 'out_refund'):
                 acc_id = inv.partner_id.property_account_receivable.id
