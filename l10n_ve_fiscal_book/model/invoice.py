@@ -24,9 +24,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
 
-class inherited_invoice(osv.osv):
+class account_invoice(osv.osv):
     _inherit = "account.invoice"
 
     _columns = {
@@ -38,4 +39,17 @@ class inherited_invoice(osv.osv):
                                        needs to be add'),
     }
 
-inherited_invoice()
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Verify first in the invoice have a fiscal book associated and if
+        the sate of the book is in draft. """
+        context = context or {}
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            if not inv_brw.fb_id or (inv_brw.fb_id and inv_brw.fb_id.state == 'draft'):
+                super(account_invoice, self).action_cancel(cr, uid, ids,
+                                                           context=context)
+            else:
+                raise osv.except_osv(_("Error!"),
+                _("You can't cancel an invoice that is loaded in a processed"
+                  "Fiscal Book. You need to go to Fiscal Book and set the book"
+                  " to Draft. Then you could be able to cancel the invoice."))
+        return True
