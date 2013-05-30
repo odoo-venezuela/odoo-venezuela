@@ -1672,6 +1672,7 @@ class fiscal_book_lines(orm.Model):
         'partner_vat': fields.char(size=128, string='Partner TIN', help=''),
         'affected_invoice': fields.char(
             string='Affected Invoice',
+            size=64,
             help="For an invoice line type means parent invoice for a Debit "
             " or Credit Note. For an withholding line type means the invoice"
             " number related to the withholding"),
@@ -1704,8 +1705,10 @@ class fiscal_book_lines(orm.Model):
         'imex_date': fields.date(string='Imex Date',
                                  help='Invoice Importation/Exportation Date'),
         'debit_affected': fields.char(string='Affected Debit Notes',
+                                      size=256,
                                       help='Debit notes affected'),
         'credit_affected': fields.char(string='Affected Credit Notes',
+                                       size=256,
                                        help='Credit notes affected'),
         'type': fields.selection(
             [('im', 'Import'),
