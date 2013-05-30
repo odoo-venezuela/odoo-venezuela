@@ -7,8 +7,8 @@
             <field name="model">customs.form</field>
             <field name="arch" type="xml">
                 <form string="Seniat" version="7.0">
-					<header>
-						<field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;green&quot;,&quot;done&quot;:&quot;red&quot;}"/>
                     </header>
                     <group col="4" colspan="4">
                         <field name="name"/>
@@ -41,37 +41,40 @@
 <!--
                                             <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
-                                            <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
+                                            <field name="imex_inv_id" on_change="on_change_invoice_id(imex_inv_id)"
+                                                   domain="[('customs_form_id','!=', False)]"/>
                                             <field name="partner_id"/>
-                                            <field name="supplier_invoice_number"/>
-                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
-                                            <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
-                                            <field name="amount" on_change="on_change_amount(tax_id, base, amount)" sum="Tax amount total"/>
+                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection" on_change="on_change_tax_id(tax_id)"/>
+                                            <field name="name"  invisible="1"/>
+                                            <field name="account_id" invisible="1"/>
+                                            <field name="base" invisible="1"/>
+                                            <field name="amount" invisible="1"/>
+                                            <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)" sum="Tax amount total"/>
                                         </tree>
                                         <form version="7.0">
 <!--
                                             <field name="cfl_id" invisible="1" on_change="on_change_cfl_id(cfl_id)"/>
 -->
-                                            <field name="invoice_id" on_change="on_change_invoice_id(invoice_id)"/>
+                                            <field name="imex_inv_id" on_change="on_change_invoice_id(imex_inv_id)"/>
                                             <field name="partner_id"/>
-                                            <field name="supplier_invoice_number"/>
-                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection"/>
-                                            <field name="base" on_change="on_change_amount(tax_id, base, amount)"/>
-                                            <field name="amount" on_change="on_change_amount(tax_id, base, amount)"/>
+                                            <field name="tax_id" domain="[('type_tax_use', '=', 'purchase')]" widget="selection" on_change="on_change_tax_id(tax_id)"/>
+                                            <field name="base_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
+                                            <field name="tax_amount" on_change="on_change_amount(tax_id, base_amount, tax_amount)"/>
                                         </form>
-                                    </field>    
+                                    </field>
                                 </form>
-                            </field>    
+                            </field>
                             <field name="amount_total"/>
-                        </page>    
+                        </page>
                         <page string="Other">
                             <label string="Notes" colspan="4"/>
-                            <field name="narration" colspan="4" nolabel="1"/>  
-                            <field name="invoice_ids" colspan="4" nolabel="1"/>  
+                            <field name="narration" colspan="4" nolabel="1"/>
+                            <field name="invoice_ids" colspan="4" nolabel="1"/>
                             <field name="move_id"/>
                             <field name="company_id"/>
-                        </page>    
-                    </notebook>    
+                        </page>
+                    </notebook>
                     <group col="8" colspan="8">
                         <field name="state"/>
                         <button name="button_open" icon="gtk-go-forward" string="Open" states="draft,done" colspan="1"/>
@@ -99,7 +102,7 @@
                 </tree>
             </field>
         </record>
-        
-        
+
+
     </data>
 </openerp>
