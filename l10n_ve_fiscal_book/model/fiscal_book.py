@@ -566,7 +566,7 @@ class fiscal_book(orm.Model):
         """ It make clear all stuff of book. """
         context = context or {}
         self.clear_book(cr, uid, ids, context=context)
-        return True
+        return {'value':{}}
 
     #~ update book methods
 
