@@ -277,7 +277,7 @@ string="Invoice"
         <field name="act_window_id" ref="action_fiscal_sale_book"/>
     </record>
 
-    <menuitem name="Fiscal Sale Book" id="menu_fiscal_sale_book" parent="menu_fr_main" action="action_fiscal_sale_book"/>
+    <menuitem name="Fiscal Sale Book" id="menu_fiscal_sale_book" parent="menu_fr_main" action="action_fiscal_sale_book" sequence='60'/>
 
 <!-- Pruchase Book -->
 
@@ -433,7 +433,7 @@ string="Invoice"
         <field name="act_window_id" ref="action_fiscal_purchase_book"/>
     </record>
 
-    <menuitem name="Fiscal Purchase Book" id="menu_fiscal_purchase_book" parent="menu_fr_main" action="action_fiscal_purchase_book"/>
+    <menuitem name="Fiscal Purchase Book" id="menu_fiscal_purchase_book" parent="menu_fr_main" action="action_fiscal_purchase_book" sequence='40'/>
 
     </data>
 </openerp>
