@@ -125,8 +125,8 @@ class account_invoice(osv.osv):
         context = context or {}
         if vals.get('type') in ('out_invoice','out_refund') and \
             vals.get('date_invoice') and not vals.get('date_document'):
-            vals.['date_document']=vals['date_invoice']
-        return = super(account_invoice, self).write(cr, uid, ids, vals,
+            vals['date_document']=vals['date_invoice']
+        return super(account_invoice, self).write(cr, uid, ids, vals,
                                                     context=context)
 
 account_invoice()
