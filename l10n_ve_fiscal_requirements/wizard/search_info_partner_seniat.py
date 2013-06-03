@@ -50,8 +50,6 @@ class search_info_partner_seniat(osv.osv_memory):
 
         if rp_obj.check_vat_ve(vat,context=context):
             res = su_obj._dom_giver(cr, uid, vat,context)
-            if res:
-                res.update({'wh_iva_rate':su_obj._buscar_porcentaje(cr, uid, vat)})
         self.write(cr,uid,ids,res)
         
         return {

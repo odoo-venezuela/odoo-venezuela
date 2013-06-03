@@ -149,12 +149,14 @@ class seniat_url(osv.osv):
             1].firstChild.data.upper() == 'SI' and True or False
         vat_subjected = dom.childNodes[0].childNodes[
             2].firstChild.data.upper() == 'SI' and True or False
+        wh_rate = dom.childNodes[0].childNodes[3].firstChild.data
         self.logger.info("RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
         return {'name': name,
                 'vat_subjected': vat_subjected,
                 'vat': 'VE' + rif_aux,
+                'wh_iva_rate': wh_rate,
                 'wh_iva_agent': wh_agent}
 
     def _print_error(self, error, msg):
