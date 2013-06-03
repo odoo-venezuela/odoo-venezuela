@@ -34,7 +34,6 @@ class res_partner(osv.osv):
     logger = logging.getLogger('res.partner')
     _columns = {
         'wh_iva_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
-        'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding rate"),
     }
     _defaults = {
         'wh_iva_rate': lambda *a: 100.0,
