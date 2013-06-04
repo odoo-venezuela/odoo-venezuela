@@ -41,10 +41,10 @@ class account_invoice(osv.osv):
 
     def action_cancel(self, cr, uid, ids, context=None):
         """ Verify first in the invoice have a fiscal book associated and if
-        the sate of the book is in draft. """
+        the sate of the book is in cancel. """
         context = context or {}
         for inv_brw in self.browse(cr, uid, ids, context=context):
-            if not inv_brw.fb_id or (inv_brw.fb_id and inv_brw.fb_id.state == 'draft'):
+            if not inv_brw.fb_id or (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel'):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
