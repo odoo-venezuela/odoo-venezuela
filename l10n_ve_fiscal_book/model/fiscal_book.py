@@ -1571,6 +1571,19 @@ class fiscal_book(orm.Model):
                or (fb_brw.type == 'purchase' and 'do' \
                   or (inv_brw.partner_id.vat_subjected and 'tp' or 'ntp' ))
 
+    def unlink(self, cr, uid, ids, context=None):
+        """ Overwrite the unlink method to throw an exception if the book is
+        not in cancel state."""
+        context = context or {}
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            if fb_brw.state != 'cancel':
+                raise osv.except_osv("Invalid Procedure!!",
+                    "Youre book needs to be in cancel state to be deleted.")
+            else:
+                super(fiscal_book,self).unlink(cr, uid, ids, context=context)
+        return True
+
+
 class fiscal_book_lines(orm.Model):
 
     def _get_wh_vat(self, cr, uid, ids, field_name, arg, context=None):
