@@ -31,17 +31,18 @@ class inherited_invoice(osv.osv):
 
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                 help='Fiscal Book where this line is \
-                                 related to'),
+                                 help="Fiscal Book where this line is" \
+                                 " related to"),
         'issue_fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                       help='Fiscal Book where this invoice \
-                                       needs to be add'),
+                                       help="Fiscal Book where this invoice" \
+                                       " needs to be add"),
         # TODO: THIS FIELD TO BE CHANGED TO A STORABLE FUNCTIONAL FIELD
         # CHANGE EVEN FROM boolean to selection
         'fb_submitted': fields.boolean('Fiscal Book Submitted?',
-                                       help='Indicates if this invoice is in \
-                                       a Fiscal Book which has  being already \
-                                       submitted to the statutory institute'),
+                                       help="Indicates if this invoice is in" \
+                                       " a Fiscal Book which has being" \
+                                       " already submitted to the statutory" \
+                                       " institute"),
     }
 
 inherited_invoice()
