@@ -39,7 +39,8 @@ write({'state':'confirmed'})</field>
             <field name="wkf_id" ref="fb_wkf"/>
             <field name="name">cancel</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'cancel'})</field>
+            <field name="action">clear_book()
+write({'state':'cancel'})</field>
         </record>
 
 <!--
