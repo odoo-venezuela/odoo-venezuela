@@ -123,23 +123,6 @@ class seniat_url(osv.osv):
             retries -= 1
         return str_error
 
-    def _buscar_porcentaje(self, cr, uid, rif):
-        """ Finds the percentage to withhold the withholding agent.
-        """
-        url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
-        url = url_obj.url_seniat + '%s'
-        context = {}
-        html_data = self.pool.get('seniat.url')._load_url(3, url % rif)
-        html_data = unicode(html_data, 'ISO-8859-1').encode('utf-8')
-        search_str = 'La condición de este contribuyente requiere la retención del '
-        pos = html_data.find(search_str)
-        if pos > 0:
-            pos += len(search_str)
-            pct = html_data[pos:pos + 4].replace('%', '').replace(' ', '')
-            return float(pct)
-        else:
-            return 0.0
-
     def _parse_dom(self, cr, uid, dom, rif, url_seniat, context={}):
         """ This function extracts the information partner of the string and returns
         """
@@ -149,12 +132,14 @@ class seniat_url(osv.osv):
             1].firstChild.data.upper() == 'SI' and True or False
         vat_subjected = dom.childNodes[0].childNodes[
             2].firstChild.data.upper() == 'SI' and True or False
+        wh_rate = dom.childNodes[0].childNodes[3].firstChild.data
         self.logger.info("RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
         return {'name': name,
                 'vat_subjected': vat_subjected,
                 'vat': 'VE' + rif_aux,
+                'wh_iva_rate': wh_rate,
                 'wh_iva_agent': wh_agent}
 
     def _print_error(self, error, msg):

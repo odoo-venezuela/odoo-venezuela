@@ -23,41 +23,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 from openerp.osv import fields, osv
-from openerp.addons import decimal_precision as dp
-from openerp.tools.translate import _
-import urllib
-from xml.dom.minidom import parseString
 import logging
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     logger = logging.getLogger('res.partner')
-    _columns = {
-        'wh_iva_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
-        'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding rate"),
-    }
     _defaults = {
         'wh_iva_rate': lambda *a: 100.0,
     }
-
-res_partner()
-
-# THIS METHOD WILL BE RE-DEPLOYED WHEN THE SENIAT UNFUCK US
-#class seniat_url(osv.osv):
-#
-#    _inherit = 'seniat.url'
-#    
-#    def _parse_dom(self,cr,uid,dom,rif,url_seniat,context=None):
-#        """ Extract iva rate and whether is withholding agent or not of the partner
-#        @param dom: data from seniat page
-#        @param rif: vat to partner to consult
-#        @param url_seniat: seniat url
-#        """
-#        su_obj = self.pool.get('seniat.url')
-#        wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
-#        wh_rate = su_obj._buscar_porcentaje(cr, uid, rif)
-#        self.logger.info("RIF: %s Found" % rif)
-#        data = {'wh_iva_agent':wh_agent,'wh_iva_rate':wh_rate}
-#        return dict(data.items() + super(seniat_url,self)._parse_dom(cr,uid,dom,rif,url_seniat,context=context).items())
-#    
-#seniat_url()

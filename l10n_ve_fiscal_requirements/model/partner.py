@@ -35,6 +35,7 @@
 from openerp.osv.orm import except_orm
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
+from openerp.addons import decimal_precision as dp
 import re
 
 class res_partner(osv.osv):
@@ -67,6 +68,12 @@ class res_partner(osv.osv):
     _columns = {
         'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
         'uid_country': fields.function(_get_uid_country, type='char', string="uid_country", size=20, help="country code of the current company"),
+        'wh_iva_rate': fields.float(
+            string='Rate',
+            digits_compute=dp.get_precision('Withhold'),
+            help="Vat Withholding rate"),
+        'wh_iva_agent': fields.boolean('Wh. Agent', 
+            help="Indicate if the partner is a withholding vat agent"),
     }
     
     _default = {
