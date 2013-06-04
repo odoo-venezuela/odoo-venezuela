@@ -613,8 +613,6 @@ class fiscal_book(orm.Model):
         #~ Relate invoices
         inv_ids = self._get_invoice_ids(cr, uid, fb_id, context=context)
         inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
-        #~ update book taxes
-        self.update_book_taxes(cr, uid, fb_id, context=context)
 
         #~ TODO: move this process to the cancel process of the invoice
         #~ Unrelate invoices (period book change, invoice now cancel/draft or
@@ -714,28 +712,6 @@ class fiscal_book(orm.Model):
             if iwdl_id_to_check not in iwdl_ids:
                 iwdl_obj.write(cr, uid, iwdl_id_to_check, {'fb_id': False},
                                context=context)
-        return True
-
-    def _get_book_taxes_ids(self, cr, uid, fb_id, context=None):
-        """ It returns account invoice taxes IDs from the fiscal book
-        invoices.
-        @param fb_id: fiscal book id
-        """
-        context = context or {}
-        ait_ids = []
-        for inv_brw in self.browse(cr, uid, fb_id,
-                                   context=context).invoice_ids:
-            ait_ids += [ait.id for ait in inv_brw.tax_line]
-        return ait_ids
-
-    def update_book_taxes(self, cr, uid, fb_id, context=None):
-        """ It relate the invoices taxes from the period to the book.
-        @param fb_id: fiscal book id
-        """
-        context = context or {}
-        ait_ids = self._get_book_taxes_ids(cr, uid, fb_id, context=context)
-        data = map(lambda x: (0, 0, {'ait_id': x}), ait_ids)
-        self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
         return True
 
     def _get_invoice_iwdl_id(self, cr, uid, fb_id, inv_id, context=None):
