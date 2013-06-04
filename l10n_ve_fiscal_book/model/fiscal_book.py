@@ -698,8 +698,8 @@ class fiscal_book(orm.Model):
         #~ Relate wh iva lines
         iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
 
-        if fb_brw.type == "sale" \
-                and fb_brw.company_id.partner_id.wh_iva_agent and iwdl_ids:
+        if fb_brw.type == "sale" and iwdl_ids \
+                and not fb_brw.company_id.partner_id.wh_iva_agent:
             raise osv.except_osv(_("Error!"),
                   _("You have withholdings registred but you are not a withholding agent"))
 
