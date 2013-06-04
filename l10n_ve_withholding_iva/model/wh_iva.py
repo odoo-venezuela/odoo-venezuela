@@ -536,7 +536,10 @@ class account_wh_iva(osv.osv):
         if wh_lines:
             wh_line_obj.unlink(cr, uid, wh_lines)
         
-        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',partner_id)],context=context)
+        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),
+                                        ('wh_iva', '=', False),
+                                        ('type', '=', type),
+                                        ('partner_id','=',partner_id)],context=context)
         
         if inv_ids:
             #~ Get only the invoices which are not in a document yet
