@@ -271,7 +271,10 @@ class account_wh_iva(osv.osv):
         'wh_lines': fields.one2many('account.wh.iva.line', 'retention_id', 'Vat Withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding lines"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
-        
+        "fortnight": fields.char(
+            "Fortnight",
+            size=64, readonly=True,
+            help="Tuple like (period_id, True first forthnight and False secdond forthnight)"),
     } 
     _defaults = {
         'code': lambda self,cr,uid,c: self.wh_iva_seq_get(cr, uid),
