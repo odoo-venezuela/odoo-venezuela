@@ -190,13 +190,12 @@ class account_invoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if inv_brw.wh_iva_id:
                 if inv_brw.wh_iva_id.state == 'draft':
-                    wh_iva_obj.compute_amount_wh(cr, uid, [inv_brw.wh_iva_id],
+                    wh_iva_obj.compute_amount_wh(cr, uid, [inv_brw.wh_iva_id.id],
                                                  context=context)
                 else:
                     raise osv.except_osv('Warning !',
                     _('Youe have already a withholding doc associate to your '
                     ' invoice,  but this withholding doc is not in cancel state.'))
-                    pass
                 return False
             else:
                 #~ Create Lines Data
