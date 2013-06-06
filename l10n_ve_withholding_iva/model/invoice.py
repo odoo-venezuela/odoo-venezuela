@@ -270,7 +270,7 @@ class account_invoice(osv.osv):
                 'type': wh_type,
                 'account_id': acc_id,
                 'partner_id': inv_brw.partner_id.id,
-                'wh_lines': ret_line_id,
+                'wh_lines': [(4, ret_line_id)],
                 'fortnight': str(per_obj.find_fortnight(
                     cr, uid, inv_brw.date_invoice, context=context)),
             }
