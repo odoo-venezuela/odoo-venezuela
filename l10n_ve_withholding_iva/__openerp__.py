@@ -54,6 +54,7 @@
         'view/account_invoice_view.xml',
         'view/account_view.xml',
         'view/partner_view.xml',
+        'view/res_company_view.xml',
         'view/wh_iva_view.xml',
         "data/l10n_ve_withholding_data.xml",
         'report/txt_wh_report.xml',
