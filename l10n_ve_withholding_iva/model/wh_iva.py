@@ -271,10 +271,11 @@ class account_wh_iva(osv.osv):
         'wh_lines': fields.one2many('account.wh.iva.line', 'retention_id', 'Vat Withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding lines"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
-        "fortnight": fields.char(
-            "Fortnight",
-            size=64, readonly=True,
-            help="Tuple like (period_id, True first forthnight and False secdond forthnight)"),
+        "fortnight": fields.selection(
+            [ ('False', "First Fortnight"), ('True', "Second Fortnight") ],
+            string="Fortnight",
+            readonly=True, states={"draft": [("readonly",False)]},
+            help="Withholding type"),
     } 
     _defaults = {
         'code': lambda self,cr,uid,c: self.wh_iva_seq_get(cr, uid),
@@ -285,7 +286,7 @@ class account_wh_iva(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
-
+        "fortnight": 'False',
     }
     def action_cancel(self,cr,uid,ids,context={}):
         """ Call cancel_move and return True
@@ -539,9 +540,11 @@ class account_wh_iva(osv.osv):
         if wh_lines:
             wh_line_obj.unlink(cr, uid, wh_lines)
         
+        ttype = type in ['out_invoice'] and ['out_invoice', 'out_refund'] \
+                or ['in_invoice', 'in_refund']
         inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),
                                         ('wh_iva', '=', False),
-                                        ('type', '=', type),
+                                        ('type', 'in', ttype),
                                         ('partner_id','=',partner_id)],context=context)
         
         if inv_ids:
@@ -562,6 +565,82 @@ class account_wh_iva(osv.osv):
         }
 
         return res
+
+    def clear_wh_lines(self, cr, uid, ids, context=None):
+        """
+        Clear lines of current withholding document 
+        """
+        context = context or {}
+        wil_obj = self.pool.get('account.wh.iva.line')
+        ai_obj = self.pool.get('account.invoice')
+        if ids:
+            wil_ids = wil_obj.search(cr, uid, [
+                ('retention_id', 'in', ids)], context=context)
+            ai_ids = wil_ids and [ wil.invoice_id.id
+                for wil in wil_obj.browse(cr, uid, wil_ids, context=context) ]
+            ai_ids and ai_obj.write(cr, uid, ai_ids,
+                                    {'wh_iva_id': False}, context=context)
+            wil_ids and wil_obj.unlink(cr, uid, wil_ids, context=context)
+
+        return True
+
+    def onchange_lines_filter(self, cr, uid, ids, type, partner_id, period_id,
+                              fortnight, context=None):
+        """ Update the withholding document accounts and the withholding lines
+        depending on the partner, period and fortnight changes. This method
+        delete lines at right moment and unlink/link the withholding document
+        to the related invoices.
+        @param type: invoice type
+        @param partner_id: partner_id at current view
+        @param period_id: period_id at current view
+        @param fortnight: fortnight at current view
+        """
+        #~ print '\n\n\n\n', 'onchange_lines_filter(', type, partner_id or 'no partner', period_id or 'no period', (isinstance(fortnight, (str)) and fortnight == 'False' and '1ra Fn' or '2da Fn') or 'EMPTY', ')'
+        context = context or {}
+        ai_obj = self.pool.get('account.invoice')
+        per_obj = self.pool.get('account.period')
+        values_data = dict()
+        res_wh_lines = []
+        acc_id = False
+
+        #~ pull account info
+        if partner_id:
+            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            if type in ('out_invoice', 'out_refund'):
+                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+            else:
+                acc_id = p.property_account_payable and p.property_account_payable.id or False
+            values_data['account_id'] = acc_id
+
+        #~ clear lines 
+        self.clear_wh_lines(cr, uid, ids, context=context)
+
+        if not partner_id or not period_id or not fortnight:
+            #~ print 'missing filter... dont calculate', '\n'*3
+            return {'value': values_data }
+
+        #~ add lines
+        ttype = type in ['out_invoice'] and ['out_invoice', 'out_refund'] \
+                or ['in_invoice', 'in_refund']
+        ai_ids = ai_obj.search(cr, uid, [
+            ('state', '=', 'open'), ('wh_iva', '=', False),
+            ('wh_iva_id', '=', False), ('type', 'in', ttype),
+            ('partner_id', '=', partner_id), ('period_id', '=', period_id)],
+            context=context)
+        ai_ids = [ai_brw.id
+                  for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
+                  if per_obj.find_fortnight(cr, uid, ai_brw.date_invoice,
+                  context=context)[1] == eval(fortnight)]
+        ai_ids = self._withholdable_tax_(cr, uid, ai_ids, context=context)
+        #~ print 'ai_ids', ai_ids
+        if ai_ids:
+            values_data['wh_lines'] = \
+                [{'invoice_id': inv_brw.id,
+                  'name': inv_brw.name or _('N/A'),
+                  'wh_iva_rate': inv_brw.partner_id.wh_iva_rate}
+                 for inv_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
+                ]
+        return {'value': values_data}
 
     def _new_check(self, cr, uid, values, context={}):
         """ Verify that the partner associated of the invoice is correct

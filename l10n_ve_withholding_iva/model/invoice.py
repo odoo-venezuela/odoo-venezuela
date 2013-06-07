@@ -271,7 +271,7 @@ class account_invoice(osv.osv):
                 'partner_id': inv_brw.partner_id.id,
                 'wh_lines': [(4, ret_line_id)],
                 'fortnight': str(per_obj.find_fortnight(
-                    cr, uid, inv_brw.date_invoice, context=context)),
+                    cr, uid, inv_brw.date_invoice, context=context)[1]),
             }
             res.append(wh_iva_obj.create(cr, uid, ret_iva, context=context))
         return len(res) == 1 and res[0] or res
