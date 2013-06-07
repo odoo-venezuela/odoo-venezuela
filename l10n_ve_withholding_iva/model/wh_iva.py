@@ -630,7 +630,7 @@ class account_wh_iva(osv.osv):
         ai_ids = [ai_brw.id
                   for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
                   if per_obj.find_fortnight(cr, uid, ai_brw.date_invoice,
-                  context=context)[1] == eval(fortnight)]
+                  context=context) == (period_id,eval(fortnight))]
         ai_ids = self._withholdable_tax_(cr, uid, ai_ids, context=context)
         #~ print 'ai_ids', ai_ids
         if ai_ids:
