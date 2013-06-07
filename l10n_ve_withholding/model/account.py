@@ -90,7 +90,7 @@ class account_period(osv.osv):
         if not period_ids:
             raise osv.except_osv(_('Error !'), _('No period defined for this date: %s !\nPlease create a fiscal year.')%dt)
         
-        fortnight= False if int(dt.split('-')[2]) <= 15 else True
+        fortnight= False if time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 else True
         return (period_ids[0],fortnight)
 account_period()
 
