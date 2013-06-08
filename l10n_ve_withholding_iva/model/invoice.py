@@ -31,7 +31,30 @@ from openerp.tools.translate import _
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
-    def _retenida(self, cr, uid, ids, name, args, context):
+    def _get_inv_from_awil(self, cr, uid, ids, context=None):
+        '''
+        Returns a list of invoices which are recorded in VAT Withholding Docs
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awil_obj = self.pool.get('account.wh.iva.line')
+        awil_brws = awil_obj.browse(cr, uid, ids, context=context)
+        return [i.invoice_id.id for i in awil_brws if i.invoice_id]
+        
+    def _fnct_get_wh_iva_id(self, cr, uid, ids, name, args, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awil_obj = self.pool.get('account.wh.iva.line')
+        awil_ids = awil_obj.search(cr, uid, [('invoice_id','in',ids)], context=context)
+        
+        awil_brws = awil_obj.browse(cr, uid, awil_ids, context=context)
+        res = {}.fromkeys(ids,False)
+        for i in awil_brws:
+            if i.invoice_id:
+                res[i.invoice_id.id]=i.retention_id.id or False
+        return res 
+
+    def _retenida(self, cr, uid, ids, name, args, context=None):
         """ Verify whether withholding was applied to the invoice 
         """
         res = {}
@@ -42,7 +65,7 @@ class account_invoice(osv.osv):
         return res
 
 
-    def _get_inv_from_line(self, cr, uid, ids, context={}):
+    def _get_inv_from_line(self, cr, uid, ids, context=None):
         """ Return invoice from journal items
         """
         context = context or {}
@@ -59,7 +82,7 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
 
-    def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
+    def _get_inv_from_reconcile(self, cr, uid, ids, context=None):
         """ Return invoice from reconciled lines
         """
         context = context or {}
@@ -84,7 +107,12 @@ class account_invoice(osv.osv):
                 'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
             }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
         'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding rate"),
-        'wh_iva_id': fields.many2one('account.wh.iva', 'Wh. Vat', readonly=True, help="Vat Withholding."),        
+        'wh_iva_id': fields.function(_fnct_get_wh_iva_id, method=True,
+            type='many2one', relation='account.wh.iva', 
+            string='VAT Wh. Document', 
+            store={
+                'account.wh.iva.line':(_get_inv_from_awil, ['invoice_id'], 50),
+            }, help="This is the VAT Withholding Document where this invoice is being withheld"),
         'vat_apply':fields.boolean('Exclude this document from VAT Withholding', help="This selection indicates whether generate the invoice withholding document")
     }
 
