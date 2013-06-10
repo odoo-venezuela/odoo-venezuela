@@ -260,8 +260,10 @@ class account_invoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             inv_fortnight = per_obj.find_fortnight(
                 cr, uid, inv_brw.date_invoice, context=context)
+            ttype = inv_brw.type in ["out_invoice", "out_refund"] \
+                    and "out_invoice" or "in_invoice"
             acc_wh_ids = wh_iva_obj.search(
-                cr, uid, [('state', '=', 'draft'),
+                cr, uid, [('state', '=', 'draft'),('type', '=', ttype),
                 ('partner_id', '=', inv_brw.partner_id.id)], context=context)
             for acc_wh_brw in wh_iva_obj.browse(cr, uid, acc_wh_ids, context=context):
                 acc_wh_fortnight = per_obj.find_fortnight(cr, uid,
