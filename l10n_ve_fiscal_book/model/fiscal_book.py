@@ -224,6 +224,9 @@ class fiscal_book(orm.Model):
                                     'Vat Withholdings',
                                     help="Vat Withholdings being recorded" \
                                     " in a Fiscal Book"),
+        'cf_ids': fields.one2many('customs.form', 'fb_id', 'Customs Form',
+                                  help="Customs Form being recorded in the" \
+                                  " Fiscal Book"),
         'abl_ids': fields.one2many('adjustment.book.line', 'fb_id',
                                    'Adjustment Lines',
                                    help="Adjustment Lines being recorded in " \
@@ -1635,6 +1638,9 @@ class fiscal_book_lines(orm.Model):
         'iwdl_id': fields.many2one('account.wh.iva.line', 'Vat Withholding',
                                    help="Withholding iva line related to" \
                                    " this book line"),
+        'cf_id': fields.many2one('customs.form', 'Customs Form',
+                                  help="Customs Form being recorded to this" \
+                                  " book line"),
         'parent_id': fields.many2one(
             "fiscal.book.line",
             string="Consolidated Line",
