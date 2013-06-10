@@ -81,14 +81,16 @@ customs_facility_tax_codes
             <field name="model">customs.duty</field>
             <field name="arch" type="xml">
                 <form string="Custom Taxes" version="7.0">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="ref"/>
-                    <field name="partner_id"/>
-                    <field name="account_id" attrs="{'required':[('vat_detail','=',False)],'readonly':[('vat_detail','=',True)]}"/>
-                    <field name="vat_detail"/>
-                    <field name="sequence"/>
-                    <field name="company_id"/>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="ref"/>
+                        <field name="partner_id"/>
+                        <field name="account_id" attrs="{'required':[('vat_detail','=',False)],'readonly':[('vat_detail','=',True)]}"/>
+                        <field name="vat_detail"/>
+                        <field name="sequence"/>
+                        <field name="company_id"/>
+                    </group>
 				</form>
 			</field>
 		</record>
