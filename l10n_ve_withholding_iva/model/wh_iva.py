@@ -288,13 +288,15 @@ class account_wh_iva(osv.osv):
                     context=context).company_id.id,
         "fortnight": 'False',
     }
-    def action_cancel(self,cr,uid,ids,context={}):
+
+    def action_cancel(self, cr, uid, ids, context=None):
         """ Call cancel_move and return True
         """
-        self.cancel_move(cr,uid,ids)
+        context = context or {}
+        self.clear_wh_lines(cr, uid, ids, context=context)
+        self.cancel_move(cr, uid, ids)
         return True
-    
-    
+
     def cancel_move(self,cr,uid,ids, *args):
         """ Delete move lines related with withholding vat and cancel
         """
@@ -567,8 +569,8 @@ class account_wh_iva(osv.osv):
         return res
 
     def clear_wh_lines(self, cr, uid, ids, context=None):
-        """
-        Clear lines of current withholding document 
+        """ Clear lines of current withholding document and delete wh document
+        information from the invoice.
         """
         context = context or {}
         wil_obj = self.pool.get('account.wh.iva.line')
