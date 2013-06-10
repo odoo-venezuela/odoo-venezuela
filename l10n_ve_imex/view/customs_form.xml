@@ -24,7 +24,9 @@
                                 <field name="ref_liq"/>
                                 <field name="date_liq"/>
                             </group>
-                            <field name="customs_facility_id" colspan="4"/>
+                            <group col="4" colspan="4">
+                                <field name="customs_facility_id" colspan="4"/>
+                            </group>
                             <field name="cfl_ids" colspan="4" nolabel="1">
                                 <tree string="Tax lines">
                                     <field name="tax_code"/>
