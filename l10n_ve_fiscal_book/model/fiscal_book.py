@@ -604,6 +604,7 @@ class fiscal_book(orm.Model):
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
+            self.update_book_customs_form(cr, uid, fb_brw.id, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
         return True
 
@@ -796,6 +797,29 @@ class fiscal_book(orm.Model):
                 iwdl_obj.browse(cr, uid, iwdl_id, context=context).date_ret:
                     res.append(iwdl_id)
         return res
+
+    def update_book_customs_form(self, cr, uid, ids, context=None):
+        """ It relate the customs form to the fiscal book basing on the date
+        liq of customs form.
+        """
+        context = context or {}
+        per_obj = self.pool.get('account.period')
+        cf_obj = self.pool.get('customs.form')
+
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            cf_ids = cf_obj.search(cr, uid, [('state','=', 'done')], context=context)
+            cf_brws = cf_obj.browse(cr, uid, cf_ids, context=context)
+            add_cf_ids = \
+                [cf_brw.id
+                 for cf_brw in cf_brws
+                 if fb_brw.period_id.id in per_obj.find(cr, uid, cf_brw.date_liq,
+                    context=context)
+                ]
+            add_cf_ids and self.write(
+                cr, uid, fb_brw.id, {'cf_ids': [(4, cf) for cf in add_cf_ids]},
+                context=context)
+        return True
 
     def update_book_lines(self, cr, uid, fb_id, context=None):
         """ It updates the fiscal book lines values. Cretate, order and rank
@@ -1393,6 +1417,7 @@ class fiscal_book(orm.Model):
         self.clear_book_invoices(cr, uid, fb_id, context=context)
         self.clear_book_issue_invoices(cr, uid, fb_id, context=context)
         self.clear_book_iwdl_ids(cr, uid, fb_id, context=context)
+        self.clear_book_customs_form(cr, uid, fb_id, context=context)
         return True
 
     def clear_book_lines(self, cr, uid, ids, context=None):
@@ -1497,6 +1522,16 @@ class fiscal_book(orm.Model):
             inv_ids = [inv.id for inv in inv_brws]
             inv_obj.write(cr, uid, inv_ids, {'issue_fb_id': False},
                           context=context)
+        return True
+
+    def clear_book_customs_form(self, cr, uid, ids, context=None):
+        """ Unrelate all customs form of the book """
+        context = context or {}
+        cf_obj = self.pool.get("customs.form")
+        for fb_id in ids:
+            cf_brws = self.browse(cr, uid, fb_id, context=context).cf_ids
+            cf_ids = [cf.id for cf in cf_brws]
+            cf_obj.write(cr, uid, cf_ids, {'fb_id': False}, context=context)
         return True
 
     def clear_book_iwdl_ids(self, cr, uid, ids, context=None):

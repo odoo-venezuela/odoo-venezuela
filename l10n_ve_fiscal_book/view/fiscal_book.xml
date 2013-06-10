@@ -342,6 +342,9 @@ string="Invoice"
                     <page string="Fiscal Book Taxes">
                         <field name="fbt_ids" colspan="4" readonly="True"/>
                     </page>
+                    <page string="Customs Forms">
+                        <field name="cf_ids" colspan="4" readonly="True"/>
+                    </page>
                     <page string="Fiscal Book Vat Withholdings">
                         <field name="iwdl_ids" colspan="4" readonly="True"/>
                     </page>
