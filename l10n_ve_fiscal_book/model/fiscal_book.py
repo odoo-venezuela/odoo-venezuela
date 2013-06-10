@@ -1420,7 +1420,8 @@ class fiscal_book(orm.Model):
         """ It delete fiscal book taxes summary data for the book """
         context = context or {}
         fbts_obj = self.pool.get('fiscal.book.taxes.summary')
-        fbts_ids = fbts_obj.search(cr, uid, [('fb_id', '=', fb_id)],
+        fb_id = isinstance(fb_id, (int, long)) and [fb_id] or fb_id
+        fbts_ids = fbts_obj.search(cr, uid, [('fb_id', 'in', fb_id)],
                                    context=context)
         fbts_obj.unlink(cr, uid, fbts_ids, context=context)
         return True
