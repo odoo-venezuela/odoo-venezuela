@@ -58,7 +58,6 @@ string="Invoice"
     <record id="view_fiscal_book_taxes_summary_form" model="ir.ui.view">
         <field name="name">fiscal.book.taxes.summary.form</field>
         <field name="model">fiscal.book.taxes.summary</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Summary">
                 <field name="op_type"/>
