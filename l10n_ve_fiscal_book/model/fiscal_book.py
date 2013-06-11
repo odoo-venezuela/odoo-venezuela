@@ -810,14 +810,12 @@ class fiscal_book(orm.Model):
         for fb_brw in self.browse(cr, uid, ids, context=context):
             if fb_brw.type == 'sale':
                 continue
-            cf_ids = cf_obj.search(cr, uid, [('state','=', 'done')], context=context)
-            cf_brws = cf_obj.browse(cr, uid, cf_ids, context=context)
-            add_cf_ids = \
-                [cf_brw.id
-                 for cf_brw in cf_brws
-                 if fb_brw.period_id.id in per_obj.find(cr, uid, cf_brw.date_liq,
-                    context=context)
-                ]
+            add_cf_ids = cf_obj.search(
+                cr, uid,
+                [('state','=', 'done'),
+                 ('date_liq','>=', fb_brw.period_id.date_start),
+                 ('date_liq','<=', fb_brw.period_id.date_stop)],
+                context=context)
             add_cf_ids and self.write(
                 cr, uid, fb_brw.id, {'cf_ids': [(4, cf) for cf in add_cf_ids]},
                 context=context)
