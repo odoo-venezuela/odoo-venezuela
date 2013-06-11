@@ -708,8 +708,8 @@ class account_wh_iva(osv.osv):
         context = context or {}
         for awi_brw in self.browse(cr, uid, ids, context=context):
             if awi_brw.state != 'cancel':
-                raise osv.except_osv("Invalid Procedure!!",
-                    "The withholding document needs to be in cancel state to be deleted.")
+                raise osv.except_osv(_("Invalid Procedure!!"),
+                    _("The withholding document needs to be in cancel state to be deleted."))
             else:
                 super(account_wh_iva, self).unlink(cr, uid, ids, context=context)
         return True
