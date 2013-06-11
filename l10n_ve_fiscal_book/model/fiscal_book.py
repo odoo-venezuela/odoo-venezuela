@@ -106,7 +106,7 @@ class fiscal_book(orm.Model):
         op_types = ["imex", "do", "tp", "ntp"]
         for fb_brw in self.browse(cr, uid, ids, context=context):
             for fbl_brw in fb_brw.fbl_ids:
-                if fbl_brw.invoice_id:
+                if fbl_brw.invoice_id or fbl_brw.cf_id:
                     fbl_op_type = fbl_brw.type in ['im', 'ex'] and 'imex' \
                         or fbl_brw.type
                     res[fb_brw.id]["get_total_with_iva_" + fbl_op_type + "_sum"] += \
