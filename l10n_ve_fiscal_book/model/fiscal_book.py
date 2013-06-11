@@ -808,6 +808,8 @@ class fiscal_book(orm.Model):
 
         ids = isinstance(ids, (int, long)) and [ids] or ids
         for fb_brw in self.browse(cr, uid, ids, context=context):
+            if fb_brw.type == 'sale':
+                continue
             cf_ids = cf_obj.search(cr, uid, [('state','=', 'done')], context=context)
             cf_brws = cf_obj.browse(cr, uid, cf_ids, context=context)
             add_cf_ids = \
@@ -1582,8 +1584,10 @@ class fiscal_book(orm.Model):
         cf_obj = self.pool.get("customs.form")
         for fb_id in ids:
             cf_brws = self.browse(cr, uid, fb_id, context=context).cf_ids
-            cf_ids = [cf.id for cf in cf_brws]
-            cf_obj.write(cr, uid, cf_ids, {'fb_id': False}, context=context)
+            if cf_brws:
+                cf_ids = [cf.id for cf in cf_brws]
+                cf_obj.write(cr, uid, cf_ids, {'fb_id': False},
+                             context=context)
         return True
 
     def clear_book_iwdl_ids(self, cr, uid, ids, context=None):
