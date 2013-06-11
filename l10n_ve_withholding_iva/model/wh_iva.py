@@ -702,4 +702,16 @@ class account_wh_iva(osv.osv):
 
         return super(account_wh_iva, self).copy(cr, uid, id, default, context)
 
+    def unlink(self, cr, uid, ids, context=None):
+        """ Overwrite the unlink method to throw an exception if the
+        withholding is not in cancel state."""
+        context = context or {}
+        for awi_brw in self.browse(cr, uid, ids, context=context):
+            if awi_brw.state != 'cancel':
+                raise osv.except_osv("Invalid Procedure!!",
+                    "The withholding document needs to be in cancel state to be deleted.")
+            else:
+                super(account_wh_iva, self).unlink(cr, uid, ids, context=context)
+        return True
+
 account_wh_iva()
