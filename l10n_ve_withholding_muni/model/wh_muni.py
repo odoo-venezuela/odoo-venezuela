@@ -304,7 +304,7 @@ class account_wh_munici(osv.osv):
                 raise osv.except_osv(_("Invalid Procedure!!"),
                     _("The withholding document needs to be in cancel state to be deleted."))
             else:
-                super(account_wh_muni, self).unlink(cr, uid, ids, context=context)
+                super(account_wh_munici, self).unlink(cr, uid, ids, context=context)
         return True
 
 
