@@ -106,7 +106,7 @@ class fiscal_book(orm.Model):
         op_types = ["imex", "do", "tp", "ntp"]
         for fb_brw in self.browse(cr, uid, ids, context=context):
             for fbl_brw in fb_brw.fbl_ids:
-                if fbl_brw.invoice_id:
+                if fbl_brw.invoice_id or fbl_brw.cf_id:
                     fbl_op_type = fbl_brw.type in ['im', 'ex'] and 'imex' \
                         or fbl_brw.type
                     res[fb_brw.id]["get_total_with_iva_" + fbl_op_type + "_sum"] += \
@@ -224,6 +224,9 @@ class fiscal_book(orm.Model):
                                     'Vat Withholdings',
                                     help="Vat Withholdings being recorded" \
                                     " in a Fiscal Book"),
+        'cf_ids': fields.one2many('customs.form', 'fb_id', 'Customs Form',
+                                  help="Customs Form being recorded in the" \
+                                  " Fiscal Book"),
         'abl_ids': fields.one2many('adjustment.book.line', 'fb_id',
                                    'Adjustment Lines',
                                    help="Adjustment Lines being recorded in " \
@@ -601,6 +604,7 @@ class fiscal_book(orm.Model):
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
+            self.update_book_customs_form(cr, uid, fb_brw.id, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
         return True
 
@@ -794,6 +798,29 @@ class fiscal_book(orm.Model):
                     res.append(iwdl_id)
         return res
 
+    def update_book_customs_form(self, cr, uid, ids, context=None):
+        """ It relate the customs form to the fiscal book basing on the date
+        liq of customs form.
+        """
+        context = context or {}
+        per_obj = self.pool.get('account.period')
+        cf_obj = self.pool.get('customs.form')
+
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            if fb_brw.type == 'sale':
+                continue
+            add_cf_ids = cf_obj.search(
+                cr, uid,
+                [('state','=', 'done'),
+                 ('date_liq','>=', fb_brw.period_id.date_start),
+                 ('date_liq','<=', fb_brw.period_id.date_stop)],
+                context=context)
+            add_cf_ids and self.write(
+                cr, uid, fb_brw.id, {'cf_ids': [(4, cf) for cf in add_cf_ids]},
+                context=context)
+        return True
+
     def update_book_lines(self, cr, uid, fb_id, context=None):
         """ It updates the fiscal book lines values. Cretate, order and rank
         the book lines. Creates the book taxes too acorring to lines created.
@@ -803,6 +830,7 @@ class fiscal_book(orm.Model):
         data = []
         my_rank = 1
         iwdl_obj = self.pool.get('account.wh.iva.line')
+        cf_obj = self.pool.get('customs.form')
         fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
 
@@ -896,6 +924,36 @@ class fiscal_book(orm.Model):
             my_rank += 1
             data.append((0, 0, values))
 
+        #~ add book lines for customs forms
+        for cf_brw in fb_brw.cf_ids:
+
+            cf_partner_brws = \
+                list(set([cfl_brw.tax_code.partner_id
+                 for cfl_brw in cf_brw.cfl_ids
+                 if not cfl_brw.tax_code.vat_detail]))
+
+            common_values = {
+                'cf_id': cf_brw.id,
+                'type': 'do',
+                'emission_date': cf_brw.date_liq or False,
+                'doc_type': self.get_doc_type(cr, uid, cf_id=cf_brw.id,
+                                              context=context),
+            }
+
+            for partner_brw in cf_partner_brws:
+                values = common_values.copy()
+                values['rank'] = my_rank
+                values['partner_name'] = partner_brw.name or False
+                values['partner_vat'] = partner_brw.vat \
+                                        and  partner_brw.vat[2:] or 'N/A'
+                values['total_with_iva'] = \
+                    self.get_cfl_sum(cr, uid, cf_brw.id, partner_brw.id,
+                                     context=context)
+                values['vat_sdcf'] = values['total_with_iva']
+
+                data.append((0, 0, values))
+                my_rank += 1
+
         if data:
             self.write(cr, uid, fb_id, {'fbl_ids': data}, context=context)
             self.link_book_lines_and_taxes(cr, uid, fb_id, context=context)
@@ -906,6 +964,22 @@ class fiscal_book(orm.Model):
             self.order_book_lines(cr, uid, fb_brw.id, context=context)
 
         return True
+
+    def get_cfl_sum(self, cr, uid, cf_id, partner_id, context=None):
+        """
+        Returns the sum of the current customs form lines that have the same
+        partner
+        @param cf_id: customs form id
+        @param partner_id: partner id
+        """
+        context = context or {}
+        cf_obj = self.pool.get('customs.form')
+        cfl_brws = cf_obj.browse(cr, uid, cf_id, context=context).cfl_ids
+        amount = sum([cfl_brw.amount
+                      for cfl_brw in cfl_brws
+                      if cfl_brw.tax_code.partner_id.id == partner_id
+                         and not cfl_brw.tax_code.vat_detail ])
+        return amount
 
     def get_grouped_consecutive_lines_ids(self, cr, uid, lines_ids, context=None):
         """ Return a list of tuples that represent every line in the book.
@@ -1132,6 +1206,11 @@ class fiscal_book(orm.Model):
                             ait.base_amount
                         tax_sum[fbl.type][ait.tax_id.appl_type] += \
                             ait.tax_amount
+            elif fbl.cf_id:
+                if fbl.type != 'do':
+                    raise osv.except_osv(_('Programing Error!'),
+                    _("Customs form lines are domestic transacctions"))
+                base_sum['do']['sdcf'] += fbl.vat_sdcf
 
         data = [ (0, 0, {'tax_type': ttype, 'op_type': optype,
                          'base_amount_sum': base_sum[optype][ttype],
@@ -1390,6 +1469,7 @@ class fiscal_book(orm.Model):
         self.clear_book_invoices(cr, uid, fb_id, context=context)
         self.clear_book_issue_invoices(cr, uid, fb_id, context=context)
         self.clear_book_iwdl_ids(cr, uid, fb_id, context=context)
+        self.clear_book_customs_form(cr, uid, fb_id, context=context)
         return True
 
     def clear_book_lines(self, cr, uid, ids, context=None):
@@ -1496,6 +1576,18 @@ class fiscal_book(orm.Model):
                           context=context)
         return True
 
+    def clear_book_customs_form(self, cr, uid, ids, context=None):
+        """ Unrelate all customs form of the book """
+        context = context or {}
+        cf_obj = self.pool.get("customs.form")
+        for fb_id in ids:
+            cf_brws = self.browse(cr, uid, fb_id, context=context).cf_ids
+            if cf_brws:
+                cf_ids = [cf.id for cf in cf_brws]
+                cf_obj.write(cr, uid, cf_ids, {'fb_id': False},
+                             context=context)
+        return True
+
     def clear_book_iwdl_ids(self, cr, uid, ids, context=None):
         """ Unrelate all wh iva lines of the book. """
         context = context or {}
@@ -1507,7 +1599,8 @@ class fiscal_book(orm.Model):
                 cr, uid, iwdl_ids, {'fb_id': False}, context=context)
         return True
 
-    def get_doc_type(self, cr, uid, inv_id=None, iwdl_id=None, context=None):
+    def get_doc_type(self, cr, uid, inv_id=None, iwdl_id=None, cf_id=None,
+                     context=None):
         """ Returns a string that indicates de document type. For withholding
         returns 'RET' and for invoice docuemnts returns different values
         depending of the invoice type: Debit Note 'N/DE', Credit Note 'N/CR',
@@ -1534,6 +1627,8 @@ class fiscal_book(orm.Model):
             your invoice."
         elif iwdl_id:
             res = 'RET'
+        elif cf_id:
+            res = 'F86'
 
         return res
 
@@ -1635,6 +1730,9 @@ class fiscal_book_lines(orm.Model):
         'iwdl_id': fields.many2one('account.wh.iva.line', 'Vat Withholding',
                                    help="Withholding iva line related to" \
                                    " this book line"),
+        'cf_id': fields.many2one('customs.form', 'Customs Form',
+                                  help="Customs Form being recorded to this" \
+                                  " book line"),
         'parent_id': fields.many2one(
             "fiscal.book.line",
             string="Consolidated Line",

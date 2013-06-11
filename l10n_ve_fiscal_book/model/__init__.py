@@ -32,4 +32,5 @@
 import invoice 
 import fiscal_book
 import wh_iva
+import customs_form
 
