@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-05 19:27+0000\n"
-"PO-Revision-Date: 2013-06-07 13:24+0000\n"
+"PO-Revision-Date: 2013-06-09 14:51+0000\n"
 "Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
 "<humbertoarocha@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-08 05:55+0000\n"
+"X-Launchpad-Export-Date: 2013-06-11 05:57+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 
 #. module: l10n_ve_fiscal_book
@@ -82,7 +82,7 @@ msgstr "Monto Imponible Nacional"
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,vat_reduced_base:0
 msgid "Vat Reduced Base Amount"
-msgstr ""
+msgstr "Base Imponible para Alícuota Reducida"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -111,17 +111,17 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,vat_general_base:0
 msgid "Vat General Base Amount"
-msgstr ""
+msgstr "Base Imponible para Alícuota General"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr ""
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.taxes,ait_id:0
 msgid "Tax"
-msgstr ""
+msgstr "Impuesto"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,message_summary:0
@@ -129,18 +129,20 @@ msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
 msgstr ""
+"Contiene el resumen del chatter (nº de mensajes, ...). Este resumen viene "
+"directamente en formato HTML para poder ser insertado en las vistas kanban."
 
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 #: selection:fiscal.book.line,type:0
 #: selection:fiscal.book.taxes.summary,op_type:0
 msgid "Tax Payer"
-msgstr ""
+msgstr "Contribuyente"
 
 #. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,partner:0
 msgid "Partner"
-msgstr ""
+msgstr "Entidad"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -150,7 +152,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: model:ir.model,name:l10n_ve_fiscal_book.model_account_wh_iva_line
 msgid "Vat Withholding line"
-msgstr ""
+msgstr "Linea de Retención de IVA"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,do_additional_vat_base_sum:0
@@ -159,26 +161,30 @@ msgid ""
 "sums Additional VAT Base column for domestic transactions. For Sale Book it "
 "sums Tax Payer and No Tax Payer Additional VAT Base columns"
 msgstr ""
+"Totalización de Bases Imponibles Nacionales Gravadas con Alícuota Adicional. "
+"Para el Libro de Compras éste suma la columna de Base Imponible Alícuota "
+"Adicional. Para el Libro de Ventas éste suma las columnas de Base Imponible "
+"Alícuota Adicional para Contribuyentes y No Contribuyentes"
 
 #. module: l10n_ve_fiscal_book
 #: view:adjustment.book.line:0
 msgid "International Operations"
-msgstr ""
+msgstr "Operaciones Internacionales"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,ntp_fbl_ids:0
 msgid "No Tax Payer Detail Lines"
-msgstr ""
+msgstr "Líneas de Detalle para No Contribuyentes"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,invoice_id:0
 msgid "Invoice related to this book line"
-msgstr ""
+msgstr "Factura relacionada con esta línea del libro"
 
 #. module: l10n_ve_fiscal_book
 #: selection:fiscal.book.taxes.summary,tax_type:0
 msgid "General Aliquot"
-msgstr ""
+msgstr "Alícuota General"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -194,17 +200,17 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,abl_ids:0
 msgid "Adjustment Lines being recorded in  a Fiscal Book"
-msgstr ""
+msgstr "Líneas de Ajuste que se están registrando en un Libro Fiscal"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,rank:0
 msgid "Line"
-msgstr ""
+msgstr "Línea"
 
 #. module: l10n_ve_fiscal_book
 #: model:ir.model,name:l10n_ve_fiscal_book.model_fiscal_book
 msgid "Venezuela's Sale & Purchase Fiscal Books"
-msgstr ""
+msgstr "Libros Fiscales de Compra y Venta de Venezuela"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,do_additional_vat_base_sum:0
@@ -212,12 +218,12 @@ msgstr ""
 #: field:fiscal.book,ntp_additional_vat_base_sum:0
 #: field:fiscal.book,tp_additional_vat_base_sum:0
 msgid "Additional VAT Taxable Amount"
-msgstr ""
+msgstr "Base Imponbile Alícuota Adicional"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,vat_additional_tax:0
 msgid "ADD TAX"
-msgstr ""
+msgstr "AGREGAR IMPUESTO"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,invoice_number:0
@@ -225,6 +231,8 @@ msgid ""
 "Invoice Number. In case of use of fiscal printer this field will store the "
 "invoice number generate by the fiscal printer machine"
 msgstr ""
+"Número de Factura. En el caso de que se use Impresora Fiscal este campo "
+"almacenará el número de factura generado por la Maquina Impresora Fiscal"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
@@ -237,17 +245,19 @@ msgid ""
 "Used at 1. Totalization row in Fiscal Book Line block at Withholding VAT "
 "Column 2. Second row at the Withholding Summary block"
 msgstr ""
+"Usado en 1. Fila de Totalización del Libro Fiscal en la columna Alícuota "
+"Retenida 2. Segunda Fila en el Sumario de Retenciones"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,tax_amount:0
 #: help:fiscal.book.taxes,tax_amount:0
 msgid "Taxed Amount on Taxing Base"
-msgstr ""
+msgstr "Monto Gravado sobre Base Imponible"
 
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 msgid "Explanation about this adjustment"
-msgstr ""
+msgstr "Explicación de este ajuste"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,get_total_tax_credit_debit_base_sum:0
