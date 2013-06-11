@@ -1206,6 +1206,11 @@ class fiscal_book(orm.Model):
                             ait.base_amount
                         tax_sum[fbl.type][ait.tax_id.appl_type] += \
                             ait.tax_amount
+            elif fbl.cf_id:
+                if fbl.type != 'do':
+                    raise osv.except_osv(_('Programing Error!'),
+                    _("Customs form lines are domestic transacctions"))
+                base_sum['do']['sdcf'] += fbl.vat_sdcf
 
         data = [ (0, 0, {'tax_type': ttype, 'op_type': optype,
                          'base_amount_sum': base_sum[optype][ttype],
