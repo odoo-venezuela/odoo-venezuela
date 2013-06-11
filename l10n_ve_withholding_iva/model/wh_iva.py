@@ -681,6 +681,23 @@ class account_wh_iva(osv.osv):
                 awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
         return True
 
+    def check_wh_lines_fortnights(self, cr, uid, ids, context=None):
+        """ Overwrite the write method to check the correstness of the lines
+        (every line belongs to the same fortnight).
+        """
+        context = context or {}
+        per_obj = self.pool.get('account.period')
+        for awi_brw in self.browse(cr, uid, ids, context=context):
+            for awil_brw in awi_brw.wh_lines:
+                period_id, fortnight = \
+                    per_obj.find_fortnight(
+                        cr, uid, awil_brw.invoice_id.date_invoice,
+                        context=context)
+                print '\n'*3, 'period_id', period_id, 'fortnight', fortnight, '\n'*3
+                if period_id != awi_brw.period_id.id or \
+                   fortnight != eval(awi_brw.fortnight):
+                       return False
+        return True
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Update fields when duplicating
