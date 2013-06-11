@@ -269,12 +269,18 @@ class account_wh_src(osv.osv):
         """
         raise osv.except_osv('Invalid Procedure!',"You can not duplicate lines")
         return True
-        
+
     def unlink(self, cr, uid, ids, context=None):
-        raise osv.except_osv('Invalid Procedure!!',"You can not delete lines")
+        """ Overwrite the unlink method to throw an exception if the
+        withholding is not in cancel state."""
+        context = context or {}
+        for src_brw in self.browse(cr, uid, ids, context=context):
+            if src_brw.state != 'cancel':
+                raise osv.except_osv(_("Invalid Procedure!!"),
+                    _("The withholding document needs to be in cancel state to be deleted."))
+            else:
+                super(account_wh_src, self).unlink(cr, uid, ids, context=context)
         return True
-
-
 
     def action_move_create(self, cr, uid, ids, context=None):
         """ Build account moves related to withholding invoice 
