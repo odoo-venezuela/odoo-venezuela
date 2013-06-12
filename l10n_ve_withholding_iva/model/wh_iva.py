@@ -671,20 +671,16 @@ class account_wh_iva(osv.osv):
     def compute_amount_wh(self, cr, uid, ids, context=None):
         """ Calculate withholding amount each line
         """
-        res = {}
-        if context is None:
-            context = {}      
+        context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
-        for retention in self.browse(cr, uid, ids, context):
+        for retention in self.browse(cr, uid, ids, context=context):
             whl_ids = [line.id for line in retention.wh_lines]
             if whl_ids:
-                awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
+                awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
     def check_wh_lines_fortnights(self, cr, uid, ids, context=None):
-        """ Overwrite the write method to check the correstness of the lines
-        (every line belongs to the same fortnight).
-        """
+        """ Check that every wh iva line belongs to the wh iva fortnight."""
         context = context or {}
         per_obj = self.pool.get('account.period')
         for awi_brw in self.browse(cr, uid, ids, context=context):
