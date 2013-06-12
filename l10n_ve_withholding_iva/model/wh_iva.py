@@ -691,7 +691,6 @@ class account_wh_iva(osv.osv):
                     per_obj.find_fortnight(
                         cr, uid, awil_brw.invoice_id.date_invoice,
                         context=context)
-                print '\n'*3, 'period_id', period_id, 'fortnight', fortnight, '\n'*3
                 if period_id != awi_brw.period_id.id or \
                    fortnight != eval(awi_brw.fortnight):
                     raise osv.except_osv(_('Invalid action !'),
