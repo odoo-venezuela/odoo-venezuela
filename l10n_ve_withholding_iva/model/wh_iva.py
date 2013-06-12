@@ -674,6 +674,15 @@ class account_wh_iva(osv.osv):
         context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
         for retention in self.browse(cr, uid, ids, context=context):
+            if not self.check_wh_lines_fortnights(cr, uid, ids, context=context):
+                raise osv.except_osv(_('Invalid action !'),
+                    _("Can't compute the taxes of the withholding document."
+                      " A withholding line is not in the same withholding "
+                      " document period or fortnight (" +
+                      retention.period_id.name +
+                      (retention.fortnight == 'True' \
+                      and " - Second Fortnight)" or " - First Fortnight)")))
+                return True
             whl_ids = [line.id for line in retention.wh_lines]
             if whl_ids:
                 awil_obj.load_taxes(cr, uid, whl_ids, context=context)
