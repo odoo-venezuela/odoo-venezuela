@@ -673,19 +673,12 @@ class account_wh_iva(osv.osv):
         """
         context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
-        for retention in self.browse(cr, uid, ids, context=context):
-            if not self.check_wh_lines_fortnights(cr, uid, ids, context=context):
-                raise osv.except_osv(_('Invalid action !'),
-                    _("Can't compute the taxes of the withholding document."
-                      " A withholding line is not in the same withholding "
-                      " document period or fortnight (" +
-                      retention.period_id.name +
-                      (retention.fortnight == 'True' \
-                      and " - Second Fortnight)" or " - First Fortnight)")))
-                return True
-            whl_ids = [line.id for line in retention.wh_lines]
-            if whl_ids:
-                awil_obj.load_taxes(cr, uid, whl_ids, context=context)
+
+        if self.check_wh_lines_fortnights(cr, uid, ids, context=context):
+            for retention in self.browse(cr, uid, ids, context=context):
+                whl_ids = [line.id for line in retention.wh_lines]
+                if whl_ids:
+                    awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
     def check_wh_lines_fortnights(self, cr, uid, ids, context=None):
@@ -701,7 +694,14 @@ class account_wh_iva(osv.osv):
                 print '\n'*3, 'period_id', period_id, 'fortnight', fortnight, '\n'*3
                 if period_id != awi_brw.period_id.id or \
                    fortnight != eval(awi_brw.fortnight):
-                       return False
+                    raise osv.except_osv(_('Invalid action !'),
+                        _("Can't compute the taxes of the withholding document."
+                          " A withholding line is not in the same withholding "
+                          " document period or fortnight (" +
+                          awi_brw.period_id.name +
+                          (awi_brw.fortnight == 'True' \
+                          and " - Second Fortnight)" or " - First Fortnight)")))
+                    return False
         return True
 
     def copy(self, cr, uid, id, default=None, context=None):
