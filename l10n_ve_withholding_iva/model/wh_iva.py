@@ -293,8 +293,8 @@ class account_wh_iva(osv.osv):
         """ Call cancel_move and return True
         """
         context = context or {}
-        self.clear_wh_lines(cr, uid, ids, context=context)
         self.cancel_move(cr, uid, ids)
+        self.clear_wh_lines(cr, uid, ids, context=context)
         return True
 
     def cancel_move(self,cr,uid,ids, *args):
