@@ -674,16 +674,37 @@ class account_wh_iva(osv.osv):
     def compute_amount_wh(self, cr, uid, ids, context=None):
         """ Calculate withholding amount each line
         """
-        res = {}
-        if context is None:
-            context = {}      
+        context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
-        for retention in self.browse(cr, uid, ids, context):
-            whl_ids = [line.id for line in retention.wh_lines]
-            if whl_ids:
-                awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
+
+        if self.check_wh_lines_fortnights(cr, uid, ids, context=context):
+            for retention in self.browse(cr, uid, ids, context=context):
+                whl_ids = [line.id for line in retention.wh_lines]
+                if whl_ids:
+                    awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
+    def check_wh_lines_fortnights(self, cr, uid, ids, context=None):
+        """ Check that every wh iva line belongs to the wh iva fortnight."""
+        context = context or {}
+        per_obj = self.pool.get('account.period')
+        for awi_brw in self.browse(cr, uid, ids, context=context):
+            for awil_brw in awi_brw.wh_lines:
+                period_id, fortnight = \
+                    per_obj.find_fortnight(
+                        cr, uid, awil_brw.invoice_id.date_invoice,
+                        context=context)
+                if period_id != awi_brw.period_id.id or \
+                   fortnight != eval(awi_brw.fortnight):
+                    raise osv.except_osv(_('Invalid action !'),
+                        _("Can't compute the taxes of the withholding document."
+                          " A withholding line is not in the same withholding "
+                          " document period or fortnight (" +
+                          awi_brw.period_id.name +
+                          (awi_brw.fortnight == 'True' \
+                          and " - Second Fortnight)" or " - First Fortnight)")))
+                    return False
+        return True
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Update fields when duplicating
