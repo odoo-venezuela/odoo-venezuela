@@ -450,11 +450,14 @@ class account_wh_iva(osv.osv):
                         'WHERE id=%s', (number, id))
         return True
     
-    def action_date_ret(self,cr,uid,ids,context=None):
+    def action_date_ret(self, cr, uid, ids, context=None):
         """ Undated records will be assigned the current date
         """
-        for wh in self.browse(cr, uid, ids, context):
-            wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
+        context = context or {}
+        for wh in self.browse(cr, uid, ids, context=context):
+            wh.date_ret or self.write(cr, uid, [wh.id],
+                                      {'date_ret':time.strftime('%Y-%m-%d')},
+                                      context=context)
         return True
 
 
