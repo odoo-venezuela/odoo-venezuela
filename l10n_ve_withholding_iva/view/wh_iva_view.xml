@@ -32,9 +32,11 @@
                 <form string="Withholding Lines" version="7.0">
                     <notebook>
                         <page string="Withheld Invoice">
-                            <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
-                            <field name="name"/>
-                            <field name="move_id"/>
+                            <group colspan="4">
+                                <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+                                <field name="name"/>
+                                <field name="move_id"/>
+                            </group>
                             <group colspan="4">
                                 <field name="tax_line" nolabel="1">
                                     <tree string="Taxes" editable="top">
