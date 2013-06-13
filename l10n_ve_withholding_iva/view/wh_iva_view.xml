@@ -148,7 +148,7 @@
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('supplier','=',True)]"/>
                         <field name="currency_id"/>
-                        <field name="date_ret"/>
+                        <field name="date_ret" readonly="1"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
                         <field name="period_id" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)"/>
@@ -198,7 +198,7 @@
                         <field name="code" select="1"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('wh_iva_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id"/>
-                        <field name="date_ret"/>
+                        <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
