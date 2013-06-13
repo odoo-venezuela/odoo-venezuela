@@ -454,12 +454,26 @@ class account_wh_iva(osv.osv):
         """ Undated records will be assigned the current date
         """
         context = context or {}
+        values = {}
+        per_obj = self.pool.get('account.period')
         for wh in self.browse(cr, uid, ids, context=context):
-            wh.date_ret or self.write(cr, uid, [wh.id],
-                                      {'date_ret':time.strftime('%Y-%m-%d')},
-                                      context=context)
+            if wh.type in ['in_invoice']:
+                values['date_ret'] = wh.company_id.allow_vat_wh_outdated \
+                                     and wh.date or time.strftime('%Y-%m-%d')
+                values['date'] = values['date_ret']
+                if not ((wh.period_id.id, eval(wh.fortnight)) == 
+                         per_obj.find_fortnight(cr, uid,
+                                                values['date_ret'],
+                                                context=context)):
+                    raise osv.except_osv( _("Invalid action !"),
+                        _("Your introduce a no valid accounting/emission" \
+                          " date. The date needs to be in the same " \
+                          " withholding period and fortnigh."))
+            elif wh.type in ['out_invoice']:
+                values['date_ret'] = wh.date_ret or time.strftime('%Y-%m-%d')
+                values['date'] = wh.date or time.strftime('%Y-%m-%d')
+            self.write(cr, uid, [wh.id], values, context=context)
         return True
-
 
     def action_move_create(self, cr, uid, ids, context=None):
         """ Create movements associated with retention and reconcile
