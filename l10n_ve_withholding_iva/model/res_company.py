@@ -30,6 +30,10 @@ class res_company(osv.osv):
         "wh_consolidate": fields.boolean("Fortnight Consolidate Wh. VAT",
             help="If it set then the withholdings vat generate in a same"
             " fornight will be grouped in one withholding receipt."),
+        "allow_vat_wh_outdated": fields.boolean(
+            "Allow outdated vat withholding",
+            help="Enables confirm withholding vouchers for previous or future"
+            " dates."),
     }
 
     _defaults = {
