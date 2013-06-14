@@ -170,7 +170,7 @@ string="Invoice"
 
                         <group colspan="4" col="3" string="Taxes Totalization">
                             <group colspan="3" col="3">
-                                <group colspan="1" col="2" string="Exportation">
+                                <group colspan="1" col="2" string="Exports">
                                     <field name="get_total_with_iva_imex_sum" readonly="True"/>
                                     <field name="imex_vat_base_sum" readonly="True"/>
                                     <field name="imex_exempt_vat_sum" readonly="True"/>
@@ -371,7 +371,7 @@ string="Invoice"
                                 <field name="get_vat_sdcf_sum" readonly="True"/>
                                 <field name="get_total_with_iva_sum" readonly="True"/>
                             </group>
-                            <group colspan="1" col="2" string="Importations">
+                            <group colspan="1" col="2" string="Imports">
                                 <field name="get_total_with_iva_imex_sum" readonly="True"/>
                                 <field name="imex_vat_base_sum" readonly="True"/>
                                 <field name="imex_exempt_vat_sum" readonly="True"/>

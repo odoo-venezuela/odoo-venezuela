@@ -119,7 +119,7 @@ class fiscal_book(orm.Model):
 
     def _get_vat_sdcf_sum(self, cr, uid, ids, field_name, arg, context=None):
         """ It returns the SDCF sumation of purchase (imported, domestic) or
-        sale (exportation, tax payer, Non-Tax Payer) operations types.
+        sale (Exports, tax payer, Non-Tax Payer) operations types.
         @param field_name: field ['get_vat_sdcf_sum'] """
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
@@ -329,7 +329,7 @@ class fiscal_book(orm.Model):
             string="International Taxable Amount",
             help="Sum of International Tax Base Amounts (reduced, general" \
             " and additional). Used at 2nd row in thw Sale book's summary" \
-            " with Exportation Sales title"),
+            " with Exports Sales title"),
         'imex_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
@@ -1792,7 +1792,7 @@ class fiscal_book_lines(orm.Model):
                                       " store the invoice number generate" \
                                       " by the fiscal printer machine"),
         'imex_date': fields.date(string='Imex Date',
-                                 help='Invoice Importation/Exportation Date'),
+                                 help='Invoice Imports/Exports Date'),
         'debit_affected': fields.char(string='Affected Debit Notes',
                                       size=256,
                                       help='Debit notes affected'),
@@ -1800,9 +1800,9 @@ class fiscal_book_lines(orm.Model):
                                        size=256,
                                        help='Credit notes affected'),
         'type': fields.selection(
-            [('im', 'Import'),
+            [('im', 'Imports'),
              ('do', 'Domestic'),
-             ('ex', 'Exportation'),
+             ('ex', 'Exports'),
              ('tp', 'Tax Payer'),
              ('ntp', 'Non-Tax Payer')],
             string = 'Transaction Type', required=True,
@@ -1886,9 +1886,9 @@ class fiscal_book_taxes_summary(orm.Model):
              ('adicional', 'General Aliquot + Additional')],
             'Tax Type'),
         'op_type': fields.selection(
-            [('im', 'Import'),
+            [('im', 'Imports'),
              ('do', 'Domestic'),
-             ('ex', 'Exportation'),
+             ('ex', 'Exports'),
              ('tp', 'Tax Payer'),
              ('ntp', 'Non-Tax Payer')],
             string = 'Operation Type',
