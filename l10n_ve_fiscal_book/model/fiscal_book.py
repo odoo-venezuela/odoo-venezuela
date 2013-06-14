@@ -1628,7 +1628,7 @@ class fiscal_book(orm.Model):
         elif iwdl_id:
             res = 'RET'
         elif cf_id:
-            res = 'F86'
+            res = 'F/IMP'
 
         return res
 
