@@ -302,6 +302,7 @@ class account_wh_iva(osv.osv):
         """
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
+        delete = False
         for ret in ret_brw:
             if ret.state == 'done':
                 for ret_line in ret.wh_lines:
@@ -466,12 +467,20 @@ class account_wh_iva(osv.osv):
                                                 values['date_ret'],
                                                 context=context)):
                     raise osv.except_osv( _("Invalid action !"),
-                        _("Your introduce a no valid accounting/emission" \
-                          " date. The date needs to be in the same " \
-                          " withholding period and fortnigh."))
+                        _("You introduce a no valid accounting date. The date"
+                          " needs to be in the same withholding period and"
+                          " fortnigh."))
             elif wh.type in ['out_invoice']:
                 values['date_ret'] = wh.date_ret or time.strftime('%Y-%m-%d')
                 values['date'] = wh.date or time.strftime('%Y-%m-%d')
+
+            if values['date_ret'] > time.strftime('%Y-%m-%d'):
+                error_msg = \
+                    "You introduce a non valid withholding date (a date in " \
+                    "the future). The withholding date needs to be at least " \
+                    "today or a previous date."
+                raise osv.except_osv( _("Invalid action !"), _(error_msg))
+
             self.write(cr, uid, [wh.id], values, context=context)
         return True
 
