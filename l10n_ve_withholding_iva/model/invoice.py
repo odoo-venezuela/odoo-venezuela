@@ -449,6 +449,25 @@ class account_invoice(osv.osv):
                     return False
         return True
 
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Verify first if the invoice have a non cancel withholding iva doc.
+        If it has then raise a error message. """
+        context = context or {}
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            #~ print '\n'*3, 'inv_brw.wh_iva_id', inv_brw.wh_iva_id,
+            #~       'inv_brw.wh_iva_id.state', inv_brw.wh_iva_id.state, '\n'*3
+            if ((not inv_brw.wh_iva_id) or
+                (inv_brw.wh_iva_id and inv_brw.wh_iva_id.state == 'cancel')):
+                super(account_invoice, self).action_cancel(cr, uid, ids,
+                                                           context=context)
+            else:
+                raise osv.except_osv(_("Error!"),
+                _("You can't cancel an invoice that have non cancel"
+                  " withholding document. Needs first cancel the invoice"
+                  " withholding document and then you can cancel this"
+                  " invoice."))
+        return True
+
 account_invoice()
 
 class account_invoice_tax(osv.osv):
