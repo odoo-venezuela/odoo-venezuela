@@ -248,7 +248,7 @@ class account_invoice(osv.osv):
         return True
 
     def get_fortnight_wh_id(self, cr, uid, ids, context=None):
-        """ Returns the id of the acc.wh.iva in draft satte that correspond to
+        """ Returns the id of the acc.wh.iva in draft state that correspond to
         the invoice fortnight. If not exist return False.
         """
         context = context or {}
