@@ -472,7 +472,6 @@ class account_wh_iva(osv.osv):
                           " fortnigh."))
             elif wh.type in ['out_invoice']:
                 values['date_ret'] = wh.date_ret or time.strftime('%Y-%m-%d')
-                values['date'] = wh.date or time.strftime('%Y-%m-%d')
 
             if values['date_ret'] > time.strftime('%Y-%m-%d'):
                 error_msg = \
