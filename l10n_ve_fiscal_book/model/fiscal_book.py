@@ -119,7 +119,7 @@ class fiscal_book(orm.Model):
 
     def _get_vat_sdcf_sum(self, cr, uid, ids, field_name, arg, context=None):
         """ It returns the SDCF sumation of purchase (imported, domestic) or
-        sale (exportation, tax payer, no tax payer) operations types.
+        sale (exportation, tax payer, Non-Tax Payer) operations types.
         @param field_name: field ['get_vat_sdcf_sum'] """
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
@@ -241,7 +241,7 @@ class fiscal_book(orm.Model):
             " accounting books. Options:" \
             " - Art. 75: Pruchase Book." \
             " - Art. 76: Sale Book. Reflects every individual operation datail." \
-            " - Art. 77: Sale Book. Groups no tax payer operations in one " \
+            " - Art. 77: Sale Book. Groups Non-Tax Payer operations in one " \
             " consolidated line. Only fiscal billing." \
             " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show" \
             " automatic and mechanized operations in individual way, and " \
@@ -290,7 +290,7 @@ class fiscal_book(orm.Model):
             multi="get_total_with_iva",
             string='Total amount with VAT',
             help="Total with VAT Sum (Import/Export, Domestic, Tax Payer and" \
-            " No Tax Payer"),
+            " Non-Tax Payer"),
         'get_vat_sdcf_sum': fields.function(
             _get_vat_sdcf_sum,
             type="float", method=True, store=True,
@@ -314,7 +314,7 @@ class fiscal_book(orm.Model):
             digits_compute=dp.get_precision('Account'),
             string="Domestic Untaxed VAT Sum",
             help="SDCF and Exempt sum for domestict transanctions." \
-            " At Sale book represent the sum of Tax Payer and No Tax payer" \
+            " At Sale book represent the sum of Tax Payer and Non-Tax Payer" \
             " transactions."),
 
         #~ Totalization fields for international transactions
@@ -388,26 +388,26 @@ class fiscal_book(orm.Model):
             string="Exempt Tax",
             help="Domestic Exempt Tax Totalization. For Purchase Book it" \
             " sums Exempt column for domestic transactions. For Sale Book it" \
-            " sums Tax Payer and No Tax Payer Exempt columns"),
+            " sums Tax Payer and Non-Tax Payer Exempt columns"),
         'do_sdcf_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="SDCF Tax",
             help="Domestic SDCF Tax Totalization. For Purchase Book it sums" \
             " SDCF column for domestic transactions. For Sale Book it sums" \
-            " Tax Payer and No Tax Payer SDCF columns"),
+            " Tax Payer and Non-Tax Payer SDCF columns"),
         'do_general_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxable Amount",
             help="General VAT Taxed Domestic Base Amount Totalization." \
             " For Purchase Book it sums General VAT Base column for domestic" \
-            " transactions. For Sale Book it sums Tax Payer and No Tax Payer" \
+            " transactions. For Sale Book it sums Tax Payer and Non-Tax Payer" \
             " General VAT Base columns"),
         'do_general_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxed Amount",
             help="General VAT Taxed Domestic Tax Amount Totalization." \
             " For Purchase Book it sums General VAT Tax column for domestic" \
-            " transactions. For Sale Book it sums Tax Payer and No Tax Payer" \
+            " transactions. For Sale Book it sums Tax Payer and Non-Tax Payer" \
             " General VAT Tax columns"),
         'do_additional_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
@@ -428,21 +428,21 @@ class fiscal_book(orm.Model):
             string="Reduced VAT Taxable Amount",
             help="Reduced VAT Taxed Domestic Base Amount Totalization." \
             " For Purchase Book it sums Reduced VAT Base column for domestic" \
-            " transactions. For Sale Book it sums Tax Payer and No Tax Payer" \
+            " transactions. For Sale Book it sums Tax Payer and Non-Tax Payer" \
             " Reduced VAT Base columns"),
         'do_reduced_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxed Amount",
             help="Reduced VAT Taxed Domestic Tax Amount Totalization." \
             " For Purchase Book it sums Reduced VAT Tax column for domestic" \
-            " transactions. For Sale Book it sums Tax Payer and No Tax Payer" \
+            " transactions. For Sale Book it sums Tax Payer and Non-Tax Payer" \
             " Reduced VAT Tax columns"),
 
         #~ Apply only for sale book
-        #~ Totalization fields for tax payer and no tax payer transactions
+        #~ Totalization fields for tax payer and Non-Tax Payer transactions
         'ntp_fbl_ids': fields.one2many("fiscal.book.line", "ntp_fb_id",
-                                       string = "No Tax Payer Detail Lines",
-                                       help="No Tax Payer Lines that are" \
+                                       string = "Non-Tax Payer Detail Lines",
+                                       help="Non-Tax Payer Lines that are" \
                                        " grouped by the statement law that" \
                                        " represent the data of are" \
                                        " consolidate book lines"),
@@ -503,52 +503,52 @@ class fiscal_book(orm.Model):
             type="float", method=True, store=True,
             multi="get_total_with_iva",
             string="Total amount with VAT",
-            help="No Tax Payer Total with VAT Totalization"),
+            help="Non-Tax Payer Total with VAT Totalization"),
         'ntp_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
-            string="No Tax Payer Taxable Amount",
-            help="No Tax Payer Grand Base Totalization. Sum of all no tax" \
+            string="Non-Tax Payer Taxable Amount",
+            help="Non-Tax Payer Grand Base Totalization. Sum of all no tax" \
             " payer tax bases (reduced, general and additional)"),
         'ntp_exempt_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Exempt Tax",
-            help="No Tax Payer Exempt Tax Totalization. Sum of Exempt" \
-            " column for no tax payer transactions"),
+            help="Non-Tax Payer Exempt Tax Totalization. Sum of Exempt" \
+            " column for Non-Tax Payer transactions"),
         'ntp_sdcf_vat_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="SDCF Tax",
-            help="No Tax Payer SDCF Tax Totalization. Sum of SDCF column" \
-            " for no tax payer transactions"),
+            help="Non-Tax Payer SDCF Tax Totalization. Sum of SDCF column" \
+            " for Non-Tax Payer transactions"),
         'ntp_general_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxable Amount",
-            help="General VAT Taxed No Tax Payer Base Amount Totalization." \
+            help="General VAT Taxed Non-Tax Payer Base Amount Totalization." \
             " Sum of General VAT Base column for taxy payer transactions"),
         'ntp_general_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="General VAT Taxed Amount",
-            help="General VAT Taxed No Tax Payer Tax Amount Totalization." \
-            " Sum of General VAT Tax column for no tax payer transactions"),
+            help="General VAT Taxed Non-Tax Payer Tax Amount Totalization." \
+            " Sum of General VAT Tax column for Non-Tax Payer transactions"),
         'ntp_additional_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxable Amount",
-            help="Additional VAT Taxed No Tax Payer Base Amount Totalization." \
-            " Sum of Additional VAT Base column for no tax payer transactions"),
+            help="Additional VAT Taxed Non-Tax Payer Base Amount Totalization." \
+            " Sum of Additional VAT Base column for Non-Tax Payer transactions"),
         'ntp_additional_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
-            help="Additional VAT Taxed No Tax Payer Tax Amount Totalization." \
-            " Sum of Additional VAT Tax column for no tax payer transactions"),
+            help="Additional VAT Taxed Non-Tax Payer Tax Amount Totalization." \
+            " Sum of Additional VAT Tax column for Non-Tax Payer transactions"),
         'ntp_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
-            help="Reduced VAT Taxed No Tax Payer Base Amount Totalization." \
-            " Sum of Reduced VAT Base column for no tax payer transactions"),
+            help="Reduced VAT Taxed Non-Tax Payer Base Amount Totalization." \
+            " Sum of Reduced VAT Base column for Non-Tax Payer transactions"),
         'ntp_reduced_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxed Amount",
-            help="Reduced VAT Taxed No Tax Payer Tax Amount Totalization." \
-            " Sum of Reduced VAT Tax column for no tax payer transactions"),
+            help="Reduced VAT Taxed Non-Tax Payer Tax Amount Totalization." \
+            " Sum of Reduced VAT Tax column for Non-Tax Payer transactions"),
     }
 
     _defaults = {
@@ -983,7 +983,7 @@ class fiscal_book(orm.Model):
 
     def get_grouped_consecutive_lines_ids(self, cr, uid, lines_ids, context=None):
         """ Return a list of tuples that represent every line in the book.
-        If there is a group of consecutive no tax payer with fiscal printer
+        If there is a group of consecutive Non-Tax Payer with fiscal printer
         billing lines, it will return a unique tuple that holds the information
         of the lines. The return tutple has this format
             ('invoice_number'[0], 'invoice_number'[-1], [line_brw])
@@ -1021,9 +1021,9 @@ class fiscal_book(orm.Model):
         return res
 
     def update_book_ntp_lines(self, cr, uid, fb_id, context=None):
-        """ It consolidate no tax payer book lines into one line considering
+        """ It consolidate Non-Tax Payer book lines into one line considering
         the consecutiveness and next criteria: fiscal printer and z report.
-        This consolidated groups are move to another field: No Tax Payer Detail
+        This consolidated groups are move to another field: Non-Tax Payer Detail
         operations. (This only applys when is a sale book)
         @param fb_id: fiscal book id
         """
@@ -1124,7 +1124,7 @@ class fiscal_book(orm.Model):
                 context=context)
 
         #~ create consolidate line using ntp_groups_list list, move group lines
-        #~ to no tax payer lines detail.
+        #~ to Non-Tax Payer lines detail.
         for line_tuple in ntp_groups_list:
             consolidate_line_id = \
                 self.create_consolidate_line(cr, uid, fb_id, line_tuple,
@@ -1141,7 +1141,7 @@ class fiscal_book(orm.Model):
         return True
 
     def create_consolidate_line(self, cr, uid, fb_id, line_tuple, context=None):
-        """ Create a new consolidate no tax payer line for a group of no tax
+        """ Create a new consolidate Non-Tax Payer line for a group of no tax
         payer operations.
         @param fb_id: fiscal book line id.
         @param line_tuple: tuple with the information for construct the
@@ -1718,9 +1718,9 @@ class fiscal_book_lines(orm.Model):
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
                                  help='Fiscal Book that owns this book line'),
-        'ntp_fb_id': fields.many2one("fiscal.book", "No Tax Payer Detail",
+        'ntp_fb_id': fields.many2one("fiscal.book", "Non-Tax Payer Detail",
                                  help="Fiscal Book that owns this book line" \
-                                 " This Book is only for no tax payer lines"),
+                                 " This Book is only for Non-Tax Payer lines"),
         'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id',
                                    string='Tax Lines', help="Tax Lines being" \
                                    " recorded in a Fiscal Book"),
@@ -1737,15 +1737,15 @@ class fiscal_book_lines(orm.Model):
             "fiscal.book.line",
             string="Consolidated Line",
             ondelete='cascade',
-            help="No Tax Payer Consolidated Line. Indicate the id of the" \
-            " consolidated line where this no tax payer line belongs"),
+            help="Non-Tax Payer Consolidated Line. Indicate the id of the" \
+            " consolidated line where this Non-Tax Payer line belongs"),
         'parent_left': fields.integer('Left Parent', select=1),
         'parent_right': fields.integer('Right Parent', select=1),
         'child_ids': fields.one2many(
             "fiscal.book.line",
             "parent_id",
-            string="No Tax Payer Detail Line",
-            help="No Tax Payer Group of book lines that this line represent"),
+            string="Non-Tax Payer Detail Line",
+            help="Non-Tax Payer Group of book lines that this line represent"),
 
         #~  Invoice and/or Document Data
         'rank': fields.integer("Line", required=True, help="Line Position"),
@@ -1804,11 +1804,11 @@ class fiscal_book_lines(orm.Model):
              ('do', 'Domestic'),
              ('ex', 'Exportation'),
              ('tp', 'Tax Payer'),
-             ('ntp', 'No Tax Payer')],
+             ('ntp', 'Non-Tax Payer')],
             string = 'Transaction Type', required=True,
             help="Book line transtaction type:" \
             " - Purchase: Import or Domestic." \
-            " - Sales: Expertation, Tax Payer, No Tax Payer."),
+            " - Sales: Expertation, Tax Payer, Non-Tax Payer."),
         'void_form': fields.char(string='Transaction type', size=192,
                                  help="Operation Type"),
         'fiscal_printer': fields.char(string='Fiscal machine number',
@@ -1890,11 +1890,11 @@ class fiscal_book_taxes_summary(orm.Model):
              ('do', 'Domestic'),
              ('ex', 'Exportation'),
              ('tp', 'Tax Payer'),
-             ('ntp', 'No Tax Payer')],
+             ('ntp', 'Non-Tax Payer')],
             string = 'Operation Type',
             help="Operation Type:" \
             " - Purchase: Import or Domestic." \
-            " - Sales: Expertation, Tax Payer, No Tax Payer."),
+            " - Sales: Expertation, Tax Payer, Non-Tax Payer."),
         'base_amount_sum': fields.float('Taxable Amount Sum'),
         'tax_amount_sum': fields.float('Taxed Amount Sum'),
     }
