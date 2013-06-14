@@ -566,6 +566,18 @@ class islr_wh_doc(osv.osv):
             cr, uid, invoice_id, {}, context=context)
         return {'move_id': move_id}
 
+    def unlink(self, cr, uid, ids, context=None):
+        """ Overwrite the unlink method to throw an exception if the
+        withholding is not in cancel state."""
+        context = context or {}
+        for islr_brw in self.browse(cr, uid, ids, context=context):
+            if islr_brw.state != 'cancel':
+                raise osv.except_osv(_("Invalid Procedure!!"),
+                    _("The withholding document needs to be in cancel state to be deleted."))
+            else:
+                super(islr_wh_doc, self).unlink(cr, uid, ids, context=context)
+        return True
+
 islr_wh_doc()
 
 

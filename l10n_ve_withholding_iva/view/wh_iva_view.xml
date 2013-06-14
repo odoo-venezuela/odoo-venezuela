@@ -32,9 +32,11 @@
                 <form string="Withholding Lines" version="7.0">
                     <notebook>
                         <page string="Withheld Invoice">
-                            <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
-                            <field name="name"/>
-                            <field name="move_id"/>
+                            <group colspan="4">
+                                <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+                                <field name="name"/>
+                                <field name="move_id"/>
+                            </group>
                             <group colspan="4">
                                 <field name="tax_line" nolabel="1">
                                     <tree string="Taxes" editable="top">
@@ -148,10 +150,10 @@
                         <field name="code"/>
                         <field name="partner_id" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('supplier','=',True)]"/>
                         <field name="currency_id"/>
-                        <field name="date_ret"/>
+                        <field name="date_ret" readonly="1"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name"/>
-                        <field name="period_id" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)"/>
+                        <field name="period_id" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
                         <field name="fortnight" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
@@ -198,7 +200,7 @@
                         <field name="code" select="1"/>
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('wh_iva_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id"/>
-                        <field name="date_ret"/>
+                        <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>

@@ -106,7 +106,6 @@ class account_invoice(osv.osv):
                 'account.move.line': (_get_inv_from_line, None, 50),
                 'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
             }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
-        'wh_iva_rate': fields.float('Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding rate"),
         'wh_iva_id': fields.function(_fnct_get_wh_iva_id, method=True,
             type='many2one', relation='account.wh.iva', 
             string='VAT Wh. Document', 
@@ -249,7 +248,7 @@ class account_invoice(osv.osv):
         return True
 
     def get_fortnight_wh_id(self, cr, uid, ids, context=None):
-        """ Returns the id of the acc.wh.iva in draft satte that correspond to
+        """ Returns the id of the acc.wh.iva in draft state that correspond to
         the invoice fortnight. If not exist return False.
         """
         context = context or {}
@@ -450,6 +449,25 @@ class account_invoice(osv.osv):
                     return False
         return True
 
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Verify first if the invoice have a non cancel withholding iva doc.
+        If it has then raise a error message. """
+        context = context or {}
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            #~ print '\n'*3, 'inv_brw.wh_iva_id', inv_brw.wh_iva_id,
+            #~       'inv_brw.wh_iva_id.state', inv_brw.wh_iva_id.state, '\n'*3
+            if ((not inv_brw.wh_iva_id) or
+                (inv_brw.wh_iva_id and inv_brw.wh_iva_id.state == 'cancel')):
+                super(account_invoice, self).action_cancel(cr, uid, ids,
+                                                           context=context)
+            else:
+                raise osv.except_osv(_("Error!"),
+                _("You can't cancel an invoice that have non cancel"
+                  " withholding document. Needs first cancel the invoice"
+                  " withholding document and then you can cancel this"
+                  " invoice."))
+        return True
+
 account_invoice()
 
 class account_invoice_tax(osv.osv):
@@ -469,7 +487,10 @@ class account_invoice_tax(osv.osv):
         for ait in inv.tax_line:
             amount_ret = 0.0
             if ait.tax_id.ret:
-                amount_ret = inv.wh_iva_rate and ait.tax_amount*inv.wh_iva_rate/100.0 or 0.00
+                wh_iva_rate = inv.type in ['out_invoice', "out_reunf"] \
+                    and inv.company_id.partner_id.wh_iva_rate \
+                    or inv.partner_id.wh_iva_rate
+                amount_ret = wh_iva_rate and ait.tax_amount*wh_iva_rate/100.0 or 0.00
             res[ait.id] = {'amount_ret': amount_ret, 'base_ret': ait.base_amount}
         return res
 
