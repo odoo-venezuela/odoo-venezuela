@@ -194,7 +194,7 @@ string="Invoice"
                                     <field name="tp_reduced_vat_base_sum" readonly="True"/>
                                     <field name="tp_reduced_vat_tax_sum" readonly="True"/>
                                 </group>
-                                <group colspan="1" col="2" string="No Tax Payer">
+                                <group colspan="1" col="2" string="Non-Tax Payer">
                                     <field name="get_total_with_iva_ntp_sum" readonly="True"/>
                                     <field name="ntp_vat_base_sum" readonly="True"/>
                                     <field name="ntp_exempt_vat_sum" readonly="True"/>
@@ -214,7 +214,7 @@ string="Invoice"
                         </group>
 
                     </page>
-                    <page string="No Tax Payer Detail" attrs="{'invisible': [('article_number', 'not in', ['77','78'])]}">
+                    <page string="Non-Tax Payer Detail" attrs="{'invisible': [('article_number', 'not in', ['77','78'])]}">
                         <field name="ntp_fbl_ids" nolabel="1" colspan="4" readonly="True">
                             <tree string="Fiscal Book Lines">
                                 <field name="parent_id"/>
