@@ -260,7 +260,7 @@ class account_wh_iva(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Withholding State"),
-        'date_ret': fields.date('Accounting date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
+        'date_ret': fields.date('Accounting date', help="Keep empty to use the current date"),
         'date': fields.date('Voucher Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="The pay account used for this withholding."),
@@ -293,8 +293,8 @@ class account_wh_iva(osv.osv):
         """ Call cancel_move and return True
         """
         context = context or {}
-        self.clear_wh_lines(cr, uid, ids, context=context)
         self.cancel_move(cr, uid, ids)
+        self.clear_wh_lines(cr, uid, ids, context=context)
         return True
 
     def cancel_move(self,cr,uid,ids, *args):
@@ -302,6 +302,7 @@ class account_wh_iva(osv.osv):
         """
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
+        delete = False
         for ret in ret_brw:
             if ret.state == 'done':
                 for ret_line in ret.wh_lines:
@@ -450,13 +451,37 @@ class account_wh_iva(osv.osv):
                         'WHERE id=%s', (number, id))
         return True
     
-    def action_date_ret(self,cr,uid,ids,context=None):
+    def action_date_ret(self, cr, uid, ids, context=None):
         """ Undated records will be assigned the current date
         """
-        for wh in self.browse(cr, uid, ids, context):
-            wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret':time.strftime('%Y-%m-%d')})
-        return True
+        context = context or {}
+        values = {}
+        per_obj = self.pool.get('account.period')
+        for wh in self.browse(cr, uid, ids, context=context):
+            if wh.type in ['in_invoice']:
+                values['date_ret'] = wh.company_id.allow_vat_wh_outdated \
+                                     and wh.date or time.strftime('%Y-%m-%d')
+                values['date'] = values['date_ret']
+                if not ((wh.period_id.id, eval(wh.fortnight)) == 
+                         per_obj.find_fortnight(cr, uid,
+                                                values['date_ret'],
+                                                context=context)):
+                    raise osv.except_osv( _("Invalid action !"),
+                        _("You have introduced non-valid accounting date. The"
+                          "date needs to be in the same withholding period and"
+                          " fortnigh."))
+            elif wh.type in ['out_invoice']:
+                values['date_ret'] = wh.date_ret or time.strftime('%Y-%m-%d')
 
+            if values['date_ret'] > time.strftime('%Y-%m-%d'):
+                error_msg = \
+                    "You have introduced a non valid withholding date (a date in " \
+                    "the future). The withholding date needs to be at least " \
+                    "today or a previous date."
+                raise osv.except_osv( _("Invalid action !"), _(error_msg))
+
+            self.write(cr, uid, [wh.id], values, context=context)
+        return True
 
     def action_move_create(self, cr, uid, ids, context=None):
         """ Create movements associated with retention and reconcile
@@ -671,16 +696,37 @@ class account_wh_iva(osv.osv):
     def compute_amount_wh(self, cr, uid, ids, context=None):
         """ Calculate withholding amount each line
         """
-        res = {}
-        if context is None:
-            context = {}      
+        context = context or {}
         awil_obj = self.pool.get('account.wh.iva.line')
-        for retention in self.browse(cr, uid, ids, context):
-            whl_ids = [line.id for line in retention.wh_lines]
-            if whl_ids:
-                awil_obj.load_taxes(cr, uid, whl_ids , context=context)    
+
+        if self.check_wh_lines_fortnights(cr, uid, ids, context=context):
+            for retention in self.browse(cr, uid, ids, context=context):
+                whl_ids = [line.id for line in retention.wh_lines]
+                if whl_ids:
+                    awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
+    def check_wh_lines_fortnights(self, cr, uid, ids, context=None):
+        """ Check that every wh iva line belongs to the wh iva fortnight."""
+        context = context or {}
+        per_obj = self.pool.get('account.period')
+        for awi_brw in self.browse(cr, uid, ids, context=context):
+            for awil_brw in awi_brw.wh_lines:
+                period_id, fortnight = \
+                    per_obj.find_fortnight(
+                        cr, uid, awil_brw.invoice_id.date_invoice,
+                        context=context)
+                if period_id != awi_brw.period_id.id or \
+                   fortnight != eval(awi_brw.fortnight):
+                    raise osv.except_osv(_('Invalid action !'),
+                        _("Can't compute the taxes of the withholding document."
+                          " A withholding line is not in the same withholding "
+                          " document period or fortnight (" +
+                          awi_brw.period_id.name +
+                          (awi_brw.fortnight == 'True' \
+                          and " - Second Fortnight)" or " - First Fortnight)")))
+                    return False
+        return True
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Update fields when duplicating

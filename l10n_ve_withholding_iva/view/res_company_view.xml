@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vat_check_vies']" position="after">
                     <field name="wh_consolidate"/>
+                    <field name="allow_vat_wh_outdated"/>
                 </xpath>
             </field>
         </record>
