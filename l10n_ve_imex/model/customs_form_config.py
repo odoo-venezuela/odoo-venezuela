@@ -109,11 +109,12 @@ class customs_duty(osv.osv):
     _description = ''
     _order = 'sequence'
 
-    def name_get(self, cr, uid, ids, context):
+    def name_get(self, cr, uid, ids, context=None):
+        context = context or {}
         if not len(ids):
             return []
         res = []
-        so_brw = self.browse(cr, uid, ids, context)
+        so_brw = self.browse(cr, uid, ids, context=context)
         for item in so_brw:
             res.append((item.id, '[%s] %s - %s' % (
                 item.code, item.ref, item.name)))

@@ -52,12 +52,13 @@ class inherited_invoice(osv.osv):
                                    on Book"),
     }
 
-    def on_change_customs_form_id(self, cr, uid, ids, customs_form_id):
+    def on_change_customs_form_id(self, cr, uid, ids, customs_form_id, context=None):
+        context = context or {}
         res = {}
         if customs_form_id:
             imp = self.pool.get('customs.form').browse(cr, uid,
                                                          customs_form_id,
-                                                         context=None)
+                                                         context=context)
             res = {'value': {'num_import_form': imp.name,
                              'import_invo': imp.date_liq}}
         return res
@@ -118,12 +119,14 @@ class inheried_account_invoice_tax(osv.osv):
             #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
         #~ return res
 
-    def on_change_amount(self, cr, uid, ids, tax_id, base_amount, tax_amount):
+    def on_change_amount(self, cr, uid, ids, tax_id, base_amount, tax_amount,
+                         context=None):
         """ To autocompute base or tax, only for percent based taxes. """
+        context = context or {}
         res = {}
         if tax_id:
             obj_vat = self.pool.get('account.tax')
-            vat = obj_vat.browse(cr, uid, tax_id)
+            vat = obj_vat.browse(cr, uid, tax_id, context=context)
             if vat.type == 'percent':
                 if base_amount == 0 and tax_amount > 0:
                     base_amount = round(tax_amount / vat.amount, 2)
@@ -138,11 +141,12 @@ class inheried_account_invoice_tax(osv.osv):
 
         return res
 
-    def on_change_invoice_id(self, cr, uid, ids, invoice_id):
+    def on_change_invoice_id(self, cr, uid, ids, invoice_id, context=None):
+        context = context or {}
         res = {}
         if invoice_id:
             obj_inv = self.pool.get('account.invoice')
-            inv = obj_inv.browse(cr, uid, invoice_id)
+            inv = obj_inv.browse(cr, uid, invoice_id, context=context)
             res = {'value': {'partner_id': inv.partner_id.id,
                              'supplier_invoice_number': inv.supplier_invoice_number}}
         return res
