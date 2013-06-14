@@ -710,23 +710,33 @@ class account_wh_iva(osv.osv):
         """ Check that every wh iva line belongs to the wh iva fortnight."""
         context = context or {}
         per_obj = self.pool.get('account.period')
+        error_msg = str()
+        fortnight_str = {'True': ' - Second Fortnight)',
+                        'False': ' - First Fortnight)'}
         for awi_brw in self.browse(cr, uid, ids, context=context):
+            if awi_brw.type in ['out_invoice']: return True
             for awil_brw in awi_brw.wh_lines:
-                period_id, fortnight = \
-                    per_obj.find_fortnight(
-                        cr, uid, awil_brw.invoice_id.date_invoice,
-                        context=context)
-                if period_id != awi_brw.period_id.id or \
-                   fortnight != eval(awi_brw.fortnight):
-                    raise osv.except_osv(_('Invalid action !'),
-                        _("Can't compute the taxes of the withholding document."
-                          " A withholding line is not in the same withholding "
-                          " document period or fortnight (" +
-                          awi_brw.period_id.name +
-                          (awi_brw.fortnight == 'True' \
-                          and " - Second Fortnight)" or " - First Fortnight)")))
-                    return False
-        return True
+                awil_period_id, awil_fortnight = per_obj.find_fortnight(
+                    cr, uid, awil_brw.invoice_id.date_invoice,
+                    context=context)
+                if awil_period_id != awi_brw.period_id.id or \
+                   awil_fortnight != eval(awi_brw.fortnight):
+                    error_msg += \
+                        (" * Line '" + awil_brw.invoice_id.number +
+                         "' belongs to (" + per_obj.browse(cr, uid,
+                         awil_period_id, context=context).name +
+                         fortnight_str[str(awil_fortnight)] + ".\n")
+            if error_msg:
+                raise osv.except_osv(
+                    _("Invalid action !"),
+                    _("Some withholding lines being withheld dont match"
+                      " with the withholding document period and"
+                      " fortnight.\n\n * Withholding VAT document correspond"
+                      " to (" + awi_brw.period_id.name + fortnight_str[
+                      awi_brw.fortnight] + ".\n\n" + error_msg))
+                return False
+            else:
+                return True
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Update fields when duplicating
