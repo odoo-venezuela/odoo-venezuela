@@ -148,6 +148,7 @@ class customs_form(osv.osv):
         cfl_ids.imex_tax_line and get debit account from account_tax model
         """
         lines = []
+        context = context or {}
         company_id = context.get('f86_company_id')
         f86_cfg = context.get('f86_config')
 
@@ -189,9 +190,8 @@ class customs_form(osv.osv):
         return lines
 
     def create_account_move(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        so_brw = self.browse(cr, uid, ids, context={})
+        context = context or {}
+        so_brw = self.browse(cr, uid, ids, context=context)
         for f86 in so_brw:
             if f86.move_id:  # ~ The move is already done, nothing to do
                 return []
@@ -201,7 +201,8 @@ class customs_form(osv.osv):
             cr, uid, uid, context=context).company_id.id
         company = self.pool.get('res.company').browse(cr, uid, company_id,
                                                       context=context)
-        cfg_id = obj_cfg.search(cr, uid, [('company_id', '=', company_id)])
+        cfg_id = obj_cfg.search(cr, uid, [('company_id', '=', company_id)],
+                                context=context)
         if cfg_id:
             f86_cfg = obj_cfg.browse(cr, uid, cfg_id[0], context=context)
         else:
@@ -227,38 +228,44 @@ class customs_form(osv.osv):
                 str_inv = _('\n\tSupplier: %-40s Reference: %s') % \
                 (inv.partner_id.name, inv.supplier_invoice_number)
                 move['narration'] = '%s%s' % (move['narration'], str_inv)
-            lines = self.create_account_move_lines(cr, uid, f86, context)
+            lines = self.create_account_move_lines(cr, uid, f86,
+                                                   context=context)
             if lines:
                 move.update({'line_id': lines})
-                move_id = obj_move.create(cr, uid, move, context)
+                move_id = obj_move.create(cr, uid, move, context=context)
                 obj_move.post(cr, uid, [move_id], context=context)
                 if move_id:
                     move_ids.append(move_id)
-                    self.write(cr, uid, f86.id, {'move_id': move_id}, context)
+                    self.write(cr, uid, f86.id, {'move_id': move_id},
+                               context=context)
         return move_ids
 
     def button_draft(self, cr, uid, ids, context=None):
+        context = context or {}
         vals = {'state': 'draft'}
-        return self.write(cr, uid, ids, vals, context)
+        return self.write(cr, uid, ids, vals, context=context)
 
     def button_open(self, cr, uid, ids, context=None):
-        self.create_account_move(cr, uid, ids, context)
+        context = context or {}
+        self.create_account_move(cr, uid, ids, context=context)
         vals = {'state': 'open'}
-        return self.write(cr, uid, ids, vals, context)
+        return self.write(cr, uid, ids, vals, context=context)
 
     def button_done(self, cr, uid, ids, context=None):
+        context = context or {}
         vals = {'state': 'done'}
-        return self.write(cr, uid, ids, vals, context)
+        return self.write(cr, uid, ids, vals, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):
+        context = context or {}
         f86 = self.browse(cr, uid, ids[0], context=context)
         f86_move_id = f86.move_id.id if f86 and f86.move_id else False
         vals = {'state': 'cancel', 'move_id': 0}
-        res = self.write(cr, uid, ids, vals, context)
+        res = self.write(cr, uid, ids, vals, context=context)
         if f86_move_id:
             self.pool.get('account.move').unlink(cr, uid, [f86_move_id],
-                                                 context)
-        return self.write(cr, uid, ids, vals, context)
+                                                 context=context)
+        return self.write(cr, uid, ids, vals, context=context)
 
     def test_draft(self, cr, uid, ids, *args):
         return True
@@ -302,7 +309,7 @@ class customs_form(osv.osv):
             raise osv.except_osv(
                 _('Error!'),
                 _('Multiple operations not allowed'))
-        for f86 in self.browse(cr, uid, ids, context=None):
+        for f86 in self.browse(cr, uid, ids, context={}):
             #~ Validate account_move.state != draft
             if f86.move_id and f86.move_id.state != 'draft':
                 raise osv.except_osv(
