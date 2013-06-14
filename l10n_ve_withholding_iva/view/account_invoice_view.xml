@@ -19,7 +19,6 @@
                     <newline/>
                         <group col="6" colspan="4">
                             <field name="wh_iva"/>
-                            <field name="wh_iva_rate"/>
                             <field name="wh_iva_id"/>
                         </group>
                 </xpath>
@@ -40,7 +39,6 @@
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="wh_iva" string="Have this invoice been already VAT withheld?"/>
-                        <field name="wh_iva_rate"/>
                         <field name="wh_iva_id" string="VAT Withholding Document"/>
                         <newline/>
                         <field name="vat_apply" string="Exclude this document from VAT Withholding" readonly="1"/>
