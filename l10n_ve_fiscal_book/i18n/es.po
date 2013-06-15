@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-05 19:27+0000\n"
+"POT-Creation-Date: 2013-06-14 17:20+0000\n"
 "PO-Revision-Date: 2013-06-09 14:51+0000\n"
 "Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
 "<humbertoarocha@gmail.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-11 05:57+0000\n"
+"X-Launchpad-Export-Date: 2013-06-15 05:15+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 
 #. module: l10n_ve_fiscal_book
@@ -31,23 +31,13 @@ msgstr "Todas las Transacciones"
 
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
-msgid "Importations"
-msgstr "Importaciones"
-
-#. module: l10n_ve_fiscal_book
-#: view:fiscal.book:0
 msgid "Set to draft"
 msgstr "Cambiar a borrador"
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_sdcf_and_exempt_sum:0
-msgid ""
-"SDCF and Exempt sum for domestict transanctions. At Sale book represent the "
-"sum of Tax Payer and No Tax payer transactions."
+#: model:ir.actions.report.xml,name:l10n_ve_fiscal_book.report_fiscal_book_sale
+msgid "Sale Book Report"
 msgstr ""
-"Totalizacion de transacciones domesticas SDCF y Exenta. En el libro de Venta "
-"representan la suma de las transacciones de Contribuyentes y No "
-"Contribuyentes"
 
 #. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,vat:0
@@ -55,7 +45,7 @@ msgid "Vat"
 msgstr "RIF"
 
 #. module: l10n_ve_fiscal_book
-#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:1025
+#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:1099
 #, python-format
 msgid ""
 "This is a no valid line. Be sure you have two or more invoices with the same "
@@ -94,13 +84,6 @@ msgstr ""
 #: report:fiscal.book.purchase:0
 #: report:fiscal.book.sale:0
 msgid "Fecha Doc."
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: view:fiscal.book:0
-#: selection:fiscal.book.line,type:0
-#: selection:fiscal.book.taxes.summary,op_type:0
-msgid "Exportation"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -150,9 +133,11 @@ msgid "COMPRAS INTERNAS GRAVADAS POR ALÍCUOTA REDUCIDA"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: model:ir.model,name:l10n_ve_fiscal_book.model_account_wh_iva_line
-msgid "Vat Withholding line"
-msgstr "Linea de Retención de IVA"
+#: view:fiscal.book:0
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_book.action_fiscal_sale_book
+#: model:ir.ui.menu,name:l10n_ve_fiscal_book.menu_fiscal_sale_book
+msgid "Fiscal Sale Book"
+msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,do_additional_vat_base_sum:0
@@ -172,14 +157,24 @@ msgid "International Operations"
 msgstr "Operaciones Internacionales"
 
 #. module: l10n_ve_fiscal_book
-#: field:fiscal.book,ntp_fbl_ids:0
-msgid "No Tax Payer Detail Lines"
-msgstr "Líneas de Detalle para No Contribuyentes"
-
-#. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,invoice_id:0
 msgid "Invoice related to this book line"
 msgstr "Factura relacionada con esta línea del libro"
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,do_reduced_vat_base_sum:0
+msgid ""
+"Reduced VAT Taxed Domestic Base Amount Totalization. For Purchase Book it "
+"sums Reduced VAT Base column for domestic transactions. For Sale Book it "
+"sums Tax Payer and Non-Tax Payer Reduced VAT Base columns"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_additional_vat_tax_sum:0
+msgid ""
+"Additional VAT Taxed Non-Tax Payer Tax Amount Totalization. Sum of "
+"Additional VAT Tax column for Non-Tax Payer transactions"
+msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: selection:fiscal.book.taxes.summary,tax_type:0
@@ -235,6 +230,11 @@ msgstr ""
 "almacenará el número de factura generado por la Maquina Impresora Fiscal"
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book.line,imex_date:0
+msgid "Invoice Imports/Exports Date"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
 msgid "VENTAS INTERNAS GRAVADAS POR ALÍCUOTA GENERAL MAS ALÍCUOTA ADICIONAL"
 msgstr ""
@@ -267,21 +267,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: selection:fiscal.book.line,type:0
-#: selection:fiscal.book.taxes.summary,op_type:0
-msgid "Import"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: field:fiscal.book,state:0
 msgid "Status"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_general_vat_base_sum:0
+#: help:fiscal.book,do_sdcf_vat_sum:0
 msgid ""
-"General VAT Taxed No Tax Payer Base Amount Totalization. Sum of General VAT "
-"Base column for taxy payer transactions"
+"Domestic SDCF Tax Totalization. For Purchase Book it sums SDCF column for "
+"domestic transactions. For Sale Book it sums Tax Payer and Non-Tax Payer "
+"SDCF columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -322,10 +317,10 @@ msgid "Seniat Submitted"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_general_vat_tax_sum:0
-msgid ""
-"General VAT Taxed No Tax Payer Tax Amount Totalization. Sum of General VAT "
-"Tax column for no tax payer transactions"
+#: view:fiscal.book:0
+#: selection:fiscal.book.line,type:0
+#: selection:fiscal.book.taxes.summary,op_type:0
+msgid "Imports"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -366,6 +361,13 @@ msgid "Print Report"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: view:fiscal.book:0
+#: selection:fiscal.book.line,type:0
+#: selection:fiscal.book.taxes.summary,op_type:0
+msgid "Non-Tax Payer"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,total_with_iva:0
 msgid ""
 "Sub Total of the invoice (untaxed amount) plus all tax amount of the related "
@@ -378,18 +380,19 @@ msgid "Control Start"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:1211
+#, python-format
+msgid "Programing Error!"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: view:fiscal.book:0
+msgid "Customs Forms"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
 msgid "VENTAS INTERNAS GRAVADAS SÓLO POR ALÍCUOTA GENERAL"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: model:ir.actions.report.xml,name:l10n_ve_fiscal_book.report_fiscal_book_sale
-msgid "Sale Book Report"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: report:fiscal.book.purchase:0
-msgid "COMPRAS INTERNAS GRAVADAS POR ALÍCUOTA GENERAL MAS ALÍCUOTA ADICIONAL"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -414,40 +417,15 @@ msgid "Venezuela's Sale & Purchase Fiscal Book Taxes Summary"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: field:fiscal.book,ntp_fbl_ids:0
+msgid "Non-Tax Payer Detail Lines"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: code:addons/l10n_ve_fiscal_book/wizard/fiscal_book_wizard.py:185
 #: selection:fiscal.book.wizard,type:0
 #, python-format
 msgid "Sale"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_vat_base_sum:0
-msgid ""
-"No Tax Payer Grand Base Totalization. Sum of all no tax payer tax bases "
-"(reduced, general and additional)"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: field:fiscal.book,do_reduced_vat_tax_sum:0
-#: field:fiscal.book,imex_reduced_vat_tax_sum:0
-#: field:fiscal.book,ntp_reduced_vat_tax_sum:0
-#: field:fiscal.book,tp_reduced_vat_tax_sum:0
-msgid "Reduced VAT Taxed Amount"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_general_vat_base_sum:0
-msgid ""
-"General VAT Taxed Domestic Base Amount Totalization. For Purchase Book it "
-"sums General VAT Base column for domestic transactions. For Sale Book it "
-"sums Tax Payer and No Tax Payer General VAT Base columns"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,imex_vat_base_sum:0
-msgid ""
-"Sum of International Tax Base Amounts (reduced, general and additional). "
-"Used at 2nd row in thw Sale book's summary with Exportation Sales title"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -494,13 +472,6 @@ msgid "Printed in Report Lab using OpenERP"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_fbl_ids:0
-msgid ""
-"No Tax Payer Lines that are grouped by the statement law that represent the "
-"data of are consolidate book lines"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: field:fiscal.book,do_general_vat_base_sum:0
 #: field:fiscal.book,imex_general_vat_base_sum:0
 #: field:fiscal.book,ntp_general_vat_base_sum:0
@@ -528,6 +499,11 @@ msgid "Emission Date"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: model:ir.model,name:l10n_ve_fiscal_book.model_account_wh_iva_line
+msgid "Vat Withholding line"
+msgstr "Linea de Retención de IVA"
+
+#. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,uncredit_fiscal:0
 msgid "Sin derecho a Credito Fiscal"
 msgstr ""
@@ -535,18 +511,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,iwdl_id:0
 msgid "Vat Withholding"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,article_number:0
-msgid ""
-"Article number describing the fiscal book special features according to the "
-"Venezuelan RLIVA statement for fiscal accounting books. Options: - Art. 75: "
-"Pruchase Book. - Art. 76: Sale Book. Reflects every individual operation "
-"datail. - Art. 77: Sale Book. Groups no tax payer operations in one  "
-"consolidated line. Only fiscal billing. - Art. 78: Sale Book. Hybrid for 76 "
-"and 77 article. Show automatic and mechanized operations in individual way, "
-"and  groups fiscal billing operationss in one consolidated line."
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -565,19 +529,6 @@ msgid "IMPORTACIONES GRAVADAS POR ALÍCUOTA GENERAL MAS ALÍCUOTA ADICIONAL"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: view:fiscal.book:0
-#: field:fiscal.book.line,ntp_fb_id:0
-msgid "No Tax Payer Detail"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: view:fiscal.book:0
-#: selection:fiscal.book.line,type:0
-#: selection:fiscal.book.taxes.summary,op_type:0
-msgid "No Tax Payer"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: code:addons/l10n_ve_fiscal_book/wizard/fiscal_book_wizard.py:186
 #: selection:fiscal.book.wizard,type:0
 #, python-format
@@ -589,14 +540,6 @@ msgstr ""
 #: help:account.wh.iva.line,fb_id:0
 #: help:adjustment.book.line,fb_id:0
 msgid "Fiscal Book where this line is related to"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_sdcf_vat_sum:0
-msgid ""
-"Domestic SDCF Tax Totalization. For Purchase Book it sums SDCF column for "
-"domestic transactions. For Sale Book it sums Tax Payer and No Tax Payer SDCF "
-"columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -689,6 +632,11 @@ msgid "Date administrative for adjustment book"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book.line,rank:0
+msgid "Line Position"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,vat_general_tax:0
 msgid "GRAL TAX"
 msgstr ""
@@ -770,27 +718,22 @@ msgid "0% Exento"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: view:fiscal.book:0
-#: model:ir.actions.act_window,name:l10n_ve_fiscal_book.action_fiscal_sale_book
-#: model:ir.ui.menu,name:l10n_ve_fiscal_book.menu_fiscal_sale_book
-msgid "Fiscal Sale Book"
+#: report:fiscal.book.purchase:0
+msgid "COMPRAS INTERNAS GRAVADAS POR ALÍCUOTA GENERAL MAS ALÍCUOTA ADICIONAL"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,invoice_ids:0
-msgid "Invoices being recorded in a Fiscal Book"
+#: field:fiscal.book,do_reduced_vat_tax_sum:0
+#: field:fiscal.book,imex_reduced_vat_tax_sum:0
+#: field:fiscal.book,ntp_reduced_vat_tax_sum:0
+#: field:fiscal.book,tp_reduced_vat_tax_sum:0
+msgid "Reduced VAT Taxed Amount"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,base_amount:0
 #: field:fiscal.book.taxes,base_amount:0
 msgid "Taxable Amount"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,get_total_with_iva_sum:0
-msgid ""
-"Total with VAT Sum (Import/Export, Domestic, Tax Payer and No Tax Payer"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -830,8 +773,11 @@ msgid "General Aliquot + Additional"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.line,rank:0
-msgid "Line Position"
+#: help:fiscal.book,do_general_vat_base_sum:0
+msgid ""
+"General VAT Taxed Domestic Base Amount Totalization. For Purchase Book it "
+"sums General VAT Base column for domestic transactions. For Sale Book it "
+"sums Tax Payer and Non-Tax Payer General VAT Base columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -851,14 +797,6 @@ msgid "No Contribuyente"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_reduced_vat_tax_sum:0
-msgid ""
-"Reduced VAT Taxed Domestic Tax Amount Totalization. For Purchase Book it "
-"sums Reduced VAT Tax column for domestic transactions. For Sale Book it sums "
-"Tax Payer and No Tax Payer Reduced VAT Tax columns"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
 #: report:fiscal.book.sale:0
 msgid "DATOS DE LA FACTURA O/Y DOCUMENTO"
@@ -867,6 +805,14 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,message_is_follower:0
 msgid "Is a Follower"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,do_exempt_vat_sum:0
+msgid ""
+"Domestic Exempt Tax Totalization. For Purchase Book it sums Exempt column "
+"for domestic transactions. For Sale Book it sums Tax Payer and Non-Tax Payer "
+"Exempt columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -900,6 +846,11 @@ msgstr ""
 msgid ""
 "No period defined for this date !\n"
 "Please create a fiscal year."
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,cf_ids:0
+msgid "Customs Form being recorded in the Fiscal Book"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -979,17 +930,27 @@ msgid "Invoice Number"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_additional_vat_tax_sum:0
+#: help:fiscal.book,ntp_exempt_vat_sum:0
 msgid ""
-"Additional VAT Taxed Domestic Tax Amount Totalization. For Purchase Book it "
-"sums Additional VAT Tax column for domestic transactions. For Sale Book it "
-"sums Tax Payer and No Tax Payer Additional VAT Tax columns"
+"Non-Tax Payer Exempt Tax Totalization. Sum of Exempt column for Non-Tax "
+"Payer transactions"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book.line,void_form:0
+#: field:fiscal.book.taxes.summary,op_type:0
+msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,amount_with_vat_i:0
 #: field:adjustment.book.line,amount_with_vat_n:0
 msgid "Amount Withholding VAT"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,get_total_with_iva_ntp_sum:0
+msgid "Non-Tax Payer Total with VAT Totalization"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1000,6 +961,13 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 msgid "Fiscal Book Vat Withholdings"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_sdcf_vat_sum:0
+msgid ""
+"Non-Tax Payer SDCF Tax Totalization. Sum of SDCF column for Non-Tax Payer "
+"transactions"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1024,8 +992,8 @@ msgid "BASE IMPONIBLE"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,get_total_with_iva_ntp_sum:0
-msgid "No Tax Payer Total with VAT Totalization"
+#: field:fiscal.book.line,affected_invoice:0
+msgid "Affected Invoice"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1064,15 +1032,22 @@ msgid "General VAT Taxed Amount"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_reduced_vat_base_sum:0
+#: help:fiscal.book,ntp_reduced_vat_tax_sum:0
 msgid ""
-"Reduced VAT Taxed No Tax Payer Base Amount Totalization. Sum of Reduced VAT "
-"Base column for no tax payer transactions"
+"Reduced VAT Taxed Non-Tax Payer Tax Amount Totalization. Sum of Reduced VAT "
+"Tax column for Non-Tax Payer transactions"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,vat_reduced_base:0
 msgid "RED BASE"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: view:fiscal.book:0
+#: selection:fiscal.book.line,type:0
+#: selection:fiscal.book.taxes.summary,op_type:0
+msgid "Exports"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1089,14 +1064,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,issue_invoice_ids:0
 msgid "Issue Invoices"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_reduced_vat_base_sum:0
-msgid ""
-"Reduced VAT Taxed Domestic Base Amount Totalization. For Purchase Book it "
-"sums Reduced VAT Base column for domestic transactions. For Sale Book it "
-"sums Tax Payer and No Tax Payer Reduced VAT Base columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1125,6 +1092,13 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,get_partner_addr:0
 msgid "Partner address printable format"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_fbl_ids:0
+msgid ""
+"Non-Tax Payer Lines that are grouped by the statement law that represent the "
+"data of are consolidate book lines"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1207,6 +1181,17 @@ msgid "Vat Generald plus Additional Base Amount"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: view:fiscal.book:0
+#: field:fiscal.book.line,ntp_fb_id:0
+msgid "Non-Tax Payer Detail"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: field:fiscal.book,ntp_vat_base_sum:0
+msgid "Non-Tax Payer Taxable Amount"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: selection:fiscal.book,state:0
 msgid "Getting Ready"
 msgstr ""
@@ -1217,9 +1202,10 @@ msgid "Fiscal machine number"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.line,void_form:0
-#: field:fiscal.book.taxes.summary,op_type:0
-msgid "Operation Type"
+#: help:fiscal.book.line,type:0
+msgid ""
+"Book line transtaction type: - Purchase: Import or Domestic. - Sales: "
+"Expertation, Tax Payer, Non-Tax Payer."
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1246,21 +1232,14 @@ msgid "Débito Fiscal Base"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.line,child_ids:0
-msgid "No Tax Payer Group of book lines that this line represent"
+#: help:fiscal.book,get_total_with_iva_sum:0
+msgid ""
+"Total with VAT Sum (Import/Export, Domestic, Tax Payer and Non-Tax Payer"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,debit_affected:0
 msgid "Affected Debit Notes"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_general_vat_tax_sum:0
-msgid ""
-"General VAT Taxed Domestic Tax Amount Totalization. For Purchase Book it "
-"sums General VAT Tax column for domestic transactions. For Sale Book it sums "
-"Tax Payer and No Tax Payer General VAT Tax columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1293,13 +1272,6 @@ msgid "Libro: Compras"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_sdcf_vat_sum:0
-msgid ""
-"No Tax Payer SDCF Tax Totalization. Sum of SDCF column for no tax payer "
-"transactions"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: selection:adjustment.book.line,type_doc:0
 msgid "Credit Note"
 msgstr ""
@@ -1315,6 +1287,7 @@ msgstr ""
 #: field:account.invoice,issue_fb_id:0
 #: field:account.wh.iva.line,fb_id:0
 #: field:adjustment.book.line,fb_id:0
+#: field:customs.form,fb_id:0
 #: view:fiscal.book:0
 #: field:fiscal.book.line,fb_id:0
 #: field:fiscal.book.taxes,fb_id:0
@@ -1350,6 +1323,12 @@ msgid "Book Type"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: field:fiscal.book,cf_ids:0
+#: field:fiscal.book.line,cf_id:0
+msgid "Customs Form"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
 msgid "COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL"
 msgstr ""
@@ -1360,11 +1339,6 @@ msgid "Report Z"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.line,imex_date:0
-msgid "Invoice Importation/Exportation Date"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: field:fiscal.book,do_sdcf_and_exempt_sum:0
 msgid "Domestic Untaxed VAT Sum"
 msgstr ""
@@ -1372,11 +1346,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 msgid "Clear Book"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: field:fiscal.book.line,child_ids:0
-msgid "No Tax Payer Detail Line"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1405,13 +1374,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: sql_constraint:fiscal.book:0
 msgid "The period and type combination must be unique!"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_additional_vat_base_sum:0
-msgid ""
-"Additional VAT Taxed No Tax Payer Base Amount Totalization. Sum of "
-"Additional VAT Base column for no tax payer transactions"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1470,13 +1432,6 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_reduced_vat_tax_sum:0
-msgid ""
-"Reduced VAT Taxed No Tax Payer Tax Amount Totalization. Sum of Reduced VAT "
-"Tax column for no tax payer transactions"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: field:fiscal.book,get_total_tax_credit_debit_base_sum:0
 msgid "Tax Credit Total Base Amount"
 msgstr ""
@@ -1492,6 +1447,20 @@ msgid "Vat of partner for adjustment book"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_vat_base_sum:0
+msgid ""
+"Non-Tax Payer Grand Base Totalization. Sum of all no tax payer tax bases "
+"(reduced, general and additional)"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_general_vat_tax_sum:0
+msgid ""
+"General VAT Taxed Non-Tax Payer Tax Amount Totalization. Sum of General VAT "
+"Tax column for Non-Tax Payer transactions"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,accounting_date:0
 msgid "Accounting Date"
 msgstr ""
@@ -1502,6 +1471,19 @@ msgid "Fiscal Book Taxes"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book,do_general_vat_tax_sum:0
+msgid ""
+"General VAT Taxed Domestic Tax Amount Totalization. For Purchase Book it "
+"sums General VAT Tax column for domestic transactions. For Sale Book it sums "
+"Tax Payer and Non-Tax Payer General VAT Tax columns"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: field:fiscal.book.line,child_ids:0
+msgid "Non-Tax Payer Detail Line"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: field:fiscal.book.wizard,date_end:0
 msgid "End Date"
 msgstr ""
@@ -1509,6 +1491,11 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,get_month_year:0
 msgid "Year and Month ot the Fiscal book period"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book.line,child_ids:0
+msgid "Non-Tax Payer Group of book lines that this line represent"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1533,6 +1520,11 @@ msgid "Adjustment Book Line"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:customs.form,fb_id:0
+msgid "Fiscal Book where this customs form is srelated to"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
 #: report:fiscal.book.sale:0
 msgid ""
@@ -1552,6 +1544,13 @@ msgid "Reporte Z"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book.taxes.summary,op_type:0
+msgid ""
+"Operation Type: - Purchase: Import or Domestic. - Sales: Expertation, Tax "
+"Payer, Non-Tax Payer."
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: field:fiscal.book,get_total_wh_sum:0
 msgid "VAT Withholding Sum"
 msgstr ""
@@ -1564,7 +1563,8 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,ntp_fb_id:0
 msgid ""
-"Fiscal Book that owns this book line This Book is only for no tax payer lines"
+"Fiscal Book that owns this book line This Book is only for Non-Tax Payer "
+"lines"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1596,6 +1596,11 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.taxes,fbl_id:0
 msgid "Fiscal Book Lines where this tax is related to"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,invoice_ids:0
+msgid "Invoices being recorded in a Fiscal Book"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1636,12 +1641,32 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_general_vat_base_sum:0
+msgid ""
+"General VAT Taxed Non-Tax Payer Base Amount Totalization. Sum of General VAT "
+"Base column for taxy payer transactions"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: field:fiscal.book,get_total_with_iva_do_sum:0
 #: field:fiscal.book,get_total_with_iva_imex_sum:0
 #: field:fiscal.book,get_total_with_iva_ntp_sum:0
 #: field:fiscal.book,get_total_with_iva_sum:0
 #: field:fiscal.book,get_total_with_iva_tp_sum:0
 msgid "Total amount with VAT"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,do_reduced_vat_tax_sum:0
+msgid ""
+"Reduced VAT Taxed Domestic Tax Amount Totalization. For Purchase Book it "
+"sums Reduced VAT Tax column for domestic transactions. For Sale Book it sums "
+"Tax Payer and Non-Tax Payer Reduced VAT Tax columns"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book.line,cf_id:0
+msgid "Customs Form being recorded to this book line"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1678,11 +1703,19 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:703
-#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:1025
+#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:707
+#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:1099
 #: code:addons/l10n_ve_fiscal_book/model/invoice.py:51
 #, python-format
 msgid "Error!"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,do_additional_vat_tax_sum:0
+msgid ""
+"Additional VAT Taxed Domestic Tax Amount Totalization. For Purchase Book it "
+"sums Additional VAT Tax column for domestic transactions. For Sale Book it "
+"sums Tax Payer and No Tax Payer Additional VAT Tax columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1708,15 +1741,27 @@ msgid "No Gravado"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_reduced_vat_base_sum:0
+msgid ""
+"Reduced VAT Taxed Non-Tax Payer Base Amount Totalization. Sum of Reduced VAT "
+"Base column for Non-Tax Payer transactions"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: help:fiscal.book,get_total_with_iva_tp_sum:0
 msgid "Tax Payer Total with VAT Totalization"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_exempt_vat_sum:0
+#: help:fiscal.book,article_number:0
 msgid ""
-"No Tax Payer Exempt Tax Totalization. Sum of Exempt column for no tax payer "
-"transactions"
+"Article number describing the fiscal book special features according to the "
+"Venezuelan RLIVA statement for fiscal accounting books. Options: - Art. 75: "
+"Pruchase Book. - Art. 76: Sale Book. Reflects every individual operation "
+"datail. - Art. 77: Sale Book. Groups Non-Tax Payer operations in one  "
+"consolidated line. Only fiscal billing. - Art. 78: Sale Book. Hybrid for 76 "
+"and 77 article. Show automatic and mechanized operations in individual way, "
+"and  groups fiscal billing operationss in one consolidated line."
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1798,13 +1843,6 @@ msgid "Fiscal Book / Manager"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.taxes.summary,op_type:0
-msgid ""
-"Operation Type: - Purchase: Import or Domestic. - Sales: Expertation, Tax "
-"Payer, No Tax Payer."
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: help:adjustment.book.line,amount_untaxed_i:0
 msgid "Amount untaxed for international operations"
 msgstr ""
@@ -1857,6 +1895,13 @@ msgid "Invoices"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book,imex_vat_base_sum:0
+msgid ""
+"Sum of International Tax Base Amounts (reduced, general and additional). "
+"Used at 2nd row in thw Sale book's summary with Exports Sales title"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,vat_general_tax:0
 msgid "Vat General Tax Amount"
 msgstr ""
@@ -1877,15 +1922,22 @@ msgid "Date accounting for adjustment book"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book,ntp_additional_vat_tax_sum:0
+#: help:fiscal.book.line,parent_id:0
 msgid ""
-"Additional VAT Taxed No Tax Payer Tax Amount Totalization. Sum of Additional "
-"VAT Tax column for no tax payer transactions"
+"Non-Tax Payer Consolidated Line. Indicate the id of the consolidated line "
+"where this Non-Tax Payer line belongs"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,fbl_ids:0
 msgid "Lines being recorded in the book"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
+#: help:fiscal.book,do_sdcf_and_exempt_sum:0
+msgid ""
+"SDCF and Exempt sum for domestict transanctions. At Sale book represent the "
+"sum of Tax Payer and Non-Tax Payer transactions."
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1921,11 +1973,6 @@ msgid "Tax Lines being recorded in a Fiscal Book"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: field:fiscal.book,ntp_vat_base_sum:0
-msgid "No Tax Payer Taxable Amount"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
 #: help:fiscal.book,tp_vat_base_sum:0
 msgid ""
 "Sum of all Tax Payer Grand Base Sum (reduced, general and additional taxes)"
@@ -1954,6 +2001,11 @@ msgid "Domestic"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: model:ir.model,name:l10n_ve_fiscal_book.model_customs_form
+msgid "customs.form"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 msgid "Update Book"
 msgstr ""
@@ -1966,11 +2018,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
 msgid "Libro: Ventas"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: field:fiscal.book.line,affected_invoice:0
-msgid "Affected Invoice"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -1992,15 +2039,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
+#: help:fiscal.book,ntp_additional_vat_base_sum:0
+msgid ""
+"Additional VAT Taxed Non-Tax Payer Base Amount Totalization. Sum of "
+"Additional VAT Base column for Non-Tax Payer transactions"
+msgstr ""
+
+#. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
 msgid "OPERACIONES DE IMPORTACIONES"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.line,type:0
-msgid ""
-"Book line transtaction type: - Purchase: Import or Domestic. - Sales: "
-"Expertation, Tax Payer, No Tax Payer."
+#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:1212
+#, python-format
+msgid "Customs form lines are domestic transacctions"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
@@ -2015,14 +2068,7 @@ msgid "Numero Control"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
-#: help:fiscal.book.line,parent_id:0
-msgid ""
-"No Tax Payer Consolidated Line. Indicate the id of the consolidated line "
-"where this no tax payer line belongs"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:704
+#: code:addons/l10n_ve_fiscal_book/model/fiscal_book.py:708
 #, python-format
 msgid "You have withholdings registred but you are not a withholding agent"
 msgstr ""
@@ -2030,14 +2076,6 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,imex_date:0
 msgid "Imex Date"
-msgstr ""
-
-#. module: l10n_ve_fiscal_book
-#: help:fiscal.book,do_exempt_vat_sum:0
-msgid ""
-"Domestic Exempt Tax Totalization. For Purchase Book it sums Exempt column "
-"for domestic transactions. For Sale Book it sums Tax Payer and No Tax Payer "
-"Exempt columns"
 msgstr ""
 
 #. module: l10n_ve_fiscal_book
