@@ -161,8 +161,8 @@ class account_wh_iva_line(osv.osv):
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
         'wh_iva_rate': fields.float(string='Withholding Vat Rate', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding rate"),
-        'date': fields.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Date', help='Voucher date'),
-        'date_ret': fields.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Date Withholding', help='Accouting date')
+        'date': fields.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Emission Date', help='Emission date'),
+        'date_ret': fields.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Accounting Date', help='Accouting date')
     }
 
     _sql_constraints = [
@@ -261,7 +261,7 @@ class account_wh_iva(osv.osv):
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Withholding State"),
         'date_ret': fields.date('Accounting date', help="Keep empty to use the current date"),
-        'date': fields.date('Voucher Date', readonly=True, states={'draft':[('readonly',False)]}, help="Date"),
+        'date': fields.date('Emission Date', readonly=True, states={'draft':[('readonly',False)]}, help="Voucher Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="The pay account used for this withholding."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Withholding customer/supplier"),
