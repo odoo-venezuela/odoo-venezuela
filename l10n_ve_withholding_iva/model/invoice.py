@@ -257,20 +257,16 @@ class account_invoice(osv.osv):
         wh_iva_obj = self.pool.get('account.wh.iva')
         per_obj = self.pool.get('account.period')
         for inv_brw in self.browse(cr, uid, ids, context=context):
-            inv_fortnight = per_obj.find_fortnight(
+            inv_period, inv_fortnight = per_obj.find_fortnight(
                 cr, uid, inv_brw.date_invoice, context=context)
             ttype = inv_brw.type in ["out_invoice", "out_refund"] \
                     and "out_invoice" or "in_invoice"
             acc_wh_ids = wh_iva_obj.search(
-                cr, uid, [('state', '=', 'draft'),('type', '=', ttype),
-                ('partner_id', '=', inv_brw.partner_id.id)], context=context)
-            for acc_wh_brw in wh_iva_obj.browse(cr, uid, acc_wh_ids, context=context):
-                acc_wh_fortnight = per_obj.find_fortnight(cr, uid,
-                                                          acc_wh_brw.date,
-                                                          context=context)
-                res.append(
-                    acc_wh_fortnight == inv_fortnight
-                    and acc_wh_brw.id or False)
+                cr, uid, [('state', '=', 'draft'), ('type', '=', ttype),
+                ('partner_id', '=', inv_brw.partner_id.id),
+                ('period_id', '=', inv_period),
+                ('fortnight','=', str(inv_fortnight))], context=context)
+            res.append(acc_wh_ids)
         return len(res) == 1 and res[0] or res
 
     def create_new_wh_iva(self, cr, uid, ids, ret_line_id, context=None):
