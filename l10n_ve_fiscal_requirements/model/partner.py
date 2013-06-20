@@ -281,7 +281,7 @@ class res_partner(osv.osv):
         
     def vies_vat_check(self, cr, uid, country_code, vat_number, context=None):
         
-        if country_code != "ve":
+        if country_code.upper() != "VE":
             return super(res_partner, self).vies_vat_check(cr, uid, country_code, vat_number,context=context)
         else:
             return super(res_partner, self).simple_vat_check(cr, uid, country_code, vat_number, context=context)
@@ -294,7 +294,7 @@ class res_partner(osv.osv):
         su_obj = self.pool.get('seniat.url')
         return su_obj.update_rif(cr, uid, ids, context=context)
 
-    def check_vat(self, cr, uid, ids, context=None):
+    def button_check_vat(self, cr, uid, ids, context=None):
         """ Is called by the button that load information of the partner from database 
         SENIAT
         """
