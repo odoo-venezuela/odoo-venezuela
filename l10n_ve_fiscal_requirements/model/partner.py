@@ -280,7 +280,9 @@ class res_partner(osv.osv):
         return False
         
     def vies_vat_check(self, cr, uid, country_code, vat_number, context=None):
-        
+        """
+        Validate against  VAT Information Exchange System (VIES)
+        """
         if country_code.upper() != "VE":
             return super(res_partner, self).vies_vat_check(cr, uid, country_code, vat_number,context=context)
         else:
