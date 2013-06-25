@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-07 05:58+0000\n"
-"X-Generator: Launchpad (build 16667)\n"
+"X-Launchpad-Export-Date: 2013-06-25 05:17+0000\n"
+"X-Generator: Launchpad (build 16677)\n"
 
 #. module: l10n_ve_withholding_muni
 #: code:addons/l10n_ve_withholding_muni/report/wh_muni_report.py:48
@@ -596,36 +596,3 @@ msgstr "Porcentaje"
 #, python-format
 msgid "You must omit the follow invoice '%s' !"
 msgstr "Omita la siguiente Factura '%s'!"
-
-#~ msgid "Error ! The partner does not have an invoice address."
-#~ msgstr "Error ! La empresa no tiene dirección fiscal definida."
-
-#~ msgid "Vat Withholding"
-#~ msgstr "Retenciones del IVA"
-
-#~ msgid "Withholdings Local"
-#~ msgstr "Retenciones Municipales"
-
-#~ msgid "Error ! Partner's VAT must be a unique value or empty"
-#~ msgstr "Error ! El RIF del partner debe ser único o vacio"
-
-#~ msgid "Estado"
-#~ msgstr "Estado"
-
-#~ msgid ""
-#~ "The account moves of the invoice have been withheld with account moves of "
-#~ "the payment(s)."
-#~ msgstr ""
-#~ "Los movimientos de cuenta para esta factura ya han sido retenidos con los "
-#~ "movimientos de los pagos"
-
-#~ msgid ""
-#~ "No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!"
-#~ msgstr ""
-#~ "No se encontró un periodo fiscal para esta fecha: '%s' por favor verificar.!"
-
-#~ msgid ""
-#~ "The Document you have been entering for this Partner has already been "
-#~ "recorded"
-#~ msgstr ""
-#~ "El documento que está intentando ingresar ya ha sido grabado en el sistema"

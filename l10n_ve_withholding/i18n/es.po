@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-07 05:58+0000\n"
-"X-Generator: Launchpad (build 16667)\n"
+"X-Launchpad-Export-Date: 2013-06-25 05:17+0000\n"
+"X-Generator: Launchpad (build 16677)\n"
 
 #. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_invoice_tax
@@ -131,67 +131,3 @@ msgstr "Advertencia !"
 #: model:ir.model,name:l10n_ve_withholding.model_account_journal
 msgid "Journal"
 msgstr "Diario"
-
-#~ msgid "Create and manage the withholding documents in account move line."
-#~ msgstr ""
-#~ "Crear y gestionar los documentos de retención en la línea de la cuenta."
-
-#~ msgid "Withholdings Document"
-#~ msgstr "Documentos de retenciones"
-
-#~ msgid "The name of the journal must be unique per company !"
-#~ msgstr "El nombre del diario debe ser único por compañía !"
-
-#~ msgid "Management withholdings Venezuelan laws"
-#~ msgstr "Gestión de retenciones de las leyes venezolanas"
-
-#~ msgid "State"
-#~ msgstr "Estado"
-
-#~ msgid "Optional Information"
-#~ msgstr "Información opcional"
-
-#~ msgid "Journal Items"
-#~ msgstr "Líneas de libro diario"
-
-#~ msgid "Company must be same for its related account and period."
-#~ msgstr ""
-#~ "La empresa debe ser la misma para su cuenta y el período relacionado."
-
-#~ msgid "Total Credit"
-#~ msgstr "Credito total"
-
-#~ msgid ""
-#~ "Management withholdings:\n"
-#~ "    - Add journal types\n"
-#~ "    - Add \n"
-#~ "    "
-#~ msgstr ""
-#~ "Gestión de la retención:\n"
-#~ "    - Añadir tipo de diario\n"
-#~ "    - Añadir \n"
-#~ "    "
-
-#~ msgid "You can not create move line on closed account."
-#~ msgstr "No se puede crear líneas de asiento en una cuenta que está cerrada."
-
-#~ msgid "Account Entry Line"
-#~ msgstr "Línea de entrada de la cuenta"
-
-#~ msgid "Total Debit"
-#~ msgstr "Débito total"
-
-#~ msgid "Wrong credit or debit value in accounting entry !"
-#~ msgstr "Crédito equivocado o valor de débito en la entrada de la cuenta !"
-
-#~ msgid "Tax"
-#~ msgstr "Impuesto"
-
-#~ msgid "General Information"
-#~ msgstr "Información general"
-
-#~ msgid "The code of the journal must be unique per company !"
-#~ msgstr "El código del diario debe ser único por compañía !"
-
-#~ msgid "You can not create move line on view account."
-#~ msgstr "Tu no puedes crear líneas de asiento en la vista de la cuenta."
