@@ -141,6 +141,10 @@ class seniat_url(osv.osv):
         if not self._eval_seniat_data(xml_data, vat, context=context):
             dom = parseString(xml_data)
             return self._parse_dom(cr, uid, dom, vat, url2, context=context)
+            
+    def check_rif(self, cr, uid, vat, context=None):
+        context = context or {}
+        return self._dom_giver(cr, uid, vat, context=context)
 
     def _dom_giver(self, cr, uid, vat, context=None):
         """ Check and validates that the vat is a passport,
