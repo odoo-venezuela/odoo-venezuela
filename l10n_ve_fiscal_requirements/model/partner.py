@@ -205,7 +205,7 @@ class res_partner(osv.osv):
     def _validate(self, cr, uid, ids, context=None):
         """ Validates the fields
         """
-            
+        
         #In the original orm.py openerp does not allow using
         #context within the constraint because we have to yield 
         # the same result always,
@@ -279,6 +279,15 @@ class res_partner(osv.osv):
             return True
         return False
         
+    def vies_vat_check(self, cr, uid, country_code, vat_number, context=None):
+        """
+        Validate against  VAT Information Exchange System (VIES)
+        """
+        if country_code.upper() != "VE":
+            return super(res_partner, self).vies_vat_check(cr, uid, country_code, vat_number,context=context)
+        else:
+            return super(res_partner, self).simple_vat_check(cr, uid, country_code, vat_number, context=context)
+        
     def update_rif(self, cr, uid, ids, context=None):
         """ Load the rif and name of the partner from the database seniat
         """
@@ -293,11 +302,11 @@ class res_partner(osv.osv):
         """
         if context is None: context = {}
         context.update({'update_fiscal_information':True})
-        super(res_partner, self).button_check_vat(cr, uid, ids, context=context)
+        super(res_partner, self).check_vat(cr, uid, ids, context=context)
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         if user_company.vat_check_vies:
             # force full VIES online check
             self.update_rif(cr, uid, ids, context=context)
-        return True 
+        return True
 res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
