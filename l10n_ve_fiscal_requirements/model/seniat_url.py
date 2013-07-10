@@ -86,7 +86,7 @@ class seniat_url(osv.osv):
             return False
 
         if 'VE' in vat:
-            vat = vat[:2]
+            vat = vat[2:]
 
         if re.search(r'^[VJEGP][0-9]{9}$', vat):
             valid_digit = self._get_valid_digit(cr, uid,vat,
@@ -96,7 +96,7 @@ class seniat_url(osv.osv):
             if int(vat[9])==valid_digit:
                 return vat
             else:
-                return False
+                self._print_error(_('Vat Error !'), _('Invalid VAT!'))
         elif re.search(r'^([VE][0-9]{1,8})$', vat):
             vat = vat[0] + vat[1:].rjust(8, '0')
             valid_digit = self._get_valid_digit(cr, uid,vat,
