@@ -55,17 +55,55 @@ class seniat_url(osv.osv):
 
     #    Update Partner Information
     
-    def _complete_vat(self,vat):
+    def _get_valid_digit(self, cr, uid,vat, context=None):
         '''
         @param vat: string
         returns validating digit
         '''
-        diff = {'V':1,'E':2,'J':3,'P':4,'G':5}
-        sum = int(vat[1])*3+int(vat[2])*2+int(vat[3])*7+int(vat[4])*6 + \
-              int(vat[5])*5+int(vat[6])*4+int(vat[7])*3+int(vat[8])*2 + \
-              diff[vat[0]]*4
-        ret = 11-sum % 11;
-        return (ret >= 10) and "0" or str(ret)
+        divisor = 11
+        vat_type = {'V':1, 'E':2, 'J':3, 'P':4, 'G':5} 
+        mapper = {1:3, 2:2, 3:7, 4:6, 5:5, 6:4, 7:3, 8:2}
+        valid_digit = None
+
+        vat_type = vat_type.get(vat[0].upper())
+        if vat_type:
+            sum = vat_type * 4
+            for i in range(8):
+                sum += int(vat[i+1]) * mapper[i+1]
+
+            valid_digit = divisor - sum%divisor
+            if valid_digit >= 10:
+                valid_digit = 0
+        return valid_digit 
+
+    def _validate_rif(self, cr, uid,vat, context=None):
+        '''validates if the VE VAT NUMBER is right         
+        @param vat: string: Vat number to Check
+        returns vat when right otherwise returns False 
+
+        '''
+        if not vat:
+            return False
+
+        if 'VE' in vat:
+            vat = vat[2:]
+
+        if re.search(r'^[VJEGP][0-9]{9}$', vat):
+            valid_digit = self._get_valid_digit(cr, uid,vat,
+                    context=context)
+            if valid_digit is None:
+                return False
+            if int(vat[9])==valid_digit:
+                return vat
+            else:
+                self._print_error(_('Vat Error !'), _('Invalid VAT!'))
+        elif re.search(r'^([VE][0-9]{1,8})$', vat):
+            vat = vat[0] + vat[1:].rjust(8, '0')
+            valid_digit = self._get_valid_digit(cr, uid,vat,
+                    context=context)
+            vat += str(valid_digit)
+            return vat
+        return False
 
     def _load_url(self, retries, url):
         """ Check that the seniat url is loaded correctly
@@ -158,22 +196,12 @@ class seniat_url(osv.osv):
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
         url3 = url_obj.url_seniat2 + '%s'
-        if re.search(r'^[VJEG][0-9]{9}$', vat):
-            '''Checked vat is a RIF'''
+        vat = self._validate_rif(cr, uid,vat,context=None)
+        if vat:
             return self._get_rif(cr, uid, vat, url1, url2, context=context)
-
-        elif re.search(r'^([D][0-9]{9})$', vat):
-            '''Checked vat is a Passport'''
-            # TODO: NEEDS VALID NUMBERS TO CHECK THE VALIDITY AND COMPLETE THIS
-            # CODE
+        else:
             return False
-
-        elif re.search(r'^([VE][0-9]{1,8})$', vat):
-            '''Checked vat is an ID'''
-            vat = vat[0] + vat[1:].rjust(8,'0')
-            vat = vat+self._complete_vat(vat)
-            return self._get_rif(cr, uid, vat, url1, url2, context=context)
-
+                
     def _update_partner(self, cr, uid, id, context=None):
         """ Indicates that the partner was updated with information provided by seniat
         """
