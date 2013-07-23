@@ -35,6 +35,17 @@ from openerp.addons import decimal_precision as dp
 
 
 class islr_wh_doc(osv.osv):
+    
+    def name_get(self,cr, uid, ids, context):
+        if not len(ids):
+            return []
+        res = []
+        for item in self.browse(cr, uid, ids, context):
+            if item.number and item.state=='done':
+                res.append((item.id, '%s (%s)'%(item.number,item.name)))
+            else:    
+                res.append((item.id, '%s'%(item.name)))
+        return res   
 
     def _get_type(self, cr, uid, context=None):
         """ Return type of invoice or returns in_invoice

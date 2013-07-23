@@ -197,6 +197,17 @@ class account_wh_iva_line(osv.osv):
 account_wh_iva_line()
 
 class account_wh_iva(osv.osv):
+    
+    def name_get(self,cr, uid, ids, context):
+        if not len(ids):
+            return []
+        res = []
+        for item in self.browse(cr, uid, ids, context):
+            if item.number and item.state=='done':
+                res.append((item.id, '%s (%s)'%(item.number,item.name)))
+            else:    
+                res.append((item.id, '%s'%(item.name)))
+        return res   
 
     def _amount_ret_all(self, cr, uid, ids, name, args, context=None):
         """ Return withholding amount total each line
