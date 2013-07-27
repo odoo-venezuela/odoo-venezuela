@@ -76,6 +76,15 @@ msgid ""
 "Chart of Accounts from a Chart Template.\n"
 "            "
 msgstr ""
+"Generar Plan Contable a partir de una plantilla de plan. Se le preguntará "
+"por el nombre de la Compañía, la plantilla de plan contable a seguir, el no. "
+"de dígito para generar el código de sus cuentas y la cuenta bancaria, la "
+"divisa para crear Diarios. Por lo tanto, la copia exacta de la plantilla de "
+"plan contable será generada.\n"
+"Este es el mismo assitente que se ejecuta desde Gestión "
+"Financiera/Configuración/Contabilidad Financiera/Contabilidad "
+"Financiera/General Plan Contable a partir de una Plantilla de Plan.\n"
+"            "
 
 #. module: l10n_ve
 #: model:account.account.type,name:l10n_ve.account_type_view
