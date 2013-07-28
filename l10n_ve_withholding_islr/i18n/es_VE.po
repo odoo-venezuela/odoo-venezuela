@@ -1747,7 +1747,7 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_ve_withholding_islr.menu_action_wh_islr_customer
 #: view:islr.wh.doc:0
 msgid "Customer Income Withholding"
-msgstr "Retención de ISLR de Cliente"
+msgstr "Retenciones de ISLR Cliente"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_pagos_transportes_y_fletes
