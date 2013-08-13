@@ -114,7 +114,7 @@
         </record>
         <record id="islr_wh_concept_tarjetas_de_credito_cualquier_concepto" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
-            <field eval="'Pagos de las Empresas Emisoras de Tarjetas de Credito o Concumo por la venta de bienes y servicios o cualquier otro concepto'" name="name"/>
+            <field eval="'Pagos de las Empresas Emisoras de Tarjetas de Credito o Consumo por la venta de bienes y servicios o cualquier otro concepto'" name="name"/>
         </record>
         <record id="islr_wh_concept_tarjetas_de_credito_gasolina" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
@@ -231,7 +231,7 @@
             <field eval="100.00" name="base"/>
             <field eval="5.00" name="wh_perc"/>
             <field eval="0.00" name="subtract"/>
-            <field name="concept_id" ref="islr_wh_concept_tarjetas_de_credito_cualquier_concepto"/>
+            <field name="concept_id" ref="islr_wh_concept_pago_seguros_reparacion_damage"/>
         </record>
         <record id="islr_rates_073" model="islr.rates">
             <field eval="'073'" name="code"/>
@@ -272,7 +272,7 @@
             <field eval="100.00" name="base"/>
             <field eval="1.00" name="wh_perc"/>
             <field eval="0.00" name="subtract"/>
-            <field name="concept_id" ref="islr_wh_concept_tarjetas_de_credito_cualquier_concepto"/>
+            <field name="concept_id" ref="islr_wh_concept_tarjetas_de_credito_gasolina"/>
         </record>
         <record id="islr_rates_065" model="islr.rates">
             <field eval="'065'" name="code"/>
