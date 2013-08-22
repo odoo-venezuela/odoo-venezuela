@@ -37,22 +37,21 @@ class rep_comprobante_islr(report_sxw.rml_parse):
         })
 
     def _get_partner_addr(self, idp=False):
-        """ Return address of the partner
+        """ Return address partner
         """
         if not idp:
             return []
-
+        
         addr_obj = self.pool.get('res.partner')
-        addr_inv = _('NO INVOICE ADDRESS DEFINED')
+        addr_inv = _('NO FISCAL ADDRESS DEFINED')
         addr_inv={}
         if idp:                
             addr = addr_obj.browse(self.cr,self.uid, idp)
-            addr_inv = addr.type == 'invoice' and (addr.street and ('%s, '%addr.street.title()) or '')    + \
+            addr_inv = addr.type == 'default' and (addr.street and ('%s, '%addr.street.title()) or '')    + \
             (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
-            (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
             (addr.city and ('%s, '%addr.city.title()) or '')+ \
+            (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
             (addr.country_id and ('%s '%addr.country_id.name.title()) or '') or _('NO INVOICE ADDRESS DEFINED')
-
             #~ addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv 
 
