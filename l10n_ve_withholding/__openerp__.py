@@ -48,7 +48,9 @@ TODO:
         'workflow/wh_action_server.xml',
     ],
     'demo_xml': [],
-    'test': ['test/wh_pay_invoice.yml'],
+    'test': [
+#        'test/wh_pay_invoice.yml'
+        ],
     'installable': True,
     'active': False,
 }
