@@ -27,9 +27,10 @@
 
 from openerp.osv import osv, fields
 import openerp.addons.decimal_precision as dp
+from openerp.tools.translate import _
 
 
-class inherited_invoice(osv.osv):
+class account_invoice(osv.osv):
 
     _inherit = "account.invoice"
 
@@ -73,7 +74,6 @@ class inherited_invoice(osv.osv):
                     cancel or draft (%s).\nPlease validate the form 86 first.')
                     % item.customs_form_id.name)
         return super(account_invoice, self).test_open(cr, uid, ids, args)
-
 
 class inheried_account_invoice_tax(osv.osv):
 

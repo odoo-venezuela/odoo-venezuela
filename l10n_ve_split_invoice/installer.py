@@ -26,7 +26,7 @@ from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
 import base64
-import openerp.addons
+import openerp.addons as addons
 
 class split_invoice_config(osv.osv_memory):
     """ Fiscal Requirements installer wizard

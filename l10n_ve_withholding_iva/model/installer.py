@@ -25,7 +25,7 @@
 from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
-import openerp.addons
+import openerp.addons as addons
 import base64
 
 class wh_vat_installer(osv.osv_memory):

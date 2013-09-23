@@ -29,7 +29,7 @@ from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
 import base64
-import openerp.addons
+import openerp.addons as addons
 
 class wh_islr_config(osv.osv_memory):
     _name = 'wh.islr.config'
