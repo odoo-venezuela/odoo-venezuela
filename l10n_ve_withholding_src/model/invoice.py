@@ -42,7 +42,8 @@ class account_invoice(osv.osv):
         @param company_id: Company id  
         """
         p = self.pool.get('res.partner').browse(cr, uid, partner_id)
-        c = self.pool.get('res.partner').browse(cr, uid, uid)
+        u= self.pool.get('res.users').browse(cr, uid, uid)
+        c = u.company_id.partner_id
         res = super(account_invoice,self).onchange_partner_id(cr, uid, ids, type, \
         partner_id, date_invoice,payment_term,partner_bank_id,company_id)
         
