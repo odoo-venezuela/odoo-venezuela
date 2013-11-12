@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 19:46+0000\n"
-"PO-Revision-Date: 2013-06-05 19:46+0000\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 19:17+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,25 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ve_withholding_iva
+#: help:res.company,allow_vat_wh_outdated:0
+msgid "Enables confirm withholding vouchers for previous or future dates."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: help:account.wh.iva.line,move_id:0
 msgid "Account entry"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:224
+#, python-format
+msgid "Youe have already a withholding doc associate to your  invoice,  but this withholding doc is not in cancel state."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,date:0
+#: field:account.wh.iva.line,date:0
+msgid "Emission Date"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -42,8 +59,13 @@ msgid "Set to draft"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: help:account.invoice,wh_iva_id:0
-msgid "Vat Withholding."
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:743
+#, python-format
+msgid "Some withholding lines being withheld dont match with the withholding document period and fortnight.\n"
+"\n"
+" * Withholding VAT document correspond to (.\n"
+"\n"
+""
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -197,7 +219,7 @@ msgid "Fecha"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:338
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:356
 #, python-format
 msgid "The withheld amount: %s(%s%s), must be less than tax amount %s(%s%s)."
 msgstr ""
@@ -213,7 +235,7 @@ msgid "Account"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:333
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:351
 #, python-format
 msgid "	Invoice: %s, %s, %s\n"
 ""
@@ -248,6 +270,11 @@ msgid "number must be unique !"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: selection:account.wh.iva,fortnight:0
+msgid "First Fortnight"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
 msgid "Tipo Ope."
 msgstr ""
@@ -274,6 +301,7 @@ msgid "Draft Withholding Vat"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:460
 #: code:addons/l10n_ve_withholding_iva/wizard/wizard_retention.py:38
 #, python-format
 msgid "Error!"
@@ -285,12 +313,13 @@ msgid "Amount"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_txt_iva
-msgid "txt.iva"
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:778
+#, python-format
+msgid "Invalid Procedure!!"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,date:0
+#: help:account.wh.iva,date:0
 msgid "Voucher Date"
 msgstr ""
 
@@ -307,8 +336,8 @@ msgid "This account will be used when applying a withhold to a Refund"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: field:account.invoice,wh_iva_rate:0
-msgid "Wh rate"
+#: field:account.wh.iva.line,wh_iva_rate:0
+msgid "Withholding Vat Rate"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -317,6 +346,7 @@ msgid "Indicate if the tax must be withheld"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,fortnight:0
 #: help:account.wh.iva,type:0
 msgid "Withholding type"
 msgstr ""
@@ -332,7 +362,12 @@ msgid "name"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:327
+#: help:account.wh.iva.line,date:0
+msgid "Emission date"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:345
 #, python-format
 msgid "Taxes in the following invoices have been miscalculated\n"
 "\n"
@@ -360,16 +395,6 @@ msgid "Force Period"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,date:0
-msgid "Voucher date"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.invoice,wh_iva_id:0
-msgid "Wh. Vat"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
 msgid "Retención"
 msgstr ""
@@ -377,6 +402,11 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: field:txt.iva.line,invoice_id:0
 msgid "Bill/ND/NC"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,fortnight:0
+msgid "Fortnight"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -392,7 +422,7 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:375
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:393
 #, python-format
 msgid "The Following Invoices will not be withheld:\n"
 "\n"
@@ -410,6 +440,11 @@ msgid "Withholding invoice"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: field:res.company,wh_consolidate:0
+msgid "Fortnight Consolidate Wh. VAT"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: selection:account.wh.iva,state:0
 #: view:txt.iva:0
 #: selection:txt.iva,state:0
@@ -422,7 +457,7 @@ msgid "Withholdable"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:357
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:375
 #, python-format
 msgid "\n"
 "Please, Load the Taxes to be withheld and Try Again"
@@ -476,6 +511,11 @@ msgid "Supplier Vat Withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: help:res.company,wh_consolidate:0
+msgid "If it set then the withholdings vat generate in a same fornight will be grouped in one withholding receipt."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: help:txt.iva.line,partner_id:0
 msgid "Natural or juridical person that generates the Invoice, Credit Note, Debit Note or C ertification (seller)"
 msgstr ""
@@ -486,7 +526,7 @@ msgid "Withheld Taxed Amount"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:196
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:290
 #, python-format
 msgid "You need to configure the partner with withholding accounts!"
 msgstr ""
@@ -522,7 +562,7 @@ msgid "Firma y Sello"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:347
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:443
 #, python-format
 msgid "Error !"
 msgstr ""
@@ -530,6 +570,13 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_customer
 msgid "Customer VAT Withholding "
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:203
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:209
+#, python-format
+msgid "The currency of the invoice does not match with the currency of the company. Check this please"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -569,14 +616,17 @@ msgid "Change VAT Exclusion"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:359
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:377
 #, python-format
 msgid "Invoices with Missing Withheld Taxes!"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:222
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:342
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:360
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:480
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:492
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:742
 #, python-format
 msgid "Invalid action !"
 msgstr ""
@@ -589,11 +639,6 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: view:txt.iva:0
 msgid "Withholding lines for TXT"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,wh_iva_rate:0
-msgid "Withholding Vat Rate"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -613,7 +658,7 @@ msgid "Withholding Vat"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:380
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:398
 #, python-format
 msgid "Invoices with Missing Control Number!"
 msgstr ""
@@ -624,7 +669,7 @@ msgid "Internal withholding reference"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:378
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:396
 #, python-format
 msgid "\n"
 "Please, Write the control number and Try Again"
@@ -754,6 +799,12 @@ msgid "withholding lines"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:461
+#, python-format
+msgid "You can't cancel an invoice that have non cancel withholding document. Needs first cancel the invoice withholding document and then you can cancel this invoice."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:222
 #, python-format
 msgid "Unable to make txt file, because the bill has no reference number free!"
@@ -871,7 +922,7 @@ msgid "IVA Reten."
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:480
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:522
 #, python-format
 msgid "Missing Periods!"
 msgstr ""
@@ -897,7 +948,7 @@ msgid "Keep empty to use the current date"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:609
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:760
 #, python-format
 msgid "you can not duplicate this document!!!"
 msgstr ""
@@ -908,27 +959,26 @@ msgid "Taxable total amount"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:468
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:510
 #, python-format
 msgid "Invoice already withhold !"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:320
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:416
 #, python-format
 msgid "Tax [%s] has missing account. Please, fill the missing fields"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:320
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:416
 #, python-format
 msgid "Missing Account in Tax!"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,date:0
-#: field:account.wh.iva.line,date:0
-msgid "Date"
+#: field:account.wh.iva.line.tax,amount:0
+msgid "Taxed Amount"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -952,6 +1002,11 @@ msgid "proof status"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: help:account.invoice,wh_iva_id:0
+msgid "This is the VAT Withholding Document where this invoice is being withheld"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: sql_constraint:account.wh.iva.line:0
 msgid "The invoice has already assigned in withholding vat, you cannot assigned it twice!"
 msgstr ""
@@ -967,8 +1022,8 @@ msgid "txt.iva.line"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,amount:0
-msgid "Taxed Amount"
+#: model:ir.model,name:l10n_ve_withholding_iva.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -992,7 +1047,8 @@ msgid "COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:552
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:596
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:677
 #, python-format
 msgid "N/A"
 msgstr ""
@@ -1015,11 +1071,6 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
 msgid "DIRECCION FISCAL"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,date_ret:0
-msgid "Date Withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -1094,7 +1145,7 @@ msgid "Monto Total"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:354
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:372
 #, python-format
 msgid "The Following Invoices Have not already been withheld:\n"
 "\n"
@@ -1107,7 +1158,7 @@ msgid "Withhold VAT / Manager"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:173
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:207
 #, python-format
 msgid "This invoice has total amount %s %s check the products price"
 msgstr ""
@@ -1125,6 +1176,12 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva,code:0
 msgid "Internal Code"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:481
+#, python-format
+msgid "You have introduced non-valid accounting date. Thedate needs to be in the same withholding period and fortnigh."
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -1174,7 +1231,7 @@ msgid "Tipo de Operación:"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:479
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:521
 #, python-format
 msgid "There are not Periods availables for the pointed day, two options you must verify, 1.- The period is closed, 2.- The period is not created yet for your company"
 msgstr ""
@@ -1187,6 +1244,11 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: view:txt.iva:0
 msgid "Search File XML"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: selection:account.wh.iva,fortnight:0
+msgid "Second Fortnight"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -1251,16 +1313,14 @@ msgid "Journal VAT Withholding Purchase"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:340
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:358
 #, python-format
 msgid "Miscalculated Withheld Taxes"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:169
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:175
-#, python-format
-msgid "The currency of the invoice does not match with the currency of the company. Check this please"
+#: field:account.wh.iva.line,date_ret:0
+msgid "Accounting Date"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -1269,7 +1329,7 @@ msgid "Untaxed amount"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:609
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:760
 #, python-format
 msgid "Alert !"
 msgstr ""
@@ -1295,6 +1355,12 @@ msgid "Impuesto IVA"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:779
+#, python-format
+msgid "The withholding document needs to be in cancel state to be deleted."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice_refund
 msgid "Invoice Refund"
 msgstr ""
@@ -1302,6 +1368,11 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: field:txt.iva.line,txt_id:0
 msgid "Generate-Document txt VAT"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:res.company,allow_vat_wh_outdated:0
+msgid "Allow outdated vat withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -1375,7 +1446,7 @@ msgid "Withholding amount"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:200
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:293
 #, python-format
 msgid "ORIGIN %s"
 msgstr ""
@@ -1383,6 +1454,11 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva.line,move_id:0
 msgid "Account Entry"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.invoice,wh_iva_id:0
+msgid "VAT Wh. Document"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
@@ -1406,7 +1482,6 @@ msgid "Customer Vat Withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: help:account.invoice,wh_iva_rate:0
 #: help:account.wh.iva.line,wh_iva_rate:0
 msgid "Vat Withholding rate"
 msgstr ""
@@ -1428,13 +1503,18 @@ msgid "Generate TXT"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:348
+#: model:ir.model,name:l10n_ve_withholding_iva.model_txt_iva
+msgid "txt.iva"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:444
 #, python-format
 msgid "The withholding VAT \"%s\" is not validated!"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:469
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:511
 #, python-format
 msgid "You must omit the follow invoice '%s' !"
 msgstr ""

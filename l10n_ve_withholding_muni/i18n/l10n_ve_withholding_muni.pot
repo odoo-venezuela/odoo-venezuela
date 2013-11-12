@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 20:02+0000\n"
-"PO-Revision-Date: 2013-06-05 20:02+0000\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 19:17+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -89,6 +89,12 @@ msgstr ""
 #: field:account.wh.munici,amount:0
 #: field:account.wh.munici.line,amount:0
 msgid "Amount"
+msgstr ""
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/model/wh_muni.py:304
+#, python-format
+msgid "Invalid Procedure!!"
 msgstr ""
 
 #. module: l10n_ve_withholding_muni
@@ -503,6 +509,12 @@ msgstr ""
 #. module: l10n_ve_withholding_muni
 #: view:res.partner:0
 msgid "Withholdings"
+msgstr ""
+
+#. module: l10n_ve_withholding_muni
+#: code:addons/l10n_ve_withholding_muni/model/wh_muni.py:305
+#, python-format
+msgid "The withholding document needs to be in cancel state to be deleted."
 msgstr ""
 
 #. module: l10n_ve_withholding_muni
