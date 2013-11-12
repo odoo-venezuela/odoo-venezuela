@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 19:44+0000\n"
-"PO-Revision-Date: 2013-06-05 19:44+0000\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 19:17+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgid "isep"
 msgstr ""
 
 #. module: l10n_ve_withholding
-#: code:addons/l10n_ve_withholding/model/account.py:90
+#: code:addons/l10n_ve_withholding/model/account.py:91
 #, python-format
 msgid "Error !"
 msgstr ""
@@ -45,7 +45,7 @@ msgid "Taxes missing !"
 msgstr ""
 
 #. module: l10n_ve_withholding
-#: code:addons/l10n_ve_withholding/model/account.py:90
+#: code:addons/l10n_ve_withholding/model/account.py:91
 #, python-format
 msgid "No period defined for this date: %s !\n"
 "Please create a fiscal year."
