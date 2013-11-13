@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 19:28+0000\n"
-"PO-Revision-Date: 2013-06-06 19:55+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2013-11-12 19:18+0000\n"
+"PO-Revision-Date: 2013-11-12 20:43+0000\n"
+"Last-Translator: Francisco Lercari (Lertech) <franciscolercari@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
 msgid "Create an invoice to justify the damaged one"
-msgstr ""
+msgstr "Crear una factura para justificar la dañada"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_debit.py:56
 #, python-format
 msgid "You must define a debit journal"
-msgstr ""
+msgstr "Debe definir un diario de débito"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:60
@@ -34,14 +34,14 @@ msgstr ""
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_invoice_nro_ctrl.py:108
 #, python-format
 msgid "Validation error!"
-msgstr ""
+msgstr "¡Error de validación!"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.wizard_vat_search_action_menu
 #: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.wizard_vat_search_action_pay_menu
 #: view:search.info.partner.seniat:0
 msgid "Search RIF"
-msgstr ""
+msgstr "Buscar RIF"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:l10n.ut:0
@@ -60,7 +60,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_requirements
 #: help:l10n.ut,user_id:0
 msgid "Vendor user"
-msgstr ""
+msgstr "Usuario proveedor"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.act_l10n_ut_tree
@@ -68,7 +68,7 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_ve_fiscal_requirements.menu_action_l10n_ut_tree
 #: view:l10n.ut:0
 msgid "Tax Unit"
-msgstr ""
+msgstr "Unidad Tributaria"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,loc_req:0
@@ -84,7 +84,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice.refund,nro_ctrl:0
 msgid "Code used for intern invoice control"
-msgstr ""
+msgstr "Código utilizado para el control  interno de la factura"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:wizard.seniat.url,url3:0
@@ -92,23 +92,25 @@ msgid ""
 "In this field enter the URL from Seniat for search the retention rate from "
 "partner (CI or Passport)"
 msgstr ""
+"En este campo Introduzca la URL del Seniat para buscar la tasa de retención "
+"del Partner (CI o pasaporte)"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.seniat.url:0
 msgid "URL Seniat for Retention Rate (CI or Passport)"
-msgstr ""
+msgstr "URL de Seniat para la tasa de retención (CI o pasaporte)"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice,nro_ctrl:0
 #: field:account.invoice.refund,nro_ctrl:0
 #: field:wiz.nroctrl,name:0
 msgid "Control Number"
-msgstr ""
+msgstr "Número de control"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_wiz_nroctrl
 msgid "Wizard that changes the invoice control number"
-msgstr ""
+msgstr "Asistente que cambia el número de control de factura"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice.tax,tax_id:0
@@ -144,6 +146,8 @@ msgid ""
 "In this field enter the URL from Seniat for search the\n"
 "        retention rate from partner (RIF)"
 msgstr ""
+"En este campo Introduzca la URL del Seniat para buscar la\n"
+"                                        tasa de retención del Partner (RIF)"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice.debit,period:0
@@ -155,7 +159,7 @@ msgstr ""
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_update_name.py:39
 #, python-format
 msgid "Please confirm that you want to do this by checking the option"
-msgstr ""
+msgstr "Por favor confirme que desea hacerlo marcando la opción"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:account.invoice:0
@@ -163,7 +167,7 @@ msgstr ""
 #: view:account.invoice.parent:0
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.action_account_invoice_debit
 msgid "Debit Note"
-msgstr ""
+msgstr "Nota de Débito"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/wizard_nro_ctrl.py:40
@@ -188,7 +192,7 @@ msgstr ""
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:160
 #, python-format
 msgid "Unregistered VAT!"
-msgstr ""
+msgstr "¡RIF no registrado!"
 
 #. module: l10n_ve_fiscal_requirements
 #: field:res.partner,wh_iva_agent:0
@@ -200,7 +204,7 @@ msgstr ""
 #: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_refund.py:180
 #, python-format
 msgid "No Pediod Defined"
-msgstr ""
+msgstr "Período no definido"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:account.invoice.debit,description:0
@@ -278,6 +282,7 @@ msgid "Update Name"
 msgstr ""
 
 #. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:99
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:158
 #, python-format
 msgid "Invalid VAT!"
@@ -491,6 +496,7 @@ msgstr ""
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/model/partner.py:260
+#: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:99
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:158
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:160
 #, python-format

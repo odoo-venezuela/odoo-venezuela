@@ -7,76 +7,77 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-06 20:53+0000\n"
-"PO-Revision-Date: 2013-06-07 00:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 22:04+0000\n"
+"Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
+"<humbertoarocha@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_product_product
 msgid "Product"
-msgstr ""
+msgstr "Producto"
 
 #. module: l10n_ve_sale_purchase
 #: help:stock.picking,nro_ctrl:0
 msgid "Invoice reference"
-msgstr ""
+msgstr "Referencia de Factura"
 
 #. module: l10n_ve_sale_purchase
 #: help:purchase.order.line,concept_id:0
 #: help:sale.order.line,concept_id:0
 msgid "Withhold concept associated with this rate"
-msgstr ""
+msgstr "Retener el concepto asociado con esta tasa"
 
 #. module: l10n_ve_sale_purchase
 #: field:purchase.order.line,concept_id:0
 #: field:sale.order.line,concept_id:0
 msgid "Withhold  Concept"
-msgstr ""
+msgstr "Concepto de Retención"
 
 #. module: l10n_ve_sale_purchase
 #: code:addons/l10n_ve_sale_purchase/product.py:59
 #, python-format
 msgid "Must create the concept of withholding income"
-msgstr ""
+msgstr "Debe crear el concepto de retención de ISLR"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr ""
+msgstr "Línea orden de compra"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_purchase_order
 msgid "Purchase Order"
-msgstr ""
+msgstr "Orden de Compra"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_product_template
 msgid "Product Template"
-msgstr ""
+msgstr "Plantilla del producto"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_stock_picking
 msgid "Picking List"
-msgstr ""
+msgstr "Lista de Envios"
 
 #. module: l10n_ve_sale_purchase
 #: code:addons/l10n_ve_sale_purchase/product.py:59
 #, python-format
 msgid "Invalid action !"
-msgstr ""
+msgstr "¡Acción no válida!"
 
 #. module: l10n_ve_sale_purchase
 #: field:stock.picking,nro_ctrl:0
 msgid "Invoice ref."
-msgstr ""
+msgstr "Ref. factura"
 
 #. module: l10n_ve_sale_purchase
 #: model:ir.model,name:l10n_ve_sale_purchase.model_sale_order_line
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Línea del pedido de venta"

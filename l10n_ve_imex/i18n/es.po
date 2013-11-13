@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-05 19:32+0000\n"
-"PO-Revision-Date: 2013-06-13 00:00+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 20:39+0000\n"
+"Last-Translator: Francisco Lercari (Lertech) <franciscolercari@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_imex
@@ -28,7 +28,7 @@ msgid "The related form 86 for this import invoice (only draft)"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:310
+#: code:addons/l10n_ve_imex/model/customs_form.py:317
 #, python-format
 msgid ""
 "Can't cancel a import while account move state <>                     "
@@ -54,13 +54,16 @@ msgid "Customs"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/invoice.py:70
+#: code:addons/l10n_ve_imex/model/invoice.py:72
 #, python-format
 msgid ""
 "Can't validate a invoice while the form 86 state's is                     "
 "cancel or draft (%s).\n"
 "Please validate the form 86 first."
 msgstr ""
+"No se puede validar una factura, mientras que el estado de forma 86 es "
+"cancelar o proyecto (%s).\n"
+"¿Por favor validar la forma 86 primero."
 
 #. module: l10n_ve_imex
 #: help:customs.form,move_id:0
@@ -68,12 +71,14 @@ msgid "The move of this entry line."
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:293
+#: code:addons/l10n_ve_imex/model/customs_form.py:300
 #, python-format
 msgid ""
 "Not all invoices related to the import spreadsheet                     "
 "correspond to invoices relating to VAT"
 msgstr ""
+"No todas las facturas relacionadas con la hoja de cálculo de importación "
+"corresponden a facturas relativas al IVA"
 
 #. module: l10n_ve_imex
 #: field:customs.duty,company_id:0
@@ -105,12 +110,12 @@ msgid "Tax lines"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:173
-#: code:addons/l10n_ve_imex/model/customs_form.py:208
-#: code:addons/l10n_ve_imex/model/customs_form.py:303
-#: code:addons/l10n_ve_imex/model/customs_form.py:309
+#: code:addons/l10n_ve_imex/model/customs_form.py:174
+#: code:addons/l10n_ve_imex/model/customs_form.py:209
+#: code:addons/l10n_ve_imex/model/customs_form.py:310
 #: code:addons/l10n_ve_imex/model/customs_form.py:316
-#: code:addons/l10n_ve_imex/model/invoice.py:70
+#: code:addons/l10n_ve_imex/model/customs_form.py:323
+#: code:addons/l10n_ve_imex/model/invoice.py:72
 #, python-format
 msgid "Error!"
 msgstr ""
@@ -151,9 +156,9 @@ msgid "The form # must be unique!"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:270
-#: code:addons/l10n_ve_imex/model/customs_form.py:283
-#: code:addons/l10n_ve_imex/model/customs_form.py:292
+#: code:addons/l10n_ve_imex/model/customs_form.py:277
+#: code:addons/l10n_ve_imex/model/customs_form.py:290
+#: code:addons/l10n_ve_imex/model/customs_form.py:299
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -223,7 +228,7 @@ msgid "Ref"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:317
+#: code:addons/l10n_ve_imex/model/customs_form.py:324
 #, python-format
 msgid ""
 "Can't cancel a import while invoice state <>                         "
@@ -258,7 +263,7 @@ msgid "customs.facility"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:227
+#: code:addons/l10n_ve_imex/model/customs_form.py:228
 #, python-format
 msgid ""
 "\n"
@@ -272,7 +277,7 @@ msgid "Configuration"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:284
+#: code:addons/l10n_ve_imex/model/customs_form.py:291
 #, python-format
 msgid ""
 "The vat detail data does not correspond with                             vat "
@@ -280,7 +285,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:304
+#: code:addons/l10n_ve_imex/model/customs_form.py:311
 #, python-format
 msgid "Multiple operations not allowed"
 msgstr ""
@@ -317,7 +322,7 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:209
+#: code:addons/l10n_ve_imex/model/customs_form.py:210
 #, python-format
 msgid ""
 "Please set a valid configuration in                                  the "
@@ -330,7 +335,7 @@ msgid "Dossier"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:173
+#: code:addons/l10n_ve_imex/model/customs_form.py:174
 #, python-format
 msgid ""
 "No account found, please check                         customs taxes "
@@ -402,7 +407,7 @@ msgid "Open"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:222
+#: code:addons/l10n_ve_imex/model/customs_form.py:223
 #, python-format
 msgid ""
 "Form 86 # %s\n"
@@ -471,7 +476,7 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:271
+#: code:addons/l10n_ve_imex/model/customs_form.py:278
 #, python-format
 msgid "You must indicate a amount"
 msgstr ""

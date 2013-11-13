@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-14 17:20+0000\n"
-"PO-Revision-Date: 2013-06-09 14:51+0000\n"
-"Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
-"<humbertoarocha@gmail.com>\n"
+"POT-Creation-Date: 2013-11-12 19:18+0000\n"
+"PO-Revision-Date: 2013-11-12 20:32+0000\n"
+"Last-Translator: Nhomar - Vauxoo <nhomar@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-07-18 06:01+0000\n"
-"X-Generator: Launchpad (build 16696)\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -269,8 +268,8 @@ msgid ""
 "Uses at 1. purchase: total row at summary taxes. 2. sales: row at summary "
 "taxes."
 msgstr ""
-"Utiliza el 1. compra: fila de totales en impuestos de resumen. 2. ventas: fila "
-"en los impuestos de resumen."
+"Utiliza el 1. compra: fila de totales en impuestos de resumen. 2. ventas: "
+"fila en los impuestos de resumen."
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,state:0
@@ -309,8 +308,8 @@ msgid ""
 "Import/Export Exempt Tax Totalization: Sum of Exempt column for "
 "international transactions"
 msgstr ""
-"Totalización exentos de impuestos a la Importación/Exportación: "
-"Suma de la columna exenta para las transacciones internacionales"
+"Totalización exentos de impuestos a la Importación/Exportación: Suma de la "
+"columna exenta para las transacciones internacionales"
 
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
@@ -472,7 +471,8 @@ msgid ""
 "column for international transactions"
 msgstr ""
 "Total de impuestos de IVA adicional gravó Importaciones/Exportaciones. Suma "
-"de la columna Impuesto de IVA adicional para las transacciones internacionales"
+"de la columna Impuesto de IVA adicional para las transacciones "
+"internacionales"
 
 #. module: l10n_ve_fiscal_book
 #: model:res.groups,name:l10n_ve_fiscal_book.group_account_fiscal_book_power_user
@@ -567,8 +567,8 @@ msgid ""
 "Type of Document for adjustment book: -Invoice(F),-Debit Note(dn),-Credit "
 "Note(cn)"
 msgstr ""
-"Tipo de documento para libro de ajuste: -Factura(F),-Nota de Débito(dn),-Nota "
-"de Crédito(cn)"
+"Tipo de documento para libro de ajuste: -Factura(F),-Nota de Débito(dn),-"
+"Nota de Crédito(cn)"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,vat_general_base:0
@@ -738,7 +738,8 @@ msgstr "0% Exento"
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
 msgid "COMPRAS INTERNAS GRAVADAS POR ALÍCUOTA GENERAL MAS ALÍCUOTA ADICIONAL"
-msgstr "Compras Internas Gravadas por Alícuota General mas Alícuota Adicional"
+msgstr ""
+"Compras Internas Gravadas por Alícuota General mas Alícuota Adicional"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,do_reduced_vat_tax_sum:0
@@ -840,8 +841,7 @@ msgstr ""
 #: help:fiscal.book,issue_invoice_ids:0
 msgid "Invoices that are in pending state cancel or draft"
 msgstr ""
-"Las facturas que se encuentran en estado pendiente de "
-"cancelar o borrador"
+"Las facturas que se encuentran en estado pendiente de cancelar o borrador"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.taxes.summary,tax_type:0
@@ -1240,8 +1240,8 @@ msgid ""
 "Book line transtaction type: - Purchase: Import or Domestic. - Sales: "
 "Expertation, Tax Payer, Non-Tax Payer."
 msgstr ""
-"Libro tipo de línea de transacción: - Compra: Importar o nacional. - "
-"Ventas: Exportacion, Contribuyente, libre de impuestos."
+"Libro tipo de línea de transacción: - Compra: Importar o nacional. - Ventas: "
+"Exportacion, Contribuyente, libre de impuestos."
 
 #. module: l10n_ve_fiscal_book
 #: code:addons/l10n_ve_fiscal_book/wizard/fiscal_book_wizard.py:47
@@ -1348,10 +1348,8 @@ msgstr "Fecha de Inicio"
 #: help:fiscal.book,tp_general_vat_base_sum:0
 msgid ""
 "General VAT Taxed Tax Payer Base Amount Totalization. Sum of General VAT "
-"Base column for t[M @&axy payer transactions"
+"Base column for taxy payer transactions"
 msgstr ""
-"General del IVA gravado de Impuestos pagados de Monto Base de totalización. Suma "
-"de la columna general Base IVA para las transacciones del contribuyente"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,note:0
@@ -1412,7 +1410,8 @@ msgid ""
 "column for tax payer transactions"
 msgstr ""
 "Reducción del IVA gravado Monto de totalización de Contribuyente. Suma de la "
-"columna de impuestos IVA reducido para las transacciones de los contribuyentes"
+"columna de impuestos IVA reducido para las transacciones de los "
+"contribuyentes"
 
 #. module: l10n_ve_fiscal_book
 #: sql_constraint:fiscal.book:0
@@ -1836,8 +1835,8 @@ msgid ""
 "Tax Payer Exempt Tax Totalization. Sum of Exempt column for tax payer "
 "transactions"
 msgstr ""
-"Totalización Contribuyente exentos de impuestos. Suma de la columna "
-"exenta para las transacciones del contribuyente"
+"Totalización Contribuyente exentos de impuestos. Suma de la columna exenta "
+"para las transacciones del contribuyente"
 
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
@@ -1878,8 +1877,7 @@ msgstr "SDCF"
 #. module: l10n_ve_fiscal_book
 #: help:adjustment.book.line,amount_untaxed_n:0
 msgid "Amount untaxed for national operations"
-msgstr ""
-"Monto sin tributar impuestos para las operaciones nacionales"
+msgstr "Monto sin tributar impuestos para las operaciones nacionales"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,imex_general_vat_base_sum:0
@@ -1940,7 +1938,7 @@ msgstr ""
 msgid "Sum of all tax amount for the taxes realeted to the wh iva line."
 msgstr ""
 "Suma de todos los importe de los impuestos relacionados con la línea de "
-"retención de iva "
+"retención de iva"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -2098,9 +2096,8 @@ msgid ""
 "Reduced VAT Taxed Imports/Exports Base Amount. Sum of  Reduced VAT Base "
 "column for international transactions"
 msgstr ""
-"Reducción del IVA Importaciones/Exportaciones gravado en cantidad base. "
-"Suma de la columna de base de IVA reducido para las transacciones "
-"internacionales"
+"Reducción del IVA Importaciones/Exportaciones gravado en cantidad base. Suma "
+"de la columna de base de IVA reducido para las transacciones internacionales"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,ntp_additional_vat_base_sum:0
@@ -2108,9 +2105,9 @@ msgid ""
 "Additional VAT Taxed Non-Tax Payer Base Amount Totalization. Sum of "
 "Additional VAT Base column for Non-Tax Payer transactions"
 msgstr ""
-"IVA adicional gravado en el monto base de la cantidad de totalización "
-"del no contribuyente. Suma de la columna Base del IVA adicional para "
-"las transacciones del pagador no tributario"
+"IVA adicional gravado en el monto base de la cantidad de totalización del no "
+"contribuyente. Suma de la columna Base del IVA adicional para las "
+"transacciones del pagador no tributario"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0

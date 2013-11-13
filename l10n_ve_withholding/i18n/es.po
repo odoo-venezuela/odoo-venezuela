@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.3\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2013-06-05 19:44+0000\n"
-"PO-Revision-Date: 2013-06-06 19:57+0000\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 22:59+0000\n"
 "Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
 "<humbertoarocha@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_withholding
@@ -26,19 +26,19 @@ msgstr "Impuesto de factura"
 #: view:account.invoice:0
 #: view:res.partner:0
 msgid "isep"
-msgstr ""
+msgstr "isep"
 
 #. module: l10n_ve_withholding
-#: code:addons/l10n_ve_withholding/model/account.py:90
+#: code:addons/l10n_ve_withholding/model/account.py:91
 #, python-format
 msgid "Error !"
-msgstr ""
+msgstr "¡Error!"
 
 #. module: l10n_ve_withholding
 #: view:account.invoice:0
 #: view:res.partner:0
 msgid "vsep"
-msgstr ""
+msgstr "vsep"
 
 #. module: l10n_ve_withholding
 #: code:addons/l10n_ve_withholding/model/invoice.py:158
@@ -47,17 +47,19 @@ msgid "Taxes missing !"
 msgstr "Impuestos faltantes !"
 
 #. module: l10n_ve_withholding
-#: code:addons/l10n_ve_withholding/model/account.py:90
+#: code:addons/l10n_ve_withholding/model/account.py:91
 #, python-format
 msgid ""
 "No period defined for this date: %s !\n"
 "Please create a fiscal year."
 msgstr ""
+"¡No se ha definido un periodo para esta fecha: %s !\n"
+"Cree un ejercicio fiscal."
 
 #. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_period
 msgid "Account period"
-msgstr ""
+msgstr "Período Contable"
 
 #. module: l10n_ve_withholding
 #: code:addons/l10n_ve_withholding/model/invoice.py:152
@@ -69,7 +71,7 @@ msgstr ""
 #. module: l10n_ve_withholding
 #: model:ir.actions.server,name:l10n_ve_withholding.multiact_wh_srv_act
 msgid "Multi-Actions Withholding Server Action"
-msgstr ""
+msgstr "Multi-Actions Withholding Server Action"
 
 #. module: l10n_ve_withholding
 #: code:addons/l10n_ve_withholding/model/invoice.py:82
@@ -78,6 +80,8 @@ msgid ""
 "No accounting moves were created.\n"
 " Please, Check if there are Taxes/Concepts to withhold in the Invoices!"
 msgstr ""
+"No se crearon Asientos Contables. \n"
+" Por favor, verifique si hay Impuestos/Conceptos a retener en las facturas!"
 
 #. module: l10n_ve_withholding
 #: code:addons/l10n_ve_withholding/model/invoice.py:155
@@ -93,12 +97,12 @@ msgstr ""
 #: view:account.invoice:0
 #: view:res.partner:0
 msgid "rsep"
-msgstr ""
+msgstr "rsep"
 
 #. module: l10n_ve_withholding
 #: model:res.groups,name:l10n_ve_withholding.group_account_wh_user
 msgid "Withhold / User"
-msgstr ""
+msgstr "Retencion / Usuario"
 
 #. module: l10n_ve_withholding
 #: model:ir.model,name:l10n_ve_withholding.model_account_invoice
@@ -108,7 +112,7 @@ msgstr "Factura"
 #. module: l10n_ve_withholding
 #: model:res.groups,name:l10n_ve_withholding.group_account_wh_manager
 msgid "Withhold / Manager"
-msgstr ""
+msgstr "Retención / Administrador"
 
 #. module: l10n_ve_withholding
 #: view:account.invoice:0

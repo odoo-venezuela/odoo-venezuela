@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-05 20:02+0000\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
 "PO-Revision-Date: 2013-06-06 21:41+0000\n"
 "Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
 "<humbertoarocha@gmail.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_withholding_src
@@ -105,6 +105,12 @@ msgstr ""
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,wh_amount:0
 msgid "Amount"
+msgstr ""
+
+#. module: l10n_ve_withholding_src
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:279
+#, python-format
+msgid "Invalid Procedure!!"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
@@ -379,7 +385,7 @@ msgid "Withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:304
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:310
 #, python-format
 msgid "Missing Periods!"
 msgstr ""
@@ -400,19 +406,19 @@ msgid "POR CONCEPTO DE RETENCION"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:291
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:297
 #, python-format
 msgid "Invoice already withhold !"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/invoice.py:157
+#: code:addons/l10n_ve_withholding_src/model/invoice.py:158
 #, python-format
 msgid "Tax [%s] has missing account. Please, fill the missing fields"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/invoice.py:157
+#: code:addons/l10n_ve_withholding_src/model/invoice.py:158
 #, python-format
 msgid "Missing Account in Tax!"
 msgstr ""
@@ -534,7 +540,7 @@ msgid "Number"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:305
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:311
 #, python-format
 msgid "There are not Periods created for the pointed day: %s!"
 msgstr ""
@@ -580,7 +586,7 @@ msgstr ""
 
 #. module: l10n_ve_withholding_src
 #: constraint:account.invoice:0
-#: code:addons/l10n_ve_withholding_src/model/invoice.py:123
+#: code:addons/l10n_ve_withholding_src/model/invoice.py:124
 #, python-format
 msgid "Error ! Maximum retention is 5%"
 msgstr ""
@@ -663,6 +669,12 @@ msgid "Social Responsibility Commitment Withholding Rate"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:280
+#, python-format
+msgid "The withholding document needs to be in cancel state to be deleted."
+msgstr ""
+
+#. module: l10n_ve_withholding_src
 #: help:account.wh.src,partner_list:0
 msgid "partners are only allowed to be withholding agents"
 msgstr ""
@@ -742,7 +754,7 @@ msgid "Email:"
 msgstr ""
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:292
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:298
 #, python-format
 msgid "You must omit the follow invoice '%s' !"
 msgstr ""

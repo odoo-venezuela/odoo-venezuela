@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-14 17:20+0000\n"
-"PO-Revision-Date: 2013-06-09 14:51+0000\n"
+"POT-Creation-Date: 2013-11-12 19:18+0000\n"
+"PO-Revision-Date: 2013-11-12 20:20+0000\n"
 "Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
 "<humbertoarocha@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_fiscal_book
@@ -37,7 +37,7 @@ msgstr "Cambiar a borrador"
 #. module: l10n_ve_fiscal_book
 #: model:ir.actions.report.xml,name:l10n_ve_fiscal_book.report_fiscal_book_sale
 msgid "Sale Book Report"
-msgstr ""
+msgstr "Reporte del Libro de Ventas"
 
 #. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,vat:0
@@ -84,12 +84,12 @@ msgstr ""
 #: report:fiscal.book.purchase:0
 #: report:fiscal.book.sale:0
 msgid "Fecha Doc."
-msgstr ""
+msgstr "Fecha Doc."
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
 msgid "Datos Generales de Aduana"
-msgstr ""
+msgstr "Datos Generales de Aduana"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,vat_general_base:0
@@ -130,14 +130,14 @@ msgstr "Entidad"
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
 msgid "COMPRAS INTERNAS GRAVADAS POR ALÍCUOTA REDUCIDA"
-msgstr ""
+msgstr "COMPRAS INTERNAS GRAVADAS POR ALÍCUOTA REDUCIDA"
 
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_book.action_fiscal_sale_book
 #: model:ir.ui.menu,name:l10n_ve_fiscal_book.menu_fiscal_sale_book
 msgid "Fiscal Sale Book"
-msgstr ""
+msgstr "Libro de ventas Fiscal"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,do_additional_vat_base_sum:0
@@ -287,7 +287,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: selection:fiscal.book,type:0
 msgid "Purchase Book"
-msgstr ""
+msgstr "Libro de Compras"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,do_reduced_vat_base_sum:0
@@ -338,7 +338,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book.taxes:0
 msgid "Fiscal Taxes"
-msgstr ""
+msgstr "Impuesto Fiscales"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
@@ -348,7 +348,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: help:adjustment.book.line,percent_with_vat_i:0
 msgid "Percent(%) VAT for international operations"
-msgstr ""
+msgstr "Tasa de Impuesto (%) para Operaciones Internacionales"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -496,7 +496,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,emission_date:0
 msgid "Emission Date"
-msgstr ""
+msgstr "Fecha de Emisión"
 
 #. module: l10n_ve_fiscal_book
 #: model:ir.model,name:l10n_ve_fiscal_book.model_account_wh_iva_line
@@ -734,7 +734,7 @@ msgstr ""
 #: field:fiscal.book,base_amount:0
 #: field:fiscal.book.taxes,base_amount:0
 msgid "Taxable Amount"
-msgstr ""
+msgstr "Monto Gravable"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,period_id:0
@@ -770,7 +770,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: selection:fiscal.book.taxes.summary,tax_type:0
 msgid "General Aliquot + Additional"
-msgstr ""
+msgstr "Alícuota General más Adicional"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,do_general_vat_base_sum:0
@@ -833,12 +833,12 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: selection:fiscal.book,type:0
 msgid "Sale Book"
-msgstr ""
+msgstr "Libro de Ventas"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,total_with_iva:0
 msgid "Total with IVA"
-msgstr ""
+msgstr "Total con IVA"
 
 #. module: l10n_ve_fiscal_book
 #: code:addons/l10n_ve_fiscal_book/wizard/fiscal_book_wizard.py:47
@@ -857,17 +857,17 @@ msgstr ""
 #: field:adjustment.book.line,amount_untaxed_i:0
 #: field:adjustment.book.line,amount_untaxed_n:0
 msgid "Amount Untaxed"
-msgstr ""
+msgstr "Base Imponible Exenta"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,ctrl_number:0
 msgid "Invoice Control number"
-msgstr ""
+msgstr "Número de Control de la Factura"
 
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,fbts_ids:0
 msgid "Tax Summary"
-msgstr ""
+msgstr "Sumario de Impuestos"
 
 #. module: l10n_ve_fiscal_book
 #: help:adjustment.book.line,uncredit_fiscal:0
@@ -885,7 +885,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book,abl_ids:0
 msgid "Adjustment Lines"
-msgstr ""
+msgstr "Líneas de Ajustes"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
@@ -940,7 +940,7 @@ msgstr ""
 #: help:fiscal.book.line,void_form:0
 #: field:fiscal.book.taxes.summary,op_type:0
 msgid "Operation Type"
-msgstr ""
+msgstr "Tipo de Operación"
 
 #. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,amount_with_vat_i:0
@@ -961,7 +961,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 msgid "Fiscal Book Vat Withholdings"
-msgstr ""
+msgstr "Libro de Retenciones Fiscales"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,ntp_sdcf_vat_sum:0
@@ -994,7 +994,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,affected_invoice:0
 msgid "Affected Invoice"
-msgstr ""
+msgstr "Factura Afectada"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -1081,7 +1081,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:adjustment.book.line,doc_affected:0
 msgid "Affected Document"
-msgstr ""
+msgstr "Documento Afectado"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.purchase:0
@@ -1142,12 +1142,12 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: view:fiscal.book:0
 msgid "Fiscal Book Adjustments"
-msgstr ""
+msgstr "Ajustes al Libro Fiscal"
 
 #. module: l10n_ve_fiscal_book
 #: selection:fiscal.book.taxes.summary,tax_type:0
 msgid "Reducted Aliquot"
-msgstr ""
+msgstr "Alícuota Reducida"
 
 #. module: l10n_ve_fiscal_book
 #: report:fiscal.book.sale:0
@@ -1157,7 +1157,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.taxes.summary,tax_amount_sum:0
 msgid "Taxed Amount Sum"
-msgstr ""
+msgstr "Suma de Impuestos Gravados"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book,iwdl_ids:0
@@ -1199,7 +1199,7 @@ msgstr ""
 #. module: l10n_ve_fiscal_book
 #: field:fiscal.book.line,fiscal_printer:0
 msgid "Fiscal machine number"
-msgstr ""
+msgstr "Número de Máquina Fiscal"
 
 #. module: l10n_ve_fiscal_book
 #: help:fiscal.book.line,type:0

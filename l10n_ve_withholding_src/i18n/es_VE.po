@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-05 20:02+0000\n"
-"PO-Revision-Date: 2013-06-06 21:41+0000\n"
-"Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
-"<humbertoarocha@gmail.com>\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-12 20:33+0000\n"
+"Last-Translator: Nhomar - Vauxoo <nhomar@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-07-18 06:02+0000\n"
-"X-Generator: Launchpad (build 16696)\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src.line,base_amount:0
@@ -106,6 +105,12 @@ msgstr "Error!"
 #: field:account.wh.src,wh_amount:0
 msgid "Amount"
 msgstr "Monto"
+
+#. module: l10n_ve_withholding_src
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:279
+#, python-format
+msgid "Invalid Procedure!!"
+msgstr ""
 
 #. module: l10n_ve_withholding_src
 #: selection:account.wh.src,state:0
@@ -316,11 +321,12 @@ msgid ""
 "generate document withholding automatically from invoices. For retention "
 "must add the invoices, process them and then validate the document."
 msgstr ""
-"Con las Retenciones de Compromiso de Responsabilidad Social a Proveedor puede "
-"crear y gestionar los documentos de retención expedido a sus proveedores. "
-"OpenERP también puede generar el documento de retención automáticamente de "
-"las facturas. Para la retención de Compromiso de Responsabilidad Social (CRS) "
-"debe agregar la factura, procesarla y luego validarla."
+"Con las Retenciones de Compromiso de Responsabilidad Social a Proveedor "
+"puede crear y gestionar los documentos de retención expedido a sus "
+"proveedores. OpenERP también puede generar el documento de retención "
+"automáticamente de las facturas. Para la retención de Compromiso de "
+"Responsabilidad Social (CRS) debe agregar la factura, procesarla y luego "
+"validarla."
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src.line,wh_amount:0
@@ -375,8 +381,8 @@ msgstr ""
 "Con las Retenciones de Compromiso de Responsabilidad Social a Cliente puede "
 "crear y gestionar los documentos de retención expedido a sus clientes. "
 "OpenERP también puede generar el documento de retención automáticamente de "
-"las facturas. Para la retención de Compromiso de Responsabilidad Social (CRS) "
-"debe agregar la factura, procesarla y luego validarla."
+"las facturas. Para la retención de Compromiso de Responsabilidad Social "
+"(CRS) debe agregar la factura, procesarla y luego validarla."
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,uid_wh_agent:0
@@ -389,7 +395,7 @@ msgid "Withholding"
 msgstr "Retención"
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:304
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:310
 #, python-format
 msgid "Missing Periods!"
 msgstr "Faltan Períodos!"
@@ -410,21 +416,21 @@ msgid "POR CONCEPTO DE RETENCION"
 msgstr "por Concepto de Retención"
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:291
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:297
 #, python-format
 msgid "Invoice already withhold !"
 msgstr "Factura ya retenida !"
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/invoice.py:157
+#: code:addons/l10n_ve_withholding_src/model/invoice.py:158
 #, python-format
 msgid "Tax [%s] has missing account. Please, fill the missing fields"
 msgstr ""
-"Impuesto [%s] ha desaparecido de la cuenta. Por favor, rellene los "
-"campos que faltan"
+"Impuesto [%s] ha desaparecido de la cuenta. Por favor, rellene los campos "
+"que faltan"
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/invoice.py:157
+#: code:addons/l10n_ve_withholding_src/model/invoice.py:158
 #, python-format
 msgid "Missing Account in Tax!"
 msgstr "Falta cuenta en el Impuesto!"
@@ -444,8 +450,7 @@ msgstr "Fecha"
 #: code:addons/l10n_ve_withholding_src/model/wh_src.py:235
 #, python-format
 msgid "Verify retention lines not have Null values(0.00)"
-msgstr ""
-"Verificar que las líneas de retención no tienen valores nulos(0.00)"
+msgstr "Verificar que las líneas de retención no tienen valores nulos(0.00)"
 
 #. module: l10n_ve_withholding_src
 #: help:res.partner,wh_src_rate:0
@@ -462,8 +467,7 @@ msgstr "Lista"
 #, python-format
 msgid ""
 "For the moment, the systmen does not allow cancell these withholdings."
-msgstr ""
-"Por el momento, el sistema no permite cancelar estas retención."
+msgstr "Por el momento, el sistema no permite cancelar estas retención."
 
 #. module: l10n_ve_withholding_src
 #: model:ir.model,name:l10n_ve_withholding_src.model_res_company
@@ -511,7 +515,8 @@ msgstr "Agente de Retención de CRS"
 msgid ""
 "Keep empty to use the period of the validation(Withholding date) date."
 msgstr ""
-"Mantenga vacía para utilizar el período de la validación (fecha de Retención) actualizado."
+"Mantenga vacía para utilizar el período de la validación (fecha de "
+"Retención) actualizado."
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,code:0
@@ -549,7 +554,7 @@ msgid "Number"
 msgstr "Número"
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:305
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:311
 #, python-format
 msgid "There are not Periods created for the pointed day: %s!"
 msgstr "No hay períodos creados para el día: %s!"
@@ -595,7 +600,7 @@ msgstr "Comprobante de Retención de Responsabilidad Social"
 
 #. module: l10n_ve_withholding_src
 #: constraint:account.invoice:0
-#: code:addons/l10n_ve_withholding_src/model/invoice.py:123
+#: code:addons/l10n_ve_withholding_src/model/invoice.py:124
 #, python-format
 msgid "Error ! Maximum retention is 5%"
 msgstr "Error! Es máximo porcentaje de retención es 5%"
@@ -678,10 +683,15 @@ msgid "Social Responsibility Commitment Withholding Rate"
 msgstr "Tasa de Retención Compromiso Responsabilidad Social"
 
 #. module: l10n_ve_withholding_src
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:280
+#, python-format
+msgid "The withholding document needs to be in cancel state to be deleted."
+msgstr ""
+
+#. module: l10n_ve_withholding_src
 #: help:account.wh.src,partner_list:0
 msgid "partners are only allowed to be withholding agents"
-msgstr ""
-"Sólo a los proveedores se les permite ser agente de retención"
+msgstr "Sólo a los proveedores se les permite ser agente de retención"
 
 #. module: l10n_ve_withholding_src
 #: code:addons/l10n_ve_withholding_src/model/wh_src.py:230
@@ -758,7 +768,7 @@ msgid "Email:"
 msgstr "Email:"
 
 #. module: l10n_ve_withholding_src
-#: code:addons/l10n_ve_withholding_src/model/wh_src.py:292
+#: code:addons/l10n_ve_withholding_src/model/wh_src.py:298
 #, python-format
 msgid "You must omit the follow invoice '%s' !"
 msgstr "Debe omitir la factura siguiente '%s' !"

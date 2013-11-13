@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 19:28+0000\n"
-"PO-Revision-Date: 2013-06-06 19:55+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2013-11-12 19:18+0000\n"
+"PO-Revision-Date: 2013-11-12 20:33+0000\n"
+"Last-Translator: Nhomar - Vauxoo <nhomar@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-25 05:16+0000\n"
-"X-Generator: Launchpad (build 16677)\n"
+"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
@@ -57,8 +57,8 @@ msgid ""
 "invoice"
 msgstr ""
 "No puedes crear una nota de débito de una factura que se encuentra "
-"conciliada, debes, desconciliar primero la factura. Solo puedes hacer "
-"una Nota de Crédito"
+"conciliada, debes, desconciliar primero la factura. Solo puedes hacer una "
+"Nota de Crédito"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:l10n.ut,user_id:0
@@ -191,8 +191,8 @@ msgid ""
 "This field is to know when it applyies what Credit Notes and Debit Notes are "
 "related to it"
 msgstr ""
-"Este campo indica cuándo la Notas de Crédito y Débito están "
-"relacionados con él"
+"Este campo indica cuándo la Notas de Crédito y Débito están relacionados con "
+"él"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:160
@@ -233,8 +233,7 @@ msgstr "update.info.partner"
 #, python-format
 msgid "Error ! Partner's VAT must be a unique value or empty"
 msgstr ""
-"Error ! El RIF debe ser único o estar vacío para poder "
-"procesarlo y guardarlo"
+"Error ! El RIF debe ser único o estar vacío para poder procesarlo y guardarlo"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/search_info_partner_seniat.py:46
@@ -253,8 +252,9 @@ msgid ""
 "Number used to manage pre-printed invoices, by law you will need to put here "
 "this number to be able to declarate on Fiscal reports correctly."
 msgstr ""
-"Número utilizado para gestionar las facturas pre-impresas, por ley tendrá que "
-"poner aquí este número para poder declarar en los informes fiscales correctamente."
+"Número utilizado para gestionar las facturas pre-impresas, por ley tendrá "
+"que poner aquí este número para poder declarar en los informes fiscales "
+"correctamente."
 
 #. module: l10n_ve_fiscal_requirements
 #: field:search.info.partner.seniat,vat_subjected:0
@@ -296,6 +296,7 @@ msgid "Update Name"
 msgstr "Actualizar Nombre"
 
 #. module: l10n_ve_fiscal_requirements
+#: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:99
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:158
 #, python-format
 msgid "Invalid VAT!"
@@ -344,8 +345,8 @@ msgstr ""
 "              </p><p>\n"
 "                Puedes controlar la factura de su proveedor de acuerdo \n"
 "                a lo que usted compró o recibió. OpenERP también puede \n"
-"                generar una factura borrador automáticamente de las "
-"órdenes de compra o a recibir.\n"
+"                generar una factura borrador automáticamente de las órdenes "
+"de compra o a recibir.\n"
 "              </p>\n"
 "            "
 
@@ -522,6 +523,7 @@ msgstr "Error de usuario"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/model/partner.py:260
+#: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:99
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:158
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:160
 #, python-format
@@ -540,9 +542,9 @@ msgid ""
 "created. If you leave that field empty, it will use the same journal as the "
 "current invoice."
 msgstr ""
-"Selecciona acá el diario a ser usado por la nota de crédito que será "
-"creada. Si dejas el campo vacío, se usará al mismo diario que la factura "
-"desde donde procede la nota de crédito y donde hiciste click."
+"Selecciona acá el diario a ser usado por la nota de crédito que será creada. "
+"Si dejas el campo vacío, se usará al mismo diario que la factura desde donde "
+"procede la nota de crédito y donde hiciste click."
 
 #. module: l10n_ve_fiscal_requirements
 #: field:account.invoice.debit,journal_id:0
@@ -603,9 +605,9 @@ msgid ""
 "established under the law of each country, is used for the withholding "
 "income and withholding vat."
 msgstr ""
-"Con la Unidad Tributaria puedes crear y manejar la unidad tributaria. "
-"La Unidad Tributaria es establecida bajo la ley de cada país, es usada para "
-"la retención de ISLR y retención del IVA."
+"Con la Unidad Tributaria puedes crear y manejar la unidad tributaria. La "
+"Unidad Tributaria es establecida bajo la ley de cada país, es usada para la "
+"retención de ISLR y retención del IVA."
 
 #. module: l10n_ve_fiscal_requirements
 #: field:wizard.invoice.nro.ctrl,sure:0
@@ -628,8 +630,8 @@ msgid ""
 "You can select here the source invoice to use as father as the current "
 "invoice."
 msgstr ""
-"Puede seleccionar aquí la factura de origen a usar como padre de la "
-"factura actual"
+"Puede seleccionar aquí la factura de origen a usar como padre de la factura "
+"actual"
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_refund.py:221
@@ -663,8 +665,8 @@ msgstr ""
 msgid ""
 "Assign parent invoice, Please check the box to confirm that you agree!"
 msgstr ""
-"Asignar factura padre, Por favor marque la opción para confirmar que "
-"está de acuerdo!"
+"Asignar factura padre, Por favor marque la opción para confirmar que está de "
+"acuerdo!"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_res_users
@@ -743,7 +745,7 @@ msgstr "Crear paple nulo"
 #: code:addons/l10n_ve_fiscal_requirements/model/seniat_url.py:162
 #, python-format
 msgid "Could not connect! Check the URL "
-msgstr "No se pudo conectar! Compruebe la URL"
+msgstr "No se pudo conectar! Compruebe la URL "
 
 #. module: l10n_ve_fiscal_requirements
 #: code:addons/l10n_ve_fiscal_requirements/wizard/account_invoice_parent.py:159
@@ -752,8 +754,8 @@ msgid ""
 "Incorrect Parent Invoice, The parent invoice selected can not have an "
 "assigned parent invoice!"
 msgstr ""
-"Factura Padre incorrecta, la factura padre seleccionada no puede poseer "
-"a su vez una factura padre asignada!"
+"Factura Padre incorrecta, la factura padre seleccionada no puede poseer a su "
+"vez una factura padre asignada!"
 
 #. module: l10n_ve_fiscal_requirements
 #: help:seniat.url,name:0
@@ -810,8 +812,8 @@ msgstr "La fecha elegida debe pertenecer al período"
 #: help:account.invoice,fiscal_printer:0
 msgid "Fiscal printer number, generally is the id number of the printer."
 msgstr ""
-"El número de impresora fiscal, por lo general es el número de "
-"identificación de la impresora."
+"El número de impresora fiscal, por lo general es el número de identificación "
+"de la impresora."
 
 #. module: l10n_ve_fiscal_requirements
 #: help:wizard.seniat.url,url2:0
@@ -1076,8 +1078,8 @@ msgstr "(Coloque aquí la fecha en la factura de venta entregada al cliente)"
 msgid ""
 "Please confirm that you know what you're doing by checking the option bellow!"
 msgstr ""
-"Por favor confirme que usted sabe lo que está haciendo, marcando la opción de "
-"abajo!"
+"Por favor confirme que usted sabe lo que está haciendo, marcando la opción "
+"de abajo!"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:wizard.invoice.nro.ctrl:0
@@ -1161,9 +1163,8 @@ msgstr ""
 "                factura por correo electrónico y puede pagar en línea y/o\n"
 "                importarlo en su propio sistema.\n"
 "              </p><p>\n"
-"                La discusión con su cliente se muestran "
-"automáticamente en\n "
-"                la parte inferior de cada factura.\n"
+"                La discusión con su cliente se muestran automáticamente en\n"
+"                 la parte inferior de cada factura.\n"
 "              </p>\n"
 "            "
 
@@ -1250,8 +1251,7 @@ msgid ""
 "The Document you have been entering for this Partner has already been "
 "recorded"
 msgstr ""
-"El documento que esta intentando ingresar ya ha sido grabado en el "
-"sistema"
+"El documento que esta intentando ingresar ya ha sido grabado en el sistema"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.model,name:l10n_ve_fiscal_requirements.model_account_invoice_refund
@@ -1267,12 +1267,12 @@ msgid ""
 "be loaded, if you are in a out_invoice document plus this data filled it "
 "means this is a debit note"
 msgstr ""
-"Cuando este campo tiene la información, esta factura es una nota de "
-"crédito o nota de débito. Este campo se utiliza para hacer referencia "
-"a la factura que originó esta nota de crédito o nota de débito. Si se "
-"encuentra en un documento de reembolso, este campo se debe cargar, si "
-"se encuentra en un documento out_invoice además estos datos llenados "
-"significa esto es una nota de débito."
+"Cuando este campo tiene la información, esta factura es una nota de crédito "
+"o nota de débito. Este campo se utiliza para hacer referencia a la factura "
+"que originó esta nota de crédito o nota de débito. Si se encuentra en un "
+"documento de reembolso, este campo se debe cargar, si se encuentra en un "
+"documento out_invoice además estos datos llenados significa esto es una nota "
+"de débito."
 
 #. module: l10n_ve_fiscal_requirements
 #: help:search.info.partner.seniat,name:0
@@ -1318,8 +1318,8 @@ msgid ""
 "You can run this process just if the invoice have Control Number, please "
 "verify the invoice and try again."
 msgstr ""
-"Puede ejecutar este proceso sólo si la factura tiene número de control, "
-"por favor verifique la factura y vuelva a intentarlo"
+"Puede ejecutar este proceso sólo si la factura tiene número de control, por "
+"favor verifique la factura y vuelva a intentarlo"
 
 #. module: l10n_ve_fiscal_requirements
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_requirements.action_acc_inv_parent_assigned
@@ -1355,8 +1355,8 @@ msgid ""
 msgstr ""
 "¿Cuál es el porcentaje de retención que deberás aplicar a este proveedor si "
 "tu fueses agente de retención, éste se actualiza con el botón de actualizar "
-"informción fiscal automáticamente, si no te interesa usar ésta caracteristica "
-"puedes colcoarlo manualmente los valores lógicos son 75 o 100"
+"informción fiscal automáticamente, si no te interesa usar ésta "
+"caracteristica puedes colcoarlo manualmente los valores lógicos son 75 o 100"
 
 #. module: l10n_ve_fiscal_requirements
 #: view:l10n.ut:0
