@@ -1,51 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
   <data>
-
-    <record id="view_partner_form2" model="ir.ui.view">
-        <field name="name">res.partner.vat.inherit2</field>
+    <record id="view_partner_form_ve" model="ir.ui.view">
+        <field name="name">res.partner.ve</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-
-        <xpath expr="//button[@name=&quot;button_check_vat&quot;]" position="replace"/>
-        <xpath expr="//field[@name=&quot;vat&quot;]" position="replace"/>
-
-        <xpath expr="//field[@name='name']" position="replace">
+        <xpath expr="//div[@name='buttons']" position="inside">
             <field name="seniat_updated" invisible="1"/>
-            <field name="name" attrs="{'readonly': [('seniat_updated', '!=', False)]}"/>
-        </xpath>
-
-            <xpath expr="//label[@for=&quot;vat&quot;]" position="replace">
-            </xpath>
-            <xpath expr="//field[@name=&quot;vat_subjected&quot;]" position="replace">
-            </xpath>
-
-          <xpath expr="//field[@name=&quot;parent_id&quot;]" position="before">
-             <label for="vat"/>
-             <field name="vat" colspan="2" placeholder="e.g. VE123456789" class="oe_inline" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }"/>
-             <button name="button_check_vat" string="Check Validity" type="object" icon="gtk-execute" class="oe_inline"/>
-             <button name="%(action_wiz_name)d" string="Update Name" type="action" icon="gtk-execute" class="oe_inline"/>
             <field name="uid_country" colspan="2" invisible="1"/>
-          </xpath>
-
-          <xpath expr="//field[@name=&quot;street&quot;]" position="replace">
-          <field name="street" placeholder="Av. Siempre Viva" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }"/>
-          </xpath>
-          
-          <xpath expr="//field[@name=&quot;city&quot;]" position="replace">
-          <field name="city" placeholder="Caracas" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }"/>
-          </xpath>
-          
-          <xpath expr="//field[@name=&quot;country_id&quot;]" position="replace">
-          <field name="country_id" placeholder="Venezuela" class="oe_no_button" options="{&quot;no_open&quot;: True}" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }"/>
-          </xpath>
-
-          <xpath expr="//field[@name=&quot;phone&quot;]" position="replace">
-          <field name="phone" placeholder="+58 414 432 27 20" class="oe_no_button" options="{&quot;no_open&quot;: True}" colspan="2" attrs="{'required':[('uid_country','=','VE'),'|','&amp;','&amp;',('is_company','=',False),('parent_id','!=',False),('type','=','invoice'), ('parent_id','=',False)] }"/>
-          </xpath>
+            <button name="%(action_wiz_name)d" string="Update Name" type="action"
+                help="Connect to SENIAT and update the name of the partner given an VAT Number. (See Accounting tab to write the VAT Number)"/>
+        </xpath>
         </field>
     </record>
-
   </data>
 </openerp>
