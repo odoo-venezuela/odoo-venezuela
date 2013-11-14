@@ -12,7 +12,7 @@
         <record id="seq_debit_purchase_journal" model="ir.sequence">
             <field name="name">Nota de debito Compra</field>                 
             <field name="code">account.journal.debit.purchase</field>            
-            <field name="prefix">RE:</field>                                    
+            <field name="prefix">ND:</field>                                    
             <field name="padding">6</field>                                     
             <field name="number_increment">1</field>                            
         </record>
@@ -25,7 +25,7 @@
         <record id="seq_debit_sale_journal" model="ir.sequence">
             <field name="name">Nota de debito Venta</field>                 
             <field name="code">account.journal.debit.sale</field>            
-            <field name="prefix">RE:</field>                                    
+            <field name="prefix">ND:</field>                                    
             <field name="padding">6</field>                                     
             <field name="number_increment">1</field>                            
         </record>
