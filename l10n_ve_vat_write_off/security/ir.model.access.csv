@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vat_write_off_manager,vat.write.off,model_vat_write_off,account.group_account_manager,1,1,1,1
