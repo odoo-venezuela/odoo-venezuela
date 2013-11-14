@@ -61,6 +61,7 @@ We now have a configuration wizard after this module install.
     'init_xml': [
         'data/l10n_ut_data.xml',
         'data/seniat_url_data.xml',
+        'data/ir_sequence.xml',
     ],
     "depends" : ["account", 
                  "base_vat",
