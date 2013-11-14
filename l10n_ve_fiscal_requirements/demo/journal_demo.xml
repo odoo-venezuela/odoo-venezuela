@@ -4,12 +4,12 @@
 
         <!-- Sequences -->
 
-        <record id="seq_debit_purchase_type" model="ir.sequence.type">                                                                           
+        <record id="seq_debit_purchase_type" model="ir.sequence.type">
             <field name="name">Nota Debito Compra</field>                 
             <field name="code">account.journal.debit.purchase</field>            
         </record>     
 
-        <record id="seq_debit_purchase_journal" model="ir.sequence">                                                                             
+        <record id="seq_debit_purchase_journal" model="ir.sequence">
             <field name="name">Nota de debito Compra</field>                 
             <field name="code">account.journal.debit.purchase</field>            
             <field name="prefix">RE:</field>                                    
@@ -17,12 +17,12 @@
             <field name="number_increment">1</field>                            
         </record>
 
-        <record id="seq_debit_sale_type" model="ir.sequence.type">                                                                           
+        <record id="seq_debit_sale_type" model="ir.sequence.type">
             <field name="name">Nota Debito Venta</field>                 
             <field name="code">account.journal.debit.sale</field>            
         </record>     
         
-        <record id="seq_debit_sale_journal" model="ir.sequence">                                                                             
+        <record id="seq_debit_sale_journal" model="ir.sequence">
             <field name="name">Nota de debito Venta</field>                 
             <field name="code">account.journal.debit.sale</field>            
             <field name="prefix">RE:</field>                                    
