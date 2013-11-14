@@ -787,7 +787,7 @@ class islr_wh_doc_invoices(osv.osv):
             for i in ail_brws:
                 values = self._get_xml_lines(cr, uid, i, context=context)
                 values.update({'islr_wh_doc_inv_id': ret_line.id, })
-                if not values.get('supplier_invoice_number'):
+                if not values.get('invoice_number'):
                     raise osv.except_osv(_("Error on Human Process"),
                     _("Please fill the Invoice number to continue, without this number will be"
                       " imposible form the system make the withholding"))
