@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-
         <!--BEGIN PARTNERS -->
         <record id="f_req_partner_1" model="res.partner">
             <field name="name">Comercializadora M321, C.A.</field>
@@ -12,6 +11,7 @@
             <field name="street">Carretera Panamericana, KM1, Edif 1, piso 3, local C</field>
             <field name="street2">Urb. Delgado Chalbaud</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="is_company">True</field>
             <field name="zip">1090</field>
         </record>
         <record id="f_req_partner_2" model="res.partner">
@@ -23,6 +23,7 @@
             <field name="street">Av. Plaza la India, C.C. Galería Paraíso, Nivel Paraiso, Local 11</field>
             <field name="street2">Urb. El Paraíso, Caracas</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="is_company">True</field>
             <field name="zip">1010</field>
         </record>
         <record id="f_req_partner_3" model="res.partner">
@@ -34,6 +35,7 @@
             <field name="street">Avenida Abraham Lincoln y Calles Unión y Villaflor, C.C. City Market, Nivel Boulevard, Local 255</field>
             <field name="street2">Urb. Sabana Grande, Caracas</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="is_company">True</field>
             <field name="zip">1050</field>
         </record>
         <record id="f_req_partner_4" model="res.partner">
@@ -45,6 +47,7 @@
             <field name="street">Av. Principal Barrio Unión, Local # 7, Centro Puerto Ayacucho, Edo. Amazonas</field>
             <field name="street2">Edo. Amazonas</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="is_company">True</field>
             <field name="zip">7101</field>
         </record>
         <record id="f_req_partner_5" model="res.partner">
@@ -56,6 +59,7 @@
             <field name="street">Calle Mikinen, C.C. Minicentro Marchi, Nivel PB, Local 12, Urb. El Llano</field>
             <field name="street2">Urb. El Llano, Los Teques</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="is_company">True</field>
             <field name="zip">1201</field>
         </record>
         <record id="f_req_partner_6" model="res.partner">
@@ -67,8 +71,11 @@
             <field name="street">Av. Páez con Calle El Cují, Res. La Cosiata. Piso 18, Apto 1830</field>
             <field name="street2">Urb. El Paraíso</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="parent_id" ref="f_req_partner_1"/>
             <field name="zip">1020</field>
         </record>
+        <!-- An orphan contact without parent_id this record shoudl be used to test this case
+             fiscally-->
         <record id="f_req_partner_7" model="res.partner">
             <field name="name">Miguel Delgado</field>
             <field name="vat">VEV012090098</field>
@@ -85,10 +92,11 @@
             <field name="vat">VEV018143235</field>
             <field name="supplier">True</field>
             <field name="customer">True</field>
-            <field name="type">invoice</field>
+            <field name="type">delivery</field>
             <field name="street">Av. Imperial, Calle El Clon, Res. Halcón Milenario</field>
             <field name="street2">Urb. Coruscant</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="parent_id" ref="f_req_partner_3"/>
             <field name="zip">7340</field>
         </record>
         <record id="f_req_partner_9" model="res.partner">
@@ -96,20 +104,23 @@
             <field name="vat">VEV014753766</field>
             <field name="supplier">True</field>
             <field name="customer">True</field>
-            <field name="type">invoice</field>
+            <field name="type">contact</field>
             <field name="street">Calle La Piedrita, cruce con Av. La Roca, Qta. Marmoleada</field>
             <field name="street2">Catia, Caracas</field>
             <field name="country_id" ref="base.ve"/>
+            <field name="parent_id" ref="f_req_partner_2"/>
             <field name="zip">1090</field>
         </record>
+        <!-- Test a contact in a country with one invoice address different to the main company -->
         <record id="f_req_partner_10" model="res.partner">
-            <field name="name">Nhomar Hernández</field>
-            <field name="vat">VEV147744443</field>
+            <field name="name">Jose Morales Ponce</field>
+            <field name="vat">VEV194076726</field>
             <field name="supplier">True</field>
             <field name="customer">True</field>
             <field name="type">invoice</field>
-            <field name="street">Calle La Matica con Calle Los Arbustos, Qta El Bosque</field>
+            <field name="street">Calle La Matica con Avenida Los Arbustos, Qta El Bosque</field>
             <field name="street2">Urb. Lomas de la Lagunita</field>
+            <field name="parent_id" ref="base.res_partner_23"/>
             <field name="country_id" ref="base.ve"/>
             <field name="zip">1132</field>
         </record>
