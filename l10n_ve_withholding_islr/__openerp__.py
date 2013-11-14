@@ -67,6 +67,7 @@ If you want be able to propose withholding concepts from sales and purchases you
             #"edi/islr_wh_doc_action_data.xml",
     ],
     'test': [
+#            'test/fr_tax_except.yml',
 #            'test/test.yml',
 #            'test/test_sale.yml',
 #            'test/test_notax.yml',
