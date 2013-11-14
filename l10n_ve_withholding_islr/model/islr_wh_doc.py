@@ -70,6 +70,11 @@ class islr_wh_doc(osv.osv):
         if res:
             return res[0]
         else:
+            raise osv.except_osv(_('Configuration Incomplete.'),
+                _("""I couldn't find a journal to execute the Witholding ISLR
+                automatically, please create one in Accounting > Configuration > Journals, contact
+                to the account manager if you don't have access to this menu.!!!"""))
+
             return False
 
     def _get_currency(self, cr, uid, context):
