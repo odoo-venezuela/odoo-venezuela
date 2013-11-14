@@ -12,58 +12,52 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
+                <!-- Dates on invoices necesary to include the concept of "received by customer" -->
                 <xpath expr="//field[@name='date_invoice']" position="replace">
-                    <group colspan="6" cols="2">
-                        <field name="date_invoice"/>
-                        <label align="0.0" string="(keep empty to use the current date, this will be date used in accounting and Fiscal moves)"/>
+                    <group colspan="4" cols="2">
+                    <group colspan="1" cols="1">
+                        <label for="date_invoice" />
+                        <newline/>
+                        <field name="date_invoice" nolabel="1"/>
+                        <newline/>
+                        <label
+                            string="(keep empty to use the current date, this will be date used in accounting and Fiscal moves)"/>
+                    </group>
+                    <group colspan="1" cols="1">
+                        <label for="date_document" />
+                        <newline/>
+                        <field name="date_document" nolabel="1"/>
+                        <newline/>
+                        <label string="(Put here the date when Sale Invoice was delivered to customer)"/>
+                    </group>
                     </group>
                     <newline/>
-                    <group colspan="6" cols="2">
-                        <field name="date_document"/>
-                        <label align="0.0" string="(Put here the date when Sale Invoice was delivered to customer)"/>
-                    </group>
-                    <newline/>
-                </xpath>
-                
+                </xpath> <!-- End of dates Section -->
                 <xpath expr="//page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes" attrs="{'invisible':['|','|',('type','=','in_refund'),('type','=','out_refund'),('parent_id','!=',False)]}">
                         <newline/>
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                     </page>
                 </xpath>
-                
                 <xpath expr="//page[@string='Other Info']/group/group[2]" position="after">
-                      
                     <group colspan="2">
                      <separator colspan="6" string="Fiscal Information"/>
                         <field name="sin_cred"/>
-                        <!--
-                             <field name="invoice_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
-                        <field name="fiscal_printer" groups="parameters_fiscal_printer.group_parameters_fiscal_printer_user"/>
-                        -->
                         <field name="loc_req" invisible="1"/>
                         <field name="invoice_printer" attrs="{'invisible':[('loc_req','=',True)]}"/>
                         <field name="fiscal_printer" attrs="{'invisible':[('loc_req','=',True)]}"/>
                         <field name="z_report" attrs="{'invisible':[('loc_req','=',True)]}"/>
-                        
                         <field name="parent_id" attrs="{'invisible':[('parent_id','=',False)]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field name="nro_ctrl"/>
-                        <button name="%(action_wiz_nroctrl)d" type="action" string="Change control number" icon="gtk-execute" colspan="6"/>
+                        <button name="%(action_wiz_nroctrl)d" type="action" string="Change control number" colspan="6"/>
                     </group>
                 </xpath>
-<!--
-                <xpath expr="//field[@name='address_invoice_id']" position="replace">
-                    <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
-                </xpath>
--->
                 <xpath expr="//button[@string='Refund Invoice']" position="after">
-                    <button name="%(action_account_invoice_debit)d" type="action" string="Debit Note" icon="gtk-execute" attrs="{'invisible':['|','|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"/>
-                </xpath>
-                <xpath expr="//button[@string='Refund Invoice']" position="after">
-                    <button name="%(action_account_invoice_parent)d" type="action" string="Parent Invoice" states="open,paid" icon="gtk-execute" attrs="{'invisible':[('type','!=','out_refund')]}"/>
+                    <button name="%(action_account_invoice_debit)d" type="action" string="Debit Note" attrs="{'invisible':['|','|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"/>
+                    <button name="%(action_account_invoice_parent)d" type="action" string="Parent Invoice" states="open,paid" attrs="{'invisible':[('type','!=','out_refund')]}"/>
                 </xpath>
                 <xpath expr="//button[@string='Refund Invoice']" position="replace">
-                         <button name="%(account.action_account_invoice_refund)d" type="action" string="Refund Invoice" icon="gtk-execute" attrs="{'invisible':['|',('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"/> 
+                         <button name="%(account.action_account_invoice_refund)d" type="action" string="Refund Invoice" attrs="{'invisible':['|',('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"/> 
                             
                 </xpath>
             </field>
@@ -82,10 +76,11 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="parent_id"/>
+                    <field name="parent_id" string="Invoice Related"/>
                 </xpath>
             </field>
         </record>
+
     <!-- 
     =====================================================
     Invoices Extension SUPPLIER
@@ -99,14 +94,21 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_invoice']" position="replace">
-                    <group colspan="6" cols="2">
-                        <field name="date_invoice"/>
-                        <label align="0.0" string="(keep empty to use the current date, this will be date used in accounting and Fiscal moves)"/>
-                   </group>
-                    <newline/>
-                    <group colspan="6" cols="2">
-                        <field name="date_document"/>
-                        <label align="0.0" string="(Put here the date when Purchase Invoice was generated for the supplier)"/>
+                    <group colspan="4" cols="2">
+                    <group colspan="1" cols="1">
+                        <label for="date_invoice" />
+                        <newline/>
+                        <field name="date_invoice" nolabel="1"/>
+                        <newline/>
+                        <label string="(keep empty to use the current date, this will be date used in accounting and Fiscal moves)"/>
+                    </group>
+                    <group colspan="1" cols="1">
+                        <label for="date_document"/>
+                        <newline/>
+                        <field name="date_document" nolabel="1"/>
+                        <newline/>
+                        <label string="(Put here the date when Purchase Invoice was generated for the supplier)"/>
+                    </group>
                     </group>
                    <newline/>
                 </xpath>
@@ -116,21 +118,17 @@
                         <field name="sin_cred"/>
                         <field name="parent_id" attrs="{'invisible':[('parent_id','=',False)]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field name="nro_ctrl" required="1"/>
-                        <button name="%(action_wiz_nroctrl)d" type="action" string="Change control number" icon="gtk-execute" colspan="6"/>
+                        <button name="%(action_wiz_nroctrl)d" type="action"
+                            string="Change control number" colspan="6"
+                            help="One time you print the invoice you must set the control number pre-printed in the paper, this is the button."/>
                     </group>
                 </xpath>
 
                 <xpath expr="//button[@string='Ask Refund']" position="replace">
-                    <button name="%(account.action_account_invoice_refund)d" type="action" string="Refund Invoice" states="open,paid" icon="gtk-execute"/>
+                    <button name="%(account.action_account_invoice_refund)d" type="action"
+                        string="Refund Invoice" states="open,paid"
+                        help="Create an Refund to pay this invoice, remember validate it this wizard only will relate both invoices."/>
                 </xpath>
-
-
-<!--
-                <xpath expr="//field[@name='supplier_invoice_number']" position="after">
-                    <field name="address_invoice_id"  domain="[('partner_id','=',partner_id), ('type','=','invoice')]"/>
-                </xpath>
--->
-                
                 <xpath expr="//page[@string='Payments']" position="after">
                     <page string="Debit-Credit Notes" attrs="{'invisible':['|','|',('type','=','in_refund'),('type','=','out_refund'),('parent_id','!=',False)]}">
                         <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['in_invoice', 'in_refund'])]"/>
@@ -138,10 +136,12 @@
                 </xpath>
                 
                 <xpath expr="//button[@string='Refund Invoice']" position="after">
-                    <button name="%(action_account_invoice_debit)d" type="action" string="Debit Note" icon="gtk-execute" attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"/>
+                    <button name="%(action_account_invoice_debit)d" type="action"
+                        string="Debit Note" attrs="{'invisible':['|',('state','in',['proforma2','proforma','cancel', 'draft']),('type','in',['out_refund', 'in_refund'])]}"
+                        help="A debit note from accounting and fiscal point of view is exactly as an invoice but with a parent invoice related, this module create an invoice automatically with this invoice as parent, remember Debit note will increase the payable and receivable exactly as an invoice."/>
                 </xpath>
                 <xpath expr="//button[@string='Refund Invoice']" position="after">
-                    <button name="%(action_account_invoice_parent)d" type="action" string="Parent Invoice" states="open,paid" icon="gtk-execute" attrs="{'invisible':[('type','!=','in_refund')]}"/>
+                    <button name="%(action_account_invoice_parent)d" type="action" string="Parent Invoice" states="open,paid" attrs="{'invisible':[('type','!=','in_refund')]}" help="If you want re-asign a parent invoice and avoid do this repeating all the process this is the button to do that, reasing securely a parent invoice to a debit note or a credit note."/>
                 </xpath>
 
             </field>
@@ -183,8 +183,6 @@
             <field name="view_id" ref="account.invoice_form"/>
             <field name="act_window_id" ref="action_sale_debit_tree"/>
         </record>
-
-
 
         <menuitem action="action_sale_debit_tree" id="menu_action_sale_debit_tree" parent="account.menu_finance_receivables"/>
 

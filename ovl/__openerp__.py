@@ -30,6 +30,7 @@
                  "l10n_ve_withholding_islr" ,
                  "l10n_ve_withholding_muni",
                  "l10n_ve_withholding_src",
+                 "document",
                  #TODO: Uncomment when Fiscal Book Module becomes ready
                  #"l10n_ve_fiscal_book",
 

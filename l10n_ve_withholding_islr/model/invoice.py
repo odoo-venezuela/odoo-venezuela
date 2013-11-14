@@ -174,13 +174,14 @@ class account_invoice(osv.osv):
         wh_ret_code = wh_doc_obj.retencion_seq_get(cr, uid)
 
         if wh_ret_code:
+            journal = wh_doc_obj._get_journal(cr, uid, context=context)
             islr_wh_doc_id = wh_doc_obj.create(cr, uid,
                                                {'name': wh_ret_code,
                                                 'partner_id': row.partner_id.id,
                                                 'period_id': row.period_id.id,
                                                 'account_id': row.account_id.id,
                                                 'type': row.type,
-                                                'journal_id': wh_doc_obj._get_journal(cr, uid, context=context), })
+                                                'journal_id': journal, })
             self._create_doc_invoices(cr, uid, row.id, islr_wh_doc_id)
 
             self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid,
