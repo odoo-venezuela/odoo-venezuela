@@ -725,6 +725,7 @@ class account_wh_iva(osv.osv):
         fortnight_str = {'True': ' - Second Fortnight)',
                         'False': ' - First Fortnight)'}
         for awi_brw in self.browse(cr, uid, ids, context=context):
+            if not awi_brw.wh_lines: return False
             if awi_brw.type in ['out_invoice']: return True
             for awil_brw in awi_brw.wh_lines:
                 awil_period_id, awil_fortnight = per_obj.find_fortnight(
