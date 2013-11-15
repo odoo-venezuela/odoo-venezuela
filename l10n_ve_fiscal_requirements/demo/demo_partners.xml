@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
+        <!-- Due to the need of country in main_partner to validate the WithHolding. We change the 
+             Country of its invoice address and VAT due to the mandatory VAT number for partners 
+             in VE.
+        -->
+        <record id="base.main_partner" model="res.partner">
+            <field name="country_id" ref="base.ve"/>
+            <field name="vat">VEV123456789</field>
+        </record>
         <!--BEGIN PARTNERS -->
         <record id="f_req_partner_1" model="res.partner">
             <field name="name">Comercializadora M321, C.A.</field>
@@ -111,15 +119,35 @@
             <field name="parent_id" ref="f_req_partner_2"/>
             <field name="zip">1090</field>
         </record>
-        <!-- Test a contact in a country with one invoice address different to the main company -->
+        <!-- I will add contacts to Vauxoo, due to they are from Venezuela, the vat is mandatory. 
+             -->
+        <record id="base.res_partner_23" model="res.partner">
+            <field name="vat">VEJ317520882</field>
+        </record>
+        <!-- Test a contact in a country with one invoice address different to the main company 
+             Forced to have a vat just to pass TODO: remove vat when the contraint s fixed.     
+        -->
         <record id="f_req_partner_10" model="res.partner">
             <field name="name">Jose Morales Ponce</field>
-            <field name="vat">VEV194076726</field>
+            <field name="vat">VEV014753764</field>
             <field name="supplier">True</field>
             <field name="customer">True</field>
             <field name="type">invoice</field>
             <field name="street">Calle La Matica con Avenida Los Arbustos, Qta El Bosque</field>
             <field name="street2">Urb. Lomas de la Lagunita</field>
+            <field name="parent_id" ref="base.res_partner_23"/>
+            <field name="country_id" ref="base.ve"/>
+            <field name="zip">1132</field>
+        </record>
+        <!-- Test a contact in a country with one contact address different to the main company -->
+        <record id="f_req_partner_10" model="res.partner">
+            <field name="name">Humberto Jose Arocha</field>
+            <field name="vat">VEV149253153</field>
+            <field name="supplier">False</field>
+            <field name="customer">True</field>
+            <field name="type">contact</field>
+            <field name="street">Calle la mata de mango</field>
+            <field name="street2">Calabozo</field>
             <field name="parent_id" ref="base.res_partner_23"/>
             <field name="country_id" ref="base.ve"/>
             <field name="zip">1132</field>
