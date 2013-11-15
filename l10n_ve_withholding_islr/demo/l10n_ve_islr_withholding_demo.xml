@@ -92,30 +92,24 @@
         -->
         <!--
         Invoices Suppliers:
-        Testing invoice without product_id and a withholding concept.
+        Testing invoice without product_id and a withholding concept with an amount superior 
+        to the minimal to be computed.
         -->
 
         <record id="account_invoice_0" model="account.invoice">
-            <field eval="700000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-786347</field>
-            <field eval="0" name="sin_cred"/>
-            <field name="user_id" ref="base.user_demo"/>
             <field name="supplier_invoice_number">libre-0003873</field>
-            <field name="reference_type">none</field>
             <field name="company_id" ref="base.main_company"/>
-            <field name="state">draft</field>
             <field name="type">in_invoice</field>
             <field name="status">no_pro</field>
             <field name="account_id" ref="account.a_pay"/>
-            <field eval="0" name="reconciled"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_1"/>
-
         </record>
         
         <record id="account_invoice_line_facturapersonajuridicadomiciliada0" model="account.invoice.line">
-            <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
+            <field name="account_id" ref="account.a_expense"/>
             <field name="invoice_id" ref="account_invoice_0"/>
             <field eval="350000.0" name="price_unit"/>
             <field name="company_id" ref="base.main_company"/>
@@ -123,14 +117,13 @@
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles"/>
             <field name="name">Factura 1. Persona Juridica Domiciliada</field>
         </record>
-        
+
         <!--
         <record id="account_invoice_2" model="account.invoice">
             <field eval="1180000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-65323</field>
-            <field eval="0" name="sin_cred"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="supplier_invoice_number">libre-003873</field>
             <field name="reference_type">none</field>
