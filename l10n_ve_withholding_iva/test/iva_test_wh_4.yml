@@ -16,11 +16,15 @@
     account_id: account.a_recv
     name: 'IVA wh vat customer Vauxoo test 3'
     type: out_invoice
+    state: draft
 -
   12.3 I check withholding vat customer
 -
-  !assert {model: account.wh.iva, id: wh_iva_test04, string: Wh was not saved}:
-    - state == 'draft'
+  !python {model: account.wh.iva}: |
+    self.write(cr,uid,ref('wh_iva_test04'),{'type':'out_invoice'})
+    awi_brw = self.browse(cr,uid,ref('wh_iva_test04'))
+    assert awi_brw.type == 'out_invoice', "Not the intended type. It should be 'out_invoice' not '%s'"%awi_brw.type
+    assert awi_brw.state == 'draft', "Not the intended state. It should be 'draft' not '%s'"%awi_brw.state
 -
   12.4 Before validating let's add the period
 -

@@ -26,13 +26,14 @@
 -
   2.4 I create a purchase invoice
 -
-  !record {model: account.invoice, id: test_purchase_iva02}:
-    type: out_invoice
+  !record {model: account.invoice, id: test_purchase_iva02, view: account.invoice_supplier_form, context:{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}}:
+    type: in_invoice
+    state: draft
     company_id: base.main_company
     date_invoice: !eval time.strftime('%Y-%m-%d')
     partner_id: base.res_partner_23
     reference_type: none
-    journal_id: account.sales_journal
+    journal_id: 
     wh_iva: True
     invoice_line:
       - product_id: product.product_product_3
@@ -50,10 +51,19 @@
         invoice_line_tax_id:
         - l10n_ve_fiscal_requirements.iva_purchase1
 -
-  2.5 I check that Initially customer invoice is in the "Draft" state
+  2.5 I check that Initially supplier invoice is in the "Draft" state
 -
-  !assert {model: account.invoice, id: test_purchase_iva02}:
-    - state == 'draft'
+  !python {model: account.invoice}: |
+    ap_obj=self.pool.get('account.period')
+    import time
+    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
+    assert period, 'There aren\'t periods for this date'
+    ap_obj.write(cr, uid, period, {'special':False})
+    self.write(cr,uid,ref('test_purchase_iva02'),{'journal_id':ref('account.expenses_journal'),'type':'in_invoice'})
+    ai_brw = self.browse(cr,uid,ref('test_purchase_iva02'))
+    assert ai_brw.type == 'in_invoice', "Not the intended type. It should be 'in_invoice' not '%s'"%ai_brw.type
+    assert ai_brw.state == 'draft', "Not the intended state. It should be 'draft' not '%s'"%ai_brw.state
+    assert ai_brw.journal_id.id == ref('account.expenses_journal'), "Not the intended Journal. It should be 'Expenses Journal - (test)' not '%s'"%ai_brw.journal_id.name
 -
   2.6 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
@@ -76,6 +86,7 @@
   2.10 Set control number for the invoice
 -
   !python {model: account.invoice}: |
-    self.write(cr, uid, [ref("test_purchase_iva02")], {'nro_ctrl':'iva002', 'journal_id':ref("account.expenses_journal")})
+    self.write(cr, uid, [ref("test_purchase_iva02")], {'nro_ctrl':'iva002'})
     ai_brw = self.browse(cr, uid, ref("test_purchase_iva02"))
-    assert ai_brw.nro_ctrl=='iva002' and ai_brw.journal_id.id == ref("account.expenses_journal"), 'Invoice wasn\'t updated properly'
+    assert ai_brw.nro_ctrl=='iva002', "Not the intended Control Number. It should be 'iva002' not '%s'"%ai_brw.nro_ctrl
+    assert ai_brw.journal_id.id == ref('account.expenses_journal'), "Not the intended Journal. It should be 'Expenses Journal - (test)' not '%s'"%ai_brw.journal_id.name
