@@ -92,25 +92,49 @@
         -->
         <!--
         Invoices Suppliers:
-        Testing invoice without product_id and a withholding concept with an amount superior 
+        Testing invoice without product_id and a withholding concept with an amount higher 
         to the minimal to be computed.
         -->
 
-        <record id="account_invoice_0" model="account.invoice">
+        <record id="demo_islr_invoice_0" model="account.invoice">
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="nro_ctrl">00-786347</field>
             <field name="supplier_invoice_number">libre-0003873</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="type">in_invoice</field>
-            <field name="status">no_pro</field>
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_1"/>
         </record>
         
-        <record id="account_invoice_line_facturapersonajuridicadomiciliada0" model="account.invoice.line">
+        <record id="account_invoice_line_0" model="account.invoice.line">
             <field name="account_id" ref="account.a_expense"/>
-            <field name="invoice_id" ref="account_invoice_0"/>
+            <field name="invoice_id" ref="demo_islr_invoice_0"/>
             <field eval="350000.0" name="price_unit"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles"/>
+            <field name="name">Factura 1. Persona Juridica Domiciliada</field>
+        </record>
+        <!--
+        Invoices Suppliers:
+        Testing invoice without product_id and a withholding concept with an amount lower 
+        to the minimal to be computed.
+        -->
+
+        <record id="demo_islr_invoice_1" model="account.invoice">
+            <field name="journal_id" ref="account.expenses_journal"/>
+            <field name="nro_ctrl">00-786348</field>
+            <field name="supplier_invoice_number">libre-0003874</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">in_invoice</field>
+            <field name="account_id" ref="account.a_pay"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_1"/>
+        </record>
+        
+        <record id="account_invoice_line_1" model="account.invoice.line">
+            <field name="account_id" ref="account.a_expense"/>
+            <field name="invoice_id" ref="demo_islr_invoice_1"/>
+            <field eval="100.0" name="price_unit"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles"/>
