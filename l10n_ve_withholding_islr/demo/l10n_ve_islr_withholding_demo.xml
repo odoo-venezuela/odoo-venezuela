@@ -120,7 +120,6 @@
         Testing invoice without product_id and a withholding concept with an amount lower 
         to the minimal to be computed.
         -->
-
         <record id="demo_islr_invoice_1" model="account.invoice">
             <field name="journal_id" ref="account.expenses_journal"/>
             <field name="nro_ctrl">00-786348</field>
@@ -141,6 +140,55 @@
             <field name="name">Testing "Lower to minimal amount in concepts"</field>
         </record>
 
+        <!--
+        Invoices Suppliers:
+        Testing invoice without product_id and a withholding concept with an amount lower 
+        to the minimal without compute by UT to be computed with a concept with only 1 criteria for whi
+        it should return an WH income with 0.
+        -->
+        <record id="demo_islr_invoice_2" model="account.invoice">
+            <field name="journal_id" ref="account.expenses_journal"/>
+            <field name="nro_ctrl">00-786349</field>
+            <field name="supplier_invoice_number">libre-0003879</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">in_invoice</field>
+            <field name="account_id" ref="account.a_pay"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
+        </record>
+        
+        <record id="account_invoice_line_2" model="account.invoice.line">
+            <field name="account_id" ref="account.a_expense"/>
+            <field name="invoice_id" ref="demo_islr_invoice_2"/>
+            <field eval="100.0" name="price_unit"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas"/>
+            <field name="name">Testing "Lower to 83.33 minimal amount in UT."</field>
+        </record>
+        <!--
+        Invoices Suppliers:
+        Same as base case, but the partner is a contact not a partner the withholding should be
+        done and compared with the commercial entity
+        -->
+        <record id="demo_islr_invoice_3" model="account.invoice">
+            <field name="journal_id" ref="account.expenses_journal"/>
+            <field name="nro_ctrl">00-786350</field>
+            <field name="supplier_invoice_number">libre-0003880</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">in_invoice</field>
+            <field name="account_id" ref="account.a_pay"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_9"/>
+        </record>
+        
+        <record id="account_invoice_line_3" model="account.invoice.line">
+            <field name="account_id" ref="account.a_expense"/>
+            <field name="invoice_id" ref="demo_islr_invoice_3"/>
+            <field eval="100.0" name="price_unit"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="2.0" name="quantity"/>
+            <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas"/>
+            <field name="name">Testing "Lower to 83.33 minimal amount in UT."</field>
+        </record>
         <!--
         <record id="account_invoice_2" model="account.invoice">
             <field eval="1180000.0" name="check_total"/>
