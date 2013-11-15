@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-12 19:17+0000\n"
-"PO-Revision-Date: 2013-11-13 04:46+0000\n"
+"PO-Revision-Date: 2013-11-13 05:49+0000\n"
 "Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
 "<humbertoarocha@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
+"X-Launchpad-Export-Date: 2013-11-14 05:43+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #. module: l10n_ve_withholding_iva
@@ -1327,7 +1327,7 @@ msgstr "Otra información"
 #. module: l10n_ve_withholding_iva
 #: help:txt.iva,name:0
 msgid "Description about statement of withholding income"
-msgstr ""
+msgstr "Descripción sobre la declaración de Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
@@ -1665,4 +1665,4 @@ msgstr ""
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
 msgid "No. Nota Débito"
-msgstr ""
+msgstr "No. Nota Débito"
