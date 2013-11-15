@@ -113,7 +113,7 @@
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles"/>
-            <field name="name">Factura 1. Persona Juridica Domiciliada</field>
+            <field name="name">Testing "Higher to minimal amount in concepts"</field>
         </record>
         <!--
         Invoices Suppliers:
@@ -128,7 +128,7 @@
             <field name="company_id" ref="base.main_company"/>
             <field name="type">in_invoice</field>
             <field name="account_id" ref="account.a_pay"/>
-            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_1"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
         </record>
         
         <record id="account_invoice_line_1" model="account.invoice.line">
@@ -138,7 +138,7 @@
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles"/>
-            <field name="name">Factura 1. Persona Juridica Domiciliada</field>
+            <field name="name">Testing "Lower to minimal amount in concepts"</field>
         </record>
 
         <!--
