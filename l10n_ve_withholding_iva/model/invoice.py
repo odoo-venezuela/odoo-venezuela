@@ -115,35 +115,6 @@ class account_invoice(osv.osv):
         'vat_apply':fields.boolean('Exclude this document from VAT Withholding', help="This selection indicates whether generate the invoice withholding document")
     }
 
-
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
-            date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
-        """ Return withholding iva rate of the partner and other data
-        @param type: Invoice type
-        @param partner_id: Partner id of the invoice
-        @param date_invoice: Date invoice
-        @param payment_term: Payment terms
-        @param partner_bank_id: Partner bank id of the invoice
-        @param company_id: Company id
-        """
-        data = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id,
-            date_invoice, payment_term, partner_bank_id, company_id)
-        if partner_id:
-            part = self.pool.get('res.partner').browse(cr, uid, partner_id)
-            data[data.keys()[0]]['wh_iva_rate'] =  part.wh_iva_rate
-        return data
-
-
-    def create(self, cr, uid, vals, context={}):
-        """ To the create an invoice is saved the withholding iva rate of the partner
-        """
-        context = context or {}
-        partner_id = vals.get('partner_id',False)
-        if partner_id:
-            partner = self.pool.get('res.partner').browse(cr, uid,partner_id)
-            vals['wh_iva_rate'] = partner.wh_iva_rate
-        return super(account_invoice, self).create(cr, uid, vals, context)
-
     def copy(self, cr, uid, id, default=None, context=None):
         """ Initialized fields to the copy a register
         """
