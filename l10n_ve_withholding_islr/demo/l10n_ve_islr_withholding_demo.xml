@@ -88,172 +88,11 @@
         </record>
 
         <!--
-        Supplier Partners
-         -->
-
-        <record id="res_partner_administradoramengimca0" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="supplier"/>
-            <field eval="&quot;&quot;&quot;VEJ307545653&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="customer"/>
-            <field eval="&quot;&quot;&quot;ADMINISTRADORA MAMITA, C.A.&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-        </record>
-
-        <record id="res_partner_gutierrezrrohgere0" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV CUCHILLITO EDF SAN JUAN PISO 10. GUARENAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-888.09.11&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-999.18.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;eli@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;256&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="supplier"/>
-            <field eval="&quot;&quot;&quot;VEV024532053&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="customer"/>
-            <field eval="&quot;&quot;&quot;GUTIERREZ R. ROHGER E.&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-        </record>
-
-        <record id="res_partner_nhomarhernandez0" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV SAN JUAN EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-555.09.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-777.18.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;J000004500&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="supplier"/>
-            <field eval="&quot;&quot;&quot;VEV147714443&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="customer"/>
-            <field eval="&quot;&quot;&quot;NHOMAR HERNANDEZ&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-        </record>
-
-        <record id="res_partner_viajesmirandaca0" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;J000004960&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="supplier"/>
-            <field eval="&quot;&quot;&quot;VEJ044004960&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="customer"/>
-            <field eval="&quot;&quot;&quot;VIAJES MIRANDA, C.A.&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-        </record>
-
-        <!--
-        Customer Partner
-        -->
-        
-        <record id="res_partner_1" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV SAN JUAN CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-299.09.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-268.18.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;elpapiruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;86&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="customer"/>
-            <field eval="&quot;&quot;&quot;VEJ307514153&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="supplier"/>
-            <field eval="&quot;&quot;&quot;PERCHO, C.A.&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-            <field eval="1" name="islr_withholding_agent"/>
-        </record>
-
-        <record id="res_partner_2" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;256&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="customer"/>
-            <field eval="&quot;&quot;&quot;VEV029785053&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="supplier"/>
-            <field eval="&quot;&quot;&quot;MIGUEL P PEREZ L.&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-            <field eval="1" name="islr_withholding_agent"/>
-        </record>
-
-        <record id="res_partner_3" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV MARIA EDF SAN PEDRO DE LA CASA PISO 90. MARACAIBO&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-111.19.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-222.28.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;ruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;J000004500&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="customer"/>
-            <field eval="&quot;&quot;&quot;VEJ124804443&quot;&quot;&quot;" name="vat"/>
-            <field eval="1" name="supplier"/>
-            <field eval="&quot;&quot;&quot;JAVIER HERNANDEZ&quot;&quot;&quot;" name="name"/>
-            <field eval="1" name="islr_withholding_agent"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-            <field eval="1" name="islr_withholding_agent"/>
-        </record>
-
-        <record id="res_partner_4" model="res.partner">
-            <field eval="0" name="islr_withholding_agent"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;AV LECUNA CON 2DA TRANSVERSAL DEL CUCHILLITO EDF SAN JUAN PISO 10. CARACAS&quot;&quot;&quot;" name="street"/>
-            <field name="country_id" ref="base.VEF"/>
-            <field eval="&quot;&quot;&quot;invoice&quot;&quot;&quot;" name="type"/>
-            <field eval="&quot;&quot;&quot;0212-111.09.01&quot;&quot;&quot;" name="fax"/>
-            <field eval="&quot;&quot;&quot;0212-111.18.31&quot;&quot;&quot;" name="phone"/>
-            <field eval="1" name="active"/>
-            <field eval="&quot;&quot;&quot;elpapiruqui@cantv.net&quot;&quot;&quot;" name="email"/>
-            <field eval="&quot;&quot;&quot;J000004960&quot;&quot;&quot;" name="ref"/>
-            <field eval="1" name="customer"/>
-            <field eval="&quot;&quot;&quot;VEV056024160&quot;&quot;&quot;" name="vat"/>
-            <field eval="0" name="supplier"/>
-            <field eval="&quot;&quot;&quot;MIRANDA MIRANDA, C.A.&quot;&quot;&quot;" name="name"/>
-            <field name="property_account_receivable" ref="account.a_recv"/>
-            <field name="property_account_payable" ref="account.a_pay"/>
-            <field eval="1" name="islr_withholding_agent"/>
-        </record>
-
-        <!--
         Invoices Suppliers
+        -->
+        <!--
+        Invoices Suppliers:
+        Testing invoice without product_id and a withholding concept.
         -->
 
         <record id="account_invoice_0" model="account.invoice">
@@ -271,25 +110,21 @@
             <field name="status">no_pro</field>
             <field name="account_id" ref="account.a_pay"/>
             <field eval="0" name="reconciled"/>
-            <field eval="700000.0" name="amount_untaxed"/>
-            <field eval="700000.0" name="amount_total"/>
-            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_administradoramengimca0"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_1"/>
+
         </record>
         
         <record id="account_invoice_line_facturapersonajuridicadomiciliada0" model="account.invoice.line">
-            <field eval="0" name="apply_wh"/>
             <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
             <field name="invoice_id" ref="account_invoice_0"/>
             <field eval="350000.0" name="price_unit"/>
-            <field eval="700000.0" name="price_subtotal"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="2.0" name="quantity"/>
-            <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_administradoramengimca0"/>
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles"/>
             <field name="name">Factura 1. Persona Juridica Domiciliada</field>
         </record>
         
-
+        <!--
         <record id="account_invoice_2" model="account.invoice">
             <field eval="1180000.0" name="check_total"/>
             <field name="journal_id" ref="account.expenses_journal"/>
@@ -510,7 +345,7 @@
             <field name="name">Factura 1 Customer. Persona Natural Residenciada</field>
         </record>
 
-
+-->
 
 
     </data>
