@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <!--
+        Invoices Suppliers:
+        Just ensuring in fiscal requirement the creation of an invoice in possible.
+        TODO: generate an Debit Note from this invoice.
+        -->
+        <record id="demo_fr_invoice_2" model="account.invoice">
+            <field name="journal_id" ref="account.expenses_journal"/>
+            <field name="nro_ctrl">00-786000</field>
+            <field name="supplier_invoice_number">libre-0003879</field>
+            <field name="type">in_invoice</field>
+            <field name="account_id" ref="account.a_pay"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
+        </record>
+        
+        <record id="account_invoice_line_2" model="account.invoice.line">
+            <field name="account_id" ref="account.a_expense"/>
+            <field name="invoice_id" ref="demo_fr_invoice_2"/>
+            <field eval="20.0" name="price_unit"/>
+            <field eval="1.0" name="quantity"/>
+            <field name="name">Testing an invoice is fine with only with fiscal_requerement this module.</field>
+        </record>
+        <!--
+        Invoices Customer:
+        Just ensuring in fiscal requirement the creation of an invoice in possible.
+        TODO: generate an Debit Note from this invoice.
+        TODO: Note this invoice should be used to assign nro-ctrl post validated the invoice.
+        -->
+        <record id="demo_fr_invoice_3" model="account.invoice">
+            <field name="journal_id" ref="account.sale_journal"/>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_rec"/>
+            <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
+        </record>
+        
+        <record id="account_invoice_line_2" model="account.invoice.line">
+            <field name="account_id" ref="account.a_income"/>
+            <field name="invoice_id" ref="demo_fr_invoice_3"/>
+            <field eval="30.0" name="price_unit"/>
+            <field eval="1.0" name="quantity"/>
+            <field name="name">Testing an invoice is fine with only fiscal_requirement module.</field>
+    </data>
+</openerp>
