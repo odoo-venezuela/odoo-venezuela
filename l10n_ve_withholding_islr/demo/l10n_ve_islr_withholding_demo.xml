@@ -98,7 +98,6 @@
 
         <record id="account_invoice_0" model="account.invoice">
             <field name="journal_id" ref="account.expenses_journal"/>
-            <field name="currency_id" ref="base.VEF"/>
             <field name="nro_ctrl">00-786347</field>
             <field name="supplier_invoice_number">libre-0003873</field>
             <field name="company_id" ref="base.main_company"/>
