@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences for account.wh.iva --> 
+
+        <record id="seq_account_wh_iva" model="ir.sequence">
+            <field name="name">Vat Withholding</field>
+            <field name="code">account.wh.iva</field>
+            <field name="prefix">RET:</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_account_wh_iva_purchase" model="ir.sequence">
+            <field name="name">Purchase Vat Withholding</field>
+            <field name="code">account.wh.iva.in_invoice</field>
+            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record forcecreate="1" id="purchase_wh_iva_journal" model="account.journal">
+            <field name="name">Purchase WH VAT Journal</field>
+            <field name="code">PWVAT</field>
+            <field name="type">iva_purchase</field>
+        </record>
+
+        <record forcecreate="1" id="sale_wh_iva_journal" model="account.journal">
+            <field name="name">Sale WH VAT Journal</field>
+            <field name="code">SWVAT</field>
+            <field name="type">iva_sale</field>
+        </record>
+
+    </data>
+</openerp>
