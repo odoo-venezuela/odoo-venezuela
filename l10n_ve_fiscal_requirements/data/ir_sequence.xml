@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>                                                                       
+    <data noupdate="1"> 
+        <!--
+            Sequence type to tag sequences for Debit Notes It is in _data_ because no end user
+            configure correctly this information.  And it is done only one time     
+        -->
+        <record id="seq_debit_purchase_type" model="ir.sequence.type">
+            <field name="name">Nota Debito Compra</field>                 
+            <field name="code">account.journal.debit.purchase</field>            
+        </record>     
+
+        <record id="seq_debit_sale_type" model="ir.sequence.type">
+            <field name="name">Nota Debito Venta</field>                 
+            <field name="code">account.journal.debit.sale</field>            
+        </record>     
+    </data>                                                                     
+</openerp>

@@ -24,28 +24,28 @@
 ################################################################################
 {
     "name" : "Venezuelan Fiscal Requirements",
-    "version" : "0.2",
+    "version" : "1.0",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
-    "category": 'Generic Modules/Accounting',
+    "category": 'Localization',
     "description": """
- - Invoice Control Number.
- - Tax*except concept, necesary rule by Venezuelan Laws.
- - Required address invoice.
- - Unique billing address (invoice), necesary rule by Venezuelan Laws.
- - VAT verification for Venezuela rules.
- - If you have internet conexion you will be able of update your partner information from SENIAT Automatically on install wizard.
- - Damaged "Legal free forms" declaration.
- - Tax Units configuration.
- - When a partner is updated by using the SENIAT Update Button, its name changes to readonly to avoid manual changes.
- - Add field Parent in the invoice of customers and suppliers, for link the invoice  that generated debit or credit note.
+- Invoice Control Number.
+- Tax*except concept, necesary rule by Venezuelan Laws.
+- Required address invoice.
+- Unique billing address (invoice), necesary rule by Venezuelan Laws.
+- VAT verification for Venezuela rules.
+- If you have internet conexion you will be able of update your partner information from SENIAT Automatically on install wizard.
+- Damaged "Legal free forms" declaration.
+- Tax Units configuration.
+- When a partner is updated by using the SENIAT Update Button, its name changes to readonly to avoid manual changes.
+- Add field Parent in the invoice of customers and suppliers, for link the invoice  that generated debit or credit note.
 
-  -  Add wizard for generate debit note from invoice and done accounting entry.
-  -  Add wizard to assign, modify or unlink source invoice (parent invoice) to another one.
-  -  Automatically unreconciles paid invoices when making a refund of type modify or cancel.
-  -  Validate automatically the withholding of debit notes.
-  -  Add a field on taxes configuration form for indicating the type of tax according to venezuelan laws
-  
+    -  Add wizard for generate debit note from invoice and done accounting entry.
+    -  Add wizard to assign, modify or unlink source invoice (parent invoice) to another one.
+    -  Automatically unreconciles paid invoices when making a refund of type modify or cancel.
+    -  Validate automatically the withholding of debit notes.
+    -  Add a field on taxes configuration form for indicating the type of tax according to venezuelan laws
+
 For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
 create the corresponding journal and account.
 TODO : Include this on wizard configuration.
@@ -58,16 +58,17 @@ This module should also install a menu item under the accounting configuration m
 
 We now have a configuration wizard after this module install.
 """,
-    'init_xml': [
-        'data/l10n_ut_data.xml',
-        'data/seniat_url_data.xml',
-    ],
-    "depends" : ["account", 
+    "depends" : [
+                 "account", 
                  "base_vat",
                  "account_accountant",
                  "account_voucher",
-                 "account_cancel"],
-    'update_xml': [
+                 "account_cancel"
+                 ],
+    'data': [
+        'data/l10n_ut_data.xml',
+        'data/seniat_url_data.xml',
+        'data/ir_sequence.xml',
         'security/security_view.xml',
         'security/ir.model.access.csv',
         'view/fr_view.xml',
@@ -86,24 +87,23 @@ We now have a configuration wizard after this module install.
         'view/account_tax_view.xml',
         'view/account_invoice_view.xml',
     ],
-    'demo_xml': [
+    'demo': [
         'demo/demo_partners.xml',
         'demo/journal_demo.xml',
+        'demo/demo_invoice.xml',
     ],
     'test': [
-#        'test/control_number.yml',
-#        'test/fr_sale_test.yml',
-#        'test/fr_purchase_test.yml',
-#        'test/fr_tax_except.yml',
-#        'test/fr_address.yml',
-#        'test/fr_vat_test.yml',
-#        'test/fr_damaged.yml',
-#        'test/fr_debit_note.yml',
-#        'test/fr_refund_note.yml',
+        'test/control_number.yml',
+        'test/fr_sale_test.yml',
+        'test/fr_purchase_test.yml',
+        'test/fr_address.yml',
+        'test/fr_vat_test.yml',
+        'test/fr_damaged.yml',
+        'test/fr_debit_note.yml',
+        'test/fr_refund_note.yml',
       ],
     'installable': True,
     'active': False,
 }
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

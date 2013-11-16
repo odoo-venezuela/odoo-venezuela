@@ -96,7 +96,7 @@
       l = cr.sql_log
       cr.sql_log = logger.isEnabledFor(logging.OFF)
       self.action_invoice_create(cr, uid, [], None, inv_brw)
-      assert False, 'Should not create damaged paper if account is not configured for allow cancelations'
+      assert False, 'Should not create damaged paper if journal is not configured for allow cancelations'
     except Exception:
       part_id = False
       cr.rollback = rollback
@@ -104,10 +104,13 @@
     finally:
       cr.sql_log = l
 -
-  6.12 Update journal to allow cancelation
+  6.12 Update journals to allow cancelation
 -
   !python {model: account.journal}: |
-    self.write(cr, uid, [ref("account.sales_journal")], {'update_posted': True})
+    aj_ids = self.search(cr, uid, [('type', '=','sale')])
+    assert aj_ids, 'There are no Journals'
+
+    self.write(cr, uid, aj_ids, {'update_posted': True})
 -
   6.13 Verify that the journal was properly updated
 -
