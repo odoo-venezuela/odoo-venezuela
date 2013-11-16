@@ -65,9 +65,9 @@
         "workflow/wh_action_server.xml",        
     ],
     'demo': [
-                "demo/l10n_ve_withholding_iva_demo.xml",
-                "demo/l10n_ve_withholding_iva_sequences_demo.xml",
-                ],
+            "demo/l10n_ve_withholding_iva_sequences_demo.xml",
+            "demo/l10n_ve_withholding_iva_demo.xml",
+            ],
 
     'test': [
 #            'test/iva_purchase.yml',
