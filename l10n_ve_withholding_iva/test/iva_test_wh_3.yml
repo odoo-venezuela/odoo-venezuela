@@ -16,11 +16,15 @@
     account_id: account.a_recv
     name: 'IVA wh vat customer Vauxoo test 3'
     type: out_invoice
+    state: draft
 -
   11.3 I check withholding vat customer
 -
-  !assert {model: account.wh.iva, id: wh_iva_test03, string: Wh was not saved}:
-    - state == 'draft'
+  !python {model: account.wh.iva}: |
+    self.write(cr,uid,ref('wh_iva_test03'),{'type':'out_invoice'})
+    awi_brw = self.browse(cr,uid,ref('wh_iva_test03'))
+    assert awi_brw.type == 'out_invoice', "Not the intended type. It should be 'out_invoice' not '%s'"%awi_brw.type
+    assert awi_brw.state == 'draft', "Not the intended state. It should be 'draft' not '%s'"%awi_brw.state
 -
   11.4 Before validating let's add the period
 -
@@ -43,8 +47,9 @@
   11.7 I check withholding vat is not confirmed
   # TODO: Check this test case, it fails. It means that something in the wh_iva_confirmed action is wrong.
 -
-  !assert {model: account.wh.iva, id: wh_iva_test03, string: Could not confirm the wh}:
-    - state != 'confirmed'
+  !python {model: account.wh.iva}: |
+    awi_brw = self.browse(cr,uid,ref('wh_iva_test03'))
+    assert awi_brw.state == 'draft', "Not the intended state. It should be 'draft' not '%s'"%awi_brw.state
 -
   11.8 I try to mark it as done
 -
@@ -52,5 +57,6 @@
 -
   11.9 I check withholding vat is not done
 -
-  !assert {model: account.wh.iva, id: wh_iva_test01, string: Wh cannot be in done state}:
-    - state != 'done'
+  !python {model: account.wh.iva}: |
+    awi_brw = self.browse(cr,uid,ref('wh_iva_test03'))
+    assert awi_brw.state == 'draft', "Not the intended state. It should be 'draft' not '%s'"%awi_brw.state
