@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"POT-Creation-Date: 2013-11-14 17:06+0000\n"
 "PO-Revision-Date: 2013-11-12 21:59+0000\n"
 "Last-Translator: Francisco Lercari (Lertech) <franciscolercari@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-13 05:28+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-16 05:48+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #. module: l10n_ve_withholding_islr
 #: model:islr.wh.concept,name:l10n_ve_withholding_islr.islr_wh_concept_no_apply_withholding
@@ -75,13 +75,10 @@ msgid "NO INVOICE ADDRESS DEFINED"
 msgstr "Dirección Fiscal no definida"
 
 #. module: l10n_ve_withholding_islr
-#: model:ir.model,name:l10n_ve_withholding_islr.model_islr_rates
-#: view:islr.rates:0
-#: view:islr.wh.concept:0
-#: field:islr.wh.doc.line,islr_rates_id:0
-#: view:islr.xml.wh.line:0
-msgid "Rates"
-msgstr ""
+#: code:addons/l10n_ve_withholding_islr/model/product.py:65
+#, python-format
+msgid "Must create the concept of income withholding"
+msgstr "Debe crear el concepto de retención de ISLR"
 
 #. module: l10n_ve_withholding_islr
 #: help:islr.wh.doc.invoices,amount_islr_ret:0
@@ -109,7 +106,7 @@ msgstr ""
 "daños sufridos por los asegurados"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:587
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:592
 #, python-format
 msgid "The withholding document needs to be in cancel state to be deleted."
 msgstr ""
@@ -234,7 +231,7 @@ msgid "Description of the voucher line"
 msgstr "Descripción   de la línea comprobante"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:167
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:172
 #, python-format
 msgid ""
 "The Following Invoices Have not yet been withheld:\n"
@@ -287,10 +284,11 @@ msgstr ""
 "sueldos, salarios y demás remuneraciones similares"
 
 #. module: l10n_ve_withholding_islr
-#: report:islr.wh.doc:0
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:792
+#, python-format
 msgid ""
-"Según Artículo No. 24 de la Gaceta Oficial de la República Bolivariana de "
-"Venezuela No. 36203 del 125997"
+"Please fill the Invoice number to continue, without this number will be "
+"imposible form the system make the withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
@@ -369,7 +367,7 @@ msgid "Invoice to withhold"
 msgstr "Factura a retener"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:158
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:163
 #, python-format
 msgid "You need to Add Invoices to Withhold Income Taxes!!!"
 msgstr "¡¡¡Tiene que añadir Facturas para retener ISLR!!!"
@@ -435,6 +433,12 @@ msgid "withholding concepts of this withheld invoice"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:791
+#, python-format
+msgid "Error on Human Process"
+msgstr ""
+
+#. module: l10n_ve_withholding_islr
 #: view:islr.wh.doc:0
 msgid "Load taxes"
 msgstr "Cargar Impuestos"
@@ -488,7 +492,7 @@ msgid "Confirmed"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:170
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:175
 #, python-format
 msgid ""
 "\n"
@@ -533,7 +537,7 @@ msgid "Withhold Document"
 msgstr "Retener Documento"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:457
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:462
 #, python-format
 msgid "Warning !"
 msgstr ""
@@ -563,6 +567,17 @@ msgstr ""
 "documento expedido a sus clientes. OpenERP también puede generar el "
 "documento de retención automática de las facturas. Para la retención debe "
 "agregar las facturas, procesarlos y luego validar el documento."
+
+#. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:74
+#, python-format
+msgid ""
+"I couldn't find a journal to execute the Witholding ISLR\n"
+"                automatically, please create one in Accounting > "
+"Configuration > Journals, contact\n"
+"                to the account manager if you don't have access to this "
+"menu.!!!"
+msgstr ""
 
 #. module: l10n_ve_withholding_islr
 #: field:islr.wh.concept,name:0
@@ -618,7 +633,7 @@ msgstr ""
 "Enriquecimientos netos derivados de las primas de seguros y reaseguros"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:257
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:258
 #, python-format
 msgid "Error !"
 msgstr ""
@@ -643,7 +658,7 @@ msgid "XML withhold line id"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:907
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:917
 #, python-format
 msgid ""
 "Impossible income withholding, because the partner '%s' country has not been "
@@ -670,7 +685,7 @@ msgid "Withheld Amount"
 msgstr "Monto Retenido"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:315
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:316
 #, python-format
 msgid "%s - ISLR: %s"
 msgstr "%s - ISLR: %s"
@@ -686,15 +701,15 @@ msgid "Without Tax Amount Total"
 msgstr "Total sin monto de impuesto"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:171
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:176
 #, python-format
 msgid "Invoices with Missing Withheld Taxes!"
 msgstr "Facturas con los impuestos retenidos que faltan!"
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:194
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:870
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:907
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:195
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:880
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:917
 #: code:addons/l10n_ve_withholding_islr/model/product.py:65
 #, python-format
 msgid "Invalid action !"
@@ -741,8 +756,10 @@ msgid "Product Template"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: model:res.groups,name:l10n_ve_withholding_islr.group_account_wh_islr_manager
-msgid "Withholding ISLR / Manager"
+#: report:islr.wh.doc:0
+msgid ""
+"Según Artículo No. 24 de la Gaceta Oficial de la República Bolivariana de "
+"Venezuela No. 36203 del 125997"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
@@ -871,8 +888,8 @@ msgid "Search File XML"
 msgstr "Buscar archivos XML"
 
 #. module: l10n_ve_withholding_islr
-#: report:islr.wh.doc:0
-msgid "COMPROBANTE DE RETENCION DE IMPUESTO SOBRE LA RENTA"
+#: help:product.template,concept_id:0
+msgid "Concept Income Withholding to apply to the service"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
@@ -991,7 +1008,7 @@ msgid "Status"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:194
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:195
 #, python-format
 msgid "No se ha encontrado el numero de secuencia!"
 msgstr "¡No se ha encontrado el número de secuencia!"
@@ -1030,17 +1047,12 @@ msgstr ""
 "empresas de reaseguros por la prestación de los servicios que le son propios"
 
 #. module: l10n_ve_withholding_islr
-#: help:product.template,concept_id:0
-msgid "Concept Withholding Income to apply to the service"
-msgstr ""
-
-#. module: l10n_ve_withholding_islr
 #: view:islr.xml.wh.doc:0
 msgid "Lines Withholding for XML"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:302
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:303
 #, python-format
 msgid "Tax [%s] has missing account. Please, fill the missing fields"
 msgstr ""
@@ -1136,7 +1148,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:258
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:259
 #, python-format
 msgid ""
 "The Document you are trying to\n"
@@ -1335,6 +1347,11 @@ msgid "Check if the partner is an agent for income withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
+#: model:res.groups,name:l10n_ve_withholding_islr.group_account_wh_islr_manager
+msgid "Withholding ISLR / Manager"
+msgstr ""
+
+#. module: l10n_ve_withholding_islr
 #: view:islr.xml.wh.line:0
 msgid "Export in XML data"
 msgstr ""
@@ -1355,7 +1372,7 @@ msgid "Sale account withhold income"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/invoice.py:301
+#: code:addons/l10n_ve_withholding_islr/model/invoice.py:302
 #, python-format
 msgid "Missing Account in Tax!"
 msgstr ""
@@ -1422,7 +1439,7 @@ msgid "Minimum amount, from which it will determine whether you withholded"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:870
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:880
 #, python-format
 msgid ""
 "Impossible income withholding, because the partner '%s' has not vat "
@@ -1448,6 +1465,15 @@ msgstr ""
 #. module: l10n_ve_withholding_islr
 #: model:res.groups,name:l10n_ve_withholding_islr.group_account_wh_islr_user
 msgid "Withholding ISLR / User"
+msgstr ""
+
+#. module: l10n_ve_withholding_islr
+#: model:ir.model,name:l10n_ve_withholding_islr.model_islr_rates
+#: view:islr.rates:0
+#: view:islr.wh.concept:0
+#: field:islr.wh.doc.line,islr_rates_id:0
+#: view:islr.xml.wh.line:0
+msgid "Rates"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
@@ -1490,7 +1516,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:457
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:462
 #, python-format
 msgid "Not found a fiscal period to date: '%s' please check!"
 msgstr ""
@@ -1504,6 +1530,12 @@ msgstr ""
 #. module: l10n_ve_withholding_islr
 #: field:islr.rates,base:0
 msgid "Without Tax Amount"
+msgstr ""
+
+#. module: l10n_ve_withholding_islr
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:73
+#, python-format
+msgid "Configuration Incomplete."
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
@@ -1610,13 +1642,12 @@ msgid "Withheld invoice"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/product.py:65
-#, python-format
-msgid "Must create the concept of income withholding"
-msgstr "Debe crear el concepto de retención de ISLR"
+#: report:islr.wh.doc:0
+msgid "COMPROBANTE DE RETENCION DE IMPUESTO SOBRE LA RENTA"
+msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:157
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:162
 #, python-format
 msgid "Missing Invoices!!!"
 msgstr ""
@@ -1735,7 +1766,7 @@ msgid "Document Income Withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_islr
-#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:586
+#: code:addons/l10n_ve_withholding_islr/model/islr_wh_doc.py:591
 #, python-format
 msgid "Invalid Procedure!!"
 msgstr ""

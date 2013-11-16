@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-12 19:17+0000\n"
-"PO-Revision-Date: 2013-11-13 05:49+0000\n"
-"Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
-"<humbertoarocha@gmail.com>\n"
+"PO-Revision-Date: 2013-11-15 14:38+0000\n"
+"Last-Translator: Gabriela Quilarque (Vauxoo) <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-14 05:43+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-16 05:48+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #. module: l10n_ve_withholding_iva
 #: help:res.company,allow_vat_wh_outdated:0
@@ -808,6 +807,8 @@ msgstr "Cancelar"
 #: help:txt.iva,txt_ids:0
 msgid "Txt field lines of ar required by SENIAT for VAT withholding"
 msgstr ""
+"Lineas del archivo txt requeridas por el SENIAT para la retención del "
+"Impuesto al Valor Agregado(IVA)"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.model,name:l10n_ve_withholding_iva.model_wh_iva_config
