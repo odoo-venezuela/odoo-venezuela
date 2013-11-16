@@ -201,7 +201,7 @@ class res_partner(osv.osv):
             return False       
         
         return True
-
+    '''
     def _validate(self, cr, uid, ids, context=None):
         """ Validates the fields
         """
@@ -239,10 +239,10 @@ class res_partner(osv.osv):
             raise except_orm('ValidateError', '\n'.join(error_msgs))
         else:
             self._invalids.clear()
-
+    '''
     _constraints = [
-        (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
-        (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
+        #(_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
+        #(_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
         #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]
  
