@@ -83,7 +83,7 @@
             'test/iva_test_wh_3.yml',
             'test/iva_test_wh_4.yml',
         ],
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 

@@ -65,5 +65,5 @@ Parágrafo Segundo: El registro de las operaciones contenidas en el reporte glob
         "security/ir.model.access.csv"
     ],
     "active": False,
-    "installable": True,
+    "installable": False,
 }

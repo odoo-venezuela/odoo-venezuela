@@ -58,5 +58,5 @@ The document should be now splited on N invoices with the number of lines that y
         'test/spl_test.yml',
             ],
     "active": False,
-    "installable": True,
+    "installable": False,
 }

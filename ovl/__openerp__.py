@@ -87,5 +87,5 @@ Concepts from Sales and Purchase
     "images" : [],
     "auto_install": False,
     "application": True,
-    "installable": True,
+    "installable": False,
 }

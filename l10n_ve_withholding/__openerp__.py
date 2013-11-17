@@ -51,7 +51,7 @@ TODO:
     'test': [
         'test/wh_pay_invoice.yml'
         ],
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 
