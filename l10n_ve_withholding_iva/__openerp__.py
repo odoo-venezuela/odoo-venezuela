@@ -28,7 +28,7 @@
 ##############################################################################
 {
     "name" : "Management withholding vat based in the Venezuelan tax laws",
-    "version" : "1.0",
+    "version" : "1.1",
     "author" : "Vauxoo",
     "website" : "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
@@ -36,16 +36,19 @@
 
  - Create from invoice voucher withholding vat, to validate invoice.
  - Generate new tag in the view of partner for  add information basic of withholdings vat.
- - Generate file .txt required by Venezuelan law, based in the withholdings vat made during period defined for users.
+ - Generate file .txt required by Venezuelan law, based in the withholdings vat made during period
+   defined for users.
  - Generate voucher of withholding vat based in the Venezuelan tax laws. 
 
 **Recommendations:**
 
- - If you want to be able to print the vat withholding report correctly, It is recomended to define the size of the logo of the company in 886 x 236 pixeles.
+ - If you want to be able to print the vat withholding report correctly, It is recomended to define
+   the size of the logo of the company in 886 x 236 pixeles.
 """,
-    'init_xml': [],
-    "depends" : ["l10n_ve_withholding"],
-    'update_xml': [
+    "depends" : [
+                "l10n_ve_withholding"
+                ],
+    'data': [
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
         'report/withholding_vat_report.xml',
@@ -61,7 +64,13 @@
         "workflow/wh_iva_workflow.xml",
         "workflow/wh_action_server.xml",        
     ],
-    'demo_xml': ["demo/l10n_ve_withholding_iva_demo.xml"],
+    'demo': [
+            "demo/l10n_ve_withholding_iva_sequences_demo.xml",
+            "demo/demo_partners.xml",
+            "demo/l10n_ve_withholding_iva_demo.xml",
+            "demo/demo_invoices.xml",
+            ],
+
     'test': [
 #            'test/iva_purchase.yml',
 #            'test/iva_purchase_wh.yml',

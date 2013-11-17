@@ -86,9 +86,19 @@ class account_period(osv.osv):
         if not dt:
             dt = time.strftime('%Y-%m-%d')
         period_ids = self.find(cr,uid,dt=dt,context=context)
-        period_ids = self.search(cr,uid,[('special','=',False),('id','in',period_ids)])
+        do = [('special','=',False),('id','in',period_ids)]
+        #Due to the fact that demo data for periods sets 'special' as True on them, this little
+        #hack is necesary if this issue is solved we should ask directly for the 
+        #refer to this bug for more information 
+        #https://bugs.launchpad.net/openobject-addons/+bug/924200
+        demo_enabled = self.pool.get('ir.module.module').search(cr, uid,
+                                                        [('name', '=', 'base'),
+                                                         ('demo', '=', True)])
+        domain = demo_enabled and [do[1]] or do
+        #### End of hack, dear future me I am really sorry for this....
+        period_ids = self.search(cr, uid, domain, context = context)
         if not period_ids:
-            raise osv.except_osv(_('Error !'), _('No period defined for this date: %s !\nPlease create a fiscal year.')%dt)
+            raise osv.except_osv(_('Error looking Fortnight !'), _('No there are "No Special" period defined for this date: %s.')%dt)
         
         fortnight= False if time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 else True
         return (period_ids[0],fortnight)

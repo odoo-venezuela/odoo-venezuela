@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <!-- Main company converted to wh agent to trigger the withholding
+             NEXT: In tests we should left this partenr temporary as NOT wh agent to be sure system
+             works well if it is not marked.
+        -->
+        <record id="base.main_partner" model="res.partner">
+            <field name="wh_iva_agent">1</field>
+            <field name="wh_iva_rate">75</field>
+        </record>
+        <!-- Becoming a partner in wh_agent and in demo we will make him a supplier invoice and a
+             customer invoice
+        -->
+        <record id="l10n_ve_fiscal_requirements.f_req_partner_1" model="res.partner">
+            <field name="wh_iva_agent">1</field>
+            <field name="wh_iva_rate">100</field>
+        </record>
+        <record id="l10n_ve_fiscal_requirements.f_req_partner_2" model="res.partner">
+            <field name="wh_iva_agent">1</field>
+            <field name="wh_iva_rate">75</field>
+        </record>
+        <!-- An orphan contact without parent_id this record should be used to test this case
+             fiscally
+        -->
+        <record id="l10n_ve_fiscal_requirements.f_req_partner_7" model="res.partner">
+            <field name="wh_iva_rate">100</field>
+        </record>
+        <!--All the rest of partners should have wh_rate 100 per cent it is better withhold more
+             that less-->
+    </data>
+</openerp>

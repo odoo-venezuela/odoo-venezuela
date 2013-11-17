@@ -1,0 +1,16 @@
+-
+  1.2 I create IVA sale tax
+-
+  !record {model: account.tax, id: iva_sale1}:
+    name: 'IVA - Sale'
+    amount: 0.12
+    type_tax_use: sale
+    applicable_type: 'true'
+-
+  1.3 I create IVA purchase tax (withholdable)
+-
+  !record {model: account.tax, id: iva_purchase1}:
+    name: 'IVA - Purchase'
+    amount: 0.12
+    type_tax_use: purchase
+    applicable_type: 'true'
