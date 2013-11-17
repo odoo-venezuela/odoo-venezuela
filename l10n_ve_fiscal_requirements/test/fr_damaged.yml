@@ -109,7 +109,6 @@
   !python {model: account.journal}: |
     aj_ids = self.search(cr, uid, [('type', '=','sale')])
     assert aj_ids, 'There are no Journals'
-
     self.write(cr, uid, aj_ids, {'update_posted': True})
 -
   6.13 Verify that the journal was properly updated
@@ -171,4 +170,3 @@
       pass
     finally:
       cr.sql_log = l
-  
