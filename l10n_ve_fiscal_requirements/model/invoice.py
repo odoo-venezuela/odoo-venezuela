@@ -115,6 +115,17 @@ class account_invoice(osv.osv):
             'child_ids':[],
             'nro_ctrl':None,
             'supplier_invoice_number':None, 
+            'sin_cred': False,
+            # No cleaned in this copy because it is related to the previous
+            # document, if previous document says so this too
+            # 'parent_id':False,
+            'date_document': False,
+            'invoice_printer' : '',
+            'fiscal_printer' : '',
+            # No cleaned in this copy because it is related to the previous
+            # document, if previous document says so this too
+            #'loc_req':False, 
+            'z_report': '',
         })
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
@@ -125,7 +136,6 @@ class account_invoice(osv.osv):
             vals['date_document']=vals['date_invoice']
         return super(account_invoice, self).write(cr, uid, ids, vals,
                                                     context=context)
-
 
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
