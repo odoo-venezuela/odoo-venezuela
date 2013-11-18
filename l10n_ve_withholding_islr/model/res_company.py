@@ -22,6 +22,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+
 from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
@@ -30,7 +31,6 @@ import time
 import datetime
 
 class res_company(osv.osv):
-    _name = 'res.company'
     _inherit = 'res.company'
 
     _columns = {
@@ -38,10 +38,7 @@ class res_company(osv.osv):
             help='When True, Supplier Income Withholding will be check and '\
                     'validate automatically'),
     }
-    
+
     defaults = {
         'automatic_income_wh': False,
     }
-    
-res_company()
-

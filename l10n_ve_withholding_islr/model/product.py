@@ -25,6 +25,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+
 from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
@@ -40,14 +41,10 @@ class product_template(osv.osv):
         'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concept Income Withholding to apply to the service", required=False),
     }
 
-product_template()
-
-
 class product_product(osv.osv):
 
     _inherit = "product.product"
-    
-   
+
     def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
         """ Add a default concept for products that are not service type,
         Returns false if the product type is not a service, and if the
@@ -65,5 +62,3 @@ class product_product(osv.osv):
                  raise osv.except_osv(_('Invalid action !'),_("Must create the concept of income withholding"))
                 
         return {'value' : {'concept_id':concept_id or False}} 
-
-product_product()
