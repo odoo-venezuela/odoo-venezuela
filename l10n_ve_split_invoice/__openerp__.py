@@ -51,12 +51,12 @@ The document should be now splited on N invoices with the number of lines that y
     "demo_xml" : [
     ],
     "update_xml" : [
-#~        "installer_view.xml",
+#~        "view/installer_view.xml",
         "view/company_view.xml",
     ],
     'test': [
         'test/spl_test.yml',
             ],
     "active": False,
-    "installable": False,
+    "installable": True,
 }
