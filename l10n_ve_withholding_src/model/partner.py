@@ -38,4 +38,3 @@ class res_partner(osv.osv):
     _defaults = {
         'wh_src_rate': lambda *a: 0,
     }
-res_partner()
