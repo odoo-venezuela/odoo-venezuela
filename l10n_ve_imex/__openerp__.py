@@ -55,5 +55,5 @@ import declaration SENIAT Official FORM (Forma 99086).
         'workflow/customs_form.xml',
     ],
     "active": False,
-    "installable": False,
+    "installable": True,
 }

@@ -75,7 +75,7 @@ class account_invoice(osv.osv):
                     % item.customs_form_id.name)
         return super(account_invoice, self).test_open(cr, uid, ids, args)
 
-class inheried_account_invoice_tax(osv.osv):
+class account_invoice_tax(osv.osv):
 
     _inherit = 'account.invoice.tax'
 
