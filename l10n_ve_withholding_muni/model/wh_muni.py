@@ -23,13 +23,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##########################################################################
 
-
 from openerp.osv import osv, fields
 import time
 from openerp.tools import config
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
-
 
 class account_wh_munici(osv.osv):
 
@@ -96,9 +94,8 @@ class account_wh_munici(osv.osv):
         'munici_line_ids': fields.one2many('account.wh.munici.line', 'retention_id', 'Local withholding lines', readonly=True, states={'draft': [('readonly', False)]}, help="Invoices to will be made local withholdings"),
         'amount': fields.float('Amount', required=False, digits_compute=dp.get_precision('Withhold'), help="Amount withheld"),
         'move_id': fields.many2one('account.move', 'Account Entry', help='account entry for the invoice'),
-
-
     }
+
     _defaults = {
         'type': _get_type,
         'state': lambda *a: 'draft',
@@ -107,7 +104,6 @@ class account_wh_munici(osv.osv):
         'company_id': lambda self, cr, uid, context:
         self.pool.get('res.users').browse(cr, uid, uid,
                                           context=context).company_id.id,
-
     }
 
     _sql_constraints = [
@@ -307,10 +303,6 @@ class account_wh_munici(osv.osv):
                 super(account_wh_munici, self).unlink(cr, uid, ids, context=context)
         return True
 
-
-account_wh_munici()
-
-
 class account_wh_munici_line(osv.osv):
 
     def default_get(self, cr, uid, fields, context=None):
@@ -322,6 +314,7 @@ class account_wh_munici_line(osv.osv):
                                                                uid, fields, context)
         self.munici_context = context
         return data
+
 # TODO
 # necesito crear el campo y tener la forma de calcular el monto del impuesto
 # munici retenido en la factura
@@ -376,6 +369,3 @@ class account_wh_munici_line(osv.osv):
 
             total = res.amount_total
             return {'value': {'amount': total}}
-
-
-account_wh_munici_line()
