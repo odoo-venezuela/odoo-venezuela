@@ -435,7 +435,6 @@ class account_invoice(osv.osv):
                   " invoice."))
         return True
 
-account_invoice()
 
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
@@ -460,5 +459,3 @@ class account_invoice_tax(osv.osv):
                 amount_ret = wh_iva_rate and ait.tax_amount*wh_iva_rate/100.0 or 0.00
             res[ait.id] = {'amount_ret': amount_ret, 'base_ret': ait.base_amount}
         return res
-
-account_invoice_tax()

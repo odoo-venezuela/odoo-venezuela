@@ -30,16 +30,10 @@ from openerp.addons import decimal_precision as dp
 
 class account_wh_iva_line_tax(osv.osv):
     _name = 'account.wh.iva.line.tax'
-account_wh_iva_line_tax()
-
 class account_wh_iva_line(osv.osv):
     _name = "account.wh.iva.line"
-account_wh_iva_line()
-
 class account_wh_iva(osv.osv):
     _name = "account.wh.iva"
-account_wh_iva()
-
 class account_wh_iva_line_tax(osv.osv):
     
     def _set_amount_ret(self, cr, uid, id, name, value, arg, ctx=None):
@@ -90,8 +84,6 @@ class account_wh_iva_line_tax(osv.osv):
             fnct_inv=_set_amount_ret,
             help="Vat Withholding amount"),
     }
-
-account_wh_iva_line_tax()
 
 class account_wh_iva_line(osv.osv):
 
@@ -193,8 +185,6 @@ class account_wh_iva_line(osv.osv):
 
 
         return {'value':result, 'domain':domain}
-
-account_wh_iva_line()
 
 class account_wh_iva(osv.osv):
     
@@ -782,4 +772,3 @@ class account_wh_iva(osv.osv):
                 super(account_wh_iva, self).unlink(cr, uid, ids, context=context)
         return True
 
-account_wh_iva()
