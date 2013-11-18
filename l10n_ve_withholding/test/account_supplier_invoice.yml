@@ -1,0 +1,76 @@
+-
+  In order to test account invoice I create a new supplier invoice
+-
+  I create a Tax
+-
+  !record {model: account.tax, id: tax10}:
+    name: Tax 10.0 %
+    amount: 0.10
+    type: percent
+    sequence: 1
+    company_id: base.main_company
+    type_tax_use: purchase
+-
+  I set the context that will be used for the encoding of all the invoices of this file
+-
+  !context
+    'type': 'in_invoice'
+-
+  I create a supplier invoice
+-
+  !record {model: account.invoice, id: account_invoice_supplier0, view: account.invoice_supplier_form}:
+    account_id: account.a_pay
+    check_total: 3000.0
+    company_id: base.main_company
+    currency_id: base.EUR
+    invoice_line:
+      - account_id: account.a_expense
+        name: '[PCSC234] PC Assemble SC234'
+        price_unit: 300.0
+        product_id: product.product_product_3
+        quantity: 10.0
+        uos_id: product.product_uom_unit
+        invoice_line_tax_id:
+                  - tax10
+    journal_id: account.expenses_journal
+    partner_id: base.res_partner_12
+    reference_type: none
+    type: in_invoice
+    comment: 'Supplier Invoice - l10n_ve_withholding'
+-
+  I check that Initially supplier invoice state is "Draft"
+-
+  !assert {model: account.invoice, id: account_invoice_supplier0}:
+    - state == 'draft'
+-
+  I check that the supplier invoice is a "Supplier Invoice"
+-
+  !assert {model: account.invoice, id: account_invoice_supplier0, string: This is not a supplier invoice}:
+    - type == 'in_invoice'
+-
+  I change the state of invoice to open by clicking Validate button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_supplier0}
+-
+  I check that the invoice state is now "Open"
+-
+  !assert {model: account.invoice, id: account_invoice_supplier0}:
+    - state == 'open'
+-
+  I verify that account.invoice.tax has 'tax_id'
+-
+  !python {model: account.invoice}: |
+    inv = self.browse(cr, uid, ref('account_invoice_supplier0'))
+    assert inv.tax_line, ('This invoice should has at least one tax')
+    for t in inv.tax_line:
+        assert t.tax_id, "No tax_id in account.invoice.tax record '%s'"%t.name
+-
+  I verify that account move is created
+-
+  !python {model: account.invoice}: |
+    move_obj = self.pool.get('account.move')
+    inv = self.browse(cr, uid, ref('account_invoice_supplier0'))
+    move = inv.move_id
+    assert move, ('Journal Entries has not been created')
+    assert move.line_id, ('Empty Entry Lines')
+    print [(x.debit, x.credit) for x in move.line_id]
