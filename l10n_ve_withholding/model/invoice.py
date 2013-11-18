@@ -28,10 +28,8 @@ from openerp.osv import fields, osv
 from openerp.addons import decimal_precision as dp
 from openerp.tools.translate import _
 
-
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
-    
     
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
@@ -42,7 +40,7 @@ class account_invoice(osv.osv):
         """
         if context is None: context = {}
         return []
-        
+
     def ret_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id, 
                             period_id, pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
@@ -105,7 +103,6 @@ class account_invoice(osv.osv):
         self.pool.get('account.invoice').write(cr, uid, ids, {}, context=context)
         return {'move_id': move_id}
 
-    
     def ret_payment_get(self, cr, uid, ids, *args):
         """ Return payments associated with this bill
         """
@@ -127,10 +124,7 @@ class account_invoice(osv.osv):
             lines = filter(lambda x: x not in src, lines)
 
         return lines
-    
-    
-    
-    
+
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
         """ Check if no tax lines are created. If 
         existing tax lines, there are checks on the invoice 
@@ -156,11 +150,6 @@ class account_invoice(osv.osv):
             for key in compute_taxes:
                 if not key in tax_key:
                     raise osv.except_osv(_('Warning !'), _('Taxes missing !'))
-
-account_invoice()
-
-
-
 
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
@@ -223,6 +212,3 @@ class account_invoice_tax(osv.osv):
             t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
             t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
         return tax_grouped
-
-
-account_invoice_tax()
