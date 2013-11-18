@@ -49,9 +49,9 @@ TODO:
     ],
     'demo_xml': [],
     'test': [
-        'test/wh_pay_invoice.yml'
+#        'test/wh_pay_invoice.yml'
         ],
-    'installable': False,
+    'installable': True,
     'active': False,
 }
 
