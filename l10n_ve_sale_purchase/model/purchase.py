@@ -34,7 +34,6 @@ import datetime
 
 class purchase_order_line(osv.osv):
     
-    _name="purchase.order.line"
     _inherit ="purchase.order.line"
 
     _columns = {
@@ -57,9 +56,6 @@ class purchase_order_line(osv.osv):
         prod_brw = self.pool.get('product.product').browse(cr, uid, product)
         res['value']['concept_id'] = prod_brw.concept_id and prod_brw.concept_id.id or get_concept()
         return res
-purchase_order_line()
-
-
 class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     
@@ -69,10 +65,3 @@ class purchase_order(osv.osv):
         data = super(purchase_order, self)._prepare_inv_line( cr, uid, account_id, order_line, context=context)
         data.update({'concept_id':order_line and order_line.concept_id and order_line.concept_id.id   })
         return data
-    
-
-purchase_order()
-
-
-
-
