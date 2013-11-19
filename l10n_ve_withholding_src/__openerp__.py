@@ -67,5 +67,5 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         
     ],
     "active": False,
-    "installable": True
+    "installable": True,
 }

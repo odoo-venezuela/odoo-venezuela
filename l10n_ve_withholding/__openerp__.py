@@ -49,7 +49,8 @@ TODO:
     ],
     'demo_xml': [],
     'test': [
-#        'test/wh_pay_invoice.yml'
+        'test/account_supplier_invoice.yml',
+#        'test/wh_pay_invoice.yml',
         ],
     'installable': True,
     'active': False,

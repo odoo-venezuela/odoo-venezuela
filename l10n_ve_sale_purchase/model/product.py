@@ -6,7 +6,7 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
+#              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
@@ -30,29 +30,30 @@ from openerp.osv import fields
 from openerp.tools.translate import _
 from openerp.tools import config
 import time
+import datetime
 
-class stock_picking(osv.osv):
-    _inherit = 'stock.picking'
-    def action_invoice_create(self, cursor, user, ids, journal_id=False,group=False, type='out_invoice', context=None):
-        """ Function that adds the concept of retention to the invoice_lines from 
-        a purchase order or sales order with billing method from picking list
-        """
-        if context is None:
-            context = {}
-        data = super(stock_picking, self).action_invoice_create(cursor, user, ids, journal_id, group, type, context)
-        picking_id=data.keys()[0]
-        invoice_id=data[picking_id]
-        invoice_brw = self.pool.get('account.invoice').browse(cursor, user, invoice_id)
-        picking_brw=self.browse(cursor, user, picking_id)
-        invoice_line_obj = self.pool.get('account.invoice.line')
-        for l in invoice_brw.invoice_line:
-            invoice_line_obj.write(cursor, user, l.id, {'concept_id':
-                l.product_id and l.product_id.concept_id and l.product_id.concept_id.id or False})
-        return data
+class product_template(osv.osv):
+
+    _inherit = "product.template"
 
     _columns = {
-        'nro_ctrl': fields.char('Invoice ref.', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Invoice reference"),
+        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concept Withholding Income to apply to the service", required=False),
     }
 
+class product_product(osv.osv):
+    _inherit = "product.product"
+    
+    def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
+        """ Function that adds a default concept for products that are not service
+        """
+        domain = {}
+        if prd_type != 'service':
+            concept_obj = self.pool.get('islr.wh.concept')
+            concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)],context=context)
+            if concept_id:
+                return {'value' : {'concept_id':concept_id[0]}}
+            else:
+                raise osv.except_osv(_('Invalid action !'),_("Must create the concept of income withholding"))
+        return {'value' : {'concept_id':False} ,
+                'domain' :{'concept_id':[('withholdable','=',True)]}} ,
 
-stock_picking()

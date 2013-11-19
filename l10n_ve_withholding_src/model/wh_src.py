@@ -155,14 +155,11 @@ class account_wh_src(osv.osv):
     _defaults = {
     'state': lambda *a: 'draft',
     'currency_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.currency_id.id,
-    'journal_id':lambda self, cr, uid, context: \
-        self._diario(cr, uid, uid, context),
+    'journal_id': _diario,
     'company_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
-
     }
 
     _sql_constraints = [
-
     ] 
     
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
@@ -363,7 +360,6 @@ class account_wh_src(osv.osv):
         
 
         
-account_wh_src()
 
 class account_wh_src_line(osv.osv):
 
@@ -414,4 +410,3 @@ class account_wh_src_line(osv.osv):
             }
         }
         return res
-account_wh_src_line()

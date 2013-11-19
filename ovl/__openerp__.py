@@ -22,29 +22,27 @@
 {   "name" : "OpenERP Venezuelan Localization",
     "version" : "3.0",
     "depends" : [
-                 "l10n_ve_imex",
+                 # Level Zero of Modules 
+                 "document",
+                 # First Level of Modules 
                  "l10n_ve_fiscal_requirements", 
-                 "l10n_ve_split_invoice", 
+                 "l10n_ve_split_invoice",
+                 "l10n_ve_generic",
+                 # Second Level of Modules 
+                 "l10n_ve_imex",
                  "l10n_ve_withholding", 
+                 # Third Level of Modules 
                  "l10n_ve_withholding_iva" ,
                  "l10n_ve_withholding_islr" ,
                  "l10n_ve_withholding_muni",
                  "l10n_ve_withholding_src",
-                 "document",
-                 #TODO: Uncomment when Fiscal Book Module becomes ready
-                 #"l10n_ve_fiscal_book",
-
-                 #Optionals, uncomment if you want to use them
-                 #"l10n_ve_sale_purchase", #Install if you want be able set islr 
-                 #concepts from Sales and Purchase
-                 #"l10n_ve_fiscal_reports", #First Version, a little less 
-                 #automated cool if you have so much manual process
-                 #"l10n_ve_fiscal_reports_V2", #Second Version, several bugs 
-                 #solved and already audited, will not be mantained
-                 #"l10n_ve_topology", # A generic chart of account, 
-                 #usefull when you want test or dont use accounting, 
-                 #in production enviroments try of audit this accounts 
-                 #created with an accountant
+                 # Fourth Level of Modules 
+                 "l10n_ve_fiscal_book",
+                 # Optionals, uncomment if you want to use them Install if you
+                 # want be able set islr 
+                 #"l10n_ve_sale_purchase",
+                 # Fifth Level of Modules 
+                 "l10n_ve_vat_write_off",
                  ],
     "author" : "Vauxoo",
     "description" : """

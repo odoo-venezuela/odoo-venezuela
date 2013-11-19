@@ -46,10 +46,9 @@
         'data/wh_muni_sequence.xml',
     ],
     'demo_xml': [],
-    'test': [],
+    'test': [
+    ],
     'installable': True,
     'active': False,
 }
-
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

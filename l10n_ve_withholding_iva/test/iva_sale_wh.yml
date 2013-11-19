@@ -109,11 +109,13 @@
     ap_obj=self.pool.get('account.period')
     period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})
     assert period, 'There aren\'t periods for this date'
+    ap_obj.write(cr, uid, period, {'special':False})
     ap_brw = ap_obj.browse(cr, uid, period[0])
     if ap_brw.state == 'done':
         ap.action_draft(cr, uid, period)
         ap_brw = ap.browse(cr, uid, period[0])
     assert ap_brw.state == 'draft', 'Period is not open as it should be'
+    assert ap_brw.special == False, 'Period is special. It should be'
 
     self.write(cr, uid, ref("wh_iva_sale01"), {'period_id':period[0]})
 -

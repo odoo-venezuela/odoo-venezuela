@@ -94,17 +94,18 @@ We now have a configuration wizard after this module install.
         'demo/demo_taxes.yml',
     ],
     'test': [
-        'test/control_number.yml',
-        'test/fr_sale_test.yml',
-        'test/fr_purchase_test.yml',
-        'test/fr_address.yml',
-        'test/fr_vat_test.yml',
-        'test/fr_damaged.yml',
-        'test/fr_debit_note.yml',
-        'test/fr_refund_note.yml',
+        'test/account_customer_invoice.yml',
+        'test/account_supplier_invoice.yml',
+#        'test/control_number.yml',
+#        'test/fr_sale_test.yml',
+#        'test/fr_purchase_test.yml',
+#        'test/fr_address.yml',
+#        'test/fr_vat_test.yml',
+#        'test/fr_damaged.yml',
+#        'test/fr_debit_note.yml',
+#        'test/fr_refund_note.yml',
       ],
     'installable': True,
     'active': False,
 }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

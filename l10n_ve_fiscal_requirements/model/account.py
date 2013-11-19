@@ -24,9 +24,6 @@
 ################################################################################
 
 from openerp.osv import fields, osv
-__TYPES__ = [('sale_debit', 'Sale Debit'),('purchase_debit', 'Purchase Debit')]
-
-__HELP__= " Select 'Sale Debit' for customer debit note journals. Select 'Purchase Debit' for supplier debit note journals."
 
 class account_journal(osv.osv):
     _inherit = 'account.journal'
@@ -45,5 +42,3 @@ class account_journal(osv.osv):
                     " Select 'Sale Debit' for customer debit note journals."\
                     " Select 'Purchase Debit' for supplier debit note journals.")
    }
-
-account_journal()

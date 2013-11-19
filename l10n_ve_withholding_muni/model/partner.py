@@ -26,7 +26,6 @@
 
 from openerp.osv import fields, osv
 
-
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     _columns = {
@@ -50,6 +49,3 @@ class res_partner(osv.osv):
             help="This account will be used credit local withholding amount"),
 
     }
-
-
-res_partner()

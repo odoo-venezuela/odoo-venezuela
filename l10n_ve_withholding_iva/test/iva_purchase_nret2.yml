@@ -42,7 +42,7 @@
     date_invoice: !eval time.strftime('%Y-%m-%d')
     partner_id: base.res_partner_23
     reference_type: none
-    journal_id: account.sales_journal
+    journal_id: account.expenses_journal
     wh_iva: True
     invoice_line:
       - product_id: product.product_product_3

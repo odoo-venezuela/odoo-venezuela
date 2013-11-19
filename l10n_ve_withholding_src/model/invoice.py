@@ -138,7 +138,7 @@ class account_invoice(osv.osv):
         @param date: current date                                               
         @param name: description 
         """
-        if context is None: context = {}
+        context = context or {}
         res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
@@ -166,7 +166,4 @@ class account_invoice(osv.osv):
                     'currency_id': False,
                     'name':name
                 }))
-        
         return res
-
-account_invoice()

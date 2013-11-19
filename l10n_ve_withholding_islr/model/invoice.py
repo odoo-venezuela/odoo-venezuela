@@ -31,7 +31,6 @@ import time
 import datetime
 from openerp import netsvc
 
-
 class account_invoice_line(osv.osv):
     """ It adds a field that determines if a line has been retained or not
     """
@@ -66,8 +65,7 @@ class account_invoice_line(osv.osv):
         @param price_unit: new Unit Price for the invoice line
         @param currency_id: 
         """
-        if context is None:
-            context = {}
+        context = context or {}
         data = super(
             account_invoice_line, self).product_id_change(cr, uid, ids,
                                                           product, uom,
@@ -88,26 +86,15 @@ class account_invoice_line(osv.osv):
         """ Initialilizes the fields wh_xml_id and apply_wh,
         when it comes to a new line
         """
-        if context is None:
-            context = {}
-
+        context = context or {}
         if context.get('new_key', False):
-
             vals.update({'wh_xml_id': False,
                          'apply_wh': False,
-
                          })
-
         return super(account_invoice_line, self).create(cr, uid, vals, context=context)
 
-
-account_invoice_line()
-
-
 class account_invoice(osv.osv):
-
     _inherit = 'account.invoice'
-
     _columns = {
         'status': fields.selection([
             ('pro', 'Processed withholding, xml Line generated'),
@@ -207,19 +194,13 @@ class account_invoice(osv.osv):
         """ Inicializes the fields islr_wh_doc and status
         when the line is duplicated
         """
-        if default is None:
-            default = {}
-
-        if context is None:
-            context = {}
-
+        default = default or {}
+        context = context or {}
         default = default.copy()
         default.update({'islr_wh_doc': 0,
                         'status': 'no_pro',
                         })
-
         context.update({'new_key': True})
-
         return super(account_invoice, self).copy(cr, uid, id, default,
                                                  context)
 
@@ -319,4 +300,3 @@ class account_invoice(osv.osv):
 
         return res
 
-account_invoice()

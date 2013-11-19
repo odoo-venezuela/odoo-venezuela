@@ -30,7 +30,6 @@ from openerp.addons import decimal_precision as dp
 
 class res_company(osv.osv):
     _inherit = 'res.company'
-    
     _columns = {        
         'wh_src_collected_account_id': fields.many2one(
             'account.account',
@@ -51,5 +50,3 @@ class res_company(osv.osv):
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to a Customer"),
     }
-
-res_company()

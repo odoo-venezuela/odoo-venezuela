@@ -33,21 +33,18 @@ class account_invoice(osv.osv):
         it does not exist, return false
         """
         
-        if context is None:
-            context = {}
-        journal_type_inv = context.get('journal_type', 'sale')
-        
-        if journal_type_inv in ('sale_debit', 'purchase_debit'):
+        context = context or {}
+        res = super(account_invoice, self)._get_journal(cr, uid, context=context)
+        if res: return res
+        type_inv = context.get('type', 'sale')
+        if type_inv in ('sale_debit', 'purchase_debit'):
             user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
             company_id = context.get('company_id', user.company_id.id)
             journal_obj = self.pool.get('account.journal')
-            res = journal_obj.search(cr, uid, [('type', '=',journal_type_inv),
-                                               ('company_id', '=', company_id)],
-                                                    limit=1)
-            return res and res[0] or False
-        else:
-            return super(account_invoice, self)._get_journal(cr, uid, context=context)
-    
+            domain = [('company_id', '=', company_id),('type', '=',type_inv)]
+            res = journal_obj.search(cr, uid, domain, limit=1)
+        return res and res[0] or False
+
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
         """ Return false when it is found 
         that the bill is not out_invoice or out_refund,
@@ -118,6 +115,17 @@ class account_invoice(osv.osv):
             'child_ids':[],
             'nro_ctrl':None,
             'supplier_invoice_number':None, 
+            'sin_cred': False,
+            # No cleaned in this copy because it is related to the previous
+            # document, if previous document says so this too
+            # 'parent_id':False,
+            'date_document': False,
+            'invoice_printer' : '',
+            'fiscal_printer' : '',
+            # No cleaned in this copy because it is related to the previous
+            # document, if previous document says so this too
+            #'loc_req':False, 
+            'z_report': '',
         })
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
@@ -129,16 +137,11 @@ class account_invoice(osv.osv):
         return super(account_invoice, self).write(cr, uid, ids, vals,
                                                     context=context)
 
-account_invoice()
-
-
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
         'tax_id': fields.many2one('account.tax', 'Tax', required=False, ondelete='set null', 
         help="Tax relation to original tax, to be able to take off all data from invoices."),
     }
-
-account_invoice_tax()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

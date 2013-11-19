@@ -1,0 +1,29 @@
+-
+  In order to test account invoice I create a new customer invoice
+-
+  I set the context that will be used for the encoding of all the invoices of this file
+-
+  !context
+    'type': 'out_invoice'
+-
+  I create a customer invoice
+-
+  !record {model: account.invoice, id: account_invoice_customer0, view: account.invoice_form}:
+    payment_term: account.account_payment_term_advance
+    journal_id: account.sales_journal
+    partner_id: base.res_partner_3
+    reference_type: none
+    name: 'Test Customer Invoice - l10n_ve_fiscal_requirements'
+    invoice_line:
+      - product_id: product.product_product_5
+        quantity: 10.0
+-
+  I check that Initially customer invoice state is "Draft"
+-
+  !assert {model: account.invoice, id: account_invoice_customer0}:
+    - state == 'draft'
+-
+  I check that the customer invoice is a "Customer Invoice"
+-
+  !assert {model: account.invoice, id: account_invoice_customer0, string: This is not a customer invoice}:
+    - type == 'out_invoice'

@@ -49,5 +49,3 @@ class account_tax(osv.osv):
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to a Refund"),
    }
-
-account_tax()

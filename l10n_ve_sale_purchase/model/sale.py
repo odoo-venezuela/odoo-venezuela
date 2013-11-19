@@ -66,9 +66,3 @@ class sale_order_line(osv.osv):
                 if line_sale.product_id==line_invoice.product_id: #si es la misma linea 
                     self.pool.get('account.invoice.line').write(cr, uid, line_invoice.id, {'concept_id':line_sale.concept_id.id}) 
         return create_ids 
-sale_order_line()
-
-
-
-
-

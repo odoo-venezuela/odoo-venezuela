@@ -74,5 +74,5 @@ If you want be able to propose withholding concepts from sales and purchases you
 #            'test/test_duplicate.yml',
         ],
     "active": False,
-    "installable": True
+    "installable": True,
 }

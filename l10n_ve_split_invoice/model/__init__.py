@@ -1,13 +1,10 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+ # -*- encoding: utf-8 -*-
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#    Coded by: nhomar@openerp.com.ve
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -25,22 +22,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
-from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
+import installer
+import res_company
+import invoice
 
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-
-    _columns = {
-        'islr_withholding_agent': fields.boolean('Income Withholding Agent?',help="Check if the partner is an agent for income withholding"),
-        'spn':fields.boolean('Is it a society of natural persons?', help='Indicates whether refers to a society of natural persons'),
-        'islr_exempt': fields.boolean('Is it exempt from income withholding?', help='Whether the individual is exempt from income withholding'),
-    }
-    
-    _defaults = {
-        'islr_withholding_agent': lambda *a: True,
-    }

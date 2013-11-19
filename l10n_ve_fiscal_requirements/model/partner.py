@@ -308,5 +308,4 @@ class res_partner(osv.osv):
             # force full VIES online check
             self.update_rif(cr, uid, ids, context=context)
         return True
-res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

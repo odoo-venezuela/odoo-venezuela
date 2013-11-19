@@ -5,9 +5,9 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Yanina Aular           <yanina.aular@vauxoo.com>
-#    Planified by: Humberto Arocha
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
+#    Coded by: Israel Fermín Montilla  <israel@openerp.com.ve>          
+#    Planified by: Nhomar Hernandez
+#    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -21,24 +21,8 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##############################################################################
-
-from openerp.osv import osv
-from openerp.osv import fields
-from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
-
-class res_company(osv.osv):
-    _inherit = 'res.company'
-
-    _columns = {
-        'automatic_income_wh':fields.boolean('Automatic Income Withhold', 
-            help='When True, Supplier Income Withholding will be check and '\
-                    'validate automatically'),
-    }
-
-    defaults = {
-        'automatic_income_wh': False,
-    }
+################################################################################
+import stock
+import purchase
+import sale
+import product 

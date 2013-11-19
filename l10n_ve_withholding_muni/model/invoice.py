@@ -158,5 +158,3 @@ class account_invoice(osv.osv):
             readonly=True, help="Withholding muni."),
 
     }
-
-account_invoice()
