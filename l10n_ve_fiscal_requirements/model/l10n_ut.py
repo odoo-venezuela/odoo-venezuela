@@ -81,7 +81,7 @@ class l10n_ut(osv.osv):
 
     def compute_ut_to_money(self, cr, uid, amount_ut, date=False,
                             context=None):
-        """ Transforms from money to tributary units
+        """ Transforms from tax units into money
         """
         if context is None:
             context = {}

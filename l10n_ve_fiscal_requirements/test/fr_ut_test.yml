@@ -1,0 +1,13 @@
+-
+  Fiscal Requirements Test
+-
+  Checking There are tax units loaded
+-
+  !python {model: l10n.ut }: |
+    assert self.search(cr, uid, []), 'There is some wrong in computing money into tax units'
+-
+  Testing Tax Unit Computing
+-
+  !python {model: l10n.ut }: |
+    assert self.compute(cr, uid, 107, date='2013-12-31') == 1, 'There is something wrong in computing money into tax units'
+    assert self.compute_ut_to_money(cr, uid, 1, date='2013-12-31') == 107, 'There is something wrong in computing tax units into money'
