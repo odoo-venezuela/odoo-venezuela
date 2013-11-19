@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <!-- Creating taxes that bears the type needed in OVL -->
+        <record id="iva_sale1" model="account.tax">
+            <field name="name">IVA - Sale</field>
+            <field name="amount">0.12</field>
+            <field name="type_tax_use">sale</field>
+            <field name="applicable_type">true</field>
+            <field name="appl_type">general</field>
+        </record>
+        <record id="iva_purchase1" model="account.tax">
+            <field name="name">IVA - Purchase</field>
+            <field name="amount">0.12</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="applicable_type">true</field>
+            <field name="appl_type">general</field>
+        </record>
+    </data>
+</openerp>

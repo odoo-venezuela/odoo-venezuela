@@ -89,9 +89,9 @@ We now have a configuration wizard after this module install.
     ],
     'demo': [
         'demo/demo_partners.xml',
-        'demo/journal_demo.xml',
+        'demo/demo_journal.xml',
         'demo/demo_invoice.xml',
-        'demo/demo_taxes.yml',
+        'demo/demo_taxes.xml',
     ],
     'test': [
         'test/account_customer_invoice.yml',
