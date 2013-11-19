@@ -12,6 +12,9 @@
             <button name="%(action_wiz_name)d" string="Update Name" type="action"
                 help="Connect to SENIAT and update the name of the partner given an VAT Number. (See Accounting tab to write the VAT Number)"/>
         </xpath>
+        <xpath expr="//field[@name='name']" position="attributes">
+            <attribute name='attrs'>{'readonly': [('seniat_updated', '!=', False)]}</attribute>
+        </xpath>
         </field>
     </record>
   </data>
