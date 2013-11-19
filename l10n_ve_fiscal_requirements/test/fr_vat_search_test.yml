@@ -1,0 +1,20 @@
+-
+  Fiscal Requirements Test
+-
+  Testing SENIAT Search Wizard
+-
+  !record {model: search.info.partner.seniat, view: view_vat_search, id: vauxoo_search_vat }:
+    vat: 'J317520882'
+-
+  Pressing 'Search RIF' Button
+-
+  !function {model: search.info.partner.seniat, name: search_partner_seniat, id: vauxoo_search_vat }:
+  - model: search.info.partner.seniat
+    eval: "[obj(ref('vauxoo_search_vat')).id]"
+-
+  Asserting the Search
+-
+  !python {model: search.info.partner.seniat }: |
+    sips_brw = self.browse(cr, uid, ref('vauxoo_search_vat'))
+    print sips_brw.name
+    assert sips_brw.name == "VAUXOO, C,A", 'This search Should return "VAUXOO, C,A" not "%s"'%sips_brw.name

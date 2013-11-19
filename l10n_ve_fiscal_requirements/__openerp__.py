@@ -96,6 +96,7 @@ We now have a configuration wizard after this module install.
     'test': [
         'test/account_customer_invoice.yml',
         'test/account_supplier_invoice.yml',
+        'test/fr_vat_search_test.yml',
 #        'test/control_number.yml',
 #        'test/fr_sale_test.yml',
 #        'test/fr_purchase_test.yml',
