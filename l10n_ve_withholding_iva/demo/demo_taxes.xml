@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <!--
+             Mark demo taxes as withholdable
+        -->
+        <record id="l10n_ve_fiscal_requirements.iva_sale1" model="account.tax">
+            <field name="ret">True</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_sale2" model="account.tax">
+            <field name="ret">True</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_sale3" model="account.tax">
+            <field name="ret">False</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_sale4" model="account.tax">
+            <field name="ret">True</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase1" model="account.tax">
+            <field name="ret">True</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase2" model="account.tax">
+            <field name="ret">True</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase3" model="account.tax">
+            <field name="ret">False</field>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase4" model="account.tax">
+            <field name="ret">True</field>
+        </record>
+
+    </data>
+</openerp>
