@@ -44,3 +44,9 @@
 -
   !assert {model: account.invoice, id: test_fr01, string: Invoice is not in open state}:
     - state == 'open'
+-
+  2.7 I check that the invoice has taxes
+-
+  !python {model: account.invoice}: |
+    inv_brw = self.browse(cr, uid, ref('test_fr01'))
+    assert inv_brw.tax_line, 'There should be tax lines in this invoive'
