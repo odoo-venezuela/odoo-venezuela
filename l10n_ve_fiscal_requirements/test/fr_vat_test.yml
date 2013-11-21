@@ -1,42 +1,34 @@
 -
   5. Fiscal requirements Vat tests
 -
-  5.2 I try to create a partner with wrong vat
+  5.1 I try to create a partner with a wrong formatted vat for Venezuelan Standards
 -
   !python {model: res.partner}: |
     import logging
+    from openerp.osv import orm
+    part_id = False
     part = {
       'name': 'Partner Test Fiscal Requirements',
       'supplier': True,
       'customer': True,
-      'vat': 'VEV333',
+      'vat': 'VEJ333',
       'type': 'invoice',
       'street': 'Av Siempre Viva',
       'phone': "(555) 5555555",
       'fax': "(555) 1111111",
       'email': 'fakemail@example.com',
       }
-    part_id = False
     try:
-      rollback = cr.rollback
-      cr.rollback = lambda x = None: None
-      l = cr.sql_log
-      cr.sql_log = logger.isEnabledFor(logging.OFF)
       part_id = self.create(cr, uid, part)
-      print part_id
-    except Exception:
-      part_id = False
-      cr.rollback = rollback
+    except orm.except_orm:
       pass
-    finally:
-      cr.sql_log = l
-    assert not part_id, 'Partner should not be created'
+    assert not part_id, 'This should not happen a well formatted vat number is needed'
 -
-  5.3 I create a partner
+  5.2 I create a partner with right formatted vat for Venezuelan Standards
 -
   !python {model: res.partner}: |
     #~ import logging
-    part = {
+    part =  {
       'name': 'Partner Unique Test Fiscal Requirements',
       'supplier': True,
       'customer': True,
@@ -50,10 +42,12 @@
     part_id = self.create(cr, uid, part)
     assert part_id, 'Partner should be created'
 -
-  5.3 I create a partner with the same vat and different name than 5.2 previous and this sould fail
+  5.3 I create a partner with the same vat and different name than 5.2 previous and this should fail
 -
   !python {model: res.partner}: |
     import logging
+    from openerp.osv import orm
+    part_id = False
     part = {
       'name': 'Partner Duplicate Vat',
       'supplier': True,
@@ -66,29 +60,21 @@
       'email': 'fakemail@example.com',
       }
     try:
-      rollback = cr.rollback
-      cr.rollback = lambda x = None: None
-      l = cr.sql_log
-      cr.sql_log = logger.isEnabledFor(logging.OFF)
       part_id = self.create(cr, uid, part)
-    except Exception:
-      part_id = False
-      cr.rollback = rollback
+    except orm.except_orm:
       pass
-    finally:
-      cr.sql_log = l
-    assert not part_id, 'Partner should not be created'
-
+    assert not part_id, 'Another Partner with the same VAT number than other should not be created'
 -
-  5.4 I create a partner with the same name and different than 5.2 previous and this sould fail
+  5.4 I create a partner with no VAT number this should fail
 -
   !python {model: res.partner}: |
     import logging
+    from openerp.osv import orm
+    part_id = False
     part = {
-      'name': 'Partner Unique Test Fiscal Requirements',
+      'name': 'Partner Unique Test Fiscal Requirementsx',
       'supplier': True,
       'customer': True,
-      'vat': 'VEJ223334445',
       'type': 'invoice',
       'street': 'Av Siempre Viva',
       'phone': "(555) 5555555",
@@ -96,15 +82,41 @@
       'email': 'fakemail@example.com',
       }
     try:
-      rollback = cr.rollback
-      cr.rollback = lambda x = None: None
-      l = cr.sql_log
-      cr.sql_log = logger.isEnabledFor(logging.OFF)
       part_id = self.create(cr, uid, part)
-    except Exception:
-      part_id = False
-      cr.rollback = rollback
+    except orm.except_orm:
       pass
-    finally:
-      cr.sql_log = l
-    assert not part_id, 'Partner should not be created'
+    assert not part_id, 'A Partner withoud VAT number cannot be created'
+-
+  5.5 I make sure that main company will not consult web to check Vat Validity
+-
+  !record { model: res.company, id: base.main_company }:
+    vat_check_vies: False    
+-
+  5.6 Pressing 'Check Validity' Button in Partner Form
+-
+  !function {model: res.partner, name: button_check_vat, id: base.res_partner_23 }:
+  - model: res.partner
+    eval: "[obj(ref('base.res_partner_23')).id]"
+-
+  5.7 I check that Partner Name has not changed
+-
+  !assert {model: res.partner, id: base.res_partner_23}:
+    - name == 'Vauxoo'
+    - seniat_updated == False
+-
+  5.8 I make sure that main company will consult web to check Vat Validity
+-
+  !record { model: res.company, id: base.main_company }:
+    vat_check_vies: True 
+-
+  5.9 Pressing 'Check Validity' Button in Partner Form Again to Update Name
+-
+  !function {model: res.partner, name: button_check_vat, id: base.res_partner_23 }:
+  - model: res.partner
+    eval: "[obj(ref('base.res_partner_23')).id]"
+-
+  5.10 I check that Partner Name has changed
+-
+  !assert {model: res.partner, id: base.res_partner_23}:
+    - name == 'VAUXOO, C,A'
+    - seniat_updated == True
