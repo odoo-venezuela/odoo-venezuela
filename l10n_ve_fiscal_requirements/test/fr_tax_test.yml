@@ -1,0 +1,42 @@
+-
+  I check that there are taxes ready to be used by OVL
+-
+  I check General Sale Tax
+-
+  !assert { model: account.tax, id: iva_sale1 }:
+    - appl_type == 'general'
+-
+  I check Additionalt Sale Tax
+-
+  !assert { model: account.tax, id: iva_sale2 }:
+    - appl_type == 'adicional'
+-
+  I check Exempt Sale Tax
+-
+  !assert { model: account.tax, id: iva_sale3 }:
+    - appl_type == 'exento'
+-
+  I check Reducted Sale Tax
+-
+  !assert { model: account.tax, id: iva_sale4 }:
+    - appl_type == 'reducido'
+-
+  I check General Purchase Tax
+-
+  !assert { model: account.tax, id: iva_purchase1 }:
+    - appl_type == 'general'
+-
+  I check Additionalt Purchase Tax
+-
+  !assert { model: account.tax, id: iva_purchase2 }:
+    - appl_type == 'adicional'
+-
+  I check Exempt Purchase Tax
+-
+  !assert { model: account.tax, id: iva_purchase3 }:
+    - appl_type == 'exento'
+-
+  I check Reducted Purchase Tax
+-
+  !assert { model: account.tax, id: iva_purchase4 }:
+    - appl_type == 'reducido'

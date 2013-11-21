@@ -99,6 +99,7 @@ We now have a configuration wizard after this module install.
         'test/fr_vat_search_test.yml',
         'test/fr_ut_test.yml',
         'test/fr_vat_test.yml',
+        'test/fr_tax_test.yml',
 #        'test/control_number.yml',
 #        'test/fr_sale_test.yml',
 #        'test/fr_purchase_test.yml',
