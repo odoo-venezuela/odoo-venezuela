@@ -103,7 +103,7 @@ We now have a configuration wizard after this module install.
         'test/fr_address.yml',
         'test/fr_sale_test.yml',
         'test/fr_purchase_test.yml',
-#        'test/control_number.yml',
+        'test/fr_control_number.yml',
 #        'test/fr_damaged.yml',
 #        'test/fr_debit_note.yml',
 #        'test/fr_refund_note.yml',

@@ -1,0 +1,19 @@
+-
+  1. Control number tests
+-
+  1.1 I call a wizard to modify the next invoice
+-
+  !record { model: wiz.nroctrl, id: fr_num_ctrl01 }:
+    name: &num_ctrl '998877665544' 
+    sure: True
+-
+  1.2 I call method of the wizard to modify the invoice control number
+-
+  !python { model: wiz.nroctrl }: |
+    context = {'active_id': ref('demo_fr_invoice_2')}
+    self.set_noctrl(cr, uid, [ref('fr_num_ctrl01')], context=context)
+-
+  1.3 I check the new invoice control number
+-
+  !assert { model: account.invoice, id: demo_fr_invoice_2, string: 'There is something wrong, Control Number should have changed' }:
+    - nro_ctrl == '998877665544'
