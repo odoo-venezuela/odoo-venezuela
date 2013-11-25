@@ -1,33 +1,28 @@
 -
   3. Fiscal requirements purchase tests
 -
+  I set the context that will be used for the encoding of all the invoices of this file
+-
+  !context
+    'type': 'in_invoice'
+-
   3.1 In order to test fiscal requirements I create a new customer purchase invoice with purchase tax 2
 -
   !record {model: account.invoice, id: test_fr02}:
-    type: in_invoice
+    account_id: account.a_pay
     company_id: base.main_company
     currency_id: base.EUR
-    date_invoice: !eval time.strftime('%Y-%m-%d')
-    account_id: account.a_recv
     invoice_line:
       - product_id: product.product_product_4
         quantity: 3
         uos_id: product.product_uom_unit
         price_unit: 3
         name: Fiscal Requirements Purchase Invoice p1
-        account_id: account.a_sale
+        account_id: account.a_expense
         invoice_line_tax_id:
         - iva_purchase1
-      - product_id: product.product_product_3
-        quantity: 5
-        uos_id: product.product_uom_unit
-        price_unit: 2
-        name: Fiscal Requirements Purchase Invoice p2
-        account_id: account.a_sale
-        invoice_line_tax_id:
-        - iva_purchase1
-    journal_id: account.sales_journal
-    partner_id: f_req_partner_2
+    journal_id: account.expenses_journal
+    partner_id: base.res_partner_23
     reference_type: none
     nro_ctrl: 445122-SD
 -
@@ -36,39 +31,21 @@
   !assert {model: account.invoice, id: test_fr02}:
     - state == 'draft'
 -
-  3.3 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
+  3.3 Click on reset taxes button & Check That there is a tax
+-
+  !python {model: account.invoice}: |
+    self.button_reset_taxes(cr, uid, [ref("test_fr02")])
+    inv_brw = self.browse(cr, uid, ref('test_fr01'))
+    assert inv_brw.tax_line, 'There should be tax lines in this invoive'
+-
+  3.4 I change the state of invoice to "Proforma2" by clicking PRO-FORMA button
 -
   !workflow {model: account.invoice, action: invoice_proforma2, ref: test_fr02}
 -
-  3.4 I check that the invoice state is now "Proforma2"
+  3.5 I check that the invoice state is now "Proforma2"
 -
   !assert {model: account.invoice, id: test_fr02}:
     - state == 'proforma2'
--
-  3.5 Click on reset taxes button
--
-  !python {model: account.invoice}: |
-    v = False
-    self.button_reset_taxes(cr, uid, [ref("test_fr02")])
-    try:
-      rollback = cr.rollback
-      cr.rollback = lambda x = None: None      
-      self.button_reset_taxes(cr, uid, [ref("test_fr02")])
-    except:
-      v = True
-      cr.rollback = rollback
-#-
-#  I create invoice by clicking on Create button
-#-
-  #!python {model: account.invoice}: |
-  #  from openerp import netsvc
-  #  v = False
-  #  try:
-  #    wf_service = netsvc.LocalService("workflow")
-  #    wf_service.trg_validate(uid, 'account.invoice', ref("test_fr02"),'invoice_open', cr)
-  #  except:
-  #    v = True
-  #  assert v == True, 'This workflow should fail'
 -
   3.6 I check that the invoice state is not "Open"
 -

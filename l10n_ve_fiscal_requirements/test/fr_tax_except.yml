@@ -1,6 +1,0 @@
-#-
-#  Check if there is at least 1 Tax-except concept
-#-
-#  !python {model: islr.wh.concept}: |
-#    res = self.search(cr, uid, [('withholdable', '=', False)])
-#    assert len(res) >= 1, 'There is not a Tax-except concept'

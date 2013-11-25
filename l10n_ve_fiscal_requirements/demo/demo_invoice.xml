@@ -3,7 +3,7 @@
     <data>
         <!--
         Invoices Suppliers:
-        Just ensuring in fiscal requirement the creation of an invoice in possible.
+        Just ensuring in fiscal requirement the creation of an invoice is possible.
         TODO: generate an Debit Note from this invoice.
         -->
         <record id="demo_fr_invoice_2" model="account.invoice">
@@ -24,7 +24,7 @@
         </record>
         <!--
         Invoices Customer:
-        Just ensuring in fiscal requirement the creation of an invoice in possible.
+        Just ensuring in fiscal requirement the creation of an invoice is possible.
         TODO: generate an Debit Note from this invoice.
         TODO: Note this invoice should be used to assign nro-ctrl post validated the invoice.
         -->

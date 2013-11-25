@@ -40,17 +40,17 @@ class seniat_url(osv.osv):
     logger = logging.getLogger('res.partner')
     _columns = {
         'name': fields.char('URL Seniat for Partner Information', size=255,
-        required=True, readonly=False,
-        help='''In this field enter the URL from Seniat for search the
-        fiscal information from partner'''),
+            required=True, readonly=False,
+            help='''In this field enter the URL from Seniat for search the
+            fiscal information from partner'''),
         'url_seniat': fields.char('URL Seniat for Retention Rate',
-        size=255, required=True, readonly=False,
-        help='''In this field enter the URL from Seniat for search the
-        retention rate from partner (RIF)'''),
+            size=255, required=True, readonly=False,
+            help='''In this field enter the URL from Seniat for search the
+            retention rate from partner (RIF)'''),
         'url_seniat2': fields.char('URL Seniat for Retention Rate',
-        size=255, required=True, readonly=False, help='''In this field enter
-        the URL from Seniat for search the retention rate from partner
-        (CI or Passport)'''),
+            size=255, required=True, readonly=False, help='''In this field enter
+            the URL from Seniat for search the retention rate from partner
+            (CI or Passport)'''),
     }
 
     #    Update Partner Information
