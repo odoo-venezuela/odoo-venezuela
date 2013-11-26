@@ -13,7 +13,7 @@
         </record>
 
         <record id="l10n_ve_fiscal_requirements.iva_sale3" model="account.tax">
-            <field name="ret">False</field>
+            <field name="ret" eval="0"/>
         </record>
 
         <record id="l10n_ve_fiscal_requirements.iva_sale4" model="account.tax">
@@ -29,7 +29,7 @@
         </record>
 
         <record id="l10n_ve_fiscal_requirements.iva_purchase3" model="account.tax">
-            <field name="ret">False</field>
+            <field name="ret" eval="0"/>
         </record>
 
         <record id="l10n_ve_fiscal_requirements.iva_purchase4" model="account.tax">
