@@ -65,6 +65,7 @@
         "workflow/wh_action_server.xml",        
     ],
     'demo': [
+            "demo/demo_taxes.xml",
             "demo/l10n_ve_withholding_iva_sequences_demo.xml",
             "demo/demo_partners.xml",
             "demo/l10n_ve_withholding_iva_demo.xml",
