@@ -1,0 +1,84 @@
+-
+  1. Testing partner configuration
+-
+  1.1. Customer (Company) as withholding agent
+-
+    !assert {model: res.partner, id: base.main_partner, string: Customer (Company) is not a withholding agent}:
+        - wh_iva_agent
+-
+  1.2. Supplier A as withholding agent
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: Supplier A is not a withholding agent}:
+        - wh_iva_agent
+-
+  1.3. Supplier B as not withholding agent
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_7, string: Supplier B is a withholding agent}:
+        - wh_iva_agent == False
+-
+  2. Testing taxes configuration
+-
+  2.1. withholdeable tax
+-
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase1, string: The tax is not withholdeable}:
+        - ret
+-
+  2.1. Non-withholdeable tax
+-
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase3, string: The tax is withholdeable}:
+        - ret == False
+-
+  3. I set the context that will be used for the encoding of all the invoices of this file
+-
+  !context
+    'type': 'in_invoice'
+-
+  4. Creating purchase invoices
+-
+  4.1. Case 111 (wh_partner, wh_company, wh_tax)
+-
+    !record {model: account.invoice, id: invoice_111, view: account.invoice_supplier_form}: &invoice
+        nro_ctrl: 111-IVA
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_pay
+        company_id: base.main_company
+        currency_id: base.EUR
+        invoice_line: &invoice_line
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            name: purchase 111
+            account_id: account.a_expense
+            invoice_line_tax_id:
+            - l10n_ve_fiscal_requirements.iva_purchase1
+        journal_id: account.expenses_journal
+        reference_type: none
+-
+  4.2. Case 110 (wh_partner, wh_company, NO_wh_tax)
+-
+    !record {model: account.invoice, id: invoice_110, view: account.invoice_supplier_form}:
+        nro_ctrl: 110-IVA
+        invoice_line:
+          - invoice_line_tax_id:
+              - l10n_ve_fiscal_requirements.iva_purchase3
+            <<: *invoice_line
+        <<: *invoice
+-
+  4.3. Case 011 (NO_wh_partner, wh_company, wh_tax)
+-
+    !record {model: account.invoice, id: invoice_011, view: account.invoice_supplier_form}:
+        nro_ctrl: 011-IVA
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
+        <<: *invoice
+-
+  4.4. Case 010 (NO_wh_partner, wh_company, NO_wh_tax)
+-
+    !record {model: account.invoice, id: invoice_010, view: account.invoice_supplier_form}:
+        nro_ctrl: 010-IVA
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
+        invoice_line:
+          - invoice_line_tax_id:
+              - l10n_ve_fiscal_requirements.iva_purchase3
+            <<: *invoice_line
+        <<: *invoice
