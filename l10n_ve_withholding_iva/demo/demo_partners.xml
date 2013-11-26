@@ -24,7 +24,7 @@
              fiscally
         -->
         <record id="l10n_ve_fiscal_requirements.f_req_partner_7" model="res.partner">
-            <field name="wh_iva_agent">0</field>
+            <field name="wh_iva_agent" eval="0"/>
             <field name="wh_iva_rate">100</field>
         </record>
         <!--All the rest of partners should have wh_rate 100 per cent it is better withhold more
