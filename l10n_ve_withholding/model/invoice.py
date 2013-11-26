@@ -106,11 +106,14 @@ class account_invoice(osv.osv):
     def ret_payment_get(self, cr, uid, ids, *args):
         """ Return payments associated with this bill
         """
+        #/!\ This method need revision and I (hbto) have come to believe it is
+        # useless at worst, at best it needs to be refactored, to get payments
+        # from invoice one just need to look at the payment_ids field
+
+        lines = []
         for invoice in self.browse(cr, uid, ids):
             moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
             src = []
-            lines = []
-            
             for m in self.pool.get('account.move.line').browse(cr, uid, moves):
                 temp_lines = []#Added temp list to avoid duplicate records
                 if m.reconcile_id:
@@ -121,8 +124,7 @@ class account_invoice(osv.osv):
                 lines = list(set(temp_lines))
                 src.append(m.id)
                 
-            lines = filter(lambda x: x not in src, lines)
-
+            lines += filter(lambda x: x not in src, lines)
         return lines
 
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
