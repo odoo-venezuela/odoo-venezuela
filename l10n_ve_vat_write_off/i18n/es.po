@@ -1,0 +1,859 @@
+# Spanish translation for openerp-venezuela-localization
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-venezuela-localization package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-venezuela-localization\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-11-12 19:17+0000\n"
+"PO-Revision-Date: 2013-11-26 00:01+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-11-26 05:34+0000\n"
+"X-Generator: Launchpad (build 16840)\n"
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Excedente de Crédito Fiscal para el mes siguiente"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,vat:0
+msgid "TIN"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "24"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "25"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "26"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "27"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "20"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "21"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "22"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "23"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Fiscal Book Lines"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,company_id:0
+#: help:vat.write.off,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "28"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "29"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Reintegro Solicitado (sólo quien suministre bienes o presten servicios a "
+"entes exonerados)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "342"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "343"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Compras Internas Gravadas por Alícuota General más Alícuota Adicional"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Fecha"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "2013"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total a Pagar"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Nº RIF:"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ventas de Exportación"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "CRÉDITOS FISCALES"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Percepciones del Período"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: model:ir.actions.act_window,name:l10n_ve_vat_write_off.view_vat_write_off_action
+#: model:ir.ui.menu,name:l10n_ve_vat_write_off.view_vat_write_off_menu
+msgid "VAT Write Off"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "FECHA:"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Percepciones Descontadas en Declaración(es) Sustituida(s)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "TODO"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "COMPAÑIA"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Créditos Fiscales Totalmente Deducibles"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "11.146,08"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "58"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "55"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "54"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "57"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "56"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "51"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "53"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "AÑO"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Percepciones"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Excedente Créditos Fiscales del mes Anterior (ítem 60 de la declaración "
+"anterior)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Importaciones Gravadas por Alícuota General más Alícuota Adicional"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Ventas y Débitos Fiscal para efectos de Determinación"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "313"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "312"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: selection:vat.write.off,state:0
+msgid "Getting Ready"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "82"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "80"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "81"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ajustes a los Débitos Fiscales de períodos anteriores"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ventas Internas no Gravadas"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Créditos Adquiridos por Cesión de Retenciones"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ventas Internas Gravadas por Alícuota Reducida"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "BASE IMPONIBLE (BsF)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Débitos Fiscales"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "443"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "442"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Créditos Fiscales"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Certificados de Débitos Fiscales Exonerados (emitidos por entes exonerados) "
+". Registrado en el período"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Retenciones del Período"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Print FORMA 30"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Importación Gravadas por Alícuota General"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total créditos fiscales deducibles... Realice la operación (70 + 37)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Percepciones en Aduanas Descontadas en esta Declaración"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Cuota Tributaria del Período"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "39"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "38"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ventas Internas Gravadas por Alícuota General más Alícuota Adicional"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "AUTOLIQUIDACIÓN (BsF)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "33"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "32"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "31"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "30"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "37"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "36"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "35"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "34"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Importaciones Gravadas por Alícuota Reducida"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Percepciones Acumuladas en Importaciones por Descontar"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "452"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "453"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "333"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "332"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "60"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,purchase_fb_id:0
+#: help:vat.write.off,purchase_fb_id:0
+msgid "Purchase Fiscal Book"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "66"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "67"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "68"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "69"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,state:0
+msgid "Status"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Impuesto pagado en Declaración(es) Sustituida(s)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,p_do_additional_vat_base_sum:0
+#: field:vat.write.off,p_do_additional_vat_tax_sum:0
+#: field:vat.write.off,p_do_general_vat_base_sum:0
+#: field:vat.write.off,p_do_general_vat_tax_sum:0
+#: field:vat.write.off,p_do_reduced_vat_base_sum:0
+#: field:vat.write.off,p_do_reduced_vat_tax_sum:0
+#: field:vat.write.off,p_tax_amount:0
+#: field:vat.write.off,s_base_amount:0
+#: field:vat.write.off,s_do_additional_vat_base_sum:0
+#: field:vat.write.off,s_do_additional_vat_tax_sum:0
+#: field:vat.write.off,s_do_general_vat_base_sum:0
+#: field:vat.write.off,s_do_general_vat_tax_sum:0
+#: field:vat.write.off,s_do_reduced_vat_base_sum:0
+#: field:vat.write.off,s_do_reduced_vat_tax_sum:0
+#: field:vat.write.off,s_do_sdcf_and_exempt_sum:0
+#: field:vat.write.off,s_get_vat_sdcf_sum:0
+#: field:vat.write.off,s_imex_additional_vat_base_sum:0
+#: field:vat.write.off,s_imex_additional_vat_tax_sum:0
+#: field:vat.write.off,s_imex_general_vat_base_sum:0
+#: field:vat.write.off,s_imex_general_vat_tax_sum:0
+#: field:vat.write.off,s_imex_reduced_vat_base_sum:0
+#: field:vat.write.off,s_imex_reduced_vat_tax_sum:0
+#: field:vat.write.off,s_imex_vat_base_sum:0
+#: field:vat.write.off,s_tax_amount:0
+msgid "unknown"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: help:vat.write.off,period_id:0
+msgid "Book's Fiscal Period"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Certificados de Débitos Fiscales Exonerados (recibos de entes exonerados). "
+"Registro del Período"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: model:ir.actions.report.xml,name:l10n_ve_vat_write_off.report_vat_write_off
+#: view:vat.write.off:0
+msgid "FORMA 30"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Saldo de Percepciones en Aduanas no Aplicado"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Compras y Créditos Fiscales del Período"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "SI ESTA ES UNA DECLARACIÓN SUSTITUTIVA O COMPLEMENTARIA; FECHA"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "90"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: model:ir.model,name:l10n_ve_vat_write_off.model_vat_write_off
+msgid "vat.write.off"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Compras Internas Gravadas por Alícuota Reducida"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,sale_fb_id:0
+#: help:vat.write.off,sale_fb_id:0
+msgid "Sale Fiscal Book"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: selection:vat.write.off,state:0
+msgid "Seniat Submitted"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "11"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "10"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "13"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "12"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "15"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "14"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "17"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "16"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "19"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "18"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,period_id:0
+msgid "Period"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "MES"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Sub-total Impuesto a Pagar"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Saldo de Retenciones de IVA no aplicado"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Créditos Adquiridos por Cesión de Percepciones"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "DÉBITOS FISCALES"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ajustes a los Créditos Fiscales de períodos anteriores"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Retenciones Soportadas y Descontadas en esta Declaración"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Reintegro Solicitado (sólo Exportadores)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Ventas Internas Gravadas por Alícuota General"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: field:vat.write.off,start_date:0
+msgid "Start date"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "48"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "49"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "46"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "47"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "44"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "45"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "42"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "43"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "40"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "41"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "322"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "323"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "CRÉDITO FISCAL (BsF)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Compras Internas Gravadas por Alícuota General"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "DÉBITO FISCAL (BsF)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Compras no Gravadas y/o sin Derecho a Crédito Fiscal"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "\"\""
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "03"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Créditos Fiscales producto de la Aplicación del porcentaje de la prorrata"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Retenciones Acumuladas por Descontar"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "77"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "76"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "75"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "74"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "73"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "72"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "71"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "70"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "78"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Retenciones Descontadas en Declaración(es) Sustituida(s)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "PERÍODO DE IMPOSICIÓN:"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid "Total Retenciones"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: selection:vat.write.off,state:0
+msgid "Approved by Manager"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Recuperación de Retenciones Solicitado (saldo con antigüedad mayor a dos "
+"períodos impositivos)"
+msgstr ""
+
+#. module: l10n_ve_vat_write_off
+#: view:vat.write.off:0
+msgid ""
+"Recuperación de Percepciones Solicitado (saldo con antigüedad mayor a dos "
+"períodos impositivos)"
+msgstr ""
