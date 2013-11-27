@@ -44,7 +44,7 @@
 -
   4.3.1. Creating the invoice
 -
-    !record {model: account.invoice, id: invoice_111, view: account.invoice_supplier_form}: &invoice
+    !record {model: account.invoice, id: purchase_invoice_111, view: account.invoice_supplier_form}: &invoice
         nro_ctrl: 111-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_pay
@@ -64,17 +64,17 @@
 -
   4.3.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_111}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_111}
 -
   4.3.3 Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_111, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_111, string: Invoice is not in Open state}:
         - state == 'open'
 -
   4.3.4. Check that withholding document was created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_111"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_111"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert wh_iva_id, 'Withholding document was not created'
@@ -83,7 +83,7 @@
 -
   4.4.1. Creating the invoice
 -
-    !record {model: account.invoice, id: invoice_110, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_110, view: account.invoice_supplier_form}:
         nro_ctrl: 110-IVA
         invoice_line:
           - invoice_line_tax_id:
@@ -93,17 +93,17 @@
 -
   4.4.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_110}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_110}
 -
   4.4.2. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_110, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_110, string: Invoice is not in Open state}:
         - state == 'open'
 -
   4.4.3. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_110"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_110"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
@@ -112,24 +112,24 @@
 -
   4.5.1. Creating the invoice
 -
-    !record {model: account.invoice, id: invoice_011, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_011, view: account.invoice_supplier_form}:
         nro_ctrl: 011-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         <<: *invoice
 -
   4.5.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_011}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_011}
 -
   4.5.3. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_011, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_011, string: Invoice is not in Open state}:
         - state == 'open'
 -
   4.5.4. Check that withholding document was created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_011"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_011"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert wh_iva_id, 'Withholding document was not created'
@@ -138,7 +138,7 @@
 -
   4.6.1. Creating the invoice
 -
-    !record {model: account.invoice, id: invoice_010, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_010, view: account.invoice_supplier_form}:
         nro_ctrl: 010-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
@@ -149,17 +149,17 @@
 -
   4.6.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_010}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_010}
 -
   4.6.3. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_010, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_010, string: Invoice is not in Open state}:
         - state == 'open'
 -
   4.6.4. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_010"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_010"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
@@ -180,23 +180,23 @@
 -
   5.3.1. Create invoice
 -
-    !record {model: account.invoice, id: invoice_101, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_101, view: account.invoice_supplier_form}:
         nro_ctrl: 101-IVA
         <<: *invoice
 -
   5.3.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_101}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_101}
 -
   5.3.3. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_101, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_101, string: Invoice is not in Open state}:
         - state == 'open'
 -
   5.3.4. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_101"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_101"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
@@ -205,7 +205,7 @@
 -
   5.4.1 Create the invoice
 -
-    !record {model: account.invoice, id: invoice_100, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_100, view: account.invoice_supplier_form}:
         nro_ctrl: 100-IVA
         invoice_line:
           - invoice_line_tax_id:
@@ -215,17 +215,17 @@
 -
   5.4.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_100}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_100}
 -
   5.4.3. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_100, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_100, string: Invoice is not in Open state}:
         - state == 'open'
 -
   5.4.4. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_100"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_100"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
@@ -234,24 +234,24 @@
 -
   5.5.1. Create the invoice
 -
-    !record {model: account.invoice, id: invoice_001, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_001, view: account.invoice_supplier_form}:
         nro_ctrl: 001-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         <<: *invoice
 -
   5.5.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_001}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_001}
 -
   5.5.3. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_001, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_001, string: Invoice is not in Open state}:
         - state == 'open'
 -
   5.5.4. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_001"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_001"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
@@ -260,7 +260,7 @@
 -
   5.6.1. Create the invoice
 -
-    !record {model: account.invoice, id: invoice_000, view: account.invoice_supplier_form}:
+    !record {model: account.invoice, id: purchase_invoice_000, view: account.invoice_supplier_form}:
         nro_ctrl: 000-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
@@ -271,17 +271,17 @@
 -
   5.6.2. Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: invoice_000}
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_000}
 -
   5.6.3. Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: invoice_000, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: purchase_invoice_000, string: Invoice is not in Open state}:
         - state == 'open'
 -
   5.6.4. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref("invoice_000"))
+        inv = self.browse(cr, uid, ref("purchase_invoice_000"))
         wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
