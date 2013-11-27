@@ -76,9 +76,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_111"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   4.4. Case 110 (wh_partner, wh_company, NO_wh_tax)
 -
@@ -105,9 +103,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_110"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   4.5. Case 011 (NO_wh_partner, wh_company, wh_tax)
 -
@@ -131,9 +127,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_011"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   4.6. Case 010 (NO_wh_partner, wh_company, NO_wh_tax)
 -
@@ -161,9 +155,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_010"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   5. When the company is not a withholding agent
 -
@@ -198,9 +190,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_101"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   5.4. Case 100 (wh_partner, NO wh_company, NO wh_tax)
 -
@@ -227,9 +217,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_100"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   5.5. Case 001 (NO wh_partner, NO wh_company, wh_tax)
 -
@@ -253,9 +241,7 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_001"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
   5.6. Case 000 (NO wh_partner, NO wh_company, NO wh_tax)
 -
@@ -283,6 +269,4 @@
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("sale_invoice_000"))
-        wh_iva_id = self._fnct_get_wh_iva_id(cr, uid, [inv.id], 'wh_iva_id', [])
-        wh_iva_id = wh_iva_id[inv.id]
-        assert not wh_iva_id, 'Withholding document should not be created'
+        assert not inv.wh_iva_id, 'Withholding document should not be created'
