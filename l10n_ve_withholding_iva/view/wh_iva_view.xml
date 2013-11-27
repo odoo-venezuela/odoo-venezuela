@@ -15,7 +15,7 @@
                 <tree string="Withholding Lines">
                     <button name="load_taxes" string="Load Taxes" type="object" icon="gtk-ok" colspan="2" help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>
                     <field name="name"/>
-                    <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+                    <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id), ('type', '=', parent.type)]"/>
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
                     <field name="wh_iva_rate"/>
@@ -33,7 +33,7 @@
                     <notebook>
                         <page string="Withheld Invoice">
                             <group colspan="4">
-                                <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id)]"/>
+                                <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id), ('type', '=', parent.type)]"/>
                                 <field name="name"/>
                                 <field name="move_id"/>
                             </group>
