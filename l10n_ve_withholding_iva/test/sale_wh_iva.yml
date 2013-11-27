@@ -31,17 +31,17 @@
   !context
     'type': 'out_invoice'
 -
-  3.2 Test customer withholding when the company is a withholding agent.
+  3.2 Test customer withholding when the company is not a withholding agent.
 -
-  Set the company partner as a withholding agent.
+  Set the company partner as a non-withholding agent.
 -
     !record {model: res.partner, id: base.main_partner}:
-        wh_iva_agent: True
+        wh_iva_agent: False
 -
-  Checking that the Company partner is withholding agent.
+  Checking that the Company partner is not withholding agent.
 -
-    !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
-        - wh_iva_agent
+    !assert {model: res.partner, id: base.main_partner, string: The Company is a withholding agent}:
+        - not wh_iva_agent
 -
   Create a Customer Withholding 
 -
@@ -66,3 +66,51 @@
     period = period_obj.find(cr, uid, time.strftime('%Y/%m/%d'), {'company_id':ref('base.main_company')})
     assert period, 'There aren\'t periods for this date'
     self.write(cr, uid, ref("sale_wh_iva_base"), {'period_id':period[0]})
+-
+  Case 000 (Non-wh Company, Non-wh Partner, Non-ret Tax)
+-
+-
+  Case 001 (Non-wh Company, Non-wh Partner, Ret Tax)
+-
+-
+  Case 00N (Non-wh Company, Non-wh Partner, No Tax)
+-
+-
+  Case 010 (Non-wh Company, Wh Partner, Non-ret Tax)
+-
+-
+  Case 011 (Non-wh Company, Wh Partner, Ret Tax)
+-
+-
+  Case 01N (Non-wh Company, Wh Partner, No Tax)
+-
+-
+  3.3 Test customer withholding when the company is a withholding agent.
+-
+  Set the company partner as a withholding agent.
+-
+    !record {model: res.partner, id: base.main_partner}:
+        wh_iva_agent: True
+-
+  Checking that the Company partner is a withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
+        - wh_iva_agent
+-
+  Case 100 (Wh Company, Non-wh Partner, Non-ret Tax)
+-
+-
+  Case 101 (Wh Company, Non-wh Partner, Ret Tax)
+-
+-
+  Case 10N (Wh Company, Non-wh Partner, No Tax)
+-
+-
+  Case 110 (Wh Company, Wh Partner, Non-ret Tax)
+-
+-
+  Case 111 (Wh Company, Wh Partner, Ret Tax)
+-
+-
+  Case 11N (Wh Company, Wh Partner, No Tax)
+-
