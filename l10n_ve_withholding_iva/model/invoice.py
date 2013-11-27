@@ -41,6 +41,20 @@ class account_invoice(osv.osv):
         awil_brws = awil_obj.browse(cr, uid, ids, context=context)
         return [i.invoice_id.id for i in awil_brws if i.invoice_id]
         
+    def _get_inv_from_awi(self, cr, uid, ids, context=None):
+        '''
+        Returns a list of invoices which are recorded in VAT Withholding Docs
+        '''
+        res = []
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awi_obj = self.pool.get('account.wh.iva')
+        awi_brws = awi_obj.browse(cr, uid, ids, context=context)
+        for awi_brw in awi_brws:
+            for awil_brw in awi_brw.wh_lines:
+                awil_brw.invoice_id and res.append(awil_brw.invoice_id.id)
+        return res
+        
     def _fnct_get_wh_iva_id(self, cr, uid, ids, name, args, context=None):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -110,6 +124,7 @@ class account_invoice(osv.osv):
             type='many2one', relation='account.wh.iva', 
             string='VAT Wh. Document', 
             store={
+                'account.wh.iva':(_get_inv_from_awi, ['wh_lines'], 50),
                 'account.wh.iva.line':(_get_inv_from_awil, ['invoice_id'], 50),
             }, help="This is the VAT Withholding Document where this invoice is being withheld"),
         'vat_apply':fields.boolean('Exclude this document from VAT Withholding', help="This selection indicates whether generate the invoice withholding document")
