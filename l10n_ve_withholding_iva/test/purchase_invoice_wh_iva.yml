@@ -30,14 +30,19 @@
 -
   4. When the company is a withholding agent
 -
-  4.1. Checking that the Company partner is withholding agent
+  4.1. Set company as withholding agent
+-
+    !record {model: res.partner, id: base.main_partner}:
+        wh_iva_agent: True
+-
+  4.2. Checking that the Company partner is withholding agent
 -
     !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
         - wh_iva_agent
 -
-  4.2. Case 111 (wh_partner, wh_company, wh_tax)
+  4.3. Case 111 (wh_partner, wh_company, wh_tax)
 -
-  4.2.1. Creating the invoice
+  4.3.1. Creating the invoice
 -
     !record {model: account.invoice, id: invoice_111, view: account.invoice_supplier_form}: &invoice
         nro_ctrl: 111-IVA
@@ -57,16 +62,16 @@
         journal_id: account.expenses_journal
         reference_type: none
 -
-  4.2.2. Change invoice to Open state.
+  4.3.2. Change invoice to Open state.
 -
   !workflow {model: account.invoice, action: invoice_open, ref: invoice_111}
 -
-  4.2.3 Validate if the invoice is in Open state.
+  4.3.3 Validate if the invoice is in Open state.
 -
     !assert {model: account.invoice, id: invoice_111, string: Invoice is not in Open state}:
         - state == 'open'
 -
-  4.2.4. Check that withholding document was created
+  4.3.4. Check that withholding document was created
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("invoice_111"))
@@ -74,9 +79,9 @@
         wh_iva_id = wh_iva_id[inv.id]
         assert wh_iva_id, 'Withholding document was not created'
 -
-  4.3. Case 110 (wh_partner, wh_company, NO_wh_tax)
+  4.4. Case 110 (wh_partner, wh_company, NO_wh_tax)
 -
-  4.3.1. Creating the invoice
+  4.4.1. Creating the invoice
 -
     !record {model: account.invoice, id: invoice_110, view: account.invoice_supplier_form}:
         nro_ctrl: 110-IVA
@@ -86,16 +91,16 @@
             <<: *invoice_line
         <<: *invoice
 -
-  4.3.2. Change invoice to Open state.
+  4.4.2. Change invoice to Open state.
 -
   !workflow {model: account.invoice, action: invoice_open, ref: invoice_110}
 -
-  4.3.2. Validate if the invoice is in Open state.
+  4.4.2. Validate if the invoice is in Open state.
 -
     !assert {model: account.invoice, id: invoice_110, string: Invoice is not in Open state}:
         - state == 'open'
 -
-  4.3.3. Check that withholding document was NOT created
+  4.4.3. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("invoice_110"))
@@ -103,25 +108,25 @@
         wh_iva_id = wh_iva_id[inv.id]
         assert not wh_iva_id, 'Withholding document should not be created'
 -
-  4.4. Case 011 (NO_wh_partner, wh_company, wh_tax)
+  4.5. Case 011 (NO_wh_partner, wh_company, wh_tax)
 -
-  4.4.1. Creating the invoice
+  4.5.1. Creating the invoice
 -
     !record {model: account.invoice, id: invoice_011, view: account.invoice_supplier_form}:
         nro_ctrl: 011-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         <<: *invoice
 -
-  4.4.2. Change invoice to Open state.
+  4.5.2. Change invoice to Open state.
 -
   !workflow {model: account.invoice, action: invoice_open, ref: invoice_011}
 -
-  4.4.3. Validate if the invoice is in Open state.
+  4.5.3. Validate if the invoice is in Open state.
 -
     !assert {model: account.invoice, id: invoice_011, string: Invoice is not in Open state}:
         - state == 'open'
 -
-  4.4.4. Check that withholding document was created
+  4.5.4. Check that withholding document was created
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("invoice_011"))
@@ -129,9 +134,9 @@
         wh_iva_id = wh_iva_id[inv.id]
         assert wh_iva_id, 'Withholding document was not created'
 -
-  4.5. Case 010 (NO_wh_partner, wh_company, NO_wh_tax)
+  4.6. Case 010 (NO_wh_partner, wh_company, NO_wh_tax)
 -
-  4.5.1. Creating the invoice
+  4.6.1. Creating the invoice
 -
     !record {model: account.invoice, id: invoice_010, view: account.invoice_supplier_form}:
         nro_ctrl: 010-IVA
@@ -142,16 +147,16 @@
             <<: *invoice_line
         <<: *invoice
 -
-  4.5.2. Change invoice to Open state.
+  4.6.2. Change invoice to Open state.
 -
   !workflow {model: account.invoice, action: invoice_open, ref: invoice_010}
 -
-  4.5.3. Validate if the invoice is in Open state.
+  4.6.3. Validate if the invoice is in Open state.
 -
     !assert {model: account.invoice, id: invoice_010, string: Invoice is not in Open state}:
         - state == 'open'
 -
-  4.5.4. Check that withholding document was NOT created
+  4.6.4. Check that withholding document was NOT created
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("invoice_010"))
