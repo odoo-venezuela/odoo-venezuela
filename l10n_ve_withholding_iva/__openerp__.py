@@ -86,6 +86,7 @@
 #            'test/iva_test_wh_3.yml',
 #            'test/iva_test_wh_4.yml',
              'test/purchase_invoice_wh_iva.yml',
+             'test/sale_invoice_wh_iva.yml',
         ],
     'installable': True,
     'active': False,
