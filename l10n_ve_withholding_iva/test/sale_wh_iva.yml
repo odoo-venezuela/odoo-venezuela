@@ -1,0 +1,68 @@
+-
+  3. Testing Customer Withholding documents generated manually (sale).
+-
+  3.1 Checking and configuring the elements needed.
+-
+  Check if the journal is of sale type.
+-
+    !assert {model: account.journal, id: account.sales_journal, string: The journal is not of sale type}:
+        - type == 'sale'
+-
+  Check if the account is of type receivable.
+-
+    !assert {model: account.account, id: account.a_recv, string: The account is not of receivable type}:
+        - type == 'receivable'
+-
+  Customer A is withholding agent.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: Customer A is not a withholding agent}:
+        - wh_iva_agent
+-
+  Customer B is not withholding agent.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_7, string: Customer B is a withholding agent}:
+        - wh_iva_agent == False
+-
+  ---- TODO here are missing checkings. not defined yet
+-  
+-
+  Setting the context that will be used for the encoding of all the withholding documents
+-
+  !context
+    'type': 'out_invoice'
+-
+  3.2 Test customer withholding when the company is a withholding agent.
+-
+  Set the company partner as a withholding agent.
+-
+    !record {model: res.partner, id: base.main_partner}:
+        wh_iva_agent: True
+-
+  Checking that the Company partner is withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
+        - wh_iva_agent
+-
+  Create a Customer Withholding 
+-
+    !record {model: account.wh.iva, id: sale_wh_iva_base, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &sale_wh_iva
+        number: Customer Withholding Base
+        name: Customer Withholding Base
+        #type: out_invoice
+        account_id: account.a_recv
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        journal_id: account.sales_journal
+        company_id: base.main_company
+        currency_id: base.EUR
+        #wh_lines:
+        #    invoice_id:
+        #    name:
+-
+  Before validating let's search de current period and added to the withholding 
+-
+  !python {model: account.wh.iva}: |
+    import time
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(cr, uid, time.strftime('%Y/%m/%d'), {'company_id':ref('base.main_company')})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, ref("sale_wh_iva_base"), {'period_id':period[0]})
