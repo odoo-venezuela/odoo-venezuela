@@ -45,27 +45,34 @@
 -
   Create a Customer Withholding 
 -
-    !record {model: account.wh.iva, id: sale_wh_iva_base, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &sale_wh_iva
+    !record {model: account.wh.iva, id: awi_sale_base, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &sale_wh_iva
         number: Customer Withholding Base
         name: Customer Withholding Base
-        #type: out_invoice
-        account_id: account.a_recv
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
         journal_id: account.sales_journal
         company_id: base.main_company
         currency_id: base.EUR
-        #wh_lines:
-        #    invoice_id:
-        #    name:
 -
-  Before validating let's search de current period and added to the withholding 
+  I check that the customer withholding is in draft state.
+-
+  !assert {model: account.wh.iva, id: awi_sale_base, string: the withholding iva is not in draft state. It needs to be when is just created}:
+    - state == 'draft'
+-
+  I check that the customer withholding is out_invoice type.
+-
+  !assert {model: account.wh.iva, id: awi_sale_base, string: Not the intended type. It should be 'out_invoice'}:
+    - type == 'out_invoice'
+-
+  Search current period and atach to the withholding iva doc.
 -
   !python {model: account.wh.iva}: |
     import time
+    awi_id = ref("awi_sale_base")
     period_obj = self.pool.get('account.period')
     period = period_obj.find(cr, uid, time.strftime('%Y/%m/%d'), {'company_id':ref('base.main_company')})
     assert period, 'There aren\'t periods for this date'
-    self.write(cr, uid, ref("sale_wh_iva_base"), {'period_id':period[0]})
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
 -
   Case 000 (Non-wh Company, Non-wh Partner, Non-ret Tax)
 -
