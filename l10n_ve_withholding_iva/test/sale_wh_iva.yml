@@ -163,14 +163,12 @@
     values['account_id'] = res['value']['account_id']
     self.write(cr, uid, awi_id, values)
 -
-  Check that the withholding line was added to the wh doc.
+  Check that the withholding line was NO added to the wh doc.
 -
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_010')
     awi_brw = self.browse(cr, uid, awi_id)
-    assert awi_brw.wh_lines, "There are no lines to withhold"
-    #~ self.compute_amount_wh(cr,uid,[ref('awi_sale_invoice_000')])
-
+    assert not awi_brw.wh_lines, "This cannot happend because the tax in the invoice is non-ret tax. so the withholding line can be added in first place"
 -
   Case 011 (Non-wh Company, Wh Partner, Ret Tax)
 -
