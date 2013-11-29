@@ -417,7 +417,7 @@ class account_wh_iva(osv.osv):
     ]
 
     _sql_constraints = [
-      ('ret_num_uniq', 'unique (number)', 'number must be unique !')
+      ('ret_num_uniq', 'unique (number,type,partner_id,company_id)', 'number must be unique by partner!')
     ] 
 
 
