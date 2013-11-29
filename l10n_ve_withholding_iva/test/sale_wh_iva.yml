@@ -281,7 +281,7 @@
     assert period, 'There aren\'t periods for this date'
     self.write(cr, uid, awi_id, {'period_id':period[0]})
 -
-  Create an invoice that will be use in the withholding doc.
+  Create an invoice for customer A with ret tax that will be added to the withholding document.
 -
     !record {model: account.invoice, id: awi_sale_invoice_01N, view: account.invoice_form}:
         nro_ctrl: 01N-INV-AWI-SALE
@@ -348,3 +348,82 @@
 -
   Case 11N (Wh Company, Wh Partner, No Tax)
 -
+-
+  3.5 Trying to add Customer B withholding line into a withholding document of Customer A.
+-
+  Create a withholding document for Customer A.
+-
+    !record {model: account.wh.iva, id: awi_sale_customer_a, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
+        number: AWI SALE CUSTOMER A
+        name: AWI SALE CUSTOMER A
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+        journal_id: account.sales_journal
+        company_id: base.main_company
+        currency_id: base.EUR
+-
+  I check that the customer withholding is in draft state.
+-
+  !assert {model: account.wh.iva, id: awi_sale_customer_a, string: the withholding iva is not in draft state. It needs to be in draft stata when is just created}:
+    - state == 'draft'
+-
+  I check that the customer withholding is out_invoice type.
+-
+  !assert {model: account.wh.iva, id: awi_sale_customer_a, string: Not the intended type. It should be 'out_invoice'}:
+    - type == 'out_invoice'
+-
+  Search current period and attach to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref("awi_sale_customer_a")
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  Create an invoice for the Customer B with ret tax.
+-
+    !record {model: account.invoice, id: awi_sale_invoice_customer_b, view: account.invoice_form}:
+        nro_ctrl: AWI SALE INV CUSTOMER B
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
+        invoice_line:
+          - name: AWI SALE INV CUSTOMER B
+            product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_sale
+            invoice_line_tax_id:
+              - l10n_ve_fiscal_requirements.iva_sale1
+        <<: *awi_sale_invoice_010
+-
+  Check that the invoice's type is sale (out_invoice).
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_customer_b, string: The invoice is not an out_invoice}:
+        - type == 'out_invoice'
+-
+  Add a withholding line (invoice) to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_customer_a')
+    invoice_id = ref('awi_sale_invoice_customer_b')
+    values = {}
+    awi_brw = self.browse(cr, uid, awi_id)
+    res = self.onchange_partner_id(
+        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    values['wh_lines'] = [
+        (0, 0, {'invoice_id': invoice_id,
+                'name':'N/A',
+                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    values['account_id'] = res['value']['account_id']
+    self.write(cr, uid, awi_id, values)
+-
+  Check that the withholding line was NOT added to the wh doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_customer_a')
+    awi_brw = self.browse(cr, uid, awi_id)
+    assert not awi_brw.wh_lines, "A withholding line should not be created. Can not add a withholding line from Customer B into a withholding document of Customer A."
