@@ -252,6 +252,82 @@
 -
   Case 01N (Non-wh Company, Wh Partner, No Tax)
 -
+  Create a customer withholding with the 01N case conditions.
+-
+    !record {model: account.wh.iva, id: awi_sale_01N, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
+        number: AWI SALE 01N
+        name: AWI SALE 01N
+        <<: *awi_sale_X1X
+-
+  I check that the customer withholding is in draft state.
+-
+  !assert {model: account.wh.iva, id: awi_sale_01N, string: the withholding iva is not in draft state. It needs to be in draft stata when is just created}:
+    - state == 'draft'
+-
+  I check that the customer withholding is out_invoice type.
+-
+  !assert {model: account.wh.iva, id: awi_sale_01N, string: Not the intended type. It should be 'out_invoice'}:
+    - type == 'out_invoice'
+-
+  Search current period and attach to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref("awi_sale_01N")
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  Create an invoice that will be use in the withholding doc.
+-
+    !record {model: account.invoice, id: awi_sale_invoice_01N, view: account.invoice_form}:
+        nro_ctrl: 01N-INV-AWI-SALE
+        invoice_line: &invoice_line_XXN
+          - name: 01N-INV-AWI-SALE
+            product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_sale
+        <<: *awi_sale_invoice_010
+-
+  Check that the invoice's type is sale (out_invoice).
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_01N, string: The invoice is not an out_invoice}:
+        - type == 'out_invoice'
+-
+  Add a withholding line (invoice) to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_01N')
+    invoice_id = ref('awi_sale_invoice_01N')
+    values = {}
+    awi_brw = self.browse(cr, uid, awi_id)
+    res = self.onchange_partner_id(
+        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    values['wh_lines'] = [
+        (0, 0, {'invoice_id': invoice_id,
+                'name':'N/A',
+                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    values['account_id'] = res['value']['account_id']
+    self.write(cr, uid, awi_id, values)
+-
+  Check that the withholding line was not added to the wh doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_01N')
+    awi_brw = self.browse(cr, uid, awi_id)
+    assert not awi_brw.wh_lines, "A withholding line should not be created. because there is not related tax at the invoice"
+-
+
+
+
+
+
+
 -
   3.3 Test customer withholding when the company is a withholding agent.
 -
