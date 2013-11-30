@@ -1,48 +1,10 @@
 -
-  1. Tests for wh pay invoice
+  1. Tests the computation of fortnights
 -
-  1.1 I will create and post an account voucher for testing wh module
--
-  !python {model: account.voucher}: |
-    from openerp import netsvc
+  !python { model: account.period }: |
     import time
-    inv_obj = self.pool.get("account.invoice")
-    inv_brw = inv_obj.browse(cr, uid, ref("l10n_ve_fiscal_requirements.test_fr01"))
-    lines = inv_brw.invoice_line
-
-    vals = {}
-    journal_id = self.default_get(cr, uid, ['journal_id']).get('journal_id',None)
-    res = self.onchange_partner_id(cr, uid, [], inv_brw.partner_id.id, journal_id, 0.0, 1, ttype='receipt', date=False)
-    ap_obj = self.pool.get('account.period')
-    period = ap_obj.find(cr, uid, time.strftime('%Y/%m/%d'), context={'company_id':ref("base.main_company")})[0]
-    vals = {
-        'account_id': ref('account.cash'),
-        'amount': inv_brw.amount_total,
-        'company_id': ref('base.main_company'),
-        'currency_id': ref('base.EUR'),
-        'journal_id': ref('account.bank_journal'),
-        'partner_id': inv_brw.partner_id.id,
-        'period_id': period,
-        'type': 'receipt',
-    }
-    if not res['value']['line_cr_ids']:
-      res['value']['line_cr_ids'] = [{'type': 'cr', 'account_id': ref('account.a_recv'),}]
-    res['value']['line_cr_ids'][0]['amount'] = inv_brw.amount_total
-    vals['line_cr_ids'] = [(0,0,i) for i in res['value']['line_cr_ids']]
-    id = self.create(cr, uid, vals)
-    voucher_id = self.browse(cr, uid, id)
-    assert (voucher_id.state=='draft'), "Voucher is not in draft state"
-    wf_service = netsvc.LocalService("workflow")
-    wf_service.trg_validate(uid, 'account.voucher', voucher_id.id, 'proforma_voucher', cr)
-
--
-  1.2 I check that the invoice state is "Open"
--
-  !python {model: account.voucher}: |
-    import time
-    inv_obj = self.pool.get("account.invoice")
-    inv_brw = inv_obj.browse(cr, uid, ref("l10n_ve_fiscal_requirements.test_fr01"))
-    lines = inv_brw.invoice_line
-    data = self.onchange_journal(cr, uid, [ref("l10n_ve_fiscal_requirements.test_fr01")], 5, lines, False, 
-                                inv_brw.partner_id.id, time.strftime('%Y-%m-%d'), 
-                                inv_brw.amount_total, 'receipt', ref('base.main_company'), context=None)
+    Yt = time.strftime('%Y')
+    first_fortnight = self.find_fortnight(cr, uid, '%s-11-14'%Yt)
+    second_fortnight = self.find_fortnight(cr, uid, '%s-11-25'%Yt)
+    assert first_fortnight[1] == False, 'There is something wrong with the Fortnight Search, it should be False'
+    assert second_fortnight[1] == True, 'There is something wrong with the Fortnight Search, it should be True'

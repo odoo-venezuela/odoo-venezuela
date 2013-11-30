@@ -2,15 +2,6 @@
 <openerp>
     <data>
         <!--
-             Mark demo taxes as withholdable
-        -->
-        <record id="l10n_ve_fiscal_requirements.iva_sale1" model="account.tax">
-            <field name="ret">True</field>
-        </record>
-        <record id="l10n_ve_fiscal_requirements.iva_purchase1" model="account.tax">
-            <field name="ret">True</field>
-        </record>
-        <!--
         Invoices Suppliers
         -->
         <!--

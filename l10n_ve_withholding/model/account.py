@@ -102,6 +102,5 @@ class account_period(osv.osv):
         
         fortnight= False if time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 else True
         return (period_ids[0],fortnight)
-account_period()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

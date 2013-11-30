@@ -68,6 +68,7 @@
             "demo/l10n_ve_withholding_iva_sequences_demo.xml",
             "demo/demo_partners.xml",
             "demo/l10n_ve_withholding_iva_demo.xml",
+            "demo/demo_taxes.xml",
             "demo/demo_invoices.xml",
             ],
 
@@ -84,6 +85,11 @@
 #            'test/iva_test_wh_2.yml',
 #            'test/iva_test_wh_3.yml',
 #            'test/iva_test_wh_4.yml',
+
+
+#             'test/purchase_invoice_wh_iva.yml',
+#             'test/sale_invoice_wh_iva.yml',
+             'test/sale_wh_iva.yml',
         ],
     'installable': True,
     'active': False,

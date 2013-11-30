@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <!--
+             Mark demo taxes as withholdable
+        -->
+        <record id="l10n_ve_fiscal_requirements.iva_sale1" model="account.tax">
+            <field name="ret">True</field>
+            <field name="wh_vat_paid_account_id" ref="iva_pay"/>
+            <field name="wh_vat_collected_account_id" ref="iva_pay"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_sale2" model="account.tax">
+            <field name="ret">True</field>
+            <field name="wh_vat_paid_account_id" ref="iva_pay"/>
+            <field name="wh_vat_collected_account_id" ref="iva_pay"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_sale3" model="account.tax">
+            <field name="ret" eval="0"/>
+            <field name="wh_vat_paid_account_id" ref="iva_pay"/>
+            <field name="wh_vat_collected_account_id" ref="iva_pay"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_sale4" model="account.tax">
+            <field name="ret">True</field>
+            <field name="wh_vat_paid_account_id" ref="iva_pay"/>
+            <field name="wh_vat_collected_account_id" ref="iva_pay"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase1" model="account.tax">
+            <field name="ret">True</field>
+            <field name="wh_vat_paid_account_id" ref="iva_rec"/>
+            <field name="wh_vat_collected_account_id" ref="iva_rec"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase2" model="account.tax">
+            <field name="ret">True</field>
+            <field name="wh_vat_paid_account_id" ref="iva_rec"/>
+            <field name="wh_vat_collected_account_id" ref="iva_rec"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase3" model="account.tax">
+            <field name="ret" eval="0"/>
+            <field name="wh_vat_paid_account_id" ref="iva_rec"/>
+            <field name="wh_vat_collected_account_id" ref="iva_rec"/>
+        </record>
+
+        <record id="l10n_ve_fiscal_requirements.iva_purchase4" model="account.tax">
+            <field name="ret">True</field>
+            <field name="wh_vat_paid_account_id" ref="iva_rec"/>
+            <field name="wh_vat_collected_account_id" ref="iva_rec"/>
+        </record>
+
+    </data>
+</openerp>

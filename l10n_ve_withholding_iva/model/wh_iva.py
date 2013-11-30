@@ -707,15 +707,59 @@ class account_wh_iva(osv.osv):
                     awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
+    def _dummy_confirm_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
+        return True
+
+    def confirm_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can confirm the Withholding Document
+        '''
+        import pdb
+        pdb.set_trace()
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self.check_wh_lines(cr, uid, ids, context=context):
+            return False
+        if not self.check_wh_lines_fortnights(cr, uid, ids, context=context):
+            return False
+        if not self.check_invoice_nro_ctrl(cr, uid, ids, context=context):
+            return False
+        if not self.check_vat_wh(cr, uid, ids, context=context):
+            return False
+        if not self.check_wh_taxes(cr, uid, ids, context=context):
+            return False
+        if not self.write_wh_invoices(cr, uid, ids, context=context):
+            return False
+        if not self._dummy_confirm_check(cr, uid, ids, context=context):
+            return False
+        return True
+
+    def check_wh_lines(self, cr, uid, ids, context=None):
+        """ Check that wh iva has lines to withhold."""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awi_brw = self.browse(cr, uid, ids[0], context=context)
+        if not awi_brw.wh_lines:
+            raise osv.except_osv(
+                _("Missing Values !"),
+                _("Missing Withholding Lines!!!"))
+        return True
+
     def check_wh_lines_fortnights(self, cr, uid, ids, context=None):
         """ Check that every wh iva line belongs to the wh iva fortnight."""
         context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
         per_obj = self.pool.get('account.period')
         error_msg = str()
         fortnight_str = {'True': ' - Second Fortnight)',
                         'False': ' - First Fortnight)'}
         for awi_brw in self.browse(cr, uid, ids, context=context):
-            if not awi_brw.wh_lines: return False
             if awi_brw.type in ['out_invoice']: return True
             for awil_brw in awi_brw.wh_lines:
                 awil_period_id, awil_fortnight = per_obj.find_fortnight(
