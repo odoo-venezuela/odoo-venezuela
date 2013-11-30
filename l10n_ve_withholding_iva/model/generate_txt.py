@@ -147,15 +147,17 @@ class txt_iva(osv.osv):
             
             for voucher_lines in voucher.wh_lines:
                 
-                if voucher_lines.invoice_id.state in ['open','paid']:
-                    
+                if voucher_lines.invoice_id.state not in ['open','paid']: 
+                    continue
+                for voucher_tax_line in voucher_lines.tax_line:
                     txt_iva_obj.create(cr,uid,
                     {'partner_id':voucher.partner_id.id,
                     'voucher_id':voucher.id,
                     'invoice_id':voucher_lines.invoice_id.id,
                     'txt_id': txt_brw.id,
-                    'untaxed': voucher_lines.base_ret,
-                    'amount_withheld': voucher_lines.amount_tax_ret,
+                    'untaxed': voucher_tax_line.base,
+                    'amount_withheld': voucher_tax_line.amount_ret,
+                    'tax_wh_iva_id': voucher_tax_line.id,
                     })
         return True
 
@@ -252,21 +254,28 @@ class txt_iva(osv.osv):
             vendor = txt_line.partner_id.vat[2:]
         return (vendor,buyer)
 
+    def get_max_aliquot(self, cr, uid, txt_line):
+        """Get maximum aliquot per invoice"""
+        list = []
+        for tax_line in txt_line.invoice_id.tax_line:
+            list.append(int(tax_line.tax_id.amount * 100))
+        return max(list)
+        
+    def get_amount_line(self, cr, uid, txt_line, amount_exempt):
+        """Method to compute total amount"""
+        ali_max = self.get_max_aliquot(cr, uid, txt_line)
+        exempt = 0
+        
+        if ali_max == int(txt_line.tax_wh_iva_id.tax_id.amount * 100):
+            exempt = amount_exempt
+        total = txt_line.tax_wh_iva_id.base + txt_line.tax_wh_iva_id.amount + exempt
+        return total, exempt
+
     def get_alicuota(self,cr,uid,txt_line):
         """ Return aliquot of the withholding into line
         @param txt_line: One line of the current txt document
         """
-        list = []
-        for tax_line in txt_line.invoice_id.tax_line:
-            if '12' in tax_line.name:
-                list.append(12)
-            if '8' in tax_line.name:
-                list.append(8)
-            if '22' in tax_line.name:
-                list.append(22)
-            if '0' in tax_line.name:
-                list.append(0)
-        return max(list)
+        return int(txt_line.tax_wh_iva_id.tax_id.amount * 100)
 
     def generate_txt(self,cr,uid,ids,context=None):
         """ Return string with data of the current document
@@ -289,11 +298,12 @@ class txt_iva(osv.osv):
                 voucher_number = self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
                 amount_exempt,amount_untaxed = self.get_amount_exempt_document(cr,uid,txt_line)
                 alicuota = self.get_alicuota(cr,uid,txt_line)
+                amount_total,amount_exempt = self.get_amount_line(cr, uid, txt_line, amount_exempt)
 
                 txt_string= txt_string + buyer +'\t'+period2.strip()+'\t'\
                  +txt_line.invoice_id.date_invoice+'\t'+operation_type+'\t'+document_type+'\t'+vendor+'\t'\
-                 +document_number+'\t'+control_number+'\t'+str(round(txt_line.invoice_id.amount_total,2))+'\t'\
-                 +str(round(amount_untaxed,2))+'\t'\
+                 +document_number+'\t'+control_number+'\t'+str(round(amount_total,2))+'\t'\
+                 +str(round(txt_line.untaxed,2))+'\t'\
                  +str(round(txt_line.amount_withheld,2))+'\t'+document_affected+'\t'+voucher_number+'\t'\
                  +str(round(amount_exempt,2))+'\t'+str(alicuota)+'\t'+'0'\
                  +'\n'
@@ -330,6 +340,7 @@ class txt_iva_line(osv.osv):
         'amount_withheld':fields.float('Amount Withheld',  help='amount to withhold'),
         'untaxed':fields.float('Untaxed', help='Untaxed amount'),
         'txt_id':fields.many2one('txt.iva','Generate-Document txt VAT', help='withholding lines'),
+        'tax_wh_iva_id':fields.many2one('account.wh.iva.line.tax','Tax Wh Iva Line'),
     }
     _rec_name = 'partner_id'
  
