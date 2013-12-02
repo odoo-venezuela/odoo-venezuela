@@ -33,9 +33,6 @@
     !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale3, string: The tax is withholdeable}:
         - ret == False
 -
-  ---- TODO here are missing checkings. not defined yet
--
--
   Setting the context that will be used for the encoding of all the withholding documents
 -
   !context
