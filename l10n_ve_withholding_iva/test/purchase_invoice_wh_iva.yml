@@ -161,6 +161,62 @@
         inv = self.browse(cr, uid, ref("purchase_invoice_010"))
         assert not inv.wh_iva_id, 'Withholding document should not be created'
 -
+  4.7 The withholding lines created correspond only to ret taxes.
+-
+  Create a invoice with two taxes, one ret tax and a non-ret tax.
+-
+    !record {model: account.invoice, id: purchase_invoice_ret_tax, view: account.invoice_supplier_form}:
+        nro_ctrl: IVA RET AND NOT RET TAXES
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_pay
+        company_id: base.main_company
+        currency_id: base.EUR
+        reference_type: none
+        invoice_line: 
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_pay
+            invoice_line_tax_id:
+            - l10n_ve_fiscal_requirements.iva_purchase1
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_pay
+            invoice_line_tax_id:
+            - l10n_ve_fiscal_requirements.iva_purchase3
+-
+  Check if the invoice is in draft state.
+-
+    !assert {model: account.invoice, id: purchase_invoice_ret_tax, string: Invoice is not in Open state}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_ret_tax}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: purchase_invoice_ret_tax, string: Invoice is not in Open state}:
+        - state == 'open'
+-
+  Check that withholding document was created
+-
+    !python {model: account.invoice}: |
+        inv = self.browse(cr, uid, ref("purchase_invoice_ret_tax"))
+        assert inv.wh_iva_id, 'The withholding document was not created'
+-
+  Check that only the ret tax was added like a line into the withholding document.
+-
+    !python {model: account.invoice}: |
+        inv = self.browse(cr, uid, ref("purchase_invoice_ret_tax"))
+        awi_id = inv.wh_iva_id
+        for awil_brw in inv.wh_iva_id.wh_lines:
+            for awilt_brw in awil_brw.tax_line:
+                assert awilt_brw.tax_id.ret, 'This withholding document have withholdig lines of non-ret taxes.' 
+-
   5. When the company is not a withholding agent
 -
   5.1 Set company as not withholding agent
