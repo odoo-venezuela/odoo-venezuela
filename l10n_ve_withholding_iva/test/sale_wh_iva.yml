@@ -175,7 +175,7 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_010')
     awi_brw = self.browse(cr, uid, awi_id)
-    assert awi_brw.wh_lines, "The withholding lines were not be added."
+    assert awi_brw.wh_lines, "The withholding lines were not added."
 -
   I try to confirm the customer withholding.
 -
@@ -183,7 +183,7 @@
     awi_id =  ref('awi_sale_010')
     try:
         self.confirm_check(cr, uid, [awi_id])
-        assert False, "The withholding can not be confirm because it has not ret taxes. Some raise exceptions was arrowse"
+        assert False, "The withholding can not be confirm because it has not ret taxes. Some raise exceptions should be arrowse"
     except Exception as e:
         pass
 -
@@ -411,13 +411,28 @@
     values['account_id'] = res['value']['account_id']
     self.write(cr, uid, awi_id, values)
 -
-  Check that the withholding line was NO added to the wh doc.
+  Check that the withholding line was added to the wh doc. It can be added but it can be confirm.
 -
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_110')
     awi_brw = self.browse(cr, uid, awi_id)
-    assert not awi_brw.wh_lines, "This cannot happend because the tax in the invoice is non-ret tax. so the withholding line can be added in first place"
-
+    assert awi_brw.wh_lines, "The withholding lines were not added."
+-
+  I try to confirm the customer withholding.
+-
+  !python {model: account.wh.iva}: |
+    awi_id =  ref('awi_sale_110')
+    try:
+        self.confirm_check(cr, uid, [awi_id])
+        assert False, "The withholding can not be confirm because it has not ret taxes. Some raise exceptions should be arrowse"
+    except Exception as e:
+        pass
+-
+  I check withholding vat is not confirmed
+-
+  !python {model: account.wh.iva}: |
+    awi_brw = self.browse(cr,uid,ref('awi_sale_110'))
+    assert awi_brw.state == 'draft', "This withholding document can not be confirmed because it has not ret taxes"
 -
   Case 111 (Wh Company, Wh Partner, Ret Tax)
 -
