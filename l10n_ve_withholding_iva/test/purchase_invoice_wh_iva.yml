@@ -269,3 +269,33 @@
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref("purchase_invoice_000"))
         assert not inv.wh_iva_id, 'Withholding document should not be created'
+-
+  5.7 Case 00N (NO wh_partner, NO wh_company, NO wh_tax)
+-
+  Create the invoice
+-
+    !record {model: account.invoice, id: purchase_invoice_00N, view: account.invoice_supplier_form}:
+        nro_ctrl: 00N-IVA
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
+        invoice_line:
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_expense
+        <<: *invoice
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: purchase_invoice_00N}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: purchase_invoice_00N, string: Invoice is not in Open state}:
+        - state == 'open'
+-
+  Check that withholding document was NOT created
+-
+    !python {model: account.invoice}: |
+        inv = self.browse(cr, uid, ref("purchase_invoice_00N"))
+        assert not inv.wh_iva_id, 'Withholding document should not be created. only those invoices that have at leat one tax and how tax is a ret tax are the only one that create withholding document.'
