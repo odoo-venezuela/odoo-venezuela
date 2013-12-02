@@ -211,9 +211,9 @@ class account_wh_munici(osv.osv):
         if partner_id:
             p = self.pool.get('res.partner').browse(cr, uid, partner_id)
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_wh_munici_receivable.id
+                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
             else:
-                acc_id = p.property_wh_munici_payable.id
+                acc_id = p.property_account_payable and p.property_account_payable.id or False
 
         self._update_check(cr, uid, ids, partner_id)
         result = {'value': {
