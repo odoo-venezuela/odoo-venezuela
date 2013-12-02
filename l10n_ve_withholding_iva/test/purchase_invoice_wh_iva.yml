@@ -23,6 +23,11 @@
     !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase3, string: The tax is withholdeable}:
         - ret == False
 -
+  Check if the account is of type payable.
+-
+    !assert {model: account.account, id: account.a_pay, string: The account is not of receivable type}:
+        - type == 'payable'
+-
   3. Setting the context that will be used for the encoding of all the invoices of this file
 -
   !context
@@ -56,7 +61,7 @@
             uos_id: product.product_uom_unit
             price_unit: 3
             name: purchase 111
-            account_id: account.a_expense
+            account_id: account.a_pay
             invoice_line_tax_id:
             - l10n_ve_fiscal_requirements.iva_purchase1
         journal_id: account.expenses_journal
@@ -282,7 +287,7 @@
             quantity: 3
             uos_id: product.product_uom_unit
             price_unit: 3
-            account_id: account.a_expense
+            account_id: account.a_pay
         <<: *invoice
 -
   Change invoice to Open state.
@@ -312,7 +317,7 @@
             quantity: 3
             uos_id: product.product_uom_unit
             price_unit: 3
-            account_id: account.a_expense
+            account_id: account.a_pay
         <<: *invoice
 -
   Change invoice to Open state.
