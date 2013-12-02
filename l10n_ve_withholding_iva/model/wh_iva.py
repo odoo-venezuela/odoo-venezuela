@@ -695,7 +695,8 @@ class account_wh_iva(osv.osv):
             for awil_brw in awi_brw.wh_lines:
                 if awil_brw.invoice_id and awil_brw.invoice_id.partner_id.id !=\
                     awi_brw.partner_id.id:
-                        inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or awil_brw.invoice_id.number)
+                        inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or
+                                awil_brw.invoice_id.number or '')
 
             if inv_str:
                 raise osv.except_osv('Incorrect Invoices !',"The following invoices are not from the selected partner: %s " % (inv_str,))
