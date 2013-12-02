@@ -339,6 +339,69 @@
 -
   Case 110 (Wh Company, Wh Partner, Non-ret Tax)
 -
+  Create a customer withholding with the 110 case conditions.
+-
+    !record {model: account.wh.iva, id: awi_sale_110, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: 
+        number: AWI SALE 110
+        name: AWI SALE 110
+        <<: *awi_sale_010
+-
+  I check that the customer withholding is in draft state.
+-
+  !assert {model: account.wh.iva, id: awi_sale_110, string: the withholding iva is not in draft state. It needs to be in draft stata when is just created}:
+    - state == 'draft'
+-
+  I check that the customer withholding is out_invoice type.
+-
+  !assert {model: account.wh.iva, id: awi_sale_110, string: Not the intended type. It should be 'out_invoice'}:
+    - type == 'out_invoice'
+-
+  Search current period and attach to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref("awi_sale_110")
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  Create an invoice that will be use in the withholding doc.
+-
+    !record {model: account.invoice, id: awi_sale_invoice_110, view: account.invoice_form}:
+        nro_ctrl: 110-INV-AWI-SALE
+        <<: *awi_sale_invoice_010
+-
+  Check that the invoice's type is sale (out_invoice).
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_110, string: The invoice is not an out_invoice}:
+        - type == 'out_invoice'
+-
+  Add a withholding line (invoice) to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_110')
+    invoice_id = ref('awi_sale_invoice_110')
+    values = {}
+    awi_brw = self.browse(cr, uid, awi_id)
+    res = self.onchange_partner_id(
+        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    values['wh_lines'] = [
+        (0, 0, {'invoice_id': invoice_id,
+                'name':'N/A',
+                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    values['account_id'] = res['value']['account_id']
+    self.write(cr, uid, awi_id, values)
+-
+  Check that the withholding line was NO added to the wh doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_110')
+    awi_brw = self.browse(cr, uid, awi_id)
+    assert not awi_brw.wh_lines, "This cannot happend because the tax in the invoice is non-ret tax. so the withholding line can be added in first place"
+
 -
   Case 111 (Wh Company, Wh Partner, Ret Tax)
 -
