@@ -823,3 +823,84 @@
     #~ except Exception as e:
         #~ print 'Correct peformance, the sql constraint does not permit that the invoice was added to two withholding documents'
         #~ pass
+-
+  3.7 Can not add draft invoices to Customer Withholding document, only paid and open invoices.
+-
+  Create an invoice for the Customer A with ret tax.
+-
+    !record {model: account.invoice, id: awi_sale_draft_invoice, view: account.invoice_form}:
+        nro_ctrl: AWI SALE DRAFT INVOICE
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        invoice_line:
+          - name: AWI SALE DRAFT INVOICE
+            product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_sale
+            invoice_line_tax_id:
+              - l10n_ve_fiscal_requirements.iva_sale1
+        <<: *awi_sale_invoice_010
+-
+  Check that the invoice's type is sale (out_invoice).
+-
+    !assert {model: account.invoice, id: awi_sale_draft_invoice, string: The invoice is not an out_invoice}:
+        - type == 'out_invoice'
+-
+  Check that the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_draft_invoice, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Create withholding document for Customer A.
+-
+    !record {model: account.wh.iva, id: awi_sale_no_draft_invoices, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
+        number: AWI SALE NO DRAFT INVOICES
+        name: AWI SALE NO DRAFT INVOICES
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+        journal_id: account.sales_journal
+        company_id: base.main_company
+        currency_id: base.EUR
+-
+  I check that the customer withholding is in draft state.
+-
+  !assert {model: account.wh.iva, id: awi_sale_no_draft_invoices, string: the withholding iva is not in draft state. It needs to be in draft stata when is just created}:
+    - state == 'draft'
+-
+  I check that the customer withholding is out_invoice type.
+-
+  !assert {model: account.wh.iva, id: awi_sale_no_draft_invoices, string: Not the intended type. It should be 'out_invoice'}:
+    - type == 'out_invoice'
+-
+  Search current period and attach to the withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref("awi_sale_no_draft_invoices")
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  Trying to add a withholding line of a draft invoice into a withholding iva doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref('awi_sale_no_draft_invoices')
+    invoice_id = ref('awi_sale_draft_invoice')
+    values = {}
+    awi_brw = self.browse(cr, uid, awi_id)
+    res = self.onchange_partner_id(
+        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    values['wh_lines'] = [
+        (0, 0, {'invoice_id': invoice_id,
+                'name':'N/A',
+                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    values['account_id'] = res['value']['account_id']
+    try:
+        self.write(cr, uid, awi_id, values)
+        assert False, 'This can not happend. Only Open and Paid invoices can be added.'
+    except Exception as e:
+        pass
