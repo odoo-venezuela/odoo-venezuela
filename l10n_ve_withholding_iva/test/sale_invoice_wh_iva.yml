@@ -15,12 +15,12 @@
 -
   2.1. A withholdeable Tax
 -
-    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase1, string: The tax is not withholdeable}:
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale1, string: The tax is not withholdeable}:
         - ret
 -
   2.1. A Non-withholdeable Tax
 -
-    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase3, string: The tax is withholdeable}:
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale3, string: The tax is withholdeable}:
         - ret == False
 -
   3. Setting the context that will be used for the encoding of all the invoices of this file
@@ -56,10 +56,9 @@
             quantity: 3
             uos_id: product.product_uom_unit
             price_unit: 3
-            name: purchase 111
             account_id: account.a_expense
             invoice_line_tax_id:
-            - l10n_ve_fiscal_requirements.iva_purchase1
+            - l10n_ve_fiscal_requirements.iva_sale1
         journal_id: account.expenses_journal
         reference_type: none
 -
@@ -86,7 +85,7 @@
         nro_ctrl: 110-IVA
         invoice_line:
           - invoice_line_tax_id:
-              - l10n_ve_fiscal_requirements.iva_purchase3
+              - l10n_ve_fiscal_requirements.iva_sale3
             <<: *invoice_line
         <<: *invoice
 -
@@ -138,7 +137,7 @@
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
           - invoice_line_tax_id:
-              - l10n_ve_fiscal_requirements.iva_purchase3
+              - l10n_ve_fiscal_requirements.iva_sale3
             <<: *invoice_line
         <<: *invoice
 -
@@ -200,7 +199,7 @@
         nro_ctrl: 100-IVA
         invoice_line:
           - invoice_line_tax_id:
-              - l10n_ve_fiscal_requirements.iva_purchase3
+              - l10n_ve_fiscal_requirements.iva_sale3
             <<: *invoice_line
         <<: *invoice
 -
@@ -252,7 +251,7 @@
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
           - invoice_line_tax_id:
-              - l10n_ve_fiscal_requirements.iva_purchase3
+              - l10n_ve_fiscal_requirements.iva_sale3
             <<: *invoice_line
         <<: *invoice
 -
