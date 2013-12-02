@@ -420,6 +420,18 @@ class account_wh_iva(osv.osv):
       ('ret_num_uniq', 'unique (number,type,partner_id,company_id)', 'number must be unique by partner!')
     ] 
 
+    def write(self, cr, uid, ids, values, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = super(account_wh_iva,self).write(cr, uid, ids, values, context=context)
+        self._partner_invoice_check(cr, uid, ids, context=context)
+        return res
+
+    def create(self, cr, uid, values, context=None):
+        context = context or {}
+        new_id = super(account_wh_iva, self).create(cr, uid, values, context=context)
+        self._partner_invoice_check(cr, uid, new_id, context=context)
+        return new_id
 
     def wh_iva_seq_get(self, cr, uid, context=None):
         """ Generate sequences for records of withholding iva
@@ -670,27 +682,23 @@ class account_wh_iva(osv.osv):
                 ]
         return {'value': values_data}
 
-    def _new_check(self, cr, uid, values, context={}):
+    def _partner_invoice_check(self, cr, uid, ids, context=None):
         """ Verify that the partner associated of the invoice is correct
         @param values: Contain withholding lines, partner id and invoice_id
         """
-        lst_inv = []
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
 
-        if 'wh_lines' in values and values['wh_lines']:
-            if 'partner_id' in values and values['partner_id']:
-                for l in values['wh_lines']:
-                    if 'invoice_id' in l[2] and l[2]['invoice_id']:
-                        lst_inv.append(l[2]['invoice_id'])
-
-        if lst_inv:
-            invoices = self.pool.get('account.invoice').browse(cr, uid, lst_inv)
+        for id in ids:
             inv_str = ''
-            for inv in invoices:
-                if inv.partner_id.id != values['partner_id']:
-                    inv_str+= '%s'% '\n'+inv.name        
+            awi_brw = self.browse(cr, uid, id, context=context)
+            for awil_brw in awi_brw.wh_lines:
+                if awil_brw.invoice_id and awil_brw.invoice_id.partner_id.id !=\
+                    awi_brw.partner_id.id:
+                        inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or awil_brw.invoice_id.number)
 
             if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not from the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -719,8 +727,6 @@ class account_wh_iva(osv.osv):
         '''
         Unique method to check if we can confirm the Withholding Document
         '''
-        import pdb
-        pdb.set_trace()
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
