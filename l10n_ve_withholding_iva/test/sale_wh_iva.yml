@@ -154,6 +154,20 @@
     !assert {model: account.invoice, id: awi_sale_invoice_010, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
 -
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_010, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_010}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_010, string: Invoice is not in Open state}:
+        - state == 'open'
+-
   Add a withholding line (invoice) to the withholding iva doc.
 -
   !python {model: account.wh.iva}: |
@@ -240,6 +254,20 @@
     !assert {model: account.invoice, id: awi_sale_invoice_011, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
 -
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_011, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_011}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_011, string: Invoice is not in Open state}:
+        - state == 'open'
+-
   Add a withholding line (invoice) to the withholding iva doc.
 -
   !python {model: account.wh.iva}: |
@@ -311,6 +339,20 @@
 -
     !assert {model: account.invoice, id: awi_sale_invoice_01N, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
+-
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_01N, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_01N}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_01N, string: Invoice is not in Open state}:
+        - state == 'open'
 -
   Add a withholding line (invoice) to the withholding iva doc.
 -
@@ -411,6 +453,20 @@
     !assert {model: account.invoice, id: awi_sale_invoice_110, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
 -
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_110, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_110}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_110, string: Invoice is not in Open state}:
+        - state == 'open'
+-
   Add a withholding line (invoice) to the withholding iva doc.
 -
   !python {model: account.wh.iva}: |
@@ -497,6 +553,20 @@
     !assert {model: account.invoice, id: awi_sale_invoice_111, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
 -
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_111, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_111}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_111, string: Invoice is not in Open state}:
+        - state == 'open'
+-
   Add a withholding line (invoice) to the withholding iva doc.
 -
   !python {model: account.wh.iva}: |
@@ -569,6 +639,20 @@
 -
     !assert {model: account.invoice, id: awi_sale_invoice_11N, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
+-
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_11N, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_11N}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_11N, string: Invoice is not in Open state}:
+        - state == 'open'
 -
   Add a withholding line (invoice) to the withholding iva doc.
 -
@@ -665,6 +749,20 @@
     !assert {model: account.invoice, id: awi_sale_invoice_customer_b, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
 -
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_customer_b, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_customer_b}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_customer_b, string: Invoice is not in Open state}:
+        - state == 'open'
+-
   Trying to add a withholding line (invoice) of Customer B into a withholding iva doc of Customer A. It does not add the line.
 -
   !python {model: account.wh.iva}: |
@@ -710,6 +808,20 @@
 -
     !assert {model: account.invoice, id: awi_sale_invoice_repeat_customer_a, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
+-
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_repeat_customer_a, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: awi_sale_invoice_repeat_customer_a}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: awi_sale_invoice_repeat_customer_a, string: Invoice is not in Open state}:
+        - state == 'open'
 -
   Create a withholding document for Customer A.
 -
