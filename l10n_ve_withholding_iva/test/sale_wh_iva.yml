@@ -405,7 +405,7 @@
     !assert {model: account.invoice, id: awi_sale_invoice_customer_b, string: The invoice is not an out_invoice}:
         - type == 'out_invoice'
 -
-  Add a withholding line (invoice) to the withholding iva doc.
+  Trying to add a withholding line (invoice) of Customer B into a withholding iva doc of Customer A. It does not add the line.
 -
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_customer_a')
@@ -419,11 +419,11 @@
                 'name':'N/A',
                 'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
     values['account_id'] = res['value']['account_id']
-    self.write(cr, uid, awi_id, values)
--
-  Check that the withholding line was NOT added to the wh doc.
--
-  !python {model: account.wh.iva}: |
-    awi_id = ref('awi_sale_customer_a')
-    awi_brw = self.browse(cr, uid, awi_id)
-    assert not awi_brw.wh_lines, "A withholding line should not be created. Can not add a withholding line from Customer B into a withholding document of Customer A."
+    
+    try:
+        write_flag = self.write(cr, uid, awi_id, values)
+    except Exception as e:
+        write_flag = -1
+        pass
+    assert write_flag == -1, 'A withholding line should not be created. Can not add a withholding line from Customer B into a withholding document of Customer A.'
+
