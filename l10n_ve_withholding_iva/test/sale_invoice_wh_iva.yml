@@ -23,6 +23,11 @@
     !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale3, string: The tax is withholdeable}:
         - ret == False
 -
+  Check if the account is of type receivable.
+-
+    !assert {model: account.account, id: account.a_recv, string: The account is not of receivable type}:
+        - type == 'receivable'
+-
   3. Setting the context that will be used for the encoding of all the invoices of this file
 -
   !context
@@ -47,7 +52,7 @@
     !record {model: account.invoice, id: sale_invoice_111, view: account.invoice_form}: &invoice
         nro_ctrl: 111-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
-        account_id: account.a_pay
+        account_id: account.a_recv
         company_id: base.main_company
         currency_id: base.EUR
         type: out_invoice
@@ -56,7 +61,7 @@
             quantity: 3
             uos_id: product.product_uom_unit
             price_unit: 3
-            account_id: account.a_expense
+            account_id: account.a_recv
             invoice_line_tax_id:
             - l10n_ve_fiscal_requirements.iva_sale1
         journal_id: account.expenses_journal
