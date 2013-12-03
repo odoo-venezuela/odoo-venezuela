@@ -88,8 +88,8 @@
 
 
              'test/purchase_invoice_wh_iva.yml',
-#             'test/sale_invoice_wh_iva.yml',
-#             'test/sale_wh_iva.yml',
+             'test/sale_invoice_wh_iva.yml',
+             'test/sale_wh_iva.yml',
         ],
     'installable': True,
     'active': False,
