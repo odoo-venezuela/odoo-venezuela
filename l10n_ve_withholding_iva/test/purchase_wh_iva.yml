@@ -92,7 +92,7 @@
         awi_brw = awi_obj.browse(cr, uid, awi_id)
         assert awi_brw.state == 'cancel', 'It does not change the withholding state to cancel'
 -
-  Check that the invoice change or still in open state.
+  Check that the invoice change or stay in open state.
 -
     !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not in open state}:
         - state == 'open'
@@ -165,19 +165,63 @@
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
         awi_brw = self.browse(cr, uid, awi_id)
         assert awi_brw.state == 'confirmed', 'The withholding document is not in confirmed state'
-#-
-#  4.3 When the Company is not a withholding agent
-#-
-#  Set company as a non-withholding agent.
-#-
-#    !record {model: res.partner, id: base.main_partner}:
-#        wh_iva_agent: False
-#-
-#  Check that the Company is a non-withholding agent.
-#-
-#    !assert {model: res.partner, id: base.main_partner, string: The Company is a withholding agent}:
-#        - not wh_iva_agent
-#-
-#  TODO...
-#  Create withholding document
-#  Confirm the withholding document
+-
+  4.3 When the Company is not a withholding agent
+-
+  Set company as a non-withholding agent.
+-
+    !record {model: res.partner, id: base.main_partner}:
+        wh_iva_agent: False
+-
+  Check that the Company is a non-withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The Company is a withholding agent}:
+        - not wh_iva_agent
+-
+  Create an invoice that will be use in the withholding doc.
+-
+    !record {model: account.invoice, id: nwh_manual_purchase_awi_invoice}:
+        nro_ctrl: AWI MANUAL PURCHASE INVOICE (NON-WH COMPANY)
+        <<: *manual_purchase_awi_invoice
+-
+  Check that the invoice's type is purchase (in_invoice).
+-
+    !assert {model: account.invoice, id: nwh_manual_purchase_awi_invoice, string: The invoice is not an in_invoice}:
+        - type == 'in_invoice'
+-
+  Check the invoice's state is draft.
+-
+    !assert {model: account.invoice, id: nwh_manual_purchase_awi_invoice, string: The invoice is not an out_invoice}:
+        - state == 'draft'
+-
+  Change invoice to Open state.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: nwh_manual_purchase_awi_invoice}
+-
+  Validate if the invoice is in Open state.
+-
+    !assert {model: account.invoice, id: nwh_manual_purchase_awi_invoice, string: Invoice is not in Open state}:
+        - state == 'open'
+-
+  Check that withholding document was NOT created
+-
+    !python {model: account.invoice}: |
+        inv = self.browse(cr, uid, ref('nwh_manual_purchase_awi_invoice'))
+        assert not inv.wh_iva_id, 'Withholding document was created'
+-
+  I try to create a manual supplier withholding document. It will not created the document.
+-
+    !python {model: account.wh.iva}: |
+        values = {
+            'number': 'AWI MANUAL PURCHASE (NON_WH COMPANY)',
+            'name': 'AWI MANUAL PURCHASE (NON-WH COMPANY)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' ),
+            'account_id': ref( 'account.a_recv' ),
+            'company_id': ref( 'base.main_company' ),
+            'currency_id': ref( 'base.EUR' ),
+        }
+        try:
+            self.create(cr, uid, values)
+            assert False, 'The supplier withholding document cant be created because the company is not a withholding agent'
+        except Exception as e:
+            pass
