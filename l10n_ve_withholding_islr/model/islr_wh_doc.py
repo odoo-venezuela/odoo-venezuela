@@ -405,19 +405,15 @@ class islr_wh_doc(osv.osv):
         """ Retention cancel documents
         """
         context = {}
-        ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
-        for ret in ret_brw:
+        for ret in self.browse(cr, uid, ids):
             if ret.state == 'done':
                 for ret_line in ret.invoice_ids:
-                    account_move_obj.button_cancel(
+                    ret_line.move_id and account_move_obj.button_cancel(
                         cr, uid, [ret_line.move_id.id])
-                    delete = account_move_obj.unlink(
+                    ret_line.move_id and account_move_obj.unlink(
                         cr, uid, [ret_line.move_id.id])
-                if delete:
-                    self.write(cr, uid, ids, {'state': 'cancel'})
-            else:
-                self.write(cr, uid, ids, {'state': 'cancel'})
+        self.write(cr, uid, ids, {'state': 'cancel'})
         return True
 
     def action_cancel_draft(self, cr, uid, ids, *args):
