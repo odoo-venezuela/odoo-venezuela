@@ -3,11 +3,6 @@
 -
   3.1 Checking and configuring the elements needed.
 -
-  Check if the journal is of sale type.
--
-    !assert {model: account.journal, id: account.sales_journal, string: The journal is not of sale type}:
-        - type == 'sale'
--
   Check if the account is of type receivable.
 -
     !assert {model: account.account, id: account.a_recv, string: The account is not of receivable type}:
@@ -50,7 +45,6 @@
         #~ name: AWI SALE X0X
         #~ partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         #~ account_id: account.a_recv
-        #~ journal_id: account.sales_journal
         #~ company_id: base.main_company
         #~ currency_id: base.EUR
 -
@@ -61,7 +55,6 @@
         name: AWI SALE X1X
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
-        journal_id: account.sales_journal
         company_id: base.main_company
         currency_id: base.EUR
 -
@@ -136,7 +129,6 @@
         date_invoice: !eval time.strftime('%Y-%m-%d')
         company_id: base.main_company
         account_id: account.a_sale
-        journal_id: account.sales_journal
         currency_id: base.EUR
         reference_type: none
         invoice_line: &invoice_line_010
@@ -796,7 +788,6 @@
         name: AWI SALE CUSTOMER A
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
-        journal_id: account.sales_journal
         company_id: base.main_company
         currency_id: base.EUR
 -
@@ -924,7 +915,6 @@
         name: AWI SALE CUSTOMER A REPEAT AWIL
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
-        journal_id: account.sales_journal
         company_id: base.main_company
         currency_id: base.EUR
 -
@@ -980,7 +970,6 @@
         name: AWI SALE CUSTOMER A ANOTHER
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
-        journal_id: account.sales_journal
         company_id: base.main_company
         currency_id: base.EUR
 -
@@ -1065,7 +1054,6 @@
         name: AWI SALE NO DRAFT INVOICES
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
-        journal_id: account.sales_journal
         company_id: base.main_company
         currency_id: base.EUR
 -

@@ -64,7 +64,6 @@
             account_id: account.a_recv
             invoice_line_tax_id:
             - l10n_ve_fiscal_requirements.iva_sale1
-        journal_id: account.expenses_journal
         reference_type: none
 -
   Change invoice to Open state.
