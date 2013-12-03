@@ -37,7 +37,7 @@
 -
   Create an invoice that will be use in the withholding doc.
 -
-    !record {model: account.invoice, id: awi_manual_purchase_invoice}: &awi_manual_purchase_invoice
+    !record {model: account.invoice, id: wh_manual_purchase_awi_invoice}: &manual_purchase_awi_invoice
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (WH COMPANY)
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         date_invoice: !eval time.strftime('%Y-%m-%d')
@@ -56,27 +56,27 @@
 -
   Check that the invoice's type is purchase (in_invoice).
 -
-    !assert {model: account.invoice, id: awi_manual_purchase_invoice, string: The invoice is not an in_invoice}:
+    !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not an in_invoice}:
         - type == 'in_invoice'
 -
   Check the invoice's state is draft.
 -
-    !assert {model: account.invoice, id: awi_manual_purchase_invoice, string: The invoice is not an out_invoice}:
+    !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not an out_invoice}:
         - state == 'draft'
 -
   Change invoice to Open state.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: awi_manual_purchase_invoice}
+  !workflow {model: account.invoice, action: invoice_open, ref: wh_manual_purchase_awi_invoice}
 -
   Validate if the invoice is in Open state.
 -
-    !assert {model: account.invoice, id: awi_manual_purchase_invoice, string: Invoice is not in Open state}:
+    !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: Invoice is not in Open state}:
         - state == 'open'
 -
   Check that withholding document was created
 -
     !python {model: account.invoice}: |
-        inv = self.browse(cr, uid, ref('awi_manual_purchase_invoice'))
+        inv = self.browse(cr, uid, ref('wh_manual_purchase_awi_invoice'))
         assert inv.wh_iva_id, 'Withholding document was not created'
 -
   Cancel the automactly created withholding document
@@ -84,7 +84,7 @@
     !python {model: account.invoice}: |
         import netsvc
         from openerp.osv import osv
-        inv_brw = self.browse(cr, uid, ref('awi_manual_purchase_invoice'))
+        inv_brw = self.browse(cr, uid, ref('wh_manual_purchase_awi_invoice'))
         awi_id = inv_brw.wh_iva_id.id
         wf_service = netsvc.LocalService("workflow")
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'cancel', cr)
@@ -94,12 +94,12 @@
 -
   Check that the invoice change or still in open state.
 -
-    !assert {model: account.invoice, id: awi_manual_purchase_invoice, string: The invoice is not in open state}:
+    !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not in open state}:
         - state == 'open'
 -
   Create a manual supplier withholding document
 -
-    !record {model: account.wh.iva, id: awi_manual_purchase}: &awi_manual_purchase
+    !record {model: account.wh.iva, id: whc_awi_manual_purchase}: &whc_awi_manual_purchase
         number: AWI MANUAL PURCHASE (WH COMPANY)
         name: AWI MANUAL PURCHASE (WH COMPANY)
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
@@ -109,19 +109,19 @@
 -
   Check withholding document type.
 -
-    !assert {model: account.wh.iva, id: awi_manual_purchase, string: The withholding document is not of purchase type (in_invoice)}:
+    !assert {model: account.wh.iva, id: whc_awi_manual_purchase, string: The withholding document is not of purchase type (in_invoice)}:
         - type == 'in_invoice'
 -
   Check withholding document is in draft state.
 -
-    !assert {model: account.wh.iva, id: awi_manual_purchase, string: The withholding document is not in draft state.}:
+    !assert {model: account.wh.iva, id: whc_awi_manual_purchase, string: The withholding document is not in draft state.}:
         - state == 'draft'
 -
   Search current period and attach to the withholding document.
 -
   !python {model: account.wh.iva}: |
     import time
-    awi_id = ref('awi_manual_purchase')
+    awi_id = ref('whc_awi_manual_purchase')
     company_id = ref('base.main_company')
     period_obj = self.pool.get('account.period')
     period = period_obj.find(
@@ -132,8 +132,8 @@
   Add a withholding line (invoice) to the withholding iva doc.
 -
   !python {model: account.wh.iva}: |
-    awi_id = ref('awi_manual_purchase')
-    invoice_id = ref('awi_manual_purchase_invoice')
+    awi_id = ref('whc_awi_manual_purchase')
+    invoice_id = ref('wh_manual_purchase_awi_invoice')
     values = {}
     awi_brw = self.browse(cr, uid, awi_id)
     res = self.onchange_partner_id(
@@ -151,14 +151,14 @@
 -
   I compute the taxes manually with the button at the view.
 -
-    !function {model: account.wh.iva, name: compute_amount_wh, id: awi_manual_purchase}:
+    !function {model: account.wh.iva, name: compute_amount_wh, id: whc_awi_manual_purchase}:
         - model: account.wh.iva
-          eval: "[ref('awi_manual_purchase')]"
+          eval: "[ref('whc_awi_manual_purchase')]"
 -
   I confirm the supplier withholding document
 -
     !python {model: account.wh.iva}: |
-        awi_id = ref('awi_manual_purchase')
+        awi_id = ref('whc_awi_manual_purchase')
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService("workflow")
