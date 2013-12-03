@@ -787,7 +787,7 @@
             for awilt_brw in awil_brw.tax_line:
                 assert awilt_brw.tax_id.ret, 'This withholding document have withholdig lines of non-ret taxes.' 
 -
-  3.5 Trying to add Customer B withholding line into a withholding document of Customer A.
+  3.6 Trying to add Customer B withholding line into a withholding document of Customer A.
 -
   Create a withholding document for Customer A.
 -
@@ -880,7 +880,7 @@
     assert write_flag == -1, 'A withholding line should not be created. Can not add a withholding line from Customer B into a withholding document of Customer A.'
 
 -
-  3.6 Add the same invoice for two differents withholding docs.
+  3.7 Add the same invoice for two differents withholding docs.
 -
   Create an invoice for the Customer A with ret tax.
 -
@@ -1030,7 +1030,7 @@
         #~ print 'Correct peformance, the sql constraint does not permit that the invoice was added to two withholding documents'
         #~ pass
 -
-  3.7 Can not add draft invoices to Customer Withholding document, only paid and open invoices.
+  3.8 Can not add draft invoices to Customer Withholding document, only paid and open invoices.
 -
   Create an invoice for the Customer A with ret tax.
 -
