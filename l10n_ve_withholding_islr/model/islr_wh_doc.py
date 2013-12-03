@@ -409,7 +409,7 @@ class islr_wh_doc(osv.osv):
         account_move_obj = self.pool.get('account.move')
         for ret in ret_brw:
             if ret.state == 'done':
-                for ret_line in ret.concept_ids:
+                for ret_line in ret.invoice_ids:
                     account_move_obj.button_cancel(
                         cr, uid, [ret_line.move_id.id])
                     delete = account_move_obj.unlink(
