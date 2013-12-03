@@ -1,41 +1,36 @@
 -
-  4. Check the manual supplier withholding (purchase).
+  4. Check what happend when creating supplier withholding manually.
 -
   4.1 Configuring the enviroment.
 -
-  Setting the context for purchase operations in this file.
+  I set the context for purchase operations in this file.
 -
   !context
     'type': 'in_invoice'
 -
-  Supplier A is withholding agent
+  Check that the supplier used for the test is withholding agent.
 -
     !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: Supplier A is not a withholding agent}:
         - wh_iva_agent
 -
-  Supplier B is not withholding agent
--
-    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_7, string: Supplier B is a withholding agent}:
-        - wh_iva_agent == False
--
-  Tax A is a withholding tax
+  Check that the tax used for the test is a withholding tax.
 -
     !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale1, string: Is not a withholding tax.}:
         - ret
 -
   4.2 When the Company is a withholding agent
 -
-  Set company as withholding agent.
+  I set company as withholding agent.
 -
     !record {model: res.partner, id: base.main_partner}:
         wh_iva_agent: True
 -
-  Check that the Company is withholding agent.
+  I check that the company is a withholding agent.
 -
     !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
         - wh_iva_agent
 -
-  Create an invoice that will be use in the withholding doc.
+  I create an invoice to be used in the withholding doc.
 -
     !record {model: account.invoice, id: wh_manual_purchase_awi_invoice}: &manual_purchase_awi_invoice
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (WH COMPANY)
@@ -54,32 +49,32 @@
             invoice_line_tax_id: &wh_tax
             - l10n_ve_fiscal_requirements.iva_sale1
 -
-  Check that the invoice's type is purchase (in_invoice).
+  I check that the invoice is of purchase type (in_invoice).
 -
     !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not an in_invoice}:
         - type == 'in_invoice'
 -
-  Check the invoice's state is draft.
+  I check that the invoice is in draft state.
 -
     !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not an out_invoice}:
         - state == 'draft'
 -
-  Change invoice to Open state.
+  I change invoice to open state.
 -
   !workflow {model: account.invoice, action: invoice_open, ref: wh_manual_purchase_awi_invoice}
 -
-  Validate if the invoice is in Open state.
+  I validate if the invoice is in open state.
 -
     !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: Invoice is not in Open state}:
         - state == 'open'
 -
-  Check that withholding document was created
+  I check that the withholding document was created.
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref('wh_manual_purchase_awi_invoice'))
         assert inv.wh_iva_id, 'Withholding document was not created'
 -
-  Cancel the automactly created withholding document
+  I cancel the automatic created withholding document
 -
     !python {model: account.invoice}: |
         import netsvc
@@ -92,12 +87,12 @@
         awi_brw = awi_obj.browse(cr, uid, awi_id)
         assert awi_brw.state == 'cancel', 'It does not change the withholding state to cancel'
 -
-  Check that the invoice change or stay in open state.
+  I check that the invoice stay (or change if it's needed) in open state.
 -
     !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not in open state}:
         - state == 'open'
 -
-  Create a manual supplier withholding document
+  I create a supplier withholding document manually
 -
     !record {model: account.wh.iva, id: whc_awi_manual_purchase}: &whc_awi_manual_purchase
         number: AWI MANUAL PURCHASE (WH COMPANY)
@@ -107,17 +102,17 @@
         company_id: base.main_company
         currency_id: base.EUR
 -
-  Check withholding document type.
+  I check withholding document type.
 -
     !assert {model: account.wh.iva, id: whc_awi_manual_purchase, string: The withholding document is not of purchase type (in_invoice)}:
         - type == 'in_invoice'
 -
-  Check withholding document is in draft state.
+  I check that withholding document is in draft state.
 -
     !assert {model: account.wh.iva, id: whc_awi_manual_purchase, string: The withholding document is not in draft state.}:
         - state == 'draft'
 -
-  Search current period and attach to the withholding document.
+  I search the current period and attach to the withholding doc.
 -
   !python {model: account.wh.iva}: |
     import time
@@ -129,7 +124,7 @@
     assert period, 'There aren\'t periods for this date'
     self.write(cr, uid, awi_id, {'period_id':period[0]})
 -
-  Add a withholding line (invoice) to the withholding iva doc.
+  I add a withholding line (invoice) to the withholding doc.
 -
   !python {model: account.wh.iva}: |
     awi_id = ref('whc_awi_manual_purchase')
@@ -149,13 +144,13 @@
     except Exception as e:
         pass
 -
-  I compute the taxes manually with the button at the view.
+  I compute the taxes manually with the button 'Compute Withholding Vat'.
 -
     !function {model: account.wh.iva, name: compute_amount_wh, id: whc_awi_manual_purchase}:
         - model: account.wh.iva
           eval: "[ref('whc_awi_manual_purchase')]"
 -
-  I confirm the supplier withholding document
+  I confirm the supplier withholding document.
 -
     !python {model: account.wh.iva}: |
         awi_id = ref('whc_awi_manual_purchase')
@@ -166,50 +161,50 @@
         awi_brw = self.browse(cr, uid, awi_id)
         assert awi_brw.state == 'confirmed', 'The withholding document is not in confirmed state'
 -
-  4.3 When the Company is not a withholding agent
+  4.3 When the Company is not a withholding agent.
 -
-  Set company as a non-withholding agent.
+  I set company as a non-withholding agent.
 -
     !record {model: res.partner, id: base.main_partner}:
         wh_iva_agent: False
 -
-  Check that the Company is a non-withholding agent.
+  I check that the company is a non-withholding agent.
 -
     !assert {model: res.partner, id: base.main_partner, string: The Company is a withholding agent}:
         - not wh_iva_agent
 -
-  Create an invoice that will be use in the withholding doc.
+  I create an invoice to be use in the withholding doc.
 -
     !record {model: account.invoice, id: nwh_manual_purchase_awi_invoice}:
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (NON-WH COMPANY)
         <<: *manual_purchase_awi_invoice
 -
-  Check that the invoice's type is purchase (in_invoice).
+  I check that the invoice is of purchase type (in_invoice).
 -
     !assert {model: account.invoice, id: nwh_manual_purchase_awi_invoice, string: The invoice is not an in_invoice}:
         - type == 'in_invoice'
 -
-  Check the invoice's state is draft.
+  I check that the invoice is in draft state.
 -
     !assert {model: account.invoice, id: nwh_manual_purchase_awi_invoice, string: The invoice is not an out_invoice}:
         - state == 'draft'
 -
-  Change invoice to Open state.
+  I change invoice to state to open state.
 -
   !workflow {model: account.invoice, action: invoice_open, ref: nwh_manual_purchase_awi_invoice}
 -
-  Validate if the invoice is in Open state.
+  I validate if the invoice is in open state.
 -
     !assert {model: account.invoice, id: nwh_manual_purchase_awi_invoice, string: Invoice is not in Open state}:
         - state == 'open'
 -
-  Check that withholding document was NOT created
+  I check that withholding document was NOT created.
 -
     !python {model: account.invoice}: |
         inv = self.browse(cr, uid, ref('nwh_manual_purchase_awi_invoice'))
         assert not inv.wh_iva_id, 'Withholding document was created'
 -
-  I try to create a manual supplier withholding document. It will not created the document.
+  I try to create a supplier withholding document manually. It will not created the document.
 -
     !python {model: account.wh.iva}: |
         values = {
