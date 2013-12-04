@@ -8,19 +8,19 @@
   !context
     'type': 'in_invoice'
 -
-  Check that the supplier used for the test is withholding agent.
+  I check that the supplier used for the test is withholding agent.
 -
     !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: Supplier A is not a withholding agent}:
         - wh_iva_agent
 -
-  Check that the tax used for the test is a withholding tax.
+  I check that the tax used for the test is a withholding tax.
 -
     !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale1, string: Is not a withholding tax.}:
         - ret
 -
-  4.2 When the Company is a withholding agent
+  4.2 When the Company is a withholding agent.
 -
-  I set company as withholding agent.
+  I set company as a withholding agent.
 -
     !record {model: res.partner, id: base.main_partner}:
         wh_iva_agent: True
@@ -74,7 +74,7 @@
         inv = self.browse(cr, uid, ref('wh_manual_purchase_awi_invoice'))
         assert inv.wh_iva_id, 'Withholding document was not created'
 -
-  I cancel the automatic created withholding document
+  I cancel the automatic created withholding document.
 -
     !python {model: account.invoice}: |
         import netsvc
@@ -92,7 +92,7 @@
     !assert {model: account.invoice, id: wh_manual_purchase_awi_invoice, string: The invoice is not in open state}:
         - state == 'open'
 -
-  I create a supplier withholding document manually
+  I create a supplier withholding document manually.
 -
     !record {model: account.wh.iva, id: whc_awi_manual_purchase}: &whc_awi_manual_purchase
         number: AWI MANUAL PURCHASE (WH COMPANY)
@@ -112,7 +112,7 @@
     !assert {model: account.wh.iva, id: whc_awi_manual_purchase, string: The withholding document is not in draft state.}:
         - state == 'draft'
 -
-  I search the current period and attach to the withholding doc.
+  I search the current period and add it to the withholding doc.
 -
   !python {model: account.wh.iva}: |
     import time
