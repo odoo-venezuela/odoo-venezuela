@@ -590,13 +590,55 @@ class islr_wh_doc(osv.osv):
                 super(islr_wh_doc, self).unlink(cr, uid, ids, context=context)
         return True
 
-islr_wh_doc()
-
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
+
+    def _get_inv_from_iwdi(self, cr, uid, ids, context=None):
+        '''
+        Returns a list of invoices which are recorded in VAT Withholding Docs
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdi_brws = iwdi_obj.browse(cr, uid, ids, context=context)
+        return [i.invoice_id.id for i in iwdi_brws if i.invoice_id]
+
+    def _get_inv_from_iwd(self, cr, uid, ids, context=None):
+        '''
+        Returns a list of invoices which are recorded in VAT Withholding Docs
+        '''
+        res = []
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwd_obj = self.pool.get('islr.wh.doc')
+        iwd_brws = iwd_obj.browse(cr, uid, ids, context=context)
+        for iwd_brw in iwd_brws:
+            for iwdl_brw in iwd_brw.invoice_ids:
+                iwdl_brw.invoice_id and res.append(iwdl_brw.invoice_id.id)
+        return res
+
+    def _fnct_get_wh_income_id(self, cr, uid, ids, name, args, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdi_ids = iwdi_obj.search(cr, uid, [('invoice_id','in',ids)], context=context)
+        
+        iwdi_brws = iwdi_obj.browse(cr, uid, iwdi_ids, context=context)
+        res = {}.fromkeys(ids,False)
+        for i in iwdi_brws:
+            if i.invoice_id:
+                res[i.invoice_id.id]=i.islr_wh_doc_id.id or False
+        return res 
+
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', readonly=True, help="Document Income Withholding tax generated from this bill"),
+        'islr_wh_doc_id': fields.function(_fnct_get_wh_income_id, method=True,
+            type='many2one', relation='islr.wh.doc', 
+            string='Income Withholding Document', 
+            store={
+                'islr.wh.doc':(_get_inv_from_iwd, ['invoice_ids'], 50),
+                'islr.wh.doc.invoices':(_get_inv_from_iwdi, ['invoice_id'], 50),
+            }, help="Document Income Withholding tax generated from this Invoice"),
     }
     _defaults = {
         'islr_wh_doc_id': lambda *a: 0,
@@ -611,9 +653,6 @@ class account_invoice(osv.osv):
         default.update({'islr_wh_doc_id': 0})
 
         return super(account_invoice, self).copy(cr, uid, id, default, context)
-
-account_invoice()
-
 
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
@@ -971,9 +1010,6 @@ class islr_wh_doc_invoices(osv.osv):
         return super(islr_wh_doc_invoices,self).unlink(cr, uid, ids,
                 context=context)
 
-islr_wh_doc_invoices()
-
-
 class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
     _description = 'Lines of Document Income Withholding'
@@ -1005,4 +1041,3 @@ class islr_wh_doc_line(osv.osv):
         ondelete='cascade', help="Withheld Invoices"),
     }
 
-islr_wh_doc_line()
