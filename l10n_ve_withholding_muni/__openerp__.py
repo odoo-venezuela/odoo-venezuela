@@ -45,7 +45,9 @@
     'data': [
         'data/wh_muni_sequence.xml',
     ],
-    'demo_xml': [],
+    'demo_xml': [
+        'demo/demo_journal.xml',
+    ],
     'test': [
     ],
     'installable': True,

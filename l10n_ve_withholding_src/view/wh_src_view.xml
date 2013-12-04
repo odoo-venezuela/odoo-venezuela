@@ -111,7 +111,7 @@
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" attrs="{'readonly':['&amp;',('uid_wh_agent','=',False),('type','=','in_invoice')]}" domain="[('id','in',context.get('partner_list' , False))]"/>
                         <field name="currency_id"/>
                         <field name="date_ret"/>
-                        <field name="account_id"/>
+                        <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>

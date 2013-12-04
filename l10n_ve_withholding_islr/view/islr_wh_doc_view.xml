@@ -113,7 +113,7 @@
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id" readonly="1"/>
                         <field name="date_ret"/>
-                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="account_id" domain="[('type','=', type in ('in_invoice','in_refund') and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="date_uid"/>
@@ -230,7 +230,7 @@
                         <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('supplier','=',True)]"/>
                         <field name="currency_id" readonly="1"/>
                         <field name="date_ret"/>
-                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="account_id" domain="[('type','=', type in ('in_invoice','in_refund') and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name"/>
                         <field name="period_id"/>
                         <field name="number"/>
