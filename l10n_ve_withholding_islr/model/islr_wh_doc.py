@@ -987,29 +987,6 @@ class islr_wh_doc_invoices(osv.osv):
             'concept_code': rate_code,  # I get it too but from the rate
         }
 
-    def unlink(self, cr, uid, ids, context=None):
-        """
-        Delete records with given ids but previously unassign the invoice
-        that were related to the withholding document.
-
-        :param cr: database cursor
-        :param uid: current user id
-        :param ids: id or list of ids
-        :param context: (optional) context arguments, like lang, time zone
-        :return: True
-
-        """
-        context = context or {}
-        ids = isinstance(ids, (int, long)) and [ids] or ids
-        inv_obj = self.pool.get('account.invoice')
-        for iwdi_brw in self.browse(cr,uid,ids,context=context):
-            if iwdi_brw.invoice_id:
-                iwdi_brw.invoice_id.write({'islr_wh_doc_id':False},
-                        context=context)
-
-        return super(islr_wh_doc_invoices,self).unlink(cr, uid, ids,
-                context=context)
-
 class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
     _description = 'Lines of Document Income Withholding'
