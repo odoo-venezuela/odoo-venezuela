@@ -208,7 +208,6 @@ class islr_wh_doc(osv.osv):
         #~ Searching & Unlinking for concept lines from the current withholding
         iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
                 context=context)
-        print 'iwdl_ids ', iwdl_ids 
         if iwdl_ids:
             iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
 
@@ -267,7 +266,6 @@ class islr_wh_doc(osv.osv):
 
         inv_list = inv_obj.search(cr, uid, [
                                   ('islr_wh_doc_id', '=', wh_doc_id)])
-        #~ inv_obj.write(cr, uid, inv_list, {'status':'no_pro','islr_wh_doc_id':None}) REVISAR
         inv_obj.write(cr, uid, inv_list, {'status': 'no_pro'})
 
         inv_line_list = inv_line_obj.search(
@@ -291,13 +289,12 @@ class islr_wh_doc(osv.osv):
         return False
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
-        """ Unlink all taxes whean change the partner in the document.
+        """ Unlink all taxes when change the partner in the document.
         @param type: invoice type
         @param partner_id: partner id was changed
         """
         context = context or {}
         acc_id = False
-        inv_ids = []
         res = {}
         res_wh_lines = []
         inv_obj = self.pool.get('account.invoice')
@@ -311,14 +308,6 @@ class islr_wh_doc(osv.osv):
         if iwdi_ids:
             iwdi_obj.unlink(cr, uid, iwdi_ids, context=context)
             iwdi_ids = []
-
-        # Unlink previous invoices
-        inv_ids = ids and inv_obj.search(cr, uid,
-                                         [('islr_wh_doc_id', '=', ids[0])], context=context)
-        if inv_ids:
-            inv_obj.write(cr, uid, inv_ids, {'islr_wh_doc_id': False},
-                          context=context)
-            inv_ids = []
 
         # Unlink previous line
         iwdl_obj = self.pool.get('islr.wh.doc.line')
@@ -640,9 +629,6 @@ class account_invoice(osv.osv):
                 'islr.wh.doc.invoices':(_get_inv_from_iwdi, ['invoice_id'], 50),
             }, help="Document Income Withholding tax generated from this Invoice"),
     }
-    _defaults = {
-        'islr_wh_doc_id': lambda *a: 0,
-    }
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Initialized id by duplicating
@@ -801,10 +787,6 @@ class islr_wh_doc_invoices(osv.osv):
 
         if not ret_line.invoice_id:
             return True
-        #~ Writing the withholding to the invoice
-        ret_line.invoice_id.write(
-            {'islr_wh_doc_id': ret_line.islr_wh_doc_id.id},
-            context=context)
 
         concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
                                           context=context)
