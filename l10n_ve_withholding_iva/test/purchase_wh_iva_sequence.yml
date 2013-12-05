@@ -18,6 +18,12 @@
         - padding == 8
         - number_increment == 1
 -
+  I update the supplier withholding sequence in demo to later be able to difference it and the check that have been correctly used.
+-
+    !record {model: ir.sequence, id: seq_account_wh_iva_purchase}:
+        prefix: PURCHASE_TEST-%(year)s-%(month)s-
+        number_next: 999 
+-
   I configure the context for purchase operations.
 -
     !context
