@@ -42,7 +42,6 @@
   You need to descomment this test to run it and will raise an yaml ERROR and a server exception.
 #~ -
     #~ !record {model: account.wh.iva, id: awi_sale_X0X, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &awi_sale_X0X
-        #~ number: AWI SALE X0X
         #~ name: AWI SALE X0X
         #~ partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         #~ account_id: account.a_recv
@@ -52,7 +51,6 @@
   I create a customer withholding with a wh partner to later try to update to a Non-Wh Partner.
 -
     !record {model: account.wh.iva, id: awi_sale_X1X, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &awi_sale_X1X
-        number: AWI SALE X1X
         name: AWI SALE X1X
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
@@ -96,7 +94,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_010, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &awi_sale_010
-        number: AWI SALE 010
         name: AWI SALE 010
         <<: *awi_sale_X1X
 -
@@ -205,7 +202,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_011, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &awi_sale_011
-        number: AWI SALE 011
         name: AWI SALE 011
         <<: *awi_sale_X1X
 -
@@ -289,7 +285,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_01N, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE 01N
         name: AWI SALE 01N
         <<: *awi_sale_X1X
 -
@@ -409,7 +404,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_110, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: 
-        number: AWI SALE 110
         name: AWI SALE 110
         <<: *awi_sale_010
 -
@@ -504,7 +498,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_111, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE 111
         name: AWI SALE 111
         <<: *awi_sale_011
 -
@@ -589,7 +582,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_11N, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE 11N
         name: AWI SALE 11N
         <<: *awi_sale_X1X
 -
@@ -731,7 +723,6 @@
   I create a customer withholding.
 -
     !record {model: account.wh.iva, id: awi_sale_ret_check, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE RET CHECK
         name: AWI SALE RET CHECK
         <<: *awi_sale_X1X
 -
@@ -786,7 +777,6 @@
   I create a withholding document for Customer A.
 -
     !record {model: account.wh.iva, id: awi_sale_customer_a, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE CUSTOMER A
         name: AWI SALE CUSTOMER A
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
@@ -913,7 +903,6 @@
   I create a withholding document for Customer A.
 -
     !record {model: account.wh.iva, id: awi_sale_customer_a1, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE CUSTOMER A REPEAT AWIL 
         name: AWI SALE CUSTOMER A REPEAT AWIL
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
@@ -968,7 +957,6 @@
   I create another withholding document for Customer A.
 -
     !record {model: account.wh.iva, id: awi_sale_customer_a2, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE CUSTOMER A ANOTHER
         name: AWI SALE CUSTOMER A ANOTHER
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
@@ -1052,7 +1040,6 @@
   I create withholding document for Customer A.
 -
     !record {model: account.wh.iva, id: awi_sale_no_draft_invoices, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
-        number: AWI SALE NO DRAFT INVOICES
         name: AWI SALE NO DRAFT INVOICES
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv

@@ -95,7 +95,6 @@
   I create a supplier withholding document manually.
 -
     !record {model: account.wh.iva, id: whc_awi_manual_purchase}: &whc_awi_manual_purchase
-        number: AWI MANUAL PURCHASE (WH COMPANY)
         name: AWI MANUAL PURCHASE (WH COMPANY)
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
