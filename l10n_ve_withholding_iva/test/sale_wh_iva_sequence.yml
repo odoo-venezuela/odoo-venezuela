@@ -145,4 +145,11 @@
     !assert {model: account.wh.iva, id: awi_sale_seq_1, string: The withholding was not correctly done.}:
         - state == 'done'
         - number == 'TEST_MARK'
-
+-
+  6.3 Using the supplier withholding document generated in 6.2 I check if the
+  sequence used is the correct one (sale sequence in this case).
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref( 'awi_sale_seq_1' )
+        awi_brw = self.browse(cr, uid, awi_id)
+        assert 'SALE_TEST' in awi_brw.code, 'There was not used the customer withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
