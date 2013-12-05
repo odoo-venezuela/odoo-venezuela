@@ -53,7 +53,8 @@ class account_invoice_refund(osv.osv_memory):
         context = context or {}
         res = False
         rc_obj = self.pool.get('res.company')
-        rc_brw = rc_obj.browse(cr, uid, uid, context=context)
+        u = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        rc_brw = rc_obj.browse(cr, uid, u.company_id.id, context=context)
         if rc_brw.country_id and rc_brw.country_id.code == 'VE':
             res= True
         return res

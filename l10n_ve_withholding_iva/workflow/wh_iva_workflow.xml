@@ -80,6 +80,7 @@ write({'state':'done'})</field>
         <record id="trans_done_cancel" model="workflow.transition">
             <field name="act_from" ref="act_done"/>
             <field name="act_to" ref="act_cancel"/>
+            <field name="condition">cancel_check()</field> 
             <field name="signal">cancel</field>
         </record>
 
