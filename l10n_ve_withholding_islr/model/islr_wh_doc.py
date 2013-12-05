@@ -580,6 +580,48 @@ class islr_wh_doc(osv.osv):
         return True
 
 
+
+    def _dummy_cancel_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
+        return True
+
+    def _check_xml_wh_lines(self, cr, uid, ids, context=None):
+        """Check if this ISLR WH DOC is being used in a XML ISLR DOC"""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        ixwd_ids = []
+        ixwd_obj = self.pool.get('islr.xml.wh.doc')
+        for iwd_brw in self.browse(cr, uid, ids, context=context):
+            for iwdi_brw in iwd_brw.invoice_ids:
+                for ixwl_brw in iwdi_brw.islr_xml_id:
+                    if ixwl_brw.islr_xml_wh_doc and ixwl_brw.islr_xml_wh_doc.state != 'draft':
+                        ixwd_ids += [ixwl_brw.islr_xml_wh_doc.id]
+
+        if not ixwd_ids: return True
+
+        note = _('The Following ISLR XML DOC should be set to Draft before Cancelling this Document\n\n')
+        for ixwd_brw in ixwd_obj.browse(cr, uid, ixwd_ids, context = context):
+            note += '%s\n'%ixwd_brw.name
+        raise osv.except_osv( _("Invalid Procedure!"), note)
+        return True
+
+    def cancel_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can cancel the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self._check_xml_wh_lines(cr, uid, ids, context=context):
+            return False
+        if not self._dummy_cancel_check(cr, uid, ids, context=context):
+            return False
+        return True
+
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
