@@ -208,7 +208,6 @@ class islr_wh_doc(osv.osv):
         #~ Searching & Unlinking for concept lines from the current withholding
         iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
                 context=context)
-        print 'iwdl_ids ', iwdl_ids 
         if iwdl_ids:
             iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
 
@@ -267,7 +266,6 @@ class islr_wh_doc(osv.osv):
 
         inv_list = inv_obj.search(cr, uid, [
                                   ('islr_wh_doc_id', '=', wh_doc_id)])
-        #~ inv_obj.write(cr, uid, inv_list, {'status':'no_pro','islr_wh_doc_id':None}) REVISAR
         inv_obj.write(cr, uid, inv_list, {'status': 'no_pro'})
 
         inv_line_list = inv_line_obj.search(
@@ -291,13 +289,12 @@ class islr_wh_doc(osv.osv):
         return False
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
-        """ Unlink all taxes whean change the partner in the document.
+        """ Unlink all taxes when change the partner in the document.
         @param type: invoice type
         @param partner_id: partner id was changed
         """
         context = context or {}
         acc_id = False
-        inv_ids = []
         res = {}
         res_wh_lines = []
         inv_obj = self.pool.get('account.invoice')
@@ -311,14 +308,6 @@ class islr_wh_doc(osv.osv):
         if iwdi_ids:
             iwdi_obj.unlink(cr, uid, iwdi_ids, context=context)
             iwdi_ids = []
-
-        # Unlink previous invoices
-        inv_ids = ids and inv_obj.search(cr, uid,
-                                         [('islr_wh_doc_id', '=', ids[0])], context=context)
-        if inv_ids:
-            inv_obj.write(cr, uid, inv_ids, {'islr_wh_doc_id': False},
-                          context=context)
-            inv_ids = []
 
         # Unlink previous line
         iwdl_obj = self.pool.get('islr.wh.doc.line')
@@ -590,16 +579,97 @@ class islr_wh_doc(osv.osv):
                 super(islr_wh_doc, self).unlink(cr, uid, ids, context=context)
         return True
 
-islr_wh_doc()
 
+
+    def _dummy_cancel_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
+        return True
+
+    def _check_xml_wh_lines(self, cr, uid, ids, context=None):
+        """Check if this ISLR WH DOC is being used in a XML ISLR DOC"""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        ixwd_ids = []
+        ixwd_obj = self.pool.get('islr.xml.wh.doc')
+        for iwd_brw in self.browse(cr, uid, ids, context=context):
+            for iwdi_brw in iwd_brw.invoice_ids:
+                for ixwl_brw in iwdi_brw.islr_xml_id:
+                    if ixwl_brw.islr_xml_wh_doc and ixwl_brw.islr_xml_wh_doc.state != 'draft':
+                        ixwd_ids += [ixwl_brw.islr_xml_wh_doc.id]
+
+        if not ixwd_ids: return True
+
+        note = _('The Following ISLR XML DOC should be set to Draft before Cancelling this Document\n\n')
+        for ixwd_brw in ixwd_obj.browse(cr, uid, ixwd_ids, context = context):
+            note += '%s\n'%ixwd_brw.name
+        raise osv.except_osv( _("Invalid Procedure!"), note)
+        return True
+
+    def cancel_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can cancel the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self._check_xml_wh_lines(cr, uid, ids, context=context):
+            return False
+        if not self._dummy_cancel_check(cr, uid, ids, context=context):
+            return False
+        return True
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
+
+    def _get_inv_from_iwdi(self, cr, uid, ids, context=None):
+        '''
+        Returns a list of invoices which are recorded in VAT Withholding Docs
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdi_brws = iwdi_obj.browse(cr, uid, ids, context=context)
+        return [i.invoice_id.id for i in iwdi_brws if i.invoice_id]
+
+    def _get_inv_from_iwd(self, cr, uid, ids, context=None):
+        '''
+        Returns a list of invoices which are recorded in VAT Withholding Docs
+        '''
+        res = []
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwd_obj = self.pool.get('islr.wh.doc')
+        iwd_brws = iwd_obj.browse(cr, uid, ids, context=context)
+        for iwd_brw in iwd_brws:
+            for iwdl_brw in iwd_brw.invoice_ids:
+                iwdl_brw.invoice_id and res.append(iwdl_brw.invoice_id.id)
+        return res
+
+    def _fnct_get_wh_income_id(self, cr, uid, ids, name, args, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwdi_obj = self.pool.get('islr.wh.doc.invoices')
+        iwdi_ids = iwdi_obj.search(cr, uid, [('invoice_id','in',ids)], context=context)
+        
+        iwdi_brws = iwdi_obj.browse(cr, uid, iwdi_ids, context=context)
+        res = {}.fromkeys(ids,False)
+        for i in iwdi_brws:
+            if i.invoice_id:
+                res[i.invoice_id.id]=i.islr_wh_doc_id.id or False
+        return res 
+
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', readonly=True, help="Document Income Withholding tax generated from this bill"),
-    }
-    _defaults = {
-        'islr_wh_doc_id': lambda *a: 0,
+        'islr_wh_doc_id': fields.function(_fnct_get_wh_income_id, method=True,
+            type='many2one', relation='islr.wh.doc', 
+            string='Income Withholding Document', 
+            store={
+                'islr.wh.doc':(_get_inv_from_iwd, ['invoice_ids'], 50),
+                'islr.wh.doc.invoices':(_get_inv_from_iwdi, ['invoice_id'], 50),
+            }, help="Document Income Withholding tax generated from this Invoice"),
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -611,9 +681,6 @@ class account_invoice(osv.osv):
         default.update({'islr_wh_doc_id': 0})
 
         return super(account_invoice, self).copy(cr, uid, id, default, context)
-
-account_invoice()
-
 
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
@@ -762,10 +829,6 @@ class islr_wh_doc_invoices(osv.osv):
 
         if not ret_line.invoice_id:
             return True
-        #~ Writing the withholding to the invoice
-        ret_line.invoice_id.write(
-            {'islr_wh_doc_id': ret_line.islr_wh_doc_id.id},
-            context=context)
 
         concept_list = self._get_concepts(cr, uid, ret_line.invoice_id.id,
                                           context=context)
@@ -948,32 +1011,6 @@ class islr_wh_doc_invoices(osv.osv):
             'concept_code': rate_code,  # I get it too but from the rate
         }
 
-    def unlink(self, cr, uid, ids, context=None):
-        """
-        Delete records with given ids but previously unassign the invoice
-        that were related to the withholding document.
-
-        :param cr: database cursor
-        :param uid: current user id
-        :param ids: id or list of ids
-        :param context: (optional) context arguments, like lang, time zone
-        :return: True
-
-        """
-        context = context or {}
-        ids = isinstance(ids, (int, long)) and [ids] or ids
-        inv_obj = self.pool.get('account.invoice')
-        for iwdi_brw in self.browse(cr,uid,ids,context=context):
-            if iwdi_brw.invoice_id:
-                iwdi_brw.invoice_id.write({'islr_wh_doc_id':False},
-                        context=context)
-
-        return super(islr_wh_doc_invoices,self).unlink(cr, uid, ids,
-                context=context)
-
-islr_wh_doc_invoices()
-
-
 class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
     _description = 'Lines of Document Income Withholding'
@@ -1005,4 +1042,3 @@ class islr_wh_doc_line(osv.osv):
         ondelete='cascade', help="Withheld Invoices"),
     }
 
-islr_wh_doc_line()
