@@ -1,0 +1,130 @@
+-
+  5. Testing the correct use of sequence when generating supplier withholding documents.
+-
+  5.1 I check the records i will use in this test and configure enviroment options.
+-
+  I check that the supplier withholding sequence code in data is loaded.
+-
+    !assert {model: ir.sequence.type, id: seq_type_account_wh_iva_purchase, string: The purchase awi sequence code was not correctly loaded}:
+        - code == 'account.wh.iva.in_invoice'
+        - name == 'Purchase Vat Withholding'
+-
+  I check that the supplier withholding sequence in demo was loaded.
+-
+    !assert {model: ir.sequence, id: seq_account_wh_iva_purchase, string: The purchase sequence was not correctly loaded}:
+        - name == 'Purchase Vat Withholding'
+        - code == 'account.wh.iva.in_invoice'
+        - prefix == '%(year)s-%(month)s-'
+        - padding == 8
+        - number_increment == 1
+-
+  I configure the context for purchase operations.
+-
+    !context
+        'type': 'in_invoice'
+-
+  I set the company as a withholding agent (because is the only I can create a supplier withholdings).
+-
+    !record {model: res.partner, id: base.main_partner}:
+        wh_iva_agent: True
+-
+  I check that the company is withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
+        - wh_iva_agent
+-
+  I check that the supplier that will be use exist.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The partner used in this test exist}:
+        - id
+-
+  I check that tax the that will be use is a withholding tax.
+-
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase1, string: The tax is not withholdeable}:
+        - ret
+-
+  I check that the account that will be use is of payable type.
+-
+    !assert {model: account.account, id: account.a_pay, string: The account is not of receivable type}:
+        - type == 'payable'
+-
+  5.2 Check that the sequence is set only when the supplier withholding is set to done.
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: supplier_seq_invoice, view: account.invoice_supplier_form}: &supplier_seq_invoice
+        nro_ctrl: PURCHASE-IVA-SEQ-INVOICE-0001
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_pay
+        company_id: base.main_company
+        currency_id: base.EUR
+        reference_type: none
+        invoice_line:
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_pay
+            invoice_line_tax_id:
+            - l10n_ve_fiscal_requirements.iva_purchase1
+-
+  I check the invoice type, state and have not wh doc.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice, string: The invoice was not correctly created. It need to be set in draft state, a supplier invoice type (in_invoice) and have not withholding document associaded.}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - not wh_iva_id
+-
+  I confirm the invoice to create the withholding document.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: supplier_seq_invoice}
+-
+  I check that the invoice is confirmed and it generate a withholding doc.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice, string: The invoice was not correctly confirm. It need to change to open state (confirmed) and also generate and link a withholding document}:
+        - state == 'open'
+        - wh_iva_id
+-
+  I check that the withholding document state is draft and that the number field is unset.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice, string: When creating a supplier withholding via supplier invoice confirmation the state of the withholding document must be draft, and the wh number is unset (they will be set when the withholding is confirmed)}:
+        - wh_iva_id.state == 'draft'
+        - not wh_iva_id.number
+-
+  I confirm the withholding document
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_seq_invoice' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
+        awi_obj = self.pool.get( 'account.wh.iva' )
+        awi_brw = awi_obj.browse(cr, uid, awi_id)
+-
+  I check the withholding is confirm and that the wh number is not set.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice, string: The withholding was not correctly confirm.}:
+        - wh_iva_id.state == 'confirmed'
+        - not wh_iva_id.number
+-
+  I set the withholding to done state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_seq_invoice' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
+        awi_obj = self.pool.get( 'account.wh.iva' )
+        awi_brw = awi_obj.browse(cr, uid, awi_id)
+-
+  I check the withholding is done and that the wh number is set.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice, string: The withholding was not correctly done.}:
+        - wh_iva_id.state == 'done'
+        - wh_iva_id.number
