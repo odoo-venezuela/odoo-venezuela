@@ -303,6 +303,28 @@ class account_wh_munici(osv.osv):
                 super(account_wh_munici, self).unlink(cr, uid, ids, context=context)
         return True
 
+    def confirm_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can confirm the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self.check_wh_lines(cr, uid, ids, context=context):
+            return False
+        return True
+
+    def check_wh_lines(self, cr, uid, ids, context=None):
+        """ Check that wh muni has withholding lines"""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awm_brw = self.browse(cr, uid, ids[0], context=context)
+        if not awm_brw.munici_line_ids:
+            raise osv.except_osv(
+                _("Missing Values !"),
+                _("Missing Withholding Lines!"))
+        return True
+
 class account_wh_munici_line(osv.osv):
 
     def default_get(self, cr, uid, fields, context=None):
