@@ -134,3 +134,12 @@
     !assert {model: account.invoice, id: supplier_seq_invoice_1, string: The withholding was not correctly done.}:
         - wh_iva_id.state == 'done'
         - wh_iva_id.number
+-
+  5.3 Using the supplier withholding document generated in 5.2 I check if the
+  sequence used is the correct one (purchase sequence in this case).
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_seq_invoice_1' )
+        awi_brw = self.browse(cr, uid, inv_id).wh_iva_id
+        print ' ---- number',  awi_brw.number
+        assert 'PURCHASE_TEST' in awi_brw.number, 'There was not used the supplier withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
