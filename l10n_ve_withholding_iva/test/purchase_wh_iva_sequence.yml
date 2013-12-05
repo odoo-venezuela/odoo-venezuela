@@ -107,8 +107,6 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
-        awi_obj = self.pool.get( 'account.wh.iva' )
-        awi_brw = awi_obj.browse(cr, uid, awi_id)
 -
   I check the withholding is confirm and that the wh number is not set.
 -
@@ -126,8 +124,6 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
-        awi_obj = self.pool.get( 'account.wh.iva' )
-        awi_brw = awi_obj.browse(cr, uid, awi_id)
 -
   I check the withholding is done and that the wh number is set.
 -
@@ -141,7 +137,6 @@
     !python {model: account.invoice}: |
         inv_id = ref( 'supplier_seq_invoice_1' )
         awi_brw = self.browse(cr, uid, inv_id).wh_iva_id
-        print ' ---- number',  awi_brw.number
         assert 'PURCHASE_TEST' in awi_brw.number, 'There was not used the supplier withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
 -
   5.4 I check that the supplier withholding sequence is used consecutively.
@@ -185,8 +180,6 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
-        awi_obj = self.pool.get( 'account.wh.iva' )
-        awi_brw = awi_obj.browse(cr, uid, awi_id)
 -
   I check the withholding is confirm and that the wh number is not set.
 -
@@ -216,6 +209,5 @@
     !python {model: account.invoice}: |
         inv_id = ref( 'supplier_seq_invoice_2' )
         awi_brw = self.browse(cr, uid, inv_id).wh_iva_id
-        print ' ---- number',  awi_brw.number
         assert 'PURCHASE_TEST' in awi_brw.number, 'There was not used the supplier withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
         assert '00001000' in awi_brw.number, 'The withholding documents are no creating consecutively'
