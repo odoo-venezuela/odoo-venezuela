@@ -143,3 +143,79 @@
         awi_brw = self.browse(cr, uid, inv_id).wh_iva_id
         print ' ---- number',  awi_brw.number
         assert 'PURCHASE_TEST' in awi_brw.number, 'There was not used the supplier withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
+-
+  5.4 I check that the supplier withholding sequence is used consecutively.
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: supplier_seq_invoice_2, view: account.invoice_supplier_form}:
+        nro_ctrl: PURCHASE-IVA-SEQ-INVOICE-0002
+        << :  *supplier_seq_invoice
+-
+  I check the invoice type, state and have not wh doc.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice_2, string: The invoice was not correctly created. It need to be set in draft state, a supplier invoice type (in_invoice) and have not withholding document associaded.}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - not wh_iva_id
+-
+  I confirm the invoice to create the withholding document.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: supplier_seq_invoice_2}
+-
+  I check that the invoice is confirmed and it generate a withholding doc.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice_2, string: The invoice was not correctly confirm. It need to change to open state (confirmed) and also generate and link a withholding document}:
+        - state == 'open'
+        - wh_iva_id
+-
+  I check that the withholding document state is draft and that the number field is unset.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice_2, string: When creating a supplier withholding via supplier invoice confirmation the state of the withholding document must be draft, and the wh number is unset (they will be set when the withholding is confirmed)}:
+        - wh_iva_id.state == 'draft'
+        - not wh_iva_id.number
+-
+  I confirm the withholding document
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_seq_invoice_2' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
+        awi_obj = self.pool.get( 'account.wh.iva' )
+        awi_brw = awi_obj.browse(cr, uid, awi_id)
+-
+  I check the withholding is confirm and that the wh number is not set.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice_2, string: The withholding was not correctly confirm.}:
+        - wh_iva_id.state == 'confirmed'
+        - not wh_iva_id.number
+-
+  I set the withholding to done state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_seq_invoice_2' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
+-
+  I check the withholding is done and that the wh number is set.
+-
+    !assert {model: account.invoice, id: supplier_seq_invoice_2, string: The withholding was not correctly done.}:
+        - wh_iva_id.state == 'done'
+        - wh_iva_id.number
+-
+  I check that number associated to the new withholding is the consecutively one.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_seq_invoice_2' )
+        awi_brw = self.browse(cr, uid, inv_id).wh_iva_id
+        print ' ---- number',  awi_brw.number
+        assert 'PURCHASE_TEST' in awi_brw.number, 'There was not used the supplier withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
+        assert '00001000' in awi_brw.number, 'The withholding documents are no creating consecutively'
