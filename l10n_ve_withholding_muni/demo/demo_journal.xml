@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>                                                                       
+    <data noupdate="1"> 
+        <!-- Journal -->
+        <record id="wh_purchase_journal" model="account.journal">      
+             <field name="name">Diario de Retenciones Municipales de Compra</field>                    
+             <field name="code">DRMC</field>                                   
+             <field name="type">mun_purchase</field>                            
+             <field name="sequence_id" ref="seq_wh_purchase_journal"/>      
+         </record>
+        <record id="wh_sale_journal" model="account.journal">      
+             <field name="name">Diario de Retenciones Municipales de Venta</field>                    
+             <field name="code">DRMV</field>                                    
+             <field name="type">mun_sale</field>                            
+             <field name="sequence_id" ref="seq_wh_sale_journal"/>      
+         </record>
+     </data>                                                                     
+</openerp>

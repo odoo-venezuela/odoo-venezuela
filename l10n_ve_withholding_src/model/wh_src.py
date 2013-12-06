@@ -58,7 +58,7 @@ class account_wh_src(osv.osv):
         return false in otherwise
         """
         context = context or {}
-        user_wh_agent = self.pool.get('res.partner').browse(cr, uid, uid, context=context).wh_src_agent
+        user_wh_agent = self.pool.get('res.users').browse(cr, uid, uid, context = context).company_id.partner_id.wh_src_agent
         return user_wh_agent
 
     def _get_partner_agent(self, cr, uid, context=None):

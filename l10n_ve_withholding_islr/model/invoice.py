@@ -182,12 +182,6 @@ class account_invoice(osv.osv):
             raise osv.except_osv(_('Invalid action !'), _(
                 "No se ha encontrado el numero de secuencia!"))
 
-        self.write(cr, uid, ids, {'islr_wh_doc_id': islr_wh_doc_id,
-                                  'islr_wh_doc_name': wh_ret_code})
-
-        # wf_service = netsvc.LocalService("workflow")
-        # wf_service.trg_validate(uid, 'islr.wh.doc', islr_wh_doc_id,
-        # 'button_confirm', cr)
         return islr_wh_doc_id
 
     def copy(self, cr, uid, id, default=None, context=None):
