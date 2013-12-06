@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: openerp-venezuela-localization\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-12 19:17+0000\n"
-"PO-Revision-Date: 2013-06-06 21:41+0000\n"
-"Last-Translator: hbto [Vauxoo] http://www.vauxoo.com "
-"<humbertoarocha@gmail.com>\n"
+"PO-Revision-Date: 2013-12-06 04:35+0000\n"
+"Last-Translator: Francisco Lercari (Lertech) <franciscolercari@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-05 05:38+0000\n"
+"X-Launchpad-Export-Date: 2013-12-06 05:52+0000\n"
 "X-Generator: Launchpad (build 16863)\n"
 
 #. module: l10n_ve_withholding_src
@@ -26,7 +25,7 @@ msgstr "Base Imponible"
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 msgid "Set to draft"
-msgstr ""
+msgstr "Cambiar a borrador"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
@@ -73,60 +72,60 @@ msgstr "Compromiso de Responsabilidad Social"
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src.line:0
 msgid "Social Responsibility Commitment Withholding Lines"
-msgstr ""
+msgstr "Líneas de Retención de Compromiso de Responsabilidad Social"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "Código de Retención"
-msgstr ""
+msgstr "Código de Retención"
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,account_id:0
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #. module: l10n_ve_withholding_src
 #: help:account.invoice,wh_src:0
 msgid "if the commitment to social responsibility has been retained"
-msgstr ""
+msgstr "si se ha retenido el compromiso con la responsabilidad social"
 
 #. module: l10n_ve_withholding_src
 #: model:ir.actions.report.xml,name:l10n_ve_withholding_src.wh_src_report_1
 msgid "Reporte Compromiso Social"
-msgstr ""
+msgstr "Reporte Compromiso Social"
 
 #. module: l10n_ve_withholding_src
 #: code:addons/l10n_ve_withholding_src/wizard/wizard_retention.py:41
 #: code:addons/l10n_ve_withholding_src/wizard/wizard_retention.py:47
 #, python-format
 msgid "Error!"
-msgstr ""
+msgstr "¡Error!"
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,wh_amount:0
 msgid "Amount"
-msgstr ""
+msgstr "Monto"
 
 #. module: l10n_ve_withholding_src
 #: code:addons/l10n_ve_withholding_src/model/wh_src.py:279
 #, python-format
 msgid "Invalid Procedure!!"
-msgstr ""
+msgstr "¡Procedimiento No Válido!"
 
 #. module: l10n_ve_withholding_src
 #: selection:account.wh.src,state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,date_ret:0
 msgid "Withholding date"
-msgstr ""
+msgstr "Fecha de Retención"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src,type:0
 msgid "Withholding type"
-msgstr ""
+msgstr "Tipo de retención"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src,state:0
@@ -137,34 +136,34 @@ msgstr ""
 #: field:account.wh.src.line,wh_id:0
 #: help:account.wh.src.line,wh_id:0
 msgid "Local withholding"
-msgstr ""
+msgstr "Retenciones Municipales"
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,period_id:0
 msgid "Force Period"
-msgstr ""
+msgstr "Forzar Período"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "Contrato"
-msgstr ""
+msgstr "Contrato"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 #: field:account.wh.src,partner_id:0
 #: model:ir.model,name:l10n_ve_withholding_src.model_res_partner
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 msgid "Done Withholding Local"
-msgstr ""
+msgstr "Retención Munical Realizada"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src.line,invoice_id:0
 msgid "Withholding invoice"
-msgstr ""
+msgstr "Retención de factura"
 
 #. module: l10n_ve_withholding_src
 #: field:account.invoice,wh_src_id:0
@@ -175,43 +174,44 @@ msgstr ""
 #: view:account.wh.src:0
 #: selection:account.wh.src,state:0
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmado"
 
 #. module: l10n_ve_withholding_src
 #: help:res.company,wh_src_collected_account_id:0
 msgid "This account will be used when applying a withhold to an Supplier"
 msgstr ""
+"Esta cuenta se utilizará cuando se aplica una retención a un proveedor"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 #: view:wiz.retention:0
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "1.2cm 2.15cm 19.9cm 2.15cm"
-msgstr ""
+msgstr "1.2cm 2.15cm 19.9cm 2.15cm"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 msgid "Accounting Date of Withhold"
-msgstr ""
+msgstr "Fecha contable de la retención"
 
 #. module: l10n_ve_withholding_src
 #: view:res.company:0
 msgid "Social Responsability Commitment Accounts"
-msgstr ""
+msgstr "Cuentas de Compromiso de Responsabilidad Social"
 
 #. module: l10n_ve_withholding_src
 #: selection:account.wh.src,type:0
 msgid "Supplier Invoice"
-msgstr ""
+msgstr "Factura de proveedor"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src.line,name:0
 msgid "Local Withholding line Description"
-msgstr ""
+msgstr "Descripcion de la línea de retención Municipal"
 
 #. module: l10n_ve_withholding_src
 #: code:addons/l10n_ve_withholding_src/model/wh_src.py:230
@@ -220,78 +220,78 @@ msgstr ""
 #: code:addons/l10n_ve_withholding_src/model/wh_src.py:264
 #, python-format
 msgid "Invalid Procedure!"
-msgstr ""
+msgstr "Procedimiento Inválido!"
 
 #. module: l10n_ve_withholding_src
 #: field:wiz.retention,sure:0
 msgid "Are you sure?"
-msgstr ""
+msgstr "¿Está seguro?"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src,name:0
 msgid "Description of withholding"
-msgstr ""
+msgstr "Descripción de la retención"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "Elaborado por: SISB"
-msgstr ""
+msgstr "Elaborado por: SISB"
 
 #. module: l10n_ve_withholding_src
 #: help:res.partner,wh_src_agent:0
 msgid "Indicate if the partner is a SRC withholding agent"
-msgstr ""
+msgstr "Indique si el partner es un agente de retención CRS"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 msgid "Other Information"
-msgstr ""
+msgstr "Otra Información"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src,wh_amount:0
 msgid "Amount withheld"
-msgstr ""
+msgstr "Monto Retenido"
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src.line,invoice_id:0
 #: model:ir.model,name:l10n_ve_withholding_src.model_account_invoice
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src,partner_id:0
 msgid "Withholding customer/supplier"
-msgstr ""
+msgstr "Retención a Cliente / Proveedor"
 
 #. module: l10n_ve_withholding_src
 #: field:res.partner,wh_src_rate:0
 msgid "SRC Rate"
-msgstr ""
+msgstr "Tasa de CRS"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "- Fax:"
-msgstr ""
+msgstr "- Fax:"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src.line:0
 msgid "Total Base a Retener"
-msgstr ""
+msgstr "Total Base a Retener"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "Conforme por:"
-msgstr ""
+msgstr "Conforme por:"
 
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "MONTO NETO"
-msgstr ""
+msgstr "MONTO NETO"
 
 #. module: l10n_ve_withholding_src
 #: view:account.wh.src:0
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_ve_withholding_src
 #: help:account.wh.src,account_id:0
@@ -301,13 +301,13 @@ msgstr ""
 #. module: l10n_ve_withholding_src
 #: report:wh.src.report:0
 msgid "MONTO RETENIDO BS."
-msgstr ""
+msgstr "MONTO RETENIDO BS."
 
 #. module: l10n_ve_withholding_src
 #: field:account.wh.src,currency_id:0
 #: help:account.wh.src,currency_id:0
 msgid "Currency"
-msgstr ""
+msgstr "Moneda"
 
 #. module: l10n_ve_withholding_src
 #: field:wiz.retention,name:0
