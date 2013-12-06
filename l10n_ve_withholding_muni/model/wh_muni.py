@@ -169,6 +169,7 @@ class account_wh_munici(osv.osv):
             if not ret.date_ret:
                 self.write(cr, uid, [ret.id], {'date_ret':
                            time.strftime('%Y-%m-%d')})
+                ret = self.browse(cr, uid, ret.id, context = context)
 
             period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
