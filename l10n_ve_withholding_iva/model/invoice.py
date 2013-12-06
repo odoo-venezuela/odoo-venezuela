@@ -262,14 +262,16 @@ class account_invoice(osv.osv):
         context = context or {}
         wh_iva_obj = self.pool.get('account.wh.iva')
         per_obj = self.pool.get('account.period')
+        rp_obj = self.pool.get('res.partner')
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res = list()
         for inv_brw in self.browse(cr, uid, ids, context=context):
+            acc_part_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
             if inv_brw.type in ('out_invoice', 'out_refund'):
-                acc_id = inv_brw.partner_id.property_account_receivable.id
+                acc_id = acc_part_id.property_account_receivable.id
                 wh_type = 'out_invoice'
             else:
-                acc_id = inv_brw.partner_id.property_account_payable.id
+                acc_id = acc_part_id.property_account_payable.id
                 wh_type = 'in_invoice'
                 if not acc_id:
                     raise osv.except_osv('Invalid Action !',\
@@ -279,7 +281,7 @@ class account_invoice(osv.osv):
                 'name':_('ORIGIN %s'%(inv_brw.number)),
                 'type': wh_type,
                 'account_id': acc_id,
-                'partner_id': inv_brw.partner_id.id,
+                'partner_id': acc_part_id.id,
                 'period_id': inv_brw.period_id.id,
                 'wh_lines': [(4, ret_line_id)],
                 'fortnight': str(per_obj.find_fortnight(
