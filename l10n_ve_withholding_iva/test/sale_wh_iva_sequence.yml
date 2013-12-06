@@ -1,0 +1,155 @@
+-
+  6. Testing the correct use of sequence when generating customer withholding documents.
+-
+  6.1 I check the records i will use in this test and configure enviroment options.
+-
+  I check that the customer withholding sequence code in data is loaded.
+-
+    !assert {model: ir.sequence.type, id: seq_type_account_wh_iva, string: The sale awi sequence code was not correctly loaded}:
+        - code == 'account.wh.iva'
+        - name == 'Sale Vat Withholding'
+-
+  I check that the customer withholding sequence in demo was loaded.
+-
+    !assert {model: ir.sequence, id: seq_account_wh_iva, string: The sale sequence was not correctly loaded}:
+        - name == 'Vat Withholding'
+        - code == 'account.wh.iva'
+        - prefix == 'RET:'
+        - padding == 8
+        - number_increment == 1
+-
+  I update the customer withholding sequence in demo to later be able to difference it and the check that have been correctly used.
+-
+    !record {model: ir.sequence, id: seq_account_wh_iva}:
+        prefix: SALE_TEST-%(year)s-%(month)s-
+        number_next: 999 
+-
+  I configure the context for sale operations.
+-
+    !context
+        'type': 'out_invoice'
+-
+  I check that the customer that will be use is a withhoding agent.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The customer is not a withholding agent}:
+        - wh_iva_agent
+-
+  I check that the tax that will be use is a withholding tax.
+-
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale1, string: The tax is not withholdeable}:
+        - ret
+-
+  I check that the account that will be use is of receivable type.
+-
+    !assert {model: account.account, id: account.a_recv, string: The account is not of receivable type}:
+        - type == 'receivable'
+-
+  6.2 Check that the sequence is NOT set when the customer withholding is set to done.
+-
+  I create a customer withholding document.
+-
+    !record {model: account.wh.iva, id: awi_sale_seq_1}: &awi_sale_seq
+        name: AWI SALE SEQ 001
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+        company_id: base.main_company
+        currency_id: base.EUR
+        number: TEST_MARK
+-
+  I search the current period and add it to the withholding doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref( 'awi_sale_seq_1' )
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  I create a customer invoice.
+-
+    !record {model: account.invoice, id: customer_seq_invoice_1, view: account.invoice_form}: &customer_seq_invoice
+        nro_ctrl: SALE-IVA-SEQ-INVOICE-0001
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+        company_id: base.main_company
+        currency_id: base.EUR
+        reference_type: none
+        invoice_line:
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_recv
+            invoice_line_tax_id:
+            - l10n_ve_fiscal_requirements.iva_sale1
+-
+  I check the invoice type, state and that have not wh doc.
+-
+    !assert {model: account.invoice, id: customer_seq_invoice_1, string: The invoice was not correctly created. It need to be set in draft state, a customer invoice type (out_invoice) and have not withholding document associaded.}:
+        - state == 'draft'
+        - type == 'out_invoice'
+        - not wh_iva_id
+-
+  I confirm the invoice.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: customer_seq_invoice_1}
+
+-
+  I add the invoice to the withholding doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref( 'awi_sale_seq_1' )
+    invoice_id = ref( 'customer_seq_invoice_1' )
+    values = {}
+    awi_brw = self.browse(cr, uid, awi_id)
+    res = self.onchange_partner_id(
+        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    values['wh_lines'] = [
+        (0, 0, {'invoice_id': invoice_id,
+                'name':'N/A',
+                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    values['account_id'] = res['value']['account_id']
+    self.write(cr, uid, awi_id, values)
+-
+  I check that the withholding document can be confirm.
+-
+    !assert {model: account.wh.iva, id: awi_sale_seq_1, string: The withholding document is corrupt. Need to be in draft state and the wh lines need to be loaded}:
+        - state == 'draft'
+        - wh_lines
+-
+  I compute the taxes manually with the button 'Compute Withholding Vat'.
+-
+    !function {model: account.wh.iva, name: compute_amount_wh, id: awi_sale_seq_1}:
+        - model: account.wh.iva
+          eval: "[ref('awi_sale_seq_1')]"
+-
+  I confirm the withholding document
+-
+    !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: awi_sale_seq_1}
+-
+  I check the withholding is confirm and that the wh number is the same that the user set.
+-
+    !assert {model: account.wh.iva, id: awi_sale_seq_1, string: The withholding was not correctly confirm.}:
+        - state == 'confirmed'
+        - number == 'TEST_MARK'
+-
+  I change the withholding to done state.
+-
+    !workflow {model: account.wh.iva, action: wh_iva_done, ref: awi_sale_seq_1}
+-
+  I check the withholding is done and that the wh number is the same that the user set.
+-
+    !assert {model: account.wh.iva, id: awi_sale_seq_1, string: The withholding was not correctly done.}:
+        - state == 'done'
+        - number == 'TEST_MARK'
+-
+  6.3 Using the supplier withholding document generated in 6.2 I check if the
+  sequence used is the correct one (sale sequence in this case).
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref( 'awi_sale_seq_1' )
+        awi_brw = self.browse(cr, uid, awi_id)
+        assert 'SALE_TEST' in awi_brw.code, 'There was not used the customer withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
