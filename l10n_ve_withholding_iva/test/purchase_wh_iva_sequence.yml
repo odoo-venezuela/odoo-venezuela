@@ -41,7 +41,7 @@
 -
   I check that the supplier that will be use exist.
 -
-    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The partner used in this test exist}:
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier used in this test exist}:
         - id
 -
   I check that tax the that will be use is a withholding tax.
@@ -51,7 +51,7 @@
 -
   I check that the account that will be use is of payable type.
 -
-    !assert {model: account.account, id: account.a_pay, string: The account is not of receivable type}:
+    !assert {model: account.account, id: account.a_pay, string: The account is not of payable type}:
         - type == 'payable'
 -
   5.2 Check that the sequence is set only when the supplier withholding is set to done.
