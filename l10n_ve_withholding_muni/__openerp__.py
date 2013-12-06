@@ -49,6 +49,7 @@
         'demo/demo_journal.xml',
     ],
     'test': [
+        'test/awm_supplier.yml',
     ],
     'installable': True,
     'active': False,
