@@ -127,7 +127,7 @@ class account_invoice(osv.osv):
                 'account.wh.iva':(_get_inv_from_awi, ['wh_lines'], 50),
                 'account.wh.iva.line':(_get_inv_from_awil, ['invoice_id'], 50),
             }, help="This is the VAT Withholding Document where this invoice is being withheld"),
-        'vat_apply':fields.boolean('Exclude this document from VAT Withholding', help="This selection indicates whether generate the invoice withholding document")
+        'vat_apply':fields.boolean('Exclude this document from VAT Withholding', states={'draft':[('readonly',False)]}, help="This selection indicates whether generate the invoice withholding document")
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
