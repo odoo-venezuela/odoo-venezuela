@@ -716,6 +716,46 @@ class account_wh_iva(osv.osv):
                     awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
+    def _dummy_cancel_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
+        return True
+
+    def _check_tax_iva_lines(self, cr, uid, ids, context=None):
+        """Check if this IVA WH DOC is being used in a TXT IVA DOC"""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        til_obj = self.pool.get("txt.iva.line")
+        ti_obj = self.pool.get("txt.iva")
+        args = [('txt_id.state','!=','draft'),('voucher_id','in',ids)]
+        til_ids = til_obj.search(cr, uid, args, context = context)
+
+        if not til_ids: return True
+
+        note = _('The Following IVA TXT DOC should be set to Draft before Cancelling this Document\n\n')
+        ti_ids = list(set([til_brw.txt_id.id 
+            for til_brw in til_obj.browse(cr, uid, til_ids, context = context)]))
+        for ti_brw in ti_obj.browse(cr, uid, ti_ids, context = context):
+            note += '%s\n'%ti_brw.name
+        raise osv.except_osv( _("Invalid Procedure!"), note)
+        return True
+
+    def cancel_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can cancel the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self._check_tax_iva_lines(cr, uid, ids, context=context):
+            return False
+        if not self._dummy_cancel_check(cr, uid, ids, context=context):
+            return False
+        return True
+
     def _dummy_confirm_check(self, cr, uid, ids, context=None):
         '''
         This will be the method that another developer should use to create new
