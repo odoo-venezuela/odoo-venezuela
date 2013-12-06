@@ -688,15 +688,16 @@ class account_wh_iva(osv.osv):
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
+        rp_obj = self.pool.get('res.partner')
 
         for id in ids:
             inv_str = ''
             awi_brw = self.browse(cr, uid, id, context=context)
             for awil_brw in awi_brw.wh_lines:
-                if awil_brw.invoice_id and awil_brw.invoice_id.partner_id.id !=\
-                    awi_brw.partner_id.id:
-                        inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or
-                                awil_brw.invoice_id.number or '')
+                acc_part_id = rp_obj._find_accounting_partner(awil_brw.invoice_id.partner_id)
+                if acc_part_id.id != awi_brw.partner_id.id:
+                    inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or
+                        awil_brw.invoice_id.number or '')
 
             if inv_str:
                 raise osv.except_osv('Incorrect Invoices !',"The following invoices are not from the selected partner: %s " % (inv_str,))
