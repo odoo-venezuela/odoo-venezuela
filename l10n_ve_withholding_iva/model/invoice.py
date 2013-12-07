@@ -321,9 +321,7 @@ class account_invoice(osv.osv):
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)
-        #No create withholding vat for customer invoice
-#        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
-#            return True
+        #No VAT withholding Documents are created for customer invoice & refunds
         if obj.type in ('in_invoice', 'in_refund') and \
             self.pool.get('res.partner')._find_accounting_partner(obj.company_id.partner_id).wh_iva_agent:
             return True 
