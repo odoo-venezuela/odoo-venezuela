@@ -324,7 +324,8 @@ class account_invoice(osv.osv):
         #No create withholding vat for customer invoice
 #        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
 #            return True
-        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.wh_iva_agent:
+        if obj.type in ('in_invoice', 'in_refund') and \
+            self.pool.get('res.partner')._find_accounting_partner(obj.company_id.partner_id).wh_iva_agent:
             return True 
         return False
 
