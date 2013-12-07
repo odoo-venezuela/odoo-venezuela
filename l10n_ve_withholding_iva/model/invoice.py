@@ -466,13 +466,15 @@ class account_invoice_tax(osv.osv):
         context = context or {}
         res = {}
         inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = inv.type in ['out_invoice', "out_reunf"] and \
+                rp_obj._find_accounting_partner(inv.company_id.partner_id) or \
+                rp_obj._find_accounting_partner(inv_brw.partner_id)
+        wh_iva_rate = acc_part_id.wh_iva_rate
 
         for ait in inv.tax_line:
             amount_ret = 0.0
             if ait.tax_id.ret:
-                wh_iva_rate = inv.type in ['out_invoice', "out_reunf"] \
-                    and inv.company_id.partner_id.wh_iva_rate \
-                    or inv.partner_id.wh_iva_rate
                 amount_ret = wh_iva_rate and ait.tax_amount*wh_iva_rate/100.0 or 0.00
             res[ait.id] = {'amount_ret': amount_ret, 'base_ret': ait.base_amount}
         return res
