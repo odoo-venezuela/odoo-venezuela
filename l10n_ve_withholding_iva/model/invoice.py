@@ -391,6 +391,7 @@ class account_invoice(osv.osv):
                             name, context=context)
         if context.get('vat_wh',False):
             invoice = self.browse(cr, uid, ids[0])
+            acc_part_id = self.pool.get('res.partner')._find_accounting_partner(inv_brw.partner_id)
             
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
@@ -406,7 +407,7 @@ class account_invoice(osv.osv):
                     'debit': direction * tax_brw.amount_ret<0 and - direction * tax_brw.amount_ret,
                     'credit': direction * tax_brw.amount_ret>0 and direction * tax_brw.amount_ret,
                     'account_id': acc,
-                    'partner_id': invoice.partner_id.id,
+                    'partner_id': acc_part_id.id,
                     'ref':invoice.number,
                     'date': date,
                     'currency_id': False,
