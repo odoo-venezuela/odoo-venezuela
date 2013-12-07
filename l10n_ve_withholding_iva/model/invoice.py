@@ -166,17 +166,15 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         wil_obj = self.pool.get('account.wh.iva.line')
+        rp_obj = self.pool.get('res.partner')
         inv_brw = self.browse(cr, uid, ids, context=context)
         wh_iva_rate = inv_brw.type in ('in_invoice', 'in_refund') \
-                      and inv_brw.partner_id.wh_iva_rate \
-                      or inv_brw.type in ('out_invoice', 'out_refund') \
-                      and inv_brw.company_id.partner_id.wh_iva_rate
+                and rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate \
+                or rp_obj._find_accounting_partner(inv_brw.company_id.partner_id).wh_iva_rate
         values = {'name': inv_brw.name or inv_brw.number,
                   'invoice_id': inv_brw.id,
                   'wh_iva_rate': wh_iva_rate }
         return wil_obj.create(cr, uid, values, context=context)
-
-
 
     def action_wh_iva_supervisor(self, cr, uid, ids, context=None):
         """ Validate the currencys are equal
@@ -194,7 +192,6 @@ class account_invoice(osv.osv):
                 elif inv.currency_id.id != user_brw.company_id.currency_id.id:
                     raise osv.except_osv('Invalid Action !', _('The currency of the invoice does not match with the currency of the company. Check this please'))
         return True
-
 
     def action_wh_iva_create(self, cr, uid, ids, context=None):
         """ Create withholding objects """
