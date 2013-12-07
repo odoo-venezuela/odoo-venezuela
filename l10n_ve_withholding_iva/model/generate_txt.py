@@ -282,8 +282,9 @@ class txt_iva(osv.osv):
         """
         context = context or {}
         txt_string = ''
+        rp_obj = self.pool.get('res.partner')
         for txt in self.browse(cr,uid,ids,context):
-            vat = txt.company_id.partner_id.vat[2:]
+            vat = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
             for txt_line in txt.txt_ids:
                 
                 vendor,buyer=self.get_buyer_vendor(cr,uid,txt,txt_line)
