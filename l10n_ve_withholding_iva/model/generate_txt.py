@@ -246,12 +246,15 @@ class txt_iva(osv.osv):
         @param txt: current txt document 
         @param txt_line: One line of the current txt document
         """
+        rp_obj = self.pool.get('res.partner')
+        vat_company = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
+        vat_partner = rp_obj._find_accounting_partner(txt_line.partner_id).vat[2:]
         if txt_line.invoice_id.type in ['out_invoice','out_refund']:
-            vendor = txt.company_id.partner_id.vat[2:]
-            buyer  = txt_line.partner_id.vat[2:]
+            vendor = vat_company
+            buyer  = vat_partner
         else:
-            buyer  = txt.company_id.partner_id.vat[2:]
-            vendor = txt_line.partner_id.vat[2:]
+            buyer  = vat_company
+            vendor = vat_partner
         return (vendor,buyer)
 
     def get_max_aliquot(self, cr, uid, txt_line):
