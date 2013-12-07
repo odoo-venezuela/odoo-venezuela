@@ -242,14 +242,17 @@ class account_invoice(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         wh_iva_obj = self.pool.get('account.wh.iva')
         per_obj = self.pool.get('account.period')
+        rp_obj = self.pool.get('res.partner')
         for inv_brw in self.browse(cr, uid, ids, context=context):
+            acc_part_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
             inv_period, inv_fortnight = per_obj.find_fortnight(
                 cr, uid, inv_brw.date_invoice, context=context)
             ttype = inv_brw.type in ["out_invoice", "out_refund"] \
                     and "out_invoice" or "in_invoice"
             acc_wh_ids = wh_iva_obj.search(
-                cr, uid, [('state', '=', 'draft'), ('type', '=', ttype),
-                ('partner_id', '=', inv_brw.partner_id.id),
+                cr, uid, [('state', '=', 'draft'), ('type', '=', ttype), '|',
+                ('partner_id', '=', acc_part_id.id),
+                ('partner_id', 'child_of', acc_part_id.id),
                 ('period_id', '=', inv_period),
                 ('fortnight','=', str(inv_fortnight))], context=context)
             res.append(acc_wh_ids)
