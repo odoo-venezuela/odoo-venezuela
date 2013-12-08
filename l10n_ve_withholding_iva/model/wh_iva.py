@@ -639,17 +639,18 @@ class account_wh_iva(osv.osv):
         context = context or {}
         ai_obj = self.pool.get('account.invoice')
         per_obj = self.pool.get('account.period')
+        rp_obj = self.pool.get('res.partner')
         values_data = dict()
         res_wh_lines = []
         acc_id = False
 
         #~ pull account info
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_id.property_account_receivable and acc_part_id.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
+                acc_id = acc_part_id.property_account_payable and acc_part_id.property_account_payable.id or False
             values_data['account_id'] = acc_id
 
         #~ clear lines 
@@ -665,7 +666,10 @@ class account_wh_iva(osv.osv):
         ai_ids = ai_obj.search(cr, uid, [
             ('state', '=', 'open'), ('wh_iva', '=', False),
             ('wh_iva_id', '=', False), ('type', 'in', ttype),
-            ('partner_id', '=', partner_id), ('period_id', '=', period_id)],
+            '|',
+            ('partner_id', '=', acc_part_id.id),
+            ('partner_id', 'child_of', acc_part_id.id),
+            ('period_id', '=', period_id)],
             context=context)
         ai_ids = [ai_brw.id
                   for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
@@ -677,7 +681,7 @@ class account_wh_iva(osv.osv):
             values_data['wh_lines'] = \
                 [{'invoice_id': inv_brw.id,
                   'name': inv_brw.name or _('N/A'),
-                  'wh_iva_rate': inv_brw.partner_id.wh_iva_rate}
+                  'wh_iva_rate': rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate}
                  for inv_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
                 ]
         return {'value': values_data}
