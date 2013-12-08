@@ -249,8 +249,8 @@ class islr_xml_wh_line(osv.osv):
         """ Changing the partner, the partner_vat field is updated.
         """
         rp_obj = self.pool.get('res.partner')
-        partner_brw = self.pool.get('res.partner').browse(cr,uid,partner_id)
-        return {'value' : {'partner_vat':rp_obj._find_accounting_partner(partner_brw).vat[2:]}} 
+        acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr,uid,partner_id))
+        return {'value' : {'partner_vat':acc_part_brw.vat[2:]}} 
         
         
     def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
