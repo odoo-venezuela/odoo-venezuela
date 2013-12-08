@@ -92,6 +92,8 @@ class account_wh_iva_line(osv.osv):
         @param tax_id_brw: tax object
         """
         if context is None: context = {}
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = rp_obj._find_accounting_partner(tax_id_brw.invoice_id.partner_id)
         return {
             'inv_tax_id':tax_id_brw.id,
             'tax_id':tax_id_brw.tax_id.id,
@@ -99,7 +101,7 @@ class account_wh_iva_line(osv.osv):
             'base':tax_id_brw.base,
             'amount':tax_id_brw.amount,
             'company_id':tax_id_brw.company_id.id,
-            'wh_iva_rate':tax_id_brw.invoice_id.partner_id.wh_iva_rate
+            'wh_iva_rate':acc_part_id.wh_iva_rate
         }
     
     def load_taxes(self, cr, uid, ids, context=None):
