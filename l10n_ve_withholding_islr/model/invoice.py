@@ -155,8 +155,10 @@ class account_invoice(osv.osv):
         wh_doc_obj = self.pool.get('islr.wh.doc')
         inv_obj = self.pool.get('account.invoice.line')
         rate_obj = self.pool.get('islr.rates')
+        rp_obj = self.pool.get('res.partner')
 
         row = self.browse(cr, uid, ids[0], context=context)
+        acc_part_id = rp_obj._find_accounting_partner(row.partner_id)
         context['type'] = row.type
         wh_ret_code = wh_doc_obj.retencion_seq_get(cr, uid)
 
@@ -164,7 +166,7 @@ class account_invoice(osv.osv):
             journal = wh_doc_obj._get_journal(cr, uid, context=context)
             islr_wh_doc_id = wh_doc_obj.create(cr, uid,
                                                {'name': wh_ret_code,
-                                                'partner_id': row.partner_id.id,
+                                                'partner_id': acc_part_id.id,
                                                 'period_id': row.period_id.id,
                                                 'account_id': row.account_id.id,
                                                 'type': row.type,
