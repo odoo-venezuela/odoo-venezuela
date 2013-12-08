@@ -635,7 +635,6 @@ class account_wh_iva(osv.osv):
         @param period_id: period_id at current view
         @param fortnight: fortnight at current view
         """
-        #~ print '\n\n\n\n', 'onchange_lines_filter(', type, partner_id or 'no partner', period_id or 'no period', (isinstance(fortnight, (str)) and fortnight == 'False' and '1ra Fn' or '2da Fn') or 'EMPTY', ')'
         context = context or {}
         ai_obj = self.pool.get('account.invoice')
         per_obj = self.pool.get('account.period')
