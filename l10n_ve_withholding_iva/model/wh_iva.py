@@ -404,13 +404,12 @@ class account_wh_iva(osv.osv):
     def _check_partner(self, cr, uid, ids, context={}):
         """ Determine if a given partner is a VAT Withholding Agent
         """
-        agt = False
         obj = self.browse(cr, uid, ids[0])
-        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
-            agt = True
-        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.wh_iva_agent:
-            agt = True
-        return agt
+        rp_obj = self.pool.get('res.partner')
+        if obj.type in ('out_invoice', 'out_refund'): 
+            return rp_obj._find_accounting_partner(obj.partner_id).wh_iva_agent:
+        else:
+            return rp_obj._find_accounting_partner(obj.company_id.partner_id).wh_iva_agent:
 
     _constraints = [
         (_check_partner, 'Error ! The partner must be withholding vat agent .', ['partner_id']),
