@@ -156,7 +156,10 @@
                         <field name="journal_id" select="2" domain="[('type','=','iva_purchase')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('supplier','=',True)]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" 
+                            domain="[('supplier','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" readonly="1"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
@@ -206,7 +209,10 @@
                         <field name="journal_id" select="2" domain="[('type','=','iva_sale')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('wh_iva_agent','=',True), ('customer','=',True)]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_partner_id(type,partner_id)" 
+                            domain="[('wh_iva_agent','=',True), ('customer','=',True), ('parent_id','=',False)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
