@@ -179,6 +179,7 @@ class islr_xml_wh_doc(osv.osv):
     def _xml(self, cr,uid,ids):
         """ Transform this document to XML format
         """
+        rp_obj = self.pool.get('res.partner')
         root = ''
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
@@ -194,7 +195,7 @@ class islr_xml_wh_doc(osv.osv):
             xml_lines=cr.fetchall()
 
             root = Element("RelacionRetencionesISLR")
-            root.attrib['RifAgente'] = wh_brw.company_id.partner_id.vat[2:]
+            root.attrib['RifAgente'] = rp_obj._find_accounting_partner(wh_brw.company_id.partner_id).vat[2:]
             root.attrib['Periodo'] = period2
             for line in xml_lines:
                 partner_vat,control_number,porcent_rete,concept_code,invoice_number,base,inv_id=line
