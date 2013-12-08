@@ -153,3 +153,130 @@
         awi_id = ref( 'awi_sale_seq_1' )
         awi_brw = self.browse(cr, uid, awi_id)
         assert 'SALE_TEST' in awi_brw.code, 'There was not used the customer withholding sequence of the demo data. The sequence by type of withholding document is badly used.'
+-
+  6.4 I check that the customer withholding sequence is used consecutively at the code field and it does not affect the withholding number.
+-
+  I create a customer withholding document.
+-
+    !record {model: account.wh.iva, id: awi_sale_seq_2}:
+        name: AWI SALE SEQ 002
+        number: TEST_MARK_2
+        <<: *awi_sale_seq
+-
+  I search the current period and add it to the withholding doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref( 'awi_sale_seq_2' )
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  I check that the withholding document state is draft and that the code field is set.
+-
+    !assert {model: account.wh.iva, id: awi_sale_seq_2, string: When creating a customer withholding the state of the withholding document must be draft, and the wh code set}:
+        - state == 'draft'
+        - code 
+-
+  I check that the withholding code is the consecutively one.
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref( 'awi_sale_seq_2' )
+        awi_brw = self.browse(cr, uid, awi_id)
+        assert 'SALE_TEST' in awi_brw.code, (
+            'There was not used the customer withholding sequence of the'
+            ' demo data. The sequence by type of withholding document is'
+            ' badly used.')
+        assert '00001000' in awi_brw.code, (
+            'The withholding documents are no creating consecutively')
+-
+  I create a customer invoice.
+-
+    !record {model: account.invoice, id: customer_seq_invoice_2, view: account.invoice_form}:
+        nro_ctrl: SALE-IVA-SEQ-INVOICE-0002
+        <<: *customer_seq_invoice
+-
+  I check the invoice type, state and have not wh doc.
+-
+    !assert {model: account.invoice, id: customer_seq_invoice_2, string: The invoice was not correctly created. It need to be set in draft state, a customer invoice type (out_invoice) and have not withholding document associaded.}:
+        - state == 'draft'
+        - type == 'out_invoice'
+        - not wh_iva_id
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: customer_seq_invoice_2}
+-
+  I check that the invoice is confirmed.
+-
+    !assert {model: account.invoice, id: customer_seq_invoice_2, string: The invoice was not correctly confirm.)}:
+        - state == 'open'
+-
+  I add the invoice to the withholding doc.
+-
+  !python {model: account.wh.iva}: |
+    awi_id = ref( 'awi_sale_seq_2' )
+    invoice_id = ref( 'customer_seq_invoice_2' )
+    values = {}
+    awi_brw = self.browse(cr, uid, awi_id)
+    res = self.onchange_partner_id(
+        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    values['wh_lines'] = [
+        (0, 0, {'invoice_id': invoice_id,
+                'name':'N/A',
+                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    values['account_id'] = res['value']['account_id']
+    self.write(cr, uid, awi_id, values)
+-
+  I compute the taxes manually with the button 'Compute Withholding Vat'.
+-
+    !function {model: account.wh.iva, name: compute_amount_wh, id: awi_sale_seq_2}:
+        - model: account.wh.iva
+          eval: "[ref('awi_sale_seq_2')]"
+-
+  I confirm the withholding document.
+-
+    !workflow {model: account.wh.iva, action: wh_iva_confirmed, ref: awi_sale_seq_2}
+-
+  I check the withholding is confirm and that the withholding number remains.
+-
+    !assert {model: account.wh.iva, id: awi_sale_seq_2, string: The withholding was not correctly confirm.}:
+        - state == 'confirmed'
+        - number == 'TEST_MARK_2'
+-
+  I check that the withholding code remains.
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref( 'awi_sale_seq_2' )
+        awi_brw = self.browse(cr, uid, awi_id)
+        assert 'SALE_TEST' in awi_brw.code, (
+            'The withholding code have been change when confirming the'
+            ' withholdng document. Is not the correct one (the sales type).')
+        assert '00001000' in awi_brw.code, (
+            'The withholding code have been change when confirming the'
+            ' withholding document. It increments when it need to remains.')
+-
+  I change the withholding to done state.
+-
+    !workflow {model: account.wh.iva, action: wh_iva_done, ref: awi_sale_seq_2}
+-
+  I check the withholding is done and that the wh number remains.
+-
+    !assert {model: account.wh.iva, id: awi_sale_seq_2, string: The withholding was not correctly done.}:
+        - state == 'done'
+        - number == 'TEST_MARK_2'
+-
+  I check that the withholding code remains.
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref( 'awi_sale_seq_2' )
+        awi_brw = self.browse(cr, uid, awi_id)
+        assert 'SALE_TEST' in awi_brw.code, (
+            'The withholding code have been change when confirming the'
+            ' withholdng document. Is not the correct one (the sales type).')
+        assert '00001000' in awi_brw.code, (
+            'The withholding code have been change when confirming the'
+            ' withholding document. It increments when it need to remains.')
