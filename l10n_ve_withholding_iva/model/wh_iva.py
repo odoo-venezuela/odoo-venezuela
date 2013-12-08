@@ -107,13 +107,14 @@ class account_wh_iva_line(osv.osv):
         """
         if context is None: context = {}
         awilt_obj = self.pool.get('account.wh.iva.line.tax')
+        rp_obj = self.pool.get('res.partner')
         
         for ret_line in self.browse(cr, uid, ids, context):
             lines = []
             if ret_line.invoice_id:
-                rate = \
-                    ret_line.retention_id.type == 'out_invoice' and ret_line.invoice_id.company_id.partner_id.wh_iva_rate or \
-                    ret_line.retention_id.type == 'in_invoice' and ret_line.invoice_id.partner_id.wh_iva_rate
+                rate = ret_line.retention_id.type == 'out_invoice' \
+                        and rp_obj._find_accounting_partner(ret_line.invoice_id.company_id.partner_id).wh_iva_rate \
+                        or rp_obj._find_accounting_partner(ret_line.invoice_id.partner_id).wh_iva_rate
                 self.write(cr, uid, ret_line.id, {'wh_iva_rate':  rate})
                 tax_lines = awilt_obj.search(cr, uid, [('wh_vat_line_id', '=', ret_line.id)])
                 if tax_lines:
