@@ -15,7 +15,11 @@
                 <tree string="Withholding Lines">
                     <button name="load_taxes" string="Load Taxes" type="object" icon="gtk-ok" colspan="2" help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>
                     <field name="name"/>
-                    <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id), ('type', '=', parent.type)]"/>
+                    <field 
+                        name="invoice_id" 
+                        on_change="invoice_id_change(invoice_id)" 
+                        domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
+                        />
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
                     <field name="wh_iva_rate"/>
@@ -33,7 +37,11 @@
                     <notebook>
                         <page string="Withheld Invoice">
                             <group colspan="4">
-                                <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('partner_id','=',parent.partner_id), ('type', '=', parent.type)]"/>
+                            <field 
+                                name="invoice_id" 
+                                on_change="invoice_id_change(invoice_id)" 
+                                domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
+                                />
                                 <field name="name"/>
                                 <field name="move_id"/>
                             </group>
@@ -148,7 +156,10 @@
                         <field name="journal_id" select="2" domain="[('type','=','iva_purchase')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('supplier','=',True)]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" 
+                            domain="[('supplier','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" readonly="1"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
@@ -198,7 +209,10 @@
                         <field name="journal_id" select="2" domain="[('type','=','iva_sale')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('wh_iva_agent','=',True), ('customer','=',True)]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_partner_id(type,partner_id)" 
+                            domain="[('wh_iva_agent','=',True), ('customer','=',True), ('parent_id','=',False)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>

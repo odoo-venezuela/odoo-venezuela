@@ -47,7 +47,7 @@ class rep_comprobante_islr(report_sxw.rml_parse):
         addr_inv={}
         if idp:                
             addr = addr_obj.browse(self.cr,self.uid, idp)
-            addr_inv = addr.type == 'default' and (addr.street and ('%s, '%addr.street.title()) or '')    + \
+            addr_inv = (addr.street and ('%s, '%addr.street.title()) or '')    + \
             (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
             (addr.city and ('%s, '%addr.city.title()) or '')+ \
             (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
