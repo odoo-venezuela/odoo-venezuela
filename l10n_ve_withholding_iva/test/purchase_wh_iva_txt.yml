@@ -51,9 +51,13 @@
 -
   I try to confirm the txt document with empty txt lines.
 -
-    !function {model: txt.iva, name: action_confirm, ref: supplier_txt_iva_1}:
-        - model: txt.iva
-          eval: "[ref('supplier_txt_iva_1')]"
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        try:
+            self.action_confirm(cr, uid, txt_id)
+            assert False, 'The txt document can be confirm when have empty txt lines.'
+        except Exception as e:
+            pass
 -
   I check that the txt document remains in draft state.
 -
