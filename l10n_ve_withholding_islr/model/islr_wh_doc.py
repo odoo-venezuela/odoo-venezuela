@@ -297,9 +297,8 @@ class islr_wh_doc(osv.osv):
         acc_id = False
         res = {}
         res_wh_lines = []
+        rp_obj = self.pool.get('res.partner')
         inv_obj = self.pool.get('account.invoice')
-        args = [('state', '=', 'open'), ('islr_wh_doc_id', '=', False),
-                ('partner_id', '=', partner_id)]
 
         # Unlink previous iwdi
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
@@ -318,14 +317,20 @@ class islr_wh_doc(osv.osv):
             iwdl_ids = []
 
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
+            args = [('state', '=', 'open'),
+                    ('islr_wh_doc_id', '=', False),
+                    '|',
+                    ('partner_id', '=', acc_part_id.id),
+                    ('partner_id', 'child_of', acc_part_id.id),
+                    ]
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and \
-                    p.property_account_receivable.id
+                acc_id = acc_part_id.property_account_receivable and \
+                    acc_part_id.property_account_receivable.id
                 args += [('type', 'in', ('out_invoice', 'out_refund'))]
             else:
-                acc_id = p.property_account_payable and \
-                    p.property_account_payable.id
+                acc_id = acc_part_id.property_account_payable and \
+                    acc_part_id.property_account_payable.id
                 args += [('type', 'in', ('in_invoice', 'in_refund'))]
 
             inv_ids = inv_obj.search(cr, uid, args, context=context)
@@ -493,12 +498,14 @@ class islr_wh_doc(osv.osv):
         @param name: withholding voucher name
         """
         inv_obj = self.pool.get('account.invoice')
+        rp_obj = self.pool.get('res.partner')
         ret = self.browse(cr, uid, ids)[0]
         if context is None:
             context = {}
         # TODO check if we can use different period for payment and the writeoff line
         #~ assert len(invoice_ids)==1, "Can only pay one invoice at a time"
         invoice = inv_obj.browse(cr, uid, invoice_id)
+        acc_part_id = rp_obj._find_accounting_partner(invoice.partner_id)
         src_account_id = invoice.account_id.id
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice':
@@ -511,7 +518,7 @@ class islr_wh_doc(osv.osv):
             'debit': direction * pay_amount > 0 and direction * pay_amount,
             'credit': direction * pay_amount < 0 and - direction * pay_amount,
             'account_id': src_account_id,
-            'partner_id': invoice.partner_id.id,
+            'partner_id': acc_part_id.id,
             'ref': invoice.number,
             'date': date,
             'currency_id': False,
@@ -520,7 +527,7 @@ class islr_wh_doc(osv.osv):
             'debit': direction * pay_amount < 0 and - direction * pay_amount,
             'credit': direction * pay_amount > 0 and direction * pay_amount,
             'account_id': pay_account_id,
-            'partner_id': invoice.partner_id.id,
+            'partner_id': acc_part_id.id,
             'ref': invoice.number,
             'date': date,
             'currency_id': False,
@@ -907,13 +914,15 @@ class islr_wh_doc_invoices(osv.osv):
         invoice and boolean field that determines whether the buyer is 
         retention agent.
         """
-        if invoice.type == 'in_invoice' or invoice.type == 'in_refund':
-            vendor = invoice.partner_id
-            buyer = invoice.company_id.partner_id
-            ret_code = invoice
+        rp_obj = self.pool.get('res.partner')
+        inv_part_id = rp_obj._find_accounting_partner(invoice.partner_id)
+        comp_part_id = rp_obj._find_accounting_partner(invoice.company_id.partner_id)
+        if invoice.type in ('in_invoice', 'in_refund'):
+            vendor = inv_part_id
+            buyer = comp_part_id
         else:
-            buyer = invoice.partner_id
-            vendor = invoice.company_id.partner_id
+            buyer = inv_part_id
+            vendor = comp_part_id
         return (vendor, buyer, buyer.islr_withholding_agent)
 
     def _get_residence(self, cr, uid, vendor, buyer):
@@ -935,12 +944,14 @@ class islr_wh_doc_invoices(osv.osv):
         """ It obtained the nature of the seller from VAT, returns 
         True if natural person, and False if is legal.
         """
-        if not partner_id.vat:
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = rp_obj._find_accounting_partner(partner_id)
+        if not acc_part_id.vat:
             raise osv.except_osv(_('Invalid action !'), _(
-                "Impossible income withholding, because the partner '%s' has not vat associated!") % (partner_id.name))
+                "Impossible income withholding, because the partner '%s' has not vat associated!") % (acc_part_id.name))
             return False
         else:
-            if partner_id.vat[2:3] in 'VvEe' or partner_id.spn:
+            if acc_part_id.vat[2:3] in 'VvEe' or acc_part_id.spn:
                 return True
             else:
                 return False
@@ -972,17 +983,21 @@ class islr_wh_doc_invoices(osv.osv):
         # DUE TO OPENER HAS CHANGED THE WAY PARTNER
         # ARE USED FOR ACCOUNT_MOVE
         context = context or {}
-        if not partner_id.country_id:
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = rp_obj._find_accounting_partner(partner_id)
+        if not acc_part_id.country_id:
             raise osv.except_osv(_('Invalid action !'), _(
-                "Impossible income withholding, because the partner '%s' country has not been defined in the address!") % (partner_id.name))
+                "Impossible income withholding, because the partner '%s' country has not been defined in the address!") % (acc_part_id.name))
         else:
-            return partner_id.country_id.id
+            return acc_part_id.country_id.id
 
     def _get_xml_lines(self, cr, uid, ail_brw, context=None):
         """ Extract information from the document to generate xml lines
         @param ail_brw: invoice of the document
         """
         context = context or {}
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = rp_obj._find_accounting_partner(ail_brw.invoice_id.partner_id)
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, ail_brw.invoice_id)
         residence = self._get_residence(cr, uid, vendor, buyer)
@@ -1001,7 +1016,7 @@ class islr_wh_doc_invoices(osv.osv):
             'period_id': False,  # We review the definition because it is in NOT NULL
             'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
             'rate_id': rate_id,  # I get it too but from the rate
-            'partner_id': ail_brw.invoice_id.partner_id.id,  # Warning Depends if is a customer or supplier
+            'partner_id': acc_part_id.id,  # Warning Depends if is a customer or supplier
             'concept_id': ail_brw.concept_id.id,
             'partner_vat': vendor.vat[2:12],  # Warning Depends if is a customer or supplier
             'porcent_rete': rate_wh_perc,  # I get it too but from the rate
