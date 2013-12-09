@@ -87,12 +87,13 @@
 #            'test/iva_test_wh_4.yml',
 
 
-             'test/purchase_invoice_wh_iva.yml',
-             'test/sale_invoice_wh_iva.yml',
-             'test/sale_wh_iva.yml',
-             'test/purchase_wh_iva.yml',
-             'test/purchase_wh_iva_sequence.yml',
-             'test/sale_wh_iva_sequence.yml'
+#             'test/purchase_invoice_wh_iva.yml',
+#             'test/sale_invoice_wh_iva.yml',
+#             'test/sale_wh_iva.yml',
+#             'test/purchase_wh_iva.yml',
+#             'test/purchase_wh_iva_sequence.yml',
+#             'test/sale_wh_iva_sequence.yml',
+             'test/purchase_wh_iva_txt.yml',
         ],
     'installable': True,
     'active': False,
