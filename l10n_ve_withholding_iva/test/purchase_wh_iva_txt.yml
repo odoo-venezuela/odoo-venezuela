@@ -1,7 +1,7 @@
 -
   7. I make test over the txt docuemnts in purchase operations.
 -
-  7.1 Configuring the enviroment.
+  7.1 I configure the enviroment.
 -
   I configure the context for purchase operations.
 -
@@ -53,6 +53,7 @@
 -
     !record {model: account.invoice, id: supplier_txt_invoice_1, view: account.invoice_supplier_form}: &supplier_txt_invoice
         nro_ctrl: PURCHASE-IVA-TXT-INVOICE-0001
+        supplier_invoice_number: PURCHASE-IVA-TXT-INVOICE-0001
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_pay
         company_id: base.main_company
@@ -153,3 +154,115 @@
 -
     !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt lines were not added}:
         - txt_ids
+-
+  7.3 I check that a withholding document can be cancel only when the txt
+  document associated are in draft state.
+-
+  I check that the txt document is in draft state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in draft state}:
+        - state == 'draft' 
+-
+  I confirm the txt document.
+-
+    !function {model: txt.iva, name: action_confirm, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document is confirmed.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in confirmed state}:
+        - state == 'confirmed'
+-
+  I update the invoice and withholding journals to be able to cancel entries.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_txt_invoice_1' )
+        journal_obj = self.pool.get( 'account.journal' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        inv_journal_id = inv_brw.journal_id.id
+        wh_journal_id = inv_brw.wh_iva_id.journal_id.id
+        journal_obj.write(
+            cr, uid, [inv_journal_id, wh_journal_id], {'update_posted': True})
+-
+  I try to cancel the withholding document.
+-
+    !python {model: account.wh.iva}: |
+        inv_id = ref( 'supplier_txt_invoice_1')
+        inv_brw = self.pool.get('account.invoice').browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.cancel_check(cr, uid, awi_id)
+            assert False, 'The withholding document can not change to cancel state. because has a txt document associated in confirmed state.'
+
+            self.action_cancel(cr, uid, awi_id)
+        except Exception as e:
+            pass
+-
+  I check that the wihholding document remains in done state.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The withholding document can not be cancel}:
+        - wh_iva_id.state == 'done'
+-
+  I change the txt document to done state.
+-
+    !function {model: txt.iva, name: action_done, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document is in done state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in confirmed state}:
+        - state == 'done'
+-
+  I try to cancel the withholding document.
+-
+    !python {model: account.wh.iva}: |
+        inv_id = ref( 'supplier_txt_invoice_1')
+        inv_brw = self.pool.get('account.invoice').browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.cancel_check(cr, uid, awi_id)
+            assert False, 'The withholding document can not change to cancel state. because has a txt document associated with done state.'
+            self.action_cancel(cr, uid, awi_id)
+        except Exception as e:
+            pass
+-
+  I check that the wihholding document remains in done state.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The withholding document can not be cancel}:
+        - wh_iva_id.state == 'done'
+-
+  I change the txt document to draft state.
+-
+    !function {model: txt.iva, name: action_anular, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document is in draft state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in draft state}:
+        - state == 'draft'
+-
+  I try to cancel the withholding document. It change with no problems.
+-
+    !python {model: account.wh.iva}: |
+        inv_id = ref( 'supplier_txt_invoice_1')
+        inv_brw = self.pool.get('account.invoice').browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.cancel_check(cr, uid, awi_id)
+            self.action_cancel(cr, uid, [awi_id])
+            assert self.browse(cr, uid, awi_id).state == 'cancel', 'The withholding document should change to cancel state.'
+        except Exception as e:
+            assert False, 'The withholding document can be change to cancel state and is not, so there is a problem in the code.'
+
+# To cancel a awi need to call:
+#  - from done state: cancel_check()
+#  - from the anothe states: nothing, only the signal 'cancel' to a signal 'cancel'
+# Need execute this actions:
+#   action_cancel()
+#   write state to cancel
