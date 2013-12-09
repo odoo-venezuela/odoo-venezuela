@@ -33,7 +33,7 @@
     !assert {model: account.account, id: account.a_pay, string: The account is not of payable type}:
         - type == 'payable'
 -
-  7.2 I check that only done withholding documents can be add to a txt document.
+  7.2 I check that txt document with no txt lines can not be confirm.
 -
   I create a txt document.
 -
@@ -48,6 +48,20 @@
     !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document was not correctly created}:
         - state == 'draft'
         - not txt_ids
+-
+  I try to confirm the txt document with empty txt lines.
+-
+    !function {model: txt.iva, name: action_confirm, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document remains in draft state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document can not pass to confirm state}:
+        - state == 'draft'
+-
+  7.3 Using the txt document in 7.2 I check that only done withholding
+  documents can be add to a txt document.
 -
   I create a supplier invoice.
 -
@@ -169,7 +183,7 @@
     !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt lines were not added}:
         - txt_ids
 -
-  7.3 I check that a withholding document can be cancel only when the txt
+  7.4 I check that a withholding document can be cancel only when the txt
   document associated are in draft state.
 -
   I check that the txt document is in draft state.
