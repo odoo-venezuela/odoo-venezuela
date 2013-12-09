@@ -60,6 +60,7 @@
 -
     !record {model: account.invoice, id: supplier_seq_invoice_1, view: account.invoice_supplier_form}: &supplier_seq_invoice
         nro_ctrl: PURCHASE-IVA-SEQ-INVOICE-0001
+        supplier_invoice_number: PURCHASE-IVA-SEQ-INVOICE-0001
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_pay
         company_id: base.main_company
@@ -145,6 +146,7 @@
 -
     !record {model: account.invoice, id: supplier_seq_invoice_2, view: account.invoice_supplier_form}:
         nro_ctrl: PURCHASE-IVA-SEQ-INVOICE-0002
+        supplier_invoice_number: PURCHASE-IVA-SEQ-INVOICE-0002
         << :  *supplier_seq_invoice
 -
   I check the invoice type, state and have not wh doc.
@@ -238,6 +240,7 @@
 -
     !record {model: account.invoice, id: supplier_seq_invoice_3, view: account.invoice_supplier_form}:
         nro_ctrl: PURCHASE-IVA-SEQ-INVOICE-0003
+        supplier_invoice_number: PURCHASE-IVA-SEQ-INVOICE-0003
         <<:  *supplier_seq_invoice
 -
   I check the invoice type, state and have not wh doc.

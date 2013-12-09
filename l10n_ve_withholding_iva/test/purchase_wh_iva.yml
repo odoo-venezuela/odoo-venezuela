@@ -34,6 +34,7 @@
 -
     !record {model: account.invoice, id: wh_manual_purchase_awi_invoice}: &manual_purchase_awi_invoice
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (WH COMPANY)
+        supplier_invoice_number: AWI MANUAL PURCHASE INVOICE (WH COMPANY)
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         date_invoice: !eval time.strftime('%Y-%m-%d')
         company_id: base.main_company
@@ -176,6 +177,7 @@
 -
     !record {model: account.invoice, id: nwh_manual_purchase_awi_invoice}:
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (NON-WH COMPANY)
+        supplier_invoice_number: AWI MANUAL PURCHASE INVOICE (NON-WH COMPANY)
         <<: *manual_purchase_awi_invoice
 -
   I check that the invoice is of purchase type (in_invoice).
