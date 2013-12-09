@@ -110,6 +110,41 @@ class account_wh_munici(osv.osv):
         ('ret_num_uniq', 'unique (number)', 'number must be unique !')
     ]
 
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Call cancel_move and return True
+        """
+        context = context or {}
+        self.cancel_move(cr, uid, ids)
+        self.clear_munici_line_ids(cr, uid, ids, context=context)
+        return True
+
+    def cancel_move(self,cr,uid,ids, *args):
+        """ Delete move lines related with withholding vat and cancel
+        """
+        ret_brw = self.browse(cr, uid, ids)
+        account_move_obj = self.pool.get('account.move')
+        for ret in ret_brw:
+            if ret.state == 'done':
+                for ret_line in ret.munici_line_ids:
+                    ret_line.move_id and account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    ret_line.move_id and account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+            self.write(cr, uid, ret.id, {'state':'cancel'})
+        return True
+
+    def clear_munici_line_ids(self, cr, uid, ids, context=None):
+        """ Clear lines of current withholding document and delete wh document
+        information from the invoice.
+        """
+        context = context or {}
+        wml_obj = self.pool.get('account.wh.munici.line')
+        ai_obj = self.pool.get('account.invoice')
+        if ids:
+            wml_ids = wml_obj.search(cr, uid, [('retention_id', 'in', ids)], context=context)
+            ai_ids = wml_ids and [ wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context) ]
+            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_iva_id': False}, context=context)
+            wml_ids and wml_obj.unlink(cr, uid, wml_ids, context=context)
+        return True
+
     def action_confirm(self, cr, uid, ids, context=None):
         """ Verifies the amount withheld and the document is confirmed
         """
@@ -273,6 +308,7 @@ class account_wh_munici(osv.osv):
         """
         if context is None:
             context = {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
         ret = self.browse(cr, uid, ids[0])
         if update_check:
             if 'partner_id' in vals and vals['partner_id']:
