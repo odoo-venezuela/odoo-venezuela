@@ -96,10 +96,13 @@
         - model: txt.iva
           eval: "[ref('supplier_txt_iva_1')]"
 -
-  I check that the txt lines where not added.
+  I check that only withholding documents in done state are added.
 -
-    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt lines were added. this is wrong because the withholding document must to be Done instead of draft}:
-        - not txt_ids
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        txt_brw = self.browse(cr, uid, txt_id)
+        for txt_line_brw in txt_brw.txt_ids:
+            assert txt_line_brw.voucher_id.state == 'done', 'Error, only can add withholding documents in done state.'
 -
   I confirm the withholding document.
 -
@@ -123,10 +126,13 @@
         - model: txt.iva
           eval: "[ref('supplier_txt_iva_1')]"
 -
-  I check that the txt lines where not added.
+  I check that only withholding documents in done state are added.
 -
-    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt lines were added. this is wrong because the withholding document must to be Done instead of open state}:
-        - not txt_ids
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        txt_brw = self.browse(cr, uid, txt_id)
+        for txt_line_brw in txt_brw.txt_ids:
+            assert txt_line_brw.voucher_id.state == 'done', 'Error, only can add withholding documents in done state.'
 -
   I change the withholding document to done.
 -
@@ -149,6 +155,14 @@
     !function {model: txt.iva, name: action_generate_lines_txt, id: supplier_txt_iva_1}:
         - model: txt.iva
           eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that only withholding documents in done state are added.
+-
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        txt_brw = self.browse(cr, uid, txt_id)
+        for txt_line_brw in txt_brw.txt_ids:
+            assert txt_line_brw.voucher_id.state == 'done', 'Error, only can add withholding documents in done state.'
 -
   I check that the txt lines where added.
 -
