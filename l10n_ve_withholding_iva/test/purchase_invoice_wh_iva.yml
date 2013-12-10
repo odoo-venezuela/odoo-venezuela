@@ -39,6 +39,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_ret_tax, view: account.invoice_supplier_form}:
         nro_ctrl: IVA RET AND NOT RET TAXES
+        supplier_invoice_number: IVA RET AND NOT RET TAXES
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_pay
         company_id: base.main_company
@@ -107,6 +108,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_111, view: account.invoice_supplier_form}: &invoice
         nro_ctrl: 111-IVA
+        supplier_invoice_number: 111-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_pay
         company_id: base.main_company
@@ -143,6 +145,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_110, view: account.invoice_supplier_form}:
         nro_ctrl: 110-IVA
+        supplier_invoice_number: 110-IVA
         invoice_line:
           - invoice_line_tax_id:
               - l10n_ve_fiscal_requirements.iva_purchase3
@@ -170,6 +173,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_011, view: account.invoice_supplier_form}:
         nro_ctrl: 011-IVA
+        supplier_invoice_number: 011-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         <<: *invoice
 -
@@ -194,6 +198,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_010, view: account.invoice_supplier_form}:
         nro_ctrl: 010-IVA
+        supplier_invoice_number: 010-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
           - invoice_line_tax_id:
@@ -234,6 +239,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_101, view: account.invoice_supplier_form}:
         nro_ctrl: 101-IVA
+        supplier_invoice_number: 101-IVA
         <<: *invoice
 -
   I change invoice to Open state.
@@ -257,6 +263,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_100, view: account.invoice_supplier_form}:
         nro_ctrl: 100-IVA
+        supplier_invoice_number: 100-IVA
         invoice_line:
           - invoice_line_tax_id:
               - l10n_ve_fiscal_requirements.iva_purchase3
@@ -284,6 +291,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_001, view: account.invoice_supplier_form}:
         nro_ctrl: 001-IVA
+        supplier_invoice_number: 001-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         <<: *invoice
 -
@@ -308,6 +316,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_000, view: account.invoice_supplier_form}:
         nro_ctrl: 000-IVA
+        supplier_invoice_number: 000-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
           - invoice_line_tax_id:
@@ -336,6 +345,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_00N, view: account.invoice_supplier_form}:
         nro_ctrl: 00N-IVA
+        supplier_invoice_number: 00N-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
         invoice_line:
           - product_id: product.product_product_4
@@ -366,6 +376,7 @@
 -
     !record {model: account.invoice, id: purchase_invoice_01N, view: account.invoice_supplier_form}:
         nro_ctrl: 01N-IVA
+        supplier_invoice_number: 01N-IVA
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         invoice_line:
           - product_id: product.product_product_4

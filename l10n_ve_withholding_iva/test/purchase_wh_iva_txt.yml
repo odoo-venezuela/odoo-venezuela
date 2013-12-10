@@ -1,0 +1,300 @@
+-
+  7. I make test over the txt docuemnts in purchase operations.
+-
+  7.1 I configure the enviroment.
+-
+  I configure the context for purchase operations.
+-
+    !context
+        'type': 'in_invoice'
+-
+  I set the company as a withholding agent (because is the only I can create a supplier withholdings).
+-
+    !record {model: res.partner, id: base.main_partner}:
+        wh_iva_agent: True
+-
+  I check that the company is withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The Company is not a withholding agent}:
+        - wh_iva_agent
+-
+  I check that the supplier that will be use exist.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier used in this test exist}:
+        - id
+-
+  I check that the tax that will be use is withholdeable.
+-
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase1, string: The tax is not withholdeable}:
+        - ret
+-
+  I check that the account that will be use is payable type.
+-
+    !assert {model: account.account, id: account.a_pay, string: The account is not of payable type}:
+        - type == 'payable'
+-
+  7.2 I check that txt document with no txt lines can not be confirm.
+-
+  I create a txt document.
+-
+    !record {model: txt.iva, id: supplier_txt_iva_1}:
+        #name: auto fll generic
+        #period: current.
+        date_start: !eval time.strftime('%Y-%m-%d')
+        date_end: !eval time.strftime('%Y-%m-%d')
+-
+  I check that the txt document is in draft state with no txt lines.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document was not correctly created}:
+        - state == 'draft'
+        - not txt_ids
+-
+  I try to confirm the txt document with empty txt lines.
+-
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        try:
+            self.action_confirm(cr, uid, txt_id)
+            assert False, 'The txt document can be confirm when have empty txt lines.'
+        except Exception as e:
+            pass
+-
+  I check that the txt document remains in draft state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document can not pass to confirm state}:
+        - state == 'draft'
+-
+  7.3 Using the txt document in 7.2 I check that only done withholding
+  documents can be add to a txt document.
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: supplier_txt_invoice_1, view: account.invoice_supplier_form}: &supplier_txt_invoice
+        nro_ctrl: PURCHASE-IVA-TXT-INVOICE-0001
+        supplier_invoice_number: PURCHASE-IVA-TXT-INVOICE-0001
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_pay
+        company_id: base.main_company
+        currency_id: base.EUR
+        reference_type: none
+        invoice_line:
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_pay
+            invoice_line_tax_id:
+            - l10n_ve_fiscal_requirements.iva_purchase1
+-
+  I check the invoice type, state and have not wh doc.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The invoice was not correctly created. It need to be set in draft state, a supplier invoice type (in_invoice) and have not withholding document associaded.}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - not wh_iva_id
+-
+  I confirm the invoice to create the withholding document.
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: supplier_txt_invoice_1}
+-
+  I check that the invoice is confirmed and it generate a withholding doc.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The invoice was not correctly confirm. It need to change to open state (confirmed) and also generate and link a withholding document}:
+        - state == 'open'
+        - wh_iva_id
+-
+  I check that the withholding document state is draft.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: When creating a supplier withholding via supplier invoice confirmation the state of the withholding document must be draft, and the wh number is unset (they will be set when the withholding is confirmed)}:
+        - wh_iva_id.state == 'draft'
+-
+  I try to add the txt lines by pressing the 'Lines Generate TXT' button.
+-
+    !function {model: txt.iva, name: action_generate_lines_txt, id: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that only withholding documents in done state are added.
+-
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        txt_brw = self.browse(cr, uid, txt_id)
+        for txt_line_brw in txt_brw.txt_ids:
+            assert txt_line_brw.voucher_id.state == 'done', 'Error, only can add withholding documents in done state.'
+-
+  I confirm the withholding document.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_txt_invoice_1' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
+-
+  I check that the withholding document was confirm.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The withholding document was not correctly confirm}:
+        - wh_iva_id.state == 'confirmed'
+-
+  I try to add the txt lines by pressing the 'Lines Generate TXT' button.
+-
+    !function {model: txt.iva, name: action_generate_lines_txt, id: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that only withholding documents in done state are added.
+-
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        txt_brw = self.browse(cr, uid, txt_id)
+        for txt_line_brw in txt_brw.txt_ids:
+            assert txt_line_brw.voucher_id.state == 'done', 'Error, only can add withholding documents in done state.'
+-
+  I change the withholding document to done.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_txt_invoice_1' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
+-
+  I check that the withholding document was set to done.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The withholding document was not correctly confirm}:
+        - wh_iva_id.state == 'done'
+-
+  I try to add the txt lines by pressing the 'Lines Generate TXT' button.
+-
+    !function {model: txt.iva, name: action_generate_lines_txt, id: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that only withholding documents in done state are added.
+-
+    !python {model: txt.iva}: |
+        txt_id = ref( 'supplier_txt_iva_1' )
+        txt_brw = self.browse(cr, uid, txt_id)
+        for txt_line_brw in txt_brw.txt_ids:
+            assert txt_line_brw.voucher_id.state == 'done', 'Error, only can add withholding documents in done state.'
+-
+  I check that the txt lines where added.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt lines were not added}:
+        - txt_ids
+-
+  7.4 I check that a withholding document can be cancel only when the txt
+  document associated are in draft state.
+-
+  I check that the txt document is in draft state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in draft state}:
+        - state == 'draft' 
+-
+  I confirm the txt document.
+-
+    !function {model: txt.iva, name: action_confirm, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document is confirmed.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in confirmed state}:
+        - state == 'confirmed'
+-
+  I update the invoice and withholding journals to be able to cancel entries.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'supplier_txt_invoice_1' )
+        journal_obj = self.pool.get( 'account.journal' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        inv_journal_id = inv_brw.journal_id.id
+        wh_journal_id = inv_brw.wh_iva_id.journal_id.id
+        journal_obj.write(
+            cr, uid, [inv_journal_id, wh_journal_id], {'update_posted': True})
+-
+  I try to cancel the withholding document.
+-
+    !python {model: account.wh.iva}: |
+        inv_id = ref( 'supplier_txt_invoice_1')
+        inv_brw = self.pool.get('account.invoice').browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.cancel_check(cr, uid, awi_id)
+            assert False, 'The withholding document can not change to cancel state. because has a txt document associated in confirmed state.'
+
+            self.action_cancel(cr, uid, awi_id)
+        except Exception as e:
+            pass
+-
+  I check that the wihholding document remains in done state.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The withholding document can not be cancel}:
+        - wh_iva_id.state == 'done'
+-
+  I change the txt document to done state.
+-
+    !function {model: txt.iva, name: action_done, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document is in done state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in confirmed state}:
+        - state == 'done'
+-
+  I try to cancel the withholding document.
+-
+    !python {model: account.wh.iva}: |
+        inv_id = ref( 'supplier_txt_invoice_1')
+        inv_brw = self.pool.get('account.invoice').browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.cancel_check(cr, uid, awi_id)
+            assert False, 'The withholding document can not change to cancel state. because has a txt document associated with done state.'
+            self.action_cancel(cr, uid, awi_id)
+        except Exception as e:
+            pass
+-
+  I check that the wihholding document remains in done state.
+-
+    !assert {model: account.invoice, id: supplier_txt_invoice_1, string: The withholding document can not be cancel}:
+        - wh_iva_id.state == 'done'
+-
+  I change the txt document to draft state.
+-
+    !function {model: txt.iva, name: action_anular, ref: supplier_txt_iva_1}:
+        - model: txt.iva
+          eval: "[ref('supplier_txt_iva_1')]"
+-
+  I check that the txt document is in draft state.
+-
+    !assert {model: txt.iva, id: supplier_txt_iva_1, string: the txt document is not in draft state}:
+        - state == 'draft'
+-
+  I try to cancel the withholding document. It change with no problems.
+-
+    !python {model: account.wh.iva}: |
+        inv_id = ref( 'supplier_txt_invoice_1')
+        inv_brw = self.pool.get('account.invoice').browse(cr, uid, inv_id)
+        awi_id = inv_brw.wh_iva_id.id
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.cancel_check(cr, uid, awi_id)
+            self.action_cancel(cr, uid, [awi_id])
+            assert self.browse(cr, uid, awi_id).state == 'cancel', 'The withholding document should change to cancel state.'
+        except Exception as e:
+            assert False, 'The withholding document can be change to cancel state and is not, so there is a problem in the code.'
+
+# To cancel a awi need to call:
+#  - from done state: cancel_check()
+#  - from the anothe states: nothing, only the signal 'cancel' to a signal 'cancel'
+# Need execute this actions:
+#   action_cancel()
+#   write state to cancel
