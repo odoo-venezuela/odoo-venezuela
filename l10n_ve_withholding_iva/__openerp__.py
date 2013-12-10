@@ -73,20 +73,6 @@
             ],
 
     'test': [
-#            'test/iva_purchase.yml',
-#            'test/iva_purchase_wh.yml',
-#            'test/iva_purchase_nret1.yml',
-#            'test/iva_purchase_nret2.yml',
-#            'test/iva_purchase_nret3.yml',
-#            'test/iva_sale.yml',
-#            'test/iva_sale_wh.yml',
-#            'test/iva_test_invoice.yml',
-#            'test/iva_test_wh.yml',
-#            'test/iva_test_wh_2.yml',
-#            'test/iva_test_wh_3.yml',
-#            'test/iva_test_wh_4.yml',
-
-
              'test/purchase_invoice_wh_iva.yml',
              'test/sale_invoice_wh_iva.yml',
              'test/sale_wh_iva.yml',
