@@ -169,13 +169,12 @@ class account_wh_src(osv.osv):
         @param partner_id: partner id
         """
         if context is None: context = {}    
+        acc_part_brw = False
         acc_id = False
         res = {}
         inv_obj = self.pool.get('account.invoice')
         rp_obj = self.pool.get('res.partner')
         wh_line_obj = self.pool.get('account.wh.src.line')
-
-        if not ids: return res
         
         if partner_id:
             acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
@@ -183,17 +182,21 @@ class account_wh_src(osv.osv):
                 acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
                 acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False
+
+        part_brw = ids and rp_obj._find_accounting_partner(self.browse(cr, uid, ids[0], context=context).partner_id)
+        wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])])
+        if not partner_id: 
+            wh_lines and wh_line_obj.unlink(cr, uid, wh_lines)
+            wh_lines = []
+        if part_brw and acc_part_brw and part_brw.id != acc_part_brw.id:
+            wh_lines and wh_line_obj.unlink(cr, uid, wh_lines)
+            wh_lines = []
         
-        wh_lines = wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])])
-        part_brw = rp_obj._find_accounting_partner(self.browse(cr, uid, ids[0], context=context).partner_id)
-        if wh_lines and part_brw.id != acc_part_brw.id:
-            wh_line_obj.unlink(cr, uid, wh_lines)
-        
-        res = {'value': {
-            'account_id': acc_id,
-            }
+        return {'value': {
+                    'line_ids':wh_lines,
+                    'account_id': acc_id,
+                }
         }
-        return res
         
 
     def action_date_ret(self,cr,uid,ids,context=None):
