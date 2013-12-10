@@ -144,7 +144,7 @@ class account_invoice(osv.osv):
         rp_obj = self.pool.get('res.partner')
         if context.get('wh_src',False):
             invoice = self.browse(cr, uid, ids[0])
-            acc_part_brw = rp_obj._find_accounting_partner(invoice.partner_id))
+            acc_part_brw = rp_obj._find_accounting_partner(invoice.partner_id)
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
 
