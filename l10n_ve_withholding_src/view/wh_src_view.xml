@@ -14,7 +14,10 @@
             <field name="arch" type="xml">
                 <tree string="Social Responsibility Commitment Withholding Lines" editable="bottom">
                     <field name="name"/>
-                    <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
+                    <field 
+                        name="invoice_id" 
+                        on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" 
+                        domain="[('wh_src_id', '=', False),('state', '=', 'open'),'|',('partner_id','=',parent.partner_id),('partner_id','child_of',parent.partner_id)]"/>
                     <field name="base_amount" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" sum="Total Base a Retener"/>
                     <field name="wh_src_rate" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)"/>
                     <field name="wh_amount" sum="Total Retenido"/>
@@ -30,7 +33,10 @@
                 <form string="Social Responsibility Commitment Withholding Lines" version="7.0">
                     <notebook>
                         <page string="Linea">
-                            <field name="invoice_id" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" domain="[('wh_src_id', '=', False),('state', '=', 'open'),('partner_id','=',parent.partner_id),]"/>
+                            <field 
+                                name="invoice_id" 
+                                on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)" 
+                                domain="[('wh_src_id', '=', False),('state', '=', 'open'),'|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"/>
                             <field colspan="4" name="name" select="1"/>
                             <field name="base_amount" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)"/>
                             <field name="wh_src_rate" on_change="onchange_invoice_id(parent.type,invoice_id,base_amount,wh_src_rate)"/>
@@ -108,7 +114,11 @@
                         <field name="journal_id"/>
                         <field name="type" readonly="1"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" attrs="{'readonly':['&amp;',('uid_wh_agent','=',False),('type','=','in_invoice')]}" domain="[('id','in',context.get('partner_list' , False))]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_partner_id(type,partner_id)" 
+                            attrs="{'readonly':['|','&amp;',('uid_wh_agent','=',False),('type','=','in_invoice'),('state','!=','draft')]}" 
+                            domain="[('id','in',context.get('partner_list' , False))]"/>
                         <field name="currency_id"/>
                         <field name="date_ret"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
@@ -116,15 +126,19 @@
                         <field name="period_id"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
-                        <field name="wh_amount"/>
+                        <field 
+                            name="wh_amount"
+                            attrs="{'readonly':[('state','!=','draft')]}"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
-                            <field name="line_ids" default_get="{'lines': line_ids }" colspan="4" nolabel="1" height="275">
-<!--
-                            <field name="invoice_id" domain="[('wh_src_id', '!=', False),('state', '=', 'open'), ('partner_id','=',parent.partner_id),]"/>                            
--->
-                            </field>
+                            <field 
+                                name="line_ids" 
+                                default_get="{'lines': line_ids }" 
+                                colspan="4" 
+                                nolabel="1" 
+                                height="275"
+                                attrs="{'readonly':[('state','!=','draft')]}"/>
                             <group col="4" colspan="2">
                                 <field name="state"/>
                             </group>
@@ -136,7 +150,9 @@
                             </group>
                         </page>
                         <page string="Other Information">
-                            <field name="company_id"/>
+                            <field 
+                                name="company_id"
+                                attrs="{'readonly':[('state','!=','draft')]}"/>
                         </page>
                     </notebook>
                 </form>
