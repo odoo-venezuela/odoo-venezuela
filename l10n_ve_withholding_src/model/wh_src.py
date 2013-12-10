@@ -58,26 +58,27 @@ class account_wh_src(osv.osv):
         return false in otherwise
         """
         context = context or {}
-        user_wh_agent = self.pool.get('res.users').browse(cr, uid, uid, context = context).company_id.partner_id.wh_src_agent
-        return user_wh_agent
+        rp_obj = self.pool.get('res.partner')
+        ru_obj = self.pool.get('res.users')
+        ru_brw = ru_obj.browse(cr, uid, uid, context = context)
+        acc_part_brw = rp_obj._find_accounting_partner(ru_brw.company_id.partner_id)
+        return acc_part_brw.wh_src_agent
 
     def _get_partner_agent(self, cr, uid, context=None):
         """ Return a list of browse partner depending of invoice type
         """
-        context = context or {}
-        
         obj_partner = self.pool.get('res.partner')
+        args = [('parent_id','=',False)]
+        context = context or {}
+        res = []
         
         if context.get('type') in ('out_invoice'):
-            partner_ids = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
-            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
-        else:
-            partner_ids = obj_partner.search(cr, uid, [])
-            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
-        
-        l = map(lambda x: x.id, partner_brw)
-        
-        return l
+            args.append(('wh_src_agent','=',True))
+        partner_ids = obj_partner.search(cr, uid, args)
+        if partner_ids:
+            partner_brw = obj_partner.browse(cr, uid, partner_ids, context=context)
+            res = map(lambda x: x.id, partner_brw)
+        return res
 
     def default_get(self, cr, uid, fields, context=None):
         """ Update fields uid_wh_agent and partner_list to the create a
@@ -171,18 +172,21 @@ class account_wh_src(osv.osv):
         acc_id = False
         res = {}
         inv_obj = self.pool.get('account.invoice')
+        rp_obj = self.pool.get('res.partner')
         wh_line_obj = self.pool.get('account.wh.src.line')
+
+        if not ids: return res
         
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
+                acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False
         
-        wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])]) or False
-        p_id_prv = ids and self.browse(cr, uid, ids[0], context=context).partner_id.id or False
-        if wh_lines and p_id_prv != partner_id:
+        wh_lines = wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])])
+        part_brw = rp_obj._find_accounting_partner(self.browse(cr, uid, ids[0], context=context).partner_id)
+        if wh_lines and part_brw.id != acc_part_brw.id:
             wh_line_obj.unlink(cr, uid, wh_lines)
         
         res = {'value': {
