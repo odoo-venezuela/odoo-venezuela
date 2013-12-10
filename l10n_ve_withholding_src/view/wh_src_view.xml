@@ -108,8 +108,17 @@
             <field name="model">account.wh.src</field>
             <field name="arch" type="xml">
                 <form string="Social Responsibility Commitment Withholding" version="7.0">
-                    <field name="uid_wh_agent" invisible="1"/>
-                    <field name="partner_list" string="Partners List" context="{'partner_list': partner_list} " invisible="1"/>
+                    <header>
+                        <button name="wh_src_confirmed" states="draft" string="Confirm"/>
+                        <button name="wh_src_done" states="confirmed" string="Done"/>
+                        <button name="wh_src_cancel" states="draft,confirmed,done" string="Cancel"/>
+                        <button name="wh_src_draft" states="cancel,confirmed" string="Set to draft"/>
+                        <field 
+                            name="state" 
+                            widget="statusbar" 
+                            statusbar_visible="draft,confirmed,done" 
+                            statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
+                    </header>
                     <group colspan="4" col="6">
                         <field name="journal_id"/>
                         <field name="type" readonly="1"/>
@@ -139,20 +148,17 @@
                                 nolabel="1" 
                                 height="275"
                                 attrs="{'readonly':[('state','!=','draft')]}"/>
-                            <group col="4" colspan="2">
-                                <field name="state"/>
-                            </group>
-                            <group col="4" colspan="2">
-                                <button name="wh_src_confirmed" states="draft" string="Confirm"/>
-                                <button name="wh_src_done" states="confirmed" string="Done"/>
-                                <button name="wh_src_cancel" states="done" string="Cancel"/>
-                                <button name="wh_src_draft" states="cancel,confirmed" string="Set to draft"/>
-                            </group>
                         </page>
                         <page string="Other Information">
                             <field 
                                 name="company_id"
                                 attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="uid_wh_agent" invisible="1"/>
+                            <field 
+                                name="partner_list" 
+                                string="Partners List" 
+                                context="{'partner_list': partner_list} " 
+                                invisible="1"/>
                         </page>
                     </notebook>
                 </form>
