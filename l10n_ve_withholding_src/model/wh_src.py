@@ -306,7 +306,17 @@ class account_wh_src(osv.osv):
         if not period_id:
             per_obj = self.pool.get('account.period')
             period_id = per_obj.find(cr, uid,ret.date_ret or time.strftime('%Y-%m-%d'))
-            period_id = per_obj.search(cr,uid,[('id','in',period_id),('special','=',False)])
+            #Due to the fact that demo data for periods sets 'special' as True on them, this little
+            #hack is necesary if this issue is solved we should ask directly for the 
+            #refer to this bug for more information 
+            #https://bugs.launchpad.net/openobject-addons/+bug/924200
+            demo_enabled = self.pool.get('ir.module.module').search(cr, uid,
+                                                            [('name', '=', 'base'),
+                                                             ('demo', '=', True)])
+            args = [('id','in',period_id)]
+            if not demo_enabled:
+                args.append(('special','=',False))
+            period_id = per_obj.search(cr,uid,args)
             if not period_id:
                 raise osv.except_osv(_('Missing Periods!'),\
                 _("There are not Periods created for the pointed day: %s!") %\

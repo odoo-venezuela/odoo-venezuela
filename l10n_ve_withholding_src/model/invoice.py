@@ -154,7 +154,7 @@ class account_invoice(osv.osv):
                 else:
                     acc = tax_brw.wh_id.company_id.wh_src_paid_account_id and tax_brw.wh_id.company_id.wh_src_paid_account_id.id or False
                 if not acc:
-                    raise osv.except_osv(_('Missing Account in Tax!'),_("Tax [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
+                    raise osv.except_osv(_('Missing Account in Company!'),_("Your Company [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
                 res.append((0,0,{
                     'debit': direction * tax_brw.wh_amount<0 and - direction * tax_brw.wh_amount,
                     'credit': direction * tax_brw.wh_amount>0 and direction * tax_brw.wh_amount,
