@@ -262,12 +262,65 @@ class account_wh_src(osv.osv):
         
         return self.write(cr,uid,ids,{'state':'done'})
         
-    def action_cancel(self,cr,uid,ids,context={}):
-        """ Still not allowed to cancel these withholdings
-        """
-        raise osv.except_osv(_('Invalid Procedure!'),_("For the moment, the systmen does not allow cancell these withholdings."))
+    def _dummy_cancel_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
         return True
-        
+
+    def cancel_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can cancel the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self._dummy_cancel_check(cr, uid, ids, context=context):
+            return False
+        return True
+
+    def cancel_move(self,cr,uid,ids, *args):
+        """ Delete move lines related with withholding vat and cancel
+        """
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        am_obj = self.pool.get('account.move')
+        for ret in self.browse(cr, uid, ids):
+            if ret.state == 'done':
+                for ret_line in ret.line_ids:
+                    ret_line.move_id and am_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    ret_line.move_id and am_obj.unlink(cr, uid,[ret_line.move_id.id])
+            ret.write({'state':'cancel'})
+        return True    
+
+    def clear_wh_lines(self, cr, uid, ids, context=None):
+        """ Clear lines of current withholding document and delete wh document
+        information from the invoice.
+        """
+        context = context or {}
+        awsl_obj = self.pool.get('account.wh.src.line')
+        ai_obj = self.pool.get('account.invoice')
+        if ids:
+            awsl_ids = awsl_obj.search(cr, uid, [('wh_id', 'in', ids)],
+                    context=context)
+            ai_ids = awsl_ids and [ awsl.invoice_id.id
+                for awsl in awsl_obj.browse(cr, uid, awsl_ids, context=context) ]
+            ai_ids and ai_obj.write(cr, uid, ai_ids,
+                                    {'wh_src_id': False}, context=context)
+            awsl_ids and awsl_obj.unlink(cr, uid, awsl_ids, context=context)
+
+        return True
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Call cancel_move and return True
+        """
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        context = context or {}
+        self.cancel_move(cr, uid, ids)
+        self.clear_wh_lines(cr, uid, ids, context=context)
+        return True
+
     def copy(self,cr,uid,id,default,context=None):
         """ Lines can not be duplicated in this model
         """
