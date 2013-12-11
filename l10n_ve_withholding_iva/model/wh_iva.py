@@ -420,6 +420,18 @@ class account_wh_iva(osv.osv):
       ('ret_num_uniq', 'unique (number,type,partner_id,company_id)', 'number must be unique by partner!')
     ] 
 
+    def write(self, cr, uid, ids, values, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = super(account_wh_iva,self).write(cr, uid, ids, values, context=context)
+        self._partner_invoice_check(cr, uid, ids, context=context)
+        return res
+
+    def create(self, cr, uid, values, context=None):
+        context = context or {}
+        new_id = super(account_wh_iva, self).create(cr, uid, values, context=context)
+        self._partner_invoice_check(cr, uid, new_id, context=context)
+        return new_id
 
     def wh_iva_seq_get(self, cr, uid, context=None):
         """ Generate sequences for records of withholding iva
@@ -670,27 +682,24 @@ class account_wh_iva(osv.osv):
                 ]
         return {'value': values_data}
 
-    def _new_check(self, cr, uid, values, context={}):
+    def _partner_invoice_check(self, cr, uid, ids, context=None):
         """ Verify that the partner associated of the invoice is correct
         @param values: Contain withholding lines, partner id and invoice_id
         """
-        lst_inv = []
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
 
-        if 'wh_lines' in values and values['wh_lines']:
-            if 'partner_id' in values and values['partner_id']:
-                for l in values['wh_lines']:
-                    if 'invoice_id' in l[2] and l[2]['invoice_id']:
-                        lst_inv.append(l[2]['invoice_id'])
-
-        if lst_inv:
-            invoices = self.pool.get('account.invoice').browse(cr, uid, lst_inv)
+        for id in ids:
             inv_str = ''
-            for inv in invoices:
-                if inv.partner_id.id != values['partner_id']:
-                    inv_str+= '%s'% '\n'+inv.name        
+            awi_brw = self.browse(cr, uid, id, context=context)
+            for awil_brw in awi_brw.wh_lines:
+                if awil_brw.invoice_id and awil_brw.invoice_id.partner_id.id !=\
+                    awi_brw.partner_id.id:
+                        inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or
+                                awil_brw.invoice_id.number or '')
 
             if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not the selected partner: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not from the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -707,6 +716,46 @@ class account_wh_iva(osv.osv):
                     awil_obj.load_taxes(cr, uid, whl_ids, context=context)
         return True
 
+    def _dummy_cancel_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
+        return True
+
+    def _check_tax_iva_lines(self, cr, uid, ids, context=None):
+        """Check if this IVA WH DOC is being used in a TXT IVA DOC"""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        til_obj = self.pool.get("txt.iva.line")
+        ti_obj = self.pool.get("txt.iva")
+        args = [('txt_id.state','!=','draft'),('voucher_id','in',ids)]
+        til_ids = til_obj.search(cr, uid, args, context = context)
+
+        if not til_ids: return True
+
+        note = _('The Following IVA TXT DOC should be set to Draft before Cancelling this Document\n\n')
+        ti_ids = list(set([til_brw.txt_id.id 
+            for til_brw in til_obj.browse(cr, uid, til_ids, context = context)]))
+        for ti_brw in ti_obj.browse(cr, uid, ti_ids, context = context):
+            note += '%s\n'%ti_brw.name
+        raise osv.except_osv( _("Invalid Procedure!"), note)
+        return True
+
+    def cancel_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can cancel the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self._check_tax_iva_lines(cr, uid, ids, context=context):
+            return False
+        if not self._dummy_cancel_check(cr, uid, ids, context=context):
+            return False
+        return True
+
     def _dummy_confirm_check(self, cr, uid, ids, context=None):
         '''
         This will be the method that another developer should use to create new
@@ -719,8 +768,6 @@ class account_wh_iva(osv.osv):
         '''
         Unique method to check if we can confirm the Withholding Document
         '''
-        import pdb
-        pdb.set_trace()
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
 

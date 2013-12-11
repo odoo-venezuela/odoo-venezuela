@@ -85,6 +85,7 @@ write({'state':'cancel'})</field>
             <field name="act_from" ref="act_done"/>
             <field name="act_to" ref="act_cancel"/>
             <field name="signal">act_cancel</field>
+            <field name="condition">cancel_check()</field>
         </record>
 
         <record id="trans_cancel_draft" model="workflow.transition">
