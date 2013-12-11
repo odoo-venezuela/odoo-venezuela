@@ -52,6 +52,7 @@
     ],
     'test': [
         'test/awm_supplier.yml',
+        'test/awm_customer.yml'
     ],
     'installable': True,
     'active': False,
