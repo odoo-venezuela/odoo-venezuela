@@ -89,3 +89,37 @@
         - state == 'open'
         - islr_wh_doc_id
         - islr_wh_doc_id.state == 'draft'
+-
+  1.3 I check that when I confirm an invoice with no income concepts lines
+  will not generate a income withholding document.
+-
+  I create a invoice with no income concepts lines.
+-
+    !record {model: account.invoice, id: islr_non_withholdable_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR NON-WITHHOLDABLE SUPPLIER INVOICE
+        supplier_invoice_number: ISLR NON-WITHHOLDABLE SUPPLIER INVOICE
+        invoice_line:
+          - name: line not withholdable.
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 30000
+            account_id: account.a_pay
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_non_withholdable_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - not invoice_line[0].concept_id
+        - not invoice_line[0].product_id
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_non_withholdable_supplier_invoice}
+-
+  I check that the invoice is confirmed and it do not genarate a income withholding document.
+-
+    !assert {model: account.invoice, id: islr_non_withholdable_supplier_invoice, string: The invoice was not confirmed}:
+        - state == 'open'
+        - not islr_wh_doc_id
