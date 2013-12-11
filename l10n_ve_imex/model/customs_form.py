@@ -151,10 +151,12 @@ class customs_form(osv.osv):
         context = context or {}
         company_id = context.get('f86_company_id')
         f86_cfg = context.get('f86_config')
+        rp_obj = self.pool.get('res.partner')
 
         #~ expenses
         for line in f86.cfl_ids:
             debits = []
+            acc_part_brw = rp_obj._find_accounting_partner(line.tax_code.partner_id)
             if line.tax_code.vat_detail:
                 for vat in line.imex_tax_line:
                     debits.append(
@@ -166,7 +168,7 @@ class customs_form(osv.osv):
                                'amount': line.amount, 'tax_info': ''})
 
             credit_account_id = \
-                line.tax_code.partner_id.property_account_payable.id
+                acc_part_brw.property_account_payable.id
 
             for debit in debits:
                 if not debit['account_id'] or not credit_account_id:
@@ -176,13 +178,13 @@ class customs_form(osv.osv):
                 lines.append(
                     self._gen_account_move_line(
                         company_id, debit['account_id'],
-                        line.tax_code.partner_id.id, '[%s] %s - %s%s'
+                        acc_part_brw.id, '[%s] %s - %s%s'
                         % (line.tax_code.code, line.tax_code.ref,
                            line.tax_code.name, debit['tax_info']),
                         debit['amount'], 0.0)
                 )
             lines.append(self._gen_account_move_line(
-                company_id, credit_account_id, line.tax_code.partner_id.id,
+                company_id, credit_account_id, acc_part_brw.id,
                 'F86 #%s - %s' % (f86.name, line.tax_code.name), 0.0,
                 line.amount))
 
