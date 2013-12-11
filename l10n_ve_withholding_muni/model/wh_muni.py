@@ -261,18 +261,17 @@ class account_wh_munici(osv.osv):
     def _update_check(self, cr, uid, ids, partner_id, context=None):
         """ Check if the invoices are selected partner
         """
-        if context is None:
-            context = {}
-        if ids:
-            ret = self.browse(cr, uid, ids[0])
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        for id in ids:
             inv_str = ''
-            for line in ret.munici_line_ids:
-                if line.invoice_id.partner_id.id != partner_id:
-                    inv_str += '%s' % '\n' + line.invoice_id.name
-
+            awm_brw = self.browse(cr, uid, id, context=context)
+            for line in awm_brw.munici_line_ids:
+                if line.invoice_id and line.invoice_id.partner_id.id !=\
+                    awm_brw.partner_id.id:
+                        inv_str+= '%s'% '\n'+(line.invoice_id.name or line.invoice_id.number or '')
             if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',
-                                     "The following invoices are not the selected partner: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !', "The following invoices are not from the selected partner: %s " % (inv_str,))
 
         return True
 
@@ -306,17 +305,11 @@ class account_wh_munici(osv.osv):
     def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
         """ Validate invoices before update records
         """
-        if context is None:
-            context = {}
+        context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        ret = self.browse(cr, uid, ids[0])
-        if update_check:
-            if 'partner_id' in vals and vals['partner_id']:
-                self._update_check(cr, uid, ids, vals['partner_id'], context)
-            else:
-                self._update_check(cr, uid, ids, ret.partner_id.id, context)
-
-        return super(account_wh_munici, self).write(cr, uid, ids, vals, context=context)
+        res = super(account_wh_munici,self).write(cr, uid, ids, vals, context=context)
+        self._update_check(cr, uid, ids, context=context)
+        return res
 
     def create(self, cr, uid, vals, context=None, check=True):
         """ Validate before create record
