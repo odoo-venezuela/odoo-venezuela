@@ -80,12 +80,13 @@
       'phone': "(555) 5555555",
       'fax': "(555) 1111111",
       'email': 'fakemail@example.com',
+      'country_id': ref('base.ve'),
       }
     try:
       part_id = self.create(cr, uid, part)
     except orm.except_orm:
       pass
-    assert not part_id, 'A Partner withoud VAT number cannot be created'
+    assert not part_id, 'A Partner without VAT number cannot be created'
 -
   5.5 I make sure that main company will not consult web to check Vat Validity
 -
