@@ -218,7 +218,15 @@
             <field name="padding">6</field>
             <field name="number_increment">1</field>
         </record>
-        
+        _
+        <!--
+        Product
+        -->
+
+        <record id="product.product_product_4" model="product.product">
+            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+        </record>
+
         <!--
         Journal
         -->
