@@ -72,7 +72,7 @@ If you want be able to propose withholding concepts from sales and purchases you
 #            'test/test_sale.yml',
 #            'test/test_notax.yml',
 #            'test/test_duplicate.yml',
-             'test/purchase.yml'
+             'test/supplier_wh_islr_invoice.yml',
         ],
     "active": False,
     "installable": True,
