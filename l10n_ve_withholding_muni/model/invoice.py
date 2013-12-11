@@ -52,6 +52,8 @@ class account_invoice(osv.osv):
                             writeoff_period_id, writeoff_journal_id, date,
                             name, context=context)
         if context.get('muni_wh', False):
+            rp_obj = self.pool.get('res.partner')
+            acc_part_brw = rp_obj._find_accounting_partner(to_wh.invoice_id.partner_id)
             invoice = self.browse(cr, uid, ids[0])
             types = {
               'out_invoice': -1,
@@ -61,9 +63,9 @@ class account_invoice(osv.osv):
             }
             direction = types[invoice.type]
             if to_wh.retention_id.type == 'in_invoice':
-                acc = to_wh.invoice_id.partner_id.property_wh_munici_payable and to_wh.invoice_id.partner_id.property_wh_munici_payable.id or False
+                acc = acc_part_brw.property_wh_munici_payable and acc_part_brw.property_wh_munici_payable.id or False
             else:
-                acc = to_wh.invoice_id.partner_id.property_wh_munici_receivable and to_wh.invoice_id.partner_id.property_wh_munici_receivable.id or False
+                acc = acc_part_brw.property_wh_munici_receivable and acc_part_brw.property_wh_munici_receivable.id or False
             if not acc:
                 raise osv.except_osv(_('Missing Local Account in Partner!'),_("Partner [%s] has missing Local account. Please, fill the missing field") % (to_wh.invoice_id.partner_id.name,))
             res.append((0, 0, {
