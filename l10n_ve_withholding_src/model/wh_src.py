@@ -72,7 +72,7 @@ class account_wh_src(osv.osv):
         context = context or {}
         res = []
         
-        if context.get('type') in ('out_invoice'):
+        if context.get('type') in ('out_invoice',):
             args.append(('wh_src_agent','=',True))
         partner_ids = obj_partner.search(cr, uid, args)
         if partner_ids:
