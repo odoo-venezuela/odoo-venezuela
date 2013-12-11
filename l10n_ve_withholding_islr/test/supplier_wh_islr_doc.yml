@@ -50,7 +50,7 @@
     !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
         - concept_id
 -
-  2.2 I check that a withholding document created have only one withholding document invoice when generating the withholding document by a supplier invoice confirmation.
+  2.2 I check that one invoice only creates a single one withholding line.
 -
    I create a supplier invoice with a withholdable concept.
 -
@@ -76,11 +76,11 @@
         - state == 'draft'
         - type == 'in_invoice'
 -
-  I confirm the invoice.
+  I confirm the invoice to generate the withholding document.
 -
     !workflow {model: account.invoice, action: invoice_open, ref: islr_one_iwdi_supplier_invoice}
 -
-  I check that the invoice is confirmed and it genarate a draft income withholding with one withholding document line.
+  I check that the invoice is confirmed and it generate a draft withholding with a single line.
 -
     !assert {model: account.invoice, id: islr_one_iwdi_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
         - state == 'open'
