@@ -166,3 +166,20 @@ class account_invoice(osv.osv):
                     'name':name
                 }))
         return res
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Verify first if the invoice have a non cancel src withholding doc.
+        If it has then raise a error message. """
+        context = context or {}
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            if not inv_brw.wh_src_id:
+                super(account_invoice, self).action_cancel(cr, uid, ids,
+                                                           context=context)
+            else:
+                raise osv.except_osv(_("Error!"),
+                _("You can't cancel an invoice that have non cancel"
+                  " Src Withholding Document. Needs first cancel the invoice"
+                  " Src Withholding Document and then you can cancel this"
+                  " invoice."))
+        return True
+
