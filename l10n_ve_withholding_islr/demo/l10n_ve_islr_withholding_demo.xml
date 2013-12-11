@@ -32,12 +32,12 @@
         <!--Concepts 
             Just adding accounts to concepts to be able to execute the withholding     
         -->
-        <record id="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
+        <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         
-        <record id="l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas" model="islr.wh.concept">
+        <record id="islr_wh_concept_pago_contratistas" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
