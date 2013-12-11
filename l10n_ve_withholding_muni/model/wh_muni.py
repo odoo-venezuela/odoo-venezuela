@@ -275,34 +275,7 @@ class account_wh_munici(osv.osv):
 
         return True
 
-    def _new_check(self, cr, uid, values, context=None):
-        """ Check amount withheld and Check if the invoices are selected partner
-        """
-        if context is None:
-            context = {}
-        lst_inv = []
-
-        if 'munici_line_ids' in values and values['munici_line_ids']:
-            if 'partner_id' in values and values['partner_id']:
-                for l in values['munici_line_ids']:
-                    if 'invoice_id' in l[2] and l[2]['invoice_id']:
-                        lst_inv.append(l[2]['invoice_id'])
-
-        if lst_inv:
-            invoices = self.pool.get(
-                'account.invoice').browse(cr, uid, lst_inv)
-            inv_str = ''
-            for inv in invoices:
-                if inv.partner_id.id != values['partner_id']:
-                    inv_str += '%s' % '\n' + inv.name
-
-            if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',
-                                     "The following invoices are not the selected partner: %s " % (inv_str,))
-
-        return True
-
-    def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
+    def write(self, cr, uid, ids, vals, context=None):
         """ Validate invoices before update records
         """
         context = context or {}
@@ -311,15 +284,13 @@ class account_wh_munici(osv.osv):
         self._update_check(cr, uid, ids, context=context)
         return res
 
-    def create(self, cr, uid, vals, context=None, check=True):
+    def create(self, cr, uid, vals, context=None):
         """ Validate before create record
         """
-        if context is None:
-            context = {}
-        if check:
-            self._new_check(cr, uid, vals, context)
-
-        return super(account_wh_munici, self).create(cr, uid, vals, context)
+        context = context or {}
+        new_id = super(account_wh_munici, self).create(cr, uid, vals, context=context)
+        self._update_check(cr, uid, new_id, context=context)
+        return new_id
 
     def unlink(self, cr, uid, ids, context=None):
         """ Overwrite the unlink method to throw an exception if the
