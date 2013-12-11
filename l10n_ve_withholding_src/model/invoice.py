@@ -41,19 +41,17 @@ class account_invoice(osv.osv):
         @param partner_bank_id: Partner bank id of the invoice                  
         @param company_id: Company id  
         """
-        p = self.pool.get('res.partner').browse(cr, uid, partner_id)
-        u= self.pool.get('res.users').browse(cr, uid, uid)
-        c = u.company_id.partner_id
+        rp_obj = self.pool.get('res.partner')
         res = super(account_invoice,self).onchange_partner_id(cr, uid, ids, type, \
         partner_id, date_invoice,payment_term,partner_bank_id,company_id)
         
-        if p.wh_src_agent and type in ('out_invoice') and not p.supplier:
-            res['value']['wh_src_rate'] = p.wh_src_rate
-        elif c.wh_src_agent and type in ('in_invoice') and p.supplier:
-            res['value']['wh_src_rate'] = c.wh_src_rate
+        if type in ('out_invoice',):
+            p = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
+            res['value']['wh_src_rate'] = p.wh_src_agent and p.wh_src_rate or 0
         else:
-            res['value']['wh_src_rate'] = 0
-            
+            u= self.pool.get('res.users').browse(cr, uid, uid)
+            c = rp_obj._find_accounting_partner(u.company_id.partner_id)
+            res['value']['wh_src_rate'] = c.wh_src_agent and c.wh_src_rate or 0
         return res
     
     def _retenida(self, cr, uid, ids, name, args, context):
@@ -143,9 +141,10 @@ class account_invoice(osv.osv):
                             pay_journal_id, writeoff_acc_id, 
                             writeoff_period_id, writeoff_journal_id, date, 
                             name, context=context)
+        rp_obj = self.pool.get('res.partner')
         if context.get('wh_src',False):
             invoice = self.browse(cr, uid, ids[0])
-            
+            acc_part_brw = rp_obj._find_accounting_partner(invoice.partner_id)
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
 
@@ -155,15 +154,32 @@ class account_invoice(osv.osv):
                 else:
                     acc = tax_brw.wh_id.company_id.wh_src_paid_account_id and tax_brw.wh_id.company_id.wh_src_paid_account_id.id or False
                 if not acc:
-                    raise osv.except_osv(_('Missing Account in Tax!'),_("Tax [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
+                    raise osv.except_osv(_('Missing Account in Company!'),_("Your Company [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
                 res.append((0,0,{
                     'debit': direction * tax_brw.wh_amount<0 and - direction * tax_brw.wh_amount,
                     'credit': direction * tax_brw.wh_amount>0 and direction * tax_brw.wh_amount,
                     'account_id': acc,
-                    'partner_id': invoice.partner_id.id,
+                    'partner_id': acc_part_brw.id,
                     'ref':invoice.number,
                     'date': date,
                     'currency_id': False,
                     'name':name
                 }))
         return res
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Verify first if the invoice have a non cancel src withholding doc.
+        If it has then raise a error message. """
+        context = context or {}
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            if not inv_brw.wh_src_id:
+                super(account_invoice, self).action_cancel(cr, uid, ids,
+                                                           context=context)
+            else:
+                raise osv.except_osv(_("Error!"),
+                _("You can't cancel an invoice that have non cancel"
+                  " Src Withholding Document. Needs first cancel the invoice"
+                  " Src Withholding Document and then you can cancel this"
+                  " invoice."))
+        return True
+
