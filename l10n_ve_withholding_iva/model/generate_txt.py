@@ -120,10 +120,22 @@ class txt_iva(osv.osv):
         context = context or {}
         return self.write(cr, uid, ids, {'state':'draft'})
 
+    def check_txt_ids(self, cr, uid, ids, context=None):
+        """ Check that txt_iva has lines to process."""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awi_brw = self.browse(cr, uid, ids[0], context=context)
+        if not awi_brw.txt_ids:
+            raise osv.except_osv(
+                _("Missing Values !"),
+                _("Missing VAT TXT Lines!!!"))
+        return True
+
     def action_confirm(self, cr, uid, ids, context=None):
         """ Transfers the document status to confirmed
         """
         context = context or {}
+        self.check_txt_ids(cr, uid, ids, context=context)
         return self.write(cr, uid, ids, {'state':'confirmed'})
 
     def action_generate_lines_txt(self,cr,uid,ids,context=None):
