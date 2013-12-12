@@ -701,7 +701,6 @@ class fiscal_book(orm.Model):
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
         rp_obj = self.pool.get('res.partner')
-        rp_brw =  rp_obj._find_accounting_partner(invoice.partner_id).id,
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         #~ Relate wh iva lines
         iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
@@ -850,7 +849,7 @@ class fiscal_book(orm.Model):
             t_type = fb_brw.type == 'sale' and 'tp' or 'do'
             for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids,
                                             context=context):
-                rp_brw =  rp_obj._find_accounting_partner(iwdl_brw.retention_id.partner_id).id,
+                rp_brw =  rp_obj._find_accounting_partner(iwdl_brw.retention_id.partner_id)
                 values = {
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
@@ -883,7 +882,7 @@ class fiscal_book(orm.Model):
                                                 context=context)
             doc_type = self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                          context=context)
-            rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id).id,
+            rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id)
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
