@@ -123,3 +123,41 @@
         - len(islr_wh_doc_id.invoice_ids) == 1
         - islr_wh_doc_id.invoice_ids[0].base_ret == 5000.0
         - islr_wh_doc_id.invoice_ids[0].amount_islr_ret == 250.0
+-
+  2.4 I check that a withholding concept line is created per invoice concept.
+-
+  I create an invoice with two invoice lines of different withholdable concepts.
+-
+    !record {model: account.invoice, id: islr_wline_per_concept_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (TWO DIFF CONCEPTS)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (TWO DIFF CONCEPTS)
+        invoice_line:
+          - price_unit: 1000
+            quantity: 2
+            <<: *islr_supplier_wh_ail
+          - name: line with another withholdable concept
+            quantity: 1
+            uos_id: product.product_uom_unit
+            price_unit: 500
+            account_id: account.a_pay
+            concept_id: islr_wh_concept_pago_contratistas
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_wline_per_concept_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_wline_per_concept_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with one withholding line an two concept lines.
+-
+    !assert {model: account.invoice, id: islr_wline_per_concept_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids) == 1
+        - len(islr_wh_doc_id.concept_ids) == 2
