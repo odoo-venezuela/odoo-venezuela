@@ -13,6 +13,7 @@
     !assert {model: res.partner, id: base.main_partner, string: The companu is a non-withholdable agent}:
        - islr_withholding_agent
        - country_id.code == 'VE'
+       - not company_id.automatic_income_wh
 -
   I check that only one non-withholdable concept is define.
 -
@@ -135,7 +136,8 @@
           - price_unit: 1000
             quantity: 2
             <<: *islr_supplier_wh_ail
-          - name: line with another withholdable concept
+          - &islr_supplier_wh_ail_2
+            name: line with another withholdable concept
             quantity: 1
             uos_id: product.product_uom_unit
             price_unit: 500
@@ -161,3 +163,62 @@
         - islr_wh_doc_id.state == 'draft'
         - len(islr_wh_doc_id.invoice_ids) == 1
         - len(islr_wh_doc_id.concept_ids) == 2
+-
+  2.5 I check that the withholding line sums.
+-
+  I create an invoice with two invoice lines of different withholdable concepts.
+-
+    !record {model: account.invoice, id: islr_concept_sum_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (CONCEPTS SUMS)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (CONCEPTS SUMS)
+        invoice_line:
+          - price_unit: 1000
+            quantity: 1
+            <<: *islr_supplier_wh_ail
+          - price_unit: 2000
+            quantity: 1
+            <<: *islr_supplier_wh_ail
+          - <<: *islr_supplier_wh_ail_2
+          - &islr_supplier_nwh_ail
+            name: line with no withhodeable concept.
+            quantity: 1
+            uos_id: product.product_uom_unit
+            price_unit: 300
+            account_id: account.a_pay
+            concept_id: islr_wh_concept_no_apply_withholding
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_concept_sum_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_concept_sum_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with one withholding line with the correct sums an two concept lines.
+-
+    !assert {model: account.invoice, id: islr_concept_sum_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids) == 1
+        - len(islr_wh_doc_id.concept_ids) == 2
+        - islr_wh_doc_id.invoice_ids[0].base_ret == 3500.0
+        - islr_wh_doc_id.invoice_ids[0].amount_islr_ret == 160.0
+-
+  I check that the withholding concepts lines sums are ok.
+-
+    !python {model: islr.wh.doc}: |
+        inv_id = ref( 'islr_concept_sum_supplier_invoice' )
+        islr_wh_doc_id = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, inv_id).islr_wh_doc_id
+        for cline in islr_wh_doc_id.concept_ids:
+            assert (
+                (cline.concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
+                 and cline.base_amount == 3000 and cline.amount == 150 ) or
+                (cline.concept_id.id == ref( 'islr_wh_concept_pago_contratistas' )
+                 and cline.base_amount == 500 and cline.amount == 10 )
+                ), 'There was a concept line sum error.'
