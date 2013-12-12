@@ -5,24 +5,24 @@
         <!-- Sequences type for account.wh.munici --> 
         <record id="seq_type_account_wh_muni_purchase" model="ir.sequence.type">
             <field name="name">Withholding local.purchase</field>
-            <field name="code">account.journal.wh.purchase</field>
+            <field name="code">account.wh.muni.in_invoice</field>
         </record>
         <record id="seq_type_account_wh_muni_sale" model="ir.sequence.type">
             <field name="name">Withholding local.sale</field>
-            <field name="code">account.journal.wh.sale</field>
+            <field name="code">account.wh.muni.out_invoice</field>
         </record>
 
         <!-- Sequences -->
         <record id="seq_wh_purchase_journal" model="ir.sequence">
             <field name="name">Retencion Municipal de Compra</field>                 
-            <field name="code">account.journal.wh.purchase</field>            
+            <field name="code">account.wh.muni.in_invoice</field>            
             <field name="prefix">RMC-</field>                                    
             <field name="padding">8</field>                                     
             <field name="number_increment">1</field>                            
         </record>
         <record id="seq_wh_sale_journal" model="ir.sequence">
             <field name="name">Retencion Municipal de Venta</field>                 
-            <field name="code">account.journal.wh.sale</field>            
+            <field name="code">account.wh.muni.out_invoice</field>            
             <field name="prefix">RMV-</field>                                    
             <field name="padding">8</field>                                     
             <field name="number_increment">1</field>                            

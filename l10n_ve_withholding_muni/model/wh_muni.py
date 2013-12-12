@@ -110,6 +110,41 @@ class account_wh_munici(osv.osv):
         ('ret_num_uniq', 'unique (number)', 'number must be unique !')
     ]
 
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Call cancel_move and return True
+        """
+        context = context or {}
+        self.cancel_move(cr, uid, ids)
+        self.clear_munici_line_ids(cr, uid, ids, context=context)
+        return True
+
+    def cancel_move(self,cr,uid,ids, *args):
+        """ Delete move lines related with withholding vat and cancel
+        """
+        ret_brw = self.browse(cr, uid, ids)
+        account_move_obj = self.pool.get('account.move')
+        for ret in ret_brw:
+            if ret.state == 'done':
+                for ret_line in ret.munici_line_ids:
+                    ret_line.move_id and account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    ret_line.move_id and account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+            self.write(cr, uid, ret.id, {'state':'cancel'})
+        return True
+
+    def clear_munici_line_ids(self, cr, uid, ids, context=None):
+        """ Clear lines of current withholding document and delete wh document
+        information from the invoice.
+        """
+        context = context or {}
+        wml_obj = self.pool.get('account.wh.munici.line')
+        ai_obj = self.pool.get('account.invoice')
+        if ids:
+            wml_ids = wml_obj.search(cr, uid, [('retention_id', 'in', ids)], context=context)
+            ai_ids = wml_ids and [ wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context) ]
+            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_iva_id': False}, context=context)
+            wml_ids and wml_obj.unlink(cr, uid, wml_ids, context=context)
+        return True
+
     def action_confirm(self, cr, uid, ids, context=None):
         """ Verifies the amount withheld and the document is confirmed
         """
@@ -165,10 +200,11 @@ class account_wh_munici(osv.osv):
                         "You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
                     return False
 
-            acc_id = ret.partner_id.property_wh_munici_payable.id
+            acc_id = ret.account_id.id
             if not ret.date_ret:
                 self.write(cr, uid, [ret.id], {'date_ret':
                            time.strftime('%Y-%m-%d')})
+                ret = self.browse(cr, uid, ret.id, context = context)
 
             period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
@@ -202,94 +238,59 @@ class account_wh_munici(osv.osv):
                         cr, uid, [line.invoice_id.id], {'wh_muni_id': ret.id})
         return True
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
         """ Changing the partner is again determinated accounts and lines retain for document                                                      
         @param type: invoice type                                               
         @param partner_id: vendor or buyer                                      
         """        
+        context = context or {}
         acc_id = False
+        rp_obj = self.pool.get('res.partner')
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
-
-        self._update_check(cr, uid, ids, partner_id)
+                acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False
         result = {'value': {
             'account_id': acc_id}
         }
-
         return result
 
-    def _update_check(self, cr, uid, ids, partner_id, context=None):
+    def _update_check(self, cr, uid, ids, context=None):
         """ Check if the invoices are selected partner
         """
-        if context is None:
-            context = {}
-        if ids:
-            ret = self.browse(cr, uid, ids[0])
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        rp_obj = self.pool.get('res.partner')
+        for id in ids:
             inv_str = ''
-            for line in ret.munici_line_ids:
-                if line.invoice_id.partner_id.id != partner_id:
-                    inv_str += '%s' % '\n' + line.invoice_id.name
-
+            awm_brw = self.browse(cr, uid, id, context=context)
+            for line in awm_brw.munici_line_ids:
+                acc_part_brw = rp_obj._find_accounting_partner(line.invoice_id.partner_id)
+                if acc_part_brw.id != awm_brw.partner_id.id:
+                    inv_str+= '%s'% '\n'+(line.invoice_id.name or line.invoice_id.number or '')
             if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',
-                                     "The following invoices are not the selected partner: %s " % (inv_str,))
+                raise osv.except_osv('Incorrect Invoices !', "The following invoices are not from the selected partner: %s " % (inv_str,))
 
         return True
 
-    def _new_check(self, cr, uid, values, context=None):
-        """ Check amount withheld and Check if the invoices are selected partner
-        """
-        if context is None:
-            context = {}
-        lst_inv = []
-
-        if 'munici_line_ids' in values and values['munici_line_ids']:
-            if 'partner_id' in values and values['partner_id']:
-                for l in values['munici_line_ids']:
-                    if 'invoice_id' in l[2] and l[2]['invoice_id']:
-                        lst_inv.append(l[2]['invoice_id'])
-
-        if lst_inv:
-            invoices = self.pool.get(
-                'account.invoice').browse(cr, uid, lst_inv)
-            inv_str = ''
-            for inv in invoices:
-                if inv.partner_id.id != values['partner_id']:
-                    inv_str += '%s' % '\n' + inv.name
-
-            if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',
-                                     "The following invoices are not the selected partner: %s " % (inv_str,))
-
-        return True
-
-    def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
+    def write(self, cr, uid, ids, vals, context=None):
         """ Validate invoices before update records
         """
-        if context is None:
-            context = {}
-        ret = self.browse(cr, uid, ids[0])
-        if update_check:
-            if 'partner_id' in vals and vals['partner_id']:
-                self._update_check(cr, uid, ids, vals['partner_id'], context)
-            else:
-                self._update_check(cr, uid, ids, ret.partner_id.id, context)
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = super(account_wh_munici,self).write(cr, uid, ids, vals, context=context)
+        self._update_check(cr, uid, ids, context=context)
+        return res
 
-        return super(account_wh_munici, self).write(cr, uid, ids, vals, context=context)
-
-    def create(self, cr, uid, vals, context=None, check=True):
+    def create(self, cr, uid, vals, context=None):
         """ Validate before create record
         """
-        if context is None:
-            context = {}
-        if check:
-            self._new_check(cr, uid, vals, context)
-
-        return super(account_wh_munici, self).create(cr, uid, vals, context)
+        context = context or {}
+        new_id = super(account_wh_munici, self).create(cr, uid, vals, context=context)
+        self._update_check(cr, uid, new_id, context=context)
+        return new_id
 
     def unlink(self, cr, uid, ids, context=None):
         """ Overwrite the unlink method to throw an exception if the
@@ -301,6 +302,28 @@ class account_wh_munici(osv.osv):
                     _("The withholding document needs to be in cancel state to be deleted."))
             else:
                 super(account_wh_munici, self).unlink(cr, uid, ids, context=context)
+        return True
+
+    def confirm_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can confirm the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self.check_wh_lines(cr, uid, ids, context=context):
+            return False
+        return True
+
+    def check_wh_lines(self, cr, uid, ids, context=None):
+        """ Check that wh muni has withholding lines"""
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        awm_brw = self.browse(cr, uid, ids[0], context=context)
+        if not awm_brw.munici_line_ids:
+            raise osv.except_osv(
+                _("Missing Values !"),
+                _("Missing Withholding Lines!"))
         return True
 
 class account_wh_munici_line(osv.osv):
