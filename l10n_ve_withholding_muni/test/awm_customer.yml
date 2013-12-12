@@ -75,6 +75,7 @@
   I create a customer withholding muni with wh lines
 -
   !record {model: account.wh.munici, id: account_wh_customer02, view: l10n_ve_withholding_muni.view_wh_muni_form}: 
+    partner_id: l10n_ve_fiscal_requirements.f_req_partner_1 
     number: '0102030405'
     munici_line_ids:
       - name: 'Test munici wh line'

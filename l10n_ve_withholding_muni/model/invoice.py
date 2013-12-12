@@ -67,13 +67,13 @@ class account_invoice(osv.osv):
             else:
                 acc = acc_part_brw.property_wh_munici_receivable and acc_part_brw.property_wh_munici_receivable.id or False
             if not acc:
-                raise osv.except_osv(_('Missing Local Account in Partner!'),_("Partner [%s] has missing Local account. Please, fill the missing field") % (to_wh.invoice_id.partner_id.name,))
+                raise osv.except_osv(_('Missing Local Account in Partner!'),_("Partner [%s] has missing Local account. Please, fill the missing field") % (acc_part_brw.name,))
             res.append((0, 0, {
                 'debit': direction * to_wh.amount < 0 and
                          - direction * to_wh.amount,
                 'credit': direction * to_wh.amount > 0 and
                           direction * to_wh.amount,
-                'partner_id': invoice.partner_id.id,
+                'partner_id': acc_part_brw.id,
                 'ref': invoice.number,
                 'date': date,
                 'currency_id': False,

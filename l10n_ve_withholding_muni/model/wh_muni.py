@@ -200,7 +200,7 @@ class account_wh_munici(osv.osv):
                         "You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
                     return False
 
-            acc_id = ret.partner_id.property_wh_munici_payable.id
+            acc_id = ret.account_id.id
             if not ret.date_ret:
                 self.write(cr, uid, [ret.id], {'date_ret':
                            time.strftime('%Y-%m-%d')})
@@ -238,38 +238,38 @@ class account_wh_munici(osv.osv):
                         cr, uid, [line.invoice_id.id], {'wh_muni_id': ret.id})
         return True
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
         """ Changing the partner is again determinated accounts and lines retain for document                                                      
         @param type: invoice type                                               
         @param partner_id: vendor or buyer                                      
         """        
+        context = context or {}
         acc_id = False
+        rp_obj = self.pool.get('res.partner')
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
-
-        self._update_check(cr, uid, ids, partner_id)
+                acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False
         result = {'value': {
             'account_id': acc_id}
         }
-
         return result
 
-    def _update_check(self, cr, uid, ids, partner_id, context=None):
+    def _update_check(self, cr, uid, ids, context=None):
         """ Check if the invoices are selected partner
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
+        rp_obj = self.pool.get('res.partner')
         for id in ids:
             inv_str = ''
             awm_brw = self.browse(cr, uid, id, context=context)
             for line in awm_brw.munici_line_ids:
-                if line.invoice_id and line.invoice_id.partner_id.id !=\
-                    awm_brw.partner_id.id:
-                        inv_str+= '%s'% '\n'+(line.invoice_id.name or line.invoice_id.number or '')
+                acc_part_brw = rp_obj._find_accounting_partner(line.invoice_id.partner_id)
+                if acc_part_brw.id != awm_brw.partner_id.id:
+                    inv_str+= '%s'% '\n'+(line.invoice_id.name or line.invoice_id.number or '')
             if inv_str:
                 raise osv.except_osv('Incorrect Invoices !', "The following invoices are not from the selected partner: %s " % (inv_str,))
 
