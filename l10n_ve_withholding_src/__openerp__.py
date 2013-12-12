@@ -53,6 +53,9 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
     "demo_xml" : [
 
     ], 
+    'test': [
+        'test/aws_customer.yml',
+    ],
     "update_xml" : [
         'security/wh_src_security.xml',
         'security/ir.model.access.csv',
