@@ -62,13 +62,15 @@ class fiscal_book(orm.Model):
         @param field_name: field [get_partner_addr]
         """
         context = context or {}
+        rp_obj = self.pool.get('res.partner')
         res = {}.fromkeys(ids, 'NO HAY DIRECCION FISCAL DEFINIDA')
         #~ TODO: ASK: what company, fisal.book.company_id?
-        addr = self.pool.get('res.users').browse(
-            cr, uid, uid, context=context).company_id.partner_id
+        ru_obj = self.pool.get('res.users')
+        rc_brw = ru_obj.browse(cr, uid, uid, context=context).company_id
+        addr =  rp_obj._find_accounting_partner(rc_brw.partner_id)
         for fb_id in ids:
             if addr:
-                res[fb_id] = addr.type == 'invoice' and (addr.street or '') + \
+                res[fb_id] = (addr.street or '') + \
                     ' ' + (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' \
                     + (addr.city or '') + ' ' + \
                     (addr.country_id and addr.country_id.name or '') + \
@@ -240,7 +242,7 @@ class fiscal_book(orm.Model):
             " according to the Venezuelan RLIVA statement for fiscal" \
             " accounting books. Options:" \
             " - Art. 75: Pruchase Book." \
-            " - Art. 76: Sale Book. Reflects every individual operation datail." \
+            " - Art. 76: Sale Book. Reflects every individual operation detail." \
             " - Art. 77: Sale Book. Groups Non-Tax Payer operations in one " \
             " consolidated line. Only fiscal billing." \
             " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show" \
@@ -698,12 +700,13 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
+        rp_obj = self.pool.get('res.partner')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         #~ Relate wh iva lines
         iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
 
-        if fb_brw.type == "purchase" and iwdl_ids \
-                and not fb_brw.company_id.partner_id.wh_iva_agent:
+        if fb_brw.type == "purchase" and iwdl_ids and not \
+                rp_obj._find_accounting_partner(fb_brw.company_id.partner_id).wh_iva_agent:
             raise osv.except_osv(_("Error!"),
                   _("You have withholdings registred but you are not a withholding agent"))
 
@@ -833,6 +836,7 @@ class fiscal_book(orm.Model):
         cf_obj = self.pool.get('customs.form')
         fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
+        rp_obj = self.pool.get('res.partner')
 
         #~ add book lines for withholding iva lines
         if fb_brw.iwdl_ids:
@@ -845,6 +849,7 @@ class fiscal_book(orm.Model):
             t_type = fb_brw.type == 'sale' and 'tp' or 'do'
             for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids,
                                             context=context):
+                rp_brw =  rp_obj._find_accounting_partner(iwdl_brw.retention_id.partner_id)
                 values = {
                     'iwdl_id': iwdl_brw.id,
                     'rank': my_rank,
@@ -854,8 +859,8 @@ class fiscal_book(orm.Model):
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                   context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
-                    'partner_name': iwdl_brw.retention_id.partner_id.name or False,
-                    'partner_vat': iwdl_brw.retention_id.partner_id.vat or False,
+                    'partner_name': rp_brw.name or 'N/A',
+                    'partner_vat': rp_brw.vat or 'N/A',
                     'affected_invoice': iwdl_brw.invoice_id.fiscal_printer
                         and iwdl_brw.invoice_id.invoice_printer
                         or (fb_brw.type == 'sale'
@@ -877,6 +882,7 @@ class fiscal_book(orm.Model):
                                                 context=context)
             doc_type = self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                          context=context)
+            rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id)
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
@@ -899,9 +905,9 @@ class fiscal_book(orm.Model):
                 'affected_invoice': (doc_type == "N/DE" or doc_type == "N/CR") \
                                     and (inv_brw.parent_id and inv_brw.parent_id.number or False) \
                                     or False,
-                'partner_name': inv_brw.partner_id.name or False,
-                'partner_vat': inv_brw.partner_id.vat \
-                               and inv_brw.partner_id.vat[2:] or 'N/A',
+                'partner_name': rp_brw.name or 'N/A',
+                'partner_vat': rp_brw.vat \
+                               and rp_brw.vat[2:] or 'N/A',
                 'invoice_number': inv_brw.fiscal_printer
                     and inv_brw.invoice_printer
                     or (fb_brw.type == 'sale'
@@ -928,7 +934,7 @@ class fiscal_book(orm.Model):
         for cf_brw in fb_brw.cf_ids:
 
             cf_partner_brws = \
-                list(set([cfl_brw.tax_code.partner_id
+                list(set([rp_obj._find_accounting_partner(cfl_brw.tax_code.partner_id)
                  for cfl_brw in cf_brw.cfl_ids
                  if not cfl_brw.tax_code.vat_detail]))
 
@@ -943,7 +949,7 @@ class fiscal_book(orm.Model):
             for partner_brw in cf_partner_brws:
                 values = common_values.copy()
                 values['rank'] = my_rank
-                values['partner_name'] = partner_brw.name or False
+                values['partner_name'] = partner_brw.name or 'N/A'
                 values['partner_vat'] = partner_brw.vat \
                                         and  partner_brw.vat[2:] or 'N/A'
                 values['total_with_iva'] = \
@@ -972,6 +978,7 @@ class fiscal_book(orm.Model):
         @param cf_id: customs form id
         @param partner_id: partner id
         """
+        #KEEP AN EYE ON HERE, No check has been made on accounting partner
         context = context or {}
         cf_obj = self.pool.get('customs.form')
         cfl_brws = cf_obj.browse(cr, uid, cf_id, context=context).cfl_ids
@@ -1660,12 +1667,14 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
+        rp_obj = self.pool.get('res.partner')
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+        rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id).id,
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         return inv_brw.customs_form_id \
                and (fb_brw.type == 'sale' and 'ex' or 'im') \
                or (fb_brw.type == 'purchase' and 'do' \
-                  or (inv_brw.partner_id.vat_subjected and 'tp' or 'ntp' ))
+                  or (rp_brw.vat_subjected and 'tp' or 'ntp' ))
 
     def unlink(self, cr, uid, ids, context=None):
         """ Overwrite the unlink method to throw an exception if the book is
