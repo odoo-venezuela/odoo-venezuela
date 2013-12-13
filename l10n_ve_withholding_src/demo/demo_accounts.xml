@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data noupdate="1">
+        <!-- Minimal Accounts for demo 
+             -->
+        <record id="src_rec" model="account.account">
+            <field name="code">X11060</field>
+            <field name="name">SRC Withheld by Customers</field>
+            <field ref="account.cas" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.data_account_type_asset"/>
+        </record>
+        
+        <record id="src_pay" model="account.account">
+            <field name="code">X1165</field>
+            <field name="name">SRC Withheld to Suppliers</field>
+            <field ref="account.cli" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.data_account_type_liability"/>
+        </record>
+   </data>
+</openerp>
+
+

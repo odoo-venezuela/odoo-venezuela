@@ -51,9 +51,10 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
                 ],
     "init_xml" : [],
     "demo_xml" : [
-
+        'demo/demo_accounts.xml',
+        'demo/demo_company.xml',
     ], 
-    'test': [
+    "test": [
         'test/aws_customer.yml',
     ],
     "update_xml" : [
