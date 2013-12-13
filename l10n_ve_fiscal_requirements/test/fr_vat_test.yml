@@ -58,6 +58,7 @@
       'phone': "(555) 5555555",
       'fax': "(555) 1111111",
       'email': 'fakemail@example.com',
+      'country_id': ref('base.ve'),
       }
     try:
       part_id = self.create(cr, uid, part)
