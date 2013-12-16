@@ -10,7 +10,7 @@
 -
   I check that the company is a income withholding agent and is at Venezuela.
 -
-    !assert {model: res.partner, id: base.main_partner, string: The companu is a non-withholdable agent}:
+    !assert {model: res.partner, id: base.main_partner, string: The company is a non-withholdable agent}:
        - islr_withholding_agent
        - country_id.code == 'VE'
        - not company_id.automatic_income_wh
@@ -632,3 +632,40 @@
 -
     !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
         - not islr_exempt
+-
+  2.15 I check when the company is not a income withholding agent then it should not generate a withholding document.
+-
+  I set the company as non-income withholding agent.
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'base.main_partner')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': False})
+-
+  I check that the company is a non-income withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is a withholdable agent}:
+        - not islr_withholding_agent
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_nwh_company_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (NON-WH COMPANY)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE ()
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_nwh_company_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_nwh_company_supplier_invoice}
+-
+  I check that the invoice is in open state and do not generate a withholding document.
+-
+    !assert {model: account.invoice, id: islr_nwh_company_supplier_invoice, string: The invoice is not correctly confirm.}:
+        - state == 'open'
+        - not islr_wh_doc_id
