@@ -566,3 +566,69 @@
 -
     !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
         - not islr_exempt
+-
+  2.14 I check that when the supplier is exempt it will create a withholding document with amount withheld 0.0 when the invoice base is less than the withholding minimum.
+-
+  I set the supplier as an income exempt.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: True
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - islr_exempt
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_min_exempt_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (MINIMUN EXEMPT WITHHOLDING)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (MINIMUN EXEMPT WITHHOLDING)
+        invoice_line: 
+          - quantity: 1
+            price_unit: 30
+            <<: *islr_supplier_wh_ail 
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_min_exempt_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_min_exempt_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding document with 0.0 amount withheld.
+-
+    !assert {model: account.invoice, id: islr_min_exempt_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - islr_wh_doc_id.amount_total_ret == 0.0
+-
+  I check that the invoice base amount is less than the minimum withholding rate.
+-
+    !python {model: islr.wh.doc.invoices}: |
+        inv_id = ref( 'islr_min_exempt_supplier_invoice' )
+        inv_brw = self.pool.get( 'account.invoice' ).browse(cr, uid, inv_id)
+        iwd_brw = inv_brw.islr_wh_doc_id
+        concept_id = iwd_brw.concept_ids[0].concept_id.id
+        vendor, buyer, wh_agent = self._get_partners(
+            cr, uid, inv_brw)
+        residence = self._get_residence(cr, uid, vendor, buyer)
+        nature = self._get_nature(cr, uid, vendor)
+        rate_min = self._get_rate(
+            cr, uid, concept_id, residence, nature, context=context)[1]
+        assert rate_min > inv_brw.amount_untaxed, 'Its not correct.'
+-
+  I revert the changes on the supplier.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: False
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - not islr_exempt
