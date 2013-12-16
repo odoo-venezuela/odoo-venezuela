@@ -355,3 +355,36 @@
         - islr_wh_doc_id
         - islr_wh_doc_id.state == 'draft'
         - len(islr_wh_doc_id.invoice_ids[0].islr_xml_id) == len(invoice_line)
+-
+  2.8 I check that when the subtotal of the invoice is not enough for withhold
+  then a withholding document withheld amount is 0.0.
+-
+  I create a supplier invoice with a base less than the minimum of the islr rate.
+-
+    !record {model: account.invoice, id: islr_minimun_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (MINIMUN WITHHOLDING)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (MINIMUN WITHHOLDING)
+        invoice_line: 
+          - quantity: 1
+            price_unit: 30
+            <<: *islr_supplier_wh_ail 
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_minimun_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_minimun_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with withheld amount 0.0.
+-
+    !assert {model: account.invoice, id: islr_minimun_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - islr_wh_doc_id.amount_total_ret == 0.0
+
