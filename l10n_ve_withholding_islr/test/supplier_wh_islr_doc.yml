@@ -396,4 +396,25 @@
         iwd_brw = self.pool.get( 'account.invoice' ).browse(
             cr, uid, inv_id).islr_wh_doc_id
         correct_rate_id = ref( 'islr_rates_004' )
-        assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id 
+        assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id
+-
+ 2.10 I check from a concept all is rates are taking correctly.
+-
+    !python {model: islr.wh.doc.invoices}: | 
+        concept_id = ref( 'islr_wh_concept_cualquie_cosa_menos_sueldos' )
+        rates_xml = {
+            # (residence, nature)
+            ( 1, 1 ) : 'islr_rates_018',
+            ( 0, 1 ) : 'islr_rates_019',
+            ( 1, 0 ) : 'islr_rates_020',
+            ( 0, 0 ) : 'islr_021',
+        }
+        for conf_t, rate_xml in rates_xml.iteritems():
+            rate_tuple = self._get_rate(
+                cr, uid, concept_id, conf_t[0], conf_t[1], context=context)
+            rate_brw = self.pool.get( 'islr.rates' ).browse(
+                cr, uid, ref(rate_xml))
+            assert (rate_tuple[5] == rate_brw.id and
+                    rate_tuple[4] == rate_brw.code and
+                    rate_tuple[6] == rate_brw.name
+                   ), 'There is an error, It is not taking the correct rate.'
