@@ -509,3 +509,60 @@
         iwd_brw = self.browse(cr, uid, inv_id).islr_wh_doc_id
         correct_rate_id = ref ( 'islr_rates_002' )
         assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id
+-
+  I revert the changes on the supplier.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        spn: false
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - not spn
+-
+  2.13 I check that when the supplier is exempt it will create a withholding document with amount withheld 0.0 when the invoice base is greater that the withholding minimum.
+-
+  I set the supplier as an income exempt.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: True
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - islr_exempt
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_exempt_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (EXEMPT SUPPLIER)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (EXEMPT SUPPLIER)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_exempt_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_exempt_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding document with 0.0 amount withheld.
+-
+    !assert {model: account.invoice, id: islr_exempt_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - islr_wh_doc_id.amount_total_ret == 0.0
+-
+  I revert the changes on the supplier.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: False
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - not islr_exempt
