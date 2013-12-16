@@ -141,7 +141,7 @@ class account_wh_munici(osv.osv):
         if ids:
             wml_ids = wml_obj.search(cr, uid, [('retention_id', 'in', ids)], context=context)
             ai_ids = wml_ids and [ wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context) ]
-            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_iva_id': False}, context=context)
+            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_muni_id': False}, context=context)
             wml_ids and wml_obj.unlink(cr, uid, wml_ids, context=context)
         return True
 
