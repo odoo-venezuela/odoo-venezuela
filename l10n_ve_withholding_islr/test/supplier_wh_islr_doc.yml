@@ -455,3 +455,57 @@
         - state == 'open'
         - islr_wh_doc_id
         - islr_wh_doc_id.state == 'done'
+-
+  I revert the changes in the company.
+-
+    !record {model: res.company, id: base.main_company}:
+       automatic_income_wh: False
+-
+  i check that the company is correctly update.
+-
+    !assert {model: res.partner, id: base.main_partner, string: the company is not correctly set.}:
+       - not company_id.automatic_income_wh
+-
+  2.12 I check that when a not natural supplier is a society of natural persons it will be treat as a natural person.
+-
+  I set the supplier as a society of natural persons.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        spn: True
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - spn
+-
+  I create an supplier invoice.
+-
+    !record {model: account.invoice, id: islr_snp_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (SOCIETY OF NATURAL PERSONS)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (SOCIETY OF NATURAL PERSONS)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_snp_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_snp_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding.
+-
+    !assert {model: account.invoice, id: islr_snp_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+-
+  I check that the rate used is the one for natural persons (in this case also is a resident person).
+-
+    !python {model: account.invoice}: | 
+        inv_id = ref( 'islr_snp_supplier_invoice' )
+        iwd_brw = self.browse(cr, uid, inv_id).islr_wh_doc_id
+        correct_rate_id = ref ( 'islr_rates_002' )
+        assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id
