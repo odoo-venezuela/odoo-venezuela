@@ -387,4 +387,13 @@
         - islr_wh_doc_id
         - islr_wh_doc_id.state == 'draft'
         - islr_wh_doc_id.amount_total_ret == 0.0
-
+-
+  2.9 Taking the withholding document created in 2.8 I check that the rate
+  taked is the correct one.
+-
+   !python {model: islr.wh.doc.invoices}: |
+        inv_id = ref( 'islr_minimun_supplier_invoice')
+        iwd_brw = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, inv_id).islr_wh_doc_id
+        correct_rate_id = ref( 'islr_rates_004' )
+        assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id 
