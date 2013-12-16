@@ -418,3 +418,40 @@
                     rate_tuple[4] == rate_brw.code and
                     rate_tuple[6] == rate_brw.name
                    ), 'There is an error, It is not taking the correct rate.'
+-
+  2.11 I check that the withholding document is automatic set to Done when the
+  automatic_income_wh attribute at the company is True.
+-
+  I set company to process the withholding automaticly.
+-
+    !record {model: res.company, id: base.main_company}:
+       automatic_income_wh: True
+-
+  I check that the company is correctly update.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is not correctly set.}:
+       - company_id.automatic_income_wh
+-
+  I create an supplier invoice.
+-
+    !record {model: account.invoice, id: islr_auto_wh_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (AUTOMATIC INCOME WH)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (AUTOMATIC INCOME WH)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_auto_wh_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_auto_wh_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a done withholding.
+-
+    !assert {model: account.invoice, id: islr_auto_wh_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'done'
