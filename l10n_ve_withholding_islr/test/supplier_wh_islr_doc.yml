@@ -699,3 +699,90 @@
             assert False, 'The supplier withholding document cant be created because the company is not a withholding agent.'
         except Exception as e:
             pass
+-
+  I revert the changes
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'base.main_partner')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': True})
+-
+  I check that the company is a income withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is not a withholdable agent}:
+        - islr_withholding_agent
+
+-
+  2.17 I check that only Open invoices can be add to a withholding document created manually.
+-
+  I create a supplier withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, view: l10n_ve_withholding_islr.view_wh_islr_form_suppliers}:
+        name: ISLR SUPPLIER WH DOC (INVOICE OPEN STATE)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_open_state_supplier_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The withholding document should be without invoices.}:
+        - invoice_ids == []
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_open_state_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (INVOICE OPEN STATE)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (INVOICE OPEN STATE)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_open_state_supplier_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I try to add a draft invoice to the withholding document. It wont be added.
+-
+    !python {model: islr.wh.doc}: |
+        iwd_id = ref( 'islr_open_state_supplier_wh_doc')
+        inv_id = ref( 'islr_open_state_supplier_invoice' )
+        flag = True
+        values= { 'invoice_ids' : [( 0, 0, {'invoice_id': inv_id })] }
+        try:
+            self.write(cr, uid, iwd_id, values)
+            assert False, 'Only open invoices could be added to a withholding document, not a draft invoice.'
+        except Exception as e:
+            pass
+-
+  I check that the invoice was not added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The draft invoice was added and it should not.}:
+        - invoice_ids == []
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_open_state_supplier_invoice}
+-
+  I check that the invoice is confirmed.
+-
+    !assert {model: account.invoice, id: islr_open_state_supplier_invoice, string: The invoices was no correctly confirm.}:
+        - state == 'open'
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, view: l10n_ve_withholding_islr.view_wh_islr_form_suppliers}:
+        invoice_ids: 
+            - invoice_id: islr_open_state_supplier_invoice
+-
+  I check that the invoice was added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The open invoice was not added and it should.}:
+        - invoice_ids[0].invoice_id.id == ref( 'islr_open_state_supplier_invoice'  )
