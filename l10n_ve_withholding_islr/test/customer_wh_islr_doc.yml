@@ -35,7 +35,7 @@
   I check that the product that will be use have a concept.
 -
     !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
-        - concept_id
+        - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
 -
   I check that the customer that will be use is an income withholding agent and is at Venezuela.
 -
@@ -43,3 +43,41 @@
        - islr_withholding_agent
        - country_id.code == 'VE'
        - vat
+-
+  I check if the account that will be use is of receivable type.
+-
+    !assert {model: account.account, id: account.a_recv, string: The account is not of receivable type}:
+        - type == 'receivable'
+-
+  3.2 I check that an customer invoice confirmation will not automatic create a withholding document.
+-
+  I create a customer invoice with a withholdable concept (in the product).
+-
+    !record {model: account.invoice, id: islr_customer_invoice, view: account.invoice_form}: &customer_ai
+        nro_ctrl: ISLR CUSTOMER INVOICE ()
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+        company_id: base.main_company
+        currency_id: base.EUR
+        invoice_line: &customer_ail
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3
+            account_id: account.a_recv
+-
+  I check that the invoices was correctly created.
+-
+    !assert {model: account.invoice, id: islr_customer_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'out_invoice'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_customer_invoice}
+-
+  I check that the invoice is confirmed and not generate a withholding doc.
+-
+    !assert {model: account.invoice, id: islr_customer_invoice, string: The invoice was not correctly confirmed.}:
+        - state == 'open'
+        - not islr_wh_doc_id
