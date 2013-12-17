@@ -174,3 +174,76 @@
             assert False, 'The withholding can not be confirm'
         except Exception as e:
             pass
+-
+  3.5 I check that only Open invoices can be add to a withholding document.
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_customer_wh_doc}:
+        name: ISLR WH DOC (INVOICE OPEN STATE)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_open_state_customer_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The withholding document should be without invoices}:
+        - invoice_ids == []
+-
+  I create a customer invoice.
+-
+    !record {model: account.invoice, id: islr_open_state_customer_invoice, view: account.invoice_form}:
+        nro_ctrl: ISLR CUSTOMER INVOICE (INVOICE OPEN STATE)
+        <<: *customer_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_open_state_customer_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'out_invoice'
+-
+  I try to add a draft invoice to the withholding document. It wont be added.
+-
+    !python {model: islr.wh.doc}: |
+        iwd_id = ref( 'islr_open_state_customer_wh_doc')
+        inv_id = ref( 'islr_open_state_customer_invoice' )
+        flag = True
+        values= { 'invoice_ids' : [( 0, 0, {'invoice_id': inv_id })] }
+        try:
+            self.write(cr, uid, iwd_id, values)
+            assert False, 'Only open invoices could be added to a withholding document, not a draft invoice.'
+        except Exception as e:
+            pass
+-
+  I check that the invoice was not added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The draft invoice was added and it should not.}:
+        - invoice_ids == []
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_open_state_customer_invoice}
+-
+  I check that the invoice is confirmed.
+-
+    !assert {model: account.invoice, id: islr_open_state_customer_invoice, string: The invoices was no correctly confirm.}:
+        - state == 'open'
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, view: l10n_ve_withholding_islr.view_islr_form_customers}:
+        invoice_ids: 
+            - invoice_id: islr_open_state_customer_invoice
+-
+  I check that the invoice was added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The open invoice was not added and it should.}:
+        - invoice_ids[0].invoice_id.id == ref( 'islr_open_state_customer_invoice'  )
