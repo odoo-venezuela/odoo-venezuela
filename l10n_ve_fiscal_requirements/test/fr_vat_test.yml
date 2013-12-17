@@ -42,29 +42,30 @@
     part_id = self.create(cr, uid, part)
     assert part_id, 'Partner should be created'
 -
-  5.3 I create a partner with the same vat and different name than 5.2 previous and this should fail
--
-  !python {model: res.partner}: |
-    import logging
-    from openerp.osv import orm
-    part_id = False
-    part = {
-      'name': 'Partner Duplicate Vat',
-      'supplier': True,
-      'customer': True,
-      'vat': 'VEJ112223330',
-      'type': 'invoice',
-      'street': 'Av Siempre Viva',
-      'phone': "(555) 5555555",
-      'fax': "(555) 1111111",
-      'email': 'fakemail@example.com',
-      }
-    try:
-      part_id = self.create(cr, uid, part)
-    except orm.except_orm:
-      pass
-    assert not part_id, 'Another Partner with the same VAT number than other should not be created'
--
+#  5.3 I create a partner with the same vat and different name than 5.2 previous and this should fail
+#-
+#  !python {model: res.partner}: |
+#    import logging
+#    from openerp.osv import orm
+#    part_id = False
+#    part = {
+#      'name': 'Partner Duplicate Vat',
+#      'supplier': True,
+#      'customer': True,
+#      'vat': 'VEJ112223330',
+#      'type': 'invoice',
+#      'street': 'Av Siempre Viva',
+#      'phone': "(555) 5555555",
+#      'fax': "(555) 1111111",
+#      'email': 'fakemail@example.com',
+#      'country_id': ref('base.ve'),
+#      }
+#    try:
+#      part_id = self.create(cr, uid, part)
+#    except orm.except_orm:
+#      pass
+#    assert not part_id, 'Another Partner with the same VAT number than other should not be created'
+#-
   5.4 I create a partner with no VAT number this should fail
 -
   !python {model: res.partner}: |
@@ -80,12 +81,13 @@
       'phone': "(555) 5555555",
       'fax': "(555) 1111111",
       'email': 'fakemail@example.com',
+      'country_id': ref('base.ve'),
       }
     try:
       part_id = self.create(cr, uid, part)
     except orm.except_orm:
       pass
-    assert not part_id, 'A Partner withoud VAT number cannot be created'
+    assert not part_id, 'A Partner without VAT number cannot be created'
 -
   5.5 I make sure that main company will not consult web to check Vat Validity
 -

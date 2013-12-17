@@ -179,6 +179,7 @@ class islr_xml_wh_doc(osv.osv):
     def _xml(self, cr,uid,ids):
         """ Transform this document to XML format
         """
+        rp_obj = self.pool.get('res.partner')
         root = ''
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
@@ -194,7 +195,7 @@ class islr_xml_wh_doc(osv.osv):
             xml_lines=cr.fetchall()
 
             root = Element("RelacionRetencionesISLR")
-            root.attrib['RifAgente'] = wh_brw.company_id.partner_id.vat[2:]
+            root.attrib['RifAgente'] = rp_obj._find_accounting_partner(wh_brw.company_id.partner_id).vat[2:]
             root.attrib['Periodo'] = period2
             for line in xml_lines:
                 partner_vat,control_number,porcent_rete,concept_code,invoice_number,base,inv_id=line
@@ -247,8 +248,9 @@ class islr_xml_wh_line(osv.osv):
     def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):
         """ Changing the partner, the partner_vat field is updated.
         """
-        partner_brw = self.pool.get('res.partner').browse(cr,uid,partner_id)
-        return {'value' : {'partner_vat':partner_brw.vat[2:]}} 
+        rp_obj = self.pool.get('res.partner')
+        acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr,uid,partner_id))
+        return {'value' : {'partner_vat':acc_part_brw.vat[2:]}} 
         
         
     def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):

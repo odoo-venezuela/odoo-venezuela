@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data noupdate="1">
+        <!-- Minimal Accounts for demo 
+             -->
+        <record id="muni_rec" model="account.account">
+            <field name="code">X11050</field>
+            <field name="name">Muni withheld by Customers</field>
+            <field ref="account.cas" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.data_account_type_asset"/>
+        </record>
+        
+        <record id="muni_pay" model="account.account">
+            <field name="code">X1155</field>
+            <field name="name">Muni withheld to Suppliers</field>
+            <field ref="account.cli" name="parent_id"/>
+            <field name="type">other</field>
+            <field name="user_type" ref="account.data_account_type_liability"/>
+        </record>
+   </data>
+</openerp>
+

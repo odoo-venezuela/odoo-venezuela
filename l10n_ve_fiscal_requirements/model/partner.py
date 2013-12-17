@@ -110,50 +110,30 @@ class res_partner(osv.osv):
                 return True
         return True
 
-    def _check_vat_uniqueness_def(self, cr, uid, ids, current_vat,list_node_tree, context=None):
-        """ Receiving nodes in the tree that are not members of the current partner
-        level, and the remainder of the assembly to ensure that the partner at the same
-        level as the current vat has different.
-        """
-        
-        if context is None: context = {}
-        nodes = self.search(cr, uid, [] )
-        nodes = list( set(nodes) - set(list_node_tree) )
-        nodes = self.search(cr, uid, [('vat','=',current_vat),('id','in',nodes)] )
-        return not nodes
-
     def _check_vat_uniqueness(self, cr, uid, ids, context=None):
         """ Check that the vat is unique in the level where the partner in the tree
         """
         if context is None: context = {}
         
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        acc_part_brw = self._find_accounting_partner(user_company.partner_id)
         
         #User must be of VE        
-        if not (user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE'):
+        if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
             return True
        
-        partner_brw = self.browse(cr, uid,ids)
-        current_vat = partner_brw[0].vat
-        current_parent_id = partner_brw[0].parent_id
-        
-        if not current_vat:
-            return True # Accept empty VAT's
-        
-        #Partners without parent, must have RIF uniqueness
-        if not current_parent_id:
-            duplicates = self.browse(cr, uid, self.search(cr, uid, [('vat', '=', current_vat),('parent_id','=',None),('id','!=',partner_brw[0].id)]))
-            return not duplicates
-                
-        currrent_is_company =partner_brw[0].is_company
-        
-        #Partners that are not company and have parent_id, can't have partners' RIF that are not part of its siblings or parent 
-        if(current_parent_id and not currrent_is_company):
-            list_nodes = current_parent_id.child_ids
-            list_nodes = map(lambda x: x.id, list_nodes)
-            list_nodes.append(current_parent_id.id)
-            return self._check_vat_uniqueness_def(cr, uid, ids, current_vat, list_nodes , context=context)
-              
+        for rp_brw in self.browse(cr, uid,ids):
+            acc_part_brw = self._find_accounting_partner(rp_brw)
+            if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
+                continue
+            elif not acc_part_brw.country_id:
+                continue
+            if rp_brw.id == acc_part_brw.id and not acc_part_brw.vat:
+                return False
+            elif rp_brw.id == acc_part_brw.id and acc_part_brw.vat:
+                duplicates = self.search(cr, uid, [ ('vat', '=', rp_brw.vat), ('parent_id','=',False), ('id','!=',rp_brw.id) ])
+                if duplicates: return False
+                continue
         return True    
 
     def _check_vat_mandatory(self, cr, uid, ids, context=None):
@@ -173,34 +153,26 @@ class res_partner(osv.osv):
         if context is None: context = {}
         # Avoiding Egg-Chicken Syndrome
         # TODO: Refine this approach this is big exception
-        # One that can be handle be end user, I hope so!!!
+        # One that can be handle by end user, I hope so!!!
         if context.get('create_company',False):
             return True
         
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        acc_part_brw = self._find_accounting_partner(user_company.partner_id)
         #Check if the user is not from a VE Company
-        if not (user_company.partner_id and user_company.partner_id.country_id and user_company.partner_id.country_id.code == 'VE'):
+        if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
             return True
         
-        partner_brw = self.browse(cr, uid,ids)
-        current_vat = partner_brw[0].vat
-        current_parent_id = partner_brw[0].parent_id
-        current_is_company =partner_brw[0].is_company
-        current_type = partner_brw[0].type
-
-        #Partners company type and with parent, not exists
-        if (current_is_company and current_parent_id):
-            return False
-        
-        #Partners without parent must have vat 
-        if not current_vat and not current_parent_id:
-            return False
-
-        #Partners invoice type that not be company and have parent, must have vat 
-        if (current_type == 'invoice' and not current_vat and not current_is_company and current_parent_id):
-            return False       
-        
+        for rp_brw in self.browse(cr, uid,ids):
+            acc_part_brw = self._find_accounting_partner(rp_brw)
+            if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
+                continue
+            elif not acc_part_brw.country_id:
+                continue
+            if rp_brw.id == acc_part_brw.id and not acc_part_brw.vat:
+                return False
         return True
+
     def _validate(self, cr, uid, ids, context=None):
         """ Validates the fields
         """
@@ -238,8 +210,9 @@ class res_partner(osv.osv):
             raise except_orm('ValidateError', '\n'.join(error_msgs))
         else:
             self._invalids.clear()
+
     _constraints = [
-        (_check_vat_mandatory, _("Error ! VAT is mandatory"), []),
+        (_check_vat_mandatory, _("Error ! VAT is mandatory in the Accounting Partner"), []),
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
         #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]

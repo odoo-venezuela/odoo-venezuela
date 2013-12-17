@@ -34,6 +34,7 @@
 -
     !record {model: account.invoice, id: wh_manual_purchase_awi_invoice}: &manual_purchase_awi_invoice
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (WH COMPANY)
+        supplier_invoice_number: AWI MANUAL PURCHASE INVOICE (WH COMPANY)
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         date_invoice: !eval time.strftime('%Y-%m-%d')
         company_id: base.main_company
@@ -160,7 +161,56 @@
         awi_brw = self.browse(cr, uid, awi_id)
         assert awi_brw.state == 'confirmed', 'The withholding document is not in confirmed state'
 -
-  4.3 When the Company is not a withholding agent.
+  4.3 When the withholding document have not withholding lines then it cannot
+  be confirm.
+-
+  I create a supplier withholding document manually.
+-
+    !record {model: account.wh.iva, id: supplier_no_lines_awi}: 
+        name: AWI MANUAL NO WH LINES
+        <<: *whc_awi_manual_purchase
+-
+  I check that the withholding document was correctly created.
+-
+    !assert {model: account.wh.iva, id: supplier_no_lines_awi, string: The withholding document should be of purchase type (in_invoice) and should be in draft state.}:
+        - type == 'in_invoice'
+        - state == 'draft'
+-
+  I search the current period and add it to the withholding doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref( 'supplier_no_lines_awi' )
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  I compute the taxes manually with the button 'Compute Withholding Vat'.
+-
+    !function {model: account.wh.iva, name: compute_amount_wh, id: supplier_no_lines_awi}:
+        - model: account.wh.iva
+          eval: "[ref('supplier_no_lines_awi')]"
+-
+  I try to confirm the supplier withholding document.
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref('supplier_no_lines_awi')
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.confirm_check(cr, uid, awi_id)
+            assert False, 'The withholding document can not be confirmed because has not wh lines associated.'
+        except Exception as e:
+            pass
+-
+  I check that the withholding document remains in draft.
+-
+    !assert {model: account.wh.iva, id: supplier_no_lines_awi, string: The withholding document can not be confirm because it haf no wh lines}:
+        - state == 'draft'
+-
+  4.4 When the Company is not a withholding agent.
 -
   I set company as a non-withholding agent.
 -
@@ -176,6 +226,7 @@
 -
     !record {model: account.invoice, id: nwh_manual_purchase_awi_invoice}:
         nro_ctrl: AWI MANUAL PURCHASE INVOICE (NON-WH COMPANY)
+        supplier_invoice_number: AWI MANUAL PURCHASE INVOICE (NON-WH COMPANY)
         <<: *manual_purchase_awi_invoice
 -
   I check that the invoice is of purchase type (in_invoice).
