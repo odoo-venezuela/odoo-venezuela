@@ -669,3 +669,33 @@
     !assert {model: account.invoice, id: islr_nwh_company_supplier_invoice, string: The invoice is not correctly confirm.}:
         - state == 'open'
         - not islr_wh_doc_id
+-
+  2.16 I check when the company is not a income withholding agent then it should not let generate a withholding document manually.
+-
+  I set the company as non-income withholding agent.
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'base.main_partner')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': False})
+-
+  I check that the company is a non-income withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is a withholdable agent}:
+        - not islr_withholding_agent
+-
+  I try to create a supplier withholding document manually. It will not created the document.
+-
+    !python {model: islr.wh.doc}: |
+        values = {
+            'name': 'ISLR MANUAL PURCHASE (NON-WH COMPANY)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' ),
+            'account_id': ref( 'account.a_pay' ),
+            'company_id': ref( 'base.main_company' ),
+            'currency_id': ref( 'base.EUR' ),
+        }
+        try:
+            self.create(cr, uid, values)
+            assert False, 'The supplier withholding document cant be created because the company is not a withholding agent.'
+        except Exception as e:
+            pass
