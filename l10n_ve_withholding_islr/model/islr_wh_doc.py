@@ -149,6 +149,23 @@ class islr_wh_doc(osv.osv):
         'automatic_income_wh': False,
     }
 
+    def _check_partner(self, cr, uid, ids, context={}):
+        """ Determine if a given partner is a Income Withholding Agent
+        """
+        rp_obj = self.pool.get('res.partner')
+        obj = self.browse(cr, uid, ids[0])
+        if obj.type in ('out_invoice', 'out_refund') and \
+                rp_obj._find_accounting_partner(obj.partner_id).islr_withholding_agent:
+                    return True
+        if obj.type in ('in_invoice', 'in_refund') and \
+                rp_obj._find_accounting_partner(obj.company_id.partner_id).islr_withholding_agent:
+                    return True
+        return False
+
+    _constraints = [
+        (_check_partner, 'Error! The partner must be income withholding agent.', ['partner_id']),
+    ]
+
     def check_income_wh(self, cr, uid, ids, context=None):
         """ Check invoices to be retained and have
         their fair share of taxes.
