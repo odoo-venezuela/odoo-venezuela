@@ -378,14 +378,12 @@ class account_wh_munici_line(osv.osv):
             return {'value': {'amount': 0.0,
                               'wh_loc_rate': 0.0}}
         else:
-            ok = True
             res = self.pool.get(
                 'account.invoice').browse(cr, uid, invoice_id, context)
             cr.execute('select retention_id from account_wh_munici_line where invoice_id=%s',
                 (invoice_id,))
             ret_ids = cr.fetchone()
-            ok = ok and bool(ret_ids)
-            if ok:
+            if bool(ret_ids):
                 ret = self.pool.get(
                     'account.wh.munici').browse(cr, uid, ret_ids[0], context)
                 raise osv.except_osv('Assigned Invoice !',
