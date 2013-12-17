@@ -159,6 +159,16 @@ class account_invoice(osv.osv):
 
         row = self.browse(cr, uid, ids[0], context=context)
         acc_part_id = rp_obj._find_accounting_partner(row.partner_id)
+
+        res = False
+        if row.type in ('out_invoice', 'out_refund'):
+            return False
+        if row.type in ('in_invoice', 'in_refund') and \
+                rp_obj._find_accounting_partner(row.company_id.partner_id).islr_withholding_agent:
+                    res = True
+
+        if not res: return True
+
         context['type'] = row.type
         wh_ret_code = wh_doc_obj.retencion_seq_get(cr, uid)
 
