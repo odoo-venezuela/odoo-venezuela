@@ -15,7 +15,7 @@
                 <tree string="Local Withholding line " editable="bottom">
                     <field name="name"/>
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('wh_local', '=', False)]"/>
-                    <field name="wh_loc_rate"/>
+                    <field name="wh_loc_rate" on_change="onchange_invoice_id(invoice_id, wh_loc_rate)"/>
                     <field name="amount"/>
                     <field name="move_id"/>
                 </tree>
@@ -31,7 +31,7 @@
                         <page string="Linea">
                             <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('wh_local', '=', False)]"/>
                             <field colspan="4" name="name" select="1"/>
-                            <field name="wh_loc_rate"/>
+                            <field name="wh_loc_rate" on_change="onchange_invoice_id(invoice_id, wh_loc_rate)"/>
                             <field name="amount"/>
                             <field name="move_id"/>  
                         </page>

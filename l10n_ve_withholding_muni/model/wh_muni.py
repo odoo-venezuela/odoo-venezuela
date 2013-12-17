@@ -141,7 +141,7 @@ class account_wh_munici(osv.osv):
         if ids:
             wml_ids = wml_obj.search(cr, uid, [('retention_id', 'in', ids)], context=context)
             ai_ids = wml_ids and [ wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context) ]
-            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_iva_id': False}, context=context)
+            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_muni_id': False}, context=context)
             wml_ids and wml_obj.unlink(cr, uid, wml_ids, context=context)
         return True
 
@@ -364,7 +364,7 @@ class account_wh_munici_line(osv.osv):
          'The invoice has already assigned in local withholding, you cannot assigned it twice!')
     ]
 
-    def onchange_invoice_id(self, cr, uid, ids, invoice_id, context=None):
+    def onchange_invoice_id(self, cr, uid, ids, invoice_id, wh_loc_rate=3.0, context=None):
         """ Validate that the bill is no longer assigned to retention
         @param invoice_id: invoice id
         """
@@ -375,20 +375,20 @@ class account_wh_munici_line(osv.osv):
         if hasattr(self, 'munici_context') and ('lines' in self.munici_context):
             lines = [x[2] for x in self.munici_context['lines']]
         if not invoice_id:
-            return {'value': {'amount': 0.0}}
+            return {'value': {'amount': 0.0,
+                              'wh_loc_rate': 0.0}}
         else:
-            ok = True
             res = self.pool.get(
                 'account.invoice').browse(cr, uid, invoice_id, context)
             cr.execute('select retention_id from account_wh_munici_line where invoice_id=%s',
                 (invoice_id,))
             ret_ids = cr.fetchone()
-            ok = ok and bool(ret_ids)
-            if ok:
+            if bool(ret_ids):
                 ret = self.pool.get(
                     'account.wh.munici').browse(cr, uid, ret_ids[0], context)
                 raise osv.except_osv('Assigned Invoice !',
                                      "The invoice has already assigned in local withholding code: '%s' !" % (ret.code,))
 
-            total = res.amount_total
-            return {'value': {'amount': total}}
+            total = res.amount_total * wh_loc_rate / 100.0
+            return {'value': {'amount': total,
+                              'wh_loc_rate': wh_loc_rate}}
