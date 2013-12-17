@@ -34,7 +34,6 @@ class wiz_updatename(osv.osv_memory):
         """ Change value of the name field
         """
         data = self.pool.get('wiz.updatename').read(cr, uid, ids)[0]
-        print ids
         if not data['sure']:
             raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
         

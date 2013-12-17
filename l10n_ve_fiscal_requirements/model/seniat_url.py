@@ -224,7 +224,12 @@ class seniat_url(osv.osv):
             if not partner.vat or partner.vat[:2] != 'VE':
                 continue
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
-            res = self._dom_giver(cr, uid, partner.vat[2:], context=context)
+
+            try:
+                res = self._dom_giver(cr, uid, partner.vat[2:], context=context)
+            except osv.except_osv:
+                continue
+
             if res:
                 rp_obj.write(cr, uid, partner.id, res)
                 self._update_partner(cr, uid, partner.id, context)
