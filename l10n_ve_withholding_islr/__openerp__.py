@@ -74,6 +74,7 @@ If you want be able to propose withholding concepts from sales and purchases you
 #            'test/test_duplicate.yml',
              'test/supplier_wh_islr_invoice.yml',
              'test/supplier_wh_islr_doc.yml',
+             'test/customer_wh_islr_doc.yml',
         ],
     "active": False,
     "installable": True,
