@@ -660,7 +660,7 @@
         - state == 'draft'
         - type == 'in_invoice'
 -
-  I confirm the invoice to generate the withholding document.
+  I confirm the invoice.
 -
     !workflow {model: account.invoice, action: invoice_open, ref: islr_nwh_company_supplier_invoice}
 -
