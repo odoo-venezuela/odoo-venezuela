@@ -63,7 +63,7 @@
           - product_id: product.product_product_4
             quantity: 3
             uos_id: product.product_uom_unit
-            price_unit: 3
+            price_unit: 1000
             account_id: account.a_recv
 -
   I check that the invoices was correctly created.
