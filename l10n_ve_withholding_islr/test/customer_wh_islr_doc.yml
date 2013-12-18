@@ -247,3 +247,53 @@
 -
     !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The open invoice was not added and it should.}:
         - invoice_ids[0].invoice_id.id == ref( 'islr_open_state_customer_invoice'  )
+-
+  3.6 I check that a withholding document cannot be created manually for a customer that is not a withholding agent.
+-
+  I set the partner that will be use in this test like a not withholding partner.
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_3')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': False})
+-
+  I check if the partner i will use in this case is a not withholding partner and have no accounting partner that influencing it.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_3, string: The partner is a withholding partner.}:
+        - not islr_withholding_agent
+        - not parent_id
+-
+  I try to create a withholding document manually. It wont.
+-
+    !python {model: islr.wh.doc}: |
+        flag_write = -1
+        values = {
+            'name': 'ISLR WH DOC (NOT WH CUSTOMER)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' ),
+            'account_id': ref( 'account.a_recv' ),
+            'type': 'out_invoice', 
+        }
+        try:
+            flag_write = self.create(cr, uid, values)
+        except Exception as e:
+            pass
+        assert flag_write == -1, ' The withholding document can be created because the customer is not a withholding document'  
+-
+  3.7 I check that a withholding document with a income withholdable customer cannot be updated to a not income withholdable partner.
+-
+    !python {model: islr.wh.doc}: |
+        flag_write = -1
+        values = {
+            'name': 'ISLR WH DOC (WH CUSTOMER TO A NOT WH CUSTOMER)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' ),
+            'account_id': ref( 'account.a_recv' ),
+            'type': 'out_invoice', 
+        }
+        iwd_id = self.create(cr, uid, values)
+        try:
+            flag_write = self.write(cr, uid, [iwd_id],
+                {'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' ),
+                })
+        except Exception as e:
+            pass
+        assert flag_write == -1, ' The withholding document can be updated from a withholding partner to a non-withholding partner.'  
