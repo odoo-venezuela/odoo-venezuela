@@ -49,6 +49,7 @@
 -
     !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
         - concept_id
+        - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
 -
   1.2 I check that a withholding document is created when the invoice have a withholdable concept (using invoice line product).
 -
@@ -156,7 +157,7 @@
         - state == 'open'
         - not islr_wh_doc_id
 -
-  1.5 I check that a withholding document is created when the invoice have at least one withholdable concept.
+  1.5 I check that a withholding document is created when the invoice have at least one withholdable concept and the withholding line generated correspond to the withhodable concept.
 -
    I create a supplier invoice with a withholdable concept and one not.
 -
@@ -184,3 +185,5 @@
         - state == 'open'
         - islr_wh_doc_id
         - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.concept_ids) == 1
+        - islr_wh_doc_id.concept_ids[0].concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
