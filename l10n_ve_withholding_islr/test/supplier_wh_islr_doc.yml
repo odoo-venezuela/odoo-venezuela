@@ -819,4 +819,4 @@
             write_flag = self.check_income_wh(cr, uid, iwd_id)
         except Exception as e:
             write_flag = False
-        assert write_flag, 'The withholding can not be confirm'
+        assert not write_flag, 'The withholding can not be confirm'
