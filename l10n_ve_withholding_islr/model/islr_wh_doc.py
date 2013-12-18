@@ -740,7 +740,24 @@ class islr_wh_doc_invoices(osv.osv):
         'move_id': fields.many2one('account.move', 'Journal Entry',
                                    readonly=True, help="Accounting voucher"),
     }
+
     _rec_rame = 'invoice_id'
+
+    def _check_invoice(self, cr, uid, ids, context=None):
+        """ Determine if the given invoices are in Open State
+        """
+        #import pdb; pdb.set_trace()
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_str = ''
+        for iwdi_brw in self.browse(cr, uid, ids):
+            if iwdi_brw.invoice_id.state != 'open':
+                return False
+        return True
+
+    _constraints = [
+        (_check_invoice, 'Error! The invoice must be in Open State.', ['invoice_id']),
+    ]
 
     def _get_concepts(self, cr, uid, ids, context=None):
         """ Get a list of withholdable concepts (concept_id) from the invoice lines
