@@ -98,7 +98,7 @@
         iwd_brw = self.browse(cr, uid, iwd_id)
         iwdi_ids = [inv_line.id
                     for inv_line in iwd_brw.invoice_ids]
-        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
 -
   I check that the withholding document is withhout invoices.
 -
@@ -157,7 +157,7 @@
         iwd_brw = self.browse(cr, uid, iwd_id)
         iwdi_ids = [inv_line.id
                     for inv_line in iwd_brw.invoice_ids]
-        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
 -
   I check that the withholding document is withhout invoices.
 -
@@ -191,7 +191,7 @@
         iwd_brw = self.browse(cr, uid, iwd_id)
         iwdi_ids = [inv_line.id
                     for inv_line in iwd_brw.invoice_ids]
-        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
 -
   I check that the withholding document is withhout invoices.
 -

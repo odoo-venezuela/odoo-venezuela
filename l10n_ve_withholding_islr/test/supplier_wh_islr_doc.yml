@@ -729,7 +729,7 @@
         iwd_brw = self.browse(cr, uid, iwd_id)
         iwdi_ids = [inv_line.id
                     for inv_line in iwd_brw.invoice_ids]
-        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
 -
   I check that the withholding document is withhout invoices.
 -
@@ -803,21 +803,20 @@
         iwd_brw = self.browse(cr, uid, iwd_id)
         iwdi_ids = [inv_line.id
                     for inv_line in iwd_brw.invoice_ids]
-        self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
 -
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_no_lines_supplier_wh_doc, string: The withholding document should be without invoices}:
         - invoice_ids == []
 -
-  I try to confirm the withholding document. It wont.
+  I try to confirm the withholding document. It won't be confirm.
 -
     !python {model: islr.wh.doc}: | 
         iwd_id = ref( 'islr_no_lines_supplier_wh_doc' )
-        write_flag = False
         # the workflow is not used because the exception can be manage
         try:
             write_flag = self.check_income_wh(cr, uid, iwd_id)
         except Exception as e:
-            pass
+            write_flag = False
         assert write_flag, 'The withholding can not be confirm'
