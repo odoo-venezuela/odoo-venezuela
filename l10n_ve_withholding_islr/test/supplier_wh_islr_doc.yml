@@ -820,3 +820,94 @@
         except Exception as e:
             write_flag = False
         assert not write_flag, 'The withholding can not be confirm'
+-
+  2.19 I check that a manually supplier withholding document can be created and confirmed using the invoice release from another supplier withholding document.
+-
+  I create a supplier invoice 
+-
+    !record {model: account.invoice, id: islr_manual_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (MANUAL)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (MANUAL)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_manual_supplier_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_manual_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding.
+-
+    !assert {model: account.invoice, id: islr_manual_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+-
+  I cancel the automatic created withholding document.
+-
+    !python {model: account.invoice}: |
+        import netsvc
+        from openerp.osv import osv
+        inv_brw = self.browse(cr, uid, ref( 'islr_manual_supplier_invoice' ))
+        iwd_id = inv_brw.islr_wh_doc_id.id
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_cancel', cr)
+        iwd_obj = self.pool.get( 'islr.wh.doc' )
+        iwd_brw = iwd_obj.browse(cr, uid, iwd_id)
+        assert iwd_brw.state == 'cancel', 'It does not change the withholding state to cancel'
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_manual_supplier_wh_doc}:
+        name: ISLR SUPPLIER WH DOC (MANUAL)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_manual_supplier_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, string: The withholding document should be without invoices}:
+        - invoice_ids == []
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, view: l10n_ve_withholding_islr.view_wh_islr_form_suppliers}:
+        invoice_ids: 
+            - invoice_id: islr_manual_supplier_invoice
+-
+  I check that the invoices was correctly added.
+-
+    !assert {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, string: The invoices was not correctly added.}:
+        - invoice_ids
+        - len(invoice_ids) == 1
+        - invoice_ids[0].invoice_id.id == ref( 'islr_manual_supplier_invoice' )
+-
+  I compute the taxes manually with the button 'Compute Icome Withholding'.
+-
+    !function {model: islr.wh.doc, name: compute_amount_wh, id: islr_manual_supplier_wh_doc}:
+        - model: islr.wh.doc
+          eval: "[ref('islr_manual_supplier_wh_doc')]"
+-
+  I confirm the withholding document.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_manual_supplier_wh_doc' )
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
+        iwd_obj = self.pool.get( 'islr.wh.doc' )
+        iwd_brw = iwd_obj.browse(cr, uid, iwd_id)
+        assert iwd_brw.state == 'confirmed', 'It does not change the withholding state to confirm. !=  %s' % (iwd_brw.state,)
