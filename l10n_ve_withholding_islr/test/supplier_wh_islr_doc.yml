@@ -356,8 +356,7 @@
         - islr_wh_doc_id.state == 'draft'
         - len(islr_wh_doc_id.invoice_ids[0].islr_xml_id) == len(invoice_line)
 -
-  2.8 I check that when the subtotal of the invoice is not enough for withhold
-  then a withholding document withheld amount is 0.0.
+  2.8 I check that when the subtotal of the invoice is not enough for withhold then a withholding document withheld amount is 0.0.
 -
   I create a supplier invoice with a base less than the minimum of the islr rate.
 -
@@ -388,8 +387,7 @@
         - islr_wh_doc_id.state == 'draft'
         - islr_wh_doc_id.amount_total_ret == 0.0
 -
-  2.9 Taking the withholding document created in 2.8 I check that the rate
-  taked is the correct one.
+  2.9 Taking the withholding document created in 2.8 I check that the rate taked is the correct one.
 -
    !python {model: islr.wh.doc.invoices}: |
         inv_id = ref( 'islr_minimun_supplier_invoice')
@@ -419,8 +417,7 @@
                     rate_tuple[6] == rate_brw.name
                    ), 'There is an error, It is not taking the correct rate.'
 -
-  2.11 I check that the withholding document is automatic set to Done when the
-  automatic_income_wh attribute at the company is True.
+  2.11 I check that the withholding document is automatic set to Done when the automatic_income_wh attribute at the company is True.
 -
   I set company to process the withholding automaticly.
 -
