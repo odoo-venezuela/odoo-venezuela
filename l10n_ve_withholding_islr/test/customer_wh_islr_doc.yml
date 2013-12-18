@@ -164,16 +164,16 @@
     !assert {model: islr.wh.doc, id: islr_no_lines_customer_wh_doc, string: The withholding document should be without invoices}:
         - invoice_ids == []
 -
-  I try to confirm the withholding document.
+  I try to confirm the withholding document. It won't be confirm.
 -
     !python {model: islr.wh.doc}: | 
         iwd_id = ref( 'islr_no_lines_customer_wh_doc' ) 
         # the workflow is not used because the exception can be manage
         try:
-            self.check_income_wh(cr, uid, iwd_id)
-            assert False, 'The withholding can not be confirm'
+            check_flag = self.check_income_wh(cr, uid, iwd_id)
         except Exception as e:
-            pass
+            check_flag = False
+        assert not check_flag, 'The withholding can not be confirm.'
 -
   3.5 I check that only Open invoices can be add to a withholding document.
 -
@@ -267,10 +267,9 @@
         - not islr_withholding_agent
         - not parent_id
 -
-  I try to create a withholding document manually. It wont.
+  I try to create a withholding document manually. It won't be created.
 -
     !python {model: islr.wh.doc}: |
-        flag_write = -1
         values = {
             'name': 'ISLR WH DOC (NOT WH CUSTOMER)',
             'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' ),
@@ -278,15 +277,14 @@
             'type': 'out_invoice', 
         }
         try:
-            flag_write = self.create(cr, uid, values)
+            create_flag = self.create(cr, uid, values)
         except Exception as e:
-            pass
-        assert flag_write == -1, ' The withholding document can be created because the customer is not a withholding document'  
+            create_flag = False
+        assert not create_flag, ' The withholding document can be created because the customer is not a withholding document'  
 -
   3.7 I check that a withholding document with a income withholdable customer cannot be updated to a not income withholdable partner.
 -
     !python {model: islr.wh.doc}: |
-        flag_write = -1
         values = {
             'name': 'ISLR WH DOC (WH CUSTOMER TO A NOT WH CUSTOMER)',
             'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' ),
@@ -294,10 +292,9 @@
             'type': 'out_invoice', 
         }
         iwd_id = self.create(cr, uid, values)
+        new_values = {'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' )}
         try:
-            flag_write = self.write(cr, uid, [iwd_id],
-                {'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' ),
-                })
+            write_flag = self.write(cr, uid, [iwd_id], new_values)
         except Exception as e:
-            pass
-        assert flag_write == -1, ' The withholding document can be updated from a withholding partner to a non-withholding partner.'  
+            write_flag = False
+        assert not write_flag, ' The withholding document can be updated from a withholding partner to a non-withholding partner.'
