@@ -213,15 +213,19 @@
   I try to add a draft invoice to the withholding document. It wont be added.
 -
     !python {model: islr.wh.doc}: |
+        from openerp.osv import orm
         iwd_id = ref( 'islr_open_state_customer_wh_doc')
         inv_id = ref( 'islr_open_state_customer_invoice' )
         flag = True
         values= { 'invoice_ids' : [( 0, 0, {'invoice_id': inv_id })] }
         try:
+            cr.execute('SAVEPOINT islr_open_state_customer_wh_doc')
             self.write(cr, uid, iwd_id, values)
-            assert False, 'Only open invoices could be added to a withholding document, not a draft invoice.'
-        except Exception as e:
-            pass
+            cr.execute('RELEASE SAVEPOINT islr_open_state_customer_wh_doc')
+            flag = False
+        except orm.except_orm:
+            cr.execute('ROLLBACK TO SAVEPOINT islr_open_state_customer_wh_doc')
+        assert flag, 'This should not happen!!! It was expected an exception was raised'
 -
   I check that the invoice was not added.
 -
