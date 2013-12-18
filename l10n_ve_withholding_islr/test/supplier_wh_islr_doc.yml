@@ -681,7 +681,7 @@
     !assert {model: res.partner, id: base.main_partner, string: The company is a withholdable agent}:
         - not islr_withholding_agent
 -
-  I try to create a supplier withholding document manually. It will not created the document.
+  I try to create a supplier withholding document manually. It will not create the document.
 -
     !python {model: islr.wh.doc}: |
         values = {
@@ -692,10 +692,10 @@
             'currency_id': ref( 'base.EUR' ),
         }
         try:
-            self.create(cr, uid, values)
-            assert False, 'The supplier withholding document cant be created because the company is not a withholding agent.'
+            create_flag = self.create(cr, uid, values)
         except Exception as e:
-            pass
+            create_flag = False 
+            assert not create_flag, 'The supplier withholding document cant be created because the company is not a withholding agent.'
 -
   I revert the changes
 -
@@ -817,10 +817,10 @@
         iwd_id = ref( 'islr_no_lines_supplier_wh_doc' )
         # the workflow is not used because the exception can be manage
         try:
-            write_flag = self.check_income_wh(cr, uid, iwd_id)
+            check_flag = self.check_income_wh(cr, uid, iwd_id)
         except Exception as e:
-            write_flag = False
-        assert not write_flag, 'The withholding can not be confirm'
+            check_flag = False
+        assert not check_flag, 'The withholding can not be confirm'
 -
   2.19 I check that a manually supplier withholding document can be created and confirmed using the invoice release from another supplier withholding document.
 -
