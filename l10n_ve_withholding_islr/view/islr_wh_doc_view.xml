@@ -297,7 +297,7 @@
                                         widget="many2many"/>
                                 </page>
                                 <page string="Income Withholding Concepts">
-                                    <field colspan="6" name="concept_ids" nolabel="1">
+                                    <field colspan="6" name="concept_ids" nolabel="1" readonly="1">
                                         <tree string="Income Withholding Concepts">
                                             <field name="name" invisible="1"/>
                                             <field name="invoice_id"/>
