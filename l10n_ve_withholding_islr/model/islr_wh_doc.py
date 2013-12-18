@@ -149,6 +149,23 @@ class islr_wh_doc(osv.osv):
         'automatic_income_wh': False,
     }
 
+    def _check_partner(self, cr, uid, ids, context={}):
+        """ Determine if a given partner is a Income Withholding Agent
+        """
+        rp_obj = self.pool.get('res.partner')
+        obj = self.browse(cr, uid, ids[0])
+        if obj.type in ('out_invoice', 'out_refund') and \
+                rp_obj._find_accounting_partner(obj.partner_id).islr_withholding_agent:
+                    return True
+        if obj.type in ('in_invoice', 'in_refund') and \
+                rp_obj._find_accounting_partner(obj.company_id.partner_id).islr_withholding_agent:
+                    return True
+        return False
+
+    _constraints = [
+        (_check_partner, 'Error! The partner must be income withholding agent.', ['partner_id']),
+    ]
+
     def check_income_wh(self, cr, uid, ids, context=None):
         """ Check invoices to be retained and have
         their fair share of taxes.
@@ -723,7 +740,24 @@ class islr_wh_doc_invoices(osv.osv):
         'move_id': fields.many2one('account.move', 'Journal Entry',
                                    readonly=True, help="Accounting voucher"),
     }
+
     _rec_rame = 'invoice_id'
+
+    def _check_invoice(self, cr, uid, ids, context=None):
+        """ Determine if the given invoices are in Open State
+        """
+        #import pdb; pdb.set_trace()
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_str = ''
+        for iwdi_brw in self.browse(cr, uid, ids):
+            if iwdi_brw.invoice_id.state != 'open':
+                return False
+        return True
+
+    _constraints = [
+        (_check_invoice, 'Error! The invoice must be in Open State.', ['invoice_id']),
+    ]
 
     def _get_concepts(self, cr, uid, ids, context=None):
         """ Get a list of withholdable concepts (concept_id) from the invoice lines
@@ -774,6 +808,7 @@ class islr_wh_doc_invoices(osv.osv):
         rate_tuple = self._get_rate(
             cr, uid, concept_id, residence, nature, context=context)
         base = 0
+        wh_concept = 0.0
 
         if iwdl_brw.invoice_id.type in ('in_invoice', 'in_refund'):
             for line in iwdl_brw.xml_ids:
@@ -782,7 +817,6 @@ class islr_wh_doc_invoices(osv.osv):
             wh = 0.0
             subtract = apply and rate_tuple[3] or 0.0
             subtract_write = 0.0
-            wh_concept = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
                 if apply:

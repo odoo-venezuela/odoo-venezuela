@@ -1,0 +1,914 @@
+-
+  2. I check if the supplier income withholding documents are correctly created. Income Withholding document lines corresponds to the concepts and the amount totalization.
+-
+  2.1 I configure the test enviroment and check data and demo.
+-
+  I set the context for the purchase operations at this set of cases.
+-
+  !context
+    'type': 'in_invoice'
+-
+  I check that the company is a income withholding agent and is at Venezuela.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is a non-withholdable agent}:
+       - islr_withholding_agent
+       - country_id.code == 'VE'
+       - not company_id.automatic_income_wh
+-
+  I check that only one non-withholdable concept is define.
+-
+    !python {model: islr.wh.concept}: |
+       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', False )])
+       assert len(iwc_ids) == 1, ( 'Only can be defined one non-withhodeable'
+           ' concepts, but %s are defined.' % (len(iwc_ids), ))
+-
+  I check that all the withholdable concepts have accounts type 'other'
+  associtated and also have mandatory income rates.
+-
+    !python {model: islr.wh.concept}: |
+       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
+       for iwc_brw in self.browse(cr, uid, iwc_ids):
+            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
+            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
+            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
+            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
+            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
+-
+  I check that the supplier that will be use is income withholdable.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier is not correctly set for this test.}:
+       - islr_withholding_agent
+       - country_id.code == 'VE'
+       - vat
+-
+  I check that the concept that will be use is withhodable.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not withholdable}:
+        - withholdable
+-
+  I check that the product that will be use have a concept.
+-
+    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
+        - concept_id
+-
+  2.2 I check that one invoice only creates a single one withholding line.
+-
+   I create a supplier invoice with a withholdable concept.
+-
+    !record {model: account.invoice, id: islr_one_iwdi_supplier_invoice, view: account.invoice_supplier_form}: &islr_supplier_ai
+        nro_ctrl: ISLR SUPPLIER INVOICE (ONE IWDI)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (ONE IWDI)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_pay
+        company_id: base.main_company
+        currency_id: base.EUR
+        reference_type: none
+        invoice_line: &islr_supplier_wh_ail 
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 3000
+            account_id: account.a_pay
+            #concept_id: already in product.
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_one_iwdi_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_one_iwdi_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with a single line.
+-
+    !assert {model: account.invoice, id: islr_one_iwdi_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids) == 1
+-
+  2.3 I check the withholding document invoices grouping by concept, one per concept.
+-
+  I create an invoice with two invoice lines with the same concept.
+-
+    !record {model: account.invoice, id: islr_iwdi_sum_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (TWO LINES OF SAME CONCEPT)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (TWO LINES OF SAME CONCEPT)
+        invoice_line:
+          - price_unit: 3000
+            quantity: 1
+            <<: *islr_supplier_wh_ail 
+          - price_unit: 1000
+            quantity: 2
+            <<: *islr_supplier_wh_ail 
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_iwdi_sum_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_iwdi_sum_supplier_invoice}
+-
+  I check that the invoice is confirmed and it genarate a draft income withholding with one withholding document line that correctly takes the base amount and the withheld amount.
+-
+    !assert {model: account.invoice, id: islr_iwdi_sum_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids) == 1
+        - islr_wh_doc_id.invoice_ids[0].base_ret == 5000.0
+        - islr_wh_doc_id.invoice_ids[0].amount_islr_ret == 250.0
+-
+  2.4 I check that a withholding concept line is created per invoice concept.
+-
+  I create an invoice with two invoice lines of different withholdable concepts.
+-
+    !record {model: account.invoice, id: islr_wline_per_concept_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (TWO DIFF CONCEPTS)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (TWO DIFF CONCEPTS)
+        invoice_line:
+          - price_unit: 1000
+            quantity: 2
+            <<: *islr_supplier_wh_ail
+          - &islr_supplier_wh_ail_2
+            name: line with another withholdable concept
+            quantity: 1
+            uos_id: product.product_uom_unit
+            price_unit: 500
+            account_id: account.a_pay
+            concept_id: islr_wh_concept_pago_contratistas
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_wline_per_concept_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_wline_per_concept_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with one withholding line an two concept lines.
+-
+    !assert {model: account.invoice, id: islr_wline_per_concept_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids) == 1
+        - len(islr_wh_doc_id.concept_ids) == 2
+-
+  2.5 I check that the withholding line sums.
+-
+  I create an invoice with two invoice lines of different withholdable concepts.
+-
+    !record {model: account.invoice, id: islr_concept_sum_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (CONCEPTS SUMS)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (CONCEPTS SUMS)
+        invoice_line:
+          - price_unit: 1000
+            quantity: 1
+            <<: *islr_supplier_wh_ail
+          - price_unit: 2000
+            quantity: 1
+            <<: *islr_supplier_wh_ail
+          - <<: *islr_supplier_wh_ail_2
+          - &islr_supplier_nwh_ail
+            name: line with no withhodeable concept.
+            quantity: 1
+            uos_id: product.product_uom_unit
+            price_unit: 300
+            account_id: account.a_pay
+            concept_id: islr_wh_concept_no_apply_withholding
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_concept_sum_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_concept_sum_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with one withholding line with the correct sums an two concept lines.
+-
+    !assert {model: account.invoice, id: islr_concept_sum_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids) == 1
+        - len(islr_wh_doc_id.concept_ids) == 2
+        - islr_wh_doc_id.invoice_ids[0].base_ret == 3500.0
+        - islr_wh_doc_id.invoice_ids[0].amount_islr_ret == 160.0
+-
+  I check that the withholding concepts lines sums are ok.
+-
+    !python {model: islr.wh.doc}: |
+        inv_id = ref( 'islr_concept_sum_supplier_invoice' )
+        islr_wh_doc_id = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, inv_id).islr_wh_doc_id
+        for cline in islr_wh_doc_id.concept_ids:
+            assert (
+                (cline.concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
+                 and cline.base_amount == 3000 and cline.amount == 150 ) or
+                (cline.concept_id.id == ref( 'islr_wh_concept_pago_contratistas' )
+                 and cline.base_amount == 500 and cline.amount == 10 )
+                ), 'There was a concept line sum error.'
+-
+  2.6 I check the accounting partner condition.
+-
+  I check that the accounting partner parent exist and have a child partner.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_2, string: The accounting partner is wrong.}:
+        - name
+        - vat
+        - child_ids
+        - len(child_ids) == 1
+-
+  I check that my parent and child partner exist and that are correctly configure.
+-
+    !python {model: res.partner}: |
+        parent_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_2' )
+        assert parent_id, 'The parent partner does not exist.'
+        parent_brw = self.browse(cr, uid, parent_id)
+        assert parent_brw.islr_withholding_agent, 'the parent partner is not a income withholding agent.'
+        assert parent_brw.country_id.code == 'VE', 'the parent partner is not in Venezuela.'
+        assert parent_brw.vat, 'the parent partner does not have vat number.'
+
+        child_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_9' )
+        assert child_id, 'The child partner does not exist.'
+        child_brw = self.browse(cr, uid, child_id)
+        assert child_brw.islr_withholding_agent, 'the child partner is not a income withholding agent.'
+        assert child_brw.country_id.code == 'VE', 'the child partner is not in Venezuela.'
+        assert child_brw.vat, 'the child partner does not have vat number.'
+
+        assert child_brw.parent_id.id == parent_id, 'The partner tested is not child of parent partner'
+-
+  I create a invoice for the child partner.
+-
+    !record {model: account.invoice, id: islr_acctg_parnter_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (ACCOUNTING PARTNER)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (ACCOUNTING PARTNER)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_9
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_acctg_parnter_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_acctg_parnter_supplier_invoice}
+-
+  I check that the withholding document is associated to the parent partner.
+-
+    !python {model: islr.wh.doc}: |
+        inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
+        inv_brw = self.pool.get( 'account.invoice' ).browse(cr, uid, inv_id)
+        iwd_brw = inv_brw.islr_wh_doc_id
+        assert iwd_brw.partner_id == inv_brw.partner_id.parent_id, 'The withholding document partner need to be the accouting parnter (the parent of the partner in the invoice).'
+-
+  I confirm the withholding document.
+-
+    !python {model: islr.wh.doc}: | 
+        inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
+        iwd_id = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, inv_id).islr_wh_doc_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
+-
+  I check that the withholding document was confirmed and have no moves.
+-
+    !assert {model: account.invoice, id: islr_acctg_parnter_supplier_invoice, string: The invoice was not confirm}:
+        - islr_wh_doc_id.state == 'confirmed'
+        - not islr_wh_doc_id.invoice_ids[0].move_id
+-
+  I change the withholding document to done.
+-
+    !python {model: islr.wh.doc}: | 
+        inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
+        iwd_id = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, inv_id).islr_wh_doc_id.id
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_done', cr)
+-
+  I check that the withholding document is done and it generate a move.
+-
+    !assert {model: account.invoice, id: islr_acctg_parnter_supplier_invoice, string: The invoice was not confirm}:
+        - islr_wh_doc_id.state == 'done'
+        - islr_wh_doc_id.invoice_ids[0].move_id
+-
+  I check that the moves generated by the withholding document are associated to the parent partner.
+-
+    !python {model: islr.wh.doc}: |
+        inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
+        inv_brw = self.pool.get( 'account.invoice' ).browse(cr, uid, inv_id)
+        iwd_brw = inv_brw.islr_wh_doc_id
+        for iline in iwd_brw.invoice_ids:
+            for mline in iline.move_id.line_id:
+                assert mline.partner_id.id == inv_brw.partner_id.parent_id.id, 'The move lines created are not associated to the accouting partner.'
+-
+  2.7 I check that one islr xml line is generated by invoice line.
+-
+  I create an invoice with two invoice lines of same withholdable concept.
+-
+    !record {model: account.invoice, id: islr_xml_line_number_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (XML LINE NUMBER)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (XML LINE NUMBER)
+        invoice_line:
+          - price_unit: 1000
+            quantity: 1
+            <<: *islr_supplier_wh_ail
+          - price_unit: 2000
+            quantity: 1
+            <<: *islr_supplier_wh_ail
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_xml_line_number_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_xml_line_number_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with a single line.
+-
+    !assert {model: account.invoice, id: islr_xml_line_number_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.invoice_ids[0].islr_xml_id) == len(invoice_line)
+-
+  2.8 I check that when the subtotal of the invoice is not enough for withhold then a withholding document withheld amount is 0.0.
+-
+  I create a supplier invoice with a base less than the minimum of the islr rate.
+-
+    !record {model: account.invoice, id: islr_minimun_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (MINIMUN WITHHOLDING)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (MINIMUN WITHHOLDING)
+        invoice_line: 
+          - quantity: 1
+            price_unit: 30
+            <<: *islr_supplier_wh_ail 
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_minimun_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_minimun_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding with withheld amount 0.0.
+-
+    !assert {model: account.invoice, id: islr_minimun_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - islr_wh_doc_id.amount_total_ret == 0.0
+-
+  2.9 Taking the withholding document created in 2.8 I check that the rate taked is the correct one.
+-
+   !python {model: islr.wh.doc.invoices}: |
+        inv_id = ref( 'islr_minimun_supplier_invoice')
+        iwd_brw = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, inv_id).islr_wh_doc_id
+        correct_rate_id = ref( 'islr_rates_004' )
+        assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id
+-
+ 2.10 I check from a concept all is rates are taking correctly.
+-
+    !python {model: islr.wh.doc.invoices}: | 
+        concept_id = ref( 'islr_wh_concept_cualquie_cosa_menos_sueldos' )
+        rates_xml = {
+            # (residence, nature)
+            ( 1, 1 ) : 'islr_rates_018',
+            ( 0, 1 ) : 'islr_rates_019',
+            ( 1, 0 ) : 'islr_rates_020',
+            ( 0, 0 ) : 'islr_021',
+        }
+        for conf_t, rate_xml in rates_xml.iteritems():
+            rate_tuple = self._get_rate(
+                cr, uid, concept_id, conf_t[0], conf_t[1], context=context)
+            rate_brw = self.pool.get( 'islr.rates' ).browse(
+                cr, uid, ref(rate_xml))
+            assert (rate_tuple[5] == rate_brw.id and
+                    rate_tuple[4] == rate_brw.code and
+                    rate_tuple[6] == rate_brw.name
+                   ), 'There is an error, It is not taking the correct rate.'
+-
+  2.11 I check that the withholding document is automatic set to Done when the automatic_income_wh attribute at the company is True.
+-
+  I set company to process the withholding automaticly.
+-
+    !record {model: res.company, id: base.main_company}:
+       automatic_income_wh: True
+-
+  I check that the company is correctly update.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is not correctly set.}:
+       - company_id.automatic_income_wh
+-
+  I create an supplier invoice.
+-
+    !record {model: account.invoice, id: islr_auto_wh_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (AUTOMATIC INCOME WH)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (AUTOMATIC INCOME WH)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_auto_wh_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_auto_wh_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a done withholding.
+-
+    !assert {model: account.invoice, id: islr_auto_wh_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'done'
+-
+  I revert the changes in the company.
+-
+    !record {model: res.company, id: base.main_company}:
+       automatic_income_wh: False
+-
+  i check that the company is correctly update.
+-
+    !assert {model: res.partner, id: base.main_partner, string: the company is not correctly set.}:
+       - not company_id.automatic_income_wh
+-
+  2.12 I check that when a not natural supplier is a society of natural persons it will be treat as a natural person.
+-
+  I set the supplier as a society of natural persons.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        spn: True
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - spn
+-
+  I create an supplier invoice.
+-
+    !record {model: account.invoice, id: islr_snp_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (SOCIETY OF NATURAL PERSONS)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (SOCIETY OF NATURAL PERSONS)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_snp_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_snp_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding.
+-
+    !assert {model: account.invoice, id: islr_snp_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+-
+  I check that the rate used is the one for natural persons (in this case also is a resident person).
+-
+    !python {model: account.invoice}: | 
+        inv_id = ref( 'islr_snp_supplier_invoice' )
+        iwd_brw = self.browse(cr, uid, inv_id).islr_wh_doc_id
+        correct_rate_id = ref ( 'islr_rates_002' )
+        assert iwd_brw.concept_ids[0].islr_rates_id.id == correct_rate_id
+-
+  I revert the changes on the supplier.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        spn: false
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - not spn
+-
+  2.13 I check that when the supplier is exempt it will create a withholding document with amount withheld 0.0 when the invoice base is greater that the withholding minimum.
+-
+  I set the supplier as an income exempt.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: True
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - islr_exempt
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_exempt_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (EXEMPT SUPPLIER)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (EXEMPT SUPPLIER)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_exempt_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_exempt_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding document with 0.0 amount withheld.
+-
+    !assert {model: account.invoice, id: islr_exempt_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - islr_wh_doc_id.amount_total_ret == 0.0
+-
+  I revert the changes on the supplier.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: False
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - not islr_exempt
+-
+  2.14 I check that when the supplier is exempt it will create a withholding document with amount withheld 0.0 when the invoice base is less than the withholding minimum.
+-
+  I set the supplier as an income exempt.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: True
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - islr_exempt
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_min_exempt_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (MINIMUN EXEMPT WITHHOLDING)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (MINIMUN EXEMPT WITHHOLDING)
+        invoice_line: 
+          - quantity: 1
+            price_unit: 30
+            <<: *islr_supplier_wh_ail 
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_min_exempt_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_min_exempt_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding document with 0.0 amount withheld.
+-
+    !assert {model: account.invoice, id: islr_min_exempt_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - islr_wh_doc_id.amount_total_ret == 0.0
+-
+  I check that the invoice base amount is less than the minimum withholding rate.
+-
+    !python {model: islr.wh.doc.invoices}: |
+        inv_id = ref( 'islr_min_exempt_supplier_invoice' )
+        inv_brw = self.pool.get( 'account.invoice' ).browse(cr, uid, inv_id)
+        iwd_brw = inv_brw.islr_wh_doc_id
+        concept_id = iwd_brw.concept_ids[0].concept_id.id
+        vendor, buyer, wh_agent = self._get_partners(
+            cr, uid, inv_brw)
+        residence = self._get_residence(cr, uid, vendor, buyer)
+        nature = self._get_nature(cr, uid, vendor)
+        rate_min = self._get_rate(
+            cr, uid, concept_id, residence, nature, context=context)[1]
+        assert rate_min > inv_brw.amount_untaxed, 'Its not correct.'
+-
+  I revert the changes on the supplier.
+-
+    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
+        islr_exempt: False
+-
+  I check that the supplier was correctly updated.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier was not correctly updated }:
+        - not islr_exempt
+-
+  2.15 I check when the company is not a income withholding agent then it should not generate a withholding document.
+-
+  I set the company as non-income withholding agent.
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'base.main_partner')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': False})
+-
+  I check that the company is a non-income withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is a withholdable agent}:
+        - not islr_withholding_agent
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_nwh_company_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (NON-WH COMPANY)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE ()
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_nwh_company_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_nwh_company_supplier_invoice}
+-
+  I check that the invoice is in open state and do not generate a withholding document.
+-
+    !assert {model: account.invoice, id: islr_nwh_company_supplier_invoice, string: The invoice is not correctly confirm.}:
+        - state == 'open'
+        - not islr_wh_doc_id
+-
+  2.16 I check when the company is not a income withholding agent then it should not let generate a withholding document manually.
+-
+  I set the company as non-income withholding agent.
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'base.main_partner')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': False})
+-
+  I check that the company is a non-income withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is a withholdable agent}:
+        - not islr_withholding_agent
+-
+  I try to create a supplier withholding document manually. It will not create the document.
+-
+    !python {model: islr.wh.doc}: |
+        values = {
+            'name': 'ISLR MANUAL PURCHASE (NON-WH COMPANY)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' ),
+            'account_id': ref( 'account.a_pay' ),
+            'company_id': ref( 'base.main_company' ),
+            'currency_id': ref( 'base.EUR' ),
+        }
+        try:
+            create_flag = self.create(cr, uid, values)
+        except Exception as e:
+            create_flag = False 
+            assert not create_flag, 'The supplier withholding document cant be created because the company is not a withholding agent.'
+-
+  I revert the changes
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'base.main_partner')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': True})
+-
+  I check that the company is a income withholding agent.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The company is not a withholdable agent}:
+        - islr_withholding_agent
+
+-
+  2.17 I check that only Open invoices can be add to a withholding document created manually.
+-
+  I create a supplier withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, view: l10n_ve_withholding_islr.view_wh_islr_form_suppliers}:
+        name: ISLR SUPPLIER WH DOC (INVOICE OPEN STATE)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_open_state_supplier_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The withholding document should be without invoices.}:
+        - invoice_ids == []
+-
+  I create a supplier invoice.
+-
+    !record {model: account.invoice, id: islr_open_state_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (INVOICE OPEN STATE)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (INVOICE OPEN STATE)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_open_state_supplier_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I try to add a draft invoice to the withholding document. It wont be added.
+-
+    !python {model: islr.wh.doc}: |
+        from openerp.osv import orm
+        iwd_id = ref( 'islr_open_state_supplier_wh_doc')
+        inv_id = ref( 'islr_open_state_supplier_invoice' )
+        flag = True
+        values= { 'invoice_ids' : [( 0, 0, {'invoice_id': inv_id })] }
+        try:
+            cr.execute('SAVEPOINT islr_open_state_supplier_wh_doc')
+            self.write(cr, uid, iwd_id, values)
+            cr.execute('RELEASE SAVEPOINT islr_open_state_supplier_wh_doc')
+            flag = False
+        except orm.except_orm:
+            cr.execute('ROLLBACK TO SAVEPOINT islr_open_state_supplier_wh_doc')
+        assert flag, 'This should not happen!!! It was expected an exception was raised'
+-
+  I check that the invoice was not added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The draft invoice was added and it should not.}:
+        - invoice_ids == []
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_open_state_supplier_invoice}
+-
+  I check that the invoice is confirmed.
+-
+    !assert {model: account.invoice, id: islr_open_state_supplier_invoice, string: The invoices was no correctly confirm.}:
+        - state == 'open'
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, view: l10n_ve_withholding_islr.view_wh_islr_form_suppliers}:
+        invoice_ids: 
+            - invoice_id: islr_open_state_supplier_invoice
+-
+  I check that the invoice was added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The open invoice was not added and it should.}:
+        - invoice_ids[0].invoice_id.id == ref( 'islr_open_state_supplier_invoice'  )
+-
+  2.18 I check that a manually created withholding document can not be confirmed if it is withhout withholding lines.
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_no_lines_supplier_wh_doc}:
+        name: ISLR SUPPLIER WH DOC (NOT WH LINES)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_no_lines_supplier_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_no_lines_supplier_wh_doc, string: The withholding document should be without invoices}:
+        - invoice_ids == []
+-
+  I try to confirm the withholding document. It won't be confirm.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_no_lines_supplier_wh_doc' )
+        # the workflow is not used because the exception can be manage
+        try:
+            check_flag = self.check_income_wh(cr, uid, iwd_id)
+        except Exception as e:
+            check_flag = False
+        assert not check_flag, 'The withholding can not be confirm'
+-
+  2.19 I check that a manually supplier withholding document can be created and confirmed using the invoice release from another supplier withholding document.
+-
+  I create a supplier invoice 
+-
+    !record {model: account.invoice, id: islr_manual_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (MANUAL)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (MANUAL)
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_manual_supplier_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice to generate the withholding document.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_manual_supplier_invoice}
+-
+  I check that the invoice is confirmed and it generate a draft withholding.
+-
+    !assert {model: account.invoice, id: islr_manual_supplier_invoice, string: The invoice was not confirmed or the withholding document was created wrong way.}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+-
+  I cancel the automatic created withholding document.
+-
+    !python {model: account.invoice}: |
+        import netsvc
+        from openerp.osv import osv
+        inv_brw = self.browse(cr, uid, ref( 'islr_manual_supplier_invoice' ))
+        iwd_id = inv_brw.islr_wh_doc_id.id
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_cancel', cr)
+        iwd_obj = self.pool.get( 'islr.wh.doc' )
+        iwd_brw = iwd_obj.browse(cr, uid, iwd_id)
+        assert iwd_brw.state == 'cancel', 'It does not change the withholding state to cancel'
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_manual_supplier_wh_doc}:
+        name: ISLR SUPPLIER WH DOC (MANUAL)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_manual_supplier_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, string: The withholding document should be without invoices}:
+        - invoice_ids == []
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, view: l10n_ve_withholding_islr.view_wh_islr_form_suppliers}:
+        invoice_ids: 
+            - invoice_id: islr_manual_supplier_invoice
+-
+  I check that the invoices was correctly added.
+-
+    !assert {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, string: The invoices was not correctly added.}:
+        - invoice_ids
+        - len(invoice_ids) == 1
+        - invoice_ids[0].invoice_id.id == ref( 'islr_manual_supplier_invoice' )
+-
+  I compute the taxes manually with the button 'Compute Icome Withholding'.
+-
+    !function {model: islr.wh.doc, name: compute_amount_wh, id: islr_manual_supplier_wh_doc}:
+        - model: islr.wh.doc
+          eval: "[ref('islr_manual_supplier_wh_doc')]"
+-
+  I confirm the withholding document.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_manual_supplier_wh_doc' )
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
+        iwd_obj = self.pool.get( 'islr.wh.doc' )
+        iwd_brw = iwd_obj.browse(cr, uid, iwd_id)
+        assert iwd_brw.state == 'confirmed', 'It does not change the withholding state to confirm. !=  %s' % (iwd_brw.state,)
