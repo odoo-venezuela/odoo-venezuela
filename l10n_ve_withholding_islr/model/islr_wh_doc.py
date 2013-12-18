@@ -808,6 +808,7 @@ class islr_wh_doc_invoices(osv.osv):
         rate_tuple = self._get_rate(
             cr, uid, concept_id, residence, nature, context=context)
         base = 0
+        wh_concept = 0.0
 
         if iwdl_brw.invoice_id.type in ('in_invoice', 'in_refund'):
             for line in iwdl_brw.xml_ids:
@@ -816,7 +817,6 @@ class islr_wh_doc_invoices(osv.osv):
             wh = 0.0
             subtract = apply and rate_tuple[3] or 0.0
             subtract_write = 0.0
-            wh_concept = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
                 if apply:
