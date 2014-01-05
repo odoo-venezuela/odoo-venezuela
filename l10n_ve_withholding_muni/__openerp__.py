@@ -39,6 +39,7 @@
         'view/partner_view.xml',
         'view/wh_muni_view.xml',
         'data/wh_muni_sequence.xml',
+        'data/wh_muni_journal.xml',
         'report/wh_muni_report.xml',
         'workflow/l10n_ve_wh_muni_wf.xml',
     ],

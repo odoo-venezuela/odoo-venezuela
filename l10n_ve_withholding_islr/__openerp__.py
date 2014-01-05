@@ -53,6 +53,7 @@ If you want be able to propose withholding concepts from sales and purchases you
             "security/ir.model.access.csv",
             "data/l10n_ve_islr_withholding_data.xml",
             "data/retencion_islr_sequence.xml",
+            "data/retencion_islr_journal.xml",
             "view/wh_islr_view.xml",
             "view/invoice_view.xml",
             "view/partner_view.xml",
