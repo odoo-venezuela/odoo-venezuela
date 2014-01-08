@@ -239,6 +239,13 @@ class account_wh_iva(osv.osv):
         else:
             return False
 
+    def _get_fortnight(self, cr, uid, context=None):
+        """ Return currency to use
+        """
+        context = context or {}
+        dt = time.strftime('%Y-%m-%d')
+        return time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 and 'False' or 'True'
+
     def _get_currency(self, cr, uid, context):
         """ Return currency to use
         """
@@ -290,7 +297,7 @@ class account_wh_iva(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
-        "fortnight": 'False',
+        "fortnight": _get_fortnight,
     }
 
     def action_cancel(self, cr, uid, ids, context=None):

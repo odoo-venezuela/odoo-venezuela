@@ -110,7 +110,7 @@
         </record>
         <record id="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
-            <field eval="'Canones de arrendamiento de Bienes Inmuebles situados en el país'" name="name"/>
+            <field eval="'Cánones de arrendamiento de Bienes Muebles situados en el país'" name="name"/>
         </record>
         <record id="islr_wh_concept_tarjetas_de_credito_cualquier_concepto" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
