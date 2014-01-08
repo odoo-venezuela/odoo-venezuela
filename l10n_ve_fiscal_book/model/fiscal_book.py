@@ -1683,7 +1683,7 @@ class fiscal_book(orm.Model):
 class fiscal_book_lines(orm.Model):
 
     def _get_wh_vat(self, cr, uid, ids, field_name, arg, context=None):
-        """ For a given book line it returns the withholding vat amount.
+        """ For a given book line it returns the vat withholding amount.
         (This is a method used in functional fields).
         @param field_name: ['get_wh_vat'].
         """
@@ -1768,8 +1768,8 @@ class fiscal_book_lines(orm.Model):
         #~ Apply for wh iva lines
         'get_wh_vat': fields.function(_get_wh_vat,
                                       type="float", method=True, store=True,
-                                      string="Withholding VAT",
-                                      help="Withholding VAT"),
+                                      string="VAT Withholding",
+                                      help="VAT Withholding"),
         'wh_number': fields.char(string='Withholding number', size=64,
                                  help=""),
         'affected_invoice_date': fields.date(string="Affected Invoice Date",
@@ -1922,7 +1922,7 @@ class adjustment_book_line(orm.Model):
             'Invoice Control', size=256, required=True,
             help="Invoice control for adjustment book"),
         'amount': fields.float(
-            'Amount Document at Withholding VAT',
+            'Amount Document at VAT Withholding',
             digits_compute=dp.get_precision('Account'), required=True,
             help="Amount document for adjustment book"),
         'type_doc': fields.selection([
@@ -1942,32 +1942,32 @@ class adjustment_book_line(orm.Model):
             digits_compute=dp.get_precision('Account'), required=True,
             help="Amount untaxed for national operations"),
         'percent_with_vat_n': fields.float(
-            '% Withholding VAT',
+            'VAT Withholding (%)',
             digits_compute=dp.get_precision('Account'), required=True,
-            help="Percent(%) VAT for national operations"),
+            help="VAT percent (%) for national operations"),
         'amount_with_vat_n': fields.float(
-            'Amount Withholding VAT',
+            'VAT Withholding Amount',
             digits_compute=dp.get_precision('Account'), required=True,
-            help="Percent(%) VAT for national operations"),
+            help="VAT amount for national operations"),
         'amount_untaxed_i': fields.float(
             'Amount Untaxed',
             digits_compute=dp.get_precision('Account'), required=True,
             help="Amount untaxed for international operations"),
         'percent_with_vat_i': fields.float(
-            '% Withholding VAT',
+            'VAT Withholding (%)',
             digits_compute=dp.get_precision('Account'), required=True,
-            help="Percent(%) VAT for international operations"),
+            help="VAT percent (%) for international operations"),
         'amount_with_vat_i': fields.float(
-            'Amount Withholding VAT',
+            'VAT Withholding Amount',
             digits_compute=dp.get_precision('Account'), required=True,
-            help="Amount withholding VAT for international operations"),
+            help="VAT amount for international operations"),
         'amount_with_vat': fields.float(
-            'Amount Withholding VAT Total',
+            'VAT Withholding Total Amount',
             digits_compute=dp.get_precision('Account'), required=True,
-            help="Amount withheld VAT total"),
+            help="VAT withholding total amount"),
         'voucher': fields.char(
-            'Voucher Withholding VAT', size=256,
-            required=True, help="Voucher Withholding VAT"),
+            'VAT Withholding Voucher', size=256,
+            required=True, help="VAT withholding voucher"),
         'fb_id': fields.many2one(
             'fiscal.book', 'Fiscal Book',
             help='Fiscal Book where this line is related to'),
