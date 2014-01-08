@@ -92,6 +92,8 @@ class account_wh_iva_line(osv.osv):
         @param tax_id_brw: tax object
         """
         if context is None: context = {}
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = rp_obj._find_accounting_partner(tax_id_brw.invoice_id.partner_id)
         return {
             'inv_tax_id':tax_id_brw.id,
             'tax_id':tax_id_brw.tax_id.id,
@@ -99,7 +101,7 @@ class account_wh_iva_line(osv.osv):
             'base':tax_id_brw.base,
             'amount':tax_id_brw.amount,
             'company_id':tax_id_brw.company_id.id,
-            'wh_iva_rate':tax_id_brw.invoice_id.partner_id.wh_iva_rate
+            'wh_iva_rate':acc_part_id.wh_iva_rate
         }
     
     def load_taxes(self, cr, uid, ids, context=None):
@@ -107,13 +109,14 @@ class account_wh_iva_line(osv.osv):
         """
         if context is None: context = {}
         awilt_obj = self.pool.get('account.wh.iva.line.tax')
+        rp_obj = self.pool.get('res.partner')
         
         for ret_line in self.browse(cr, uid, ids, context):
             lines = []
             if ret_line.invoice_id:
-                rate = \
-                    ret_line.retention_id.type == 'out_invoice' and ret_line.invoice_id.company_id.partner_id.wh_iva_rate or \
-                    ret_line.retention_id.type == 'in_invoice' and ret_line.invoice_id.partner_id.wh_iva_rate
+                rate = ret_line.retention_id.type == 'out_invoice' \
+                        and rp_obj._find_accounting_partner(ret_line.invoice_id.company_id.partner_id).wh_iva_rate \
+                        or rp_obj._find_accounting_partner(ret_line.invoice_id.partner_id).wh_iva_rate
                 self.write(cr, uid, ret_line.id, {'wh_iva_rate':  rate})
                 tax_lines = awilt_obj.search(cr, uid, [('wh_vat_line_id', '=', ret_line.id)])
                 if tax_lines:
@@ -411,13 +414,12 @@ class account_wh_iva(osv.osv):
     def _check_partner(self, cr, uid, ids, context={}):
         """ Determine if a given partner is a VAT Withholding Agent
         """
-        agt = False
         obj = self.browse(cr, uid, ids[0])
-        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
-            agt = True
-        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.wh_iva_agent:
-            agt = True
-        return agt
+        rp_obj = self.pool.get('res.partner')
+        if obj.type in ('out_invoice', 'out_refund'): 
+            return rp_obj._find_accounting_partner(obj.partner_id).wh_iva_agent
+        else:
+            return rp_obj._find_accounting_partner(obj.company_id.partner_id).wh_iva_agent
 
     _constraints = [
         (_check_partner, 'Error ! The partner must be withholding vat agent .', ['partner_id']),
@@ -572,27 +574,34 @@ class account_wh_iva(osv.osv):
             
         acc_id = False
         res = {}
+        rp_obj = self.pool.get('res.partner')
         inv_obj = self.pool.get('account.invoice')
         
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_id.property_account_receivable and acc_part_id.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
+                acc_id = acc_part_id.property_account_payable and acc_part_id.property_account_payable.id or False
         
         wh_line_obj = self.pool.get('account.wh.iva.line')
         wh_lines = ids and wh_line_obj.search(cr, uid, [('retention_id', '=', ids[0])]) or False
         res_wh_lines = []
         if wh_lines:
             wh_line_obj.unlink(cr, uid, wh_lines)
+
+        if not partner_id:
+            return {'value': res}
         
         ttype = type in ['out_invoice'] and ['out_invoice', 'out_refund'] \
                 or ['in_invoice', 'in_refund']
         inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),
                                         ('wh_iva', '=', False),
                                         ('type', 'in', ttype),
-                                        ('partner_id','=',partner_id)],context=context)
+                                        '|',
+                                        ('partner_id', '=', acc_part_id.id),
+                                        ('partner_id', 'child_of', acc_part_id.id),
+            ],context=context)
         
         if inv_ids:
             #~ Get only the invoices which are not in a document yet
@@ -603,7 +612,7 @@ class account_wh_iva(osv.osv):
             res_wh_lines = [{
                         'invoice_id':   inv_brw.id,
                         'name':         inv_brw.name or _('N/A'),
-                        'wh_iva_rate':  inv_brw.partner_id.wh_iva_rate,
+                        'wh_iva_rate':  rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate,
                         } for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
         
         res = {'value': {
@@ -642,21 +651,21 @@ class account_wh_iva(osv.osv):
         @param period_id: period_id at current view
         @param fortnight: fortnight at current view
         """
-        #~ print '\n\n\n\n', 'onchange_lines_filter(', type, partner_id or 'no partner', period_id or 'no period', (isinstance(fortnight, (str)) and fortnight == 'False' and '1ra Fn' or '2da Fn') or 'EMPTY', ')'
         context = context or {}
         ai_obj = self.pool.get('account.invoice')
         per_obj = self.pool.get('account.period')
+        rp_obj = self.pool.get('res.partner')
         values_data = dict()
         res_wh_lines = []
         acc_id = False
 
         #~ pull account info
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_id.property_account_receivable and acc_part_id.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
+                acc_id = acc_part_id.property_account_payable and acc_part_id.property_account_payable.id or False
             values_data['account_id'] = acc_id
 
         #~ clear lines 
@@ -672,7 +681,10 @@ class account_wh_iva(osv.osv):
         ai_ids = ai_obj.search(cr, uid, [
             ('state', '=', 'open'), ('wh_iva', '=', False),
             ('wh_iva_id', '=', False), ('type', 'in', ttype),
-            ('partner_id', '=', partner_id), ('period_id', '=', period_id)],
+            '|',
+            ('partner_id', '=', acc_part_id.id),
+            ('partner_id', 'child_of', acc_part_id.id),
+            ('period_id', '=', period_id)],
             context=context)
         ai_ids = [ai_brw.id
                   for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
@@ -684,7 +696,7 @@ class account_wh_iva(osv.osv):
             values_data['wh_lines'] = \
                 [{'invoice_id': inv_brw.id,
                   'name': inv_brw.name or _('N/A'),
-                  'wh_iva_rate': inv_brw.partner_id.wh_iva_rate}
+                  'wh_iva_rate': rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate}
                  for inv_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
                 ]
         return {'value': values_data}
@@ -695,15 +707,16 @@ class account_wh_iva(osv.osv):
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
+        rp_obj = self.pool.get('res.partner')
 
         for id in ids:
             inv_str = ''
             awi_brw = self.browse(cr, uid, id, context=context)
             for awil_brw in awi_brw.wh_lines:
-                if awil_brw.invoice_id and awil_brw.invoice_id.partner_id.id !=\
-                    awi_brw.partner_id.id:
-                        inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or
-                                awil_brw.invoice_id.number or '')
+                acc_part_id = rp_obj._find_accounting_partner(awil_brw.invoice_id.partner_id)
+                if acc_part_id.id != awi_brw.partner_id.id:
+                    inv_str+= '%s'% '\n'+(awil_brw.invoice_id.name or
+                        awil_brw.invoice_id.number or '')
 
             if inv_str:
                 raise osv.except_osv('Incorrect Invoices !',"The following invoices are not from the selected partner: %s " % (inv_str,))

@@ -1087,3 +1087,51 @@
         assert False, 'This can not happend. Only Open and Paid invoices can be added.'
     except Exception as e:
         pass
+-
+  3.9 I check that can not confirm a customer withholding with no wh lines. 
+-
+  I create a customer withholding document manually.
+-
+    !record {model: account.wh.iva, id: customer_no_lines_awi, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}:
+        name: MANUAL CUSTOMER AWI WITH NO WH LINES
+        <<: *awi_sale_011
+-
+  I check that the withholding document was correctly created.
+-
+    !assert {model: account.wh.iva, id: customer_no_lines_awi, string: The withholding document should be of sale type (out_invoice) and should be in draft state.}:
+        - type == 'out_invoice'
+        - state == 'draft'
+-
+  I search the current period and add it to the withholding doc.
+-
+  !python {model: account.wh.iva}: |
+    import time
+    awi_id = ref( 'customer_no_lines_awi' )
+    company_id = ref('base.main_company')
+    period_obj = self.pool.get('account.period')
+    period = period_obj.find(
+        cr, uid, time.strftime('%Y/%m/%d'), {'company_id': company_id})
+    assert period, 'There aren\'t periods for this date'
+    self.write(cr, uid, awi_id, {'period_id':period[0]})
+-
+  I compute the taxes manually with the button 'Compute Withholding Vat'.
+-
+    !function {model: account.wh.iva, name: compute_amount_wh, id: customer_no_lines_awi}:
+        - model: account.wh.iva
+          eval: "[ref('customer_no_lines_awi')]"
+-
+  I try to confirm the supplier withholding document.
+-
+    !python {model: account.wh.iva}: |
+        awi_id = ref('customer_no_lines_awi')
+        # Note: not use of workflow because it can not manage the exception.
+        try:
+            self.confirm_check(cr, uid, awi_id)
+            assert False, 'The withholding document can not be confirmed because has not wh lines associated.'
+        except Exception as e:
+            pass
+-
+  I check that the withholding document remains in draft.
+-
+    !assert {model: account.wh.iva, id: customer_no_lines_awi, string: The withholding document can not be confirm because it haf no wh lines}:
+        - state == 'draft'

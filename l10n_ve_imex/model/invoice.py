@@ -143,11 +143,13 @@ class account_invoice_tax(osv.osv):
 
     def on_change_invoice_id(self, cr, uid, ids, invoice_id, context=None):
         context = context or {}
+        rp_obj = self.pool.get('res.partner')
         res = {}
         if invoice_id:
             obj_inv = self.pool.get('account.invoice')
-            inv = obj_inv.browse(cr, uid, invoice_id, context=context)
-            res = {'value': {'partner_id': inv.partner_id.id,
+            inv_brw = obj_inv.browse(cr, uid, invoice_id, context=context)
+            acc_part_brw = rp_obj._find_accounting_partner(inv_brw.partner_id)
+            res = {'value': {'partner_id': acc_part_brw.id,
                              'supplier_invoice_number': inv.supplier_invoice_number}}
         return res
 

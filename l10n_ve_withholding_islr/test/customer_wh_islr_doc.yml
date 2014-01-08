@@ -1,0 +1,300 @@
+-
+  3. I check the customer income withholding documents (Sale).
+-
+  3.1 I configure the test enviroment and check data and demo.
+-
+  I set the context for the purchase operations at this set of cases.
+-
+  !context
+    'type': 'out_invoice'
+-
+  I check that only one non-withholdable concept is define.
+-
+    !python {model: islr.wh.concept}: |
+       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', False )])
+       assert len(iwc_ids) == 1, ( 'Only can be defined one non-withhodeable'
+           ' concepts, but %s are defined.' % (len(iwc_ids), ))
+-
+  I check that all the withholdable concepts have accounts type 'other' associtated and also have mandatory income rates.
+-
+    !python {model: islr.wh.concept}: |
+       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
+       for iwc_brw in self.browse(cr, uid, iwc_ids):
+            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
+            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
+            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
+            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
+            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
+
+-
+  I check that the concept that will be use is withhodable.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not withholdable}:
+        - withholdable
+-
+  I check that the product that will be use have a concept.
+-
+    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
+        - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
+-
+  I check that the customer that will be use is an income withholding agent and is at Venezuela.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The customer is not correctly set for this test.}:
+       - islr_withholding_agent
+       - country_id.code == 'VE'
+       - vat
+-
+  I check if the account that will be use is of receivable type.
+-
+    !assert {model: account.account, id: account.a_recv, string: The account is not of receivable type}:
+        - type == 'receivable'
+-
+  3.2 I check that an customer invoice confirmation will not automatic create a withholding document.
+-
+  I create a customer invoice with a withholdable concept (in the product).
+-
+    !record {model: account.invoice, id: islr_customer_invoice, view: account.invoice_form}: &customer_ai
+        nro_ctrl: ISLR CUSTOMER INVOICE ()
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+        company_id: base.main_company
+        currency_id: base.EUR
+        invoice_line: &customer_ail
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 1000
+            account_id: account.a_recv
+-
+  I check that the invoices was correctly created.
+-
+    !assert {model: account.invoice, id: islr_customer_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'out_invoice'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_customer_invoice}
+-
+  I check that the invoice is confirmed and not generate a withholding doc.
+-
+    !assert {model: account.invoice, id: islr_customer_invoice, string: The invoice was not correctly confirmed.}:
+        - state == 'open'
+        - not islr_wh_doc_id
+-
+  3.3 I check that a withholding document can be created manually when the customer is a withholding agent.
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_customer_wh_doc, view: l10n_ve_withholding_islr.view_islr_form_customers}:
+        name: ISLR WH DOC (CUSTOMER MANUALLY)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_customer_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_customer_wh_doc, string: The withholding document should be without invoices}:
+        - not invoice_ids
+-
+  I create a customer invoice.
+-
+    !record {model: account.invoice, id: islr_manual_wh_customer_invoice, view: account.invoice_form}:
+        nro_ctrl: ISLR CUSTOMER INVOICE (MANUAL WH)
+        <<: *customer_ai
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_manual_wh_customer_invoice}
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_customer_wh_doc, view: l10n_ve_withholding_islr.view_islr_form_customers}:
+        invoice_ids: 
+            - invoice_id: islr_manual_wh_customer_invoice
+-
+  I compute the taxes manually with the button 'Compute Icome Withholding'.
+-
+    !function {model: islr.wh.doc, name: compute_amount_wh, id: islr_customer_wh_doc}:
+        - model: islr.wh.doc
+          eval: "[ref('islr_customer_wh_doc')]"
+-
+  I confirm the withholding document.  
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_customer_wh_doc' ) 
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
+-
+  I check that the withholding document is confirmed.
+-
+    !assert {model: islr.wh.doc, id: islr_customer_wh_doc}:
+        - state == 'confirmed'
+-
+  3.4 I check that a manually created withholding document can not be confirmed if it is withhout withholding lines.
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_no_lines_customer_wh_doc}:
+        name: ISLR WH DOC (NOT WH LINES)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_no_lines_customer_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_no_lines_customer_wh_doc, string: The withholding document should be without invoices}:
+        - invoice_ids == []
+-
+  I try to confirm the withholding document. It won't be confirm.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_no_lines_customer_wh_doc' ) 
+        # the workflow is not used because the exception can be manage
+        try:
+            check_flag = self.check_income_wh(cr, uid, iwd_id)
+        except Exception as e:
+            check_flag = False
+        assert not check_flag, 'The withholding can not be confirm.'
+-
+  3.5 I check that only Open invoices can be add to a withholding document.
+-
+  I create a withholding document manually.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_customer_wh_doc}:
+        name: ISLR WH DOC (INVOICE OPEN STATE)
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_recv
+-
+  I unlink the auto-loaded invoices.
+-
+    !python {model: islr.wh.doc}: | 
+        iwd_id = ref( 'islr_open_state_customer_wh_doc' )
+        iwd_brw = self.browse(cr, uid, iwd_id)
+        iwdi_ids = [inv_line.id
+                    for inv_line in iwd_brw.invoice_ids]
+        iwdi_ids and self.pool.get( 'islr.wh.doc.invoices' ).unlink(cr, uid, iwdi_ids) 
+-
+  I check that the withholding document is withhout invoices.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The withholding document should be without invoices}:
+        - invoice_ids == []
+-
+  I create a customer invoice.
+-
+    !record {model: account.invoice, id: islr_open_state_customer_invoice, view: account.invoice_form}:
+        nro_ctrl: ISLR CUSTOMER INVOICE (INVOICE OPEN STATE)
+        <<: *customer_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_open_state_customer_invoice, string: The invoices was no correctly created}:
+        - state == 'draft'
+        - type == 'out_invoice'
+-
+  I try to add a draft invoice to the withholding document. It wont be added.
+-
+    !python {model: islr.wh.doc}: |
+        from openerp.osv import orm
+        iwd_id = ref( 'islr_open_state_customer_wh_doc')
+        inv_id = ref( 'islr_open_state_customer_invoice' )
+        flag = True
+        values= { 'invoice_ids' : [( 0, 0, {'invoice_id': inv_id })] }
+        try:
+            cr.execute('SAVEPOINT islr_open_state_customer_wh_doc')
+            self.write(cr, uid, iwd_id, values)
+            cr.execute('RELEASE SAVEPOINT islr_open_state_customer_wh_doc')
+            flag = False
+        except orm.except_orm:
+            cr.execute('ROLLBACK TO SAVEPOINT islr_open_state_customer_wh_doc')
+        assert flag, 'This should not happen!!! It was expected an exception was raised'
+-
+  I check that the invoice was not added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The draft invoice was added and it should not.}:
+        - invoice_ids == []
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_open_state_customer_invoice}
+-
+  I check that the invoice is confirmed.
+-
+    !assert {model: account.invoice, id: islr_open_state_customer_invoice, string: The invoices was no correctly confirm.}:
+        - state == 'open'
+-
+  I add the invoice to the withholding document.
+-
+    !record {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, view: l10n_ve_withholding_islr.view_islr_form_customers}:
+        invoice_ids: 
+            - invoice_id: islr_open_state_customer_invoice
+-
+  I check that the invoice was added.
+-
+    !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The open invoice was not added and it should.}:
+        - invoice_ids[0].invoice_id.id == ref( 'islr_open_state_customer_invoice'  )
+-
+  3.6 I check that a withholding document cannot be created manually for a customer that is not a withholding agent.
+-
+  I set the partner that will be use in this test like a not withholding partner.
+-
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_3')
+        partner_brw = self.browse(cr, uid, partner_id)
+        self.write(cr, uid, partner_id, {'islr_withholding_agent': False})
+-
+  I check if the partner i will use in this case is a not withholding partner and have no accounting partner that influencing it.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_3, string: The partner is a withholding partner.}:
+        - not islr_withholding_agent
+        - not parent_id
+-
+  I try to create a withholding document manually. It won't be created.
+-
+    !python {model: islr.wh.doc}: |
+        values = {
+            'name': 'ISLR WH DOC (NOT WH CUSTOMER)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' ),
+            'account_id': ref( 'account.a_recv' ),
+            'type': 'out_invoice', 
+        }
+        try:
+            create_flag = self.create(cr, uid, values)
+        except Exception as e:
+            create_flag = False
+        assert not create_flag, ' The withholding document can be created because the customer is not a withholding document'  
+-
+  3.7 I check that a withholding document with a income withholdable customer cannot be updated to a not income withholdable partner.
+-
+    !python {model: islr.wh.doc}: |
+        values = {
+            'name': 'ISLR WH DOC (WH CUSTOMER TO A NOT WH CUSTOMER)',
+            'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' ),
+            'account_id': ref( 'account.a_recv' ),
+            'type': 'out_invoice', 
+        }
+        iwd_id = self.create(cr, uid, values)
+        new_values = {'partner_id': ref( 'l10n_ve_fiscal_requirements.f_req_partner_3' )}
+        try:
+            write_flag = self.write(cr, uid, [iwd_id], new_values)
+        except Exception as e:
+            write_flag = False
+        assert not write_flag, ' The withholding document can be updated from a withholding partner to a non-withholding partner.'

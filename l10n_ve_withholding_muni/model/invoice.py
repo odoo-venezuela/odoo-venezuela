@@ -25,6 +25,7 @@
 
 import time
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 
 class account_invoice(osv.osv):
@@ -51,6 +52,8 @@ class account_invoice(osv.osv):
                             writeoff_period_id, writeoff_journal_id, date,
                             name, context=context)
         if context.get('muni_wh', False):
+            rp_obj = self.pool.get('res.partner')
+            acc_part_brw = rp_obj._find_accounting_partner(to_wh.invoice_id.partner_id)
             invoice = self.browse(cr, uid, ids[0])
             types = {
               'out_invoice': -1,
@@ -59,17 +62,23 @@ class account_invoice(osv.osv):
               'in_refund': -1
             }
             direction = types[invoice.type]
+            if to_wh.retention_id.type == 'in_invoice':
+                acc = acc_part_brw.property_wh_munici_payable and acc_part_brw.property_wh_munici_payable.id or False
+            else:
+                acc = acc_part_brw.property_wh_munici_receivable and acc_part_brw.property_wh_munici_receivable.id or False
+            if not acc:
+                raise osv.except_osv(_('Missing Local Account in Partner!'),_("Partner [%s] has missing Local account. Please, fill the missing field") % (acc_part_brw.name,))
             res.append((0, 0, {
                 'debit': direction * to_wh.amount < 0 and
                          - direction * to_wh.amount,
                 'credit': direction * to_wh.amount > 0 and
                           direction * to_wh.amount,
-                'partner_id': invoice.partner_id.id,
+                'partner_id': acc_part_brw.id,
                 'ref': invoice.number,
                 'date': date,
                 'currency_id': False,
                 'name': name,
-                'account_id': to_wh.retention_id.account_id.id,
+                'account_id': acc,
             }))
         return res
 
@@ -141,6 +150,22 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid,
                           [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Verify first if the invoice have a non cancel local withholding doc.
+        If it has then raise a error message. """
+        context = context or {}
+        for inv_brw in self.browse(cr, uid, ids, context=context):
+            if not inv_brw.wh_muni_id:
+                super(account_invoice, self).action_cancel(cr, uid, ids,
+                                                           context=context)
+            else:
+                raise osv.except_osv(_("Error!"),
+                _("You can't cancel an invoice that have non cancel"
+                  " Local Withholding Document. Needs first cancel the invoice"
+                  " Local Withholding Document and then you can cancel this"
+                  " invoice."))
+        return True
 
     _columns = {
         'wh_local': fields.function(_retenida_munici, method=True,

@@ -58,26 +58,27 @@ class account_wh_src(osv.osv):
         return false in otherwise
         """
         context = context or {}
-        user_wh_agent = self.pool.get('res.users').browse(cr, uid, uid, context = context).company_id.partner_id.wh_src_agent
-        return user_wh_agent
+        rp_obj = self.pool.get('res.partner')
+        ru_obj = self.pool.get('res.users')
+        ru_brw = ru_obj.browse(cr, uid, uid, context = context)
+        acc_part_brw = rp_obj._find_accounting_partner(ru_brw.company_id.partner_id)
+        return acc_part_brw.wh_src_agent
 
     def _get_partner_agent(self, cr, uid, context=None):
         """ Return a list of browse partner depending of invoice type
         """
-        context = context or {}
-        
         obj_partner = self.pool.get('res.partner')
+        args = [('parent_id','=',False)]
+        context = context or {}
+        res = []
         
-        if context.get('type') in ('out_invoice'):
-            partner_ids = obj_partner.search(cr, uid, [('wh_src_agent','=',True)])
-            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
-        else:
-            partner_ids = obj_partner.search(cr, uid, [])
-            partner_brw = self.pool.get('res.partner').browse(cr, uid, partner_ids, context=context)
-        
-        l = map(lambda x: x.id, partner_brw)
-        
-        return l
+        if context.get('type') in ('out_invoice',):
+            args.append(('wh_src_agent','=',True))
+        partner_ids = obj_partner.search(cr, uid, args)
+        if partner_ids:
+            partner_brw = obj_partner.browse(cr, uid, partner_ids, context=context)
+            res = map(lambda x: x.id, partner_brw)
+        return res
 
     def default_get(self, cr, uid, fields, context=None):
         """ Update fields uid_wh_agent and partner_list to the create a
@@ -168,28 +169,34 @@ class account_wh_src(osv.osv):
         @param partner_id: partner id
         """
         if context is None: context = {}    
+        acc_part_brw = False
         acc_id = False
         res = {}
         inv_obj = self.pool.get('account.invoice')
+        rp_obj = self.pool.get('res.partner')
         wh_line_obj = self.pool.get('account.wh.src.line')
         
         if partner_id:
-            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
-                acc_id = p.property_account_receivable and p.property_account_receivable.id or False
+                acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
-                acc_id = p.property_account_payable and p.property_account_payable.id or False
+                acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False
+
+        part_brw = ids and rp_obj._find_accounting_partner(self.browse(cr, uid, ids[0], context=context).partner_id)
+        wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])])
+        if not partner_id: 
+            wh_lines and wh_line_obj.unlink(cr, uid, wh_lines)
+            wh_lines = []
+        if part_brw and acc_part_brw and part_brw.id != acc_part_brw.id:
+            wh_lines and wh_line_obj.unlink(cr, uid, wh_lines)
+            wh_lines = []
         
-        wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])]) or False
-        p_id_prv = ids and self.browse(cr, uid, ids[0], context=context).partner_id.id or False
-        if wh_lines and p_id_prv != partner_id:
-            wh_line_obj.unlink(cr, uid, wh_lines)
-        
-        res = {'value': {
-            'account_id': acc_id,
-            }
+        return {'value': {
+                    'line_ids':wh_lines,
+                    'account_id': acc_id,
+                }
         }
-        return res
         
 
     def action_date_ret(self,cr,uid,ids,context=None):
@@ -255,12 +262,65 @@ class account_wh_src(osv.osv):
         
         return self.write(cr,uid,ids,{'state':'done'})
         
-    def action_cancel(self,cr,uid,ids,context={}):
-        """ Still not allowed to cancel these withholdings
-        """
-        raise osv.except_osv(_('Invalid Procedure!'),_("For the moment, the systmen does not allow cancell these withholdings."))
+    def _dummy_cancel_check(self, cr, uid, ids, context=None):
+        '''
+        This will be the method that another developer should use to create new
+        check on Withholding Document
+        Make super to this method and create your own cases
+        '''
         return True
-        
+
+    def cancel_check(self, cr, uid, ids, context=None):
+        '''
+        Unique method to check if we can cancel the Withholding Document
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+
+        if not self._dummy_cancel_check(cr, uid, ids, context=context):
+            return False
+        return True
+
+    def cancel_move(self,cr,uid,ids, *args):
+        """ Delete move lines related with withholding vat and cancel
+        """
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        am_obj = self.pool.get('account.move')
+        for ret in self.browse(cr, uid, ids):
+            if ret.state == 'done':
+                for ret_line in ret.line_ids:
+                    ret_line.move_id and am_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    ret_line.move_id and am_obj.unlink(cr, uid,[ret_line.move_id.id])
+            ret.write({'state':'cancel'})
+        return True    
+
+    def clear_wh_lines(self, cr, uid, ids, context=None):
+        """ Clear lines of current withholding document and delete wh document
+        information from the invoice.
+        """
+        context = context or {}
+        awsl_obj = self.pool.get('account.wh.src.line')
+        ai_obj = self.pool.get('account.invoice')
+        if ids:
+            awsl_ids = awsl_obj.search(cr, uid, [('wh_id', 'in', ids)],
+                    context=context)
+            ai_ids = awsl_ids and [ awsl.invoice_id.id
+                for awsl in awsl_obj.browse(cr, uid, awsl_ids, context=context) ]
+            ai_ids and ai_obj.write(cr, uid, ai_ids,
+                                    {'wh_src_id': False}, context=context)
+            awsl_ids and awsl_obj.unlink(cr, uid, awsl_ids, context=context)
+
+        return True
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        """ Call cancel_move and return True
+        """
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        context = context or {}
+        self.cancel_move(cr, uid, ids)
+        self.clear_wh_lines(cr, uid, ids, context=context)
+        return True
+
     def copy(self,cr,uid,id,default,context=None):
         """ Lines can not be duplicated in this model
         """
@@ -302,7 +362,17 @@ class account_wh_src(osv.osv):
         if not period_id:
             per_obj = self.pool.get('account.period')
             period_id = per_obj.find(cr, uid,ret.date_ret or time.strftime('%Y-%m-%d'))
-            period_id = per_obj.search(cr,uid,[('id','in',period_id),('special','=',False)])
+            #Due to the fact that demo data for periods sets 'special' as True on them, this little
+            #hack is necesary if this issue is solved we should ask directly for the 
+            #refer to this bug for more information 
+            #https://bugs.launchpad.net/openobject-addons/+bug/924200
+            demo_enabled = self.pool.get('ir.module.module').search(cr, uid,
+                                                            [('name', '=', 'base'),
+                                                             ('demo', '=', True)])
+            args = [('id','in',period_id)]
+            if not demo_enabled:
+                args.append(('special','=',False))
+            period_id = per_obj.search(cr,uid,args)
             if not period_id:
                 raise osv.except_osv(_('Missing Periods!'),\
                 _("There are not Periods created for the pointed day: %s!") %\

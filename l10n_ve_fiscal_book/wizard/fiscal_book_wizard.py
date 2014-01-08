@@ -87,14 +87,16 @@ class fiscal_book_wizard(osv.osv_memory):
     def _do_new_record(self, control, inv_browse):
         invoice = [i for i in inv_browse if i.nro_ctrl == control][0]
         amount = (invoice.amount_tax * invoice.p_ret) / 100
+        rp_obj = self.pool.get('res.partner')
+        rp_brw =  rp_obj._find_accounting_partner(invoice.partner_id).id,
         return (invoice.date_invoice,
                 invoice.date_document,
-                invoice.partner_id.vat,
-                invoice.partner_id.id,
+                rp_brw.vat,
+                rp_brw.id,
                 invoice.number,
                 invoice.nro_ctrl,
                 amount,
-                invoice.partner_id.name)
+                rp_brw.name)
 
     def _do_sale_report(self, cr, uid, data, context=None):
         """

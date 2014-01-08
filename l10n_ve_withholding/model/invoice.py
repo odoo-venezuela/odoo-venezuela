@@ -49,6 +49,7 @@ class account_invoice(osv.osv):
         """
         if context is None:
             context = {}
+        rp_obj = self.pool.get('res.partner')
         
         #TODO check if we can use different period for payment and the writeoff line
         assert len(ids)==1, "Can only pay one invoice at a time"
@@ -62,7 +63,7 @@ class account_invoice(osv.osv):
             'debit': direction * pay_amount>0 and direction * pay_amount,
             'credit': direction * pay_amount<0 and - direction * pay_amount,
             'account_id': src_account_id,
-            'partner_id': invoice.partner_id.id,
+            'partner_id': rp_obj._find_accounting_partner(invoice.partner_id).id,
             'ref':invoice.number,
             'date': date,
             'currency_id': False,

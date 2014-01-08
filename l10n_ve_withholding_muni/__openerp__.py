@@ -46,9 +46,13 @@
         'data/wh_muni_sequence.xml',
     ],
     'demo_xml': [
+        'demo/demo_accounts.xml',
+        'demo/demo_partners.xml',
         'demo/demo_journal.xml',
     ],
     'test': [
+        'test/awm_supplier.yml',
+        'test/awm_customer.yml'
     ],
     'installable': True,
     'active': False,
