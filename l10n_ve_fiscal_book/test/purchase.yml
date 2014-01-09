@@ -114,3 +114,12 @@
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel}:
         - state == 'cancel'
 
+-
+  1.7 I check that I can set to draft a empty and cancel purchase book.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book was set to draft.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to draft}:
+        - state == 'draft'
