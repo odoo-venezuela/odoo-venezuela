@@ -95,3 +95,12 @@
 -
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
         - state == 'confirmed'
+-
+  1.5 I check tha I can set to done a empty purchase book.
+-
+    !workflow {model: fiscal.book, action: act_done, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is in done state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to done}:
+        - state == 'done'
