@@ -1,2 +1,66 @@
 -
   1. Testing Purchase Book.
+-
+  1.1 I configure the test enviroment for the test.
+-
+  I set the file context for purchase operations.
+-
+    !context
+        'type': 'purchase'
+-
+  I check that a current period exist and it is unique.
+-
+    !python {model: account.period}: |
+        import time
+        company_id = ref( 'base.main_company' )
+        period_id = self.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})
+        assert period_id, 'There is not current period for this company.'
+        assert period_id, 'There only can be one current period (Not %s).' % (len(period_id))
+-
+  "\n\n\t Note: I try to create a purchase book with basic configurations via record tag but I fail for some yaml errors. \n\t Try to do the same via python code and it works but I loose a xml id. \n\t So I decide to use the fiscal books data created in the demo data.\n"
+-
+  I check that the demo purchase book was correctly created.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly created.}:
+        - state == 'draft'
+        - type == 'purchase'
+        - article_number == '75'
+-
+  I check that the book correspond to the current period.
+-
+    !python {model: account.period}: |
+        fb_id = ref( 'fiscal_book_purchase_test')
+        fb_obj = self.pool.get( 'fiscal.book' )
+        fb_brw = fb_obj.browse(cr, uid, fb_id)
+        fb_period_id = fb_brw.period_id.id
+        company_id = fb_brw.company_id.id
+        import time
+        cr_period_id = self.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
+        assert fb_period_id == cr_period_id, 'The books period not correspond to the current period %s != %s' % (fb_period_id, cr_period_id)
+-
+  1.2 I check that only one purchase book can exist for the same period.
+-
+  I try to create a new purchase book for the current period. It wont.
+-
+    !python {model: fiscal.book}: |
+        from openerp.osv import orm
+        import time
+        flag = True
+        company_id = ref( 'base.main_company' )
+        period_obj = self.pool.get( 'account.period' )
+        period = period_obj.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})
+        values = {
+            'name': 'Purchase Book (Test Yaml)',
+            'period_id': period[0], 
+            }
+        try:
+            cr.execute( 'SAVEPOINT fb_unique_period_company' )
+            self.create(cr, uid, values)
+            cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
+            flag = False
+        except Exception as e:
+            cr.execute( 'ROLLBACK TO SAVEPOINT fb_unique_period_company' )
+        assert flag, 'The purchase book can not be created because there is already another book for the same period and company.'
