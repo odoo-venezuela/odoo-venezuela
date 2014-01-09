@@ -64,3 +64,25 @@
         except Exception as e:
             cr.execute( 'ROLLBACK TO SAVEPOINT fb_unique_period_company' )
         assert flag, 'The purchase book can not be created because there is already another book for the same period and company.'
+-
+  1.3 I check that when I'm creating a new purchase book the default values are correctly set, and that the context is been taking into account.
+-
+    !python {model: fiscal.book}: |
+        import time
+        company_id = \
+            self.pool.get( 'res.users' ).browse(cr, uid, uid).company_id.id
+        period_obj = self.pool.get( 'account.period' )
+        period_ids = self.search(cr, uid, [])
+        cr_period_id = period_obj.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
+        period_ids.remove(cr_period_id)
+        values = {
+            'name': 'Another Purchase Book (Test Yaml)',
+            'period_id': period_ids[0], 
+            }
+        new_fb_id = self.create(cr, uid, values)
+        fb_brw = self.browse(cr, uid, new_fb_id)
+        assert fb_brw.company_id.id == company_id, 'The company is not the active user company (%s != %s)' % (fb_brw.company_id, company_id)
+        assert fb_brw.type == 'purchase', 'The type of the book was not correctñy default set. %s != purchase.' % (fb_brw.type,)
+        assert fb_brw.article_number == '75', 'The article number was not correctly default set (%s != 75).' % (fb_brw.article_number,)
+        assert fb_brw.state == 'draft', 'The state was not correctly default set (%s != draft).' % (fb_brw.state,)
