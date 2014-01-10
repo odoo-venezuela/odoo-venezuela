@@ -129,3 +129,37 @@
 -
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to draft}:
         - state == 'draft'
+-
+  1.5 Second flow of purchase book state. I check that I can change a purchase book with no book lines (empty book) for confirmed state to cancel and then draft state.
+-
+  I check that the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book is not in draft state}:
+        - state == 'draft'
+-
+  I confirm the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I cancel the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is cancel.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel}:
+        - state == 'cancel'
+-
+  I set to draft the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book was set to draft.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to draft}:
+        - state == 'draft'
