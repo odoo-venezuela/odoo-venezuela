@@ -87,7 +87,14 @@
         assert fb_brw.article_number == '75', 'The article number was not correctly default set (%s != 75).' % (fb_brw.article_number,)
         assert fb_brw.state == 'draft', 'The state was not correctly default set (%s != draft).' % (fb_brw.state,)
 -
-  1.4 I check that I can confirm a purchase book with no book lines (empty book).
+  1.4 I check that I can evolve a purchase book with no book lines (empty book) for every one of its states.
+-
+  I check that the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book is not in draft state}:
+        - state == 'draft'
+-
+  I confirm the purchase book.
 -
     !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
 -
@@ -96,7 +103,7 @@
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
         - state == 'confirmed'
 -
-  1.5 I check tha I can set to done a empty purchase book.
+  I set the purchase book to done.
 -
     !workflow {model: fiscal.book, action: act_done, ref: fiscal_book_purchase_test}
 -
@@ -105,7 +112,7 @@
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to done}:
         - state == 'done'
 -
-  1.6 I check that I can set to cancel a empty purchase book.
+  I cancel the purchase book.
 -
     !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
 -
@@ -113,9 +120,8 @@
 -
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel}:
         - state == 'cancel'
-
 -
-  1.7 I check that I can set to draft a empty and cancel purchase book.
+  I set to draft the purchase book.
 -
     !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
 -
