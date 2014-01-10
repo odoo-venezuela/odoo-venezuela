@@ -163,3 +163,24 @@
 -
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to draft}:
         - state == 'draft'
+-
+  1.6 I check that I can not add a draft invoice to purchase book. it wont add the invoice to the book.
+-
+  I check if there is at least one draft invoices.
+-
+    !python {model: account.invoice}: | 
+        draft_inv_ids = self.search(cr, uid, [( 'type', '=', 'in_invoice' ), ( 'state', '=', 'draft')])
+        assert draft_inv_ids, 'There no draft invoices.'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the draft invoice was not added to the purchase book.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        for inv_brw in self.browse(cr, uid, fb_id).invoice_ids:
+            assert inv_brw.state == 'draft', 'A draft invoice was added.'
