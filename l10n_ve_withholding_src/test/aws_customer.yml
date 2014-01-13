@@ -1,0 +1,104 @@
+-
+  In order to test account withholding SRC I create a new customer invoice
+-
+  I set the context that will be used for the encoding of all the invoices of this file
+-
+  !context
+    'type': 'out_invoice'
+-
+  I create a customer invoice
+-
+  !record {model: account.invoice, id: account_invoice_customer0, view: account.invoice_form }:
+    name: 'wh src test account invoice customer'
+    account_id: account.a_recv
+    company_id: base.main_company
+    currency_id: base.EUR
+    invoice_line:
+      - account_id: account.a_sale
+        name: 'Test product description'
+        price_unit: 23.0
+        product_id: product.product_product_3
+        quantity: 1000.0
+        uos_id: product.product_uom_unit
+    journal_id: account.sales_journal
+    partner_id: l10n_ve_fiscal_requirements.f_req_partner_6 
+    reference_type: none
+    type: 'out_invoice'
+-
+  I check that Initially customer invoice state is "Draft"
+-
+  !assert {model: account.invoice, id: account_invoice_customer0}:
+    - state == 'draft'
+-
+  I check that the customer invoice is a "Customer Invoice"
+-
+  !assert {model: account.invoice, id: account_invoice_customer0, string: This is not a customer invoice}:
+    - type == 'out_invoice'
+-
+  I change the state of invoice to open by clicking Validate button
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_customer0}
+-
+  I check that the invoice state is now "Open"
+-
+  !assert {model: account.invoice, id: account_invoice_customer0}:
+    - state == 'open'
+-
+  I create a customer src withholding without wh lines
+-
+  !record {model: account.wh.src, id: account_wh_customer01, view: l10n_ve_withholding_src.view_wh_src_form}: &aws_01
+    name: 'wh src yaml test account withholding customer'
+    account_id: account.a_pay
+    company_id: base.main_company
+    currency_id: base.EUR
+    journal_id: withholding_src_sale_journal
+    partner_id: l10n_ve_fiscal_requirements.f_req_partner_6 
+    type: 'out_invoice'
+    number: '0908070605'
+-
+  I  change the state of src withholding to Confirmed by clicking Confirmed button
+-
+  !python {model: account.wh.src}: |
+    from openerp.osv import osv
+    aws_id = ref('account_wh_customer01')
+    aws_brw = self.browse(cr, uid, aws_id)
+    try:
+      aws_brw.action_confirm()
+    except osv.except_osv:
+      pass
+-
+  I check that the src withholding state remains in Draft state
+-
+  !assert {model: account.wh.src, id: account_wh_customer01}:
+    - state == 'draft'
+-
+  I create a customer withholding src with wh lines and properly calculated wh amount
+-
+  !record {model: account.wh.src, id: account_wh_customer02, view: l10n_ve_withholding_src.view_wh_src_form}: 
+    partner_id: l10n_ve_fiscal_requirements.f_req_partner_1 
+    number: '0102030405'
+    wh_amount: 690.0 
+    line_ids:
+      - name: 'Test src wh line'
+        invoice_id: account_invoice_customer0
+        wh_src_rate: 3.0
+    <<: *aws_01
+-
+  I change the state of src withholding to Confirmed by clicking Confirmed button
+-
+  !workflow {model: account.wh.src, action: wh_src_confirmed, ref: account_wh_customer02}
+-
+  I check that the src withholding state change to Confirmed state
+-
+  !assert {model: account.wh.src, id: account_wh_customer02}:
+    - state == 'confirmed'
+-
+  I change the state of src withholding to Done by clicking Done button
+-
+  !workflow {model: account.wh.src, action: wh_src_done, ref: account_wh_customer02}
+-
+  I check that the src withholding state change to Done state
+-
+  !assert {model: account.wh.src, id: account_wh_customer02}:
+    - state == 'done'
+

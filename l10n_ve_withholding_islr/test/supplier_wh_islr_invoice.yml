@@ -1,0 +1,186 @@
+-
+  1. I check the supplier income withholding when the company is a withholding agent. An invoice conditions will tell if or if not a withholding documenti will be created as the product of invoice confirmation. (Note. the supplier withhodable contidion do not matter in this test cases)
+-
+  1.1 I configure the test enviroment and check data and demo.
+-
+  I set the context for the purchase operations at this set of cases.
+-
+  !context
+    'type': 'in_invoice'
+-
+  I check that the company is a income withholding agent and is at Venezuela.
+-
+    !assert {model: res.partner, id: base.main_partner, string: The companu is a non-withholdable agent}:
+       - islr_withholding_agent
+       - country_id.code == 'VE'
+-
+  I check that only one non-withholdable concept is define.
+-
+    !python {model: islr.wh.concept}: |
+       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', False )])
+       assert len(iwc_ids) == 1, ( 'Only can be defined one non-withhodeable'
+           ' concepts, but %s are defined.' % (len(iwc_ids), ))
+-
+  I check that all the withholdable concepts have accounts type 'other' associtated and also have mandatory income rates.
+-
+    !python {model: islr.wh.concept}: |
+       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
+       for iwc_brw in self.browse(cr, uid, iwc_ids):
+            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
+            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
+            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
+            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
+            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
+-
+  I check that the supplier that will be use exist and is correctly set for this test.
+-
+    !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier is not correctly set for this test.}:
+       - country_id.code == 'VE'
+       - vat
+-
+  I check that the concept that will be use is withhodable.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not withholdable}:
+        - withholdable
+-
+  I check that the product that will be use have the withholdable concept.
+-
+    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
+        - concept_id
+        - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
+-
+  1.2 I check that a withholding document is created when the invoice have a withholdable concept (at the invoice line product).
+-
+   I create a supplier invoice with a withholdable concept.
+-
+    !record {model: account.invoice, id: islr_withholdable_supplier_invoice, view: account.invoice_supplier_form}: &islr_supplier_ai
+        nro_ctrl: WITHHOLDABLE INCOME CONCEPT SUPPLIER INVOICE
+        supplier_invoice_number: WITHHOLDABLE INCOME CONCEPT SUPPLIER INVOICE
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
+        account_id: account.a_pay
+        company_id: base.main_company
+        currency_id: base.EUR
+        reference_type: none
+        invoice_line: &islr_supplier_wh_ail 
+          - product_id: product.product_product_4
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 30000
+            account_id: account.a_pay
+            #concept_id: already in product.
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_withholdable_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - len(invoice_line) == 1
+        - invoice_line[0].concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_withholdable_supplier_invoice}
+-
+  I check that the invoice is confirmed and it genarate a draft income withholding.
+-
+    !assert {model: account.invoice, id: islr_withholdable_supplier_invoice, string: The invoice was not confirmed}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+-
+  1.3 I check that NOT withholding document will be created when the invoice have no concepts at all.
+-
+  I create a invoice with no income concepts lines.
+-
+    !record {model: account.invoice, id: islr_without_concepts_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR NON-WITHHOLDABLE SUPPLIER INVOICE
+        supplier_invoice_number: ISLR NON-WITHHOLDABLE SUPPLIER INVOICE
+        invoice_line: &islr_supplier_wowh_ail
+          - name: line without concepts.
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 30000
+            account_id: account.a_pay
+        <<: *islr_supplier_ai
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_without_concepts_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - not invoice_line[0].concept_id
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_without_concepts_supplier_invoice}
+-
+  I check that the invoice is confirmed and it do not genarate a withholding document.
+-
+    !assert {model: account.invoice, id: islr_without_concepts_supplier_invoice, string: The invoice was not confirmed}:
+        - state == 'open'
+        - not islr_wh_doc_id
+-
+  1.4 I check that NOT withholding document will be created when the invoice have non-withhodable concepts. 
+-
+  I create an invoice.
+-
+    !record {model: account.invoice, id: islr_non_withholdable_concept_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (NON_WITHHOLDABLE CONCEPT)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (NON_WITHHOLDABLE CONCEPT)
+        invoice_line: &islr_supplier_nwh_ail
+          - name: line with a non-withholdable concept.
+            quantity: 3
+            uos_id: product.product_uom_unit
+            price_unit: 30000
+            account_id: account.a_pay
+            concept_id: islr_wh_concept_no_apply_withholding
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_non_withholdable_concept_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+        - invoice_line[0].concept_id
+        - invoice_line[0].concept_id.withholdable == False
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_non_withholdable_concept_supplier_invoice}
+-
+  I check that the invoice is confirmed and the income withholding was not generate.
+-
+    !assert {model: account.invoice, id: islr_non_withholdable_concept_supplier_invoice, string: The invoice was not correctly confirmed. It can not generate an income withholding document.}:
+        - state == 'open'
+        - not islr_wh_doc_id
+-
+  1.5 I check that a withholding document is created when the invoice have at least one withholdable concept and the withholding line generated correspond to the withhodable concept.
+-
+   I create a supplier invoice with a withholdable concept and one not.
+-
+    !record {model: account.invoice, id: islr_hybrid_supplier_invoice, view: account.invoice_supplier_form}:
+        nro_ctrl: ISLR SUPPLIER INVOICE (WITHHOLDABLE AND ONE NOT WITHHOLDABLE)
+        supplier_invoice_number: ISLR SUPPLIER INVOICE (WITHHOLDABLE AND ONE NOT WITHHOLDABLE)
+        invoice_line:
+             - <<: *islr_supplier_wh_ail
+             - <<: *islr_supplier_nwh_ail
+        <<: *islr_supplier_ai
+- 
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: islr_hybrid_supplier_invoice, string: The invoice was not correctly created}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: islr_hybrid_supplier_invoice}
+-
+  I check that the invoice is confirmed and it genarate a draft income withholding.
+-
+    !assert {model: account.invoice, id: islr_withholdable_supplier_invoice, string: The invoice was not confirmed}:
+        - state == 'open'
+        - islr_wh_doc_id
+        - islr_wh_doc_id.state == 'draft'
+        - len(islr_wh_doc_id.concept_ids) == 1
+        - islr_wh_doc_id.concept_ids[0].concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )

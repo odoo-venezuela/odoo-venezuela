@@ -110,7 +110,10 @@
                         <field name="journal_id" domain="[('type','=','islr_sale')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_partner_id(type,partner_id)" 
+                            domain="[('islr_withholding_agent','=',True),('customer','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id" readonly="1"/>
                         <field name="date_ret"/>
                         <field name="account_id" domain="[('type','=', type in ('in_invoice','in_refund') and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
@@ -239,7 +242,10 @@
                         <field name="journal_id" domain="[('type','=','islr_purchase')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" domain="[('supplier','=',True)]"/>
+                        <field 
+                            name="partner_id" 
+                            on_change="onchange_partner_id(type,partner_id)" 
+                            domain="[('supplier','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id" readonly="1"/>
                         <field name="date_ret"/>
                         <field name="account_id" domain="[('type','=', type in ('in_invoice','in_refund') and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
@@ -283,7 +289,12 @@
                                     </field>
                                 </page>
                                 <page string="Invoices" invisible="1">
-                                    <field domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" colspan="6" name="islr_wh_doc_id" nolabel="1" widget="many2many"/>
+                                    <field 
+                                        name="islr_wh_doc_id" 
+                                        domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" 
+                                        colspan="6" 
+                                        nolabel="1" 
+                                        widget="many2many"/>
                                 </page>
                                 <page string="Income Withholding Concepts">
                                     <field colspan="6" name="concept_ids" nolabel="1" readonly="1">

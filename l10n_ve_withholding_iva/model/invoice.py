@@ -166,17 +166,15 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         wil_obj = self.pool.get('account.wh.iva.line')
+        rp_obj = self.pool.get('res.partner')
         inv_brw = self.browse(cr, uid, ids, context=context)
         wh_iva_rate = inv_brw.type in ('in_invoice', 'in_refund') \
-                      and inv_brw.partner_id.wh_iva_rate \
-                      or inv_brw.type in ('out_invoice', 'out_refund') \
-                      and inv_brw.company_id.partner_id.wh_iva_rate
+                and rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate \
+                or rp_obj._find_accounting_partner(inv_brw.company_id.partner_id).wh_iva_rate
         values = {'name': inv_brw.name or inv_brw.number,
                   'invoice_id': inv_brw.id,
                   'wh_iva_rate': wh_iva_rate }
         return wil_obj.create(cr, uid, values, context=context)
-
-
 
     def action_wh_iva_supervisor(self, cr, uid, ids, context=None):
         """ Validate the currencys are equal
@@ -194,7 +192,6 @@ class account_invoice(osv.osv):
                 elif inv.currency_id.id != user_brw.company_id.currency_id.id:
                     raise osv.except_osv('Invalid Action !', _('The currency of the invoice does not match with the currency of the company. Check this please'))
         return True
-
 
     def action_wh_iva_create(self, cr, uid, ids, context=None):
         """ Create withholding objects """
@@ -242,14 +239,17 @@ class account_invoice(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         wh_iva_obj = self.pool.get('account.wh.iva')
         per_obj = self.pool.get('account.period')
+        rp_obj = self.pool.get('res.partner')
         for inv_brw in self.browse(cr, uid, ids, context=context):
+            acc_part_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
             inv_period, inv_fortnight = per_obj.find_fortnight(
                 cr, uid, inv_brw.date_invoice, context=context)
             ttype = inv_brw.type in ["out_invoice", "out_refund"] \
                     and "out_invoice" or "in_invoice"
             acc_wh_ids = wh_iva_obj.search(
-                cr, uid, [('state', '=', 'draft'), ('type', '=', ttype),
-                ('partner_id', '=', inv_brw.partner_id.id),
+                cr, uid, [('state', '=', 'draft'), ('type', '=', ttype), '|',
+                ('partner_id', '=', acc_part_id.id),
+                ('partner_id', 'child_of', acc_part_id.id),
                 ('period_id', '=', inv_period),
                 ('fortnight','=', str(inv_fortnight))], context=context)
             res.append(acc_wh_ids)
@@ -262,14 +262,16 @@ class account_invoice(osv.osv):
         context = context or {}
         wh_iva_obj = self.pool.get('account.wh.iva')
         per_obj = self.pool.get('account.period')
+        rp_obj = self.pool.get('res.partner')
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res = list()
         for inv_brw in self.browse(cr, uid, ids, context=context):
+            acc_part_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
             if inv_brw.type in ('out_invoice', 'out_refund'):
-                acc_id = inv_brw.partner_id.property_account_receivable.id
+                acc_id = acc_part_id.property_account_receivable.id
                 wh_type = 'out_invoice'
             else:
-                acc_id = inv_brw.partner_id.property_account_payable.id
+                acc_id = acc_part_id.property_account_payable.id
                 wh_type = 'in_invoice'
                 if not acc_id:
                     raise osv.except_osv('Invalid Action !',\
@@ -279,7 +281,7 @@ class account_invoice(osv.osv):
                 'name':_('ORIGIN %s'%(inv_brw.number)),
                 'type': wh_type,
                 'account_id': acc_id,
-                'partner_id': inv_brw.partner_id.id,
+                'partner_id': acc_part_id.id,
                 'period_id': inv_brw.period_id.id,
                 'wh_lines': [(4, ret_line_id)],
                 'fortnight': str(per_obj.find_fortnight(
@@ -319,10 +321,9 @@ class account_invoice(osv.osv):
         if context is None:
             context={}
         obj = self.browse(cr, uid, ids[0],context=context)
-        #No create withholding vat for customer invoice
-#        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.wh_iva_agent:
-#            return True
-        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.wh_iva_agent:
+        #No VAT withholding Documents are created for customer invoice & refunds
+        if obj.type in ('in_invoice', 'in_refund') and \
+            self.pool.get('res.partner')._find_accounting_partner(obj.company_id.partner_id).wh_iva_agent:
             return True 
         return False
 
@@ -389,6 +390,7 @@ class account_invoice(osv.osv):
                             name, context=context)
         if context.get('vat_wh',False):
             invoice = self.browse(cr, uid, ids[0])
+            acc_part_id = self.pool.get('res.partner')._find_accounting_partner(invoice.partner_id)
             
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
@@ -404,7 +406,7 @@ class account_invoice(osv.osv):
                     'debit': direction * tax_brw.amount_ret<0 and - direction * tax_brw.amount_ret,
                     'credit': direction * tax_brw.amount_ret>0 and direction * tax_brw.amount_ret,
                     'account_id': acc,
-                    'partner_id': invoice.partner_id.id,
+                    'partner_id': acc_part_id.id,
                     'ref':invoice.number,
                     'date': date,
                     'currency_id': False,
@@ -464,13 +466,15 @@ class account_invoice_tax(osv.osv):
         context = context or {}
         res = {}
         inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
+        rp_obj = self.pool.get('res.partner')
+        acc_part_id = inv.type in ['out_invoice', "out_refund"] and \
+                rp_obj._find_accounting_partner(inv.company_id.partner_id) or \
+                rp_obj._find_accounting_partner(inv.partner_id)
+        wh_iva_rate = acc_part_id.wh_iva_rate
 
         for ait in inv.tax_line:
             amount_ret = 0.0
             if ait.tax_id.ret:
-                wh_iva_rate = inv.type in ['out_invoice', "out_reunf"] \
-                    and inv.company_id.partner_id.wh_iva_rate \
-                    or inv.partner_id.wh_iva_rate
                 amount_ret = wh_iva_rate and ait.tax_amount*wh_iva_rate/100.0 or 0.00
             res[ait.id] = {'amount_ret': amount_ret, 'base_ret': ait.base_amount}
         return res

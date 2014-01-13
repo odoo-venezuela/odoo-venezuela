@@ -32,12 +32,162 @@
         <!--Concepts 
             Just adding accounts to concepts to be able to execute the withholding     
         -->
-        <record id="l10n_ve_withholding_islr.islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
+        <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
         
-        <record id="l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas" model="islr.wh.concept">
+        <record id="islr_wh_concept_pago_contratistas" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_no_apply_withholding" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_cualquie_cosa_menos_sueldos" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pagos_transportes_y_fletes" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pagos_de_servicios_publicitarios" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pagos_administradores_en_el_pais" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_sueldos_y_salarios" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_hprof_mancomunados_no_mercantiles" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_hprof_jinetes_entrenadores_preparadores" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_hprof_sin_relacion_otras_instituciones" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_comisiones_venta_inmuebles" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_rh_concept_interes_capital_invertido_en_renta" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_int_prestamos_exterior" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_intereses_por_personas_juridicas_o_comunidades" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_exhibicion_de_peliculas" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_regalias" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_asistencia_tecnica" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_servicios_tecnologicos" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_primas_seguros_reaseguros" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_juegos_y_apuestas" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_loterias_e_hipodromos" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pagos_propietarios_animales_carrera_premios" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pago_arrendadores_en_el_pais" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_tarjetas_de_credito_cualquier_concepto" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_tarjetas_de_credito_gasolina" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_seguros_prestacion" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pago_seguros_reparacion_damage" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pagos_seguros_a_clinicas" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_fondos_de_comercio_en_el_pais" model="islr.wh.concept">
+            <field name="property_retencion_islr_payable" ref="islr_pay"/>
+            <field name="property_retencion_islr_receivable" ref="islr_rec"/>
+        </record>
+
+        <record id="islr_wh_concept_pub_emisoras" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
@@ -68,7 +218,15 @@
             <field name="padding">6</field>
             <field name="number_increment">1</field>
         </record>
-        
+        _
+        <!--
+        Product
+        -->
+
+        <record id="product.product_product_4" model="product.product">
+            <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
+        </record>
+
         <!--
         Journal
         -->

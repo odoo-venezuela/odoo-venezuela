@@ -15,7 +15,7 @@
                 <tree string="Local Withholding line " editable="bottom">
                     <field name="name"/>
                     <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('wh_local', '=', False)]"/>
-                    <field name="wh_loc_rate"/>
+                    <field name="wh_loc_rate" on_change="onchange_invoice_id(invoice_id, wh_loc_rate)"/>
                     <field name="amount"/>
                     <field name="move_id"/>
                 </tree>
@@ -31,7 +31,7 @@
                         <page string="Linea">
                             <field name="invoice_id" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('wh_local', '=', False)]"/>
                             <field colspan="4" name="name" select="1"/>
-                            <field name="wh_loc_rate"/>
+                            <field name="wh_loc_rate" on_change="onchange_invoice_id(invoice_id, wh_loc_rate)"/>
                             <field name="amount"/>
                             <field name="move_id"/>  
                         </page>
@@ -104,6 +104,13 @@
             <field name="model">account.wh.munici</field>
             <field name="arch" type="xml">
                 <form string="Local Withholding" version="7.0">
+                    <header>
+                        <button name="wh_muni_confirmed" states="draft" string="Confirm" icon="gtk-go-forward"/>
+                        <button name="wh_muni_done" states="confirmed" string="Done" icon="gtk-execute"/>
+                        <button name="cancel" colspan="2" states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
+                        <button name="set_to_draft" colspan="2" states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
+                    </header>
                     <group colspan="4" col="6">
                         <field name="journal_id" select="2" domain="[('type','=','mun_purchase')]"/>
                         <field name="type"/>
@@ -121,11 +128,6 @@
                     <notebook colspan="4">
                         <page string="Withholding">
                             <field name="munici_line_ids" default_get="{'lines': munici_line_ids }" colspan="4" nolabel="1" height="275"/>
-                            <group col="4" colspan="2">
-                                <field name="state"/>
-                                <button name="wh_muni_confirmed" states="draft" string="Confirm" icon="gtk-execute"/>
-                                <button name="wh_muni_done" states="confirmed" string="Done" icon="gtk-execute"/>
-                            </group>
                         </page>
                         <page string="Other Information">
                             <field name="company_id"/>

@@ -142,6 +142,7 @@ class txt_iva(osv.osv):
         """ Current lines are cleaned and rebuilt
         """
         context = context or {}
+        rp_obj = self.pool.get('res.partner')
         voucher_obj = self.pool.get('account.wh.iva')
         txt_iva_obj = self.pool.get('txt.iva.line')
         voucher_ids=''
@@ -156,14 +157,14 @@ class txt_iva(osv.osv):
             voucher_ids = voucher_obj.search(cr,uid,[('date_ret','>=',txt_brw.date_start),('date_ret','<=',txt_brw.date_end),('period_id','=',txt_brw.period_id.id),('state','=','done'),('type','in',['out_invoice','out_refund'])])
         
         for voucher in voucher_obj.browse(cr,uid,voucher_ids):
-            
+            acc_part_id = rp_obj._find_accounting_partner(voucher.partner_id)   
             for voucher_lines in voucher.wh_lines:
                 
                 if voucher_lines.invoice_id.state not in ['open','paid']: 
                     continue
                 for voucher_tax_line in voucher_lines.tax_line:
                     txt_iva_obj.create(cr,uid,
-                    {'partner_id':voucher.partner_id.id,
+                    {'partner_id':acc_part_id.id,
                     'voucher_id':voucher.id,
                     'invoice_id':voucher_lines.invoice_id.id,
                     'txt_id': txt_brw.id,
@@ -258,12 +259,15 @@ class txt_iva(osv.osv):
         @param txt: current txt document 
         @param txt_line: One line of the current txt document
         """
+        rp_obj = self.pool.get('res.partner')
+        vat_company = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
+        vat_partner = rp_obj._find_accounting_partner(txt_line.partner_id).vat[2:]
         if txt_line.invoice_id.type in ['out_invoice','out_refund']:
-            vendor = txt.company_id.partner_id.vat[2:]
-            buyer  = txt_line.partner_id.vat[2:]
+            vendor = vat_company
+            buyer  = vat_partner
         else:
-            buyer  = txt.company_id.partner_id.vat[2:]
-            vendor = txt_line.partner_id.vat[2:]
+            buyer  = vat_company
+            vendor = vat_partner
         return (vendor,buyer)
 
     def get_max_aliquot(self, cr, uid, txt_line):
@@ -294,8 +298,9 @@ class txt_iva(osv.osv):
         """
         context = context or {}
         txt_string = ''
+        rp_obj = self.pool.get('res.partner')
         for txt in self.browse(cr,uid,ids,context):
-            vat = txt.company_id.partner_id.vat[2:]
+            vat = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
             for txt_line in txt.txt_ids:
                 
                 vendor,buyer=self.get_buyer_vendor(cr,uid,txt,txt_line)

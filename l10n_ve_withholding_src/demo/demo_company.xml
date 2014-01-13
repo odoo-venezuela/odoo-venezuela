@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <!--    Company    -->
+        <record id="base.main_company" model="res.company">
+            <field name="wh_src_collected_account_id" ref="src_rec"/>
+            <field name="wh_src_paid_account_id" ref="src_pay"/>
+        </record>
+    </data>
+</openerp>

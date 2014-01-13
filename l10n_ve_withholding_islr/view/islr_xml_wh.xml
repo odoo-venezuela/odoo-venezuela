@@ -17,7 +17,11 @@
                         <separator string="Supplier to Withhold" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
-                        <field name="partner_id" colspan="4" on_change="onchange_partner_vat(partner_id)"/>
+                        <field 
+                            name="partner_id" 
+                            domain="[('parent_id','=',False)]"
+                            colspan="4" 
+                            on_change="onchange_partner_vat(partner_id)"/>
                         <field name="partner_vat"/>
                     </group>
                     <newline/>
@@ -74,7 +78,7 @@
                             <field name="xml_ids" nolabel="1" colspan="4" widget="many2many" domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]">
                                 <tree string="Detail of the XML">
                                     <field name="partner_vat"/>
-                                    <field name="partner_id"/>
+                                    <field name="partner_id" domain="[('parent_id','=',False)]"/>
                                     <field name="invoice_number"/>
                                     <field name="concept_code"/>
                                     <field name="base"/>
