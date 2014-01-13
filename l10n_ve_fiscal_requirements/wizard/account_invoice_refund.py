@@ -359,7 +359,7 @@ class account_invoice_refund(osv.osv_memory):
         mid = []
         if self.validate_total_payment_inv(cr, uid, invoiceids, context=context):
             for inv in inv_obj.browse(cr, uid, invoiceids, context=context):
-                movelineids = inv.move_line_id_payment_get(cr, uid,[inv.id])
+                movelineids = inv_obj.move_line_id_payment_get(cr, uid,[inv.id])
                 for moveline in moveline_obj.browse(cr, uid, movelineids,context=context):
                     if moveline.reconcile_id:
                         rec += [moveline.reconcile_id.id]
