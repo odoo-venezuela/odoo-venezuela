@@ -14,7 +14,7 @@
     company_id: base.main_company
     currency_id: base.EUR
     invoice_line:
-      - account_id: account.a_sale
+      - account_id: account.a_recv
         name: 'Test product description'
         price_unit: 180.0
         product_id: product.product_product_3
@@ -51,7 +51,7 @@
     account_id: account.a_pay
     company_id: base.main_company
     currency_id: base.EUR
-    journal_id: withholding_src_sale_journal
+    journal_id: withholding_scr_purchase_journal
     partner_id: l10n_ve_fiscal_requirements.f_req_partner_8 
     type: 'in_invoice'
     number: '1112131415'
