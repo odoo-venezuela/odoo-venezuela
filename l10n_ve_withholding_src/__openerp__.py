@@ -51,6 +51,7 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
                 ],
     "init_xml" : [],
     "demo_xml" : [
+        'demo/demo_journals.xml',
         'demo/demo_accounts.xml',
         'demo/demo_company.xml',
     ], 
@@ -67,7 +68,6 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         'view/company_view.xml',
         'view/partner_view.xml',
         'workflow/l10n_ve_wh_src_wf.xml',
-        'data/data.xml',
         'report/wh_src_report.xml',
         
     ],
