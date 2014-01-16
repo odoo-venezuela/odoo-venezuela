@@ -85,8 +85,6 @@ class account_invoice(osv.osv):
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Number used to manage pre-printed invoices, by law you will need to put here this number to be able to declarate on Fiscal reports correctly."),
         'sin_cred': fields.boolean('Tax Exempt', readonly=False, help="Set it true if the invoice is VAT excempt"),
-        'parent_id':fields.many2one('account.invoice', 'Parent Invoice', readonly=True, states={'draft':[('readonly',False)]}, help='When this field has information, this invoice is a credit note or debit note. This field is used to reference to the invoice that originated this credit note or debit note. if you are in a refund document, this field must be loaded, if you are in a out_invoice document plus this data filled it means this is a debit note'),
-        'child_ids':fields.one2many('account.invoice', 'parent_id', 'Debit and Credit Notes', readonly=True, states={'draft':[('readonly',False)]}, help='This field is to know when it applyies what Credit Notes and Debit Notes are related to it'),
         'date_document': fields.date("Document Date", states={'draft':[('readonly',False)]}, help="Administrative date, generally is the date printed on invoice, this date is used to show in the Purchase Fiscal book", select=True),
         'invoice_printer' : fields.char('Fiscal printer invoice number', size=64, required=False,help="Fiscal printer invoice number, is the number of the invoice on the fiscal printer"),
         #TODO": maybe it must be a many2one to declared FiscalPrinter when FiscalV is ready
@@ -103,31 +101,6 @@ class account_invoice(osv.osv):
     _constraints = [
           (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
          ]
-
-    def copy(self, cr, uid, id, default={}, context=None):
-        """ Allows you to duplicate a record,
-        child_ids, nro_ctrl and reference fields are
-        cleaned, because they must be unique
-        """
-        if context is None:
-            context = {}
-        default.update({
-            'child_ids':[],
-            'nro_ctrl':None,
-            'supplier_invoice_number':None, 
-            'sin_cred': False,
-            # No cleaned in this copy because it is related to the previous
-            # document, if previous document says so this too
-            # 'parent_id':False,
-            'date_document': False,
-            'invoice_printer' : '',
-            'fiscal_printer' : '',
-            # No cleaned in this copy because it is related to the previous
-            # document, if previous document says so this too
-            #'loc_req':False, 
-            'z_report': '',
-        })
-        return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def write(self, cr, uid, ids, vals, context=None):
         context = context or {}

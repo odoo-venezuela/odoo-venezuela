@@ -33,12 +33,6 @@
                     </group>
                     <newline/>
                 </xpath> <!-- End of dates Section -->
-                <xpath expr="//page[@string='Payments']" position="after">
-                    <page string="Debit-Credit Notes" attrs="{'invisible':['|','|',('type','=','in_refund'),('type','=','out_refund'),('parent_id','!=',False)]}">
-                        <newline/>
-                        <field name="child_ids" nolabel="1" widget="many2many" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
-                    </page>
-                </xpath>
                 <xpath expr="//page[@string='Other Info']/group/group[2]" position="after">
                     <group colspan="2">
                      <separator colspan="6" string="Fiscal Information"/>
@@ -47,7 +41,6 @@
                         <field name="invoice_printer" attrs="{'invisible':[('loc_req','=',True)]}"/>
                         <field name="fiscal_printer" attrs="{'invisible':[('loc_req','=',True)]}"/>
                         <field name="z_report" attrs="{'invisible':[('loc_req','=',True)]}"/>
-                        <field name="parent_id" attrs="{'invisible':[('parent_id','=',False)]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field name="nro_ctrl"/>
                         <button name="%(action_wiz_nroctrl)d" type="action" string="Change control number" colspan="6"/>
                     </group>
@@ -59,24 +52,6 @@
                 <xpath expr="//button[@string='Refund Invoice']" position="replace">
                          <button name="%(account.action_account_invoice_refund)d" type="action" string="Refund Invoice" attrs="{'invisible':['|',('type','in',['out_refund', 'in_refund']),('parent_id','!=',False)]}"/> 
                             
-                </xpath>
-            </field>
-        </record>
-
-    <!-- 
-    =====================================================
-    Invoices Extension TREE
-    =====================================================
-    -->  
-
-
-        <record id="account_inv_ext_view_tree_crdr" model="ir.ui.view">
-            <field name="name">invoice_extended.tree.crdr</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_tree"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='origin']" position="after">
-                    <field name="parent_id" string="Invoice Related"/>
                 </xpath>
             </field>
         </record>
@@ -116,14 +91,15 @@
                     <group colspan="2">
                        <separator colspan="6" string="Fiscal Information"/>
                         <field name="sin_cred"/>
-                        <field name="parent_id" attrs="{'invisible':[('parent_id','=',False)]}" domain="[('partner_id','=',partner_id),('id', '!=', active_id),('type','in',['out_invoice', 'out_refund'])]"/>
                         <field name="nro_ctrl" required="1"/>
                         <button name="%(action_wiz_nroctrl)d" type="action"
                             string="Change control number" colspan="6"
                             help="One time you print the invoice you must set the control number pre-printed in the paper, this is the button."/>
                     </group>
                 </xpath>
-
+				<!--
+                ESTOS TRES CAMPOS SIGUIENTES DEBEN SER MUDADOS A debit_credit_note
+				-->
                 <xpath expr="//button[@string='Ask Refund']" position="replace">
                     <button name="%(account.action_account_invoice_refund)d" type="action"
                         string="Refund Invoice" states="open,paid"

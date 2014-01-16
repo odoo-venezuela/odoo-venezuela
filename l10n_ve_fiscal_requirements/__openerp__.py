@@ -63,7 +63,8 @@ We now have a configuration wizard after this module install.
                  "base_vat",
                  "account_accountant",
                  "account_voucher",
-                 "account_cancel"
+                 "account_cancel",
+                 "debit_credit_note"
                  ],
     'data': [
         'data/l10n_ut_data.xml',
