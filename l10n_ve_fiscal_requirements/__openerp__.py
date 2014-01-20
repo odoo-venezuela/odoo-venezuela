@@ -77,7 +77,6 @@ We now have a configuration wizard after this module install.
         'wizard/wizard_url_seniat_view.xml',
         'wizard/update_info_partner.xml',
         'wizard/account_invoice_debit_view.xml',
-        'wizard/account_invoice_parent_view.xml',
         'wizard/search_info_partner_seniat.xml',
         'wizard/wizard_nro_ctrl_view.xml',
         'view/res_company_view.xml',
