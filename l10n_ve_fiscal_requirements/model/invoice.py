@@ -102,6 +102,29 @@ class account_invoice(osv.osv):
           (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
          ]
 
+    def copy(self, cr, uid, id, default={}, context=None):
+        """ Allows you to duplicate a record,
+        child_ids, nro_ctrl and reference fields are
+        cleaned, because they must be unique
+        """
+        if context is None:
+            context = {}
+        default.update({
+            'nro_ctrl':None,
+            'supplier_invoice_number':None, 
+            'sin_cred': False,
+            # No cleaned in this copy because it is related to the previous
+            # document, if previous document says so this too
+            'date_document': False,
+            'invoice_printer' : '',
+            'fiscal_printer' : '',
+            # No cleaned in this copy because it is related to the previous
+            # document, if previous document says so this too
+            #'loc_req':False, 
+            'z_report': '',
+        })
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
+
     def write(self, cr, uid, ids, vals, context=None):
         context = context or {}
         if vals.get('type') in ('out_invoice','out_refund') and \
