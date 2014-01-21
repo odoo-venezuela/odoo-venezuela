@@ -5,7 +5,7 @@
         <record model="ir.ui.view" id="inh_account_invoice_imex">
             <field name="name">account.invoice.inherit.fiscal.imex</field>
             <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="l10n_ve_fiscal_requirements.account_invoice_ext_view_supp_form_loc_ve"/>
+            <field name="inherit_id" ref="debit_credit_note.account_inv_ext_form_crdrs"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Debit-Credit Notes']" position="after">
                     <page string="Imex">

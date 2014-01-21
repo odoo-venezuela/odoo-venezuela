@@ -30,5 +30,4 @@ import wizard_update_name
 import update_info_partner
 import account_invoice_refund
 import account_invoice_debit
-import account_invoice_parent
 import search_info_partner_seniat
