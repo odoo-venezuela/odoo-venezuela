@@ -79,7 +79,36 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Rates" attrs="{'readonly':[('withholdable','=',False)]}">
-                            <field name="rate_ids" nolabel="1"/>
+                            <field name="rate_ids" nolabel="1">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="code" />
+                                    <field name="base" />
+                                    <field name="minimum" />
+                                    <field name="residence" />
+                                    <field name="wh_perc" />
+                                    <field name="nature" />
+                                    <field name="subtract" />
+                                </tree>
+                                <form>
+                                    <group colspan="4">
+                                        <field name="name" />
+                                    </group>
+                                    <group colspan="4">
+                                        <group>
+                                            <field name="code" />
+                                            <field name="residence" />
+                                            <field name="nature" />
+                                        </group>
+                                        <group>
+                                            <field name="base" />
+                                            <field name="minimum" />
+                                            <field name="wh_perc" />
+                                            <field name="subtract" />
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
                         </page>
                     </notebook>
                 </form>
