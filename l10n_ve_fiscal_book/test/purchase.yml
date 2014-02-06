@@ -366,3 +366,49 @@
         except Exception as e:
             flag = False
         assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel purchase book.' 
+-
+  1.10 I check that purchase book is clear everytime I set the book to cancel state.
+-
+  I check the purchase book state is in cancel state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'cancel'
+-
+  I set the purchase book to draft state.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check the purchase book state is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'draft'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the purchase book have at least one invoice associated.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - len(invoice_ids) >= 1
+-
+  I confirm the purchase book
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I cancel the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is cancel and clear (no invoices).
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel.}:
+        - state == 'cancel'
+        - not invoice_ids
