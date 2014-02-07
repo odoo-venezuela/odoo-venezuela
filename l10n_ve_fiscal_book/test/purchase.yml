@@ -6,7 +6,7 @@
   I set the file context for purchase operations.
 -
     !context
-        'type': 'purchase'
+        'type': 'in_invoice'
 -
   I check that a current period exist and it is unique.
 -
@@ -450,3 +450,71 @@
             assert line.total_with_iva == line.invoice_id.amount_total, 'There is an error'
             inv_total += line.invoice_id.amount_total
         assert fb_brw.get_total_with_iva_sum == inv_total, 'The total with iva amount is not matching'
+-
+  1.12 I check that the invoice taxes amount and base are correctly set into the book columns.
+-
+  I create a new invoice.
+-
+    !record {model: account.invoice, id: ai_fb_01, view: account.invoice_supplier_form}:
+        nro_ctrl: 9876543
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_2
+        type: in_invoice
+        company_id: base.main_company
+        account_id: account.a_pay
+        invoice_line:
+          - name: Product 1
+            quantity: 1
+            price_unit: 2000
+            invoice_line_tax_id:
+                - l10n_ve_fiscal_requirements.iva_purchase1
+          - name: Product 2
+            quantity: 1
+            price_unit: 1000
+            invoice_line_tax_id:
+                - l10n_ve_fiscal_requirements.iva_purchase4
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: ai_fb_01, string: Something is wrong}:
+        - type == 'in_invoice'
+        - amount_total == 3000
+        - len(invoice_line) == 2
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: ai_fb_01}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: ai_fb_01, string: The invoice was not confirmed}:
+        - state == 'open'
+        - amount_total == 3320.0
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the invoice was added to the book with the correct values.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        inv_id = ref( 'ai_fb_01' )
+        inv_brws = self.browse(cr, uid, fb_id).invoice_ids
+        inv_ids = [inv_brw.id for inv_brw in inv_brws]
+        assert inv_id in inv_ids, 'The invoice was not added to the book.'
+
+        inv_brw = self.pool.get( 'account.invoice' ).browse(cr, uid, inv_id)
+        fbl_obj = self.pool.get( 'fiscal.book.line')
+        fbl_id = fbl_obj.search(cr, uid, [ ( 'fb_id', '=', fb_id ),
+                                ( 'invoice_id', '=', inv_id)])[0]
+        fbl_brw = fbl_obj.browse(cr, uid, fbl_id)
+        check_list = [
+            (fbl_brw.vat_general_base, 2000.0, 'general vat base'),
+            (fbl_brw.vat_general_tax, 240.0, 'general vat tax'),
+            (fbl_brw.vat_reduced_base, 1000.0, 'reduced vat base'),
+            (fbl_brw.vat_reduced_tax, 80.0, 'reduced vat tax')]
+
+        for elm in check_list:
+            assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
