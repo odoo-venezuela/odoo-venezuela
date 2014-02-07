@@ -412,3 +412,41 @@
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel.}:
         - state == 'cancel'
         - not invoice_ids
+-
+  1.11 I check that the taxes are added correctly
+-
+  I check the purchase book state is in cancel state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'cancel'
+-
+  I set the purchase book to draft state.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check the purchase book state is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'draft'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the purchase book have at least one invoice associated.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - len(invoice_ids) >= 1
+-
+  I check that the total with iva of the book correspond to the invoices. 
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test')
+        fb_brw = self.browse(cr, uid, fb_id)
+        inv_total = 0.0
+        for line in fb_brw.fbl_ids:
+            assert line.total_with_iva == line.invoice_id.amount_total, 'There is an error'
+            inv_total += line.invoice_id.amount_total
+        assert fb_brw.get_total_with_iva_sum == inv_total, 'The total with iva amount is not matching'
