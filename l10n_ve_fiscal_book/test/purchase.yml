@@ -413,7 +413,7 @@
         - state == 'cancel'
         - not invoice_ids
 -
-  1.11 I check that the taxes are added correctly
+  1.11 I check that total with iva totalization sum is correct.
 -
   I check the purchase book state is in cancel state.
 -
@@ -451,7 +451,7 @@
             inv_total += line.invoice_id.amount_total
         assert fb_brw.get_total_with_iva_sum == inv_total, 'The total with iva amount is not matching'
 -
-  1.12 I check that the invoice taxes amount and base are correctly set into the book columns.
+  1.12 I check that the invoice taxes amount and base are correctly set into the book lines.
 -
   I create a new invoice.
 -
