@@ -27,18 +27,17 @@
         - type == 'purchase'
         - article_number == '75'
 -
-  I check that the book correspond to the current period.
+  I modify the book to correspond to the current period.
 -
     !python {model: account.period}: |
         fb_id = ref( 'fiscal_book_purchase_test')
         fb_obj = self.pool.get( 'fiscal.book' )
         fb_brw = fb_obj.browse(cr, uid, fb_id)
-        fb_period_id = fb_brw.period_id.id
         company_id = fb_brw.company_id.id
         import time
         cr_period_id = self.find(
             cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
-        assert fb_period_id == cr_period_id, 'The books period not correspond to the current period %s != %s' % (fb_period_id, cr_period_id)
+        fb_obj.write(cr, uid, fb_id, {'period_id': cr_period_id}) 
 -
   1.2 I check that only one purchase book can exist for the same period.
 -
