@@ -66,6 +66,7 @@ Parágrafo Segundo: El registro de las operaciones contenidas en el reporte glob
     ],
     'test': [
         'test/purchase.yml',
+        'test/sale.yml',
     ],
     "active": False,
     "installable": True,
