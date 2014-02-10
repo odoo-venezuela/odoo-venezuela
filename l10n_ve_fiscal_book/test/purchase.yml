@@ -579,3 +579,38 @@
 
         for elm in check_list:
             assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
+-
+  1.14 I check that the general, reduce and additional amount and tax column
+  sums works correctly.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        fb_brw = self.browse(cr, uid, fb_id)
+        purchase_tax = {
+            '12': {
+                'tax_id': ref( 'l10n_ve_fiscal_requirements.iva_purchase1' ),
+                'tax': 'do_general_vat_tax_sum',
+                'base': 'do_general_vat_base_sum'
+                },
+            '8': {
+                'tax_id': ref( 'l10n_ve_fiscal_requirements.iva_purchase4' ),
+                'tax': 'do_reduced_vat_tax_sum',
+                'base': 'do_reduced_vat_base_sum',
+                },
+            '22': {
+                'tax_id': ref( 'l10n_ve_fiscal_requirements.iva_purchase2' ),
+                'tax': 'do_additional_vat_tax_sum',
+                'base': 'do_additional_vat_base_sum',
+                },
+        }
+        for tot in purchase_tax:
+            tax_sum = 0.0
+            base_sum = 0.0
+            for fbl_brw in fb_brw.fbl_ids:
+                for ait_brw in fbl_brw.invoice_id.tax_line:
+                    if ait_brw.tax_id.id == purchase_tax[tot][ 'tax_id' ]:
+                        tax_sum += ait_brw.amount
+                        base_sum += ait_brw.base
+
+            assert tax_sum == getattr(fb_brw, purchase_tax[tot][ 'tax' ]), "The %s totalization is not good." % (purchase_tax[tot][ 'tax' ])
+            assert base_sum == getattr(fb_brw, purchase_tax[tot][ 'base' ]), "The %s totalization is not good" % (purchase_tax[tot][ 'base' ])
