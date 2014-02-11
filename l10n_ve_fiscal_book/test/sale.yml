@@ -283,105 +283,106 @@
             inv_brw.id
             for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
         assert inv_id in inv_ids, 'The invoice was not added.'
-#-
-#  2.9 I check that an invoice associated to a book can only be cancel when the sale book is in cancel state.
-#-
-#  I select a demo invoice and check if it is in draft state.
-#-
-#    !assert {model: account.invoice, id: account_invoice_6, string: The invoice is not in draft state.}:
-#        - state == 'draft'
-#-
-#  I confirm the invoice.
-#-
-#    !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_6}
-#-
-#  I check that the invoice was confirmed.
-#-
-#    !assert {model: account.invoice, id: account_invoice_6, string: The invoice was not confirmed}:
-#        - state == 'open'
-#-
-#  I update the sale book.
-#-
-#    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I check that the invoice is in the sale book.
-#-
-#    !python {model: fiscal.book}: |
-#        inv_id = ref( 'account_invoice_6' )
-#        fb_id = ref( 'fiscal_book_sale_test' )
-#        inv_ids = [
-#            inv_brw.id
-#            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
-#        assert inv_id in inv_ids, 'The invoice was not added.'
-#-
-#  I check the book is in draft state.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book is not in draft state.}:
-#       - state == 'draft'
-#-
-#  I try to cancel the invoice. It wont cancel the invoice because the book is in draft state.
-#-
-#    !python {model: account.invoice}: |
-#        inv_id = ref( 'account_invoice_6' )
-#        flag = True
-#        import netsvc
-#        from openerp.osv import osv
-#        wf_service = netsvc.LocalService( 'workflow' )
-#        try:
-#            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
-#            flag = False
-#        except Exception as e:
-#            print '\n\tThe exception was succesfully manage.\n'
-#        assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a draft sale book.' 
-#-
-#  I confirm the sale book.
-#-
-#    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book is confirmed.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly confirmed}:
-#        - state == 'confirmed'
-#-
-#  I try to cancel the invoice. It wont cancel the invoice because the book is in confirm state.
-#-
-#    !python {model: account.invoice}: |
-#        inv_id = ref( 'account_invoice_6' )
-#        flag = True
-#        import netsvc
-#        from openerp.osv import osv
-#        wf_service = netsvc.LocalService( 'workflow' )
-#        try:
-#            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
-#            flag = False
-#        except Exception as e:
-#            print '\n\tThe exception was succesfully manage.\n'
-#        assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a confirmed sale book.' 
-#-
-#  I cancel the sale book.
-#-
-#    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book is cancel.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly cancel}:
-#        - state == 'cancel'
-#-
-#  I try to cancel the invoice. It will cancel the invoice because the book is in cancel state.
-#-
-#    !python {model: account.invoice}: |
-#        inv_id = ref( 'account_invoice_6' )
-#        flag = True
-#        import netsvc
-#        from openerp.osv import osv
-#        wf_service = netsvc.LocalService( 'workflow' )
-#        try:
-#            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
-#        except Exception as e:
-#            flag = False
-#        assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel sale book.' 
+-
+  2.9 I check that an invoice associated to a book can only be cancel when the sale book is in cancel state.
+-
+  I select a demo invoice and check if it is in draft state.
+-
+    !assert {model: account.invoice, id: account_invoice_6, string: The invoice is not in draft state.}:
+        - state == 'draft'
+        - type == 'out_invoice'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_6}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: account_invoice_6, string: The invoice was not confirmed}:
+        - state == 'open'
+-
+  I update the sale book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I check that the invoice is in the sale book.
+-
+    !python {model: fiscal.book}: |
+        inv_id = ref( 'account_invoice_6' )
+        fb_id = ref( 'fiscal_book_sale_test' )
+        inv_ids = [
+            inv_brw.id
+            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
+        assert inv_id in inv_ids, 'The invoice was not added.'
+-
+  I check the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book is not in draft state.}:
+       - state == 'draft'
+-
+  I try to cancel the invoice. It wont cancel the invoice because the book is in draft state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_6' )
+        flag = True
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        try:
+            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            flag = False
+        except Exception as e:
+            print '\n\tThe exception was succesfully manage.\n'
+        assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a draft sale book.' 
+-
+  I confirm the sale book.
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_sale_test}
+-
+  I check that the sale book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I try to cancel the invoice. It wont cancel the invoice because the book is in confirm state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_6' )
+        flag = True
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        try:
+            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            flag = False
+        except Exception as e:
+            print '\n\tThe exception was succesfully manage.\n'
+        assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a confirmed sale book.' 
+-
+  I cancel the sale book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_sale_test}
+-
+  I check that the sale book is cancel.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly cancel}:
+        - state == 'cancel'
+-
+  I try to cancel the invoice. It will cancel the invoice because the book is in cancel state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_6' )
+        flag = True
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        try:
+            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+        except Exception as e:
+            flag = False
+        assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel sale book.' 
 #-
 #  2.10 I check that sale book is clear everytime I set the book to cancel state.
 #-
