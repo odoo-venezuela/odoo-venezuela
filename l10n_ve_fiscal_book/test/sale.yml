@@ -233,56 +233,56 @@
             inv_brw.id
             for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
         assert inv_id in inv_ids, 'The invoice was not added.'
-#-
-#  2.8 I check that I can add a paid invoice into the sale book.
-#-
-#  I check that the invoice is open.
-#-
-#    !assert {model: account.invoice, id: account_invoice_5, string: The invoice is not open.}:
-#        - state == 'open'
-#-
-#  I paid the invoice.
-#-
-#    !python {model: account.invoice}: |
-#        import time
-#        inv_id = ref( 'account_invoice_5' )
-#        company_id = ref( 'base.main_company' )
-#        account_id = ref( 'account.cash' )
-#        inv_brw = self.browse(cr, uid, inv_id)
-#        cr_period_id = self.pool.get( 'account.period' ).find(
-#            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
-#        journal_id = self.pool.get( 'account.journal' ).search(
-#            cr, uid, [( 'type' , '=', 'cash'), ( 'company_id', '=', company_id)])[0]
-#        self.pay_and_reconcile(
-#            cr, uid, [inv_id], inv_brw.amount_total, account_id, cr_period_id,
-#            journal_id, account_id, cr_period_id, journal_id, name='test')
-#-
-#  I check that the invoice is paid.
-#-
-#    !assert {model: account.invoice, id: account_invoice_5, string: The invoice is not paid.}:
-#        - state == 'paid'
-#-
-#  I clear the sale book.
-#-
-#    !function {model: fiscal.book, name: clear_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I update the sale book.
-#-
-#    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I check that the paid invoice was added to the sale book.
-#-
-#    !python {model: fiscal.book}: |
-#        inv_id = ref( 'account_invoice_5' )
-#        fb_id = ref( 'fiscal_book_sale_test' )
-#        inv_ids = [
-#            inv_brw.id
-#            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
-#        assert inv_id in inv_ids, 'The invoice was not added.'
+-
+  2.8 I check that I can add a paid invoice into the sale book.
+-
+  I check that the invoice is open.
+-
+    !assert {model: account.invoice, id: account_invoice_5, string: The invoice is not open.}:
+        - state == 'open'
+-
+  I paid the invoice.
+-
+    !python {model: account.invoice}: |
+        import time
+        inv_id = ref( 'account_invoice_5' )
+        company_id = ref( 'base.main_company' )
+        account_id = ref( 'account.cash' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        cr_period_id = self.pool.get( 'account.period' ).find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
+        journal_id = self.pool.get( 'account.journal' ).search(
+            cr, uid, [( 'type' , '=', 'cash'), ( 'company_id', '=', company_id)])[0]
+        self.pay_and_reconcile(
+            cr, uid, [inv_id], inv_brw.amount_total, account_id, cr_period_id,
+            journal_id, account_id, cr_period_id, journal_id, name='test')
+-
+  I check that the invoice is paid.
+-
+    !assert {model: account.invoice, id: account_invoice_5, string: The invoice is not paid.}:
+        - state == 'paid'
+-
+  I clear the sale book.
+-
+    !function {model: fiscal.book, name: clear_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I update the sale book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I check that the paid invoice was added to the sale book.
+-
+    !python {model: fiscal.book}: |
+        inv_id = ref( 'account_invoice_5' )
+        fb_id = ref( 'fiscal_book_sale_test' )
+        inv_ids = [
+            inv_brw.id
+            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
+        assert inv_id in inv_ids, 'The invoice was not added.'
 #-
 #  2.9 I check that an invoice associated to a book can only be cancel when the sale book is in cancel state.
 #-
