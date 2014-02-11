@@ -6,7 +6,7 @@
   I set the file context for sale operations.
 -
     !context
-        'type': 'out_invoice'
+        'type': 'sale'
 -
   I check that a current period exist and it is unique.
 -
@@ -20,12 +20,23 @@
 -
   "\n\n\t Note: I try to create a sale book with basic configurations via record tag but I fail for some yaml errors. \n\t Try to do the same via python code and it works but I loose a xml id. \n\t So I decide to use the fiscal books data created in the demo data.\n"
 -
+  I set the fiscal book article number for the current book type.
+-
+  "\n\n\t Note. This case is used to resolve the dafult asignation of the article number field\n\t for the sale type. Once this section is fixed then the next test case can be deleted\n."
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_sale_test')
+        article_number = self.default_get(
+            cr, uid, ['article_number'], context=context).values()[0]
+        self.write(cr, uid, fb_id, {'article_number': article_number},
+                   context=context)
+-
   I check that the demo sale book was correctly created.
 -
     !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly created.}:
         - state == 'draft'
         - type == 'sale'
-        - article_number == '75'
+        - article_number == '76'
 -
   I modify the book to correspond to the current period.
 -
@@ -37,7 +48,7 @@
         import time
         cr_period_id = self.find(
             cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
-        fb_obj.write(cr, uid, fb_id, {'period_id': cr_period_id}) 
+        fb_obj.write(cr, uid, fb_id, {'period_id': cr_period_id})
 -
   2.2 I check that only one sale book can exist for the same period.
 -
