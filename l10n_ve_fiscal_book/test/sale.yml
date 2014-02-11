@@ -200,39 +200,39 @@
         fb_id = ref( 'fiscal_book_sale_test' )
         for inv_brw in self.browse(cr, uid, fb_id).invoice_ids:
             assert inv_brw.state != 'draft', 'A draft invoice was added. The %s is in %s state.' % (inv_brw.name, inv_brw.state)
-#-
-#  2.7 I check that I can add an open invoice to the sale book.
-#-
-#  I check that the invoice define in the demo data exist and is in draft state.
-#-
-#    !assert {model: account.invoice, id: account_invoice_5, string: The invoice used in this test case is not correctly set for the test}:
-#        - state == 'draft'
-#        - type == 'out_invoice'
-#-
-#  I confirm the demo invoice.
-#-
-#    !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_5}
-#-
-#  I check that the invoice was confirmed.
-#-
-#    !assert {model: account.invoice, id: account_invoice_5, string: The invoice was not confirmed}:
-#        - state == 'open'
-#-
-#  I update the sale book.
-#-
-#    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I check that the open invoice was added to the sale book.
-#-
-#    !python {model: fiscal.book}: |
-#        inv_id = ref( 'account_invoice_5' )
-#        fb_id = ref( 'fiscal_book_sale_test' )
-#        inv_ids = [
-#            inv_brw.id
-#            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
-#        assert inv_id in inv_ids, 'The invoice was not added.'
+-
+  2.7 I check that I can add an open invoice to the sale book.
+-
+  I check that the invoice define in the demo data exist and is in draft state.
+-
+    !assert {model: account.invoice, id: account_invoice_5, string: The invoice used in this test case is not correctly set for the test}:
+        - state == 'draft'
+        - type == 'out_invoice'
+-
+  I confirm the demo invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_5}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: account_invoice_5, string: The invoice was not confirmed}:
+        - state == 'open'
+-
+  I update the sale book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I check that the open invoice was added to the sale book.
+-
+    !python {model: fiscal.book}: |
+        inv_id = ref( 'account_invoice_5' )
+        fb_id = ref( 'fiscal_book_sale_test' )
+        inv_ids = [
+            inv_brw.id
+            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
+        assert inv_id in inv_ids, 'The invoice was not added.'
 #-
 #  2.8 I check that I can add a paid invoice into the sale book.
 #-
