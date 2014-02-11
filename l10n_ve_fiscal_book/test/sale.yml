@@ -49,32 +49,32 @@
         cr_period_id = self.find(
             cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
         fb_obj.write(cr, uid, fb_id, {'period_id': cr_period_id})
-#-
-#  2.2 I check that only one sale book can exist for the same period.
-#-
-#  I try to create a new sale book for the current period. It wont.
-#-
-#    !python {model: fiscal.book}: |
-#        from openerp.osv import orm
-#        import time
-#        flag = True
-#        company_id = ref( 'base.main_company' )
-#        period_obj = self.pool.get( 'account.period' )
-#        period = period_obj.find(
-#            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})
-#        values = {
-#            'name': 'Sale Book (Test Yaml)',
-#            'period_id': period[0], 
-#            'type': 'sale'
-#            }
-#        try:
-#            cr.execute( 'SAVEPOINT fb_unique_period_company' )
-#            self.create(cr, uid, values)
-#            cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
-#            flag = False
-#        except Exception as e:
-#            cr.execute( 'ROLLBACK TO SAVEPOINT fb_unique_period_company' )
-#        assert flag, 'The sale book can not be created because there is already another book for the same period and company.'
+-
+  2.2 I check that only one sale book can exist for the same period.
+-
+  I try to create a new sale book for the current period. It wont.
+-
+    !python {model: fiscal.book}: |
+        from openerp.osv import orm
+        import time
+        flag = True
+        company_id = ref( 'base.main_company' )
+        period_obj = self.pool.get( 'account.period' )
+        period = period_obj.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})
+        values = {
+            'name': 'Sale Book (Test Yaml) - Not Created',
+            'period_id': period[0], 
+            'type': 'sale',
+            }
+        try:
+            cr.execute( 'SAVEPOINT fb_unique_period_company' )
+            self.create(cr, uid, values, context=context)
+            cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
+            flag = False
+        except Exception as e:
+            cr.execute( 'ROLLBACK TO SAVEPOINT fb_unique_period_company' )
+        assert flag, 'The sale book can not be created because there is already another book for the same period and company.'
 #-
 #  2.3 I check that when I'm creating a new sale book the default values are correctly set, and that the context is been taking into account.
 #-
