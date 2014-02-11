@@ -145,40 +145,40 @@
 -
     !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly set to draft}:
         - state == 'draft'
-#-
-#  2.5 Second flow of sale book state. I check that I can change a sale book with no book lines (empty book) for confirmed state to cancel and then draft state.
-#-
-#  I check that the book is in draft state.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book is not in draft state}:
-#        - state == 'draft'
-#-
-#  I confirm the sale book.
-#-
-#    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book is confirmed.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly confirmed}:
-#        - state == 'confirmed'
-#-
-#  I cancel the sale book.
-#-
-#    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book is cancel.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly cancel}:
-#        - state == 'cancel'
-#-
-#  I set to draft the sale book.
-#-
-#    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book was set to draft.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly set to draft}:
-#        - state == 'draft'
+-
+  2.5 Second flow of sale book state. I check that I can change a sale book with no book lines (empty book) for confirmed state to cancel and then draft state.
+-
+  I check that the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book is not in draft state}:
+        - state == 'draft'
+-
+  I confirm the sale book.
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_sale_test}
+-
+  I check that the sale book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I cancel the sale book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_sale_test}
+-
+  I check that the sale book is cancel.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly cancel}:
+        - state == 'cancel'
+-
+  I set to draft the sale book.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_sale_test}
+-
+  I check that the sale book was set to draft.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly set to draft}:
+        - state == 'draft'
 #-
 #  2.6 I check that I can not add a draft invoice to sale book. it wont add the invoice to the book.
 #-
