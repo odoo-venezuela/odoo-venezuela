@@ -182,7 +182,7 @@
     !python {model: fiscal.book}: |
         fb_id = ref( 'fiscal_book_purchase_test' )
         for inv_brw in self.browse(cr, uid, fb_id).invoice_ids:
-            assert inv_brw.state == 'draft', 'A draft invoice was added.'
+            assert inv_brw.state != 'draft', 'A draft invoice was added. The %s is in %s state)' % (inv_brw.name, inv_brw.state) 
 -
   1.7 I check that I can add an open invoice to the purchase book.
 -
