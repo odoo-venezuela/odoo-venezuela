@@ -179,27 +179,27 @@
 -
     !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly set to draft}:
         - state == 'draft'
-#-
-#  2.6 I check that I can not add a draft invoice to sale book. it wont add the invoice to the book.
-#-
-#  I check if there is at least one draft invoices.
-#-
-#    !python {model: account.invoice}: | 
-#        draft_inv_ids = self.search(cr, uid, [( 'type', '=', 'out_invoice' ), ( 'state', '=', 'draft')])
-#        assert draft_inv_ids, 'There no draft invoices.'
-#-
-#  I update the sale book.
-#-
-#    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I check that the draft invoice was not added to the sale book.
-#-
-#    !python {model: fiscal.book}: |
-#        fb_id = ref( 'fiscal_book_sale_test' )
-#        for inv_brw in self.browse(cr, uid, fb_id).invoice_ids:
-#            assert inv_brw.state == 'draft', 'A draft invoice was added.'
+-
+  2.6 I check that I can not add a draft invoice to sale book. it wont add the invoice to the book.
+-
+  I check if there is at least one draft invoices.
+-
+    !python {model: account.invoice}: |
+        draft_inv_ids = self.search(cr, uid, [( 'type', '=', 'out_invoice' ), ( 'state', '=', 'draft')])
+        assert draft_inv_ids, 'There no draft invoices.'
+-
+  I update the sale book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I check that the draft invoice was not added to the sale book.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_sale_test' )
+        for inv_brw in self.browse(cr, uid, fb_id).invoice_ids:
+            assert inv_brw.state != 'draft', 'A draft invoice was added. The %s is in %s state.' % (inv_brw.name, inv_brw.state)
 #-
 #  2.7 I check that I can add an open invoice to the sale book.
 #-
