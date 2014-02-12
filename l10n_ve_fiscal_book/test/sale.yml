@@ -431,19 +431,20 @@
 #-
 #  2.11 I check that total with iva totalization sum is correct.
 #-
+#  I set the book to draft state.
+#-
+#    !python {model: fiscal.book}: |
+#        import netsvc
+#        from openerp.osv import osv
+#        fb_id = ref( 'fiscal_book_sale_test' )
+#        fb_brw = self.browse(cr, uid, fb_id)
+#        if fb_brw.state == 'cancel':
+#            wf_service = netsvc.LocalService( 'workflow' )
+#            wf_service.trg_validate(uid, 'fiscal.book', fb_id, 'act_draft', cr)
+#            fb_brw = self.browse(cr, uid, fb_id)
+#        assert fb_brw.state == 'draft', 'The book remains in cancel state.' 
+#-
 #  I check the sale book state is in cancel state.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: Not the state I want}:
-#        - state == 'cancel'
-#-
-#  I set the sale book to draft state.
-#-
-#    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_sale_test}
-#-
-#  I check the sale book state is in draft state.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: Not the state I want}:
-#        - state == 'draft'
 #-
 #  I update the sale book.
 #-
@@ -458,14 +459,16 @@
 #-
 #  I check that the total with iva of the book correspond to the invoices. 
 #-
+## Note: this case can change after solving a doubt about the not withhodable
+## tax. Right now is failling
 #    !python {model: fiscal.book}: |
 #        fb_id = ref( 'fiscal_book_sale_test')
 #        fb_brw = self.browse(cr, uid, fb_id)
 #        inv_total = 0.0
 #        for line in fb_brw.fbl_ids:
-#            assert line.total_with_iva == line.invoice_id.amount_total, 'There is an error'
+#            assert line.total_with_iva == line.invoice_id.amount_total, 'There is an error in the book line total with iva value (%s != %s).' % (line.total_with_iva, line.invoice_id.amount_total)
 #            inv_total += line.invoice_id.amount_total
-#        assert fb_brw.get_total_with_iva_sum == inv_total, 'The total with iva amount is not matching. %s != %s' % (fb_brw.get_total_with_iva_sum, inv_total)
+#        assert fb_brw.get_total_with_iva_sum == inv_total, 'The sumatory of total with iva amount is not matching. %s != %s' % (fb_brw.get_total_with_iva_sum, inv_total)
 #-
 #  2.12 I check that the invoice taxes amount and base are correctly set into the book lines.
 #-
