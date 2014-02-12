@@ -542,65 +542,65 @@
 
         for elm in check_list:
             assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
-#-
-#  2.13 I check that an invoice with two lines with the same tax are correctly sum into the tax base and amount columns the corresponding book line. 
-#-
-#    !record {model: account.invoice, id: ai_fb_02, view: account.invoice_form}:
-#        nro_ctrl: 9876546
-#        invoice_line:
-#          - <<: *ail_fb_gral
-#          - <<: *ail_fb_red
-#          - name: Product 3
-#            quantity: 1
-#            price_unit: 1500
-#            invoice_line_tax_id:
-#                - l10n_ve_fiscal_requirements.iva_sale1
-#        <<: *ai_fb
-#-
-#  I check that the invoice was correctly created.
-#-
-#    !assert {model: account.invoice, id: ai_fb_02, string: Something is wrong}:
-#        - type == 'out_invoice'
-#        - amount_total == 9000 
-#        - len(invoice_line) == 3
-#-
-#  I confirm the invoice.
-#-
-#    !workflow {model: account.invoice, action: invoice_open, ref: ai_fb_02}
-#-
-#  I check that the invoice was confirmed.
-#-
-#    !assert {model: account.invoice, id: ai_fb_02, string: The invoice was not confirmed}:
-#        - state == 'open'
-#        - amount_total == 9500.0
-#-
-#  I update the sale book.
-#-
-#    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I check that the invoice was added to the book with the correct values.
-#-
-#    !python {model: fiscal.book}: |
-#        fb_id = ref( 'fiscal_book_sale_test' )
-#        inv_id = ref( 'ai_fb_02' )
-#        inv_brws = self.browse(cr, uid, fb_id).invoice_ids
-#        inv_ids = [inv_brw.id for inv_brw in inv_brws]
-#        assert inv_id in inv_ids, 'The invoice was not added to the book.'
-#
-#        fbl_obj = self.pool.get( 'fiscal.book.line')
-#        fbl_id = fbl_obj.search(cr, uid, [ ( 'fb_id', '=', fb_id ),
-#                                ( 'invoice_id', '=', inv_id)])[0]
-#        fbl_brw = fbl_obj.browse(cr, uid, fbl_id)
-#        check_list = [
-#            (fbl_brw.vat_general_base, 3500.0, 'general vat base'),
-#            (fbl_brw.vat_general_tax, 420.0, 'general vat tax'),
-#            (fbl_brw.vat_reduced_base, 1000.0, 'reduced vat base'),
-#            (fbl_brw.vat_reduced_tax, 80.0, 'reduced vat tax')]
-#
-#        for elm in check_list:
-#            assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
+-
+  2.13 I check that an invoice with two lines with the same tax type are correctly sum into the tax base and amount columns in the corresponding book line. 
+-
+    !record {model: account.invoice, id: au_sale_fb_02, view: account.invoice_form}:
+        nro_ctrl: 9876546
+        invoice_line:
+          - <<: *ail_fb_gral
+          - <<: *ail_fb_red
+          - name: Product 3
+            quantity: 1
+            price_unit: 1500
+            invoice_line_tax_id:
+                - l10n_ve_fiscal_requirements.iva_sale1
+        <<: *ai_fb
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: au_sale_fb_02, string: Something is wrong}:
+        - type == 'out_invoice'
+        - amount_total == 4500 
+        - len(invoice_line) == 3
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: au_sale_fb_02}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: au_sale_fb_02, string: The invoice was not confirmed}:
+        - state == 'open'
+        - amount_total == 5000.0
+-
+  I update the sale book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I check that the invoice was added to the book with the correct values.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_sale_test' )
+        inv_id = ref( 'au_sale_fb_02' )
+        inv_brws = self.browse(cr, uid, fb_id).invoice_ids
+        inv_ids = [inv_brw.id for inv_brw in inv_brws]
+        assert inv_id in inv_ids, 'The invoice was not added to the book.'
+
+        fbl_obj = self.pool.get( 'fiscal.book.line')
+        fbl_id = fbl_obj.search(cr, uid, [ ( 'fb_id', '=', fb_id ),
+                                ( 'invoice_id', '=', inv_id)])[0]
+        fbl_brw = fbl_obj.browse(cr, uid, fbl_id)
+        check_list = [
+            (fbl_brw.vat_general_base, 3500.0, 'general vat base'),
+            (fbl_brw.vat_general_tax, 420.0, 'general vat tax'),
+            (fbl_brw.vat_reduced_base, 1000.0, 'reduced vat base'),
+            (fbl_brw.vat_reduced_tax, 80.0, 'reduced vat tax')]
+
+        for elm in check_list:
+            assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
 #-
 #  2.14 I check that the general, reduce and additional amount and tax column
 #  sums works correctly.
