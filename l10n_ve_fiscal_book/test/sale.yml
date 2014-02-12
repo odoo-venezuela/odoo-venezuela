@@ -383,52 +383,51 @@
         except Exception as e:
             flag = False
         assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel sale book.' 
-#-
-#  2.10 I check that sale book is clear everytime I set the book to cancel state.
-#-
-#  I check the sale book state is in cancel state.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: Not the state I want}:
-#        - state == 'cancel'
-#-
-#  I set the sale book to draft state.
-#-
-#    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_sale_test}
-#-
-#  I check the sale book state is in draft state.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: Not the state I want}:
-#        - state == 'draft'
-#-
-#  I update the sale book.
-#-
-#    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
-#        - model: fiscal.book 
-#          eval: "[ref('fiscal_book_sale_test')]"
-#-
-#  I check that the sale book have at least one invoice associated.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: Not the state I want}:
-#        - len(invoice_ids) >= 1
-#-
-#  I confirm the sale book
-#-
-#    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book is confirmed.
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly confirmed}:
-#        - state == 'confirmed'
-#-
-#  I cancel the sale book.
-#-
-#    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_sale_test}
-#-
-#  I check that the sale book is cancel and clear (no invoices).
-#-
-#    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly cancel.}:
-#        - state == 'cancel'
-#        - not invoice_ids
+-
+  2.10 I check that sale book is clear everytime I set the book to cancel state.
+-
+  I set the book to draft state
+-
+    !python {model: fiscal.book}: |
+        import netsvc
+        from openerp.osv import osv
+        fb_id = ref( 'fiscal_book_sale_test' )
+        fb_brw = self.browse(cr, uid, fb_id)
+        if fb_brw.state == 'cancel':
+            wf_service = netsvc.LocalService( 'workflow' )
+            wf_service.trg_validate(uid, 'fiscal.book', fb_id, 'act_draft', cr)
+            fb_brw = self.browse(cr, uid, fb_id)
+        assert fb_brw.state == 'draft', 'The book remains in cancel state.' 
+-
+  I update the sale book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_sale_test')]"
+-
+  I check that the sale book have at least one invoice associated.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: Not the state I want}:
+        - len(invoice_ids) >= 1
+-
+  I confirm the sale book
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_sale_test}
+-
+  I check that the sale book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I cancel the sale book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_sale_test}
+-
+  I check that the sale book is cancel and clear (no invoices).
+-
+    !assert {model: fiscal.book, id: fiscal_book_sale_test, string: The sale book was not correctly cancel.}:
+        - state == 'cancel'
+        - not invoice_ids
 #-
 #  2.11 I check that total with iva totalization sum is correct.
 #-
