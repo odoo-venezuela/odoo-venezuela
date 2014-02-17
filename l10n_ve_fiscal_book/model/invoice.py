@@ -41,7 +41,7 @@ class account_invoice(osv.osv):
 
     def action_cancel(self, cr, uid, ids, context=None):
         """ Verify first in the invoice have a fiscal book associated and if
-        the sate of the book is in cancel. """
+        the state of the book is in cancel. """
         context = context or {}
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if not inv_brw.fb_id or (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel'):
@@ -49,7 +49,8 @@ class account_invoice(osv.osv):
                                                            context=context)
             else:
                 raise osv.except_osv(_("Error!"),
-                _("You can't cancel an invoice that is loaded in a processed"
-                  "Fiscal Book. You need to go to Fiscal Book and set the book"
-                  " to Draft. Then you could be able to cancel the invoice."))
+                _("You can't cancel an invoice that is loaded in a processed "
+                  "Fiscal Book (%s). You need to go to Fiscal Book and set "
+                  "the book to Cancel. Then you could be able to cancel the "
+                  "invoice." % (inv_brw.fb_id.state,)))
         return True
