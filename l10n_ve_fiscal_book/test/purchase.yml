@@ -283,6 +283,15 @@
     !assert {model: account.invoice, id: account_invoice_2, string: The invoice was not confirmed}:
         - state == 'open'
 -
+  I set the invoice journal to be able to cancel entries.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_2' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        aj_brw = inv_brw.journal_id
+        aj_brw.write( {'update_posted': True})
+        assert aj_brw.update_posted, 'The attribute was not correctly updated.'
+-
   I update the purchase book.
 -
     !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
