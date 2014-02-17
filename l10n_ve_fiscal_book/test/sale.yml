@@ -8,6 +8,14 @@
     !context
         'type': 'sale'
 -
+  I set the company like a withholding iva agent.
+-
+    !python {model: res.company}: |
+        rc_id = ref ( 'base.main_company' )
+        rc_brw = self.browse(cr, uid, rc_id)
+        rp_obj = self.pool.get( 'res.partner' )
+        rp_obj.write(cr, uid, rc_brw.partner_id.id, {'wh_iva_agent': True})
+-
   I check that a current period exist and it is unique.
 -
     !python {model: account.period}: |
