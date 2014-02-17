@@ -301,6 +301,15 @@
     !assert {model: account.invoice, id: account_invoice_6, string: The invoice was not confirmed}:
         - state == 'open'
 -
+  I set the invoice journal to be able to cancel entries.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_6' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        aj_brw = inv_brw.journal_id
+        aj_brw.write( {'update_posted': True})
+        assert aj_brw.update_posted, 'The attribute was not correctly updated.'
+-
   I update the sale book.
 -
     !function {model: fiscal.book, name: update_book, id: fiscal_book_sale_test}:
@@ -331,9 +340,12 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         try:
+            cr.execute('SAVEPOINT fiscal_book_test_db')
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
         except Exception as e:
+            cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
+            cr.execute('RELEASE SAVEPOINT fiscal_book_test_db')
             print '\n\tThe exception was succesfully manage.\n'
         assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a draft sale book.' 
 -
@@ -355,9 +367,12 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         try:
+            cr.execute('SAVEPOINT fiscal_book_test_db')
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
         except Exception as e:
+            cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
+            cr.execute('RELEASE SAVEPOINT fiscal_book_test_db')
             print '\n\tThe exception was succesfully manage.\n'
         assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a confirmed sale book.' 
 -
