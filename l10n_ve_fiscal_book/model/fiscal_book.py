@@ -1669,7 +1669,8 @@ class fiscal_book(orm.Model):
         inv_obj = self.pool.get('account.invoice')
         rp_obj = self.pool.get('res.partner')
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id).id,
+        rp_id =  rp_obj._find_accounting_partner(inv_brw.partner_id)
+        rp_brw = rp_obj.browse(cr, uid, rp_id, context=context)
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         return inv_brw.customs_form_id \
                and (fb_brw.type == 'sale' and 'ex' or 'im') \

@@ -1,0 +1,615 @@
+-
+  1. Testing Purchase Book.
+-
+  1.1 I configure the test enviroment for the test.
+-
+  I set the file context for purchase operations.
+-
+    !context
+        'type': 'in_invoice'
+-
+  I check that a current period exist and it is unique.
+-
+    !python {model: account.period}: |
+        import time
+        company_id = ref( 'base.main_company' )
+        period_id = self.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})
+        assert period_id, 'There is not current period for this company.'
+        assert period_id, 'There only can be one current period (Not %s).' % (len(period_id))
+-
+  "\n\n\t Note: I try to create a purchase book with basic configurations via record tag but I fail for some yaml errors. \n\t Try to do the same via python code and it works but I loose a xml id. \n\t So I decide to use the fiscal books data created in the demo data.\n"
+-
+  I check that the demo purchase book was correctly created.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly created.}:
+        - state == 'draft'
+        - type == 'purchase'
+        - article_number == '75'
+-
+  I modify the book to correspond to the current period.
+-
+    !python {model: account.period}: |
+        fb_id = ref( 'fiscal_book_purchase_test')
+        fb_obj = self.pool.get( 'fiscal.book' )
+        fb_brw = fb_obj.browse(cr, uid, fb_id)
+        company_id = fb_brw.company_id.id
+        import time
+        cr_period_id = self.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
+        fb_obj.write(cr, uid, fb_id, {'period_id': cr_period_id}) 
+-
+  1.2 I check that only one purchase book can exist for the same period.
+-
+  I try to create a new purchase book for the current period. It wont.
+-
+    !python {model: fiscal.book}: |
+        from openerp.osv import orm
+        import time
+        flag = True
+        company_id = ref( 'base.main_company' )
+        period_obj = self.pool.get( 'account.period' )
+        period = period_obj.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})
+        values = {
+            'name': 'Purchase Book (Test Yaml)',
+            'period_id': period[0], 
+            }
+        try:
+            cr.execute( 'SAVEPOINT fb_unique_period_company' )
+            self.create(cr, uid, values)
+            cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
+            flag = False
+        except Exception as e:
+            cr.execute( 'ROLLBACK TO SAVEPOINT fb_unique_period_company' )
+        assert flag, 'The purchase book can not be created because there is already another book for the same period and company.'
+-
+  1.3 I check that when I'm creating a new purchase book the default values are correctly set, and that the context is been taking into account.
+-
+    !python {model: fiscal.book}: |
+        import time
+        company_id = \
+            self.pool.get( 'res.users' ).browse(cr, uid, uid).company_id.id
+        period_obj = self.pool.get( 'account.period' )
+        period_ids = self.search(cr, uid, [])
+        cr_period_id = period_obj.find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
+        period_ids.remove(cr_period_id)
+        values = {
+            'name': 'Another Purchase Book (Test Yaml)',
+            'period_id': period_ids[0], 
+            }
+        new_fb_id = self.create(cr, uid, values)
+        fb_brw = self.browse(cr, uid, new_fb_id)
+        assert fb_brw.company_id.id == company_id, 'The company is not the active user company (%s != %s)' % (fb_brw.company_id, company_id)
+        assert fb_brw.type == 'purchase', 'The type of the book was not correctñy default set. %s != purchase.' % (fb_brw.type,)
+        assert fb_brw.article_number == '75', 'The article number was not correctly default set (%s != 75).' % (fb_brw.article_number,)
+        assert fb_brw.state == 'draft', 'The state was not correctly default set (%s != draft).' % (fb_brw.state,)
+-
+  1.4 I check that I can evolve a purchase book with no book lines (empty book) for every one of its states.
+-
+  I check that the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book is not in draft state}:
+        - state == 'draft'
+-
+  I confirm the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I set the purchase book to done.
+-
+    !workflow {model: fiscal.book, action: act_done, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is in done state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to done}:
+        - state == 'done'
+-
+  I cancel the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is cancel.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel}:
+        - state == 'cancel'
+-
+  I set to draft the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book was set to draft.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to draft}:
+        - state == 'draft'
+-
+  1.5 Second flow of purchase book state. I check that I can change a purchase book with no book lines (empty book) for confirmed state to cancel and then draft state.
+-
+  I check that the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book is not in draft state}:
+        - state == 'draft'
+-
+  I confirm the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I cancel the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is cancel.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel}:
+        - state == 'cancel'
+-
+  I set to draft the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book was set to draft.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly set to draft}:
+        - state == 'draft'
+-
+  1.6 I check that I can not add a draft invoice to purchase book. it wont add the invoice to the book.
+-
+  I check if there is at least one draft invoices.
+-
+    !python {model: account.invoice}: | 
+        draft_inv_ids = self.search(cr, uid, [( 'type', '=', 'in_invoice' ), ( 'state', '=', 'draft')])
+        assert draft_inv_ids, 'There no draft invoices.'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the draft invoice was not added to the purchase book.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        for inv_brw in self.browse(cr, uid, fb_id).invoice_ids:
+            assert inv_brw.state != 'draft', 'A draft invoice was added. The %s is in %s state)' % (inv_brw.name, inv_brw.state) 
+-
+  1.7 I check that I can add an open invoice to the purchase book.
+-
+  I check that the invoice define in the demo data exist and is in draft state.
+-
+    !assert {model: account.invoice, id: account_invoice_0, string: The invoice used in this test case is not correctly set for the test}:
+        - state == 'draft'
+        - type == 'in_invoice'
+-
+  I confirm the demo invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_0}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: account_invoice_0, string: The invoice was not confirmed}:
+        - state == 'open'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the open invoice was added to the purchase book.
+-
+    !python {model: fiscal.book}: |
+        inv_id = ref( 'account_invoice_0' )
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        inv_ids = [
+            inv_brw.id
+            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
+        assert inv_id in inv_ids, 'The invoice was not added.'
+-
+  1.8 I check that I can add a paid invoice into the purchase book.
+-
+  I check that the invoice is open.
+-
+    !assert {model: account.invoice, id: account_invoice_0, string: The invoice is not open.}:
+        - state == 'open'
+-
+  I paid the invoice.
+-
+    !python {model: account.invoice}: |
+        import time
+        inv_id = ref( 'account_invoice_0' )
+        company_id = ref( 'base.main_company' )
+        account_id = ref( 'account.cash' )
+        inv_brw = self.browse(cr, uid, inv_id)
+        cr_period_id = self.pool.get( 'account.period' ).find(
+            cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
+        journal_id = self.pool.get( 'account.journal' ).search(
+            cr, uid, [( 'type' , '=', 'cash'), ( 'company_id', '=', company_id)])[0]
+        self.pay_and_reconcile(
+            cr, uid, [inv_id], inv_brw.amount_total, account_id, cr_period_id,
+            journal_id, account_id, cr_period_id, journal_id, name='test')
+-
+  I check that the invoice is paid.
+-
+    !assert {model: account.invoice, id: account_invoice_0, string: The invoice is not paid.}:
+        - state == 'paid'
+-
+  I clear the purchase book.
+-
+    !function {model: fiscal.book, name: clear_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the paid invoice was added to the purchase book.
+-
+    !python {model: fiscal.book}: |
+        inv_id = ref( 'account_invoice_0' )
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        inv_ids = [
+            inv_brw.id
+            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
+        assert inv_id in inv_ids, 'The invoice was not added.'
+-
+  1.9 I check that an invoice associated to a book can only be cancel when the purchase book is in cancel state.
+-
+  I select a demo invoice and check if it is in draft state.
+-
+    !assert {model: account.invoice, id: account_invoice_2, string: The invoice is not in draft state.}:
+        - state == 'draft'
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_2}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: account_invoice_2, string: The invoice was not confirmed}:
+        - state == 'open'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the invoice is in the purchase book.
+-
+    !python {model: fiscal.book}: |
+        inv_id = ref( 'account_invoice_2' )
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        inv_ids = [
+            inv_brw.id
+            for inv_brw in self.browse(cr, uid, fb_id).invoice_ids]
+        assert inv_id in inv_ids, 'The invoice was not added.'
+-
+  I check the book is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book is not in draft state.}:
+       - state == 'draft'
+-
+  I try to cancel the invoice. It wont cancel the invoice because the book is in draft state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_2' )
+        flag = True
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        try:
+            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            flag = False
+        except Exception as e:
+            print '\n\tThe exception was succesfully manage.\n'
+        assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a draft purchase book.' 
+-
+  I confirm the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I try to cancel the invoice. It wont cancel the invoice because the book is in confirm state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_2' )
+        flag = True
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        try:
+            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            flag = False
+        except Exception as e:
+            print '\n\tThe exception was succesfully manage.\n'
+        assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a confirmed purchase book.' 
+-
+  I cancel the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is cancel.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel}:
+        - state == 'cancel'
+-
+  I try to cancel the invoice. It will cancel the invoice because the book is in cancel state.
+-
+    !python {model: account.invoice}: |
+        inv_id = ref( 'account_invoice_2' )
+        flag = True
+        import netsvc
+        from openerp.osv import osv
+        wf_service = netsvc.LocalService( 'workflow' )
+        try:
+            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+        except Exception as e:
+            flag = False
+        assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel purchase book.' 
+-
+  1.10 I check that purchase book is clear everytime I set the book to cancel state.
+-
+  I check the purchase book state is in cancel state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'cancel'
+-
+  I set the purchase book to draft state.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check the purchase book state is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'draft'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the purchase book have at least one invoice associated.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - len(invoice_ids) >= 1
+-
+  I confirm the purchase book
+-
+    !workflow {model: fiscal.book, action: act_confirm, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is confirmed.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
+        - state == 'confirmed'
+-
+  I cancel the purchase book.
+-
+    !workflow {model: fiscal.book, action: act_cancel, ref: fiscal_book_purchase_test}
+-
+  I check that the purchase book is cancel and clear (no invoices).
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly cancel.}:
+        - state == 'cancel'
+        - not invoice_ids
+-
+  1.11 I check that total with iva totalization sum is correct.
+-
+  I check the purchase book state is in cancel state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'cancel'
+-
+  I set the purchase book to draft state.
+-
+    !workflow {model: fiscal.book, action: act_draft, ref: fiscal_book_purchase_test}
+-
+  I check the purchase book state is in draft state.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - state == 'draft'
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the purchase book have at least one invoice associated.
+-
+    !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: Not the state I want}:
+        - len(invoice_ids) >= 1
+-
+  I check that the total with iva of the book correspond to the invoices. 
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test')
+        fb_brw = self.browse(cr, uid, fb_id)
+        inv_total = 0.0
+        for line in fb_brw.fbl_ids:
+            assert line.total_with_iva == line.invoice_id.amount_total, 'There is an error'
+            inv_total += line.invoice_id.amount_total
+        assert fb_brw.get_total_with_iva_sum == inv_total, 'The total with iva amount is not matching'
+-
+  1.12 I check that the invoice taxes amount and base are correctly set into the book lines.
+-
+  I create a new invoice.
+-
+    !record {model: account.invoice, id: ai_fb_01, view: account.invoice_supplier_form}: &ai_fb
+        nro_ctrl: 9876543
+        partner_id: l10n_ve_fiscal_requirements.f_req_partner_2
+        type: in_invoice
+        company_id: base.main_company
+        account_id: account.a_pay
+        invoice_line: 
+          - &ail_fb_gral
+            name: Product 1
+            quantity: 1
+            price_unit: 2000
+            invoice_line_tax_id:
+                - l10n_ve_fiscal_requirements.iva_purchase1
+          - &ail_fb_red
+            name: Product 2
+            quantity: 1
+            price_unit: 1000
+            invoice_line_tax_id:
+                - l10n_ve_fiscal_requirements.iva_purchase4
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: ai_fb_01, string: Something is wrong}:
+        - type == 'in_invoice'
+        - amount_total == 3000
+        - len(invoice_line) == 2
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: ai_fb_01}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: ai_fb_01, string: The invoice was not confirmed}:
+        - state == 'open'
+        - amount_total == 3320.0
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the invoice was added to the book with the correct values.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        inv_id = ref( 'ai_fb_01' )
+        inv_brws = self.browse(cr, uid, fb_id).invoice_ids
+        inv_ids = [inv_brw.id for inv_brw in inv_brws]
+        assert inv_id in inv_ids, 'The invoice was not added to the book.'
+
+        inv_brw = self.pool.get( 'account.invoice' ).browse(cr, uid, inv_id)
+        fbl_obj = self.pool.get( 'fiscal.book.line')
+        fbl_id = fbl_obj.search(cr, uid, [ ( 'fb_id', '=', fb_id ),
+                                ( 'invoice_id', '=', inv_id)])[0]
+        fbl_brw = fbl_obj.browse(cr, uid, fbl_id)
+        check_list = [
+            (fbl_brw.vat_general_base, 2000.0, 'general vat base'),
+            (fbl_brw.vat_general_tax, 240.0, 'general vat tax'),
+            (fbl_brw.vat_reduced_base, 1000.0, 'reduced vat base'),
+            (fbl_brw.vat_reduced_tax, 80.0, 'reduced vat tax')]
+
+        for elm in check_list:
+            assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
+-
+  1.13 I check that an invoice with two lines with the same tax are correctly sum into the tax base and amount columns the corresponding book line. 
+-
+    !record {model: account.invoice, id: ai_fb_02, view: account.invoice_supplier_form}:
+        nro_ctrl: 9876544
+        invoice_line:
+          - <<: *ail_fb_gral
+          - <<: *ail_fb_red
+          - name: Product 3
+            quantity: 1
+            price_unit: 1500
+            invoice_line_tax_id:
+                - l10n_ve_fiscal_requirements.iva_purchase1
+        <<: *ai_fb
+-
+  I check that the invoice was correctly created.
+-
+    !assert {model: account.invoice, id: ai_fb_02, string: Something is wrong}:
+        - type == 'in_invoice'
+        - amount_total ==4500 
+        - len(invoice_line) == 3
+-
+  I confirm the invoice.
+-
+    !workflow {model: account.invoice, action: invoice_open, ref: ai_fb_02}
+-
+  I check that the invoice was confirmed.
+-
+    !assert {model: account.invoice, id: ai_fb_02, string: The invoice was not confirmed}:
+        - state == 'open'
+        - amount_total == 5000.0
+-
+  I update the purchase book.
+-
+    !function {model: fiscal.book, name: update_book, id: fiscal_book_purchase_test}:
+        - model: fiscal.book 
+          eval: "[ref('fiscal_book_purchase_test')]"
+-
+  I check that the invoice was added to the book with the correct values.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        inv_id = ref( 'ai_fb_02' )
+        inv_brws = self.browse(cr, uid, fb_id).invoice_ids
+        inv_ids = [inv_brw.id for inv_brw in inv_brws]
+        assert inv_id in inv_ids, 'The invoice was not added to the book.'
+
+        fbl_obj = self.pool.get( 'fiscal.book.line')
+        fbl_id = fbl_obj.search(cr, uid, [ ( 'fb_id', '=', fb_id ),
+                                ( 'invoice_id', '=', inv_id)])[0]
+        fbl_brw = fbl_obj.browse(cr, uid, fbl_id)
+        check_list = [
+            (fbl_brw.vat_general_base, 3500.0, 'general vat base'),
+            (fbl_brw.vat_general_tax, 420.0, 'general vat tax'),
+            (fbl_brw.vat_reduced_base, 1000.0, 'reduced vat base'),
+            (fbl_brw.vat_reduced_tax, 80.0, 'reduced vat tax')]
+
+        for elm in check_list:
+            assert elm[0] == elm[1], 'The %s is not correctly set. (%s != %s)' % (elm[2], elm[0], elm[1])
+-
+  1.14 I check that the general, reduce and additional amount and tax column
+  sums works correctly.
+-
+    !python {model: fiscal.book}: |
+        fb_id = ref( 'fiscal_book_purchase_test' )
+        fb_brw = self.browse(cr, uid, fb_id)
+        purchase_tax = {
+            '12': {
+                'tax_id': ref( 'l10n_ve_fiscal_requirements.iva_purchase1' ),
+                'tax': 'do_general_vat_tax_sum',
+                'base': 'do_general_vat_base_sum'
+                },
+            '8': {
+                'tax_id': ref( 'l10n_ve_fiscal_requirements.iva_purchase4' ),
+                'tax': 'do_reduced_vat_tax_sum',
+                'base': 'do_reduced_vat_base_sum',
+                },
+            '22': {
+                'tax_id': ref( 'l10n_ve_fiscal_requirements.iva_purchase2' ),
+                'tax': 'do_additional_vat_tax_sum',
+                'base': 'do_additional_vat_base_sum',
+                },
+        }
+        for tot in purchase_tax:
+            tax_sum = 0.0
+            base_sum = 0.0
+            for fbl_brw in fb_brw.fbl_ids:
+                for ait_brw in fbl_brw.invoice_id.tax_line:
+                    if ait_brw.tax_id.id == purchase_tax[tot][ 'tax_id' ]:
+                        tax_sum += ait_brw.amount
+                        base_sum += ait_brw.base
+
+            assert tax_sum == getattr(fb_brw, purchase_tax[tot][ 'tax' ]), "The %s totalization is not good." % (purchase_tax[tot][ 'tax' ])
+            assert base_sum == getattr(fb_brw, purchase_tax[tot][ 'base' ]), "The %s totalization is not good" % (purchase_tax[tot][ 'base' ])
