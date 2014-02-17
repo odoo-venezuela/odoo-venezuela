@@ -313,9 +313,12 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         try:
+            cr.execute('SAVEPOINT fiscal_book_test_db')
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
         except Exception as e:
+            cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
+            cr.execute('RELEASE SAVEPOINT fiscal_book_test_db')
             print '\n\tThe exception was succesfully manage.\n'
         assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a draft purchase book.' 
 -
@@ -328,6 +331,11 @@
     !assert {model: fiscal.book, id: fiscal_book_purchase_test, string: The purchase book was not correctly confirmed}:
         - state == 'confirmed'
 -
+  I check the invoice remains confirmed.
+-
+    !assert {model: account.invoice, id: account_invoice_2, string: The invoice do not remains in confirm state}:
+        - state == 'open'
+-
   I try to cancel the invoice. It wont cancel the invoice because the book is in confirm state.
 -
     !python {model: account.invoice}: |
@@ -337,9 +345,12 @@
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         try:
+            cr.execute('SAVEPOINT fiscal_book_test_db')
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
         except Exception as e:
+            cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
+            cr.execute('RELEASE SAVEPOINT fiscal_book_test_db')
             print '\n\tThe exception was succesfully manage.\n'
         assert flag, 'The invoice was cancel and it cannot be cancel because is associated to a confirmed purchase book.' 
 -
