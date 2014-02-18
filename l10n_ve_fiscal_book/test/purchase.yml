@@ -639,5 +639,14 @@
                         tax_sum += ait_brw.amount
                         base_sum += ait_brw.base
 
-            assert tax_sum == getattr(fb_brw, purchase_tax[tot][ 'tax' ]), "The %s totalization is not good." % (purchase_tax[tot][ 'tax' ])
-            assert base_sum == getattr(fb_brw, purchase_tax[tot][ 'base' ]), "The %s totalization is not good" % (purchase_tax[tot][ 'base' ])
+            check_list = [
+                {'value': tax_sum,
+                 'exp_value': getattr(fb_brw, purchase_tax[tot][ 'tax' ]),
+                 'str': "The " + purchase_tax[tot][ 'tax' ] + " totalization is not good. %s != %s"},
+                {'value': base_sum,
+                 'exp_value': getattr(fb_brw, purchase_tax[tot][ 'base' ]),
+                 'str': "The " + purchase_tax[tot][ 'base' ] + " totalization is not good. %s != %s"},
+            ]
+
+            for elem in check_list:
+                assert elem[ 'value' ] == elem[ 'exp_value' ], elem[ 'str' ] % (elem[ 'value' ], elem[ 'exp_value' ])
