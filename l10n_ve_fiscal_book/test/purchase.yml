@@ -68,7 +68,7 @@
             self.create(cr, uid, values)
             cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
             flag = False
-        except Exception as e:
+        except Exception, e:
             cr.execute( 'ROLLBACK TO SAVEPOINT fb_unique_period_company' )
         assert flag, 'The purchase book can not be created because there is already another book for the same period and company.'
 -
@@ -333,7 +333,7 @@
             cr.execute('SAVEPOINT fiscal_book_test_db')
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
-        except Exception as e:
+        except Exception, e:
             cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
             cr.execute('RELEASE SAVEPOINT fiscal_book_test_db')
             print '\n\tThe exception was succesfully manage.\n'
@@ -365,7 +365,7 @@
             cr.execute('SAVEPOINT fiscal_book_test_db')
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
-        except Exception as e:
+        except Exception, e:
             cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
             cr.execute('RELEASE SAVEPOINT fiscal_book_test_db')
             print '\n\tThe exception was succesfully manage.\n'
@@ -390,7 +390,7 @@
         wf_service = netsvc.LocalService( 'workflow' )
         try:
             wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
-        except Exception as e:
+        except Exception, e:
             flag = False
         assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel purchase book.' 
 -
