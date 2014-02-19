@@ -13,6 +13,6 @@
         "view/l10n_ve_vat_write_off.xml",
     ],
     "active": False,
-    "installable": True,
+    "installable": False,
 }
 

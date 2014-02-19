@@ -68,6 +68,7 @@
                           </page>
                                                                                     
                     </notebook>
+                    <field name="message_ids" colspan="4" widget="mail_thread" nolabel="1"/>
                 </form>
             </field>
         </record>

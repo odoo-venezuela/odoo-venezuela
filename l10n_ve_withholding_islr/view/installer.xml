@@ -54,7 +54,6 @@
     <!-- register configuration wizard -->
     <record id="config_wizard_step_wh_islr" model="ir.actions.todo">
         <field name="action_id" ref="action_config_wh_islr"/>
-        <field name="restart">always</field>
         <field name="sequence">45</field>
         <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
     </record>

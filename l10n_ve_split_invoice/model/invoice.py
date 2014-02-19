@@ -48,6 +48,7 @@ class account_invoice(osv.osv):
                         'tax_line': [],
                     })
                     # take the id part of the tuple returned for many2one fields
+                    invoice.pop('id', None)
                     for field in ( 'partner_id',
                             'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id','user_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
