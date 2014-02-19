@@ -54,6 +54,7 @@
     !python {model: fiscal.book}: |
         from openerp.osv import orm
         import time
+        from tools.misc import mute_logger
         flag = True
         company_id = ref( 'base.main_company' )
         period_obj = self.pool.get( 'account.period' )
@@ -65,7 +66,8 @@
             }
         try:
             cr.execute( 'SAVEPOINT fb_unique_period_company' )
-            self.create(cr, uid, values)
+            with mute_logger('openerp.tools.safe_eval'):
+                self.create(cr, uid, values)
             cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
             flag = False
         except Exception, e:
@@ -324,6 +326,7 @@
   I try to cancel the invoice. It wont cancel the invoice because the book is in draft state.
 -
     !python {model: account.invoice}: |
+        from tools.misc import mute_logger
         inv_id = ref( 'account_invoice_2' )
         flag = True
         import netsvc
@@ -331,7 +334,8 @@
         wf_service = netsvc.LocalService( 'workflow' )
         try:
             cr.execute('SAVEPOINT fiscal_book_test_db')
-            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            with mute_logger('openerp.tools.safe_eval'):
+                wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
         except Exception, e:
             cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
@@ -360,10 +364,12 @@
         flag = True
         import netsvc
         from openerp.osv import osv
+        from tools.misc import mute_logger
         wf_service = netsvc.LocalService( 'workflow' )
         try:
             cr.execute('SAVEPOINT fiscal_book_test_db')
-            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            with mute_logger('openerp.tools.safe_eval'):
+                wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
             flag = False
         except Exception, e:
             cr.execute('ROLLBACK TO SAVEPOINT fiscal_book_test_db')
@@ -383,13 +389,15 @@
   I try to cancel the invoice. It will cancel the invoice because the book is in cancel state.
 -
     !python {model: account.invoice}: |
+        from tools.misc import mute_logger
         inv_id = ref( 'account_invoice_2' )
         flag = True
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
         try:
-            wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
+            with mute_logger('openerp.tools.safe_eval'):
+                wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
         except Exception, e:
             flag = False
         assert flag, 'The invoice was not cancel, and conceptually it should be cancel because is in a cancel purchase book.' 
