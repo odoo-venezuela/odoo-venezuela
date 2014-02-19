@@ -15,7 +15,7 @@
 -
   I check that the tax used for the test is a withholding tax.
 -
-    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_sale1, string: Is not a withholding tax.}:
+    !assert {model: account.tax, id: l10n_ve_fiscal_requirements.iva_purchase1, string: Is not a withholding tax.}:
         - ret
 -
   4.2 When the Company is a withholding agent.
@@ -48,7 +48,7 @@
             price_unit: 3
             account_id: account.a_sale
             invoice_line_tax_id: &wh_tax
-            - l10n_ve_fiscal_requirements.iva_sale1
+            - l10n_ve_fiscal_requirements.iva_purchase1
 -
   I check that the invoice is of purchase type (in_invoice).
 -
