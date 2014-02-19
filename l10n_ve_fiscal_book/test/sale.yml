@@ -64,6 +64,7 @@
 -
     !python {model: fiscal.book}: |
         from openerp.osv import orm
+        from tools.misc import mute_logger
         import time
         flag = True
         company_id = ref( 'base.main_company' )
@@ -77,8 +78,7 @@
             }
         try:
             cr.execute( 'SAVEPOINT fb_unique_period_company' )
-            from tools.misc import mute_logger
-            with mute_logger('openerp.tools.safe_eval'):
+            with mute_logger('openerp.sql_db'):
                 self.create(cr, uid, values, context=context)
             cr.execute( 'RELEASE SAVEPOINT fb_unique_period_company' )
             flag = False
