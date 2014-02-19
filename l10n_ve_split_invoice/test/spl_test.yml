@@ -119,7 +119,7 @@
   !python {model: account.invoice}: |
     import netsvc
     wf_service = netsvc.LocalService("workflow")
-    wf_service.trg_validate(uid, 'account.invoice', [ref("spl_test01")], 'invoice_open', cr)
+    wf_service.trg_validate(uid, 'account.invoice', ref("spl_test01"), 'invoice_open', cr)
 -
   1.9 I check that Initially customer invoice is in the "Draft" state
 -
