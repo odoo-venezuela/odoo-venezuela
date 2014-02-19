@@ -81,7 +81,7 @@ Optionals (Not installed by default), uncomment on your/addons/path/ovl/__opener
 Concepts from Sales and Purchase
 
                     """,
-    "website" : "http://openerp.org.ve",
+    "website" : "http://www.vauxoo.com",
     "category" : "Localization/Application",
     "init_xml" : [],
     "demo_xml" : [],
