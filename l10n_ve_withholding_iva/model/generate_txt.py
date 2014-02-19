@@ -37,6 +37,7 @@ import base64
 
 class txt_iva(osv.osv):
     _name = "txt.iva"
+    _inherit = ['mail.thread']
 
     def _get_amount_total(self,cr,uid,ids,name,args,context=None):
         """ Return total amount withheld of each selected bill
@@ -342,7 +343,8 @@ class txt_iva(osv.osv):
             }, context=context
         )
         cr.commit()            
-        self.log(cr, uid, ids[0], _("File TXT %s generated.") % name)
+        self.message_post(cr, uid, ids[0], _('File Created'),
+                          _("File TXT %s generated.") % name)
         
 txt_iva()
 

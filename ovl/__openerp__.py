@@ -42,7 +42,7 @@
                  # want be able set islr 
                  #"l10n_ve_sale_purchase",
                  # Fifth Level of Modules 
-                 "l10n_ve_vat_write_off",
+                 #"l10n_ve_vat_write_off",
                  ],
     "author" : "Vauxoo",
     "description" : """
