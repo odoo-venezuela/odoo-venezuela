@@ -82,9 +82,11 @@
             self.pool.get( 'res.users' ).browse(cr, uid, uid).company_id.id
         period_obj = self.pool.get( 'account.period' )
         period_ids = self.search(cr, uid, [])
+        #TODO: I dont now why the periods_ids only takes 2 periods, no all the
+        #periods.
         cr_period_id = period_obj.find(
             cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
-        period_ids.remove(cr_period_id)
+        cr_period_id in period_ids and period_ids.remove(cr_period_id) or False
         values = {
             'name': 'Another Purchase Book (Test Yaml)',
             'period_id': period_ids[0], 
