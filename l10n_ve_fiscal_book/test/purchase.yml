@@ -81,7 +81,7 @@
         company_id = \
             self.pool.get( 'res.users' ).browse(cr, uid, uid).company_id.id
         period_obj = self.pool.get( 'account.period' )
-        period_ids = self.search(cr, uid, [])
+        period_ids = period_obj.search(cr, uid, [])
         cr_period_id = period_obj.find(
             cr, uid, time.strftime( '%Y/%m/%d' ), {'company_id': company_id})[0]
         period_ids.remove(cr_period_id)
