@@ -150,7 +150,7 @@ class account_invoice_tax(osv.osv):
             inv_brw = obj_inv.browse(cr, uid, invoice_id, context=context)
             acc_part_brw = rp_obj._find_accounting_partner(inv_brw.partner_id)
             res = {'value': {'partner_id': acc_part_brw.id,
-                             'supplier_invoice_number': inv.supplier_invoice_number}}
+                             'supplier_invoice_number': inv_brw.supplier_invoice_number}}
         return res
 
     def on_change_tax_id(self, cr, uid, ids, tax_id, context=None):
