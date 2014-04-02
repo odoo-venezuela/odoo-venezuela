@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
         <data noupdate="1">
+            <record id="l10n_ut_data_2014" model="l10n.ut">
+            <field name="name">40.359</field>
+            <field name="date">2014-03-01</field>
+            <field name="amount">127.00</field>
+            </record> 
             <record id="l10n_ut_data_2013" model="l10n.ut">
             <field name="name">40.106</field>
             <field name="date">2013-02-06</field>
