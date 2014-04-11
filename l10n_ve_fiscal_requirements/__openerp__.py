@@ -57,6 +57,12 @@ that field
 This module should also install a menu item under the accounting configuration menu.
 
 We now have a configuration wizard after this module install.
+
+You will need some extra modules:
+  * debit_credit_note
+
+Custom modules can be found in the following branch:
+  * Addons-vauxoo: lp:addons-vauxoo/7.0
 """,
     "depends" : [
                  "account", 
