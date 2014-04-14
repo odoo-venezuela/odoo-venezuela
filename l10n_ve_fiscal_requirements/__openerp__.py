@@ -103,6 +103,9 @@ We now have a configuration wizard after this module install.
         #'test/fr_vat_search_test.yml',
         'test/fr_ut_test.yml',
         'test/fr_vat_test.yml',
+            # fr_vat_test last test case was comment because the seniat
+            # disabled for the moment the consult rif functionality. this case
+            # need to be uncomment when the seniat enable the function again.
         'test/fr_tax_test.yml',
         'test/fr_address.yml',
         'test/fr_sale_test.yml',
