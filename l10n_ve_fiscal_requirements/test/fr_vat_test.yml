@@ -105,24 +105,20 @@
   !assert {model: res.partner, id: base.res_partner_23}:
     - name == 'Vauxoo'
     - seniat_updated == False
-
-# note: this test cas have been comment because the seniat rif consult have
-# been disabled for the current moment and this case was returning an error
-# when running the test case in the vauxoo runbot.
-#-
-#  5.8 I make sure that main company will consult web to check Vat Validity
-#-
-#  !record { model: res.company, id: base.main_company }:
-#    vat_check_vies: True 
-#-
-#  5.9 Pressing 'Check Validity' Button in Partner Form Again to Update Name
-#-
-#  !function {model: res.partner, name: button_check_vat, id: base.res_partner_23 }:
-#  - model: res.partner
-#    eval: "[obj(ref('base.res_partner_23')).id]"
-#-
-#  5.10 I check that Partner Name has changed
-#-
-#  !assert {model: res.partner, id: base.res_partner_23}:
-#    - name == 'VAUXOO, C,A'
-#    - seniat_updated == True
+-
+  5.8 I make sure that main company will consult web to check Vat Validity
+-
+  !record { model: res.company, id: base.main_company }:
+    vat_check_vies: True 
+-
+  5.9 Pressing 'Check Validity' Button in Partner Form Again to Update Name
+-
+  !function {model: res.partner, name: button_check_vat, id: base.res_partner_23 }:
+  - model: res.partner
+    eval: "[obj(ref('base.res_partner_23')).id]"
+-
+  5.10 I check that Partner Name has changed
+-
+  !assert {model: res.partner, id: base.res_partner_23}:
+    - name == 'VAUXOO, C,A'
+    - seniat_updated == True
