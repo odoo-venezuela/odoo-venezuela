@@ -757,6 +757,17 @@ class fiscal_book(orm.Model):
             cr, uid, [('invoice_id', 'in', orphan_inv_ids)],
             context=context) or []
 
+    def get_order_criteria_adjustment(self, cr, uid, type, context=None):
+        return type == 'sale' \
+            and 'accounting_date asc, invoice_number asc' \
+            or 'emission_date asc, invoice_number asc'
+
+    def get_order_criteria(self, cr, uid, type, context=None):
+        return type == 'sale' \
+            and 'accounting_date asc, invoice_number asc' \
+            or 'emission_date asc, invoice_number asc'
+
+
     def order_book_lines(self, cr, uid, fb_id, context=None):
         """ It orders book lines by a set of criteria:
             - chronologically ascendant date (For purchase book by
@@ -770,14 +781,22 @@ class fiscal_book(orm.Model):
         fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         fbl_ids = [line_brw.id for line_brw in fb_brw.fbl_ids]
-        order_criteria = fb_brw.type == 'sale' \
-            and 'accounting_date asc, invoice_number asc' \
-            or 'emission_date asc, invoice_number asc'
+
+        ajst_order_criteria = self.get_order_criteria_adjustment(cr, uid, fb_brw.type, context=context)
+        ajst_ordered_fbl_ids = \
+            fbl_obj.search(cr, uid, [('id', 'in', fbl_ids),('doc_type', '=', 'AJST')],
+                           order=ajst_order_criteria, context=context)
+
+        for rank, fbl_id in enumerate(ajst_ordered_fbl_ids, 1):
+            fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
+
+
+        order_criteria = self.get_order_criteria(cr, uid, fb_brw.type, context=context)
         ordered_fbl_ids = \
-            fbl_obj.search(cr, uid, [('id', 'in', fbl_ids)],
+            fbl_obj.search(cr, uid, [('id', 'in', fbl_ids),('doc_type', '!=', 'AJST')],
                            order=order_criteria, context=context)
 
-        for rank, fbl_id in enumerate(ordered_fbl_ids, 1):
+        for rank, fbl_id in enumerate(ordered_fbl_ids, len(ajst_ordered_fbl_ids) + 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
 
         return True
@@ -1611,7 +1630,7 @@ class fiscal_book(orm.Model):
     def get_doc_type(self, cr, uid, inv_id=None, iwdl_id=None, cf_id=None,
                      context=None):
         """ Returns a string that indicates de document type. For withholding
-        returns 'RET' and for invoice docuemnts returns different values
+        returns 'AJST' and for invoice docuemnts returns different values
         depending of the invoice type: Debit Note 'N/DE', Credit Note 'N/CR',
         Invoice 'FACT'.
         @param inv_id : invoice id
@@ -1635,7 +1654,7 @@ class fiscal_book(orm.Model):
             of the document type. \n There is not type category definied for \
             your invoice."
         elif iwdl_id:
-            res = 'RET'
+            res = 'AJST'
         elif cf_id:
             res = 'F/IMP'
 
