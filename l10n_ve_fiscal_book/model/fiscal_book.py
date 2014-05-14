@@ -883,6 +883,10 @@ class fiscal_book(orm.Model):
             doc_type = self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                          context=context)
             rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id)
+
+            iwdl_brw = iwdl_obj.browse(cr, uid, iwdl_id, context=context) if \
+                iwdl_id and iwdl_id not in no_match_dt_iwdl_ids else False
+
             values = {
                 'invoice_id': inv_brw.id,
                 'rank': my_rank,
@@ -921,11 +925,9 @@ class fiscal_book(orm.Model):
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'z_report': inv_brw.z_report or False,
                 'custom_statement': inv_brw.customs_form_id.name or False,
-                'iwdl_id': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
-                            and iwdl_id or False,
-                'wh_number': (iwdl_id and iwdl_id not in no_match_dt_iwdl_ids) \
-                              and iwdl_obj.browse(cr, uid, iwdl_id,
-                              context=context).retention_id.number or False,
+                'iwdl_id': iwdl_brw and iwdl_brw.id,
+                'wh_number': iwdl_brw and iwdl_brw.retention_id.number or '',
+                'wh_rate': iwdl_brw and iwdl_brw.wh_iva_rate or 0.0,
             }
             my_rank += 1
             data.append((0, 0, values))
