@@ -199,7 +199,7 @@ class fiscal_book(orm.Model):
                                    ('confirmed', 'Approved by Manager'),
                                    ('done', 'Seniat Submitted'),
                                    ('cancel', 'Cancel')],
-                                  string='Status', required=True),
+                                  string='Status', required=True, readonly=True),
         'type': fields.selection([('sale', 'Sale Book'),
                                   ('purchase', 'Purchase Book')],
                                  help="Select Sale for Customers and" \
@@ -1007,7 +1007,7 @@ class fiscal_book(orm.Model):
         res = list()
         group_list = list()
         group_value = False
-  
+
         for line_brw in lines_brws:
             group_value = group_value or line_brw.type
             if line_brw.type == group_value and group_value == 'ntp' \
