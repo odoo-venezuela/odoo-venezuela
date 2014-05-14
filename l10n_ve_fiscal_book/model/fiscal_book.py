@@ -1674,10 +1674,13 @@ class fiscal_book(orm.Model):
         rp_id =  rp_obj._find_accounting_partner(inv_brw.partner_id)
         rp_brw = rp_obj.browse(cr, uid, rp_id, context=context)
         fb_brw = self.browse(cr, uid, fb_id, context=context)
-        return inv_brw.customs_form_id \
-               and (fb_brw.type == 'sale' and 'ex' or 'im') \
-               or (fb_brw.type == 'purchase' and 'do' \
-                  or (rp_brw.vat_subjected and 'tp' or 'ntp' ))
+        if inv_brw.customs_form_id:
+            return 'ex' if fb_brw.type == 'sale' else 'im'
+        else:
+            if fb_brw.type == 'purchase':
+                return 'do'
+            else:
+                return 'tp' if inv_brw.partner_id.vat_subjected else 'ntp'
 
     def unlink(self, cr, uid, ids, context=None):
         """ Overwrite the unlink method to throw an exception if the book is
