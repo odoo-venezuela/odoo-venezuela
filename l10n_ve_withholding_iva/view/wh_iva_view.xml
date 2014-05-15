@@ -164,7 +164,7 @@
                         <field name="date_ret" readonly="1"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name"/>
-                        <field name="period_id" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
+                        <field name="period_id" widget='selection' required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
                         <field name="fortnight" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
@@ -217,7 +217,7 @@
                         <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name" select="2"/>
-                        <field name="period_id"/>
+                        <field name="period_id" widget='selection'/>
                         <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
                     </group>
