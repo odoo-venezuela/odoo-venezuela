@@ -1744,6 +1744,19 @@ class fiscal_book_lines(orm.Model):
                     res[fbl_brw.id] += tax.amount
         return res
 
+    def _compute_vat_rates(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for item in self.browse(cr, uid, ids, context=context):
+            res[item.id] = {
+                'vat_reduced_rate': item.vat_reduced_base and
+                    item.vat_reduced_tax * 100 / item.vat_reduced_base,
+                'vat_general_rate': item.vat_general_base and
+                    item.vat_general_tax * 100 / item.vat_general_base,
+                'vat_additional_rate': item.vat_additional_base and
+                    item.vat_additional_tax * 100 / item.vat_additional_base,
+                }
+        return res
+
     _description = "Venezuela's Sale & Purchase Fiscal Book Lines"
     _name = 'fiscal.book.line'
     _rec_name = 'rank'
@@ -1871,8 +1884,23 @@ class fiscal_book_lines(orm.Model):
                                             " plus Additional Base Amount"),
         'vat_additional_tax': fields.float("ADD TAX", help="Vat General plus" \
                                            " Additional Tax Amount"),
+        'vat_reduced_rate': fields.function(
+            _compute_vat_rates, method=True, type='float',
+            string='Reduced rate', multi='all',
+            help="Vat reduced tax rate "),
+        'vat_general_rate': fields.function(
+            _compute_vat_rates, method=True, type='float',
+            string='Reduced rate', multi='all',
+            help="Vat general tax rate "),
+        'vat_additional_rate': fields.function(
+            _compute_vat_rates, method=True, type='float',
+            string='Reduced rate', multi='all',
+            help="Vat plus additional tax rate "),
     }
 
+    _defaults = {
+        'rank': 0,
+        }
 
 class fiscal_book_taxes(orm.Model):
 
