@@ -185,6 +185,17 @@ class fiscal_book(orm.Model):
                 res[fb_brw.id]['get_previous_wh_sum']
         return res
 
+    def _get_do_adjustment_vat_tax_sum(self, cr, uid, ids, field_name, arg,
+                                       context=None):
+        res = {}
+        for fb_brw in self.browse(cr, uid, ids, context=context):
+            avts = 0
+            for fbl_brw in fb_brw.fbl_ids:
+                if fbl_brw.doc_type == 'AJST':
+                    avts += fbl_brw.get_wh_vat
+            res[fb_brw.id] = avts
+        return res
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name = 'fiscal.book'
     _inherit = ['mail.thread']
@@ -439,6 +450,9 @@ class fiscal_book(orm.Model):
             " For Purchase Book it sums Reduced VAT Tax column for domestic" \
             " transactions. For Sale Book it sums Tax Payer and Non-Tax Payer" \
             " Reduced VAT Tax columns"),
+        'do_adjustment_vat_tax_sum': fields.function(
+            _get_do_adjustment_vat_tax_sum, method=True, type='float',
+            string='Adjustment VAT Taxed Amount'),
 
         #~ Apply only for sale book
         #~ Totalization fields for tax payer and Non-Tax Payer transactions
@@ -759,7 +773,7 @@ class fiscal_book(orm.Model):
 
     def get_order_criteria_adjustment(self, cr, uid, type, context=None):
         return type == 'sale' \
-            and 'accounting_date asc, invoice_number asc' \
+            and 'accounting_date asc, nro_ctrl asc' \
             or 'emission_date asc, invoice_number asc'
 
     def get_order_criteria(self, cr, uid, type, context=None):
@@ -850,10 +864,8 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         data = []
-        my_rank = 1
         iwdl_obj = self.pool.get('account.wh.iva.line')
         cf_obj = self.pool.get('customs.form')
-        fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         rp_obj = self.pool.get('res.partner')
 
@@ -871,7 +883,6 @@ class fiscal_book(orm.Model):
                 rp_brw =  rp_obj._find_accounting_partner(iwdl_brw.retention_id.partner_id)
                 values = {
                     'iwdl_id': iwdl_brw.id,
-                    'rank': my_rank,
                     'type': t_type,
                     'accounting_date': iwdl_brw.date_ret or False,
                     'emission_date': iwdl_brw.date or iwdl_brw.date_ret or False,
@@ -889,7 +900,6 @@ class fiscal_book(orm.Model):
                                              or iwdl_brw.invoice_id.date_invoice,
                     'wh_rate': iwdl_brw.wh_iva_rate,
                 }
-                my_rank += 1
                 data.append((0, 0, values))
 
         #~ add book lines for invoices
@@ -901,6 +911,7 @@ class fiscal_book(orm.Model):
                                                 context=context)
             doc_type = self.get_doc_type(cr, uid, inv_id=inv_brw.id,
                                          context=context)
+
             rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id)
 
             iwdl_brw = iwdl_obj.browse(cr, uid, iwdl_id, context=context) if \
@@ -908,7 +919,6 @@ class fiscal_book(orm.Model):
 
             values = {
                 'invoice_id': inv_brw.id,
-                'rank': my_rank,
                 'emission_date': (not imex_invoice) \
                                  and (inv_brw.date_document or inv_brw.date_invoice) \
                                  or False,
@@ -948,7 +958,6 @@ class fiscal_book(orm.Model):
                 'wh_number': iwdl_brw and iwdl_brw.retention_id.number or '',
                 'wh_rate': iwdl_brw and iwdl_brw.wh_iva_rate or 0.0,
             }
-            my_rank += 1
             data.append((0, 0, values))
 
         #~ add book lines for customs forms
@@ -1225,20 +1234,18 @@ class fiscal_book(orm.Model):
 
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
+                sign = 1 if fbl.doc_type != 'N/CR' else -1
                 tax_lines = fbl.type in ['im','ex'] \
                     and fbl.invoice_id.imex_tax_line \
-                    or fbl.invoice_id.tax_line 
+                    or fbl.invoice_id.tax_line
                 for ait in tax_lines:
                     if ait.tax_id.appl_type:
                         base_sum[fbl.type][ait.tax_id.appl_type] += \
-                            ait.base_amount
+                            ait.base_amount * sign
                         tax_sum[fbl.type][ait.tax_id.appl_type] += \
-                            ait.tax_amount
-            elif fbl.cf_id:
-                if fbl.type != 'do':
-                    raise osv.except_osv(_('Programing Error!'),
-                    _("Customs form lines are domestic transacctions"))
-                base_sum['do']['sdcf'] += fbl.vat_sdcf
+                            ait.tax_amount * sign
+                    else:
+                        raise osv.except_osv(_('Error!'),_('You must assign the Aliquot Type to: %s')%(ait.tax_id.name))
 
         data = [ (0, 0, {'tax_type': ttype, 'op_type': optype,
                          'base_amount_sum': base_sum[optype][ttype],
@@ -1260,16 +1267,17 @@ class fiscal_book(orm.Model):
         data = {}
         #~ totalization of book tax amount and base amount fields
         tax_amount = base_amount = 0.0
-        for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
-            if fbl.invoice_id:
-                taxes = fbl.type in ['im','ex'] \
-                        and fbl.invoice_id.imex_tax_line \
-                        or fbl.invoice_id.tax_line
+        for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids:
+            sign = 1 if fbl_brw.doc_type != 'N/CR' else -1
+            if fbl_brw.invoice_id:
+                taxes = fbl_brw.type in ['im','ex'] \
+                        and fbl_brw.invoice_id.imex_tax_line \
+                        or fbl_brw.invoice_id.tax_line
                 for ait in taxes:
                     if ait.tax_id:
-                        base_amount += ait.base_amount
+                        base_amount += ait.base_amount * sign
                         if ait.tax_id.ret:
-                            tax_amount += ait.tax_amount
+                            tax_amount += ait.tax_amount * sign
 
         data['tax_amount'] = tax_amount
         data['base_amount'] = base_amount
@@ -1394,7 +1402,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         res = 0.0
-        fbts_obj = self.pool.get('fiscal.book.taxes.summary')
+        #~ fbts_obj = self.pool.get('fiscal.book.taxes.summary')
 
         #~ Identifying the field
         field_info = field_name[:-4].split('_')
@@ -1428,22 +1436,24 @@ class fiscal_book(orm.Model):
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
+                sign = 1 if fbl.doc_type != 'N/CR' else -1
                 amount_field_data = \
-                    { 'total_with_iva': fbl.invoice_id.amount_untaxed,
+                    { 'total_with_iva': fbl.invoice_id.amount_untaxed * sign,
                       'vat_sdcf': 0.0, 'vat_exempt': 0.0 }
                 taxes = fbl.type in ['im','ex'] \
                     and fbl.invoice_id.imex_tax_line \
                     or fbl.invoice_id.tax_line
                 for ait in taxes:
                     if ait.tax_id:
+
                         data.append((0, 0, {'fb_id': fb_id,
                                             'fbl_id': fbl.id,
                                             'ait_id': ait.id}))
-                        amount_field_data['total_with_iva'] += ait.tax_amount
+                        amount_field_data['total_with_iva'] += ait.tax_amount * sign
                         if ait.tax_id.appl_type == 'sdcf':
-                            amount_field_data['vat_sdcf'] += ait.base_amount
+                            amount_field_data['vat_sdcf'] += ait.base_amount * sign
                         if ait.tax_id.appl_type == 'exento':
-                            amount_field_data['vat_exempt'] += ait.base_amount
+                            amount_field_data['vat_exempt'] += ait.base_amount * sign
                     else:
                         data.append((0, 0, {'fb_id':
                                     fb_id, 'fbl_id': False, 'ait_id': ait.id}))
@@ -1469,14 +1479,15 @@ class fiscal_book(orm.Model):
         tax_type = {'reduced': 'reducido', 'general': 'general',
                     'additional': 'adicional'}
         for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids:
+            sign = 1 if fbl_brw.doc_type != 'N/CR' else -1
             data = {}.fromkeys(field_names, 0.0)
             for fbt_brw in fbl_brw.fbt_ids:
                 for field_name in field_names:
                     field_tax, field_amount = field_name[4:].split('_')
                     if fbt_brw.ait_id.tax_id.appl_type == tax_type[field_tax]:
                         data[field_name] += field_amount == 'base' \
-                            and fbt_brw.base_amount \
-                            or fbt_brw.tax_amount
+                            and fbt_brw.base_amount * sign \
+                            or fbt_brw.tax_amount * sign
             fbl_obj.write(cr, uid, fbl_brw.id, data, context=context)
         return True
 
@@ -1643,7 +1654,7 @@ class fiscal_book(orm.Model):
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
             if (inv_brw.type in ["in_invoice"] and inv_brw.parent_id) \
                     or inv_brw.type in ["in_refund"]:
-                res = "N/DE"
+                res = "N/DB"
             elif (inv_brw.type in ["out_invoice"] and inv_brw.parent_id) or \
                     inv_brw.type in ["out_refund"]:
                 res = "N/CR"
@@ -1671,7 +1682,7 @@ class fiscal_book(orm.Model):
 
     def is_invoice_imex(self, cr, uid, inv_id, context=None):
         """ Boolean method that verify is a invoice is imported by cheking the
-        customs form associated. 
+        customs form associated.
         @param inv_id: invoice id
         """
         context = context or {}
@@ -1724,8 +1735,9 @@ class fiscal_book_lines(orm.Model):
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
         for fbl_brw in self.browse(cr, uid, ids, context=context):
+            sign = 1 if fbl_brw.doc_type != 'AJST' else -1
             if fbl_brw.iwdl_id:
-                res[fbl_brw.id] = fbl_brw.iwdl_id.amount_tax_ret
+                res[fbl_brw.id] = fbl_brw.iwdl_id.amount_tax_ret * sign
         return res
 
     def _get_based_tax_debit(self, cr, uid, ids, field_name, arg,
@@ -1740,8 +1752,9 @@ class fiscal_book_lines(orm.Model):
         awilt_obj = self.pool.get("account.wh.iva.line.tax")
         for fbl_brw in self.browse(cr, uid, ids, context=context):
             if fbl_brw.iwdl_id:
+                sign = 1 if fbl_brw.doc_type != 'AJST' else -1
                 for tax in fbl_brw.iwdl_id.tax_line:
-                    res[fbl_brw.id] += tax.amount
+                    res[fbl_brw.id] += tax.amount * sign
         return res
 
     def _compute_vat_rates(self, cr, uid, ids, field_name, arg, context=None):
