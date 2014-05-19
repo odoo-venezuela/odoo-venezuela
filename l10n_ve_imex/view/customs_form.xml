@@ -78,7 +78,6 @@
                         <page string="Other">
                             <label string="Notes" colspan="4"/>
                             <field name="narration" colspan="4" nolabel="1"/>
-                            <field name="invoice_ids" colspan="4" nolabel="1"/>
                             <field name="move_id"/>
                             <field name="company_id"/>
                         </page>

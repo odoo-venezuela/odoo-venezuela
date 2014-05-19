@@ -120,8 +120,6 @@ class customs_form(osv.osv):
                                    readonly=True,
                                    help="The move of this entry line."),
         'narration': fields.text('Notes', readonly=False),
-        'invoice_ids': fields.one2many('account.invoice', 'customs_form_id',
-                                       'Related invoices', readonly=True),
         'state': fields.selection([('draft', 'Draft'), ('open', 'Open'),
                                    ('done', 'Done'), ('cancel', 'Cancelled')],
                                   string='State', required=True,
@@ -150,7 +148,6 @@ class customs_form(osv.osv):
         lines = []
         context = context or {}
         company_id = context.get('f86_company_id')
-        f86_cfg = context.get('f86_config')
         rp_obj = self.pool.get('res.partner')
 
         #~ expenses
@@ -159,13 +156,15 @@ class customs_form(osv.osv):
             acc_part_brw = rp_obj._find_accounting_partner(line.tax_code.partner_id)
             if line.tax_code.vat_detail:
                 for vat in line.imex_tax_line:
-                    debits.append(
-                        {'account_id': vat.tax_id.account_collected_id.id,
-                         'amount': vat.tax_amount,
-                         'tax_info': ' (%s)' % vat.tax_id.name})
+                    if vat.tax_amount:
+                        debits.append(
+                            {'account_id': vat.tax_id.account_collected_id.id,
+                             'amount': vat.tax_amount,
+                             'tax_info': ' (%s)' % vat.tax_id.name})
             else:
-                debits.append({'account_id': line.tax_code.account_id.id,
-                               'amount': line.amount, 'tax_info': ''})
+                if line.amount:
+                    debits.append({'account_id': line.tax_code.account_id.id,
+                                   'amount': line.amount, 'tax_info': ''})
 
             credit_account_id = \
                 acc_part_brw.property_account_payable.id
@@ -201,8 +200,6 @@ class customs_form(osv.osv):
         obj_cfg = self.pool.get('customs.form.config')
         company_id = self.pool.get('res.users').browse(
             cr, uid, uid, context=context).company_id.id
-        company = self.pool.get('res.company').browse(cr, uid, company_id,
-                                                      context=context)
         cfg_id = obj_cfg.search(cr, uid, [('company_id', '=', company_id)],
                                 context=context)
         if cfg_id:
@@ -211,7 +208,6 @@ class customs_form(osv.osv):
             raise osv.except_osv(_('Error!'),
                                  _('Please set a valid configuration in \
                                  the imex settings'))
-        date = time.strftime('%Y-%m-%d')
         context.update({'f86_company_id': company_id, 'f86_config': f86_cfg})
         move_ids = []
         for f86 in so_brw:
@@ -222,24 +218,17 @@ class customs_form(osv.osv):
                 'company_id': company_id,
                 'state': 'draft',
                 'to_check': False,
-                'narration': _('Form 86 # %s\n\tReference: %s\n\tBroker: \
-                %s\n\nRelated invoices:')
+                'narration': _('Form 86 # %s\n\tReference: %s\n\tBroker: %s')
                 % (f86.name, f86.ref or '', f86.broker_id.name or ''),
             }
-            for inv in f86.invoice_ids:
-                str_inv = _('\n\tSupplier: %-40s Reference: %s') % \
-                (inv.partner_id.name, inv.supplier_invoice_number)
-                move['narration'] = '%s%s' % (move['narration'], str_inv)
-            lines = self.create_account_move_lines(cr, uid, f86,
-                                                   context=context)
+            lines = self.create_account_move_lines(cr, uid, f86, context=context)
             if lines:
                 move.update({'line_id': lines})
                 move_id = obj_move.create(cr, uid, move, context=context)
                 obj_move.post(cr, uid, [move_id], context=context)
                 if move_id:
                     move_ids.append(move_id)
-                    self.write(cr, uid, f86.id, {'move_id': move_id},
-                               context=context)
+                    self.write(cr, uid, f86.id, {'move_id': move_id}, context=context)
         return move_ids
 
     def button_draft(self, cr, uid, ids, context=None):
@@ -263,7 +252,6 @@ class customs_form(osv.osv):
         f86 = self.browse(cr, uid, ids[0], context=context)
         f86_move_id = f86.move_id.id if f86 and f86.move_id else False
         vals = {'state': 'cancel', 'move_id': 0}
-        res = self.write(cr, uid, ids, vals, context=context)
         if f86_move_id:
             self.pool.get('account.move').unlink(cr, uid, [f86_move_id],
                                                  context=context)
@@ -273,12 +261,11 @@ class customs_form(osv.osv):
         return True
 
     def test_open(self, cr, uid, ids, *args):
-        so_brw = self.browse(cr, uid, ids, context={})
-        for f86 in so_brw:
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        for f86 in self.browse(cr, uid, ids, context={}):
             if f86.amount_total <= 0:
                 raise osv.except_osv(_('Warning!'),
                                      _('You must indicate a amount'))
-            f86_invoices = [i.id for i in f86.invoice_ids]  # related inv list
             vat_invoices = []  # for tax (vat) related invoices
             for line in f86.cfl_ids:
                 if line.vat_detail:
@@ -290,17 +277,8 @@ class customs_form(osv.osv):
                     if abs(vat_total) > 0.001:
                         raise osv.except_osv(
                             _('Warning!'),
-                            _('The vat detail data does not correspond with \
-                            vat amount in line: %s') % line.tax_code.name)
-            #~ Validate related invoices vs invoice_ids (if vat)
-            if set(f86_invoices) != set(vat_invoices):
-                #~ No todas las facturas relacionadas con la planilla de
-                #~ importación se corresponden con las facturas relacionadas
-                #~ al IVA
-                raise osv.except_osv(
-                    _('Warning!'),
-                    _('Not all invoices related to the import spreadsheet \
-                    correspond to invoices relating to VAT'))
+                            _('The vat detail data does not correspond with '
+                              'vat amount in line: %s') % line.tax_code.name)
         return True
 
     def test_done(self, cr, uid, ids, *args):
@@ -311,21 +289,13 @@ class customs_form(osv.osv):
             raise osv.except_osv(
                 _('Error!'),
                 _('Multiple operations not allowed'))
-        for f86 in self.browse(cr, uid, ids, context={}):
+        for f86 in self.browse(cr, uid, ids, context=None):
             #~ Validate account_move.state != draft
             if f86.move_id and f86.move_id.state != 'draft':
                 raise osv.except_osv(
                     _('Error!'),
                     _('Can\'t cancel a import while account move state <> \
                     "Draft" (%s)') % f86.move_id.name)
-            #~ Validate state of related invoices (only state = draft)
-            for inv in f86.invoice_ids:
-                if inv.state != 'draft':
-                    raise osv.except_osv(
-                        _('Error!'),
-                        _('Can\'t cancel a import while invoice state <> \
-                        "Draft" ([%s] %s, %s)') % inv.name,
-                        inv.partner_id.name, inv.supplier_invoice_number)
         return True
 
 
