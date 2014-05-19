@@ -1903,11 +1903,11 @@ class fiscal_book_lines(orm.Model):
             help="Vat reduced tax rate "),
         'vat_general_rate': fields.function(
             _compute_vat_rates, method=True, type='float',
-            string='Reduced rate', multi='all',
+            string='General rate', multi='all',
             help="Vat general tax rate "),
         'vat_additional_rate': fields.function(
             _compute_vat_rates, method=True, type='float',
-            string='Reduced rate', multi='all',
+            string='Additional rate', multi='all',
             help="Vat plus additional tax rate "),
     }
 
