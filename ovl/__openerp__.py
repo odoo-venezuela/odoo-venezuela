@@ -23,6 +23,7 @@
     "version" : "4.0",
     "depends" : [
                  # Level Zero of Modules 
+                 "account",
                  "document",
                  # First Level of Modules 
                  "l10n_ve_fiscal_requirements", 
@@ -85,7 +86,9 @@ Concepts from Sales and Purchase
     "category" : "Localization/Application",
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [],
+    "data": [
+        'view/account_invoice_view.xml',
+        ],
     "test" : [],
     "images" : [],
     "auto_install": False,
