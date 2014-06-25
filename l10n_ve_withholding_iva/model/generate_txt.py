@@ -307,7 +307,8 @@ class txt_iva(osv.osv):
                 vendor,buyer=self.get_buyer_vendor(cr,uid,txt,txt_line)
                 period = txt.period_id.name.split('/')
                 period2 = period[1]+period[0]
-                
+                # TODO: use the start date of the period to get the period2 with the 'YYYYmm'
+
                 operation_type = 'V' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'C'
                 document_type  = self.get_type_document(cr,uid,txt_line)
                 document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number')
