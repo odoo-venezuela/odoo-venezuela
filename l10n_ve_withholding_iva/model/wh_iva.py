@@ -60,7 +60,7 @@ class account_wh_iva_line_tax(osv.osv):
         
         for each in awilt_brw:
             #~ TODO: THIS NEEDS REFACTORY IN ORDER TO COMPLY WITH THE SALE WITHHOLDING
-            res[each.id] = each.amount * each.wh_vat_line_id.wh_iva_rate /100.0
+            res[each.id] = round((each.amount * each.wh_vat_line_id.wh_iva_rate / 100.0) + 0.00000001, 2)
         return res
     
     _name = 'account.wh.iva.line.tax'
@@ -140,8 +140,12 @@ class account_wh_iva_line(osv.osv):
                 'base_ret': 0.0
             }
             for line in ret_line.tax_line:
-                res[ret_line.id]['amount_tax_ret'] += line.amount_ret
-                res[ret_line.id]['base_ret'] += line.base
+                if ret_line.invoice_id.type not in ('in_refund'):
+                    res[ret_line.id]['amount_tax_ret'] += line.amount_ret
+                    res[ret_line.id]['base_ret'] += line.base
+                else:
+                    res[ret_line.id]['amount_tax_ret'] -= line.amount_ret
+                    res[ret_line.id]['base_ret'] -= line.base
 
         return res
 
@@ -151,13 +155,14 @@ class account_wh_iva_line(osv.osv):
         'name': fields.char('Description', size=64, required=True, help="Withholding line Description"),
         'retention_id': fields.many2one('account.wh.iva', 'Vat Withholding', ondelete='cascade', help="Vat Withholding"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
+        'supplier_invoice_number':fields.related('invoice_id', 'supplier_invoice_number', type='char', string='Supplier Invoice Number', size=64, store=True, readonly=True),
         'tax_line': fields.one2many('account.wh.iva.line.tax','wh_vat_line_id', string='Taxes', help="Invoice taxes"),
         'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
         'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
         'wh_iva_rate': fields.float(string='Withholding Vat Rate', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding rate"),
-        'date': fields.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Emission Date', help='Emission date'),
-        'date_ret': fields.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Accounting Date', help='Accouting date')
+        'date': fields.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Voucher Date', help='Emission/Voucher/Document date'),
+        'date_ret': fields.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Accounting Date', help='Accouting date. Date Withholding')
     }
 
     _sql_constraints = [
@@ -184,8 +189,7 @@ class account_wh_iva_line(osv.osv):
             ret = self.pool.get('account.wh.iva').browse(cr, uid, ret_ids[0], context)
             raise osv.except_osv('Assigned Invoice !',"The invoice has already assigned in withholding vat code: '%s' !" % (ret.code,))
 
-        result['name'] = res.name
-
+        result.update({'name':res.name,'supplier_invoice_number':res.supplier_invoice_number})
 
         return {'value':result, 'domain':domain}
 
@@ -271,8 +275,8 @@ class account_wh_iva(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'State', readonly=True, help="Withholding State"),
-        'date_ret': fields.date('Accounting date', help="Keep empty to use the current date"),
-        'date': fields.date('Emission Date', readonly=True, states={'draft':[('readonly',False)]}, help="Voucher Date"),
+        'date_ret': fields.date('Accounting date', readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the current date"),
+        'date': fields.date('Voucher Date', readonly=True, states={'draft':[('readonly',False)]}, help="Emission/Voucher/Document Date"),
         'period_id': fields.many2one('account.period', 'Force Period', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Keep empty to use the period of the validation(Withholding date) date."),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="The pay account used for this withholding."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Withholding customer/supplier"),
@@ -313,8 +317,8 @@ class account_wh_iva(osv.osv):
         """
         ret_brw = self.browse(cr, uid, ids)
         account_move_obj = self.pool.get('account.move')
-        delete = False
         for ret in ret_brw:
+            delete = False
             if ret.state == 'done':
                 for ret_line in ret.wh_lines:
                     account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
@@ -335,8 +339,8 @@ class account_wh_iva(osv.osv):
         @param offset: compensation
         """
         if context is None: context = {}
-        return amount_ret >= amount * (wh_iva_rate)/100.0 - offset and amount_ret <= amount * (wh_iva_rate)/100.0 + offset
-    
+        return amount_ret >= amount * (wh_iva_rate - offset)/100.0 and amount_ret <= amount * (wh_iva_rate + offset)/100.0
+
     def check_wh_taxes(self, cr, uid, ids, context=None):
         """ Check that are valid and that amount retention is not greater than amount 
         """
@@ -360,10 +364,12 @@ class account_wh_iva(osv.osv):
             raise osv.except_osv(_('Invalid action !'),error_msg)
         return True
 
-    def check_vat_wh(self, cr, uid, ids, context={}):
+    def check_vat_wh(self, cr, uid, ids, context=None):
         """ Check whether the bill will need to withhold taxes
         """
         obj = self.browse(cr, uid, ids[0])
+        if not obj.date or not obj.date_ret:
+            raise osv.except_osv(_('Error!'), _('Must indicate: Accounting date and (or) Voucher Date'))
         res = {}
         for wh_line in obj.wh_lines:
             if not wh_line.tax_line:
@@ -373,10 +379,10 @@ class account_wh_iva(osv.osv):
             for i in res:
                 note += '* %s, %s, %s\n'%res[i]
             note += _('\nPlease, Load the Taxes to be withheld and Try Again')
-            
+
             raise osv.except_osv(_('Invoices with Missing Withheld Taxes!'),note)
         return True
-        
+
     def check_invoice_nro_ctrl(self, cr, uid, ids, context=None):
         """ Method that check if the control number of the invoice is set
         Return: True if the control number is set, and raise an exception
@@ -394,10 +400,10 @@ class account_wh_iva(osv.osv):
             for i in res:
                 note += '* %s, %s, %s\n'%res[i]
             note += _('\nPlease, Write the control number and Try Again')
-            
+
             raise osv.except_osv(_('Invoices with Missing Control Number!'),note)
         return True
-        
+
     def write_wh_invoices(self, cr, uid, ids, context=None):
         """ Method that writes the wh vat id in sale invoices.
         Return: True: write successfully.
@@ -411,7 +417,7 @@ class account_wh_iva(osv.osv):
                     return False
         return True
 
-    def _check_partner(self, cr, uid, ids, context={}):
+    def _check_partner(self, cr, uid, ids, context=None):
         """ Determine if a given partner is a VAT Withholding Agent
         """
         obj = self.browse(cr, uid, ids[0])
@@ -468,11 +474,11 @@ class account_wh_iva(osv.osv):
             for (id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva.%s' % obj_ret.type)
-                    
+
                 cr.execute('UPDATE account_wh_iva SET number=%s ' \
                         'WHERE id=%s', (number, id))
         return True
-    
+
     def action_date_ret(self, cr, uid, ids, context=None):
         """ Undated records will be assigned the current date
         """
@@ -512,7 +518,7 @@ class account_wh_iva(osv.osv):
         user_obj = self.pool.get('res.users')
         per_obj = self.pool.get('account.period')
         if context is None: context = {}
-        
+        ids = isinstance(ids, (int, long)) and [ids] or ids
         context.update({'vat_wh':True,
                         'company_id': user_obj.browse(cr, uid, uid, context=context).company_id.id})
         ret = self.browse(cr, uid, ids[0], context)
@@ -542,7 +548,7 @@ class account_wh_iva(osv.osv):
                     else:
                         name = 'COMP. RET. IVA ' + ret.number + ' Doc. '+ (line.invoice_id.number or '')
                     ret_move = inv_obj.ret_and_reconcile(cr, uid, [line.invoice_id.id],
-                            amount, acc_id, period_id, journal_id, writeoff_account_id,
+                            abs(amount), acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, ret.date_ret, name,line.tax_line, context)
                     # make the withholding line point to that move
                     rl = {
@@ -554,9 +560,9 @@ class account_wh_iva(osv.osv):
                     if rl and line.invoice_id.type in ['out_invoice','out_refund']:
                         inv_obj.write(cr,uid,[line.invoice_id.id],{'wh_iva_id':ret.id})
         return True
-    
+
     def _withholdable_tax_(self, cr, uid, ids, context=None):
-        """ Return lines with withholdable taxes 
+        """ Return lines with withholdable taxes
         """
         if context is None:
             context={}
@@ -571,12 +577,12 @@ class account_wh_iva(osv.osv):
         @param partner_id: vendor or buyer
         """
         if context is None: context = {}
-            
+
         acc_id = False
         res = {}
         rp_obj = self.pool.get('res.partner')
         inv_obj = self.pool.get('account.invoice')
-        
+
         if partner_id:
             acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             if type in ('out_invoice', 'out_refund'):
@@ -614,13 +620,23 @@ class account_wh_iva(osv.osv):
                         'name':         inv_brw.name or _('N/A'),
                         'wh_iva_rate':  rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate,
                         } for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
-        
+
         res = {'value': {
             'account_id': acc_id,
             'wh_lines':res_wh_lines}
         }
 
         return res
+
+    def on_change_date_ret(self, cr, uid, ids, date_ret, date):
+        res = {}
+        if date_ret:
+            if not date:
+                res.update({'date': date_ret})
+            obj_per = self.pool.get('account.period')
+            per_id = obj_per.find(cr, uid, date_ret)
+            res.update({'period_id': per_id and per_id[0]})
+        return {'value':res}
 
     def clear_wh_lines(self, cr, uid, ids, context=None):
         """ Clear lines of current withholding document and delete wh document
@@ -875,11 +891,12 @@ class account_wh_iva(osv.osv):
         """ Overwrite the unlink method to throw an exception if the
         withholding is not in cancel state."""
         context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
         for awi_brw in self.browse(cr, uid, ids, context=context):
             if awi_brw.state != 'cancel':
                 raise osv.except_osv(_("Invalid Procedure!!"),
                     _("The withholding document needs to be in cancel state to be deleted."))
             else:
-                super(account_wh_iva, self).unlink(cr, uid, ids, context=context)
+                self.clear_wh_lines(cr, uid, [awi_brw.id], context)
+                super(account_wh_iva, self).unlink(cr, uid, [awi_brw.id], context=context)
         return True
-
