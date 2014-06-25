@@ -23,6 +23,7 @@
     "version" : "4.0",
     "depends" : [
                  # Level Zero of Modules 
+                 "account",
                  "document",
                  # First Level of Modules 
                  "l10n_ve_fiscal_requirements", 
