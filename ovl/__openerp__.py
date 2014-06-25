@@ -86,7 +86,9 @@ Concepts from Sales and Purchase
     "category" : "Localization/Application",
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [],
+    "data": [
+        'view/account_invoice_view.xml',
+        ],
     "test" : [],
     "images" : [],
     "auto_install": False,

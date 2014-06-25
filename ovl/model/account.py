@@ -23,4 +23,36 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-import account
+from openerp.osv import fields, osv, orm
+from openerp.tools.translate import _
+from openerp import tools
+
+
+class account_invoice(osv.Model):
+
+    _inherit = 'account.invoice'
+
+    def show_entries(self, cur, uid, ids, context=None):
+        """
+        This method is used in a button name journal entries that it is in the
+        wh tag in the account invoice form view. This method will search for
+        the corresponding account.move.line associated for the current invoice
+        and will show then in a tree view.
+        """
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        aml_obj = self.pool.get('account.move.line')
+        for brw in self.browse(cur, uid, ids, context=context):
+            domain = [('invoice', '=', brw.id)] 
+            aml_ids = aml_obj.search(cur, uid, domain, context=context)
+            aml_ids.extend([aml_brw.id for aml_brw in brw.move_lines])
+            aml_ids = list(set(aml_ids))
+        return {
+            'domain': "[('id','in', {})]".format(str(aml_ids)),
+            'name': _('Journal Entries'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'account.move.line',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
