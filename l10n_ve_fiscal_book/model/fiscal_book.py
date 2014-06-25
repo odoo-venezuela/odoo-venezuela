@@ -1921,7 +1921,7 @@ class fiscal_book_taxes(orm.Model):
     _name = 'fiscal.book.taxes'
     _rec_name = 'ait_id'
     _columns = {
-        'name': fields.related('ait_id', 'name',
+        'name': fields.related('ait_id', 'name', size=64,
                                relation="account.invoice.tax", type="char",
                                string='Description', store=True),
         'fb_id': fields.many2one(
