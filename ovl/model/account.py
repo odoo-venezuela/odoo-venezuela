@@ -47,6 +47,16 @@ class account_invoice(osv.Model):
             aml_ids = aml_obj.search(cur, uid, domain, context=context)
             aml_ids.extend([aml_brw.id for aml_brw in brw.move_lines])
             aml_ids = list(set(aml_ids))
+
+            am_brws = list()
+            aml_brws = aml_obj.browse(cur, uid, aml_ids, context=context)
+            for aml in aml_brws:
+                am_brws.append(aml.move_id)
+            am_brws = set(am_brws)
+            aml_ids = list()
+            for am_brw in am_brws:
+               aml_ids += [aml_brw.id for aml_brw in am_brw.line_id]
+
         return {
             'domain': "[('id','in', {})]".format(str(aml_ids)),
             'name': _('Journal Entries'),
