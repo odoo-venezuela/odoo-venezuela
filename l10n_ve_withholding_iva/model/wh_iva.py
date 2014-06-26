@@ -638,7 +638,7 @@ class account_wh_iva(osv.osv):
         if not partner_id:
             if wh_type == 'sale':
                 return {'value': values_data}
-            else
+            else:
                 if not period_id or not fortnight:
                     return {'value': values_data}
 
