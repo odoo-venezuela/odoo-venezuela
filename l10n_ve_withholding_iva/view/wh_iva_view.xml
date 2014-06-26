@@ -20,6 +20,8 @@
                         on_change="invoice_id_change(invoice_id)" 
                         domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
                         />
+                    <field name="supplier_invoice_number"/>
+
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
                     <field name="wh_iva_rate"/>
@@ -42,6 +44,7 @@
                                 on_change="invoice_id_change(invoice_id)" 
                                 domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
                                 />
+                                <field name="supplier_invoice_number"/>
                                 <field name="name"/>
                                 <field name="move_id"/>
                             </group>
@@ -98,6 +101,7 @@
                         <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Vat"/>
                         <separator orientation="vertical"/>
                         <field name="code"/>
+                        <field name="name"/>
                         <field name="number"/>
                         <field name="partner_id"/>
                         <field name="journal_id" widget="selection" string="Journal"/>
