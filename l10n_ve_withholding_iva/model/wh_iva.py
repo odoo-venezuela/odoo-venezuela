@@ -599,12 +599,16 @@ class account_wh_iva(osv.osv):
 
         return True
 
-    def onchange_lines_filter(self, cr, uid, ids, type, partner_id, period_id,
-                              fortnight, context=None):
+    def onchange_lines_filter(self, cr, uid, ids, type, partner_id,
+                              period_id=False, fortnight=False, context=None):
         """ Update the withholding document accounts and the withholding lines
-        depending on the partner, period and fortnight changes. This method
-        delete lines at right moment and unlink/link the withholding document
-        to the related invoices.
+        depending on the partner and another parameters that depend of the type
+        of withholdong. If the type is sale will only take into account the
+        partner, but if the type is purchase would take into account the period
+        and fortnight changes.
+
+        This method delete lines at right moment and unlink/link the
+        withholding document to the related invoices.
         @param type: invoice type
         @param partner_id: partner_id at current view
         @param period_id: period_id at current view
@@ -617,11 +621,12 @@ class account_wh_iva(osv.osv):
         values_data = dict()
         res_wh_lines = []
         acc_id = False
+        wh_type = (type in ('out_invoice', 'out_refund')) and 'sale' or 'purchase'
 
         #~ pull account info
         if partner_id:
             acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
-            if type in ('out_invoice', 'out_refund'):
+            if wh_type == 'sale':
                 acc_id = acc_part_id.property_account_receivable and acc_part_id.property_account_receivable.id or False
             else:
                 acc_id = acc_part_id.property_account_payable and acc_part_id.property_account_payable.id or False
@@ -629,13 +634,16 @@ class account_wh_iva(osv.osv):
 
         #~ clear lines 
         self.clear_wh_lines(cr, uid, ids, context=context)
-
-        if not partner_id or not period_id or not fortnight:
-            #~ print 'missing filter... dont calculate', '\n'*3
-            return {'value': values_data }
+        
+        if not partner_id:
+            if wh_type == 'sale':
+                return {'value': values_data}
+            else
+                if not period_id or not fortnight:
+                    return {'value': values_data}
 
         #~ add lines
-        ttype = type in ['out_invoice'] and ['out_invoice', 'out_refund'] \
+        ttype = wh_type == 'sale' and ['out_invoice', 'out_refund'] \
                 or ['in_invoice', 'in_refund']
         ai_ids = ai_obj.search(cr, uid, [
             ('state', '=', 'open'), ('wh_iva', '=', False),
@@ -645,10 +653,14 @@ class account_wh_iva(osv.osv):
             ('partner_id', 'child_of', acc_part_id.id),
             ('period_id', '=', period_id)],
             context=context)
-        ai_ids = [ai_brw.id
-                  for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
-                  if per_obj.find_fortnight(cr, uid, ai_brw.date_invoice,
-                  context=context) == (period_id,eval(fortnight))]
+
+        if wh_type == 'sale':
+            ai_ids = [
+              ai_brw.id
+              for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
+              if per_obj.find_fortnight(cr, uid, ai_brw.date_invoice,
+              context=context) == (period_id,eval(fortnight))]
+
         ai_ids = self._withholdable_tax_(cr, uid, ai_ids, context=context)
         #~ print 'ai_ids', ai_ids
         if ai_ids:
@@ -666,57 +678,9 @@ class account_wh_iva(osv.osv):
         @param type: invoice type
         @param partner_id: vendor or buyer
         """
-        if context is None: context = {}
-
-        acc_id = False
-        res = {}
-        rp_obj = self.pool.get('res.partner')
-        inv_obj = self.pool.get('account.invoice')
-
-        if partner_id:
-            acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
-            if type in ('out_invoice', 'out_refund'):
-                acc_id = acc_part_id.property_account_receivable and acc_part_id.property_account_receivable.id or False
-            else:
-                acc_id = acc_part_id.property_account_payable and acc_part_id.property_account_payable.id or False
-        
-        wh_line_obj = self.pool.get('account.wh.iva.line')
-        wh_lines = ids and wh_line_obj.search(cr, uid, [('retention_id', '=', ids[0])]) or False
-        res_wh_lines = []
-        if wh_lines:
-            wh_line_obj.unlink(cr, uid, wh_lines)
-
-        if not partner_id:
-            return {'value': res}
-        
-        ttype = type in ['out_invoice'] and ['out_invoice', 'out_refund'] \
-                or ['in_invoice', 'in_refund']
-        inv_ids = inv_obj.search(cr,uid,[('state', '=', 'open'),
-                                        ('wh_iva', '=', False),
-                                        ('type', 'in', ttype),
-                                        '|',
-                                        ('partner_id', '=', acc_part_id.id),
-                                        ('partner_id', 'child_of', acc_part_id.id),
-            ],context=context)
-        
-        if inv_ids:
-            #~ Get only the invoices which are not in a document yet
-            inv_ids = [i for i in inv_ids if not wh_line_obj.search(cr, uid, [('invoice_id', '=', i)])]
-        inv_ids = self._withholdable_tax_(cr, uid, inv_ids, context=None)
-        if inv_ids:
-            awil_obj = self.pool.get('account.wh.iva.line')
-            res_wh_lines = [{
-                        'invoice_id':   inv_brw.id,
-                        'name':         inv_brw.name or _('N/A'),
-                        'wh_iva_rate':  rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate,
-                        } for inv_brw in inv_obj.browse(cr,uid,inv_ids,context=context)]
-
-        res = {'value': {
-            'account_id': acc_id,
-            'wh_lines':res_wh_lines}
-        }
-
-        return res
+        context = context or {}
+        return self.onchange_lines_filter(cr, uid, ids, type, partnet_id,
+            context=context)
 
     def _partner_invoice_check(self, cr, uid, ids, context=None):
         """ Verify that the partner associated of the invoice is correct
