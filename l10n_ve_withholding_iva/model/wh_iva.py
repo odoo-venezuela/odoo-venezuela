@@ -599,7 +599,7 @@ class account_wh_iva(osv.osv):
 
         return True
 
-    def onchange_lines_filter(self, cr, uid, ids, type, partner_id,
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
                               period_id=False, fortnight=False, context=None):
         """ Update the withholding document accounts and the withholding lines
         depending on the partner and another parameters that depend of the type
@@ -672,15 +672,6 @@ class account_wh_iva(osv.osv):
                 ]
         return {'value': values_data}
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,context=None):
-        """ Changing the partner is again determinated accounts and lines retain
-        for document
-        @param type: invoice type
-        @param partner_id: vendor or buyer
-        """
-        context = context or {}
-        return self.onchange_lines_filter(cr, uid, ids, type, partnet_id,
-            context=context)
 
     def _partner_invoice_check(self, cr, uid, ids, context=None):
         """ Verify that the partner associated of the invoice is correct
