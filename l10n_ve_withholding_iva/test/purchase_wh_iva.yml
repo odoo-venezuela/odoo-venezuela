@@ -129,15 +129,16 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('whc_awi_manual_purchase')
     invoice_id = ref('wh_manual_purchase_awi_invoice')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
-        cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    inv_obj = self.pool.get('account.invoice')
+    period_obj = self.pool.get('account.period')
+    inv_brw = inv_obj.browse(cr, uid, invoice_id) 
+    period_id, fortnight = period_obj.find_fortnight(
+        cr, uid, inv_brw.date_invoice)
+    values = self.onchange_partner_id(
+        cr, uid, [awi_id], 'in_invoice', awi_brw.partner_id.id,
+        period_id=period_id, fortnight=fortnight)
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     try:
         self.write(cr, uid, awi_id, values)
         assert False, 'The withholding line was not added'

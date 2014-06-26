@@ -163,15 +163,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_010')
     invoice_id = ref('awi_sale_invoice_010')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc. It can be added but it can be confirm.
@@ -262,15 +257,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_011')
     invoice_id = ref('awi_sale_invoice_011')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc.
@@ -347,15 +337,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_01N')
     invoice_id = ref('awi_sale_invoice_01N')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc. It can be added but it can be confirm.
@@ -459,15 +444,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_110')
     invoice_id = ref('awi_sale_invoice_110')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc. It can be added but it can be confirm.
@@ -558,15 +538,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_111')
     invoice_id = ref('awi_sale_invoice_111')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc.
@@ -644,15 +619,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_11N')
     invoice_id = ref('awi_sale_invoice_11N')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc. It can be added but it can be confirm.
@@ -753,15 +723,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_ret_check')
     invoice_id = ref('sale_invoice_ret_tax')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that only the ret tax was added like a line into the withholding document.
@@ -845,16 +810,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_customer_a')
     invoice_id = ref('awi_sale_invoice_customer_b')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
-    
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     try:
         write_flag = self.write(cr, uid, awi_id, values)
     except Exception as e:
@@ -936,15 +895,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_customer_a1')
     invoice_id = ref('awi_sale_invoice_repeat_customer_a')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding line was added to the wh doc.
@@ -993,15 +947,10 @@
   #~ !python {model: account.wh.iva}: |
     #~ awi_id = ref('awi_sale_customer_a2')
     #~ invoice_id = ref('awi_sale_invoice_repeat_customer_a')
-    #~ values = {}
     #~ awi_brw = self.browse(cr, uid, awi_id)
-    #~ res = self.onchange_partner_id(
+    #~ values = self.onchange_partner_id(
         #~ cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    #~ values['wh_lines'] = [
-        #~ (0, 0, {'invoice_id': invoice_id,
-                #~ 'name':'N/A',
-                #~ 'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    #~ values['account_id'] = res['value']['account_id']
+    #~ values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     #~ try:
         #~ self.write(cr, uid, awi_id, values)
         #~ assert False, 'Add invoice was added first in one withholding doc so it can be added into a another withholding doc.'
@@ -1073,15 +1022,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref('awi_sale_no_draft_invoices')
     invoice_id = ref('awi_sale_draft_invoice')
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     try:
         self.write(cr, uid, awi_id, values)
         assert False, 'This can not happend. Only Open and Paid invoices can be added.'

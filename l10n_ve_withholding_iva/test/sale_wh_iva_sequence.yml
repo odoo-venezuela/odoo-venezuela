@@ -103,15 +103,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref( 'awi_sale_seq_1' )
     invoice_id = ref( 'customer_seq_invoice_1' )
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I check that the withholding document can be confirm.
@@ -220,15 +215,10 @@
   !python {model: account.wh.iva}: |
     awi_id = ref( 'awi_sale_seq_2' )
     invoice_id = ref( 'customer_seq_invoice_2' )
-    values = {}
     awi_brw = self.browse(cr, uid, awi_id)
-    res = self.onchange_partner_id(
+    values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    values['wh_lines'] = [
-        (0, 0, {'invoice_id': invoice_id,
-                'name':'N/A',
-                'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    values['account_id'] = res['value']['account_id']
+    values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
   I compute the taxes manually with the button 'Compute Withholding Vat'.

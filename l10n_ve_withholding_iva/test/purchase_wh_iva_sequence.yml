@@ -343,11 +343,9 @@
             period_id, fortnight = period_obj.find_fortnight(
                 cr, uid, invoice_brw.date_invoice)
             values = self.onchange_partner_id(
-                cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id,
+                cr, uid, [awi_id], 'in_invoice', awi_brw.partner_id.id,
                 period_id=period_id, fortnight=fortnight)
-            values.update( 'wh_lines' ) = [
-                (0, 0, item)
-                for item in values.get( 'wh_lines' )]
+            values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
         self.write(cr, uid, awi_id, values)
 -
   I check that the withholding document sequence '00001000' state is draft and
