@@ -162,14 +162,14 @@
                         <field name="code"/>
                         <field 
                             name="partner_id" 
-                            on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" 
+                            on_change="onchange_partner_id(type, partner_id, period_id, fortnight)" 
                             domain="[('supplier','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" readonly="1"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name"/>
-                        <field name="period_id" widget='selection' required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
-                        <field name="fortnight" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)"/>
+                        <field name="period_id" widget='selection' required="1" on_change="onchange_partner_id(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
+                        <field name="fortnight" required="1" on_change="onchange_partner_id(type, partner_id, period_id, fortnight)"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
                     </group>
