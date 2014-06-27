@@ -84,7 +84,7 @@ class fiscal_book(orm.Model):
         @param field_name: field [get_month_year]
         """
         context = context or {}
-        months=["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+        months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
             "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
         res = {}.fromkeys(ids, '')
         for fb_brw in self.browse(cr, uid, ids, context=context):

@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -110,13 +110,13 @@ class islr_xml_wh_doc(osv.osv):
             if islr_line_ids:
                 res['value'].update({'xml_ids':islr_line_ids})
                 return res
-                
+
     def name_get(self, cr, uid, ids, context={}):
         """ Return id and name of all records
         """
         if not len(ids):
             return []
-        
+
         res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
         return res
 
@@ -139,7 +139,7 @@ class islr_xml_wh_doc(osv.osv):
         return True
 
     def _write_attachment(self, cr,uid,ids,root,context):
-        """ Codify the xml, to save it in the database and be able to 
+        """ Codify the xml, to save it in the database and be able to
         see it in the client as an attachment
         @param root: data of the document in xml
         """
@@ -183,12 +183,12 @@ class islr_xml_wh_doc(osv.osv):
         root = ''
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
-            
+
             period = time.strptime(wh_brw.period_id.date_stop,'%Y-%m-%d')
             period2 = "%0004d%02d"%(period.tm_year, period.tm_mon)
 
             sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
-            FROM islr_xml_wh_line 
+            FROM islr_xml_wh_line
             WHERE period_id= %s and id in (%s)
             GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id'''%(wh_brw.period_id.id,', '.join([str(i.id) for i in wh_brw.xml_ids]))
             cr.execute(sql)
@@ -216,7 +216,7 @@ islr_xml_wh_doc()
 class islr_xml_wh_line(osv.osv):
     _name = "islr.xml.wh.line"
     _description = 'Generate XML Lines'
-    
+
     _columns = {
         'concept_id': fields.many2one('islr.wh.concept','Withholding Concept',help="Withholding concept associated with this rate",required=True, ondelete='cascade'),
         'period_id':fields.many2one('account.period','Period',required=False, help="Period when the journal entries were done"),
@@ -239,7 +239,7 @@ class islr_xml_wh_line(osv.osv):
         'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
     }
     _rec_name = 'partner_id'
-    
+
     _defaults = {
         'invoice_number': lambda *a: '0',
         'control_number': lambda *a: '0',
@@ -251,14 +251,15 @@ class islr_xml_wh_line(osv.osv):
         rp_obj = self.pool.get('res.partner')
         acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr,uid,partner_id))
         return {'value' : {'partner_vat':acc_part_brw.vat[2:]}} 
-        
-        
+
+
     def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
         """ Changing the rate of the islr, the porcent_rete and concept_code fields
         is updated.
         """
         rate_brw = self.pool.get('islr.rates').browse(cr,uid,rate_id)
-        return {'value' : {'porcent_rete':rate_brw.wh_perc,'concept_code':rate_brw.code}} 
+        return {'value' : {'porcent_rete':rate_brw.wh_perc,'concept_code':rate_brw.code}}
+
 
 islr_xml_wh_line()
 
