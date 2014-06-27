@@ -249,7 +249,8 @@ class txt_iva(osv.osv):
         tax = 0
         amount_doc = 0
         for tax_line in txt_line.invoice_id.tax_line:
-            if 'SDCF' in tax_line.name:
+            if 'SDCF' in tax_line.name or \
+                (tax_line.base and not tax_line.amount):
                 tax = tax_line.base + tax
             else:
                 amount_doc = tax_line.base + amount_doc
@@ -306,7 +307,7 @@ class txt_iva(osv.osv):
 
                 vendor,buyer=self.get_buyer_vendor(cr,uid,txt,txt_line)
                 period = txt.period_id.name.split('/')
-                period2 = period[1]+period[0]
+                period2 = period[0]+period[1]
                 # TODO: use the start date of the period to get the period2 with the 'YYYYmm'
 
                 operation_type = 'V' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'C'

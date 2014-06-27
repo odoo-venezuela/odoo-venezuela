@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_employee_income_wh">
+            <field name="name">employee.income.wh.form</field>
+            <field name="model">employee.income.wh</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Load data from collector">
+                    <separator string="TXT file" colspan="4"/>
+                    <label string="Select a file to load data from collector"/>
+                    <group col="4" colspan= "4">
+                        <field name="obj_file" nolabel="1" filename="name" colspan="4"/>
+                    </group>
+                    <group col="4" colspan= "4">
+                        <field name="name" colspan="4" select="1"/>
+                    </group>
+                    <newline/>
+                    <button name="process_employee_income_wh" string="Process XML" colspan="1" type="object" icon="gtk-ok" attrs="{'readonly':[('obj_file','=',False)]}"/>
+                    <button icon='gtk-cancel' special="cancel" string="_Close" colspan="1"/>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

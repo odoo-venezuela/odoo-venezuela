@@ -8,6 +8,24 @@
     =====================================================
     -->
 
+        <record id="view_xml_islr_line_tree" model="ir.ui.view">
+            <field name="name">islr.xml.wh.line_tree</field>
+            <field name="model">islr.xml.wh.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Detail of the XML">
+                    <field name="partner_vat"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_number"/>
+                    <field name="concept_code"/>
+                    <field name="base"/>
+                    <field name="porcent_rete"/>
+                    <field name="wh" sum='Wh total'/>
+                </tree>
+            </field>
+        </record>
+
+
         <record id="view_xml_islr_line_form" model="ir.ui.view">
             <field name="name">islr.xml.wh.line_form</field>
             <field name="model">islr.xml.wh.line</field>
@@ -34,13 +52,15 @@
                         <field name="concept_code"/>
                     </group>
                     <newline/>
-                    <separator string="Invoice" colspan="6"/>
-                    <newline/>
-                    <group col="4" colspan="4">
-                        <field name="account_invoice_line_id" colspan="4"/>
-                        <field name="period_id" colspan="4"/>
-                        <field name="invoice_number"/>
-                        <field name="control_number"/>
+                    <group col="4" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}">
+                        <separator string="Invoice" colspan="4"/>
+                        <newline/>
+                        <group col="4" colspan="4">
+                            <field name="account_invoice_line_id" colspan="4"/>
+                            <field name="period_id" colspan="4"/>
+                            <field name="invoice_number" />
+                            <field name="control_number" />
+                        </group>
                     </group>
                     <newline/>
                     <separator string="Rates" colspan="6"/>
@@ -48,6 +68,7 @@
                     <group col="4" colspan="4">
                         <field name="base"/>
                         <field name="wh"/>
+                        <field name="type" invisible="1"/>
                     </group>
                 </form>
             </field>

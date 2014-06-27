@@ -36,6 +36,9 @@ import sys
 import base64
 from openerp.addons import decimal_precision as dp
 
+ISLR_XML_WH_LINE_TYPES = [('invoice', 'Invoice'), ('employee', 'Employee')]
+
+
 class islr_xml_wh_doc(osv.osv):
     _name = "islr.xml.wh.doc"
     _description = 'Generate XML'
@@ -73,6 +76,8 @@ class islr_xml_wh_doc(osv.osv):
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Income Withholding Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}, help='XML withhold invoice line id'),
+        'invoice_xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}, help='XML withhold invoice line id', domain=[('type','=','invoice')]),
+        'employee_xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}, help='XML withhold employee line id', domain=[('type','=','employee')]),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}, help='Vendor user'),
     }
     _defaults = {
@@ -175,6 +180,23 @@ class islr_xml_wh_doc(osv.osv):
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i
 
+    def import_xml_employee(self, cr, uid, ids, context=None):
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        xml_brw = self.browse(cr, uid, ids, context={})[0]
+        period = time.strptime(xml_brw.period_id.date_stop,'%Y-%m-%d')
+        return {'name': _('Import XML employee'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'employee.income.wh',
+                'view_type': 'form',
+                'view_id': False,
+                'view_mode': 'form',
+                'nodestroy': True,
+                'target': 'new',
+                'domain': "",
+                'context': {'default_period_id': xml_brw.period_id.id,
+                            'islr_xml_wh_doc_id': xml_brw.id,
+                            'period_code': "%0004d%02d" % (period.tm_year, period.tm_mon),
+                            'company_vat': xml_brw.company_id.partner_id.vat[2:]}}
 
     def _xml(self, cr,uid,ids):
         """ Transform this document to XML format
@@ -237,12 +259,16 @@ class islr_xml_wh_line(osv.osv):
         'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner object of withholding"),
         'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute= dp.get_precision('Withhold ISLR')),
         'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
+        'type': fields.selection(
+            ISLR_XML_WH_LINE_TYPES,
+            string='Type', required=True, readonly=False),
     }
     _rec_name = 'partner_id'
 
     _defaults = {
         'invoice_number': lambda *a: '0',
-        'control_number': lambda *a: '0',
+        'control_number': lambda *a: 'NA',
+        'type': lambda *a: 'invoice',
     }
 
     def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):

@@ -743,11 +743,12 @@ class islr_wh_doc_invoices(osv.osv):
     _columns = {
         'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', help="Withheld invoice"),
+        'supplier_invoice_number':fields.related('invoice_id', 'supplier_invoice_number', type='char', string='Supplier inv. #', size=64, store=False, readonly=True),
         'islr_xml_id': fields.one2many('islr.xml.wh.line', 'islr_wh_doc_inv_id', 'Withholding Lines'),
         'amount_islr_ret': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16, 4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
         'iwdl_ids': fields.one2many('islr.wh.doc.line', 'iwdi_id', 'Withholding Concepts', help='withholding concepts of this withheld invoice'),
-        'move_id': fields.many2one('account.move', 'Journal Entry',
+        'move_id': fields.many2one('account.move', 'Journal Entry', ondelete='restrict',
                                    readonly=True, help="Accounting voucher"),
     }
 
@@ -815,6 +816,9 @@ class islr_wh_doc_invoices(osv.osv):
 
         concept_id = iwdl_brw.concept_id.id
         # rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name
+        # Add a Key in context to store date of ret fot U.T. value determination
+        # TODO: Future me, this context update need to be checked with the other date in the withholding in order to take into account the customer income withholding.
+        context.update({'wh_islr_date_ret':iwdl_brw.islr_wh_doc_id.date_ret or False})
         rate_tuple = self._get_rate(
             cr, uid, concept_id, residence, nature, context=context)
         base = 0
@@ -1013,9 +1017,9 @@ class islr_wh_doc_invoices(osv.osv):
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
                 rate_brw_minimum = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.minimum, False, context)  # Method that transforms the UVT in pesos
+                    cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.subtract, False, context)  # Method that transforms the UVT in pesos
+                    cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
         return ()
 
