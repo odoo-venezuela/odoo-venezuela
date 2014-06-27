@@ -86,6 +86,7 @@
                                     <field name="wh"/>
                                 </tree>
                             </field>
+
                             <group col="4" colspan="2">
                                 <field name="state" colspan="4"/>
                                 <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
@@ -140,11 +141,11 @@
             <field name="search_view_id" ref="view_generate_xml_filter"/>
             <field name="help">With this option you can create and manage the generation of file xml, required monthly for the SENIAT for special agent of withhold income</field>
         </record>
-        
+
         <record model="ir.actions.act_window.view" id="action_xml_islr_tree_1">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_xml_islr_tree"/> 
+            <field name="view_id" ref="view_xml_islr_tree"/>
             <field name="act_window_id" ref="action_xml_islr"/>
         </record>
         <record model="ir.actions.act_window.view" id="action_xml_islr_form_1">
@@ -153,7 +154,7 @@
             <field name="view_id" ref="view_xml_islr_form"/>
             <field name="act_window_id" ref="action_xml_islr"/>
         </record>
-        
+
         <menuitem name="Generate file XML" id="menu_action_xml_islr" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting" action="action_xml_islr"/>
 
     </data>

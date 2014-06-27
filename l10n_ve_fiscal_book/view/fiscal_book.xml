@@ -46,11 +46,15 @@ string="Invoice"
                     <field name="get_wh_debit_credit" sum=""/>
                     <field name="wh_rate"/>
                     <field name="get_wh_vat" sum=""/>
+                    <field name="fiscal_printer"/>
+                    <field name="z_report"/>
                 </group>
+<!--
                 <group colspan="4" attrs="{'invisible':[('type', 'not in', ('ntp',) )]}">
                     <label for="child_ids"/>
                     <field name="child_ids" nolabel="1" colspan="4"/>
                 </group>
+-->
             </form>
         </field>
     </record>
@@ -370,7 +374,7 @@ string="Invoice"
                         </group>
                     </page>
                     <page string="Summary">
-                        <field name="fbts_ids" readonly="1">
+                        <field name="fbts_ids" readonly="1" nolabel="1">
                             <tree string="Summary">
                                 <field name="op_type"/>
                                 <field name="tax_type"/>

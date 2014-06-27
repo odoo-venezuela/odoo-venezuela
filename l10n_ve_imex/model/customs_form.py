@@ -238,12 +238,12 @@ class customs_form(osv.osv):
 
     def button_open(self, cr, uid, ids, context=None):
         context = context or {}
-        self.create_account_move(cr, uid, ids, context=context)
         vals = {'state': 'open'}
         return self.write(cr, uid, ids, vals, context=context)
 
     def button_done(self, cr, uid, ids, context=None):
         context = context or {}
+        self.create_account_move(cr, uid, ids, context=context)
         vals = {'state': 'done'}
         return self.write(cr, uid, ids, vals, context=context)
 

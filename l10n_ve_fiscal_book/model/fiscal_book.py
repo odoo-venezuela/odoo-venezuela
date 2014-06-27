@@ -50,9 +50,9 @@ class fiscal_book(orm.Model):
             cr, uid, uid, context=context).company_id
         if context.get('type') == 'sale':
             if company_brw.printer_fiscal:
-                return  [('77', 'Article 77'), ('78', 'Article 78')]
+                return [('77', 'Article 77'), ('78', 'Article 78')]
             else:
-                return  [('76', 'Article 76')]
+                return [('76', 'Article 76')]
         else:
             return [('75', 'Article 75')]
 
@@ -887,7 +887,7 @@ class fiscal_book(orm.Model):
                     'accounting_date': iwdl_brw.date_ret or False,
                     'emission_date': iwdl_brw.date or iwdl_brw.date_ret or False,
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
-                                                  context=context),
+                                                  fb_id=fb_id, context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name': rp_brw.name or 'N/A',
                     'partner_vat': rp_brw.vat or 'N/A',
@@ -910,7 +910,7 @@ class fiscal_book(orm.Model):
             iwdl_id = self._get_invoice_iwdl_id(cr, uid, fb_id, inv_brw.id,
                                                 context=context)
             doc_type = self.get_doc_type(cr, uid, inv_id=inv_brw.id,
-                                         context=context)
+                                         fb_id=fb_id, context=context)
 
             rp_brw =  rp_obj._find_accounting_partner(inv_brw.partner_id)
 
@@ -973,12 +973,11 @@ class fiscal_book(orm.Model):
                 'type': 'do',
                 'emission_date': cf_brw.date_liq or False,
                 'doc_type': self.get_doc_type(cr, uid, cf_id=cf_brw.id,
-                                              context=context),
+                                              fb_id=fb_id, context=context),
             }
 
             for partner_brw in cf_partner_brws:
                 values = common_values.copy()
-                values['rank'] = my_rank
                 values['partner_name'] = partner_brw.name or 'N/A'
                 values['partner_vat'] = partner_brw.vat \
                                         and  partner_brw.vat[2:] or 'N/A'
@@ -988,7 +987,6 @@ class fiscal_book(orm.Model):
                 values['vat_sdcf'] = values['total_with_iva']
 
                 data.append((0, 0, values))
-                my_rank += 1
 
         if data:
             self.write(cr, uid, fb_id, {'fbl_ids': data}, context=context)
@@ -1246,6 +1244,11 @@ class fiscal_book(orm.Model):
                             ait.tax_amount * sign
                     else:
                         raise osv.except_osv(_('Error!'),_('You must assign the Aliquot Type to: %s')%(ait.tax_id.name))
+            elif fbl.cf_id:
+                if fbl.type != 'do':
+                    raise osv.except_osv(_('Programing Error!'),
+                    _("Customs form lines are domestic transactions"))
+                base_sum['do']['sdcf'] += fbl.vat_sdcf
 
         data = [ (0, 0, {'tax_type': ttype, 'op_type': optype,
                          'base_amount_sum': base_sum[optype][ttype],
@@ -1639,7 +1642,7 @@ class fiscal_book(orm.Model):
         return True
 
     def get_doc_type(self, cr, uid, inv_id=None, iwdl_id=None, cf_id=None,
-                     context=None):
+                     fb_id=None, context=None):
         """ Returns a string that indicates de document type. For withholding
         returns 'AJST' and for invoice docuemnts returns different values
         depending of the invoice type: Debit Note 'N/DE', Credit Note 'N/CR',
@@ -1649,6 +1652,9 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         res = False
+        if fb_id:
+            obj_fb = self.pool.get('fiscal.book')
+            fb_brw = obj_fb.browse(cr, uid, fb_id, context=context)
         if inv_id:
             inv_obj = self.pool.get('account.invoice')
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
@@ -1665,7 +1671,7 @@ class fiscal_book(orm.Model):
             of the document type. \n There is not type category definied for \
             your invoice."
         elif iwdl_id:
-            res = 'AJST'
+            res = 'AJST' if fb_id and fb_brw.type == 'sale' else 'RET'
         elif cf_id:
             res = 'F/IMP'
 
@@ -1777,7 +1783,7 @@ class fiscal_book_lines(orm.Model):
     _parent_store = "True"
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                 help='Fiscal Book that owns this book line'),
+                                 help='Fiscal Book that owns this book line', ondelete='cascade'),
         'ntp_fb_id': fields.many2one("fiscal.book", "Non-Tax Payer Detail",
                                  help="Fiscal Book that owns this book line" \
                                  " This Book is only for Non-Tax Payer lines"),
@@ -2023,7 +2029,7 @@ class adjustment_book_line(orm.Model):
         'amount_with_vat_n': fields.float(
             'VAT Withholding Amount',
             digits_compute=dp.get_precision('Account'), required=True,
-            help="VAT amount for national operations"),
+            help="Percent(%) VAT for national operations"),
         'amount_untaxed_i': fields.float(
             'Amount Untaxed',
             digits_compute=dp.get_precision('Account'), required=True,

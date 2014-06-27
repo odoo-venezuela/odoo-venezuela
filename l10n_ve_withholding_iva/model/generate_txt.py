@@ -54,7 +54,7 @@ class txt_iva(osv.osv):
         return res
 
     def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
-        """ Return total amount base of each selected bill 
+        """ Return total amount base of each selected bill
         """
         context = context or {}
         res = {}
@@ -105,7 +105,7 @@ class txt_iva(osv.osv):
             return period_id[0]
         else:
             return False
-    
+
     def name_get(self, cr, uid, ids, context=None):
         """ Return a list with id and name of the current register
         """
@@ -113,7 +113,7 @@ class txt_iva(osv.osv):
         if not len(ids):
             return []
         res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
-        return res 
+        return res
 
     def action_anular(self, cr, uid, ids, context=None):
         """ Return document state to draft
@@ -151,27 +151,27 @@ class txt_iva(osv.osv):
         txt_ids = txt_iva_obj.search(cr,uid,[('txt_id','=',txt_brw.id)])
         if txt_ids:
             txt_iva_obj.unlink(cr,uid,txt_ids)
-        
+
         if txt_brw.type:
             voucher_ids = voucher_obj.search(cr,uid,[('date_ret','>=',txt_brw.date_start),('date_ret','<=',txt_brw.date_end),('period_id','=',txt_brw.period_id.id),('state','=','done'),('type','in',['in_invoice','in_refund'])])
         else:
             voucher_ids = voucher_obj.search(cr,uid,[('date_ret','>=',txt_brw.date_start),('date_ret','<=',txt_brw.date_end),('period_id','=',txt_brw.period_id.id),('state','=','done'),('type','in',['out_invoice','out_refund'])])
-        
+
         for voucher in voucher_obj.browse(cr,uid,voucher_ids):
-            acc_part_id = rp_obj._find_accounting_partner(voucher.partner_id)   
+            acc_part_id = rp_obj._find_accounting_partner(voucher.partner_id)
             for voucher_lines in voucher.wh_lines:
-                
-                if voucher_lines.invoice_id.state not in ['open','paid']: 
+                if voucher_lines.invoice_id.state not in ['open','paid']:
                     continue
                 for voucher_tax_line in voucher_lines.tax_line:
-                    txt_iva_obj.create(cr,uid,
-                    {'partner_id':acc_part_id.id,
-                    'voucher_id':voucher.id,
-                    'invoice_id':voucher_lines.invoice_id.id,
-                    'txt_id': txt_brw.id,
-                    'untaxed': voucher_tax_line.base,
-                    'amount_withheld': voucher_tax_line.amount_ret,
-                    'tax_wh_iva_id': voucher_tax_line.id,
+                    txt_iva_obj.create(
+                        cr,uid,
+                        {'partner_id': acc_part_id.id,
+                         'voucher_id': voucher.id,
+                         'invoice_id': voucher_lines.invoice_id.id,
+                         'txt_id': txt_brw.id,
+                         'untaxed': voucher_tax_line.base,
+                         'amount_withheld': voucher_tax_line.amount_ret,
+                         'tax_wh_iva_id': voucher_tax_line.id,
                     })
         return True
 
@@ -182,7 +182,7 @@ class txt_iva(osv.osv):
         root = self.generate_txt(cr,uid,ids)
         self._write_attachment(cr,uid,ids,root,context)
         self.write(cr, uid, ids, {'state':'done'})
-        
+
         return True
 
     def get_type_document(self,cr,uid,txt_line):
@@ -204,15 +204,15 @@ class txt_iva(osv.osv):
         number='0'
         if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
             number = txt_line.invoice_id.parent_id.supplier_invoice_number
-        elif txt_line.invoice_id.parent_id: 
+        elif txt_line.invoice_id.parent_id:
             number = txt_line.invoice_id.parent_id.number
         return number
 
     def get_number(self,cr,uid,number,inv_type,long):
         """ Return a list of number for document number
-        @param number: list of characters from number or reference of the bill 
+        @param number: list of characters from number or reference of the bill
         @param inv_type: invoice type
-        @param long: max size oh the number 
+        @param long: max size oh the number
         """
         if not number:
             return '0'
@@ -257,7 +257,7 @@ class txt_iva(osv.osv):
 
     def get_buyer_vendor(self,cr,uid,txt,txt_line):
         """ Return the buyer and vendor of the sale or purchase invoice
-        @param txt: current txt document 
+        @param txt: current txt document
         @param txt_line: One line of the current txt document
         """
         rp_obj = self.pool.get('res.partner')
@@ -277,12 +277,12 @@ class txt_iva(osv.osv):
         for tax_line in txt_line.invoice_id.tax_line:
             list.append(int(tax_line.tax_id.amount * 100))
         return max(list)
-        
+
     def get_amount_line(self, cr, uid, txt_line, amount_exempt):
         """Method to compute total amount"""
         ali_max = self.get_max_aliquot(cr, uid, txt_line)
         exempt = 0
-        
+
         if ali_max == int(txt_line.tax_wh_iva_id.tax_id.amount * 100):
             exempt = amount_exempt
         total = txt_line.tax_wh_iva_id.base + txt_line.tax_wh_iva_id.amount + exempt
@@ -303,7 +303,7 @@ class txt_iva(osv.osv):
         for txt in self.browse(cr,uid,ids,context):
             vat = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
             for txt_line in txt.txt_ids:
-                
+
                 vendor,buyer=self.get_buyer_vendor(cr,uid,txt,txt_line)
                 period = txt.period_id.name.split('/')
                 period2 = period[1]+period[0]
@@ -327,7 +327,7 @@ class txt_iva(osv.osv):
                  +str(round(amount_exempt,2))+'\t'+str(alicuota)+'\t'+'0'\
                  +'\n'
         return txt_string
-        
+
     def _write_attachment(self, cr,uid,ids,root,context=None):
         """ Encrypt txt, save it to the db and view it on the client as an attachment
         @param root: location to save document
@@ -343,16 +343,16 @@ class txt_iva(osv.osv):
             'res_id': ids[0],
             }, context=context
         )
-        cr.commit()            
+        cr.commit()
         self.message_post(cr, uid, ids[0], _('File Created'),
                           _("File TXT %s generated.") % name)
-        
+
 txt_iva()
 
 
 class txt_iva_line(osv.osv):
     _name = "txt.iva.line"
-    
+
     _columns = {
         'partner_id':fields.many2one('res.partner','Buyer/Seller',help="Natural or juridical person that generates the Invoice, Credit Note, Debit Note or C ertification (seller)"),
         'invoice_id':fields.many2one('account.invoice','Bill/ND/NC',help="Date of invoice, credit note, debit note or certificate, I mportación Statement"),
@@ -363,5 +363,5 @@ class txt_iva_line(osv.osv):
         'tax_wh_iva_id':fields.many2one('account.wh.iva.line.tax','Tax Wh Iva Line'),
     }
     _rec_name = 'partner_id'
- 
+
 txt_iva_line()

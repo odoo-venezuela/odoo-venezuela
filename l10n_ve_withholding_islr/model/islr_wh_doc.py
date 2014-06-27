@@ -115,14 +115,14 @@ class islr_wh_doc(osv.osv):
             ('done', 'Done'),
             ('cancel', 'Cancelled')
         ], 'State', readonly=True, help="Voucher state"),
-        'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
+        'date_ret': fields.date('Accounting Date', readonly=True, states={'draft': [('readonly', False)]}, help="Keep empty to use the current date"),
         'date_uid': fields.date('Withhold Date', readonly=True, states={'draft': [('readonly', False)]}, help="Voucher date"),
-        'period_id': fields.many2one('account.period', 'Period', help="Period when the accounts entries were done"),
+        'period_id': fields.many2one('account.period', 'Period', readonly=True, states={'draft': [('readonly', False)]}, help="Period when the accounts entries were done"),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Account Receivable or Account Payable of partner"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft': [('readonly', False)]}, help="Partner object of withholding"),
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Currency in which the transaction takes place"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Journal where accounting entries are recorded"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
+        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True, help="Company"),
         'amount_total_ret': fields.function(_get_amount_total, method=True, string='Amount Total', type='float', digits_compute=dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line', 'islr_wh_doc_id', 'Income Withholding Concept', readonly=True, states={'draft': [('readonly', False)]}, help='concept of income withholding'),
         'invoice_ids': fields.one2many('islr.wh.doc.invoices',
@@ -361,8 +361,18 @@ class islr_wh_doc(osv.osv):
             'account_id': acc_id,
             'invoice_ids': res_wh_lines}}
 
+    def on_change_date_ret(self, cr, uid, ids, date_ret, date_uid):
+        res = {}
+        if date_ret:
+            if not date_uid:
+                res.update({'date_uid': date_ret})
+            obj_per = self.pool.get('account.period')
+            per_id = obj_per.find(cr, uid, date_ret)
+            res.update({'period_id': per_id and per_id[0]})
+        return {'value':res}
+
     def create(self, cr, uid, vals, context=None, check=True):
-        """ When you create a new document, this function is responsible 
+        """ When you create a new document, this function is responsible
         for generating the sequence code for the field
         """
         if not context:
@@ -372,7 +382,7 @@ class islr_wh_doc(osv.osv):
         return super(islr_wh_doc, self).create(cr, uid, vals, context)
 
     def action_confirm(self, cr, uid, ids, context=None):
-        """ This checking if the provider allows retention is 
+        """ This checking if the provider allows retention is
         automatically verified and checked
         """
         context = context or {}
@@ -600,7 +610,7 @@ class islr_wh_doc(osv.osv):
                 raise osv.except_osv(_("Invalid Procedure!!"),
                     _("The withholding document needs to be in cancel state to be deleted."))
             else:
-                super(islr_wh_doc, self).unlink(cr, uid, ids, context=context)
+                super(islr_wh_doc, self).unlink(cr, uid, islr_brw.id, context=context)
         return True
 
 

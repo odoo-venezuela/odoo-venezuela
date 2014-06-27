@@ -2,11 +2,11 @@
 <openerp>
     <data>
 
-    <!-- 
+    <!--
     =====================================================
     Vat Withholding line
     =====================================================
-    -->  
+    -->
 
         <record id="view_wh_iva_line_tree" model="ir.ui.view">
             <field name="name">account.wh.iva.line.tree</field>
@@ -21,7 +21,6 @@
                         domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
                         />
                     <field name="supplier_invoice_number"/>
-
 <!--                    <field name="retention_rate" />-->
                     <field name="amount_tax_ret"/>
                     <field name="wh_iva_rate"/>
@@ -52,9 +51,9 @@
                                 <field name="tax_line" nolabel="1">
                                     <tree string="Taxes" editable="top">
                                         <field name="name"/>
-                                        <field name="base"/>
-                                        <field name="amount"/>
-                                        <field name="amount_ret"/>
+                                        <field name="base" />
+                                        <field name="amount" />
+                                        <field name="amount_ret" />
                                     </tree>
                                     <form string="Taxes" version="7.0">
                                         <field colspan="4" name="name"/>
@@ -262,7 +261,7 @@
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="view_id" ref="view_wh_iva_tree"/>
             <field name="act_window_id" ref="action_account_wh_iva_customer"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_form">
@@ -290,7 +289,7 @@
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="view_id" ref="view_wh_iva_tree"/>
             <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_form">

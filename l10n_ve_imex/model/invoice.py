@@ -106,7 +106,7 @@ class account_invoice_tax(osv.osv):
                                        ondelete='cascade', select=True),
         'partner_id': fields.related('imex_inv_id', 'partner_id',
                                      type='many2one', relation='res.partner',
-                                     string='Supplier'),
+                                     string='Supplier',store=False, readonly=True),
         'supplier_invoice_number': fields.related('imex_inv_id', 'supplier_invoice_number', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
@@ -150,13 +150,11 @@ class account_invoice_tax(osv.osv):
                 if base_amount == 0 and tax_amount > 0:
                     base_amount = round(tax_amount / vat.amount, 2)
                     res = {'value': {'base_amount': base_amount,
-                                     'base': base_amount,
-                                     'amount': tax_amount}}
+                                     'tax_amount': tax_amount}}
 
                 if base_amount > 0 and tax_amount == 0:
                     res = {'value': {'base_amount': 0.0,
-                                   'base': 0.0,
-                                   'amount': tax_amount}}
+                                     'tax_amount': tax_amount}}
 
         return res
 

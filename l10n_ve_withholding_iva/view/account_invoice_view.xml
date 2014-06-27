@@ -4,11 +4,11 @@
 
 
 
-    <!-- 
+    <!--
     =====================================================
     Invoices Extension
     =====================================================
-    -->  
+    -->
 
         <record id="account_invoice_wh_iva_customer" model="ir.ui.view">
             <field name="name">account.invoice.wh.iva.customer</field>
@@ -22,8 +22,8 @@
                             <field name="wh_iva_id"/>
                         </group>
                 </xpath>
-            
-               
+
+
                 <xpath expr="//separator[@string=&quot;isep&quot;]" position="attributes">
                     <attribute name="string">Vat Withholding</attribute>
                 </xpath>

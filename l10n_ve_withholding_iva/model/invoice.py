@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -30,7 +30,9 @@ from openerp.tools.translate import _
 
 
 class account_invoice(osv.osv):
+
     _inherit = 'account.invoice'
+
     def _get_inv_from_awil(self, cr, uid, ids, context=None):
         '''
         Returns a list of invoices which are recorded in VAT Withholding Docs
@@ -54,22 +56,22 @@ class account_invoice(osv.osv):
             for awil_brw in awi_brw.wh_lines:
                 awil_brw.invoice_id and res.append(awil_brw.invoice_id.id)
         return res
-        
+
     def _fnct_get_wh_iva_id(self, cr, uid, ids, name, args, context=None):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         awil_obj = self.pool.get('account.wh.iva.line')
         awil_ids = awil_obj.search(cr, uid, [('invoice_id','in',ids)], context=context)
-        
+
         awil_brws = awil_obj.browse(cr, uid, awil_ids, context=context)
         res = {}.fromkeys(ids,False)
         for i in awil_brws:
             if i.invoice_id:
                 res[i.invoice_id.id]=i.retention_id.id or False
-        return res 
+        return res
 
     def _retenida(self, cr, uid, ids, name, args, context=None):
-        """ Verify whether withholding was applied to the invoice 
+        """ Verify whether withholding was applied to the invoice
         """
         res = {}
         if context is None:
@@ -106,23 +108,23 @@ class account_invoice(osv.osv):
                 move[line.move_id.id] = True
             for line in r.line_id:
                 move[line.move_id.id] = True
-        
+
         invoice_ids = []
         if move:
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
 
-        
+
     _columns = {
         'wh_iva': fields.function(_retenida, method=True, string='Withhold', type='boolean',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, None, 50),
                 'account.move.line': (_get_inv_from_line, None, 50),
                 'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
-            }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),    
+            }, help="The account moves of the invoice have been retention with account moves of the payment(s)."),
         'wh_iva_id': fields.function(_fnct_get_wh_iva_id, method=True,
-            type='many2one', relation='account.wh.iva', 
-            string='VAT Wh. Document', 
+            type='many2one', relation='account.wh.iva',
+            string='VAT Wh. Document',
             store={
                 'account.wh.iva':(_get_inv_from_awi, ['wh_lines'], 50),
                 'account.wh.iva.line':(_get_inv_from_awil, ['invoice_id'], 50),
@@ -141,12 +143,12 @@ class account_invoice(osv.osv):
         default.update({'wh_iva':False, 'wh_iva_id':False, 'vat_apply': False})
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
-    def test_retenida(self, cr, uid, ids, *args):     
-        """ Verify if this invoice is withhold 
+    def test_retenida(self, cr, uid, ids, *args):
+        """ Verify if this invoice is withhold
         """
         type2journal = {'out_invoice': 'iva_sale', 'in_invoice': 'iva_purchase', 'out_refund': 'iva_sale', 'in_refund': 'iva_purchase'}
         type_inv = self.browse(cr, uid, ids[0]).type
-        type_journal = type2journal.get(type_inv, 'iva_purchase')      
+        type_journal = type2journal.get(type_inv, 'iva_purchase')
         res = self.ret_payment_get(cr, uid, ids)
         if not res:
             return False
@@ -292,7 +294,7 @@ class account_invoice(osv.osv):
 
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
-        """ Recalculate taxes in invoice 
+        """ Recalculate taxes in invoice
         """
         if not context:
             context = {}
@@ -312,7 +314,7 @@ class account_invoice(osv.osv):
         context = context or {}
         super(account_invoice, self).button_reset_taxes(cr, uid, ids, context)
         self.button_reset_taxes_ret(cr, uid, ids, context)
-        
+
         return True
 
     def _withholding_partner(self, cr, uid, ids, context=None):
@@ -328,7 +330,7 @@ class account_invoice(osv.osv):
         return False
 
     def _withholdable_tax(self, cr, uid, ids, context=None):
-        """ Verify that existing withholding in invoice 
+        """ Verify that existing withholding in invoice
         """
         if context is None:
             context={}
@@ -337,7 +339,7 @@ class account_invoice(osv.osv):
     def check_withholdable(self, cr, uid, ids, context=None):
         """ This will test for Refund invoice trying to find out
         if its regarding parent is in the same fortnight.
-        
+
         return True if invoice is type 'in_invoice'
         return True if invoice is type 'in_refund' and parent_id invoice
                 are both in the same fortnight.
@@ -369,13 +371,13 @@ class account_invoice(osv.osv):
         wh_apply.append(self._withholding_partner(cr, uid, ids, context=context))
         return all(wh_apply)
 
-    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
+                            pay_journal_id, writeoff_acc_id,
+                            writeoff_period_id, writeoff_journal_id, date,
                             name, context=None):
         """ Generate move lines in corresponding account
         @param to_wh: whether or not withheld
-        @param period_id: Period 
+        @param period_id: Period
         @param pay_journal_id: pay journal of the invoice
         @param writeoff_acc_id: account where canceled
         @param writeoff_period_id: period where canceled
@@ -384,9 +386,9 @@ class account_invoice(osv.osv):
         @param name: description
         """
         if context is None: context = {}
-        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
+        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id,
+                            pay_journal_id, writeoff_acc_id,
+                            writeoff_period_id, writeoff_journal_id, date,
                             name, context=context)
         if context.get('vat_wh',False):
             invoice = self.browse(cr, uid, ids[0])
@@ -410,9 +412,9 @@ class account_invoice(osv.osv):
                     'ref':invoice.number,
                     'date': date,
                     'currency_id': False,
-                    'name':name
+                    'name': name
                 }))
-        
+
         return res
 
     def validate_wh_iva_done(self, cr, uid, ids, context=None):
@@ -429,7 +431,7 @@ class account_invoice(osv.osv):
                 riva = not inv.wh_iva_id and True or inv.wh_iva_id.state in ('done') and True or False
                 if not riva:
                     raise osv.except_osv(_('Error !'), \
-                                     _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code ))
+                                     _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code))
                     return False
         return True
 
@@ -456,12 +458,12 @@ class account_invoice(osv.osv):
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
-        'amount_ret': fields.float('Withholding amount', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding amount"),
-        'base_ret': fields.float('Amount', digits_compute= dp.get_precision('Withhold'), help="Amount without tax"),
+        'amount_ret': fields.float('Withholding amount', digits_compute=dp.get_precision('Withhold'), help="Vat Withholding amount"),
+        'base_ret': fields.float('Amount', digits_compute=dp.get_precision('Withhold'), help="Amount without tax"),
     }
 
     def compute_amount_ret(self, cr, uid, invoice_id, context={}):
-        """ Calculate withholding amount 
+        """ Calculate withholding amount
         """
         context = context or {}
         res = {}

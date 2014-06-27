@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -40,7 +40,7 @@ class account_wh_iva_line_tax(osv.osv):
         """ Change withholding amount into iva line
         @param value: new value for retention amount
         """
-        if ctx is None: 
+        if ctx is None:
             ctx = {}
         if not self.browse(cr,uid,id,context=ctx).wh_vat_line_id.retention_id.type=='out_invoice':
             return False
@@ -49,20 +49,20 @@ class account_wh_iva_line_tax(osv.osv):
                     WHERE id=%d """ % (value, id)
         cr.execute(sql_str)
         return True
-        
+
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
         """ Return withholding amount
         """
         if context is None: context=None
         res = {}
-        
+
         awilt_brw = self.browse(cr, uid, ids, context=context)
-        
+
         for each in awilt_brw:
             #~ TODO: THIS NEEDS REFACTORY IN ORDER TO COMPLY WITH THE SALE WITHHOLDING
             res[each.id] = round((each.amount * each.wh_vat_line_id.wh_iva_rate / 100.0) + 0.00000001, 2)
         return res
-    
+
     _name = 'account.wh.iva.line.tax'
     _columns = {
         'inv_tax_id': fields.many2one('account.invoice.tax', 'Invoice Tax', ondelete='set null', help="Tax Line"),
@@ -77,7 +77,7 @@ class account_wh_iva_line_tax(osv.osv):
             method=True,
             type='float',
             string='Withheld Taxed Amount',
-            digits_compute= dp.get_precision('Withhold'), 
+            digits_compute= dp.get_precision('Withhold'),
             store= {
                 'account.wh.iva.line.tax': (lambda self, cr, uid, ids, c={}: ids, ['amount'],15)
             },
@@ -103,14 +103,14 @@ class account_wh_iva_line(osv.osv):
             'company_id':tax_id_brw.company_id.id,
             'wh_iva_rate':acc_part_id.wh_iva_rate
         }
-    
+
     def load_taxes(self, cr, uid, ids, context=None):
         """ Clean and load again tax lines of the withholding voucher
         """
         if context is None: context = {}
         awilt_obj = self.pool.get('account.wh.iva.line.tax')
         rp_obj = self.pool.get('res.partner')
-        
+
         for ret_line in self.browse(cr, uid, ids, context):
             lines = []
             if ret_line.invoice_id:
@@ -121,7 +121,7 @@ class account_wh_iva_line(osv.osv):
                 tax_lines = awilt_obj.search(cr, uid, [('wh_vat_line_id', '=', ret_line.id)])
                 if tax_lines:
                     awilt_obj.unlink(cr, uid, tax_lines)
-                
+
                 tax_ids = [i for i in ret_line.invoice_id.tax_line if i.tax_id and i.tax_id.ret]
                 for i in tax_ids:
                     values = self._get_tax_lines(cr, uid, i, context=context)
@@ -167,7 +167,7 @@ class account_wh_iva_line(osv.osv):
 
     _sql_constraints = [
       ('ret_fact_uniq', 'unique (invoice_id)', 'The invoice has already assigned in withholding vat, you cannot assigned it twice!')
-    ] 
+    ]
 
     def invoice_id_change(self, cr, uid, ids, invoice, context=None):
         """ Return invoice data to assign to withholding vat
@@ -194,7 +194,7 @@ class account_wh_iva_line(osv.osv):
         return {'value':result, 'domain':domain}
 
 class account_wh_iva(osv.osv):
-    
+
     def name_get(self,cr, uid, ids, context):
         if not len(ids):
             return []
@@ -202,9 +202,9 @@ class account_wh_iva(osv.osv):
         for item in self.browse(cr, uid, ids, context):
             if item.number and item.state=='done':
                 res.append((item.id, '%s (%s)'%(item.number,item.name)))
-            else:    
+            else:
                 res.append((item.id, '%s'%(item.name)))
-        return res   
+        return res
 
     def _amount_ret_all(self, cr, uid, ids, name, args, context=None):
         """ Return withholding amount total each line
@@ -220,7 +220,7 @@ class account_wh_iva(osv.osv):
                 res[retention.id]['amount_base_ret'] += line.base_ret
 
         return res
-        
+
     def _get_type(self, cr, uid, context=None):
         """ Return invoice type
         """
@@ -258,7 +258,7 @@ class account_wh_iva(osv.osv):
             return user.company_id.currency_id.id
         else:
             return self.pool.get('res.currency').search(cr, uid, [('rate','=',1.0)])[0]
-    
+
     _name = "account.wh.iva"
     _description = "Withholding Vat"
     _columns = {
@@ -286,12 +286,12 @@ class account_wh_iva(osv.osv):
         'wh_lines': fields.one2many('account.wh.iva.line', 'retention_id', 'Vat Withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding lines"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
-        "fortnight": fields.selection(
+        'fortnight': fields.selection(
             [ ('False', "First Fortnight"), ('True', "Second Fortnight") ],
             string="Fortnight",
             readonly=True, states={"draft": [("readonly",False)]},
             help="Withholding type"),
-    } 
+    }
     _defaults = {
         'code': lambda self,cr,uid,c: self.wh_iva_seq_get(cr, uid),
         'type': _get_type,
@@ -327,9 +327,9 @@ class account_wh_iva(osv.osv):
                     self.write(cr, uid, ids, {'state':'cancel'})
             else:
                 self.write(cr, uid, ids, {'state':'cancel'})
-        return True    
-    
-        
+        return True
+
+
     def _get_valid_wh(self, cr, uid, amount_ret, amount, wh_iva_rate, offset=0.5,  context=None):
         """ This method can be override in a way that
         you can afford your own value for the offset
@@ -342,7 +342,7 @@ class account_wh_iva(osv.osv):
         return amount_ret >= amount * (wh_iva_rate - offset)/100.0 and amount_ret <= amount * (wh_iva_rate + offset)/100.0
 
     def check_wh_taxes(self, cr, uid, ids, context=None):
-        """ Check that are valid and that amount retention is not greater than amount 
+        """ Check that are valid and that amount retention is not greater than amount
         """
         if context is None: context = {}
         res = {}
@@ -433,7 +433,7 @@ class account_wh_iva(osv.osv):
 
     _sql_constraints = [
       ('ret_num_uniq', 'unique (number,type,partner_id,company_id)', 'number must be unique by partner!')
-    ] 
+    ]
 
     def write(self, cr, uid, ids, values, context=None):
         context = context or {}
