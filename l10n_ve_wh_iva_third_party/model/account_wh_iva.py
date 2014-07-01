@@ -23,4 +23,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-import account_wh_iva
+from openerp.osv import fields, osv, orm
+from openerp.tools.translate import _
+from openerp import tools
+
+
+class account_wh_iva(osv.Model):
+
+    _inherit = 'account.wh.iva'
+    _columns = {
+        'third_party_id': fields.many2one(
+            'res.partner',
+            'Third Party Partner',
+            help='Third Party Partner'),
+    }
