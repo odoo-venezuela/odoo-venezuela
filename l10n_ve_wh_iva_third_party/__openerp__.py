@@ -36,7 +36,9 @@ Third Party Vat Withholding
     'depends': [
         'l10n_ve_withholding_iva',
         ],
-    'data': [],
+    'data': [
+        'view/account_wh_iva_view.xml',
+        ],
     'demo': [],
     'test': [],
     'qweb': [],
