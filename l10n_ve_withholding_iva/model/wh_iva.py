@@ -154,12 +154,12 @@ class account_wh_iva_line(osv.osv):
     _columns = {
         'name': fields.char('Description', size=64, required=True, help="Withholding line Description"),
         'retention_id': fields.many2one('account.wh.iva', 'Vat Withholding', ondelete='cascade', help="Vat Withholding"),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='set null', help="Withholding invoice"),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice', required=True, ondelete='restrict', help="Withholding invoice"),
         'supplier_invoice_number':fields.related('invoice_id', 'supplier_invoice_number', type='char', string='Supplier Invoice Number', size=64, store=True, readonly=True),
         'tax_line': fields.one2many('account.wh.iva.line.tax','wh_vat_line_id', string='Taxes', help="Invoice taxes"),
         'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. tax amount', multi='all', help="Withholding tax amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Wh. amount', multi='all', help="Withholding without tax amount"),
-        'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry"),
+        'move_id': fields.many2one('account.move', 'Account Entry', readonly=True, help="Account entry", ondelete='restrict'),
         'wh_iva_rate': fields.float(string='Withholding Vat Rate', digits_compute= dp.get_precision('Withhold'), help="Vat Withholding rate"),
         'date': fields.related('retention_id', 'date', type='date', relation='account.wh.iva', string='Voucher Date', help='Emission/Voucher/Document date'),
         'date_ret': fields.related('retention_id', 'date_ret', type='date', relation='account.wh.iva', string='Accounting Date', help='Accouting date. Date Withholding')
@@ -282,7 +282,7 @@ class account_wh_iva(osv.osv):
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Withholding customer/supplier"),
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Currency"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Journal entry"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
+        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True, help="Company"),
         'wh_lines': fields.one2many('account.wh.iva.line', 'retention_id', 'Vat Withholding lines', readonly=True, states={'draft':[('readonly',False)]}, help="Vat Withholding lines"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount', multi='all', help="Compute amount without tax"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits_compute= dp.get_precision('Withhold'), string='Compute amount wh. tax vat', multi='all', help="compute amount withholding tax vat"),
@@ -667,6 +667,7 @@ class account_wh_iva(osv.osv):
             values_data['wh_lines'] = \
                 [{'invoice_id': inv_brw.id,
                   'name': inv_brw.name or _('N/A'),
+                  'group_wh_iva_doc': rp_obj._find_accounting_partner(inv_brw.partner_id).group_wh_iva_doc,
                   'wh_iva_rate': rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate}
                  for inv_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
                 ]

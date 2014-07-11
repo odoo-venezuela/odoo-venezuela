@@ -129,8 +129,12 @@ class account_invoice(osv.osv):
                 'account.wh.iva':(_get_inv_from_awi, ['wh_lines'], 50),
                 'account.wh.iva.line':(_get_inv_from_awil, ['invoice_id'], 50),
             }, help="This is the VAT Withholding Document where this invoice is being withheld"),
-        'vat_apply':fields.boolean('Exclude this document from VAT Withholding', states={'draft':[('readonly',False)]}, help="This selection indicates whether generate the invoice withholding document")
+        'vat_apply':fields.boolean('Exclude this document from VAT Withholding', states={'draft':[('readonly',False)]}, help="This selection indicates whether generate the invoice withholding document"),
+        'group_wh_iva_doc':fields.boolean('Group wh doc', readonly=True, states={'draft':[('readonly',False)]},
+                    help="This selection indicates to group this invoice in existing withholding document"),
     }
+
+    _defaults = {'group_wh_iva_doc': False}
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Initialized fields to the copy a register
@@ -220,6 +224,8 @@ class account_invoice(osv.osv):
                     #~ Add to an exist WH Doc
                     ret_id = isinstance(fortnight_wh_id, (int, long)) \
                              and fortnight_wh_id or fortnight_wh_id[0]
+                    if not ret_id:
+                        raise osv.except_osv(_('Error!'),_('Can\'t find withholding doc'))
                     wh_iva_obj.write(cr, uid, ret_id,
                                      {'wh_lines': [(4, ret_line_id)]},
                                      context=context)
@@ -280,7 +286,7 @@ class account_invoice(osv.osv):
                             _('You need to configure the partner with'
                               ' withholding accounts!'))
             ret_iva = {
-                'name':_('ORIGIN %s'%(inv_brw.number)),
+                'name':_('IVA WH - ORIGIN %s'%(inv_brw.number)),
                 'type': wh_type,
                 'account_id': acc_id,
                 'partner_id': acc_part_id.id,
@@ -434,6 +440,29 @@ class account_invoice(osv.osv):
                                      _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code))
                     return False
         return True
+
+    def button_generate_wh_doc(self, cr, uid, ids, context=None):
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_brw = self.browse(cr, uid, ids, context={})[0]
+        view_id = self.pool.get('ir.ui.view').\
+            search(cr, uid, [('name', '=', 'account.invoice.wh.iva.customer')])
+        context.update({
+            'invoice_id': inv_brw.id,
+            'type': inv_brw.type,
+            'default_partner_id': rp_obj._find_accounting_partner(inv_brw.partner_id).id,
+            'default_name': inv_brw.name or inv_brw.number,
+            'view_id': view_id,
+            })
+        return {'name': _('Withholding vat customer'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.wh.iva',
+                'view_type': 'form',
+                'view_id': False,
+                'view_mode': 'form',
+                'nodestroy': True,
+                'target': 'current',
+                'domain': "[('type','=',inv_brw.type)]",
+                'context': context}
 
     def action_cancel(self, cr, uid, ids, context=None):
         """ Verify first if the invoice have a non cancel withholding iva doc.
