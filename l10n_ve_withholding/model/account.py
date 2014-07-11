@@ -98,7 +98,7 @@ class account_period(osv.osv):
         #### End of hack, dear future me I am really sorry for this....
         period_ids = self.search(cr, uid, domain, context = context)
         if not period_ids:
-            raise osv.except_osv(_('Error looking Fortnight !'), _('No there are "No Special" period defined for this date: %s.')%dt)
+            raise osv.except_osv(_('Error looking Fortnight !'), _('There is no "Special" period defined for this date: %s.')%dt)
         
         fortnight= False if time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 else True
         return (period_ids[0],fortnight)
