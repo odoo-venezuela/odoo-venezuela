@@ -259,7 +259,7 @@ class account_invoice(osv.osv):
                 ('partner_id', '=', acc_part_id.id),
                 ('partner_id', 'child_of', acc_part_id.id),
                 ('period_id', '=', inv_period),
-                ('fortnight','=', str(inv_fortnight))], context=context)
+                ('fortnight','=', inv_fortnight)], context=context)
             res.append(acc_wh_ids)
         return len(res) == 1 and res[0] or res
 
@@ -292,8 +292,8 @@ class account_invoice(osv.osv):
                 'partner_id': acc_part_id.id,
                 'period_id': inv_brw.period_id.id,
                 'wh_lines': [(4, ret_line_id)],
-                'fortnight': str(per_obj.find_fortnight(
-                    cr, uid, inv_brw.date_invoice, context=context)[1]),
+                'fortnight': per_obj.find_fortnight(
+                    cr, uid, inv_brw.date_invoice, context=context)[1],
             }
             res.append(wh_iva_obj.create(cr, uid, ret_iva, context=context))
         return len(res) == 1 and res[0] or res

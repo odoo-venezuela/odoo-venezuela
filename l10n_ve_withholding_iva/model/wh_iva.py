@@ -490,7 +490,7 @@ class account_wh_iva(osv.osv):
                 values['date_ret'] = wh.company_id.allow_vat_wh_outdated \
                                      and wh.date or time.strftime('%Y-%m-%d')
                 values['date'] = values['date_ret']
-                if not ((wh.period_id.id, eval(wh.fortnight)) == 
+                if not ((wh.period_id.id, wh.fortnight) == 
                          per_obj.find_fortnight(cr, uid,
                                                 values['date_ret'],
                                                 context=context)):
@@ -659,7 +659,7 @@ class account_wh_iva(osv.osv):
               ai_brw.id
               for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
               if per_obj.find_fortnight(cr, uid, ai_brw.date_invoice,
-              context=context) == (period_id,eval(fortnight))]
+              context=context) == (period_id, fortnight)]
 
         ai_ids = self._withholdable_tax_(cr, uid, ai_ids, context=context)
         #~ print 'ai_ids', ai_ids
@@ -806,12 +806,12 @@ class account_wh_iva(osv.osv):
                     cr, uid, awil_brw.invoice_id.date_invoice,
                     context=context)
                 if awil_period_id != awi_brw.period_id.id or \
-                   awil_fortnight != eval(awi_brw.fortnight):
+                   awil_fortnight != awi_brw.fortnight:
                     error_msg += \
                         (" * Line '" + awil_brw.invoice_id.number +
                          "' belongs to (" + per_obj.browse(cr, uid,
                          awil_period_id, context=context).name +
-                         fortnight_str[str(awil_fortnight)] + ".\n")
+                         fortnight_str[awil_fortnight] + ".\n")
             if error_msg:
                 raise osv.except_osv(
                     _("Invalid action !"),
