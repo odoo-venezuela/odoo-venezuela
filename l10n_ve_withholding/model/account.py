@@ -73,7 +73,7 @@ account_journal()
 class account_period(osv.osv):
     _inherit = "account.period"
 
-    def find_fortnight(self, cr, uid, dt=None, context=None):
+    def _find_fortnight(self, cr, uid, dt=None, context=None):
         """ This Function returns a tuple composed of 
             *) period for the asked dt (int)
             *) fortnight for the asked dt (boolean):
@@ -102,5 +102,15 @@ class account_period(osv.osv):
         
         fortnight= False if time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 else True
         return (period_ids[0],fortnight)
+
+    def find_fortnight(self, cr, uid, dt=None, context=None):
+        """
+        Get the period and the fortnoght that correspond to the given dt date.
+        @return a tuple( int(period_id), str(fortnight) )
+        """
+        # TODO: fix this workaround in version 8.0 [hbto notes]
+        context = context or {}
+        p,f = self._find_fortnight(cr, uid, dt=dt, context=context)
+        return p, str(f)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
