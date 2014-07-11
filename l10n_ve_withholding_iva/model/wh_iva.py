@@ -324,9 +324,9 @@ class account_wh_iva(osv.osv):
                     account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
                     delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
                 if delete:
-                    self.write(cr, uid, ids, {'state':'cancel'})
+                    ret.write({'state':'cancel'})
             else:
-                self.write(cr, uid, ids, {'state':'cancel'})
+                ret.write({'state':'cancel'})
         return True
 
 
@@ -432,7 +432,7 @@ class account_wh_iva(osv.osv):
     ]
 
     _sql_constraints = [
-      ('ret_num_uniq', 'unique (number,type,partner_id,company_id)', 'number must be unique by partner!')
+      ('ret_num_uniq', 'unique (number,type,partner_id,company_id)', 'number must be unique by partner and document type!')
     ]
 
     def write(self, cr, uid, ids, values, context=None):
@@ -692,7 +692,7 @@ class account_wh_iva(osv.osv):
                         awil_brw.invoice_id.number or '')
 
             if inv_str:
-                raise osv.except_osv('Incorrect Invoices !',"The following invoices are not from the selected partner: %s " % (inv_str,))
+                raise osv.except_osv(_('Incorrect Invoices !'),_("The following invoices are not from the selected partner: %s ") % (inv_str,))
 
         return True
 
