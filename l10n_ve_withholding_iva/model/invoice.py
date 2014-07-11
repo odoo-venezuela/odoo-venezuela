@@ -220,7 +220,7 @@ class account_invoice(osv.osv):
                 fortnight_wh_id = self.get_fortnight_wh_id(cr, uid, inv_brw.id,
                                                            context=context)
                 #~ Add line to a WH DOC
-                if inv_brw.company_id.wh_consolidate and fortnight_wh_id:
+                if inv_brw.company_id.consolidate_vat_wh and fortnight_wh_id:
                     #~ Add to an exist WH Doc
                     ret_id = isinstance(fortnight_wh_id, (int, long)) \
                              and fortnight_wh_id or fortnight_wh_id[0]
