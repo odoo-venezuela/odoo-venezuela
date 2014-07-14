@@ -160,7 +160,7 @@
                             name="partner_id" 
                             on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" 
                             domain="[('supplier','=',True),('parent_id','=',False)]"/>
-                        <field name="third_party_id" domain="[('company_id','=',False),('id','!=','partner_id')]"/>
+                        <field name="third_party_id" domain="[('company_id','=',False),('id','!=',partner_id)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" readonly="1"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
@@ -214,7 +214,7 @@
                             name="partner_id" 
                             on_change="onchange_partner_id(type,partner_id)" 
                             domain="[('wh_iva_agent','=',True), ('customer','=',True), ('parent_id','=',False)]"/>
-                        <field name="third_party_id" domain="[('company_id','=',False),('id','!=','partner_id')]"/>
+                        <field name="third_party_id" domain="[('company_id','=',False),('id','!=',partner_id)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
