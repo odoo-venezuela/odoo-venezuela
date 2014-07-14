@@ -671,10 +671,12 @@ class account_wh_iva(osv.osv):
             values_data['wh_lines'] = \
                 [{'invoice_id': inv_brw.id,
                   'name': inv_brw.name or _('N/A'),
-                  'group_wh_iva_doc': rp_obj._find_accounting_partner(inv_brw.partner_id).group_wh_iva_doc,
                   'wh_iva_rate': rp_obj._find_accounting_partner(inv_brw.partner_id).wh_iva_rate}
                  for inv_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
                 ]
+                # TODO: integrate to the dictionary the value like this:
+                # """'consolidate_vat_wh': rp_obj._find_accounting_partner(inv_brw.partner_id).consolidate_vat_wh,"""
+                # This only applies in purchase. 
         return {'value': values_data}
 
 

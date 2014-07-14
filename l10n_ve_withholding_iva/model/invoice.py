@@ -130,11 +130,11 @@ class account_invoice(osv.osv):
                 'account.wh.iva.line':(_get_inv_from_awil, ['invoice_id'], 50),
             }, help="This is the VAT Withholding Document where this invoice is being withheld"),
         'vat_apply':fields.boolean('Exclude this document from VAT Withholding', states={'draft':[('readonly',False)]}, help="This selection indicates whether generate the invoice withholding document"),
-        'group_wh_iva_doc':fields.boolean('Group wh doc', readonly=True, states={'draft':[('readonly',False)]},
+        'consolidate_vat_wh':fields.boolean('Group wh doc', readonly=True, states={'draft':[('readonly',False)]},
                     help="This selection indicates to group this invoice in existing withholding document"),
     }
 
-    _defaults = {'group_wh_iva_doc': False}
+    _defaults = {'consolidate_vat_wh': False}
 
     def copy(self, cr, uid, id, default=None, context=None):
         """ Initialized fields to the copy a register
