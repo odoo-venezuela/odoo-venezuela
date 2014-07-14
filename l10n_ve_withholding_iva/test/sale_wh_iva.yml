@@ -166,6 +166,10 @@
     awi_brw = self.browse(cr, uid, awi_id)
     values = self.onchange_partner_id(
         cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    
+    import pprint
+    pprint.pprint(( ' ----- values', values))
+
     values['wh_lines'] = [(0, 0, item) for item in values['wh_lines']]
     self.write(cr, uid, awi_id, values)
 -
