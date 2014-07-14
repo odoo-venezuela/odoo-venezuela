@@ -66,8 +66,6 @@
         company_id: base.main_company
         currency_id: base.EUR
         reference_type: none
-        date: !eval time.strftime('%Y-%m-%d')
-        date_ret: !eval time.strftime('%Y-%m-%d')
         invoice_line:
           - product_id: product.product_product_4
             quantity: 3
@@ -103,9 +101,16 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_1' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
