@@ -291,7 +291,11 @@ class account_wh_iva(osv.osv):
             string="Fortnight",
             readonly=True, states={"draft": [("readonly",False)]},
             help="Withholding type"),
+        'consolidate_vat_wh': fields.boolean('Fortnight Consolidate Wh. VAT',
+            help='If set then the withholdings vat generate in a same'
+            ' fornight will be grouped in one withholding receipt.'),
     }
+
     _defaults = {
         'code': lambda self,cr,uid,c: self.wh_iva_seq_get(cr, uid),
         'type': _get_type,
