@@ -168,9 +168,9 @@
                 </blockTable>
                 <blockTable colWidths="88.6mm,88.6mm,88.7mm" style="ITEMSWHITE" >
                 <tr>
-                    <td><para style="ITEMSRIF"><b>[[ o.partner_id.name ]]</b></para></td>
-                    <td><para style="ITEMSRIF"><b>[[ (o.partner_id.vat and ('%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or removeParentNode('para')) ]]</b></para></td>
-                    <td><para style="ITEMSLEFT">[[ get_partner_addr2( o.partner_id.id ) ]]</para></td>
+                    <td><para style="ITEMSRIF"><b>[[ o.third_party_id and o.third_party_id.name or o.partner_id.name ]]</b></para></td>
+                    <td><para style="ITEMSRIF"><b>[[ o.third_party_id and o.third_party_id.vat and ('%s-%s-%s'%(o.third_party_id.vat[2:3],o.third_party_id.vat[3:11],o.third_party_id.vat[11:12])) or o.partner_id.vat and ('%s-%s-%s'%(o.partner_id.vat[2:3],o.partner_id.vat[3:11],o.partner_id.vat[11:12])) or removeParentNode('para') ]]</b></para></td>
+                    <td><para style="ITEMSLEFT">[[ get_partner_addr2( o.third_party_id and o.third_party_id.id or o.partner_id.id ) ]]</para></td>
                 </tr>
     </blockTable>
     <spacer length="5mm"/>
