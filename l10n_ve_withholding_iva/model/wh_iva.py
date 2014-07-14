@@ -287,7 +287,12 @@ class account_wh_iva(osv.osv):
             string="Fortnight",
             readonly=True, states={"draft": [("readonly",False)]},
             help="Withholding type"),
+        'third_party_id': fields.many2one(
+            'res.partner',
+            'Third Party Partner',
+            help='Third Party Partner'),
     } 
+
     _defaults = {
         'code': lambda self,cr,uid,c: self.wh_iva_seq_get(cr, uid),
         'type': _get_type,
