@@ -24,5 +24,6 @@
 ################################################################################
 import account_invoice_refund
 import wizard_retention
+import wizard_wh_nro
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

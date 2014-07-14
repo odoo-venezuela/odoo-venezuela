@@ -53,6 +53,7 @@
         'security/ir.model.access.csv',
         'report/withholding_vat_report.xml',
         'wizard/wizard_retention_view.xml',
+        'wizard/wizard_wh_nro_view.xml',
         'view/generate_txt_view.xml',
         'view/account_invoice_view.xml',
         'view/account_view.xml',
