@@ -182,6 +182,7 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
@@ -276,6 +277,7 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_3' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
@@ -394,6 +396,7 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
