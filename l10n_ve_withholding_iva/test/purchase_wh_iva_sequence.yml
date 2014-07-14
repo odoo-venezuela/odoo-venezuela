@@ -66,6 +66,8 @@
         company_id: base.main_company
         currency_id: base.EUR
         reference_type: none
+        date: !eval time.strftime('%Y-%m-%d')
+        date_ret: !eval time.strftime('%Y-%m-%d')
         invoice_line:
           - product_id: product.product_product_4
             quantity: 3
