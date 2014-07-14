@@ -171,6 +171,7 @@
                         <field name="fortnight" required="1" on_change="onchange_partner_id(type, partner_id, period_id, fortnight)"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
+                        <field name="consolidate_vat_wh"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
