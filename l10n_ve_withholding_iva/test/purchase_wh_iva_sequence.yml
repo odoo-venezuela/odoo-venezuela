@@ -185,6 +185,12 @@
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
@@ -273,6 +279,12 @@
         inv_id = ref( 'supplier_seq_invoice_3' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
@@ -385,6 +397,12 @@
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
