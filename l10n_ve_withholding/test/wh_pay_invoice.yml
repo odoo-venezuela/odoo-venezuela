@@ -6,5 +6,5 @@
     Yt = time.strftime('%Y')
     first_fortnight = self.find_fortnight(cr, uid, '%s-11-14'%Yt)
     second_fortnight = self.find_fortnight(cr, uid, '%s-11-25'%Yt)
-    assert first_fortnight[1] == False, 'There is something wrong with the Fortnight Search, it should be False'
-    assert second_fortnight[1] == True, 'There is something wrong with the Fortnight Search, it should be True'
+    assert first_fortnight[1] == 'False', 'There is something wrong with the Fortnight Search, it should be False'
+    assert second_fortnight[1] == 'True', 'There is something wrong with the Fortnight Search, it should be True'
