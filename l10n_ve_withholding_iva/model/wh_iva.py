@@ -658,7 +658,7 @@ class account_wh_iva(osv.osv):
             ('period_id', '=', period_id)],
             context=context)
 
-        if wh_type == 'sale':
+        if wh_type == 'purchase':
             ai_ids = [
               ai_brw.id
               for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
