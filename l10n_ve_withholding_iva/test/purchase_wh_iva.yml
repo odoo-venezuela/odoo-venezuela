@@ -101,7 +101,7 @@
         account_id: account.a_recv
         company_id: base.main_company
         currency_id: base.EUR
-        date: time.strftime('%Y-%m-%d')
+        date: !eval time.strftime('%Y-%m-%d')
 -
   I check withholding document type.
 -
