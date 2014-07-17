@@ -101,7 +101,7 @@ string="Invoice"
                     <field name="name"/>
                     <field name="type" readonly="1"/>
                     <field name="article_number" on_change="onchange_field_clear_book()"/>
-                    <field name="period_id" on_change="onchange_field_clear_book()"/>
+                    <field name="period_id" on_change="onchange_field_clear_book()" widget="selection"/>
                     <field name="company_id" invisible="1"/>
                 </group>
                 <notebook colspan="8">
@@ -298,7 +298,7 @@ string="Invoice"
                 <group>
                     <field name="name"/>
                     <field name="type" readonly="1"/>
-                    <field name="period_id" on_change="onchange_field_clear_book()"/>
+                    <field name="period_id" on_change="onchange_field_clear_book()" widget="selection"/>
                     <field name="company_id" invisible="1"/>
                 </group>
                 <notebook colspan="8">
