@@ -192,9 +192,12 @@ class fiscal_book(orm.Model):
         'name': fields.char('Description', size=256, required=True),
         'company_id': fields.many2one('res.company', 'Company',
                                       help='Company', required=True),
-        'period_id': fields.many2one('account.period', 'Period',
-                                     help="Book's Fiscal Period",
-                                     required=True),
+        'period_id': fields.many2one(
+            'account.period',
+            string='Period',
+            required=True,
+            help="Book's Fiscal Period. The periods listed are thouse how are"
+            " regular periods, i.e. not opening/closing periods."),
         'state': fields.selection([('draft', 'Getting Ready'),
                                    ('confirmed', 'Approved by Manager'),
                                    ('done', 'Seniat Submitted'),
