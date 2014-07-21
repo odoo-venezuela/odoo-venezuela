@@ -4,7 +4,6 @@
         <record model="ir.ui.view" id="wizard_change_number_wh_iva">
             <field name="name">wizard.change.number.wh.iva.form</field>
             <field name="model">wizard.change.number.wh.iva</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Changing the withholding number">
                     <field name="name" colspan="4"/>
