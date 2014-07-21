@@ -34,19 +34,38 @@ class account_invoice(osv.osv):
 
     _inherit = "account.invoice"
 
+    def _get_imex_invoices(self, cr, uid, ids, name, args, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = {}.fromkeys(ids, False)
+        for inv in self.browse(cr, uid, ids, context={}):
+            for ait in inv.imex_tax_line:
+                res[inv.id] = ait.cfl_id.customs_form_id.id
+        return res
+
+    def _get_inv_from_ait(self, cr, uid, ids, context=None):
+        '''
+        Returns
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        ait_obj = self.pool.get('account.invoice.tax')
+        ait_brw = ait_obj.browse(cr, uid, ids, context=context)
+        return list(set([i.invoice_id.id for i in ait_brw if i.imex_inv_id]))
+
     _columns = {
-        'customs_form_id': fields.many2one(
-            'customs.form', 'Customs form', change_default=True,
-            required=False, readonly=True,
-            states={'draft': [('readonly', False)]}, ondelete='restrict',
-            domain=[('state', '=', ('draft'))],
-            help="The related form 86 for this import invoice (only draft)"),
+        'customs_form_id': fields.function(
+            _get_imex_invoices, method=True,
+            type='many2one', relation='customs.form',
+            string='Customs form',
+            store={
+                'account.invoice.tax':(_get_inv_from_ait, ['imex_inv_id'], 50),
+            }, help="This is the VAT Withholding Document where this invoice is being withheld"),
         'imex_tax_line': fields.one2many(
             'account.invoice.tax', 'imex_inv_id', 'Vat lines', readonly=True,
             attrs="{'readonly':[('vat_detail','=',True)], \
             'required':[('vat_detail','=',True)]}",),
-        'expedient':fields.boolean('Dossier', readonly=True,
-                                   states={'draft':[('readonly',False)]},
+        'expedient':fields.boolean('Dossier',
                                    help="If it is true, it means this is a \
                                    landindg form, you will need to load this \
                                    format as an purchase invoice to declarate \
@@ -87,7 +106,7 @@ class account_invoice_tax(osv.osv):
                                        ondelete='cascade', select=True),
         'partner_id': fields.related('imex_inv_id', 'partner_id',
                                      type='many2one', relation='res.partner',
-                                     string='Supplier'),
+                                     string='Supplier',store=False, readonly=True),
         'supplier_invoice_number': fields.related('imex_inv_id', 'supplier_invoice_number', type='char',
                                     string='Invoice ref', size=64, store=False,
                                     readonly=True),
@@ -131,13 +150,11 @@ class account_invoice_tax(osv.osv):
                 if base_amount == 0 and tax_amount > 0:
                     base_amount = round(tax_amount / vat.amount, 2)
                     res = {'value': {'base_amount': base_amount,
-                                     'base': base_amount,
-                                     'amount': tax_amount}}
+                                     'tax_amount': tax_amount}}
 
                 if base_amount > 0 and tax_amount == 0:
                     res = {'value': {'base_amount': 0.0,
-                                   'base': 0.0,
-                                   'amount': tax_amount}}
+                                     'tax_amount': tax_amount}}
 
         return res
 

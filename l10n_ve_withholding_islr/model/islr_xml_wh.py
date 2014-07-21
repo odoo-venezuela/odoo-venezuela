@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -35,6 +35,9 @@ from xml.etree.ElementTree import Element, SubElement, ElementTree, tostring
 import sys
 import base64
 from openerp.addons import decimal_precision as dp
+
+ISLR_XML_WH_LINE_TYPES = [('invoice', 'Invoice'), ('employee', 'Employee')]
+
 
 class islr_xml_wh_doc(osv.osv):
     _name = "islr.xml.wh.doc"
@@ -73,6 +76,8 @@ class islr_xml_wh_doc(osv.osv):
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string='Income Withholding Amount Total', help="Amount Total of withholding"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}, help='XML withhold invoice line id'),
+        'invoice_xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}, help='XML withhold invoice line id', domain=[('type','=','invoice')]),
+        'employee_xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','XML Document Lines', readonly=True ,states={'draft':[('readonly',False)]}, help='XML withhold employee line id', domain=[('type','=','employee')]),
         'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft':[('readonly',False)]}, help='Vendor user'),
     }
     _defaults = {
@@ -110,13 +115,13 @@ class islr_xml_wh_doc(osv.osv):
             if islr_line_ids:
                 res['value'].update({'xml_ids':islr_line_ids})
                 return res
-                
+
     def name_get(self, cr, uid, ids, context={}):
         """ Return id and name of all records
         """
         if not len(ids):
             return []
-        
+
         res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
         return res
 
@@ -139,7 +144,7 @@ class islr_xml_wh_doc(osv.osv):
         return True
 
     def _write_attachment(self, cr,uid,ids,root,context):
-        """ Codify the xml, to save it in the database and be able to 
+        """ Codify the xml, to save it in the database and be able to
         see it in the client as an attachment
         @param root: data of the document in xml
         """
@@ -175,6 +180,23 @@ class islr_xml_wh_doc(osv.osv):
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i
 
+    def import_xml_employee(self, cr, uid, ids, context=None):
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        xml_brw = self.browse(cr, uid, ids, context={})[0]
+        period = time.strptime(xml_brw.period_id.date_stop,'%Y-%m-%d')
+        return {'name': _('Import XML employee'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'employee.income.wh',
+                'view_type': 'form',
+                'view_id': False,
+                'view_mode': 'form',
+                'nodestroy': True,
+                'target': 'new',
+                'domain': "",
+                'context': {'default_period_id': xml_brw.period_id.id,
+                            'islr_xml_wh_doc_id': xml_brw.id,
+                            'period_code': "%0004d%02d" % (period.tm_year, period.tm_mon),
+                            'company_vat': xml_brw.company_id.partner_id.vat[2:]}}
 
     def _xml(self, cr,uid,ids):
         """ Transform this document to XML format
@@ -183,12 +205,12 @@ class islr_xml_wh_doc(osv.osv):
         root = ''
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
-            
+
             period = time.strptime(wh_brw.period_id.date_stop,'%Y-%m-%d')
             period2 = "%0004d%02d"%(period.tm_year, period.tm_mon)
 
             sql= '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
-            FROM islr_xml_wh_line 
+            FROM islr_xml_wh_line
             WHERE period_id= %s and id in (%s)
             GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id'''%(wh_brw.period_id.id,', '.join([str(i.id) for i in wh_brw.xml_ids]))
             cr.execute(sql)
@@ -216,7 +238,7 @@ islr_xml_wh_doc()
 class islr_xml_wh_line(osv.osv):
     _name = "islr.xml.wh.line"
     _description = 'Generate XML Lines'
-    
+
     _columns = {
         'concept_id': fields.many2one('islr.wh.concept','Withholding Concept',help="Withholding concept associated with this rate",required=True, ondelete='cascade'),
         'period_id':fields.many2one('account.period','Period',required=False, help="Period when the journal entries were done"),
@@ -237,12 +259,16 @@ class islr_xml_wh_line(osv.osv):
         'partner_id': fields.many2one('res.partner','Partner',required=True, help="Partner object of withholding"),
         'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute= dp.get_precision('Withhold ISLR')),
         'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices','Withheld Invoice',help="Withheld Invoices"),
+        'type': fields.selection(
+            ISLR_XML_WH_LINE_TYPES,
+            string='Type', required=True, readonly=False),
     }
     _rec_name = 'partner_id'
-    
+
     _defaults = {
         'invoice_number': lambda *a: '0',
-        'control_number': lambda *a: '0',
+        'control_number': lambda *a: 'NA',
+        'type': lambda *a: 'invoice',
     }
 
     def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):
@@ -251,14 +277,15 @@ class islr_xml_wh_line(osv.osv):
         rp_obj = self.pool.get('res.partner')
         acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr,uid,partner_id))
         return {'value' : {'partner_vat':acc_part_brw.vat[2:]}} 
-        
-        
+
+
     def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
         """ Changing the rate of the islr, the porcent_rete and concept_code fields
         is updated.
         """
         rate_brw = self.pool.get('islr.rates').browse(cr,uid,rate_id)
-        return {'value' : {'porcent_rete':rate_brw.wh_perc,'concept_code':rate_brw.code}} 
+        return {'value' : {'porcent_rete':rate_brw.wh_perc,'concept_code':rate_brw.code}}
+
 
 islr_xml_wh_line()
 

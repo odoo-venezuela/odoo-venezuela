@@ -4,11 +4,11 @@
 
 
 
-    <!-- 
+    <!--
     =====================================================
     Invoices Extension
     =====================================================
-    -->  
+    -->
 
         <record id="account_invoice_wh_iva_customer" model="ir.ui.view">
             <field name="name">account.invoice.wh.iva.customer</field>
@@ -20,10 +20,12 @@
                         <group col="6" colspan="4">
                             <field name="wh_iva"/>
                             <field name="wh_iva_id"/>
+                            <button name="button_generate_wh_doc" string="Generate Wh doc" icon="terp-emblem-documents"
+                                    type="object" colspan="1" attrs="{'readonly':['|',('wh_iva_id','!=',False),('state','!=','open')]}"/>
                         </group>
                 </xpath>
-            
-               
+
+
                 <xpath expr="//separator[@string=&quot;isep&quot;]" position="attributes">
                     <attribute name="string">Vat Withholding</attribute>
                 </xpath>
@@ -40,8 +42,10 @@
                     <group col="4" colspan="4">
                         <field name="wh_iva" string="Have this invoice been already VAT withheld?"/>
                         <field name="wh_iva_id" string="VAT Withholding Document"/>
+                        <field name="consolidate_vat_wh"/>
+
                         <newline/>
-                        <field name="vat_apply" string="Exclude this document from VAT Withholding" readonly="1"/>
+                        <field name="vat_apply" string="Exclude this document from VAT Withholding"/>
                         <group col="4" colspan="2">
                             <button name="%(action_wiz_vat_apply_wh)d" string="Change Vat Wh. Exclusion" type="action" icon="gtk-execute" states="draft"/>
                             <label string="Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3"/>

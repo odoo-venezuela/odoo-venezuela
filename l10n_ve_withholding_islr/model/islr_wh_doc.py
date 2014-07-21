@@ -115,14 +115,14 @@ class islr_wh_doc(osv.osv):
             ('done', 'Done'),
             ('cancel', 'Cancelled')
         ], 'State', readonly=True, help="Voucher state"),
-        'date_ret': fields.date('Accounting Date', help="Keep empty to use the current date"),
+        'date_ret': fields.date('Accounting Date', readonly=True, states={'draft': [('readonly', False)]}, help="Keep empty to use the current date"),
         'date_uid': fields.date('Withhold Date', readonly=True, states={'draft': [('readonly', False)]}, help="Voucher date"),
-        'period_id': fields.many2one('account.period', 'Period', help="Period when the accounts entries were done"),
+        'period_id': fields.many2one('account.period', 'Period', readonly=True, states={'draft': [('readonly', False)]}, help="Period when the accounts entries were done"),
         'account_id': fields.many2one('account.account', 'Account', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Account Receivable or Account Payable of partner"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft': [('readonly', False)]}, help="Partner object of withholding"),
         'currency_id': fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Currency in which the transaction takes place"),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Journal where accounting entries are recorded"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
+        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True, help="Company"),
         'amount_total_ret': fields.function(_get_amount_total, method=True, string='Amount Total', type='float', digits_compute=dp.get_precision('Withhold ISLR'),  help="Total Withheld amount"),
         'concept_ids': fields.one2many('islr.wh.doc.line', 'islr_wh_doc_id', 'Income Withholding Concept', readonly=True, states={'draft': [('readonly', False)]}, help='concept of income withholding'),
         'invoice_ids': fields.one2many('islr.wh.doc.invoices',
@@ -361,8 +361,18 @@ class islr_wh_doc(osv.osv):
             'account_id': acc_id,
             'invoice_ids': res_wh_lines}}
 
+    def on_change_date_ret(self, cr, uid, ids, date_ret, date_uid):
+        res = {}
+        if date_ret:
+            if not date_uid:
+                res.update({'date_uid': date_ret})
+            obj_per = self.pool.get('account.period')
+            per_id = obj_per.find(cr, uid, date_ret)
+            res.update({'period_id': per_id and per_id[0]})
+        return {'value':res}
+
     def create(self, cr, uid, vals, context=None, check=True):
-        """ When you create a new document, this function is responsible 
+        """ When you create a new document, this function is responsible
         for generating the sequence code for the field
         """
         if not context:
@@ -372,7 +382,7 @@ class islr_wh_doc(osv.osv):
         return super(islr_wh_doc, self).create(cr, uid, vals, context)
 
     def action_confirm(self, cr, uid, ids, context=None):
-        """ This checking if the provider allows retention is 
+        """ This checking if the provider allows retention is
         automatically verified and checked
         """
         context = context or {}
@@ -600,7 +610,7 @@ class islr_wh_doc(osv.osv):
                 raise osv.except_osv(_("Invalid Procedure!!"),
                     _("The withholding document needs to be in cancel state to be deleted."))
             else:
-                super(islr_wh_doc, self).unlink(cr, uid, ids, context=context)
+                super(islr_wh_doc, self).unlink(cr, uid, islr_brw.id, context=context)
         return True
 
 
@@ -733,11 +743,12 @@ class islr_wh_doc_invoices(osv.osv):
     _columns = {
         'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', help="Withheld invoice"),
+        'supplier_invoice_number':fields.related('invoice_id', 'supplier_invoice_number', type='char', string='Supplier inv. #', size=64, store=False, readonly=True),
         'islr_xml_id': fields.one2many('islr.xml.wh.line', 'islr_wh_doc_inv_id', 'Withholding Lines'),
         'amount_islr_ret': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_ret': fields.function(_amount_all, method=True, digits=(16, 4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
         'iwdl_ids': fields.one2many('islr.wh.doc.line', 'iwdi_id', 'Withholding Concepts', help='withholding concepts of this withheld invoice'),
-        'move_id': fields.many2one('account.move', 'Journal Entry',
+        'move_id': fields.many2one('account.move', 'Journal Entry', ondelete='restrict',
                                    readonly=True, help="Accounting voucher"),
     }
 
@@ -805,6 +816,9 @@ class islr_wh_doc_invoices(osv.osv):
 
         concept_id = iwdl_brw.concept_id.id
         # rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name
+        # Add a Key in context to store date of ret fot U.T. value determination
+        # TODO: Future me, this context update need to be checked with the other date in the withholding in order to take into account the customer income withholding.
+        context.update({'wh_islr_date_ret':iwdl_brw.islr_wh_doc_id.date_ret or False})
         rate_tuple = self._get_rate(
             cr, uid, concept_id, residence, nature, context=context)
         base = 0
@@ -1003,9 +1017,9 @@ class islr_wh_doc_invoices(osv.osv):
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
                 rate_brw_minimum = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.minimum, False, context)  # Method that transforms the UVT in pesos
+                    cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.subtract, False, context)  # Method that transforms the UVT in pesos
+                    cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
         return ()
 

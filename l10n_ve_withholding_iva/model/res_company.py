@@ -27,7 +27,7 @@ from openerp.osv import fields, osv
 class res_company(osv.osv):
     _inherit = "res.company"
     _columns = {
-        "wh_consolidate": fields.boolean("Fortnight Consolidate Wh. VAT",
+        "consolidate_vat_wh": fields.boolean("Fortnight Consolidate Wh. VAT",
             help="If it set then the withholdings vat generate in a same"
             " fornight will be grouped in one withholding receipt."),
         "allow_vat_wh_outdated": fields.boolean(
@@ -37,5 +37,5 @@ class res_company(osv.osv):
     }
 
     _defaults = {
-        'wh_consolidate': False,
+        'consolidate_vat_wh': False,
     }

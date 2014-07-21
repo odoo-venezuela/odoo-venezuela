@@ -8,6 +8,23 @@
     =====================================================
     -->
 
+        <record id="view_xml_islr_line_tree" model="ir.ui.view">
+            <field name="name">islr.xml.wh.line_tree</field>
+            <field name="model">islr.xml.wh.line</field>
+            <field name="arch" type="xml">
+                <tree string="Detail of the XML">
+                    <field name="partner_vat"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_number"/>
+                    <field name="concept_code"/>
+                    <field name="base"/>
+                    <field name="porcent_rete"/>
+                    <field name="wh" sum='Wh total'/>
+                </tree>
+            </field>
+        </record>
+
+
         <record id="view_xml_islr_line_form" model="ir.ui.view">
             <field name="name">islr.xml.wh.line_form</field>
             <field name="model">islr.xml.wh.line</field>
@@ -34,13 +51,15 @@
                         <field name="concept_code"/>
                     </group>
                     <newline/>
-                    <separator string="Invoice" colspan="6"/>
-                    <newline/>
-                    <group col="4" colspan="4">
-                        <field name="account_invoice_line_id" colspan="4"/>
-                        <field name="period_id" colspan="4"/>
-                        <field name="invoice_number"/>
-                        <field name="control_number"/>
+                    <group col="4" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}">
+                        <separator string="Invoice" colspan="4"/>
+                        <newline/>
+                        <group col="4" colspan="4">
+                            <field name="account_invoice_line_id" colspan="4"/>
+                            <field name="period_id" colspan="4"/>
+                            <field name="invoice_number" />
+                            <field name="control_number" />
+                        </group>
                     </group>
                     <newline/>
                     <separator string="Rates" colspan="6"/>
@@ -48,6 +67,7 @@
                     <group col="4" colspan="4">
                         <field name="base"/>
                         <field name="wh"/>
+                        <field name="type" invisible="1"/>
                     </group>
                 </form>
             </field>
@@ -86,6 +106,7 @@
                                     <field name="wh"/>
                                 </tree>
                             </field>
+
                             <group col="4" colspan="2">
                                 <field name="state" colspan="4"/>
                                 <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
@@ -140,11 +161,11 @@
             <field name="search_view_id" ref="view_generate_xml_filter"/>
             <field name="help">With this option you can create and manage the generation of file xml, required monthly for the SENIAT for special agent of withhold income</field>
         </record>
-        
+
         <record model="ir.actions.act_window.view" id="action_xml_islr_tree_1">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_xml_islr_tree"/> 
+            <field name="view_id" ref="view_xml_islr_tree"/>
             <field name="act_window_id" ref="action_xml_islr"/>
         </record>
         <record model="ir.actions.act_window.view" id="action_xml_islr_form_1">
@@ -153,7 +174,7 @@
             <field name="view_id" ref="view_xml_islr_form"/>
             <field name="act_window_id" ref="action_xml_islr"/>
         </record>
-        
+
         <menuitem name="Generate file XML" id="menu_action_xml_islr" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting" action="action_xml_islr"/>
 
     </data>

@@ -2,11 +2,11 @@
 <openerp>
     <data>
 
-    <!-- 
+    <!--
     =====================================================
     Vat Withholding line
     =====================================================
-    -->  
+    -->
 
         <record id="view_wh_iva_line_tree" model="ir.ui.view">
             <field name="name">account.wh.iva.line.tree</field>
@@ -20,8 +20,9 @@
                         on_change="invoice_id_change(invoice_id)" 
                         domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
                         />
+                    <field name="supplier_invoice_number"/>
 <!--                    <field name="retention_rate" />-->
-                    <field name="amount_tax_ret"/>
+                    <field name="amount_tax_ret" sum="Wh total"/>
                     <field name="wh_iva_rate"/>
                     <field name="tax_line"/>
                     <field name="move_id"/>
@@ -42,6 +43,7 @@
                                 on_change="invoice_id_change(invoice_id)" 
                                 domain="[('state', '=', 'open'), ('wh_iva', '=', False), ('type', '=', parent.type), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"
                                 />
+                                <field name="supplier_invoice_number"/>
                                 <field name="name"/>
                                 <field name="move_id"/>
                             </group>
@@ -49,9 +51,9 @@
                                 <field name="tax_line" nolabel="1">
                                     <tree string="Taxes" editable="top">
                                         <field name="name"/>
-                                        <field name="base"/>
-                                        <field name="amount"/>
-                                        <field name="amount_ret"/>
+                                        <field name="base" />
+                                        <field name="amount" />
+                                        <field name="amount_ret" />
                                     </tree>
                                     <form string="Taxes" version="7.0">
                                         <field colspan="4" name="name"/>
@@ -98,6 +100,7 @@
                         <filter name="cancel" icon="terp-dialog-close" string="Cancel" domain="[('state','=','cancel')]" help="Cancel Withholding Vat"/>
                         <separator orientation="vertical"/>
                         <field name="code"/>
+                        <field name="name"/>
                         <field name="number"/>
                         <field name="partner_id"/>
                         <field name="journal_id" widget="selection" string="Journal"/>
@@ -158,17 +161,18 @@
                         <field name="code"/>
                         <field 
                             name="partner_id" 
-                            on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" 
+                            on_change="onchange_partner_id(type, partner_id, period_id, fortnight)" 
                             domain="[('supplier','=',True),('parent_id','=',False)]"/>
                         <field name="third_party_id" domain="[('is_company','=',False),('id','!=',partner_id)]"/>
                         <field name="currency_id"/>
                         <field name="date_ret" readonly="1"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name"/>
-                        <field name="period_id" widget='selection' required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
-                        <field name="fortnight" required="1" on_change="onchange_lines_filter(type, partner_id, period_id, fortnight)"/>
+                        <field name="period_id" widget='selection' required="1" on_change="onchange_partner_id(type, partner_id, period_id, fortnight)" domain="[('special','=',False)]"/>
+                        <field name="fortnight" required="1" on_change="onchange_partner_id(type, partner_id, period_id, fortnight)"/>
                         <field name="number" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date"/>
+                        <field name="consolidate_vat_wh"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
@@ -216,12 +220,19 @@
                             domain="[('wh_iva_agent','=',True), ('customer','=',True), ('parent_id','=',False)]"/>
                         <field name="third_party_id" domain="[('is_company','=',False),('id','!=',partner_id)]"/>
                         <field name="currency_id"/>
-                        <field name="date_ret" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="date_ret" on_change="on_change_date_ret(date_ret, date)" attrs="{'readonly':[('state','!=','draft')]}"/>
                         <field name="account_id" domain="[('type','=', type == 'in_invoice' and 'payable' or 'receivable'), ('company_id', '=', company_id)]"/>
                         <field name="name" select="2"/>
                         <field name="period_id" widget='selection'/>
                         <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
-                        <field name="date"/>
+                        <field name="date" />
+                        <newline/>
+                        <!--
+                             TODO: Hbto. Check wizard of version 6.0
+                        -->
+                        <!--
+                        <button name="%(action_change_number_wh_iva)d" type='action' string='Change withholding doc number' icon="terp-gtk-jump-to-ltr" colspan="2"/>
+                        -->
                     </group>
                     <notebook colspan="4">
                         <page string="Withholding">
@@ -260,7 +271,7 @@
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="view_id" ref="view_wh_iva_tree"/>
             <field name="act_window_id" ref="action_account_wh_iva_customer"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_form">
@@ -288,7 +299,7 @@
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_iva_tree"/> 
+            <field name="view_id" ref="view_wh_iva_tree"/>
             <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_form">

@@ -101,9 +101,16 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_1' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
@@ -175,9 +182,16 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
@@ -263,9 +277,16 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_3' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
@@ -323,9 +344,11 @@
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
+        period_obj = self.pool.get('account.period')
+        invoice_obj = self.pool.get('account.invoice')
 
         invoice_ids = [ref( 'supplier_seq_invoice_2'), ref( 'supplier_seq_invoice_3' )]
-        awi_id = self.pool.get( 'account.invoice' ).browse(
+        awi_id = invoice_obj.browse(
             cr, uid, invoice_ids[0]).wh_iva_id.id
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'cancel', cr)
 
@@ -337,15 +360,15 @@
         awi_brw = self.browse(cr, uid, awi_id)
         assert awi_brw.state == 'draft', 'The withholding document was not reset to draft %s' % (awi_brw.state, )
 
-        values = {'wh_lines': []}
-        for invoice_id in invoice_ids:
-            res = self.onchange_partner_id(
-                cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-            values['wh_lines'] += [
-                (0, 0, {'invoice_id': invoice_id,
-                        'name':'N/A',
-                        'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-            values['account_id'] = res['value']['account_id']
+        for invoice_brw in invoice_obj.browse(cr, uid, invoice_ids):
+            period_id, fortnight = period_obj.find_fortnight(
+                cr, uid, invoice_brw.date_invoice)
+            values = self.onchange_partner_id(
+                cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id,
+                period_id=period_id, fortnight=fortnight)
+            values.update( 'wh_lines' ) = [
+                (0, 0, item)
+                for item in values.get( 'wh_lines' )]
         self.write(cr, uid, awi_id, values)
 -
   I check that the withholding document sequence '00001000' state is draft and
@@ -373,9 +396,16 @@
   I confirm the withholding document
 -
     !python {model: account.invoice}: |
+        import time
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
+
+        # TODO: do not know why i have to set the dates here but I have to.
+        awi_brw = inv_brw.wh_iva_id
+        cr_date = time.strftime('%Y-%m-%d')
+        awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
+
         import netsvc
         from openerp.osv import osv
         wf_service = netsvc.LocalService( 'workflow' )
