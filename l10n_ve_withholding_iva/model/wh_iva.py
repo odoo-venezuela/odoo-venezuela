@@ -294,6 +294,10 @@ class account_wh_iva(osv.osv):
         'consolidate_vat_wh': fields.boolean('Fortnight Consolidate Wh. VAT',
             help='If set then the withholdings vat generate in a same'
             ' fornight will be grouped in one withholding receipt.'),
+        'third_party_id': fields.many2one(
+            'res.partner',
+            'Third Party Partner',
+            help='Third Party Partner'),
     }
 
     _defaults = {
