@@ -58,7 +58,7 @@ class account_invoice(osv.Model):
                aml_ids += [aml_brw.id for aml_brw in am_brw.line_id]
 
         return {
-            'domain': str(('id', 'in', aml_ids)),
+            'domain': str([('id', 'in', aml_ids)]),
             'name': _('Journal Entries'),
             'view_type': 'form',
             'view_mode': 'tree,form',
