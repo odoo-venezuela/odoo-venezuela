@@ -54,3 +54,19 @@ class account_invoice(osv.osv):
                   "the book to Cancel. Then you could be able to cancel the "
                   "invoice." % (inv_brw.fb_id.state,)))
         return True
+
+    def copy(self, cur, uid, id, default=None, context=None):
+        """
+        Overwrite the copy orm method to blank the fiscal book field when
+        a invoice is copy. Also if a invoice have benn remove from a fiscal
+        book the issue_fb_id is add, if a duplicate this invoice that info os
+        issue will be garbage so I clean it too.
+        """
+        context = context or {}
+        default = default or {}
+        default.update(fb_id=False)
+        if default.get('issue_fb_id', False):
+            default.update(issue_fb_id=False)
+        res = super(account_invoice, self).copy(
+            cur, uid, id, default=default, context=context)
+        return res
