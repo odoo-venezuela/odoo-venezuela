@@ -21,9 +21,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Invoice']" position="after">
                    <page string="Withholdings">
+                        <separator colspan="4" string="xsep" invisible='1'/>
                         <separator colspan="4" string="vsep"/>
                         <separator colspan="4" string="isep"/>
                         <separator colspan="4" string="rsep"/>
+                        <separator colspan="4" string="msep" invisible='1'/>
                     </page> 
                 </xpath>
             </field>
@@ -40,9 +42,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Invoice Lines']" position="after">
                    <page string="Withholdings">
+                        <separator colspan="4" string="xsep" invisible='1'/>
                         <separator colspan="4" string="vsep"/>
                         <separator colspan="4" string="isep"/>
                         <separator colspan="4" string="rsep"/>
+                        <separator colspan="4" string="msep" invisible='1'/>
                     </page> 
                 </xpath>
             </field>
