@@ -39,7 +39,7 @@
  - Generate view for visualize the income withholding for suppilers and customers.
  - Load data of the 86 concepts of wittholdings whith their rates.
  - Send an email to supplier with approved withholdings, if not opt_out in the partner
-If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
+#If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',
     "depends" : ["account", "l10n_ve_withholding", "product"], # ,"edi"],
