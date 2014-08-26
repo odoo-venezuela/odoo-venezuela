@@ -202,6 +202,7 @@ class islr_xml_wh_doc(osv.osv):
         """ Transform this document to XML format
         """
         rp_obj = self.pool.get('res.partner')
+        inv_obj = self.pool.get('account.invoice')
         root = ''
         for id in ids:
             wh_brw = self.browse(cr,uid,id)
@@ -228,7 +229,9 @@ class islr_xml_wh_doc(osv.osv):
                 SubElement(detalle, "CodigoConcepto").text = concept_code
                 SubElement(detalle, "MontoOperacion").text = str(base)
                 SubElement(detalle, "PorcentajeRetencion").text = str(porcent_rete)
-        #~ ElementTree(root).write("/home/gabriela/openerp/Gabriela/5.0/Helados Gilda/islr_withholding/xml.xml")
+                if inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
+                    date_invoice = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret,'%Y-%m-%d')
+                    SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_invoice)
         self.indent(root)
         return tostring(root,encoding="ISO-8859-1")
 
@@ -276,7 +279,7 @@ class islr_xml_wh_line(osv.osv):
         """
         rp_obj = self.pool.get('res.partner')
         acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr,uid,partner_id))
-        return {'value' : {'partner_vat':acc_part_brw.vat[2:]}} 
+        return {'value' : {'partner_vat':acc_part_brw.vat[2:]}}
 
 
     def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
