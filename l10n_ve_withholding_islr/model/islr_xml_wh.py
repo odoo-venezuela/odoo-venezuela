@@ -229,8 +229,8 @@ class islr_xml_wh_doc(osv.osv):
                 SubElement(detalle, "CodigoConcepto").text = concept_code
                 SubElement(detalle, "MontoOperacion").text = str(base)
                 SubElement(detalle, "PorcentajeRetencion").text = str(porcent_rete)
-                if inv_id:
-                    date_invoice = time.strptime(inv_obj.browse(cr, uid, inv_id).date_invoice,'%Y-%m-%d')
+                if inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
+                    date_invoice = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret,'%Y-%m-%d')
                     SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_invoice)
         self.indent(root)
         return tostring(root,encoding="ISO-8859-1")
