@@ -35,7 +35,7 @@ class account_wh_iva_line(osv.osv):
 class account_wh_iva(osv.osv):
     _name = "account.wh.iva"
 class account_wh_iva_line_tax(osv.osv):
-    
+
     def _set_amount_ret(self, cr, uid, id, name, value, arg, ctx=None):
         """ Change withholding amount into iva line
         @param value: new value for retention amount
@@ -373,10 +373,10 @@ class account_wh_iva(osv.osv):
         return True
 
     def check_vat_wh(self, cr, uid, ids, context=None):
-        """ Check whether the bill will need to withhold taxes
+        """ Check whether the invoice will need to be withheld taxes
         """
         obj = self.browse(cr, uid, ids[0])
-        if not obj.date or not obj.date_ret:
+        if obj.type == 'out_invoice' and (not obj.date or not obj.date_ret):
             raise osv.except_osv(_('Error!'), _('Must indicate: Accounting date and (or) Voucher Date'))
         res = {}
         for wh_line in obj.wh_lines:
@@ -430,7 +430,7 @@ class account_wh_iva(osv.osv):
         """
         obj = self.browse(cr, uid, ids[0])
         rp_obj = self.pool.get('res.partner')
-        if obj.type in ('out_invoice', 'out_refund'): 
+        if obj.type in ('out_invoice', 'out_refund'):
             return rp_obj._find_accounting_partner(obj.partner_id).wh_iva_agent
         else:
             return rp_obj._find_accounting_partner(obj.company_id.partner_id).wh_iva_agent
@@ -482,6 +482,9 @@ class account_wh_iva(osv.osv):
             for (id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva.%s' % obj_ret.type)
+                if not number:
+                    raise osv.except_osv( _("Missing Configuration !"),
+                        _('No Sequence configured for Supplier VAT Withholding'))
 
                 cr.execute('UPDATE account_wh_iva SET number=%s ' \
                         'WHERE id=%s', (number, id))
@@ -498,7 +501,7 @@ class account_wh_iva(osv.osv):
                 values['date_ret'] = wh.company_id.allow_vat_wh_outdated \
                                      and wh.date or time.strftime('%Y-%m-%d')
                 values['date'] = values['date_ret']
-                if not ((wh.period_id.id, wh.fortnight) == 
+                if not ((wh.period_id.id, wh.fortnight) ==
                          per_obj.find_fortnight(cr, uid,
                                                 values['date_ret'],
                                                 context=context)):
@@ -640,9 +643,9 @@ class account_wh_iva(osv.osv):
                 acc_id = acc_part_id.property_account_payable and acc_part_id.property_account_payable.id or False
             values_data['account_id'] = acc_id
 
-        #~ clear lines 
+        #~ clear lines
         self.clear_wh_lines(cr, uid, ids, context=context)
-        
+
         if not partner_id:
             if wh_type == 'sale':
                 return {'value': values_data}
@@ -680,7 +683,7 @@ class account_wh_iva(osv.osv):
                 ]
                 # TODO: integrate to the dictionary the value like this:
                 # """'consolidate_vat_wh': rp_obj._find_accounting_partner(inv_brw.partner_id).consolidate_vat_wh,"""
-                # This only applies in purchase. 
+                # This only applies in purchase.
         return {'value': values_data}
 
 
@@ -739,7 +742,7 @@ class account_wh_iva(osv.osv):
         if not til_ids: return True
 
         note = _('The Following IVA TXT DOC should be set to Draft before Cancelling this Document\n\n')
-        ti_ids = list(set([til_brw.txt_id.id 
+        ti_ids = list(set([til_brw.txt_id.id
             for til_brw in til_obj.browse(cr, uid, til_ids, context = context)]))
         for ti_brw in ti_obj.browse(cr, uid, ti_ids, context = context):
             note += '%s\n'%ti_brw.name
