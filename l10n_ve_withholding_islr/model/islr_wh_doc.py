@@ -35,7 +35,7 @@ from openerp.addons import decimal_precision as dp
 
 
 class islr_wh_doc(osv.osv):
-    
+
     def name_get(self,cr, uid, ids, context):
         if not len(ids):
             return []
@@ -43,9 +43,9 @@ class islr_wh_doc(osv.osv):
         for item in self.browse(cr, uid, ids, context):
             if item.number and item.state=='done':
                 res.append((item.id, '%s (%s)'%(item.number,item.name)))
-            else:    
+            else:
                 res.append((item.id, '%s'%(item.name)))
-        return res   
+        return res
 
     def _get_type(self, cr, uid, context=None):
         """ Return type of invoice or returns in_invoice
@@ -180,7 +180,7 @@ class islr_wh_doc(osv.osv):
                 _('You need to Add Invoices to Withhold Income Taxes!!!'))
 
         for wh_line in obj.invoice_ids:
-            #Checks for xml_id elements when withholding to supplier 
+            #Checks for xml_id elements when withholding to supplier
             #Otherwise just checks for withholding concepts if any
             if not (wh_line.islr_xml_id or wh_line.iwdl_ids):
                 res[wh_line.id] = (wh_line.invoice_id.name,
@@ -203,7 +203,7 @@ class islr_wh_doc(osv.osv):
         return obj.automatic_income_wh or False
 
     def check_auto_wh_by_type(self, cr, uid, ids, context=None):
-        """ Tell us if the process already checked and everything was 
+        """ Tell us if the process already checked and everything was
         fine in case of a in_invoice or in_refund
         """
         context = context or {}
@@ -239,7 +239,7 @@ class islr_wh_doc(osv.osv):
         return False
 
     def action_done(self, cr, uid, ids, context=None):
-        """ Call the functions in charge of preparing the document 
+        """ Call the functions in charge of preparing the document
         to pass the state done
         """
         context = context or {}
@@ -393,7 +393,7 @@ class islr_wh_doc(osv.osv):
                                             'automatic_income_wh': check_auto_wh}, context=context)
 
     def action_number(self, cr, uid, ids, context=None):
-        """ Is responsible for generating a number for the document 
+        """ Is responsible for generating a number for the document
         if it does not have one
         """
         context = context or {}
@@ -406,6 +406,9 @@ class islr_wh_doc(osv.osv):
             if not number:
                 number = self.pool.get('ir.sequence').get(
                     cr, uid, 'islr.wh.doc.%s' % obj_ret.type)
+            if not number:
+                raise osv.except_osv( _("Missing Configuration !"),
+                    _('No Sequence configured for Supplier Income Withholding'))
             cr.execute('UPDATE islr_wh_doc SET number=%s '
                        'WHERE id=%s', (number, id))
         return True
@@ -688,18 +691,18 @@ class account_invoice(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
         iwdi_ids = iwdi_obj.search(cr, uid, [('invoice_id','in',ids)], context=context)
-        
+
         iwdi_brws = iwdi_obj.browse(cr, uid, iwdi_ids, context=context)
         res = {}.fromkeys(ids,False)
         for i in iwdi_brws:
             if i.invoice_id:
                 res[i.invoice_id.id]=i.islr_wh_doc_id.id or False
-        return res 
+        return res
 
     _columns = {
         'islr_wh_doc_id': fields.function(_fnct_get_wh_income_id, method=True,
-            type='many2one', relation='islr.wh.doc', 
-            string='Income Withholding Document', 
+            type='many2one', relation='islr.wh.doc',
+            string='Income Withholding Document',
             store={
                 'islr.wh.doc':(_get_inv_from_iwd, ['invoice_ids'], 50),
                 'islr.wh.doc.invoices':(_get_inv_from_iwdi, ['invoice_id'], 50),
@@ -905,7 +908,7 @@ class islr_wh_doc_invoices(osv.osv):
                     raise osv.except_osv(_("Error on Human Process"),
                     _("Please fill the Invoice number to continue, without this number will be"
                       " imposible form the system make the withholding"))
-                    
+
                 #~ Vuelve a crear las lineas
                 xml_id = ixwl_obj.create(cr, uid, values, context=context)
                 #~ Write back the new xml_id into the account_invoice_line
@@ -959,7 +962,7 @@ class islr_wh_doc_invoices(osv.osv):
 
     def _get_partners(self, cr, uid, invoice):
         """ Is obtained: the seller's id, the buyer's id
-        invoice and boolean field that determines whether the buyer is 
+        invoice and boolean field that determines whether the buyer is
         retention agent.
         """
         rp_obj = self.pool.get('res.partner')
@@ -976,7 +979,7 @@ class islr_wh_doc_invoices(osv.osv):
     def _get_residence(self, cr, uid, vendor, buyer):
         """It determines whether the tax form buyer address is the same
         that the seller, then in order to obtain the associated rate.
-        Returns True if a person is resident. Returns 
+        Returns True if a person is resident. Returns
         False if is not resident.
         """
         vendor_address = self._get_country_fiscal(cr, uid, vendor)
@@ -989,7 +992,7 @@ class islr_wh_doc_invoices(osv.osv):
         return False
 
     def _get_nature(self, cr, uid, partner_id):
-        """ It obtained the nature of the seller from VAT, returns 
+        """ It obtained the nature of the seller from VAT, returns
         True if natural person, and False if is legal.
         """
         rp_obj = self.pool.get('res.partner')
@@ -1005,7 +1008,7 @@ class islr_wh_doc_invoices(osv.osv):
                 return False
 
     def _get_rate(self, cr, uid, concept_id, residence, nature, context):
-        """ Rate is obtained from the concept of retention, provided 
+        """ Rate is obtained from the concept of retention, provided
         if there is one associated with the specifications:
         The vendor's nature matches a rate.
         The vendor's residence matches a rate.
