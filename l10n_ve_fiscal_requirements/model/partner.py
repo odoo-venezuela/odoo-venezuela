@@ -241,15 +241,15 @@ class res_partner(osv.osv):
         """ Check Venezuelan VAT number, locally called RIF.
         RIF: JXXXXXXXXX RIF VENEZOLAN IDENTIFICATION CARD: VXXXXXXXXX FOREIGN IDENTIFICATION CARD: EXXXXXXXXX
         """
-        
+
         if context is None:
             context={}
-        if re.search(r'^[VJEG][0-9]{9}$', vat):
+        if re.search(r'^[VJEGP][0-9]{9}$', vat):
             return True
         if re.search(r'^([VE][0-9]{1,8}|[D][0-9]{9})$', vat):
             return True
         return False
-        
+
     def vies_vat_check(self, cr, uid, country_code, vat_number, context=None):
         """
         Validate against  VAT Information Exchange System (VIES)
