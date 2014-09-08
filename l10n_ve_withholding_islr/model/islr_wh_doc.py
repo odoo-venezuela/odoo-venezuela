@@ -823,7 +823,7 @@ class islr_wh_doc_invoices(osv.osv):
         # TODO: Future me, this context update need to be checked with the other date in the withholding in order to take into account the customer income withholding.
         context.update({'wh_islr_date_ret':iwdl_brw.islr_wh_doc_id.date_ret or False})
         rate_tuple = self._get_rate(
-            cr, uid, concept_id, residence, nature, context=context)
+            cr, uid, concept_id, residence, nature, inv_brw=iwdl_brw.invoice_id, context=context)
         base = 0
         wh_concept = 0.0
 
@@ -907,8 +907,7 @@ class islr_wh_doc_invoices(osv.osv):
                 if not values.get('invoice_number'):
                     raise osv.except_osv(_("Error on Human Process"),
                     _("Please fill the Invoice number to continue, without this number will be"
-                      " imposible form the system make the withholding"))
-
+                      " impossible to compute the withholding"))
                 #~ Vuelve a crear las lineas
                 xml_id = ixwl_obj.create(cr, uid, values, context=context)
                 #~ Write back the new xml_id into the account_invoice_line
@@ -1007,18 +1006,31 @@ class islr_wh_doc_invoices(osv.osv):
             else:
                 return False
 
-    def _get_rate(self, cr, uid, concept_id, residence, nature, context):
+    def _get_rate(self, cr, uid, concept_id, residence, nature, inv_brw=None, context=None):
         """ Rate is obtained from the concept of retention, provided
         if there is one associated with the specifications:
         The vendor's nature matches a rate.
         The vendor's residence matches a rate.
         """
+        context = context or {}
         ut_obj = self.pool.get('l10n.ut')
+        # Hbto: thinks that this browse could be substitute by a search.
+        # attention must be pay when doing the search as the values for the minimum should be
+        # order asc, and only one element should be fetched, limit=1
+        # This means that the value for the GrandTotal in this invoice regarding this
+        # concept should come before,
+        #
         rate_brw_lst = self.pool.get(
             'islr.wh.concept').browse(cr, uid, concept_id).rate_ids
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
-                #~ (base,min,porc,sust,codigo,id_rate,name_rate)
+                if rate_brw.rate2 and inv_brw:
+                    #Get the invoice_lines that have the same concept_id than the rate_brw which is here
+                    #Having the lines the subtotal for each lines can be got and with that it will be possible
+                    #to which rate to grab,
+                    #MULTICURRENCY WARNING: Values from the invoice_lines must be translate to VEF and then
+                    #to UT this way computing in a proper way the amount values
+                    pass
                 rate_brw_minimum = ut_obj.compute_ut_to_money(
                     cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
@@ -1054,7 +1066,7 @@ class islr_wh_doc_invoices(osv.osv):
         residence = self._get_residence(cr, uid, vendor, buyer)
         nature = self._get_nature(cr, uid, vendor)
         rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name = self._get_rate(
-            cr, uid, ail_brw.concept_id.id, residence, nature, context=context)
+            cr, uid, ail_brw.concept_id.id, residence, nature, inv_brw=ail_brw.invoice_id, context=context)
 
         wh = ((rate_base * ail_brw.price_subtotal / 100) * rate_wh_perc)/100.0
 

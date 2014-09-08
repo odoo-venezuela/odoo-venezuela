@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-    <!-- 
+    <!--
     =====================================================
     CONCEPT OF RETENTION, RATES
     =====================================================
-    --> 
+    -->
         <record id="view_wh_concept_filter" model="ir.ui.view">
             <field name="name">islr.wh.concept.search</field>
             <field name="model">islr.wh.concept</field>
@@ -33,7 +33,7 @@
                     <field name="wh_perc"/>
                     <field name="nature"/>
                     <field name="subtract"/>
-
+                    <field name="rate2"/>
                 </form>
             </field>
         </record>
@@ -51,6 +51,7 @@
                     <field name="subtract"/>
                     <field name="residence"/>
                     <field name="nature"/>
+                    <field name="rate2"/>
                 </tree>
             </field>
         </record>
@@ -85,10 +86,11 @@
                                     <field name="code" />
                                     <field name="base" />
                                     <field name="minimum" />
-                                    <field name="residence" />
                                     <field name="wh_perc" />
-                                    <field name="nature" />
                                     <field name="subtract" />
+                                    <field name="nature" />
+                                    <field name="residence" />
+                                    <field name="rate2"/>
                                 </tree>
                                 <form>
                                     <group colspan="4">
@@ -97,8 +99,9 @@
                                     <group colspan="4">
                                         <group>
                                             <field name="code" />
-                                            <field name="residence" />
                                             <field name="nature" />
+                                            <field name="residence" />
+                                            <field name="rate2"/>
                                         </group>
                                         <group>
                                             <field name="base" />
@@ -124,11 +127,11 @@
             <field name="search_view_id" ref="view_wh_concept_filter"/>
             <field name="help">With "Concept of Income Withholding" you can create and manage the concept of wittholding income. For each concept is to create and manage rates associated.</field>
         </record>
-        
+
         <record model="ir.actions.act_window.view" id="action_wh_islr_concept_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_concept_islr_tree"/> 
+            <field name="view_id" ref="view_wh_concept_islr_tree"/>
             <field name="act_window_id" ref="action_wh_islr_concept"/>
         </record>
         <record model="ir.actions.act_window.view" id="action_wh_islr_concept_form">
@@ -137,7 +140,7 @@
             <field name="view_id" ref="view_wh_concept_islr_form"/>
             <field name="act_window_id" ref="action_wh_islr_concept"/>
         </record>
-        
+
         <menuitem name="Concept of Income Withholding" id="menu_action_concept_retention" parent="menu_wh_configuration_islr" action="action_wh_islr_concept"/>
     </data>
 </openerp>

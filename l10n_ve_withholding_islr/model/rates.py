@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -68,5 +68,6 @@ class islr_rates(osv.osv):
     'residence': fields.boolean('Residence',help="Indicates whether a person is resident, compared with the direction of the Company"),
     'nature': fields.boolean('Nature',help="Indicates whether a person is nature or legal"),
     'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False, ondelete='cascade'),
+    'rate2': fields.boolean('Rate 2', help='Rate Used for Foreign Entities'),
     }
 islr_rates()
