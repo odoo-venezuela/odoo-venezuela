@@ -330,6 +330,7 @@ class account_wh_iva(osv.osv):
             if ret.state == 'done':
                 for ret_line in ret.wh_lines:
                     account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    ret_line.write({'move_id':False})
                     delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
                 if delete:
                     ret.write({'state':'cancel'})
