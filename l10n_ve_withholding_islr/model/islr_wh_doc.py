@@ -436,6 +436,7 @@ class islr_wh_doc(osv.osv):
                 for ret_line in ret.invoice_ids:
                     ret_line.move_id and account_move_obj.button_cancel(
                         cr, uid, [ret_line.move_id.id])
+                    ret_line.write({'move_id':False})
                     ret_line.move_id and account_move_obj.unlink(
                         cr, uid, [ret_line.move_id.id])
         self.write(cr, uid, ids, {'state': 'cancel'})
