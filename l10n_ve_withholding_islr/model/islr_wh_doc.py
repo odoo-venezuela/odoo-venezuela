@@ -493,11 +493,42 @@ class islr_wh_doc(osv.osv):
             writeoff_account_id = False
             writeoff_journal_id = False
             amount = line.amount_islr_ret
-
             ret_move = line.invoice_id.ret_and_reconcile(
                 amount, acc_id, period_id, journal_id, writeoff_account_id,
                 period_id, writeoff_journal_id, ret.date_ret, name,
                 line.iwdl_ids, context=context)
+
+            if line.invoice_id.currency_id.id != line.invoice_id.company_id.currency_id.id:
+                move_obj = self.pool.get('account.move')
+                move_line_obj = self.pool.get('account.move.line')
+                move_brw = move_obj.browse(cr, uid, ret_move['move_id'])
+                for ml in move_brw.line_id:
+                    move_line_obj.write(cr, uid, ml.id,
+                            {'currency_id': line.invoice_id.currency_id.id})
+
+                    if ml.credit:
+
+                        amount_currency = line.exchange(
+                        ml.credit,
+                        line.invoice_id.company_id.currency_id.id,
+                        line.invoice_id.currency_id.id,
+                        line.invoice_id.date_due,
+                        )
+
+                        move_line_obj.write(cr, uid, ml.id,
+                                {'amount_currency': amount_currency*-1  } )
+
+                    elif ml.debit:
+
+                        amount_currency = line.exchange(
+                        ml.debit,
+                        line.invoice_id.company_id.currency_id.id,
+                        line.invoice_id.currency_id.id,
+                        line.invoice_id.date_due,
+                        )
+
+                        move_line_obj.write(cr, uid, ml.id,
+                                {'amount_currency': amount_currency  } )
 
             # make the withholding line point to that move
             rl = {
