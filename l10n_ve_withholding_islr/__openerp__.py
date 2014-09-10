@@ -54,6 +54,7 @@
             "data/l10n_ve_islr_withholding_data.xml",
             "data/retencion_islr_sequence.xml",
             "view/wh_islr_view.xml",
+            "wizard/income_wh_change_concept.xml",
             "view/invoice_view.xml",
             "view/partner_view.xml",
             "view/res_company_view.xml",
