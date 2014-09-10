@@ -1093,12 +1093,21 @@ class islr_wh_doc_invoices(osv.osv):
 
         wh = ((rate_base * ail_brw.price_subtotal / 100) * rate_wh_perc)/100.0
 
+        base_currency = self.exchange(cr,
+                uid,
+                [],
+                ail_brw.price_subtotal,
+                ail_brw.invoice_id.currency_id.id,
+                ail_brw.company_id.currency_id.id,
+                ail_brw.invoice_id.date_due
+                )
+
         return {
             'account_invoice_id': ail_brw.invoice_id.id,
             'islr_wh_doc_line_id': False,
             'islr_xml_wh_doc': False,
             'wh': wh,  # I must to look
-            'base': ail_brw.price_subtotal,  # I get it too but from the rate
+            'base': base_currency,  # I get it too but from the rate
             'period_id': False,  # We review the definition because it is in NOT NULL
             'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
             'rate_id': rate_id,  # I get it too but from the rate
