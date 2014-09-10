@@ -26,10 +26,6 @@
 from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
-from openerp import netsvc
 
 class account_invoice_line(osv.osv):
     """ It adds a field that determines if a line has been retained or not
@@ -58,7 +54,9 @@ class account_invoice_line(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj_model = self.pool.get('ir.model.data')
-        self.browse(cr, uid, ids[0], context=context)
+        ail_brw = self.browse(cr, uid, ids[0], context=context)
+        if not ail_brw.invoice_id.state=='open':
+            raise osv.except_osv(_('Warning!'), _('This Button is meant to be used with Invoices in "Open State"'))
         model_data_ids = obj_model.search(
             cr, uid, [('model', '=', 'ir.ui.view'),
                         ('name', '=', 'islr_wh_change_concept')])
@@ -71,7 +69,6 @@ class account_invoice_line(osv.osv):
             'views': [(resource_id, 'form')],
             'type': 'ir.actions.act_window',
             'target': 'new',
-            #'context': {'default_message': message, 'default_name': wzr.name},
         }
 
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
@@ -176,10 +173,7 @@ class account_invoice(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
-        doc_line_obj = self.pool.get('islr.wh.doc.line')
         wh_doc_obj = self.pool.get('islr.wh.doc')
-        inv_obj = self.pool.get('account.invoice.line')
-        rate_obj = self.pool.get('islr.rates')
         rp_obj = self.pool.get('res.partner')
 
         row = self.browse(cr, uid, ids[0], context=context)

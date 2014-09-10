@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="islr_wh_change_concept" model="ir.ui.view">
+            <field name="name">islr.wh.change.concept.form</field>
+            <field name="model">islr.wh.change.concept</field>
+            <field name="arch" type="xml">
+                <form string="Account Financial Report" version="7.0">
+                    <header>
+                        <button
+                            name="income_wh_change"
+                            string="Change Concept"
+                            colspan="1"
+                            type="object"
+                            icon="gtk-ok"
+                            class="oe_highlight"
+                        />
+                            or
+                        <button
+                            type='special'
+                            icon='gtk-cancel'
+                            special="cancel"
+                            string='_Cancel'
+                            colspan="1"
+                            class="oe_link"
+                        />
+                    </header>
+                    <separator string="New Concept" colspan="4"/>
+                    <label string="Select the new concept that you want to set"/>
+                    <group col="4" colspan= "4">
+                        <field name="new_concept_id" nolabel="1" readonly='0' colspan="4"/>
+                    </group>
+                    <newline/>
+                    <separator string="Confirm Change" colspan="4"/>
+                    <label string="Tick this field to make sure that you want to change this Concept"/>
+                    <group col="4" colspan= "4">
+                        <field name="sure" nolabel="0" readonly='0' colspan="4"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
+
