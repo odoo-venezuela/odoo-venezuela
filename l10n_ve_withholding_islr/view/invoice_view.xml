@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-    <!-- 
+    <!--
     =====================================================
     Retention Concept ISLR
     =====================================================
@@ -53,6 +53,11 @@
                 <field name="arch" type="xml">
                 <xpath expr="//field[@name='quantity']" position="before">
                     <field name="concept_id" required="1"/>
+                    <button
+                        name="islr_wh_change_concept"
+                        type="object"
+                        icon="gtk-execute"
+                        help="While invoice is open and Income Wh is still Draft it is possible to change Concepts" />
                 </xpath>
                 </field>
             </record>
@@ -89,6 +94,6 @@
                 </xpath>
             </field>
         </record>
-    
+
     </data>
 </openerp>
