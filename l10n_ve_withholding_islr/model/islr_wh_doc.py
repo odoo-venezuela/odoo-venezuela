@@ -8,6 +8,7 @@
 #    Coded by: Humberto Arocha           <hbto@vauxoo.com>
 #              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Javier Duran              <javier@vauxoo.com>
+#              Yanina Aular              <yanina.aular@vauxoo.com>
 #    Planified by: Nhomar Hernandez <nhomar@vauxoo.com>
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha hbto@vauxoo.com
@@ -799,6 +800,15 @@ class islr_wh_doc_invoices(osv.osv):
                 res_ids += [id]
         return res_ids
 
+    def exchange(self, cr, uid, ids, from_amount, from_currency_id, to_currency_id, exchange_date, context=None):
+        if context is None:
+            context = {}
+        if from_currency_id == to_currency_id:
+            return from_amount
+        curr_obj = self.pool.get('res.currency')
+        context['date'] = exchange_date
+        return curr_obj.compute(cr, uid, from_currency_id, to_currency_id, from_amount, context=context)
+
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         """ Return a dictionary containing all the values of the retention of an invoice line.
         @param concept_id: Withholding reason
@@ -829,7 +839,15 @@ class islr_wh_doc_invoices(osv.osv):
 
         if iwdl_brw.invoice_id.type in ('in_invoice', 'in_refund'):
             for line in iwdl_brw.xml_ids:
-                base += line.account_invoice_line_id.price_subtotal
+                base_line = self.exchange(cr,
+                            uid,
+                            ids,
+                            line.account_invoice_line_id.price_subtotal,
+                            line.account_invoice_line_id.invoice_id.currency_id.id,
+                            line.account_invoice_line_id.company_id.currency_id.id,
+                            line.account_invoice_line_id.invoice_id.date_due
+                            )
+                base += base_line
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             wh = 0.0
             subtract = apply and rate_tuple[3] or 0.0
@@ -837,8 +855,17 @@ class islr_wh_doc_invoices(osv.osv):
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
                 if apply:
+                    base_line = self.exchange(cr,
+                            uid,
+                            ids,
+                            line.account_invoice_line_id.price_subtotal,
+                            line.account_invoice_line_id.invoice_id.currency_id.id,
+                            line.account_invoice_line_id.company_id.currency_id.id,
+                            line.account_invoice_line_id.invoice_id.date_due
+                            )
+
                     wh_calc = (rate_tuple[0]/100.0)*rate_tuple[
-                        2]*line.account_invoice_line_id.price_subtotal/100.0
+                        2]*base_line/100.0
                     if subtract >= wh_calc:
                         wh = 0.0
                         subtract -= wh_calc
@@ -854,7 +881,15 @@ class islr_wh_doc_invoices(osv.osv):
         else:
             for line in iwdl_brw.invoice_id.invoice_line:
                 if line.concept_id.id == concept_id:
-                    base += line.price_subtotal
+                    base_line = self.exchange(cr,
+                            uid,
+                            ids,
+                            line.price_subtotal,
+                            line.account_invoice_line_id.invoice_id.currency_id.id,
+                            line.account_invoice_line_id.company_id.currency_id.id,
+                            line.account_invoice_line_id.invoice_id.date_due
+                            )
+                    base += base_line
 
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             sb_concept = apply and rate_tuple[3] or 0.0
