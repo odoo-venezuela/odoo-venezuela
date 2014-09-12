@@ -917,9 +917,9 @@ class islr_wh_doc_invoices(osv.osv):
                             uid,
                             ids,
                             line.price_subtotal,
-                            line.account_invoice_line_id.invoice_id.currency_id.id,
-                            line.account_invoice_line_id.company_id.currency_id.id,
-                            line.account_invoice_line_id.invoice_id.date_due
+                            line.invoice_id.currency_id.id,
+                            line.company_id.currency_id.id,
+                            line.invoice_id.date_due
                             )
                     base += base_line
 
