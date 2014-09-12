@@ -1081,8 +1081,8 @@ class islr_wh_doc_invoices(osv.osv):
         The vendor's residence matches a rate.
         """
         ut_obj = self.pool.get('l10n.ut')
-        rate_brw_lst = self.pool.get(
-            'islr.wh.concept').browse(cr, uid, concept_id).rate_ids
+        concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
+        rate_brw_lst = concept_brw.rate_ids
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
@@ -1091,7 +1091,10 @@ class islr_wh_doc_invoices(osv.osv):
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
                     cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
-        return ()
+        msg_nature = nature and 'Natural' or u'Jurídica'
+        msg_residence = residence and 'Domiciliada' or 'No Domiciliada'
+        msg = _(u'No Available Rates for "Persona %s %s" in Concept: "%s"')%(msg_nature, msg_residence, concept_brw.name)
+        raise osv.except_osv(_('Missing Configuration'), msg)
 
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
         """ Get the country of the partner
