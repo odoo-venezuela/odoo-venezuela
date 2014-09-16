@@ -513,7 +513,7 @@ class islr_wh_doc(osv.osv):
                         ml.credit,
                         line.invoice_id.company_id.currency_id.id,
                         line.invoice_id.currency_id.id,
-                        line.invoice_id.date_due,
+                        line.invoice_id.date_invoice,
                         )
 
                         move_line_obj.write(cr, uid, ml.id,
@@ -525,7 +525,7 @@ class islr_wh_doc(osv.osv):
                         ml.debit,
                         line.invoice_id.company_id.currency_id.id,
                         line.invoice_id.currency_id.id,
-                        line.invoice_id.date_due,
+                        line.invoice_id.date_invoice,
                         )
 
                         move_line_obj.write(cr, uid, ml.id,
@@ -877,7 +877,7 @@ class islr_wh_doc_invoices(osv.osv):
                             line.account_invoice_line_id.price_subtotal,
                             line.account_invoice_line_id.invoice_id.currency_id.id,
                             line.account_invoice_line_id.company_id.currency_id.id,
-                            line.account_invoice_line_id.invoice_id.date_due
+                            line.account_invoice_line_id.invoice_id.date_invoice
                             )
                 base += base_line
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
@@ -893,7 +893,7 @@ class islr_wh_doc_invoices(osv.osv):
                             line.account_invoice_line_id.price_subtotal,
                             line.account_invoice_line_id.invoice_id.currency_id.id,
                             line.account_invoice_line_id.company_id.currency_id.id,
-                            line.account_invoice_line_id.invoice_id.date_due
+                            line.account_invoice_line_id.invoice_id.date_invoice
                             )
 
                     wh_calc = (rate_tuple[0]/100.0)*rate_tuple[
@@ -919,7 +919,7 @@ class islr_wh_doc_invoices(osv.osv):
                             line.price_subtotal,
                             line.invoice_id.currency_id.id,
                             line.company_id.currency_id.id,
-                            line.invoice_id.date_due
+                            line.invoice_id.date_invoice
                             )
                     base += base_line
 
@@ -1134,7 +1134,7 @@ class islr_wh_doc_invoices(osv.osv):
                 ail_brw.price_subtotal,
                 ail_brw.invoice_id.currency_id.id,
                 ail_brw.company_id.currency_id.id,
-                ail_brw.invoice_id.date_due
+                ail_brw.invoice_id.date_invoice
                 )
 
         return {
