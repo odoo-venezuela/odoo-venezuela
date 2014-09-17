@@ -583,6 +583,13 @@ class fiscal_book(orm.Model):
         'fortnight': None,
     }
 
+    _sql_constraints = [
+        ('period_type_company_uniq', 'unique (period_id,type,company_id)',
+            'The period and type combination must be unique!'),
+    ]
+
+    #~ action methods
+
     def onchange_field_clear_book(self, cr, uid, ids, context=None):
         """ It make clear all stuff of book. """
         context = context or {}
