@@ -209,6 +209,10 @@ class fiscal_book(orm.Model):
             required=True,
             help="Book's Fiscal Period. The periods listed are thouse how are"
             " regular periods, i.e. not opening/closing periods."),
+        'fortnight': fields.selection(
+            [('first', "First Fortnight"), ('second', "Second Fortnight")],
+            string="Fortnight",
+            help="Fortnight that applies to the current book."),
         'state': fields.selection([('draft', 'Getting Ready'),
                                    ('confirmed', 'Approved by Manager'),
                                    ('done', 'Seniat Submitted'),
@@ -576,11 +580,13 @@ class fiscal_book(orm.Model):
         'company_id': lambda s, c, u, ctx: \
             s.pool.get('res.users').browse(c, u, u, context=ctx).company_id.id,
         'article_number': _get_article_number,
+        'fortnight': None,
     }
 
     _sql_constraints = [
-        ('period_type_company_uniq', 'unique (period_id,type,company_id)',
-            'The period and type combination must be unique!'),
+        ('period_type_company_uniq',
+         'unique (period_id,type,company_id,fortnight)',
+         _('The period, type, fortnight combination must be unique per company!')),
     ]
 
     #~ action methods
@@ -612,7 +618,31 @@ class fiscal_book(orm.Model):
                                   ('type', 'in', inv_type),
                                   ('state', 'in', inv_state)],
                                  order='date_invoice asc', context=context)
+        if fb_brw.fortnight:
+            inv_ids = self.get_invoices_from_fortnight(
+                cr, uid, fb_id, inv_ids, context=context)
         return inv_ids
+
+    def get_invoices_from_fortnight(self, cr, uid, ids, inv_ids, context=None):
+        """
+        return the invoices with the same fortnight as the fiscal book.
+        @param inv_ids: list of invoice ids
+        @return invoices list
+        """
+        context = context or {}
+        period_obj = self.pool.get('account.period')
+        inv_obj = self.pool.get('account.invoice')
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        res = list()
+        fb_fortnight = self.browse(cr, uid, ids, context=context).fortnight
+        fb_fortnight = fb_fortnight == 'second' and True or False
+        for inv_id in inv_ids:
+            inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+            period, fortnight = period_obj._find_fortnight(
+                cr, uid, dt=inv_brw.date_invoice, context=context)
+            if fb_fortnight == fortnight:
+                res.append(inv_id)
+        return res
 
     def update_book(self, cr, uid, ids, context=None):
         """ It generate and fill book data with invoices, wh iva lines and
@@ -668,6 +698,9 @@ class fiscal_book(orm.Model):
              '&', '&', ('period_id', '=', fb_brw.period_id.id), ('type', 'in', inv_type),
                        ('state', 'not in', inv_state)],
             order='date_invoice asc', context=context)
+        if fb_brw.fortnight:
+            issue_inv_ids = self.get_invoices_from_fortnight(
+                cr, uid, fb_id, issue_inv_ids, context=context)
         return issue_inv_ids
 
     def update_book_issue_invoices(self, cr, uid, fb_id, context=None):
@@ -703,12 +736,38 @@ class fiscal_book(orm.Model):
                                  ('type', 'in', awil_type),
                                  ('state', '=', 'done')],
                                  context=context)
+        if fb_brw.fortnight:
+            awi_ids = self.get_awi_from_fortnight(
+               cr, uid, fb_id, awi_ids, context=context)
+
         for awi_id in awi_ids:
             list_ids = awil_obj.search(cr, uid,
                                        [('retention_id', '=', awi_id)],
                                        context=context)
             awil_ids.extend(list_ids)
         return awil_ids or False
+
+    def get_awi_from_fortnight(self, cr, uid, ids, awi_ids, context=None):
+        """
+        return the awi ids with the same fortnight as the fiscal book.
+        @param awi_ids: list of account withholding iva document ids.
+        @param ids: only one fiscal book id.
+        @return account withholding document id list
+        """
+        context = context or {}
+        period_obj = self.pool.get('account.period')
+        awi_obj = self.pool.get('account.wh.iva')
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        res = list()
+        fb_fortnight = self.browse(cr, uid, ids, context=context).fortnight
+        fb_fortnight = fb_fortnight == 'second' and True or False
+        for awi_id in awi_ids:
+            awi_brw = awi_obj.browse(cr, uid, awi_id, context=context)
+            period, fortnight = period_obj._find_fortnight(
+                cr, uid, dt=awi_brw.date_ret, context=context)
+            if fb_fortnight == fortnight:
+                res.append(awi_id)
+        return res
 
     #~ TODO: test this method.
     def update_book_wh_iva_lines(self, cr, uid, fb_id, context=None):
@@ -841,6 +900,7 @@ class fiscal_book(orm.Model):
         """ It relate the customs form to the fiscal book basing on the date
         liq of customs form.
         """
+        # TODO: make this method aware of fortnight.
         context = context or {}
         per_obj = self.pool.get('account.period')
         cf_obj = self.pool.get('customs.form')
