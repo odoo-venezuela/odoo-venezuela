@@ -117,6 +117,7 @@ class account_invoice(osv.osv):
     def _open_invoice_document_date(self, cr, uid, ids, context=None):
         """
         check that the invoice in open state have the document date defined.
+        @return True or raise an osv exception.
         """
         context = context or context
         ids = isinstance(ids, (int, long)) and ids or ids[0]
@@ -131,7 +132,7 @@ class account_invoice(osv.osv):
     def _document_date_invoice_date(self, cr, uid, ids, context=None):
         """
         check that the date document is less or equal than the date invoice.
-        @return True or False
+        @return True or raise and osv exception.
         """
         context = context or context
         ids = isinstance(ids, (int, long)) and ids or ids[0]
