@@ -578,9 +578,29 @@ class fiscal_book(orm.Model):
         'article_number': _get_article_number,
     }
 
-    _sql_constraints = [
-        ('period_type_company_uniq', 'unique (period_id,type,company_id)',
-            'The period and type combination must be unique!'),
+    def _check_uniqueness(self, cur, uid, ids, context=None):
+        """
+        return True or False
+        """
+        context = context or {}
+        import pdb
+        pdb.set_trace()
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        for fb_id in ids:
+            fb_brw = self.browse(cur, uid, fb_id, context=context)
+            dupp_fb_ids = self.search(cur, uid, [ 
+                ('type','=', fb_brw.type),
+                ('period_id','=', fb_brw.period_id.id),
+                ('company_id','=', fb_brw.company_id.id)], context=context)
+            if dupp_fb_ids: 
+                return False
+        pdb.set_trace()
+        return True 
+
+    _constraints = [
+        (_check_uniqueness,
+        _('Error, The (period - type - company) combination must'
+          ' be unique!'), ['type', 'period_id', 'company_id']),
     ]
 
     #~ action methods
