@@ -110,10 +110,10 @@ class account_invoice(osv.osv):
 
 
     _constraints = [
-          (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
-          (_open_invoice_document_date,
-           _('The document date can not be empty when the invoice is in open'
-             ' state.'), ['state', 'date_document'])
+        (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
+        (_open_invoice_document_date,
+         _('The document date can not be empty when the invoice is in open'
+           ' state.'), ['state', 'date_document']),
          ]
 
     def copy(self, cr, uid, id, default={}, context=None):
