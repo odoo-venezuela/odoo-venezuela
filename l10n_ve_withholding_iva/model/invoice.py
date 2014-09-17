@@ -233,7 +233,7 @@ class account_invoice(osv.osv):
                     #~ Create a New WH Doc and add line
                     ret_id =  self.create_new_wh_iva(cr, uid, inv_brw.id,
                                                      ret_line_id,
-                                                     context=context)[0]
+                                                     context=context)
                 self.write(cr, uid, [inv_brw.id], {'wh_iva_id': ret_id})
                 wh_iva_obj.compute_amount_wh(cr, uid, [ret_id], context=context)
         return True
@@ -265,40 +265,40 @@ class account_invoice(osv.osv):
 
     def create_new_wh_iva(self, cr, uid, ids, ret_line_id, context=None):
         """ Create a Withholding VAT document.
+        @param ids: only one id.
         @param ret_line_id: account.wh.iva.line id.
+        @return id of the new wh vat document created.
         """
         context = context or {}
         wh_iva_obj = self.pool.get('account.wh.iva')
         per_obj = self.pool.get('account.period')
         rp_obj = self.pool.get('res.partner')
-        ids = isinstance(ids, (int, long)) and [ids] or ids
-        res = list()
-        for inv_brw in self.browse(cr, uid, ids, context=context):
-            acc_part_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
-            if inv_brw.type in ('out_invoice', 'out_refund'):
-                acc_id = acc_part_id.property_account_receivable.id
-                wh_type = 'out_invoice'
-            else:
-                acc_id = acc_part_id.property_account_payable.id
-                wh_type = 'in_invoice'
-                if not acc_id:
-                    raise osv.except_osv('Invalid Action !',\
-                            _('You need to configure the partner with'
-                              ' withholding accounts!'))
-            ret_iva = {
-                'name':_('IVA WH - ORIGIN %s'%(inv_brw.number)),
-                'type': wh_type,
-                'account_id': acc_id,
-                'partner_id': acc_part_id.id,
-                'period_id': inv_brw.period_id.id,
-                'wh_lines': [(4, ret_line_id)],
-                'fortnight': per_obj.find_fortnight(
-                    cr, uid, inv_brw.date_invoice, context=context)[1],
-            }
-            if inv_brw.company_id.propagate_invoice_date_to_vat_withholding:
-                ret_iva['date_ret'] = inv_brw.date_invoice
-            res.append(wh_iva_obj.create(cr, uid, ret_iva, context=context))
-        return res
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        inv_brw = self.browse(cr, uid, ids, context=context)
+        acc_part_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
+        if inv_brw.type in ('out_invoice', 'out_refund'):
+            acc_id = acc_part_id.property_account_receivable.id
+            wh_type = 'out_invoice'
+        else:
+            acc_id = acc_part_id.property_account_payable.id
+            wh_type = 'in_invoice'
+            if not acc_id:
+                raise osv.except_osv('Invalid Action !',\
+                        _('You need to configure the partner with'
+                          ' withholding accounts!'))
+        ret_iva = {
+            'name':_('IVA WH - ORIGIN %s'%(inv_brw.number)),
+            'type': wh_type,
+            'account_id': acc_id,
+            'partner_id': acc_part_id.id,
+            'period_id': inv_brw.period_id.id,
+            'wh_lines': [(4, ret_line_id)],
+            'fortnight': per_obj.find_fortnight(
+                cr, uid, inv_brw.date_invoice, context=context)[1],
+        }
+        if inv_brw.company_id.propagate_invoice_date_to_vat_withholding:
+            ret_iva['date_ret'] = inv_brw.date_invoice
+        return wh_iva_obj.create(cr, uid, ret_iva, context=context)
 
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
