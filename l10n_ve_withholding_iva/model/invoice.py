@@ -295,6 +295,8 @@ class account_invoice(osv.osv):
                 'fortnight': per_obj.find_fortnight(
                     cr, uid, inv_brw.date_invoice, context=context)[1],
             }
+            if inv_brw.company_id.propagate_invoice_date_to_vat_withholding:
+                ret_iva['date_ret'] = inv_brw.date_invoice
             res.append(wh_iva_obj.create(cr, uid, ret_iva, context=context))
         return len(res) == 1 and res[0] or res
 
