@@ -209,6 +209,10 @@ class fiscal_book(orm.Model):
             required=True,
             help="Book's Fiscal Period. The periods listed are thouse how are"
             " regular periods, i.e. not opening/closing periods."),
+        'fortnight': fields.selection(
+            [('first', "First Fortnight"), ('second', "Second Fortnight")],
+            string="Fortnight",
+            help="Fortnight that applies to the current book."),
         'state': fields.selection([('draft', 'Getting Ready'),
                                    ('confirmed', 'Approved by Manager'),
                                    ('done', 'Seniat Submitted'),
@@ -576,6 +580,7 @@ class fiscal_book(orm.Model):
         'company_id': lambda s, c, u, ctx: \
             s.pool.get('res.users').browse(c, u, u, context=ctx).company_id.id,
         'article_number': _get_article_number,
+        'fortnight': None,
     }
 
     def _check_uniqueness(self, cur, uid, ids, context=None):
@@ -632,7 +637,30 @@ class fiscal_book(orm.Model):
                                   ('type', 'in', inv_type),
                                   ('state', 'in', inv_state)],
                                  order='date_invoice asc', context=context)
+        if fb_brw.fortnight:
+            inv_ids = self.get_invoices_from_fortnight(
+                cr, uid, fb_id, inv_ids, context=context)
         return inv_ids
+
+    def get_invoices_from_fortnight(self, cr, uid, ids, inv_ids, context=None)
+        """
+        return the invoices with the same fortnight as the fiscal book.
+        @param inv_ids: list of invoice ids
+        @return invoices list
+        """
+        context = context or {}
+        period_obj = self.pool.get('account.period')
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        res = list()
+        fb_fortnight = self.browse(cr, uid, ids, context=context).fortnight
+        fb_fortnight = fb_fortnight == 'second' and True or False
+        for inv_id in inv_ids:
+            inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+            period, fortnight = period_obj._find_fortnight(
+                cr, uid, dt=inv.date_invoice, context=context)
+            if fb_fornight == fortnight:
+                res.append(inv_id)
+        return res
 
     def update_book(self, cr, uid, ids, context=None):
         """ It generate and fill book data with invoices, wh iva lines and
