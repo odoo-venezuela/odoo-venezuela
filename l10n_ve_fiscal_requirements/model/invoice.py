@@ -126,8 +126,8 @@ class account_invoice(osv.osv):
     _constraints = [
         (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
         (_open_invoice_document_date,
-         _('The document date can not be empty when the invoice is in open'
-           ' state.'), ['state', 'date_document']),
+         _('The document date can not be empty when it is or is going to'
+           ' change to open state'), ['state', 'date_document']),
         (_document_date_invoice_date,
          _('The document date must be less or equal than the invoice date.'),
          ['date_document', 'date_invoice']),
