@@ -67,6 +67,17 @@ class account_invoice(osv.osv):
                 return False
         return True
 
+    def _open_invoice_document_date(self, cr, uid, ids, context=None):
+        """
+        check that the invoice in open state have the document date defined.
+        """
+        context = context or context
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        inv_brw = self.browse(cr, uid, ids, context=context)
+        if inv_brw.state == 'open' and not inv_brw.date_document:
+            return False
+        return True
+
     def _get_loc_req(self, cr, uid, context=None):
         """Get if a field is required or not by a Localization
         @param uid: Integer value of the user
@@ -100,6 +111,9 @@ class account_invoice(osv.osv):
 
     _constraints = [
           (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
+          (_open_invoice_document_date,
+           _('The document date can not be empty when the invoice is in open'
+             ' state.'), ['state', 'date_document'])
          ]
 
     def copy(self, cr, uid, id, default={}, context=None):
