@@ -602,11 +602,11 @@ class fiscal_book(orm.Model):
         pdb.set_trace()
         return True 
 
-    _constraints = [
-        (_check_uniqueness,
-        _('Error, The (period - type - company) combination must'
-          ' be unique!'), ['type', 'period_id', 'company_id']),
-    ]
+#    _constraints = [
+#        (_check_uniqueness,
+#        _('Error, The (period - type - company) combination must'
+#          ' be unique!'), ['type', 'period_id', 'company_id']),
+#    ]
 
     #~ action methods
 
@@ -650,6 +650,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         period_obj = self.pool.get('account.period')
+        inv_obj = self.pool.get('account.invoice')
         ids = isinstance(ids, (int, long)) and ids or ids[0]
         res = list()
         fb_fortnight = self.browse(cr, uid, ids, context=context).fortnight
@@ -657,8 +658,8 @@ class fiscal_book(orm.Model):
         for inv_id in inv_ids:
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
             period, fortnight = period_obj._find_fortnight(
-                cr, uid, dt=inv.date_invoice, context=context)
-            if fb_fornight == fortnight:
+                cr, uid, dt=inv_brw.date_invoice, context=context)
+            if fb_fortnight == fortnight:
                 res.append(inv_id)
         return res
 
