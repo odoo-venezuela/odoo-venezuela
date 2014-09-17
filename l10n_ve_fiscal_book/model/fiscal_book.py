@@ -755,12 +755,38 @@ class fiscal_book(orm.Model):
                                  ('type', 'in', awil_type),
                                  ('state', '=', 'done')],
                                  context=context)
+        if fb_brw.fortnight:
+            awi_ids = self.get_awi_from_fortnight(
+               cr, uid, fb_id, awi_ids, context=context)
+
         for awi_id in awi_ids:
             list_ids = awil_obj.search(cr, uid,
                                        [('retention_id', '=', awi_id)],
                                        context=context)
             awil_ids.extend(list_ids)
         return awil_ids or False
+
+    def get_awi_from_fortnight(self, cr, uid, ids, awi_ids, context=None):
+        """
+        return the awi ids with the same fortnight as the fiscal book.
+        @param awi_ids: list of account withholding iva document ids.
+        @param ids: only one fiscal book id.
+        @return account withholding document id list
+        """
+        context = context or {}
+        period_obj = self.pool.get('account.period')
+        awi_obj = self.pool.get('account.wh.iva')
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        res = list()
+        fb_fortnight = self.browse(cr, uid, ids, context=context).fortnight
+        fb_fortnight = fb_fortnight == 'second' and True or False
+        for awi_id in awi_ids:
+            awi_brw = awi_obj.browse(cr, uid, awi_id, context=context)
+            period, fortnight = period_obj._find_fortnight(
+                cr, uid, dt=awi_brw.date_ret, context=context)
+            if fb_fortnight == fortnight:
+                res.append(awi_id)
+        return res
 
     #~ TODO: test this method.
     def update_book_wh_iva_lines(self, cr, uid, fb_id, context=None):
