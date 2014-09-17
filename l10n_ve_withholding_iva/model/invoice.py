@@ -298,7 +298,7 @@ class account_invoice(osv.osv):
             if inv_brw.company_id.propagate_invoice_date_to_vat_withholding:
                 ret_iva['date_ret'] = inv_brw.date_invoice
             res.append(wh_iva_obj.create(cr, uid, ret_iva, context=context))
-        return len(res) == 1 and res[0] or res
+        return res
 
 
     def button_reset_taxes_ret(self, cr, uid, ids, context=None):
