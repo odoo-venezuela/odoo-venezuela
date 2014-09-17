@@ -78,6 +78,18 @@ class account_invoice(osv.osv):
             return False
         return True
 
+    def _document_date_invoice_date(self, cr, uid, ids, context=None):
+        """
+        check that the date document is less or equal than the date invoice.
+        @return True or False
+        """
+        context = context or context
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        inv_brw = self.browse(cr, uid, ids, context=context)
+        if not inv_brw.date_document <= inv_brw.date_invoice:
+            return False
+        return True
+
     def _get_loc_req(self, cr, uid, context=None):
         """Get if a field is required or not by a Localization
         @param uid: Integer value of the user
@@ -114,7 +126,10 @@ class account_invoice(osv.osv):
         (_open_invoice_document_date,
          _('The document date can not be empty when the invoice is in open'
            ' state.'), ['state', 'date_document']),
-         ]
+        (_document_date_invoice_date,
+         _('The document date must be less or equal than the invoice date.'),
+         ['date_document', 'date_invoice']),
+     ]
 
     def copy(self, cr, uid, id, default={}, context=None):
         """ Allows you to duplicate a record,
