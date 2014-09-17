@@ -233,7 +233,7 @@ class account_invoice(osv.osv):
                     #~ Create a New WH Doc and add line
                     ret_id =  self.create_new_wh_iva(cr, uid, inv_brw.id,
                                                      ret_line_id,
-                                                     context=context)
+                                                     context=context)[0]
                 self.write(cr, uid, [inv_brw.id], {'wh_iva_id': ret_id})
                 wh_iva_obj.compute_amount_wh(cr, uid, [ret_id], context=context)
         return True
