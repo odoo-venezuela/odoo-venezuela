@@ -114,7 +114,7 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
 
-    def _open_invoice_document_date(self, cr, uid, ids, context=None):
+    def check_document_date(self, cr, uid, ids, context=None):
         """
         check that the invoice in open state have the document date defined.
         @return True or raise an osv exception.
@@ -129,7 +129,7 @@ class account_invoice(osv.osv):
                   ' open state.'))
         return True
 
-    def _document_date_invoice_date(self, cr, uid, ids, context=None):
+    def check_invoice_dates(self, cr, uid, ids, context=None):
         """
         check that the date document is less or equal than the date invoice.
         @return True or raise and osv exception.
