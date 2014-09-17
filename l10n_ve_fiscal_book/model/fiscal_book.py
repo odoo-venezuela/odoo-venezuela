@@ -642,7 +642,7 @@ class fiscal_book(orm.Model):
                 cr, uid, fb_id, inv_ids, context=context)
         return inv_ids
 
-    def get_invoices_from_fortnight(self, cr, uid, ids, inv_ids, context=None)
+    def get_invoices_from_fortnight(self, cr, uid, ids, inv_ids, context=None):
         """
         return the invoices with the same fortnight as the fiscal book.
         @param inv_ids: list of invoice ids
