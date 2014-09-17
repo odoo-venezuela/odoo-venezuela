@@ -123,7 +123,9 @@ class account_invoice(osv.osv):
         inv_brw = self.browse(cr, uid, ids, context=context)
         if (inv_brw.type in ('in_invoice', 'in_refund') and
             inv_brw.state == 'open' and not inv_brw.date_document):
-            return False
+            raise osv.except_osv(_('Warning'),
+                _('The document date can not be empty when the invoice is in'
+                  ' open state.'))
         return True
 
     def _document_date_invoice_date(self, cr, uid, ids, context=None):
@@ -137,7 +139,9 @@ class account_invoice(osv.osv):
         if (inv_brw.type in ('in_invoice', 'in_refund') and
             inv_brw.date_document and
             not inv_brw.date_document <= inv_brw.date_invoice):
-            return False
+            raise osv.except_osv(_('Warning'),
+                _('The document date must be less or equal than the invoice'
+                  ' date.'))
         return True
 
     _columns = {
