@@ -584,7 +584,7 @@ class fiscal_book(orm.Model):
     }
 
     _sql_constraints = [
-        ('period_type_fortnight_company_uniq',
+        ('period_type_company_uniq',
          'unique (period_id,type,company_id,fortnight)',
          _('The period, type, fortnight combination must be unique per company!')),
     ]
