@@ -445,6 +445,7 @@ class account_invoice(osv.osv):
 
     def button_generate_wh_doc(self, cr, uid, ids, context=None):
         ids = isinstance(ids, (int, long)) and [ids] or ids
+        rp_obj = self.pool.get('res.partner')
         inv_brw = self.browse(cr, uid, ids, context={})[0]
         view_id = self.pool.get('ir.ui.view').\
             search(cr, uid, [('name', '=', 'account.invoice.wh.iva.customer')])
