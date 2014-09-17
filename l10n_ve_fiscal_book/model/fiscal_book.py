@@ -919,6 +919,7 @@ class fiscal_book(orm.Model):
         """ It relate the customs form to the fiscal book basing on the date
         liq of customs form.
         """
+        # TODO: make this method aware of fortnight.
         context = context or {}
         per_obj = self.pool.get('account.period')
         cf_obj = self.pool.get('customs.form')
