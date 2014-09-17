@@ -88,6 +88,7 @@ class account_invoice(osv.osv):
         ids = isinstance(ids, (int, long)) and ids or ids[0]
         inv_brw = self.browse(cr, uid, ids, context=context)
         if (inv_brw.type in ('in_invoice', 'in_refund') and
+            inv_brw.date_document and
             not inv_brw.date_document <= inv_brw.date_invoice):
             return False
         return True
