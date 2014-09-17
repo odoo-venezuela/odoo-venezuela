@@ -74,7 +74,8 @@ class account_invoice(osv.osv):
         context = context or context
         ids = isinstance(ids, (int, long)) and ids or ids[0]
         inv_brw = self.browse(cr, uid, ids, context=context)
-        if inv_brw.state == 'open' and not inv_brw.date_document:
+        if (inv_brw.type == 'in_invoice' and inv_brw.state == 'open' and not
+            inv_brw.date_document):
             return False
         return True
 
@@ -86,7 +87,8 @@ class account_invoice(osv.osv):
         context = context or context
         ids = isinstance(ids, (int, long)) and ids or ids[0]
         inv_brw = self.browse(cr, uid, ids, context=context)
-        if not inv_brw.date_document <= inv_brw.date_invoice:
+        if (inv_brw.type == 'in_invoice' and not inv_brw.date_document <=
+            inv_brw.date_invoice):
             return False
         return True
 
