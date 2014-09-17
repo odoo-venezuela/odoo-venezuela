@@ -717,6 +717,9 @@ class fiscal_book(orm.Model):
              '&', '&', ('period_id', '=', fb_brw.period_id.id), ('type', 'in', inv_type),
                        ('state', 'not in', inv_state)],
             order='date_invoice asc', context=context)
+        if fb_brw.fortnight:
+            issue_inv_ids = self.get_invoices_from_fortnight(
+                cr, uid, fb_id, issue_inv_ids, context=context)
         return issue_inv_ids
 
     def update_book_issue_invoices(self, cr, uid, fb_id, context=None):
