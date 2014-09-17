@@ -99,8 +99,8 @@ class account_invoice(osv.osv):
 
 
     _constraints = [
-          (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
-         ]
+        (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
+     ]
 
     def copy(self, cr, uid, id, default={}, context=None):
         """ Allows you to duplicate a record,

@@ -114,6 +114,36 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
         return invoice_ids
 
+    def check_document_date(self, cr, uid, ids, context=None):
+        """
+        check that the invoice in open state have the document date defined.
+        @return True or raise an osv exception.
+        """
+        context = context or context
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        inv_brw = self.browse(cr, uid, ids, context=context)
+        if (inv_brw.type in ('in_invoice', 'in_refund') and
+            inv_brw.state == 'open' and not inv_brw.date_document):
+            raise osv.except_osv(_('Warning'),
+                _('The document date can not be empty when the invoice is in'
+                  ' open state.'))
+        return True
+
+    def check_invoice_dates(self, cr, uid, ids, context=None):
+        """
+        check that the date document is less or equal than the date invoice.
+        @return True or raise and osv exception.
+        """
+        context = context or context
+        ids = isinstance(ids, (int, long)) and ids or ids[0]
+        inv_brw = self.browse(cr, uid, ids, context=context)
+        if (inv_brw.type in ('in_invoice', 'in_refund') and
+            inv_brw.date_document and
+            not inv_brw.date_document <= inv_brw.date_invoice):
+            raise osv.except_osv(_('Warning'),
+                _('The document date must be less or equal than the invoice'
+                  ' date.'))
+        return True
 
     _columns = {
         'wh_iva': fields.function(_retenida, method=True, string='Withhold', type='boolean',
