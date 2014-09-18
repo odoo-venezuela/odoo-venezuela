@@ -193,13 +193,18 @@ class account_invoice(osv.osv):
 
         if wh_ret_code:
             journal = wh_doc_obj._get_journal(cr, uid, context=context)
-            islr_wh_doc_id = wh_doc_obj.create(cr, uid,
-                                               {'name': wh_ret_code,
-                                                'partner_id': acc_part_id.id,
-                                                'period_id': row.period_id.id,
-                                                'account_id': row.account_id.id,
-                                                'type': row.type,
-                                                'journal_id': journal, })
+            values = {
+                'name': wh_ret_code,
+                'partner_id': acc_part_id.id,
+                'period_id': row.period_id.id,
+                'account_id': row.account_id.id,
+                'type': row.type,
+                'journal_id': journal
+            }
+            if row.company_id.propagate_invoice_date_to_income_withholding:
+                values['date_uid'] = row.date_invoice
+
+            islr_wh_doc_id = wh_doc_obj.create(cr, uid, values, context=context)
             self._create_doc_invoices(cr, uid, row.id, islr_wh_doc_id)
 
             self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid,
