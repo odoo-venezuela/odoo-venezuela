@@ -65,9 +65,16 @@ class partner_income_wh_printwizard(osv.TransientModel):
         @return an action that will print a report.
         """
         context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
+        brw = self.browse(cr, uid, ids[0], context=context)
+        iwdl_ids = iwdl_obj.search( cr, uid, [
+            ('invoice_id.partner_id', '=', brw.partner_id.id),
+            ('islr_wh_doc_id.type', '=', 'in_invoice'),
+            ('islr_wh_doc_id.state', '=', 'done')], context=context)
         data = dict()
-        data['ids'] = context.get('active_ids', [])
-        data['form'] = self.read(cr, uid, ids, [], context=context)[0]
+        data['ids'] = iwdl_ids
+        #data['form'] = self.read(cr, uid, ids, [], context=context)[0]
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'l10n.ve.partner.income.wh.report', 'datas': data}
