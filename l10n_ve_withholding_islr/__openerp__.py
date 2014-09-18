@@ -66,6 +66,7 @@
             "workflow/islr_wh_workflow.xml",
             "workflow/wh_action_server.xml",
             #"edi/islr_wh_doc_action_data.xml",
+            "wizard/partner_income_wh_print_view.xml",
     ],
     'test': [
              'test/supplier_wh_islr_invoice.yml',

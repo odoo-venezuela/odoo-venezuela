@@ -59,3 +59,11 @@ class partner_income_wh_printwizard(osv.TransientModel):
             self.pool.get('res.users').browse(cr, uid, uid,
                 context=context).company_id.id,
     } 
+
+    def print_report(self, cr, uid, ids, context=None):
+        """
+        """
+        context = context or {}
+        # TODO: dummy method, add some logic.
+        #return action...
+        return True
