@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vat_check_vies']" position="after">
                     <field name="automatic_income_wh"/>
+                    <field name="propagate_invoice_date_to_income_withholding"/>
                 </xpath>
             </field>
         </record>
