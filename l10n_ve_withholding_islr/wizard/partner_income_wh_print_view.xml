@@ -2,9 +2,9 @@
 <openerp>
     <data>
 
-        <record id="parnter_income_wh_print_form" model="ir.ui.view">
-            <field name="name">parnter.income.wh.print.form</field>
-            <field name="model">parnter.income.wh.print</field>
+        <record id="partner_income_wh_print_form" model="ir.ui.view">
+            <field name="name">partner.income.wh.print.form</field>
+            <field name="model">partner.income.wh.print</field>
             <field name="arch" type="xml">
                 <form string="Partner Income Withholding Print" version="7.0">
                     <group>
