@@ -465,9 +465,14 @@ class islr_wh_doc(osv.osv):
             self.write(cr, uid, [ret.id], {
                        'date_uid': time.strftime('%Y-%m-%d')})
 
-        if not ret.date_ret:
+        ret.refresh()
+        if ret.type in ('in_invoice', 'in_refund'):
             self.write(cr, uid, [ret.id], {
-                       'date_ret': time.strftime('%Y-%m-%d')})
+                'date_ret': ret.date_uid}, context=context)
+        else:
+            if not ret.date_ret:
+                self.write(cr, uid, [ret.id], {
+                   'date_ret': time.strftime('%Y-%m-%d')})
 
         # Reload the browse because there have been changes into it
         ret = self.browse(cr, uid, ids[0], context=context)
