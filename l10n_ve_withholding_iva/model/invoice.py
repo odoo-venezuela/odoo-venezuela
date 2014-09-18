@@ -327,7 +327,7 @@ class account_invoice(osv.osv):
                 cr, uid, inv_brw.date_invoice, context=context)[1],
         }
         if inv_brw.company_id.propagate_invoice_date_to_vat_withholding:
-            ret_iva['date_ret'] = inv_brw.date_invoice
+            ret_iva['date'] = inv_brw.date_invoice
         return wh_iva_obj.create(cr, uid, ret_iva, context=context)
 
 
