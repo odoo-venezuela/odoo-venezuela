@@ -18,7 +18,7 @@
             <field name="name">webkit_header_partner_income_wh_print</field>
             <field name="fields_id" ref="report_webkit.field_ir_act_report_xml_webkit_header"/>
             <field eval="'ir.header_webkit,'+str(ref('l10n_ve_withholding_islr.ir_header_webkit_partner_income_wh_print'))" model="ir.header_webkit" name="value"/>
-            <field eval="'ir.actions.report.xml,'+str(ref('l10n_ve_withholding.l10n_ve_partner_income_wh_report'))" model="ir.actions.report.xml" name="res_id"/>
+            <field eval="'ir.actions.report.xml,'+str(ref('l10n_ve_withholding_islr.l10n_ve_partner_income_wh_report'))" model="ir.actions.report.xml" name="res_id"/>
         </record>
     </data>
 </openerp>
