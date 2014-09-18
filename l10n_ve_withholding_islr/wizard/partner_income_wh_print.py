@@ -79,10 +79,11 @@ class partner_income_wh_printwizard(osv.TransientModel):
             ('invoice_id.partner_id', '=', brw.partner_id.id),
             ('islr_wh_doc_id.type', '=', 'in_invoice'),
             ('islr_wh_doc_id.state', '=', 'done')], context=context)
+        if iwdl_ids:
+            self.write(cr, uid, ids, {
+                'iwdl_ids': [(6, 0, iwdl_ids)]}, context=context) 
         data = dict()
-        data['ids'] = iwdl_ids
-        #data['form'] = self.read(cr, uid, ids, [], context=context)[0]
+        data['ids'] = ids
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'l10n.ve.partner.income.wh.report', 'datas': data}
-        return True
