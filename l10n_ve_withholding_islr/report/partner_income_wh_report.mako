@@ -13,14 +13,12 @@
         <table>
           <tr>
             <td width="30%">
-                <div>${helper.embed_image('jpeg',str(obj.company_id.logo),260, 120)}</div>
-                <div>RIF: ${obj.company_id.partner_id.vat[2:]|entity}</div>
+                <div>${helper.embed_image('jpeg',str(obj.islr_wh_doc_id.company_id.logo),260, 120)}</div>
+                <div>RIF: ${obj.islr_wh_doc_id.company_id.partner_id.vat[2:]|entity}</div>
             </td>
             <td>
               <table style="width: 100%; text-align:center;">
-                <tr><td><div class="td_company_title">${obj.company_id.name or ''|entity}</div></td></tr>
-                <tr><td><div class="td_company_title"> ${obj.number and u'Orden de Pago #%s'%obj.number or u'Orden de Pago En Proceso'} </div></td></tr>
-                <tr><td><div class="td_company">Fecha de Orden de Pago: ${formatLang(obj.date, digits=2, date=True, date_time=False, grouping=3, monetary=False)}</div></td></tr>
+                <tr><td><div class="td_company_title">${obj.islr_wh_doc_id.company_id.name or ''|entity}</div></td></tr>
               </table>
             </td>
           </tr>
@@ -28,13 +26,12 @@
         <br clear="all"/>
         <em>
             <div>
-                <p> Estimados Sres.: </p>
             </div>
         </em>
         <table class="list_table"  width="100%" border="0">
             <thead>
                 <tr>
-                    <th class="celdaTituloTabla" width="100%"> [${obj.partner_id.vat and obj.partner_id.vat[2:] or 'FALTA RIF'|entity}] ${obj.partner_id.name or ''|entity} </th>
+                    <th class="celdaTituloTabla" width="100%">[${obj.invoice_id.partner_id.vat and obj.invoice_id.partner_id.vat[2:] or 'FALTA RIF'|entity}] ${obj.invoice_id.partner_id.name or ''|entity} </th>
                 </tr>
             </thead>
         </table>
@@ -480,7 +477,7 @@ Adjunto reciban Vds. ${u'%s'%(obj.reference or u'NO HAY REFERENCIA') | entity} r
             <tbody>
                 <tr class="prueba">
                     <td class="celdaTotalTitulo" width="24.5%">
-                        [${obj.partner_id.vat and obj.partner_id.vat[2:] or 'FALTA RIF'|entity}] ${obj.partner_id.name or ''|entity}
+                        [${obj.invoice_id.partner_id.vat and obj.invoice_id.partner_id.vat[2:] or 'FALTA RIF'|entity}] ${obj.invoice_id.partner_id.name or ''|entity}
                     </td>
                 </tr>
                 <tr class="prueba" >
