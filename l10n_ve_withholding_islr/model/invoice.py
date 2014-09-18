@@ -201,6 +201,9 @@ class account_invoice(osv.osv):
                 'type': row.type,
                 'journal_id': journal
             }
+            if row.company_id.propagate_invoice_date_to_income_withholding:
+                values['date_ret'] = row.date_invoice
+
             islr_wh_doc_id = wh_doc_obj.create(cr, uid, values, context=context)
             self._create_doc_invoices(cr, uid, row.id, islr_wh_doc_id)
 
