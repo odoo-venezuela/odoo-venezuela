@@ -62,8 +62,12 @@ class partner_income_wh_printwizard(osv.TransientModel):
 
     def print_report(self, cr, uid, ids, context=None):
         """
+        @return an action that will print a report.
         """
         context = context or {}
-        # TODO: dummy method, add some logic.
-        #return action...
+        #data = dict()
+        #data['form'] = self.read(cr, uid, ids, [], context=context)[0]
+        #return {
+        #    'type': 'ir.actions.report.xml',
+        #    'report_name': 'l10n.ve.partner.income.wh.report', 'datas': data}
         return True
