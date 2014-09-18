@@ -42,7 +42,7 @@
 #If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',
-    "depends" : ["account", "l10n_ve_withholding", "product"], # ,"edi"],
+    "depends" : ["account", "l10n_ve_withholding", "l10n_ve_fiscal_requirements", "product"], # ,"edi"],
     "init_xml" : [],
     "demo_xml":[
             "demo/l10n_ve_islr_withholding_demo.xml",

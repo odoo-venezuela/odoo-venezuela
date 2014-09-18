@@ -21,6 +21,17 @@
             </field>
         </record>
 
+        <record model="ir.actions.act_window" id="action_partner_income_wh_print">
+            <field name="name">Partner Income Withholding Print</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">partner.income.wh.print</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_action_partner_income_wh_print" name="Partner Income Wh Print" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting" action="action_partner_income_wh_print"/>
+
     </data>
 </openerp>
 
