@@ -52,6 +52,13 @@ class partner_income_wh_printwizard(osv.TransientModel):
             string='Company',
             required=True,
             help='Company'),
+        'iwdl_ids': fields.many2many(
+            'islr.wh.doc.line',
+            'rel_wizard_iwdl',
+            'iwdl_list',
+            'iwdl_ids',
+            string='ISLR WH Doc Line',
+            help='ISLR WH Doc Line'),
     }
 
     _defaults = {
