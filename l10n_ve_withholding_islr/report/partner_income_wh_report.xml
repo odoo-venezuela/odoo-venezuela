@@ -4,7 +4,7 @@
         <report
             auto="False"
             id="l10n_ve_partner_income_wh_report"
-            model="partner.income.wh.print"
+            model="islr.wh.doc.line"
             name="l10n.ve.partner.income.wh.report"
             file="l10n_ve_withholding_islr/report/partner_income_wh_report.mako"
             string="Partner Income Wh. Print"
