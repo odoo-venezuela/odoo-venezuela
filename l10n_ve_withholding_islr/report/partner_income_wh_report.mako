@@ -13,12 +13,14 @@
         <table>
           <tr>
             <td width="30%">
-                <div>${helper.embed_image('jpeg',str(obj.company_id.logo),260, 120)}</div>
-                <div>RIF: ${obj.company_id.partner_id.vat[2:]|entity}</div>
+                <div>${helper.embed_image('jpeg',str(obj.company_id.logo),65, 30)}</div>
+                <div class="celdaTotalTitulo">RIF: ${obj.company_id.partner_id.vat[2:]|entity}</div>
+                <div class="celdaTotalTitulo">${obj.company_id.name or ''|entity}</div>
             </td>
-            <td>
+            <td width="70%">
               <table style="width: 100%; text-align:center;">
-                <tr><td><div class="td_company_title">${obj.company_id.name or ''|entity}</div></td></tr>
+                <tr><td><div class="td_company_title"> COMPROBANTE DE RETENCIONES VARIAS DEL IMPUESTO SOBRE LA RENTA</div></td></tr>
+                <tr><td><div class="td_company_title"> (DIFERENTES A SUELDOS Y SALARIOS Y DEMÁS REMUNERACIONES SIMILARES A PERSONAS NATURALES RESIDENTES) </div></td></tr>
               </table>
             </td>
           </tr>
