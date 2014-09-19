@@ -65,7 +65,7 @@ class partner_income_wh_printwizard(osv.TransientModel):
         'company_id': lambda self, cr, uid, context: \
             self.pool.get('res.users').browse(cr, uid, uid,
                 context=context).company_id.id,
-    } 
+    }
 
     def print_report(self, cr, uid, ids, context=None):
         """
@@ -81,7 +81,7 @@ class partner_income_wh_printwizard(osv.TransientModel):
             ('islr_wh_doc_id.state', '=', 'done')], context=context)
         if iwdl_ids:
             self.write(cr, uid, ids, {
-                'iwdl_ids': [(6, 0, iwdl_ids)]}, context=context) 
+                'iwdl_ids': [(6, 0, iwdl_ids)]}, context=context)
         data = dict()
         data['ids'] = ids
         return {

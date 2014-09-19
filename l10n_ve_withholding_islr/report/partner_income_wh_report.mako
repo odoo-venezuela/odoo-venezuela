@@ -45,6 +45,32 @@
             </td>
           </tr>
         </table>
+        %if obj.iwdl_ids:
+          <table>
+            <tr>
+              <td width="20.0%"> <div> FACTURA </div> </td>
+              <td width="17.5%"> <div> NÚM. CONTROL </div> </td>
+              <td width="12.5%"> <div> FECHA FACTURA </div> </td>
+              <td width="12.5%"> <div> BASE DE RETENCIÓN </div> </td>
+              <td width="12.5%"> <div> PORC. RETENCIÓN </div> </td>
+              <td width="12.5%"> <div> SUSTRAENDO </div> </td>
+              <td width="12.5%"> <div> RETENCIÓN </div> </td>
+            </tr>
+          </table>
+        %endif
+        %for iwdl_brw in obj.iwdl_ids:
+          <table>
+            <tr>
+              <td width="20.%"> <div> ${iwdl_brw.invoice_id.supplier_invoice_number} </div> </td>
+              <td width="17.5%"> <div> ${iwdl_brw.invoice_id.nro_ctrl} </div> </td>
+              <td width="12.5%"> <div> ${iwdl_brw.invoice_id.date_document} </div> </td>
+              <td width="12.5%"> <div> ${iwdl_brw.base_amount} </div> </td>
+              <td width="12.5%"> <div> ${iwdl_brw.retencion_islr} </div> </td>
+              <td width="12.5%"> <div> ${iwdl_brw.subtract} </div> </td>
+              <td width="12.5%"> <div> ${iwdl_brw.amount} </div> </td>
+            </tr>
+          </table>
+        %endfor
       %endfor
     </body>
 </html>
