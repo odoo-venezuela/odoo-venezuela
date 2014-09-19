@@ -46,6 +46,10 @@
           </tr>
         </table>
         %if obj.iwdl_ids:
+          <%
+          total_base_amount = 0.0
+          total_amount = 0.0
+          %>
           <table width="100%">
             <tr>
               <td class="headerBodyCenter" width="25.0%"> <div> FACTURA </div> </td>
@@ -58,7 +62,10 @@
           </table>
         %endif
         %for iwdl_brw in obj.iwdl_ids:
-        <!--<table class="basic_table" width="100%">-->
+          <%
+          total_base_amount += iwdl_brw.base_amount
+          total_amount += iwdl_brw.amount
+          %>
           <table width="100%">
             <tr>
               <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.supplier_invoice_number} </td>
@@ -70,6 +77,17 @@
             </tr>
           </table>
         %endfor
+        %if obj.iwdl_ids:
+          <table width="100%">
+            <tr>
+              <td class="footerBodyCenter" width="50.0%"> </td>
+              <td class="footerBodyCenter" width="12.5%"> TOTALES </td>
+              <td class="footerBodyRightMonospace" width="12.5%"> ${formatLang(total_base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              <td class="footerBodyRightMonospace" width="12.5%"> </td>
+              <td class="footerBodyRightMonospace" width="12.5%"> ${formatLang(total_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+            </tr>
+          </table>
+        %endif
       %endfor
     </body>
 </html>
