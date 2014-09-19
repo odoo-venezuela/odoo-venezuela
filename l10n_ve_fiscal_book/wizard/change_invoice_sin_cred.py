@@ -39,6 +39,10 @@ class change_invoice_sin_credwizard(osv.TransientModel):
         'sin_cred': fields.boolean('Tax Exempt'),
     }
 
+    _defaults = {
+        'sin_cred': lambda s, cr, u, ctx: ctx.get('invoice_sin_cred', False),
+    }
+
     def set_sin_cred(self, cr, uid, ids, context=None):
         """
         Change the sin cred field in the invoice
