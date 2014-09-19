@@ -10,8 +10,10 @@
                     <group>
                         <field name="sin_cred"/>
                     </group>
+                    <separator string="Are you sure you want to do this?" colspan="4" />
+                    <field name="sure"/>
                     <footer>
-                        <button name="set_sin_cred" string="Confirm" type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
+                        <button name="set_sin_cred" string="Confirm" type="object" class="oe_highlight"/>
                         or
                         <button special="cancel" string="Cancel"/>
                     </footer>

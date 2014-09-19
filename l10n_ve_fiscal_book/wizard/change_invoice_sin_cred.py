@@ -37,6 +37,7 @@ class change_invoice_sin_credwizard(osv.TransientModel):
     _description = 'Change Invoice Tax Exempt'
     _columns = {
         'sin_cred': fields.boolean('Tax Exempt', help='Tax Exempt'),
+        'sure': fields.boolean('Are you sure?'),
     }
 
     _defaults = {
@@ -51,8 +52,12 @@ class change_invoice_sin_credwizard(osv.TransientModel):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         inv_obj = self.pool.get('account.invoice')
-        data = self.browse(cr, uid, ids[0], context=context)
         inv_ids = context.get('active_ids', [])
+        data = self.browse(cr, uid, ids[0], context=context)
+        if not data.sure:
+            raise osv.except_osv(_("Error!"),
+                _("Please confirm that you want to do this by checking the"
+                  " option"))
         if inv_ids:
             inv_obj.write(cr, uid, inv_ids, {
                 'sin_cred': data.sin_cred}, context=context)
