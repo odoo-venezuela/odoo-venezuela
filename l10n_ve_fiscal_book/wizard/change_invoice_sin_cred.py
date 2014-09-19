@@ -31,10 +31,10 @@ import decimal_precision as dp
 class change_invoice_sin_credwizard(osv.TransientModel):
 
     """
-    Wizard that changes the invoice sin cred attribute.
+    Wizard that changes the invoice sin_cred field.
     """
     _name = 'change.invoice.sin.cred'
-    _description = 'Change Invoice Sin Cred'
+    _description = 'Change Invoice Tax Exempt'
     _columns = {
         'sin_cred': fields.boolean('Tax Exempt', help='Tax Exempt'),
     }
