@@ -11,7 +11,7 @@
                         <field name="sin_cred"/>
                     </group>
                     <footer>
-                        <button name="set_sin_cred" string="Confirm" type="object" class="oe_highlight"/>
+                        <button name="set_sin_cred" string="Confirm" type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
                         or
                         <button special="cancel" string="Cancel"/>
                     </footer>
