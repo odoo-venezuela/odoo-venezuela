@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="l10n_ve_partner_income_wh_report"
+            model="partner.income.wh.print"
+            name="l10n.ve.partner.income.wh.report"
+            file="l10n_ve_withholding_islr/report/partner_income_wh_report.mako"
+            string="Partner Income Wh. Print"
+            report_type="webkit"
+            multi="True"
+            attachment_use="0"
+            attachment=""
+            menu="False"/>
+
+        <record id="property_partner_income_wh_print" model="ir.property">
+            <field name="name">webkit_header_partner_income_wh_print</field>
+            <field name="fields_id" ref="report_webkit.field_ir_act_report_xml_webkit_header"/>
+            <field eval="'ir.header_webkit,'+str(ref('l10n_ve_withholding_islr.ir_header_webkit_partner_income_wh_print'))" model="ir.header_webkit" name="value"/>
+            <field eval="'ir.actions.report.xml,'+str(ref('l10n_ve_withholding_islr.l10n_ve_partner_income_wh_report'))" model="ir.actions.report.xml" name="res_id"/>
+        </record>
+    </data>
+</openerp>
