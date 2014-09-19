@@ -8,11 +8,12 @@
             <field name="inherit_id" ref="l10n_ve_fiscal_requirements.account_invoice_ext_view_supp_form_loc_ve"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//field[@name='sin_cred']" position="attributes">
-                        <attribute name="readonly">1</attribute>
-                    </xpath>
-                    <xpath expr="//field[@name='sin_cred']" position="after">
-                        <button name="%(action_change_invoice_sin_cred)d" type="action" string="Change Sin Cred" colspan="6" help="Click this button to change this field."/>
+                    <xpath expr="//field[@name='sin_cred']" position="replace">
+                        <group colspan="1" col="4">
+                            <field name="sin_cred" readonly="1"/>
+                            <button name="%(action_change_invoice_sin_cred)d" type="action" string="Change" colspan="2" help="Click this button to change this field."/>
+                        </group>
+                        <newline/>
                     </xpath>
                 </data>
             </field>
