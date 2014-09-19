@@ -11,7 +11,7 @@
                     <xpath expr="//field[@name='sin_cred']" position="replace">
                         <group colspan="1" col="4">
                             <field name="sin_cred" readonly="1"/>
-                            <button name="%(action_change_invoice_sin_cred)d" type="action" string="Change" colspan="2" help="Click this button to change this field." context="{'invoice_sin_cred': sin_cred}" states="draft"/>
+                            <button name="%(action_change_invoice_sin_cred)d" type="action" string="Change Exclusion" colspan="2" help="Click this button to change this field." context="{'invoice_sin_cred': sin_cred}" states="draft"/>
                         </group>
                         <newline/>
                     </xpath>
