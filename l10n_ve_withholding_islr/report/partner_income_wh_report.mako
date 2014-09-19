@@ -60,27 +60,26 @@
               <td class="headerBodyCenter" width="12.5%"> <div> RETENCIÓN </div> </td>
             </tr>
           </table>
-        %endif
-        %for iwdl_brw in obj.iwdl_ids:
-          <%
-          total_base_amount += iwdl_brw.base_amount
-          total_amount += iwdl_brw.amount
-          %>
-          <table width="100%">
-            <tr>
-              <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.supplier_invoice_number} </td>
-              <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.nro_ctrl} </td>
-              <td class="cellCenter" width="12.5%"> ${iwdl_brw.invoice_id.date_document and formatLang(iwdl_brw.invoice_id.date_document, digits=0, date=True, date_time=False, grouping=3, monetary=False)} </td>
-              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
-              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.retencion_islr, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
-              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
-            </tr>
+          <table class="basic_table" width="100%">
+            %for iwdl_brw in obj.iwdl_ids:
+              <%
+                total_base_amount += iwdl_brw.base_amount
+                total_amount += iwdl_brw.amount
+              %>
+              <tr>
+                <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.supplier_invoice_number} </td>
+                <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.nro_ctrl} </td>
+                <td class="cellCenter" width="12.5%"> ${iwdl_brw.invoice_id.date_document and formatLang(iwdl_brw.invoice_id.date_document, digits=0, date=True, date_time=False, grouping=3, monetary=False)} </td>
+                <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+                <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.retencion_islr, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+                <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              </tr>
+            %endfor
           </table>
-        %endfor
-        %if obj.iwdl_ids:
           <table width="100%">
             <tr>
-              <td class="footerBodyCenter" width="50.0%"> </td>
+              <td class="footerBodyCenter" width="25.0%"> </td>
+              <td class="footerBodyCenter" width="25.0%"> </td>
               <td class="footerBodyCenter" width="12.5%"> TOTALES </td>
               <td class="footerBodyRightMonospace" width="12.5%"> ${formatLang(total_base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
               <td class="footerBodyRightMonospace" width="12.5%"> </td>
