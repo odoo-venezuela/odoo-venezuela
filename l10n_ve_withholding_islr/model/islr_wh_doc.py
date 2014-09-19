@@ -1165,6 +1165,19 @@ class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
     _description = 'Lines of Document Income Withholding'
 
+    def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+        """ Return all amount relating to the invoices lines
+        """
+        res = {}
+        for iwdl_brw in self.browse(cr, uid, ids, context):
+            res[iwdl_brw.id] = {
+                'amount': 0.0,
+            }
+            for xml_brw in iwdl_brw.xml_ids:
+                res[iwdl_brw.id]['amount'] += xml_brw.wh
+
+        return res
+
     def _retention_rate(self, cr, uid, ids, name, args, context=None):
         """ Return the retention rate of each line
         """
@@ -1179,7 +1192,7 @@ class islr_wh_doc_line(osv.osv):
     _columns = {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', help="Invoice to withhold"),
-        'amount': fields.float('Withheld Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Withheld amount"),
+        'amount': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_amount': fields.float('Base Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Base amount"),
         'subtract': fields.float('Subtract', digits_compute=dp.get_precision('Withhold ISLR'), help="Subtract"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
