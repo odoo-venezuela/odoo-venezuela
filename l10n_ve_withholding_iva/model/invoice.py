@@ -402,7 +402,7 @@ class account_invoice(osv.osv):
         if context is None:
             context={}
         invo_brw = self.browse(cr,uid,ids[0],context=context)
-        if invo_brw.vat_apply:
+        if invo_brw.vat_apply or invo_brw.sin_cred:
             return False
         wh_apply=[]
         wh_apply.append(self._withholdable_tax(cr, uid, ids, context=context))

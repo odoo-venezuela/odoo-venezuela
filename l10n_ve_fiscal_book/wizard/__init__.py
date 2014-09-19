@@ -29,3 +29,4 @@
 ##############################################################################
 
 import fiscal_book_wizard
+import change_invoice_sin_cred
