@@ -25,7 +25,6 @@
 
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
-from openerp.tools.translate import _
 
 
 class partner_income_wh_printwizard(osv.TransientModel):
@@ -66,6 +65,19 @@ class partner_income_wh_printwizard(osv.TransientModel):
             self.pool.get('res.users').browse(cr, uid, uid,
                 context=context).company_id.id,
     }
+
+    def get_partner_address(self, cr, uid, ids, idp, context=None):
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        rp_obj = self.pool.get('res.partner')
+        addr = rp_obj.browse(cr, uid, idp, context=context)
+        addr_inv = (addr.street and ('%s, '%addr.street.title()) or '')    + \
+            (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
+            (addr.city and ('%s, '%addr.city.title()) or '')+ \
+            (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
+            (addr.country_id and ('%s '%addr.country_id.name.title()) or '') \
+            or _('NO INVOICE ADDRESS DEFINED')
+        return addr_inv
 
     def print_report(self, cr, uid, ids, context=None):
         """

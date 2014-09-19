@@ -44,12 +44,14 @@
           </tr>
           <tr>
             <td class="cellBodyCenter" width="50%">
-                <div> ${obj.company_id.name or ''|entity} </div>
+                <div> ${obj.company_id.name.upper() or ''|entity} </div>
                 <div> RIF: ${obj.company_id.partner_id.vat[2:]|entity} </div>
+                <div> ${obj.get_partner_address(obj.company_id.partner_id.id)|entity} </div>
             </td>
             <td class="cellBodyCenter" width="50%">
-                <div> ${obj.partner_id.name or ''|entity} </div>
-                <div> ${obj.partner_id.vat and obj.partner_id.vat[2:] or 'FALTA RIF'|entity} </div>
+                <div> ${obj.partner_id.name.upper() or ''|entity} </div>
+                <div> RIF: ${obj.partner_id.vat and obj.partner_id.vat[2:] or 'FALTA RIF'|entity} </div>
+                <div> ${obj.get_partner_address(obj.partner_id.id)|entity} </div>
             </td>
           </tr>
         </table>
