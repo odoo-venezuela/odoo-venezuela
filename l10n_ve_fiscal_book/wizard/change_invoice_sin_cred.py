@@ -38,3 +38,18 @@ class change_invoice_sin_credwizard(osv.TransientModel):
     _columns = {
         'sin_cred': fields.boolena('Sin Cred', required=True),
     }
+
+    def set_sin_cred(self, cr, uid, ids, context=None):
+        """
+        Change the sin cred field in the invoice
+        @return 
+        """
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        inv_obj = self.pool.get('account.invoice')
+        data = self.browse(cr, uid, ids[0], context=context)
+        inv_ids = context.get('active_ids', [])
+        if inv_ids:
+            inv_obj.write(cr, uid, inv_ids, {
+                'sin_cred': data.sin_cred}, context=context)
+        return {}
