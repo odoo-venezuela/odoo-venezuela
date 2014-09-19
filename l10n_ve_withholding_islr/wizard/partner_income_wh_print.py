@@ -25,7 +25,7 @@
 
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
-import decimal_precision as dp
+from openerp.tools.translate import _
 
 
 class partner_income_wh_printwizard(osv.TransientModel):
@@ -82,6 +82,9 @@ class partner_income_wh_printwizard(osv.TransientModel):
         if iwdl_ids:
             self.write(cr, uid, ids, {
                 'iwdl_ids': [(6, 0, iwdl_ids)]}, context=context)
+        else:
+            raise osv.except_osv(_(u'No Withholdings'),
+                                 _(u'No Income Withholding for %s'%brw.partner_id.name.upper()))
         data = dict()
         data['ids'] = ids
         return {
