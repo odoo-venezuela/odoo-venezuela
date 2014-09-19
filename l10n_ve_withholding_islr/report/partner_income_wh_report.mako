@@ -21,6 +21,14 @@
               <table style="width: 100%; text-align:center;">
                 <tr><td><div class="headerTitle"> COMPROBANTE DE RETENCIONES VARIAS DEL IMPUESTO SOBRE LA RENTA</div></td></tr>
                 <tr><td><div class="headerSubTitle"> (DIFERENTES A SUELDOS Y SALARIOS Y DEMÁS REMUNERACIONES SIMILARES A PERSONAS NATURALES RESIDENTES) </div></td></tr>
+                <tr>
+                  <td>
+                      <div class="headerSubTitle"> <b/>
+                      ${u"PERÍODO DESDE %s HASTA %s"%(formatLang(obj.period_id.date_start, digits=0, date=True, date_time=False, grouping=3, monetary=False),
+                      formatLang(obj.period_id.date_stop, digits=0, date=True, date_time=False, grouping=3, monetary=False))}
+                    </div>
+                  </td>
+                </tr>
               </table>
             </td>
           </tr>
