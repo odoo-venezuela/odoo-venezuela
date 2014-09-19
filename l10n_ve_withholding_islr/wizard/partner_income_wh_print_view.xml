@@ -27,7 +27,7 @@
             <field name="res_model">partner.income.wh.print</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="target">new</field>
+            <field name="target">inline</field>
         </record>
 
         <menuitem id="menu_action_partner_income_wh_print" name="Partner Income Wh Print" parent="l10n_ve_fiscal_requirements.menu_venezuela_reporting" action="action_partner_income_wh_print"/>

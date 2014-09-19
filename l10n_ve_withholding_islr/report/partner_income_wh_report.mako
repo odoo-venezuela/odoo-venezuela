@@ -40,7 +40,7 @@
                 <div> RIF: ${obj.company_id.partner_id.vat[2:]|entity} </div>
             </td>
             <td width="50%">
-                    <div> ${obj.partner_id.name or ''|entity} </div>
+                <div> ${obj.partner_id.name or ''|entity} </div>
                 <div> ${obj.partner_id.vat and obj.partner_id.vat[2:] or 'FALTA RIF'|entity} </div>
             </td>
           </tr>
