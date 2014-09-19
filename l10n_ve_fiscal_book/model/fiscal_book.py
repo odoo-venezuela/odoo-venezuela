@@ -621,7 +621,28 @@ class fiscal_book(orm.Model):
         if fb_brw.fortnight:
             inv_ids = self.get_invoices_from_fortnight(
                 cr, uid, fb_id, inv_ids, context=context)
+        if fb_brw.type == 'purchase':
+            inv_ids = self.get_invoices_sin_cred(
+                cr, uid, fb_id, inv_ids, context=context)
         return inv_ids
+
+    def get_invoices_sin_cred(self, cr, uid, ids, inv_ids, context=None):
+        """
+        if the fiscal book is of type purchase then need to filter the invoice
+        of the book by only the ones how has sin_cred == False. 
+        return the filter invoices list.
+        @param inv_ids: list of invoice ids
+        @return invoices list
+        """
+        context = context or {}
+        inv_obj = self.pool.get('account.invoice')
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        res = list()
+        for inv_id in inv_ids:
+            inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
+            if not inv_brw.sin_cred:
+                res.append(inv_id)
+        return res
 
     def get_invoices_from_fortnight(self, cr, uid, ids, inv_ids, context=None):
         """
