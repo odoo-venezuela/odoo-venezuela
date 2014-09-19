@@ -48,7 +48,7 @@
         %if obj.iwdl_ids:
           <table width="100%">
             <tr>
-              <td class="headerBodyCenter" width="20%"> <div> FACTURA </div> </td>
+              <td class="headerBodyCenter" width="20.0%"> <div> FACTURA </div> </td>
               <td class="headerBodyCenter" width="17.5%"> <div> NÚM. CONTROL </div> </td>
               <td class="headerBodyCenter" width="12.5%"> <div> FEC. FACT. </div> </td>
               <td class="headerBodyCenter" width="12.5%"> <div> BASE DE RET. </div> </td>
@@ -62,13 +62,13 @@
         <!--<table class="basic_table" width="100%">-->
           <table width="100%">
             <tr>
-              <td class="cellCenter" width="20.%"> <div> ${iwdl_brw.invoice_id.supplier_invoice_number} </div> </td>
-              <td class="cellCenter" width="17.5%"> <div> ${iwdl_brw.invoice_id.nro_ctrl} </div> </td>
-              <td class="cellCenter" width="12.5%"> <div> ${iwdl_brw.invoice_id.date_document} </div> </td>
-              <td class="cellCenter" width="12.5%"> <div> ${iwdl_brw.base_amount} </div> </td>
-              <td class="cellCenter" width="12.5%"> <div> ${iwdl_brw.retencion_islr} </div> </td>
-              <td class="cellCenter" width="12.5%"> <div> ${iwdl_brw.subtract} </div> </td>
-              <td class="cellCenter" width="12.5%"> <div> ${iwdl_brw.amount} </div> </td>
+              <td class="cellCenter" width="20.0%"> ${iwdl_brw.invoice_id.supplier_invoice_number} </td>
+              <td class="cellCenter" width="17.5%"> ${iwdl_brw.invoice_id.nro_ctrl} </td>
+              <td class="cellCenter" width="12.5%"> ${iwdl_brw.invoice_id.date_document and formatLang(iwdl_brw.invoice_id.date_document, digits=0, date=True, date_time=False, grouping=3, monetary=False)} </td>
+              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.retencion_islr, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.subtract, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
             </tr>
           </table>
         %endfor

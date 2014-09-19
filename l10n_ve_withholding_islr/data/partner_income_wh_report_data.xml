@@ -105,6 +105,14 @@ color:#000000;
 border:1px solid lightGrey;
 }
 
+.cellRightMonospace{
+font-size:8pt;
+text-align:right;
+font-family: monospace;
+color:#000000;
+border:1px solid lightGrey;
+}
+
 table.basic_table{
 text-align:left;
 border:1px solid lightGrey;
