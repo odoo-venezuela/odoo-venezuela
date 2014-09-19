@@ -62,7 +62,8 @@ Parágrafo Segundo: El registro de las operaciones contenidas en el reporte glob
         "report/fiscal_book_report.xml",
         "workflow/fb_workflow.xml",
         "security/fiscal_book_security.xml",
-        "security/ir.model.access.csv"
+        "security/ir.model.access.csv",
+        "wizard/change_invoice_sin_cred_view.xml",
     ],
     "test": [
        # 'test/purchase.yml',

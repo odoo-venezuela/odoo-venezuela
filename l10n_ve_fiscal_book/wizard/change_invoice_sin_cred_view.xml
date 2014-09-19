@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_change_invoice_sin_cred_form">
+            <field name="name">change.invoice.sin.cred.form</field>
+            <field name="model">change.invoice.sin.cred</field>
+            <field name="arch" type="xml">
+                <form string="Change Invoice Sin Cred" version="7.0">
+                    <field name="sin_cred"/>
+                    <footer>
+                        <button name="set_sin_cred" string="Confirm" type="object" class="oehiglight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_change_invoice_sin_cred" model="ir.actions.act_window">
+            <field name="name">Change Invoice Sin Cred</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">change.invoice.sin.cred</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>
