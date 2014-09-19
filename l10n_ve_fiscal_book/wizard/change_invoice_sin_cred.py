@@ -36,7 +36,7 @@ class change_invoice_sin_credwizard(osv.TransientModel):
     _name = 'change.invoice.sin.cred'
     _description = 'Change Invoice Sin Cred'
     _columns = {
-        'sin_cred': fields.boolean('Tax Exempt'),
+        'sin_cred': fields.boolean('Tax Exempt', help='Tax Exempt'),
     }
 
     _defaults = {
