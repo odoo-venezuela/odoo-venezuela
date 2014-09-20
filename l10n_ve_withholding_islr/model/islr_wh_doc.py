@@ -887,7 +887,7 @@ class islr_wh_doc_invoices(osv.osv):
                 base += base_line
 
             rate_tuple = self._get_rate(
-                cr, uid, concept_id, residence, nature, base_line=base_line, inv_brw=iwdl_brw.invoice_id, context=context)
+                cr, uid, concept_id, residence, nature, base=base, inv_brw=iwdl_brw.invoice_id, context=context)
 
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             wh = 0.0
@@ -1085,7 +1085,7 @@ class islr_wh_doc_invoices(osv.osv):
             else:
                 return False
 
-    def _get_rate(self, cr, uid, concept_id, residence, nature, base_line=0.0, inv_brw=None, context=None):
+    def _get_rate(self, cr, uid, concept_id, residence, nature, base=0.0, inv_brw=None, context=None):
         """ Rate is obtained from the concept of retention, provided
         if there is one associated with the specifications:
         The vendor's nature matches a rate.
@@ -1131,7 +1131,7 @@ class islr_wh_doc_invoices(osv.osv):
             rate_brw_subtract = ut2money(
                 cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)
         else:
-            base_line_ut = money2ut(cr, uid, base_line, context.get('wh_islr_date_ret',False), context=context)
+            base_ut = money2ut(cr, uid, base, context.get('wh_islr_date_ret',False), context=context)
             found_rate = False
             for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
                 #Get the invoice_lines that have the same concept_id than the rate_brw which is here
@@ -1139,7 +1139,7 @@ class islr_wh_doc_invoices(osv.osv):
                 #to which rate to grab,
                 #MULTICURRENCY WARNING: Values from the invoice_lines must be translate to VEF and then
                 #to UT this way computing in a proper way the amount values
-                if rate_brw.minimum > base_line_ut:
+                if rate_brw.minimum > base_ut:
                     continue
                 rate_brw_minimum = ut2money(
                     cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)
@@ -1150,7 +1150,8 @@ class islr_wh_doc_invoices(osv.osv):
             if not found_rate:
                 msg += _(' For Tax Units greater than zero')
                 raise osv.except_osv(_('Missing Configuration'), msg)
-        return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
+        return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc,
+                rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
 
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
         """ Get the country of the partner
