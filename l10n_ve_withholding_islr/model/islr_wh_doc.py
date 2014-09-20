@@ -907,8 +907,7 @@ class islr_wh_doc_invoices(osv.osv):
                             line.account_invoice_line_id.invoice_id.date_invoice
                             )
 
-                    wh_calc = (rate_tuple[0]/100.0)*rate_tuple[
-                        2]*base_line/100.0
+                    wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*base_line/100.0
                     if subtract >= wh_calc:
                         wh = 0.0
                         subtract -= wh_calc
@@ -918,7 +917,12 @@ class islr_wh_doc_invoices(osv.osv):
                         subtract = 0.0
                 ixwl_obj.write(
                     cr, uid, line.id, {
-                        'wh': wh, 'sustract': subtract or subtract_write},
+                        'wh': wh,
+                        'sustract': subtract or subtract_write,
+                        'rate_id':rate_tuple[5],
+                        'porcent_rete':rate_tuple[2],
+                        'concept_code':rate_tuple[4],
+                    },
                     context=context)
                 wh_concept += wh
         else:
