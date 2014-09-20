@@ -871,8 +871,6 @@ class islr_wh_doc_invoices(osv.osv):
         context.update({
             'wh_islr_date_ret':iwdl_brw.islr_wh_doc_id.date_uid or iwdl_brw.islr_wh_doc_id.date_ret or False
         })
-        rate_tuple = self._get_rate(
-            cr, uid, concept_id, residence, nature, inv_brw=iwdl_brw.invoice_id, context=context)
         base = 0
         wh_concept = 0.0
 
@@ -887,6 +885,10 @@ class islr_wh_doc_invoices(osv.osv):
                             line.account_invoice_line_id.invoice_id.date_invoice
                             )
                 base += base_line
+
+            rate_tuple = self._get_rate(
+                cr, uid, concept_id, residence, nature, base_line=base_line, inv_brw=iwdl_brw.invoice_id, context=context)
+
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             wh = 0.0
             subtract = apply and rate_tuple[3] or 0.0
@@ -929,6 +931,9 @@ class islr_wh_doc_invoices(osv.osv):
                             line.invoice_id.date_invoice
                             )
                     base += base_line
+
+            rate_tuple = self._get_rate(
+                cr, uid, concept_id, residence, nature, base_line=0.0, inv_brw=iwdl_brw.invoice_id, context=context)
 
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             sb_concept = apply and rate_tuple[3] or 0.0
@@ -1080,7 +1085,7 @@ class islr_wh_doc_invoices(osv.osv):
             else:
                 return False
 
-    def _get_rate(self, cr, uid, concept_id, residence, nature, inv_brw=None, context=None):
+    def _get_rate(self, cr, uid, concept_id, residence, nature, base_line=0.0, inv_brw=None, context=None):
         """ Rate is obtained from the concept of retention, provided
         if there is one associated with the specifications:
         The vendor's nature matches a rate.
@@ -1090,18 +1095,30 @@ class islr_wh_doc_invoices(osv.osv):
         ut_obj = self.pool.get('l10n.ut')
 
         # Hbto: thinks that this browse could be substitute by a search.
-        # attention must be pay when doing the search as the values for the minimum should be
-        # order asc, and only one element should be fetched, limit=1
+        # attention must be paid when doing the search as the values for the minimum should be
+        # ordered desc, and only one element should be fetched, limit=1
         # This means that the value for the GrandTotal in this invoice regarding this
         # concept should come before,
         #
-        rate_brw_lst = self.pool.get(
-            'islr.wh.concept').browse(cr, uid, concept_id).rate_ids
+        islr_rate_obj = self.pool.get('islr.rates')
+        islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
 
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
-        rate_brw_lst = concept_brw.rate_ids
 
-        for rate_brw in rate_brw_lst:
+        # First looking records for ISLR rate1
+        islr_rate_ids = islr_rate_obj.search(cr, uid, islr_rate_args + [('rate2','=',False)], context=context)
+
+        # Now looking for ISLR rate2
+        if not islr_rate_ids:
+            islr_rate_ids = islr_rate_obj.search(cr, uid, islr_rate_args + [('rate2','=',True)], context=context)
+
+        if not islr_rate_ids:
+            msg_nature = nature and 'Natural' or u'Jurídica'
+            msg_residence = residence and 'Domiciliada' or 'No Domiciliada'
+            msg = _(u'No Available Rates for "Persona %s %s" in Concept: "%s"')%(msg_nature, msg_residence, concept_brw.name)
+            raise osv.except_osv(_('Missing Configuration'), msg)
+
+        for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 if rate_brw.rate2 and inv_brw:
                     #Get the invoice_lines that have the same concept_id than the rate_brw which is here
@@ -1114,11 +1131,8 @@ class islr_wh_doc_invoices(osv.osv):
                     cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
                     cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
-                return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
-        msg_nature = nature and 'Natural' or u'Jurídica'
-        msg_residence = residence and 'Domiciliada' or 'No Domiciliada'
-        msg = _(u'No Available Rates for "Persona %s %s" in Concept: "%s"')%(msg_nature, msg_residence, concept_brw.name)
-        raise osv.except_osv(_('Missing Configuration'), msg)
+                break
+        return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
 
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
         """ Get the country of the partner
