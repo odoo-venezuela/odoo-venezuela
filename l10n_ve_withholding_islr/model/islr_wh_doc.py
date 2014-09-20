@@ -918,6 +918,8 @@ class islr_wh_doc_invoices(osv.osv):
                 ixwl_obj.write(
                     cr, uid, line.id, {
                         'wh': wh,
+                        'base': base_line * (rate_tuple[0]/100.0),
+                        'wh': wh,
                         'sustract': subtract or subtract_write,
                         'rate_id':rate_tuple[5],
                         'porcent_rete':rate_tuple[2],
@@ -949,7 +951,7 @@ class islr_wh_doc_invoices(osv.osv):
         values = {
             'amount': wh_concept,
             'subtract': sb_concept,
-            'base_amount': base,
+            'base_amount': base * (rate_tuple[0]/100.0),
             'retencion_islr': rate_tuple[2],
             'islr_rates_id': rate_tuple[5],
         }
