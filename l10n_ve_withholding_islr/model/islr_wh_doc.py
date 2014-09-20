@@ -868,7 +868,9 @@ class islr_wh_doc_invoices(osv.osv):
         # rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,rate_name
         # Add a Key in context to store date of ret fot U.T. value determination
         # TODO: Future me, this context update need to be checked with the other date in the withholding in order to take into account the customer income withholding.
-        context.update({'wh_islr_date_ret':iwdl_brw.islr_wh_doc_id.date_ret or False})
+        context.update({
+            'wh_islr_date_ret':iwdl_brw.islr_wh_doc_id.date_uid or iwdl_brw.islr_wh_doc_id.date_ret or False
+        })
         rate_tuple = self._get_rate(
             cr, uid, concept_id, residence, nature, inv_brw=iwdl_brw.invoice_id, context=context)
         base = 0
