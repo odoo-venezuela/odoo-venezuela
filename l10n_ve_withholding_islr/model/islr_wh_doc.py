@@ -8,6 +8,7 @@
 #    Coded by: Humberto Arocha           <hbto@vauxoo.com>
 #              Maria Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Javier Duran              <javier@vauxoo.com>
+#              Yanina Aular              <yanina.aular@vauxoo.com>
 #    Planified by: Nhomar Hernandez <nhomar@vauxoo.com>
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha hbto@vauxoo.com
@@ -435,6 +436,7 @@ class islr_wh_doc(osv.osv):
                 for ret_line in ret.invoice_ids:
                     ret_line.move_id and account_move_obj.button_cancel(
                         cr, uid, [ret_line.move_id.id])
+                    ret_line.write({'move_id':False})
                     ret_line.move_id and account_move_obj.unlink(
                         cr, uid, [ret_line.move_id.id])
         self.write(cr, uid, ids, {'state': 'cancel'})
@@ -463,9 +465,14 @@ class islr_wh_doc(osv.osv):
             self.write(cr, uid, [ret.id], {
                        'date_uid': time.strftime('%Y-%m-%d')})
 
-        if not ret.date_ret:
+        ret.refresh()
+        if ret.type in ('in_invoice', 'in_refund'):
             self.write(cr, uid, [ret.id], {
-                       'date_ret': time.strftime('%Y-%m-%d')})
+                'date_ret': ret.date_uid}, context=context)
+        else:
+            if not ret.date_ret:
+                self.write(cr, uid, [ret.id], {
+                   'date_ret': time.strftime('%Y-%m-%d')})
 
         # Reload the browse because there have been changes into it
         ret = self.browse(cr, uid, ids[0], context=context)
@@ -492,11 +499,42 @@ class islr_wh_doc(osv.osv):
             writeoff_account_id = False
             writeoff_journal_id = False
             amount = line.amount_islr_ret
-
             ret_move = line.invoice_id.ret_and_reconcile(
                 amount, acc_id, period_id, journal_id, writeoff_account_id,
                 period_id, writeoff_journal_id, ret.date_ret, name,
                 line.iwdl_ids, context=context)
+
+            if line.invoice_id.currency_id.id != line.invoice_id.company_id.currency_id.id:
+                move_obj = self.pool.get('account.move')
+                move_line_obj = self.pool.get('account.move.line')
+                move_brw = move_obj.browse(cr, uid, ret_move['move_id'])
+                for ml in move_brw.line_id:
+                    move_line_obj.write(cr, uid, ml.id,
+                            {'currency_id': line.invoice_id.currency_id.id})
+
+                    if ml.credit:
+
+                        amount_currency = line.exchange(
+                        ml.credit,
+                        line.invoice_id.company_id.currency_id.id,
+                        line.invoice_id.currency_id.id,
+                        line.invoice_id.date_invoice,
+                        )
+
+                        move_line_obj.write(cr, uid, ml.id,
+                                {'amount_currency': amount_currency*-1  } )
+
+                    elif ml.debit:
+
+                        amount_currency = line.exchange(
+                        ml.debit,
+                        line.invoice_id.company_id.currency_id.id,
+                        line.invoice_id.currency_id.id,
+                        line.invoice_id.date_invoice,
+                        )
+
+                        move_line_obj.write(cr, uid, ml.id,
+                                {'amount_currency': amount_currency  } )
 
             # make the withholding line point to that move
             rl = {
@@ -799,6 +837,15 @@ class islr_wh_doc_invoices(osv.osv):
                 res_ids += [id]
         return res_ids
 
+    def exchange(self, cr, uid, ids, from_amount, from_currency_id, to_currency_id, exchange_date, context=None):
+        if context is None:
+            context = {}
+        if from_currency_id == to_currency_id:
+            return from_amount
+        curr_obj = self.pool.get('res.currency')
+        context['date'] = exchange_date
+        return curr_obj.compute(cr, uid, from_currency_id, to_currency_id, from_amount, context=context)
+
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         """ Return a dictionary containing all the values of the retention of an invoice line.
         @param concept_id: Withholding reason
@@ -829,7 +876,15 @@ class islr_wh_doc_invoices(osv.osv):
 
         if iwdl_brw.invoice_id.type in ('in_invoice', 'in_refund'):
             for line in iwdl_brw.xml_ids:
-                base += line.account_invoice_line_id.price_subtotal
+                base_line = self.exchange(cr,
+                            uid,
+                            ids,
+                            line.account_invoice_line_id.price_subtotal,
+                            line.account_invoice_line_id.invoice_id.currency_id.id,
+                            line.account_invoice_line_id.company_id.currency_id.id,
+                            line.account_invoice_line_id.invoice_id.date_invoice
+                            )
+                base += base_line
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             wh = 0.0
             subtract = apply and rate_tuple[3] or 0.0
@@ -837,8 +892,17 @@ class islr_wh_doc_invoices(osv.osv):
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
                 if apply:
+                    base_line = self.exchange(cr,
+                            uid,
+                            ids,
+                            line.account_invoice_line_id.price_subtotal,
+                            line.account_invoice_line_id.invoice_id.currency_id.id,
+                            line.account_invoice_line_id.company_id.currency_id.id,
+                            line.account_invoice_line_id.invoice_id.date_invoice
+                            )
+
                     wh_calc = (rate_tuple[0]/100.0)*rate_tuple[
-                        2]*line.account_invoice_line_id.price_subtotal/100.0
+                        2]*base_line/100.0
                     if subtract >= wh_calc:
                         wh = 0.0
                         subtract -= wh_calc
@@ -854,7 +918,15 @@ class islr_wh_doc_invoices(osv.osv):
         else:
             for line in iwdl_brw.invoice_id.invoice_line:
                 if line.concept_id.id == concept_id:
-                    base += line.price_subtotal
+                    base_line = self.exchange(cr,
+                            uid,
+                            ids,
+                            line.price_subtotal,
+                            line.invoice_id.currency_id.id,
+                            line.company_id.currency_id.id,
+                            line.invoice_id.date_invoice
+                            )
+                    base += base_line
 
             apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             sb_concept = apply and rate_tuple[3] or 0.0
@@ -1014,6 +1086,7 @@ class islr_wh_doc_invoices(osv.osv):
         """
         context = context or {}
         ut_obj = self.pool.get('l10n.ut')
+
         # Hbto: thinks that this browse could be substitute by a search.
         # attention must be pay when doing the search as the values for the minimum should be
         # order asc, and only one element should be fetched, limit=1
@@ -1022,6 +1095,10 @@ class islr_wh_doc_invoices(osv.osv):
         #
         rate_brw_lst = self.pool.get(
             'islr.wh.concept').browse(cr, uid, concept_id).rate_ids
+
+        concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
+        rate_brw_lst = concept_brw.rate_ids
+
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 if rate_brw.rate2 and inv_brw:
@@ -1036,7 +1113,10 @@ class islr_wh_doc_invoices(osv.osv):
                 rate_brw_subtract = ut_obj.compute_ut_to_money(
                     cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
                 return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
-        return ()
+        msg_nature = nature and 'Natural' or u'Jurídica'
+        msg_residence = residence and 'Domiciliada' or 'No Domiciliada'
+        msg = _(u'No Available Rates for "Persona %s %s" in Concept: "%s"')%(msg_nature, msg_residence, concept_brw.name)
+        raise osv.except_osv(_('Missing Configuration'), msg)
 
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
         """ Get the country of the partner
@@ -1070,12 +1150,21 @@ class islr_wh_doc_invoices(osv.osv):
 
         wh = ((rate_base * ail_brw.price_subtotal / 100) * rate_wh_perc)/100.0
 
+        base_currency = self.exchange(cr,
+                uid,
+                [],
+                ail_brw.price_subtotal,
+                ail_brw.invoice_id.currency_id.id,
+                ail_brw.company_id.currency_id.id,
+                ail_brw.invoice_id.date_invoice
+                )
+
         return {
             'account_invoice_id': ail_brw.invoice_id.id,
             'islr_wh_doc_line_id': False,
             'islr_xml_wh_doc': False,
             'wh': wh,  # I must to look
-            'base': ail_brw.price_subtotal,  # I get it too but from the rate
+            'base': base_currency,  # I get it too but from the rate
             'period_id': False,  # We review the definition because it is in NOT NULL
             'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
             'rate_id': rate_id,  # I get it too but from the rate
@@ -1093,6 +1182,19 @@ class islr_wh_doc_line(osv.osv):
     _name = "islr.wh.doc.line"
     _description = 'Lines of Document Income Withholding'
 
+    def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+        """ Return all amount relating to the invoices lines
+        """
+        res = {}
+        for iwdl_brw in self.browse(cr, uid, ids, context):
+            res[iwdl_brw.id] = {
+                'amount': 0.0,
+            }
+            for xml_brw in iwdl_brw.xml_ids:
+                res[iwdl_brw.id]['amount'] += xml_brw.wh
+
+        return res
+
     def _retention_rate(self, cr, uid, ids, name, args, context=None):
         """ Return the retention rate of each line
         """
@@ -1107,7 +1209,7 @@ class islr_wh_doc_line(osv.osv):
     _columns = {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', help="Invoice to withhold"),
-        'amount': fields.float('Withheld Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Withheld amount"),
+        'amount': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_amount': fields.float('Base Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Base amount"),
         'subtract': fields.float('Subtract', digits_compute=dp.get_precision('Withhold ISLR'), help="Subtract"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),

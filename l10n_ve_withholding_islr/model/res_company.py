@@ -37,8 +37,13 @@ class res_company(osv.osv):
         'automatic_income_wh':fields.boolean('Automatic Income Withhold', 
             help='When True, Supplier Income Withholding will be check and '\
                     'validate automatically'),
+        'propagate_invoice_date_to_income_withholding': fields.boolean(
+            'Propagate Invoice Date to Income Withholding',
+            help='Propagate Invoice Date to Income Withholding. By default is'
+                ' in False.'),
     }
 
     defaults = {
         'automatic_income_wh': False,
+        'propagate_invoice_date_to_income_withholding': False, 
     }

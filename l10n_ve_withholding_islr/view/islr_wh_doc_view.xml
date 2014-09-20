@@ -15,7 +15,7 @@
             </field>
         </record>
 
-    <!-- 
+    <!--
     =====================================================
     Retention ISLR DOC, DOC LINE  CUSTOMERS
     =====================================================
@@ -110,9 +110,9 @@
                         <field name="journal_id" domain="[('type','=','islr_sale')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field 
-                            name="partner_id" 
-                            on_change="onchange_partner_id(type,partner_id)" 
+                        <field
+                            name="partner_id"
+                            on_change="onchange_partner_id(type,partner_id)"
                             domain="[('islr_withholding_agent','=',True),('customer','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id" readonly="1"/>
                         <field name="date_ret"/>
@@ -127,7 +127,7 @@
                                     <field name="invoice_ids" nolabel="1">
                                         <tree string="Invoices">
                                             <field name="invoice_id"/>
-                                            <field name="iwdl_ids"/> 
+                                            <field name="iwdl_ids"/>
                                             <field name="amount_islr_ret"/>
                                             <field name="base_ret"/>
                                             <field name="move_id"/>
@@ -136,10 +136,10 @@
                                             <notebook>
                                                 <page string="Withheld Invoice">
                                                     <group colspan="4">
-                                                        <field name="invoice_id" domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"/>
+                                                        <field name="invoice_id" domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open'), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"/>
                                                     </group>
                                                     <group>
-                                                        <field name="iwdl_ids" nolabel="1" colspan="4"> 
+                                                        <field name="iwdl_ids" nolabel="1" colspan="4">
                                                             <tree string="Concepts" editable="top">
                                                                 <field name="concept_id" readonly="1"/>
                                                                 <field name="retencion_islr" readonly="0"/>
@@ -178,7 +178,7 @@
             </field>
         </record>
 
-    <!-- 
+    <!--
     =====================================================
     Retention ISLR DOC, DOC LINE, SUPPLIERS
     =====================================================
@@ -242,9 +242,9 @@
                         <field name="journal_id" domain="[('type','=','islr_purchase')]"/>
                         <field name="type"/>
                         <field name="code"/>
-                        <field 
-                            name="partner_id" 
-                            on_change="onchange_partner_id(type,partner_id)" 
+                        <field
+                            name="partner_id"
+                            on_change="onchange_partner_id(type,partner_id)"
                             domain="[('supplier','=',True),('parent_id','=',False)]"/>
                         <field name="currency_id" readonly="1"/>
                         <field name="date_ret"/>
@@ -262,10 +262,10 @@
                                             <notebook>
                                                 <page string="Withheld Invoice">
                                                     <group colspan="4">
-                                                        <field name="invoice_id" domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open')]"/>
+                                                        <field name="invoice_id" domain="[('islr_wh_doc_id', '=', False),('state', '=', 'open'), '|', ('partner_id','=',parent.partner_id), ('partner_id','child_of',parent.partner_id)]"/>
                                                     </group>
                                                     <group>
-                                                        <field name="islr_xml_id" nolabel="1" colspan="4"> 
+                                                        <field name="islr_xml_id" nolabel="1" colspan="4">
                                                             <tree string="Detail of the Concept of Income Withholding">
                                                                 <field name="concept_code"/>
                                                                 <field name="rate_id"/>
@@ -289,11 +289,11 @@
                                     </field>
                                 </page>
                                 <page string="Invoices" invisible="1">
-                                    <field 
-                                        name="islr_wh_doc_id" 
-                                        domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]" 
-                                        colspan="6" 
-                                        nolabel="1" 
+                                    <field
+                                        name="islr_wh_doc_id"
+                                        domain="[('partner_id','=',partner_id),('status','=','no_pro'),('state','in',['open','paid']),('type','in',['in_invoice','in_refund'])]"
+                                        colspan="6"
+                                        nolabel="1"
                                         widget="many2many"/>
                                 </page>
                                 <page string="Income Withholding Concepts">
@@ -362,7 +362,7 @@
         <record model="ir.actions.act_window.view" id="action_wh_islr_customer_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_islr_tree_customers"/> 
+            <field name="view_id" ref="view_islr_tree_customers"/>
             <field name="act_window_id" ref="action_wh_islr_customer"/>
         </record>
         <record model="ir.actions.act_window.view" id="action_wh_islr_customer_form">
@@ -389,7 +389,7 @@
         <record model="ir.actions.act_window.view" id="action_wh_islr_tree">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wh_islr_tree_suppliers"/> 
+            <field name="view_id" ref="view_wh_islr_tree_suppliers"/>
             <field name="act_window_id" ref="action_wh_islr_supplier"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wh_islr_form">

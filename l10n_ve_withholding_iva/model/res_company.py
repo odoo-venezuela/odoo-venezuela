@@ -34,8 +34,13 @@ class res_company(osv.osv):
             "Allow outdated vat withholding",
             help="Enables confirm withholding vouchers for previous or future"
             " dates."),
+        'propagate_invoice_date_to_vat_withholding': fields.boolean(
+            'Propagate Invoice Date to Vat Withholding',
+            help='Propagate Invoice Date to Vat Withholding. By default is in'
+                ' False.'),
     }
 
     _defaults = {
         'consolidate_vat_wh': False,
+        'propagate_invoice_date_to_vat_withholding': False, 
     }

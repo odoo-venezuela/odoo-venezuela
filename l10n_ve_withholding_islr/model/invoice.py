@@ -26,10 +26,6 @@
 from openerp.osv import osv
 from openerp.osv import fields
 from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
-from openerp import netsvc
 
 class account_invoice_line(osv.osv):
     """ It adds a field that determines if a line has been retained or not
@@ -44,10 +40,36 @@ class account_invoice_line(osv.osv):
         'Withholding  Concept',
         help="Concept of Income Withholding asociate this rate",
         required=False),
+        'state': fields.related('invoice_id', 'state', string='Current Status',
+                                type='char', required=True, readonly=True),
     }
     _defaults = {
         'apply_wh': lambda *a: False,
     }
+
+    def islr_wh_change_concept(self, cr, uid, ids, context=None):
+        '''
+        Generate a new windows to change the income wh concept in current invoice line
+        '''
+        context = context or {}
+        ids = isinstance(ids, (int, long)) and [ids] or ids
+        obj_model = self.pool.get('ir.model.data')
+        ail_brw = self.browse(cr, uid, ids[0], context=context)
+        if not ail_brw.invoice_id.state=='open':
+            raise osv.except_osv(_('Warning!'), _('This Button is meant to be used with Invoices in "Open State"'))
+        model_data_ids = obj_model.search(
+            cr, uid, [('model', '=', 'ir.ui.view'),
+                        ('name', '=', 'islr_wh_change_concept')])
+        resource_id = obj_model.read(cr, uid, model_data_ids,
+                                        fields=['res_id'])[0]['res_id']
+        return {
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'islr.wh.change.concept',
+            'views': [(resource_id, 'form')],
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
 
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
                           type='out_invoice', partner_id=False,
@@ -63,7 +85,7 @@ class account_invoice_line(osv.osv):
         @param partner_id: partner of the invoice
         @param fposition_id: fiscal position of the invoice
         @param price_unit: new Unit Price for the invoice line
-        @param currency_id: 
+        @param currency_id:
         """
         context = context or {}
         data = super(
@@ -151,10 +173,7 @@ class account_invoice(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
-        doc_line_obj = self.pool.get('islr.wh.doc.line')
         wh_doc_obj = self.pool.get('islr.wh.doc')
-        inv_obj = self.pool.get('account.invoice.line')
-        rate_obj = self.pool.get('islr.rates')
         rp_obj = self.pool.get('res.partner')
 
         row = self.browse(cr, uid, ids[0], context=context)
@@ -174,13 +193,18 @@ class account_invoice(osv.osv):
 
         if wh_ret_code:
             journal = wh_doc_obj._get_journal(cr, uid, context=context)
-            islr_wh_doc_id = wh_doc_obj.create(cr, uid,
-                                               {'name': wh_ret_code,
-                                                'partner_id': acc_part_id.id,
-                                                'period_id': row.period_id.id,
-                                                'account_id': row.account_id.id,
-                                                'type': row.type,
-                                                'journal_id': journal, })
+            values = {
+                'name': wh_ret_code,
+                'partner_id': acc_part_id.id,
+                'period_id': row.period_id.id,
+                'account_id': row.account_id.id,
+                'type': row.type,
+                'journal_id': journal
+            }
+            if row.company_id.propagate_invoice_date_to_income_withholding:
+                values['date_uid'] = row.date_invoice
+
+            islr_wh_doc_id = wh_doc_obj.create(cr, uid, values, context=context)
             self._create_doc_invoices(cr, uid, row.id, islr_wh_doc_id)
 
             self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid,
@@ -252,14 +276,14 @@ class account_invoice(osv.osv):
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, pay_journal_id,
                         writeoff_acc_id, writeoff_period_id, writeoff_journal_id, date,
                         name, context=None):
-        """ Generate move lines in corresponding account                            
-        @param to_wh: whether or not withheld                                   
-        @param period_id: Period                                                
-        @param pay_journal_id: pay journal of the invoice                       
-        @param writeoff_acc_id: account where canceled                          
-        @param writeoff_period_id: period where canceled                        
-        @param writeoff_journal_id: journal where canceled                      
-        @param date: current date                                               
+        """ Generate move lines in corresponding account
+        @param to_wh: whether or not withheld
+        @param period_id: Period
+        @param pay_journal_id: pay journal of the invoice
+        @param writeoff_acc_id: account where canceled
+        @param writeoff_period_id: period where canceled
+        @param writeoff_journal_id: journal where canceled
+        @param date: current date
         @param name: description
         """
         context = context or {}

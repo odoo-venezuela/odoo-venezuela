@@ -90,7 +90,7 @@
                     <group colspan="1" cols="1">
                         <label for="date_document"/>
                         <newline/>
-                        <field name="date_document" nolabel="1"/>
+                        <field name="date_document" nolabel="1" attrs="{'readonly': [('state','=','open')]}"/>
                         <newline/>
                         <label string="(Put here the date when Purchase Invoice was generated for the supplier)"/>
                     </group>

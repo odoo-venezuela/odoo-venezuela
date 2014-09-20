@@ -9,6 +9,7 @@
                 <xpath expr="//field[@name='vat_check_vies']" position="after">
                     <field name="consolidate_vat_wh"/>
                     <field name="allow_vat_wh_outdated"/>
+                    <field name="propagate_invoice_date_to_vat_withholding"/>
                 </xpath>
             </field>
         </record>

@@ -42,7 +42,7 @@
 #If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',
-    "depends" : ["account", "l10n_ve_withholding", "product"], # ,"edi"],
+    "depends" : ["account", "l10n_ve_withholding", "l10n_ve_fiscal_requirements", "product"], # ,"edi"],
     "init_xml" : [],
     "demo_xml":[
             "demo/l10n_ve_islr_withholding_demo.xml",
@@ -54,6 +54,7 @@
             "data/l10n_ve_islr_withholding_data.xml",
             "data/retencion_islr_sequence.xml",
             "view/wh_islr_view.xml",
+            "wizard/income_wh_change_concept.xml",
             "view/invoice_view.xml",
             "view/partner_view.xml",
             "view/res_company_view.xml",
@@ -65,6 +66,9 @@
             "workflow/islr_wh_workflow.xml",
             "workflow/wh_action_server.xml",
             #"edi/islr_wh_doc_action_data.xml",
+            "wizard/partner_income_wh_print_view.xml",
+            "data/partner_income_wh_report_data.xml",
+            "report/partner_income_wh_report.xml",
     ],
     'test': [
              'test/supplier_wh_islr_invoice.yml',

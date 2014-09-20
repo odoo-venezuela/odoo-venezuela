@@ -84,7 +84,9 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
         'nro_ctrl': fields.char('Control Number', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Number used to manage pre-printed invoices, by law you will need to put here this number to be able to declarate on Fiscal reports correctly."),
-        'sin_cred': fields.boolean('Tax Exempt', readonly=False, help="Set it true if the invoice is VAT excempt"),
+        'sin_cred': fields.boolean('Exclude this document from fiscal book',
+            readonly=False,
+            help="Set it true if the invoice is VAT excempt (Tax Exempt)"),
         'date_document': fields.date("Document Date", states={'draft':[('readonly',False)]}, help="Administrative date, generally is the date printed on invoice, this date is used to show in the Purchase Fiscal book", select=True),
         'invoice_printer' : fields.char('Fiscal printer invoice number', size=64, required=False,help="Fiscal printer invoice number, is the number of the invoice on the fiscal printer"),
         #TODO": maybe it must be a many2one to declared FiscalPrinter when FiscalV is ready
@@ -99,8 +101,8 @@ class account_invoice(osv.osv):
 
 
     _constraints = [
-          (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
-         ]
+        (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'),['Control Number (nro_ctrl)','Reference (reference)']),
+     ]
 
     def copy(self, cr, uid, id, default={}, context=None):
         """ Allows you to duplicate a record,

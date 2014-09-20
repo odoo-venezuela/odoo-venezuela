@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+
+        <record id="account_invoice_fiscal_book_form" model="ir.ui.view">
+            <field name="name">account.invoice.fiscal.book.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="l10n_ve_fiscal_requirements.account_invoice_ext_view_supp_form_loc_ve"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='sin_cred']" position="replace">
+                        <group colspan="1" col="4">
+                            <field name="sin_cred" readonly="1"/>
+                            <button name="%(action_change_invoice_sin_cred)d" type="action" string="Change Exclusion" colspan="2" help="Click this button to change this field." context="{'invoice_sin_cred': sin_cred}" states="draft"/>
+                        </group>
+                        <newline/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>
