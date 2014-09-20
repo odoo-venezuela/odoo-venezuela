@@ -141,6 +141,9 @@
             <field name="act_window_id" ref="action_wh_islr_concept"/>
         </record>
 
-        <menuitem name="Concept of Income Withholding" id="menu_action_concept_retention" parent="menu_wh_configuration_islr" action="action_wh_islr_concept"/>
+        <menuitem name="Concept of Income Withholding"
+            id="menu_action_concept_retention"
+            parent="menu_wh_configuration_islr"
+            action="action_wh_islr_concept"/>
     </data>
 </openerp>
