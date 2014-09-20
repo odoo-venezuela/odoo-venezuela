@@ -886,6 +886,8 @@ class islr_wh_doc_invoices(osv.osv):
                             )
                 base += base_line
 
+            #rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name = self._get_rate(
+            #    cr, uid, ail_brw.concept_id.id, residence, nature, inv_brw=ail_brw.invoice_id, context=context)
             rate_tuple = self._get_rate(
                 cr, uid, concept_id, residence, nature, base=base, inv_brw=iwdl_brw.invoice_id, context=context)
 
@@ -993,8 +995,6 @@ class islr_wh_doc_invoices(osv.osv):
                 i.write({'wh_xml_id': xml_id}, context=context)
                 lines.append(xml_id)
                 #~ Keeps a log of the rate & percentage for a concept
-                rates[i.concept_id.id] = values['rate_id']
-                wh_perc[i.concept_id.id] = values['porcent_rete']
                 if xmls.get(i.concept_id.id):
                     xmls[i.concept_id.id] += [xml_id]
                 else:
@@ -1011,9 +1011,7 @@ class islr_wh_doc_invoices(osv.osv):
                 iwdl_id = iwdl_obj.create(cr, uid,
                                           {'islr_wh_doc_id': ret_line.islr_wh_doc_id.id,
                                            'concept_id': concept_id,
-                                           'islr_rates_id': rates[concept_id],
                                            'invoice_id': ret_line.invoice_id.id,
-                                           'retencion_islr': wh_perc[concept_id],
                                            'xml_ids': [(6, 0, xmls[concept_id])],
                                            'iwdi_id': ret_line.id,
                                            }, context=context)
@@ -1178,12 +1176,6 @@ class islr_wh_doc_invoices(osv.osv):
         acc_part_id = rp_obj._find_accounting_partner(ail_brw.invoice_id.partner_id)
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, ail_brw.invoice_id)
-        residence = self._get_residence(cr, uid, vendor, buyer)
-        nature = self._get_nature(cr, uid, vendor)
-        rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name = self._get_rate(
-            cr, uid, ail_brw.concept_id.id, residence, nature, inv_brw=ail_brw.invoice_id, context=context)
-
-        wh = ((rate_base * ail_brw.price_subtotal / 100) * rate_wh_perc)/100.0
 
         base_currency = self.exchange(cr,
                 uid,
@@ -1198,19 +1190,17 @@ class islr_wh_doc_invoices(osv.osv):
             'account_invoice_id': ail_brw.invoice_id.id,
             'islr_wh_doc_line_id': False,
             'islr_xml_wh_doc': False,
-            'wh': wh,  # I must to look
+            'wh': 0.0,
             'base': base_currency,  # I get it too but from the rate
             'period_id': False,  # We review the definition because it is in NOT NULL
             'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
-            'rate_id': rate_id,  # I get it too but from the rate
             'partner_id': acc_part_id.id,  # Warning Depends if is a customer or supplier
             'concept_id': ail_brw.concept_id.id,
             'partner_vat': vendor.vat[2:12],  # Warning Depends if is a customer or supplier
-            'porcent_rete': rate_wh_perc,  # I get it too but from the rate
+            'porcent_rete': 0.0,  # To be updated later
             'control_number': ail_brw.invoice_id.nro_ctrl,
-            'sustract': rate_subtract,  # I get it too but from the rate
             'account_invoice_line_id': ail_brw.id,
-            'concept_code': rate_code,  # I get it too but from the rate
+            'concept_code': '000',  # To be updated later
         }
 
 class islr_wh_doc_line(osv.osv):

@@ -252,7 +252,7 @@ class islr_xml_wh_line(osv.osv):
         'base': fields.float('Base Amount', required=True, help="Amount where a withholding is going to be computed from", digits_compute= dp.get_precision('Withhold ISLR')),
         'porcent_rete': fields.float('Withholding Rate', required=True, help="Withholding Rate", digits_compute= dp.get_precision('Withhold ISLR')),
         'wh':fields.float('Withheld Amount',required=True, help="Withheld amount to partner", digits_compute= dp.get_precision('Withhold ISLR')),
-        'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=True, help="Person type"),
+        'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=False, help="Person type"),
         'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Income \
             Withholding Document', ondelete='cascade', help="Income Withholding\
             Document"),
