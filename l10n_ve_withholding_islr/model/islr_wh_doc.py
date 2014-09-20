@@ -1102,36 +1102,54 @@ class islr_wh_doc_invoices(osv.osv):
         #
         islr_rate_obj = self.pool.get('islr.rates')
         islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
+        order = 'minimum desc'
+
+        money2ut = ut_obj.compute
+        ut2money = ut_obj.compute_ut_to_money
 
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
 
         # First looking records for ISLR rate1
-        islr_rate_ids = islr_rate_obj.search(cr, uid, islr_rate_args + [('rate2','=',False)], context=context)
+        rate2 = False
+        islr_rate_ids = islr_rate_obj.search(cr, uid, islr_rate_args + [('rate2','=',rate2)], order=order, context=context)
 
         # Now looking for ISLR rate2
         if not islr_rate_ids:
-            islr_rate_ids = islr_rate_obj.search(cr, uid, islr_rate_args + [('rate2','=',True)], context=context)
+            rate2 = True
+            islr_rate_ids = islr_rate_obj.search(cr, uid, islr_rate_args + [('rate2','=',rate2)], order=order, context=context)
 
+        msg_nature = nature and 'Natural' or u'Jurídica'
+        msg_residence = residence and 'Domiciliada' or 'No Domiciliada'
+        msg = _(u'No Available Rates for "Persona %s %s" in Concept: "%s"')%(msg_nature, msg_residence, concept_brw.name)
         if not islr_rate_ids:
-            msg_nature = nature and 'Natural' or u'Jurídica'
-            msg_residence = residence and 'Domiciliada' or 'No Domiciliada'
-            msg = _(u'No Available Rates for "Persona %s %s" in Concept: "%s"')%(msg_nature, msg_residence, concept_brw.name)
             raise osv.except_osv(_('Missing Configuration'), msg)
 
-        for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
-            if rate_brw.nature == nature and rate_brw.residence == residence:
-                if rate_brw.rate2 and inv_brw:
-                    #Get the invoice_lines that have the same concept_id than the rate_brw which is here
-                    #Having the lines the subtotal for each lines can be got and with that it will be possible
-                    #to which rate to grab,
-                    #MULTICURRENCY WARNING: Values from the invoice_lines must be translate to VEF and then
-                    #to UT this way computing in a proper way the amount values
-                    pass
-                rate_brw_minimum = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
-                rate_brw_subtract = ut_obj.compute_ut_to_money(
-                    cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)  # Method that transforms the UVT in pesos
+        if not rate2:
+            rate_brw = islr_rate_obj.browse(cr, uid, islr_rate_ids[0], context=context)
+            rate_brw_minimum = ut2money(
+                cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)
+            rate_brw_subtract = ut2money(
+                cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)
+        else:
+            base_line_ut = money2ut(cr, uid, base_line, context.get('wh_islr_date_ret',False), context=context)
+            found_rate = False
+            for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
+                #Get the invoice_lines that have the same concept_id than the rate_brw which is here
+                #Having the lines the subtotal for each lines can be got and with that it will be possible
+                #to which rate to grab,
+                #MULTICURRENCY WARNING: Values from the invoice_lines must be translate to VEF and then
+                #to UT this way computing in a proper way the amount values
+                if rate_brw.minimum > base_line_ut:
+                    continue
+                rate_brw_minimum = ut2money(
+                    cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)
+                rate_brw_subtract = ut2money(
+                    cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)
+                found_rate = True
                 break
+            if not found_rate:
+                msg += _(' For Tax Units greater than zero')
+                raise osv.except_osv(_('Missing Configuration'), msg)
         return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
 
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
