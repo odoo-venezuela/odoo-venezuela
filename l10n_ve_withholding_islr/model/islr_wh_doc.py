@@ -1181,21 +1181,12 @@ class islr_wh_doc_invoices(osv.osv):
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, ail_brw.invoice_id)
 
-        base_currency = self.exchange(cr,
-                uid,
-                [],
-                ail_brw.price_subtotal,
-                ail_brw.invoice_id.currency_id.id,
-                ail_brw.company_id.currency_id.id,
-                ail_brw.invoice_id.date_invoice
-                )
-
         return {
             'account_invoice_id': ail_brw.invoice_id.id,
             'islr_wh_doc_line_id': False,
             'islr_xml_wh_doc': False,
-            'wh': 0.0,
-            'base': base_currency,  # I get it too but from the rate
+            'wh': 0.0,  # To be updated later
+            'base': 0.0,  # To be updated later
             'period_id': False,  # We review the definition because it is in NOT NULL
             'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
             'partner_id': acc_part_id.id,  # Warning Depends if is a customer or supplier
