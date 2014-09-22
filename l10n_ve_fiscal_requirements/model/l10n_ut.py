@@ -74,7 +74,7 @@ class l10n_ut(osv.osv):
         if context is None:
             context = {}
         result = 0.0
-        ut = self.get_amount_ut(cr, uid, date=False)
+        ut = self.get_amount_ut(cr, uid, date=date)
         if ut:
             result = from_amount / ut
         return result
