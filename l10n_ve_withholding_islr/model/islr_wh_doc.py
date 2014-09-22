@@ -1116,6 +1116,8 @@ class islr_wh_doc_invoices(osv.osv):
         islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
         order = 'minimum desc'
 
+        date_ret = context.get('wh_islr_date_ret',False)
+
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
 
         # First looking records for ISLR rate1
@@ -1136,11 +1138,11 @@ class islr_wh_doc_invoices(osv.osv):
         if not rate2:
             rate_brw = islr_rate_obj.browse(cr, uid, islr_rate_ids[0], context=context)
             rate_brw_minimum = ut2money(
-                cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)
+                cr, uid, rate_brw.minimum, date_ret, context)
             rate_brw_subtract = ut2money(
-                cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)
+                cr, uid, rate_brw.subtract, date_ret, context)
         else:
-            base_ut = money2ut(cr, uid, base, context.get('wh_islr_date_ret',False), context=context)
+            base_ut = money2ut(cr, uid, base, date_ret, context=context)
             found_rate = False
             for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
                 #Get the invoice_lines that have the same concept_id than the rate_brw which is here
@@ -1151,9 +1153,9 @@ class islr_wh_doc_invoices(osv.osv):
                 if rate_brw.minimum > base_ut:
                     continue
                 rate_brw_minimum = ut2money(
-                    cr, uid, rate_brw.minimum, context.get('wh_islr_date_ret',False), context)
+                    cr, uid, rate_brw.minimum, date_ret, context)
                 rate_brw_subtract = ut2money(
-                    cr, uid, rate_brw.subtract, context.get('wh_islr_date_ret',False), context)
+                    cr, uid, rate_brw.subtract, date_ret, context)
                 found_rate = True
                 break
             if not found_rate:
