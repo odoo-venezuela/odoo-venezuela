@@ -1113,6 +1113,7 @@ class islr_wh_doc_invoices(osv.osv):
         The vendor's residence matches a rate.
         """
         context = context or {}
+        iwdl_obj = self.pool.get('islr.wh.doc.line')
         ut_obj = self.pool.get('l10n.ut')
         money2ut = ut_obj.compute
         ut2money = ut_obj.compute_ut_to_money
@@ -1155,6 +1156,15 @@ class islr_wh_doc_invoices(osv.osv):
                 cr, uid, rate_brw.subtract, date_ret, context)
         else:
             base_ut = money2ut(cr, uid, base, date_ret, context=context)
+            iwdl_ids = iwdl_obj.search(cr, uid,
+                                       [('partner_id','=',inv_brw.partner_id.id),
+                                        ('concept_id','=',concept_id),
+                                        ('invoice_id','!=',inv_brw.id), #need to exclude this invoice from computation
+                                        ('fiscalyear_id','=',inv_brw.islr_wh_doc_id.period_id.fiscalyear_id.id)],
+                                       context=context)
+            # Previous amount Tax Unit for this partner in this fiscalyear with this concept
+            for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids, context=context):
+                base_ut += iwdl_brw.raw_base_ut
             found_rate = False
             for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
                 #Get the invoice_lines that have the same concept_id than the rate_brw which is here
@@ -1262,5 +1272,7 @@ class islr_wh_doc_line(osv.osv):
         'xml_ids': fields.one2many('islr.xml.wh.line', 'islr_wh_doc_line_id', 'XML Lines', help='XML withhold invoice line id'),
         'iwdi_id': fields.many2one('islr.wh.doc.invoices', 'Withheld Invoice',
         ondelete='cascade', help="Withheld Invoices"),
+        'partner_id':fields.related('islr_wh_doc_id', 'partner_id', string='Partner', type='many2one', relation='res.partner', store=True),
+        'fiscalyear_id':fields.related('islr_wh_doc_id', 'period_id', 'fiscalyear_id', string='Partner', type='many2one', relation='res.partner', store=True),
     }
 
