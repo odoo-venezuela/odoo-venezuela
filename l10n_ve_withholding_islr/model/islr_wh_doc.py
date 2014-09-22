@@ -810,7 +810,6 @@ class islr_wh_doc_invoices(osv.osv):
     def _check_invoice(self, cr, uid, ids, context=None):
         """ Determine if the given invoices are in Open State
         """
-        #import pdb; pdb.set_trace()
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         inv_str = ''
@@ -870,7 +869,7 @@ class islr_wh_doc_invoices(osv.osv):
         iwdl_obj = self.pool.get('islr.wh.doc.line')
         iwdl_brw = iwdl_obj.browse(cr, uid, ids[0], context=context)
 
-        ut_date = iwdl_brw.islr_wh_doc_id.date_ret or time.strftime('%Y-%m-%d')
+        ut_date = iwdl_brw.islr_wh_doc_id.date_uid
         ut_obj = self.pool.get('l10n.ut')
         money2ut = ut_obj.compute
 
@@ -902,12 +901,15 @@ class islr_wh_doc_invoices(osv.osv):
                             )
                 base += base_line
 
-            #rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name = self._get_rate(
+            #rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name, rate2 = self._get_rate(
             #    cr, uid, ail_brw.concept_id.id, residence, nature, inv_brw=ail_brw.invoice_id, context=context)
             rate_tuple = self._get_rate(
                 cr, uid, concept_id, residence, nature, base=base, inv_brw=iwdl_brw.invoice_id, context=context)
 
-            apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
+            if rate_tuple[7]:
+                apply = True
+            else:
+                apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             wh = 0.0
             subtract = apply and rate_tuple[3] or 0.0
             subtract_write = 0.0
@@ -959,7 +961,10 @@ class islr_wh_doc_invoices(osv.osv):
             rate_tuple = self._get_rate(
                 cr, uid, concept_id, residence, nature, base_line=0.0, inv_brw=iwdl_brw.invoice_id, context=context)
 
-            apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
+            if rate_tuple[7]:
+                apply = True
+            else:
+                apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             sb_concept = apply and rate_tuple[3] or 0.0
             if apply:
                 wh_concept = (rate_tuple[0]/100.0)*rate_tuple[2]*base/100.0
@@ -1129,7 +1134,7 @@ class islr_wh_doc_invoices(osv.osv):
         islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
         order = 'minimum desc'
 
-        date_ret = context.get('wh_islr_date_ret',False)
+        date_ret = inv_brw.islr_wh_doc_id.date_uid
 
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
 
@@ -1184,7 +1189,7 @@ class islr_wh_doc_invoices(osv.osv):
                 msg += _(' For Tax Units greater than zero')
                 raise osv.except_osv(_('Missing Configuration'), msg)
         return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc,
-                rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name)
+                rate_brw_subtract, rate_brw.code, rate_brw.id, rate_brw.name, rate2)
 
     def _get_country_fiscal(self, cr, uid, partner_id, context=None):
         """ Get the country of the partner
