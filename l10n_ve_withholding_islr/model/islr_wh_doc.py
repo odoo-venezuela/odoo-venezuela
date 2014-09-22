@@ -858,6 +858,10 @@ class islr_wh_doc_invoices(osv.osv):
         iwdl_obj = self.pool.get('islr.wh.doc.line')
         iwdl_brw = iwdl_obj.browse(cr, uid, ids[0], context=context)
 
+        ut_date = iwdl_brw.islr_wh_doc_id.date_ret or time.strftime('%Y-%m-%d')
+        ut_obj = self.pool.get('l10n.ut')
+        money2ut = ut_obj.compute
+
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, iwdl_brw.invoice_id)
         apply = not vendor.islr_exempt
@@ -919,7 +923,7 @@ class islr_wh_doc_invoices(osv.osv):
                     cr, uid, line.id, {
                         'wh': wh,
                         'base': base_line * (rate_tuple[0]/100.0),
-                        'wh': wh,
+                        'raw_base_ut': money2ut(cr, uid, base_line, ut_date),
                         'sustract': subtract or subtract_write,
                         'rate_id':rate_tuple[5],
                         'porcent_rete':rate_tuple[2],
@@ -952,6 +956,7 @@ class islr_wh_doc_invoices(osv.osv):
             'amount': wh_concept,
             'subtract': sb_concept,
             'base_amount': base * (rate_tuple[0]/100.0),
+            'raw_base_ut': money2ut(cr, uid, base, ut_date),
             'retencion_islr': rate_tuple[2],
             'islr_rates_id': rate_tuple[5],
         }
@@ -1097,6 +1102,9 @@ class islr_wh_doc_invoices(osv.osv):
         """
         context = context or {}
         ut_obj = self.pool.get('l10n.ut')
+        money2ut = ut_obj.compute
+        ut2money = ut_obj.compute_ut_to_money
+
 
         # Hbto: thinks that this browse could be substitute by a search.
         # attention must be paid when doing the search as the values for the minimum should be
@@ -1107,9 +1115,6 @@ class islr_wh_doc_invoices(osv.osv):
         islr_rate_obj = self.pool.get('islr.rates')
         islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
         order = 'minimum desc'
-
-        money2ut = ut_obj.compute
-        ut2money = ut_obj.compute_ut_to_money
 
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
 
@@ -1233,6 +1238,7 @@ class islr_wh_doc_line(osv.osv):
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', help="Invoice to withhold"),
         'amount': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_amount': fields.float('Base Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Base amount"),
+        'raw_base_ut': fields.float('UT Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
         'subtract': fields.float('Subtract', digits_compute=dp.get_precision('Withhold ISLR'), help="Subtract"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'concept_id': fields.many2one('islr.wh.concept', 'Withholding Concept', help="Withholding concept associated with this rate"),
