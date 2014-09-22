@@ -223,13 +223,25 @@ class islr_wh_doc(osv.osv):
         iwdi_obj = self.pool.get('islr.wh.doc.invoices')
         iwdl_obj = self.pool.get('islr.wh.doc.line')
 
+        iwd_brw = self.browse(cr, uid, ids[0], context=context)
+        if not iwd_brw.date_uid:
+            raise osv.except_osv(_('Missing Date !'), _("Please Fill Voucher Date"))
+        period_ids = self.pool.get('account.period').search(cr, uid,
+                                    [('date_start', '<=', iwd_brw.date_uid),
+                                    ('date_stop', '>=', iwd_brw.date_uid)])
+        if len(period_ids):
+            period_id = period_ids[0]
+        else:
+            raise osv.except_osv(_('Warning !'), _("Not found a fiscal period to date: '%s' please check!") % (
+                iwd_brw.date_uid or time.strftime('%Y-%m-%d')))
+        iwd_brw.write({'period_id':period_id})
+
         #~ Searching & Unlinking for concept lines from the current withholding
         iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
                 context=context)
         if iwdl_ids:
             iwdl_obj.unlink(cr, uid, iwdl_ids,context=context)
 
-        iwd_brw = self.browse(cr, uid, ids[0], context=context)
         for iwdi_brw in iwd_brw.invoice_ids:
             iwdi_obj.load_taxes(cr, uid, iwdi_brw.id, context=context)
         return True
