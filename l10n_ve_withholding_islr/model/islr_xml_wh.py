@@ -251,6 +251,7 @@ class islr_xml_wh_line(osv.osv):
         'concept_code': fields.char('Concept Code', size=10, required=True, help="Concept code"),
         'base': fields.float('Base Amount', required=True, help="Amount where a withholding is going to be computed from", digits_compute= dp.get_precision('Withhold ISLR')),
         'raw_base_ut': fields.float('UT Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
+        'raw_tax_ut': fields.float('UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Withheld Tax"),
         'porcent_rete': fields.float('Withholding Rate', required=True, help="Withholding Rate", digits_compute= dp.get_precision('Withhold ISLR')),
         'wh':fields.float('Withheld Amount',required=True, help="Withheld amount to partner", digits_compute= dp.get_precision('Withhold ISLR')),
         'rate_id':fields.many2one('islr.rates', 'Person Type',domain="[('concept_id','=',concept_id)]",required=False, help="Person type"),

@@ -1160,6 +1160,10 @@ class islr_wh_doc_invoices(osv.osv):
             rate_brw_subtract = ut2money(
                 cr, uid, rate_brw.subtract, date_ret, context)
         else:
+            rate2 = {
+                'cumulative_base_ut' : 0.0,
+                'cumulative_tax_ut' : 0.0,
+            }
             base_ut = money2ut(cr, uid, base, date_ret, context=context)
             iwdl_ids = iwdl_obj.search(cr, uid,
                                        [('partner_id','=',inv_brw.partner_id.id),
@@ -1170,6 +1174,8 @@ class islr_wh_doc_invoices(osv.osv):
             # Previous amount Tax Unit for this partner in this fiscalyear with this concept
             for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids, context=context):
                 base_ut += iwdl_brw.raw_base_ut
+                rate2['cumulative_base_ut'] += iwdl_brw.raw_base_ut
+                rate2['cumulative_tax_ut'] += iwdl_brw.raw_tax_ut
             found_rate = False
             for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
                 #Get the invoice_lines that have the same concept_id than the rate_brw which is here
@@ -1184,6 +1190,7 @@ class islr_wh_doc_invoices(osv.osv):
                 rate_brw_subtract = ut2money(
                     cr, uid, rate_brw.subtract, date_ret, context)
                 found_rate = True
+                rate2['subtrahend'] = rate_brw.subtract
                 break
             if not found_rate:
                 msg += _(' For Tax Units greater than zero')
@@ -1268,6 +1275,7 @@ class islr_wh_doc_line(osv.osv):
         'amount': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_amount': fields.float('Base Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Base amount"),
         'raw_base_ut': fields.float('UT Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
+        'raw_tax_ut': fields.float('UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Withheld Tax"),
         'subtract': fields.float('Subtract', digits_compute=dp.get_precision('Withhold ISLR'), help="Subtract"),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc', 'Withhold Document', ondelete='cascade', help="Document Retention income tax generated from this bill"),
         'concept_id': fields.many2one('islr.wh.concept', 'Withholding Concept', help="Withholding concept associated with this rate"),
