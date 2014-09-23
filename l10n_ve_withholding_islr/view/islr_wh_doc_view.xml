@@ -272,6 +272,8 @@
                                                                 <field name="wh"/>
                                                                 <field name="porcent_rete"/>
                                                                 <field name="base"/>
+                                                                <field name="raw_base_ut"/>
+                                                                <field name="raw_tax_ut"/>
                                                             </tree>
                                                         </field>
                                                     </group>
@@ -306,6 +308,8 @@
                                             <field name="retencion_islr"/>
                                             <field name="subtract"/>
                                             <field name="amount"/>
+                                            <field name="raw_base_ut"/>
+                                            <field name="raw_tax_ut"/>
                                         </tree>
                                         <form string="Income Withholding Concepts" version="7.0">
                                             <notebook>
@@ -322,6 +326,8 @@
                                                                 <field name="wh"/>
                                                                 <field name="porcent_rete"/>
                                                                 <field name="base"/>
+                                                                <field name="raw_base_ut"/>
+                                                                <field name="raw_tax_ut"/>
                                                             </tree>
                                                         </field>
                                                     </group>
