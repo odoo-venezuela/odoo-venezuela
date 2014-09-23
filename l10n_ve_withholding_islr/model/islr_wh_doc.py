@@ -926,6 +926,7 @@ class islr_wh_doc_invoices(osv.osv):
                     line.account_invoice_line_id.invoice_id.date_invoice)
 
                 base_line_ut = money2ut(cr, uid, base_line, ut_date)
+                values = {}
                 if apply and not rate_tuple[7]:
                     wh_calc = (rate_tuple[0]/100.0)*(rate_tuple[2]/100.0)*base_line
                     if subtract >= wh_calc:
