@@ -10,7 +10,7 @@
 -
  I set the company to propagate the invoice date to income withholding.
 -
-    !record{model: res.partner, id: base.main_partner}:
+    !record {model: res.partner, id: base.main_partner}:
         propagate_invoice_date_to_income_withholding: True
 -
   I check that the company is a income withholding agent and is at Venezuela.
