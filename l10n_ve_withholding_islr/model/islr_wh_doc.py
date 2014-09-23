@@ -938,6 +938,7 @@ class islr_wh_doc_invoices(osv.osv):
                         'wh': wh,
                         'base': base_line * (rate_tuple[0]/100.0),
                         'raw_base_ut': money2ut(cr, uid, base_line, ut_date),
+                        'raw_tax_ut': money2ut(cr, uid, wh, ut_date),
                         'sustract': subtract or subtract_write,
                         'rate_id':rate_tuple[5],
                         'porcent_rete':rate_tuple[2],
@@ -971,6 +972,7 @@ class islr_wh_doc_invoices(osv.osv):
                 wh_concept -= sb_concept
         values = {
             'amount': wh_concept,
+            'raw_tax_ut': money2ut(cr, uid, wh_concept, ut_date),
             'subtract': sb_concept,
             'base_amount': base * (rate_tuple[0]/100.0),
             'raw_base_ut': money2ut(cr, uid, base, ut_date),
