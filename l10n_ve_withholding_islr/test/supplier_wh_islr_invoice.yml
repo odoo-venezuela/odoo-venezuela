@@ -61,7 +61,6 @@
         company_id: base.main_company
         currency_id: base.EUR
         reference_type: none
-        date_uid: !eval time.strftime('%Y-%m-%d') 
         invoice_line: &islr_supplier_wh_ail 
           - product_id: product.product_product_4
             quantity: 3
