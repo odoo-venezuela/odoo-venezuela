@@ -872,6 +872,7 @@ class islr_wh_doc_invoices(osv.osv):
         ut_date = iwdl_brw.islr_wh_doc_id.date_uid
         ut_obj = self.pool.get('l10n.ut')
         money2ut = ut_obj.compute
+        ut2money = ut_obj.compute_ut_to_money
 
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, iwdl_brw.invoice_id)
@@ -908,6 +909,9 @@ class islr_wh_doc_invoices(osv.osv):
 
             if rate_tuple[7]:
                 apply = True
+                residual_ut = (rate_tuple[0]/100.0)*(rate_tuple[2]/100.0)*rate_tuple[7]['cumulative_base_ut']
+                residual_ut -= rate_tuple[7]['cumulative_tax_ut']
+                residual_ut -= rate_tuple[7]['subtrahend']
             else:
                 apply = apply and base >= rate_tuple[0]*rate_tuple[1]/100.0
             wh = 0.0
@@ -915,17 +919,15 @@ class islr_wh_doc_invoices(osv.osv):
             subtract_write = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
-                if apply:
-                    base_line = self.exchange(cr,
-                            uid,
-                            ids,
-                            line.account_invoice_line_id.price_subtotal,
-                            line.account_invoice_line_id.invoice_id.currency_id.id,
-                            line.account_invoice_line_id.company_id.currency_id.id,
-                            line.account_invoice_line_id.invoice_id.date_invoice
-                            )
+                base_line = self.exchange(cr, uid, ids,
+                    line.account_invoice_line_id.price_subtotal,
+                    line.account_invoice_line_id.invoice_id.currency_id.id,
+                    line.account_invoice_line_id.company_id.currency_id.id,
+                    line.account_invoice_line_id.invoice_id.date_invoice)
 
-                    wh_calc = (rate_tuple[0]/100.0)*rate_tuple[2]*base_line/100.0
+                base_line_ut = money2ut(cr, uid, base_line, ut_date)
+                if apply and not rate_tuple[7]:
+                    wh_calc = (rate_tuple[0]/100.0)*(rate_tuple[2]/100.0)*base_line
                     if subtract >= wh_calc:
                         wh = 0.0
                         subtract -= wh_calc
@@ -933,18 +935,34 @@ class islr_wh_doc_invoices(osv.osv):
                         wh = wh_calc - subtract
                         subtract_write = subtract
                         subtract = 0.0
-                ixwl_obj.write(
-                    cr, uid, line.id, {
+                    values = {
                         'wh': wh,
-                        'base': base_line * (rate_tuple[0]/100.0),
-                        'raw_base_ut': money2ut(cr, uid, base_line, ut_date),
                         'raw_tax_ut': money2ut(cr, uid, wh, ut_date),
                         'sustract': subtract or subtract_write,
-                        'rate_id':rate_tuple[5],
-                        'porcent_rete':rate_tuple[2],
-                        'concept_code':rate_tuple[4],
-                    },
-                    context=context)
+                    }
+                elif apply and rate_tuple[7]:
+                    tax_line_ut = base_line_ut * (rate_tuple[0]/100.0)*(rate_tuple[2]/100.0)
+                    if residual_ut >= tax_line_ut:
+                        wh_ut = 0.0
+                        residual_ut -= tax_line_ut
+                    else:
+                        wh_ut = tax_line_ut + residual_ut
+                        subtract_write_ut = residual_ut
+                        residual_ut = 0.0
+                    wh = ut2money(cr, uid, wh_ut, ut_date)
+                    values = {
+                        'wh': wh,
+                        'raw_tax_ut': wh_ut,
+                        'sustract': ut2money(cr, uid, residual_ut or subtract_write_ut, ut_date),
+                    }
+                values.update({
+                    'base': base_line * (rate_tuple[0]/100.0),
+                    'raw_base_ut': base_line_ut,
+                    'rate_id':rate_tuple[5],
+                    'porcent_rete':rate_tuple[2],
+                    'concept_code':rate_tuple[4],
+                })
+                ixwl_obj.write( cr, uid, line.id, values, context=context)
                 wh_concept += wh
         else:
             for line in iwdl_brw.invoice_id.invoice_line:
