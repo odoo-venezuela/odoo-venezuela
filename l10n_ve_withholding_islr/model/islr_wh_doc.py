@@ -919,6 +919,7 @@ class islr_wh_doc_invoices(osv.osv):
             subtract_write = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
+                values = dict()
                 base_line = self.exchange(cr, uid, ids,
                     line.account_invoice_line_id.price_subtotal,
                     line.account_invoice_line_id.invoice_id.currency_id.id,
