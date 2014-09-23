@@ -2,11 +2,11 @@
 <openerp>
     <data>
 
-    <!-- 
+    <!--
     =====================================================
     Partners Extension Income
     =====================================================
-    -->  
+    -->
 
         <record id="res_partner_wh_islr" model="ir.ui.view">
             <field name="name">res.partner.wh.islr</field>
@@ -19,6 +19,15 @@
                             <field name="islr_withholding_agent"/>
                             <field name="spn"/>
                             <field name="islr_exempt"/>
+                        </group>
+                        <group string='Income Withholding Historical Data' col="4" colspan="4">
+                            <field name="islr_wh_historical_data_ids" nolabel='1'>
+                                <tree editable='top'>
+                                    <field name="raw_base_ut"/>
+                                    <field name="raw_tax_ut"/>
+                                    <field name="concept_id"/>
+                                </tree>
+                            </field>
                         </group>
                 </xpath>
                 <xpath expr="//separator[@string=&quot;vsep&quot;]" position="attributes">

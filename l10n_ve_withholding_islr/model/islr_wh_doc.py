@@ -1309,3 +1309,16 @@ class islr_wh_doc_line(osv.osv):
         'fiscalyear_id':fields.related('islr_wh_doc_id', 'period_id', 'fiscalyear_id', string='Partner', type='many2one', relation='res.partner', store=True),
     }
 
+class islr_wh_historical_data(osv.osv):
+    _name = "islr.wh.historical.data"
+    _description = 'Lines of Document Income Withholding'
+    _columns = {
+        'partner_id': fields.many2one('res.partner', 'Partner', readonly=False, required=True, help="Partner for this historical data"),
+        'concept_id': fields.many2one('islr.wh.concept', 'Withholding Concept', required=True, help="Withholding concept associated with this historical data"),
+        'raw_base_ut': fields.float('Cumulative UT Amount', required=True, digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
+        'raw_tax_ut': fields.float('Cumulative UT Withheld Tax', required=True, digits_compute=dp.get_precision('Withhold ISLR'), help="UT Withheld Tax"),
+    }
+
+
+
+

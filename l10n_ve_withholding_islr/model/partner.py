@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -27,10 +27,6 @@
 ##############################################################################
 from openerp.osv import osv
 from openerp.osv import fields
-from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'
@@ -39,8 +35,24 @@ class res_partner(osv.osv):
         'islr_withholding_agent': fields.boolean('Income Withholding Agent?',help="Check if the partner is an agent for income withholding"),
         'spn':fields.boolean('Is it a society of natural persons?', help='Indicates whether refers to a society of natural persons'),
         'islr_exempt': fields.boolean('Is it exempt from income withholding?', help='Whether the individual is exempt from income withholding'),
+        'islr_wh_historical_data_ids': fields.one2many('islr.wh.historical.data', 'partner_id', 'ISLR Historical Data', help='Values to be used when computing Rate 2'),
     }
-    
+
     _defaults = {
         'islr_withholding_agent': lambda *a: True,
     }
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        """ Initialized id by duplicating
+        """
+        if default is None:
+            default = {}
+        default = default.copy()
+        default.update({
+            'islr_withholding_agent': 1,
+            'spn': 0,
+            'islr_exempt': 0,
+            'islr_wh_historical_data_ids': [],
+        })
+
+        return super(res_partner, self).copy(cr, uid, id, default, context)
