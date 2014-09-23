@@ -1140,16 +1140,9 @@ class islr_wh_doc_invoices(osv.osv):
         context = context or {}
         iwdl_obj = self.pool.get('islr.wh.doc.line')
         ut_obj = self.pool.get('l10n.ut')
+        iwhd_obj = self.pool.get("islr.wh.historical.data")
         money2ut = ut_obj.compute
         ut2money = ut_obj.compute_ut_to_money
-
-
-        # Hbto: thinks that this browse could be substitute by a search.
-        # attention must be paid when doing the search as the values for the minimum should be
-        # ordered desc, and only one element should be fetched, limit=1
-        # This means that the value for the GrandTotal in this invoice regarding this
-        # concept should come before,
-        #
         islr_rate_obj = self.pool.get('islr.rates')
         islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
         order = 'minimum desc'
@@ -1196,6 +1189,15 @@ class islr_wh_doc_invoices(osv.osv):
                 base_ut += iwdl_brw.raw_base_ut
                 rate2['cumulative_base_ut'] += iwdl_brw.raw_base_ut
                 rate2['cumulative_tax_ut'] += iwdl_brw.raw_tax_ut
+            iwhd_ids = iwhd_obj.search(cr, uid,
+                            [('partner_id','=',inv_brw.partner_id.id),
+                            ('concept_id','=',concept_id),
+                            ('fiscalyear_id','=',inv_brw.islr_wh_doc_id.period_id.fiscalyear_id.id)],
+                            context=context)
+            for iwhd_brw in iwhd_obj.browse(cr, uid, iwhd_ids, context=context):
+                base_ut += iwhd_brw.raw_base_ut
+                rate2['cumulative_base_ut'] += iwhd_brw.raw_base_ut
+                rate2['cumulative_tax_ut'] += iwhd_brw.raw_tax_ut
             found_rate = False
             for rate_brw in islr_rate_obj.browse(cr, uid, islr_rate_ids, context=context):
                 #Get the invoice_lines that have the same concept_id than the rate_brw which is here
@@ -1314,11 +1316,11 @@ class islr_wh_historical_data(osv.osv):
     _description = 'Lines of Document Income Withholding'
     _columns = {
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=False, required=True, help="Partner for this historical data"),
+        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', readonly=False, required=True, help="Fiscal Year to applicable to this cumulation"),
         'concept_id': fields.many2one('islr.wh.concept', 'Withholding Concept', required=True, help="Withholding concept associated with this historical data"),
         'raw_base_ut': fields.float('Cumulative UT Amount', required=True, digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
         'raw_tax_ut': fields.float('Cumulative UT Withheld Tax', required=True, digits_compute=dp.get_precision('Withhold ISLR'), help="UT Withheld Tax"),
     }
-
 
 
 

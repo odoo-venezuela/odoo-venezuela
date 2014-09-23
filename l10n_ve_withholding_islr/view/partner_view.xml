@@ -23,6 +23,7 @@
                         <group string='Income Withholding Historical Data' col="4" colspan="4">
                             <field name="islr_wh_historical_data_ids" nolabel='1'>
                                 <tree editable='top'>
+                                    <field name="fiscalyear_id"/>
                                     <field name="raw_base_ut"/>
                                     <field name="raw_tax_ut"/>
                                     <field name="concept_id"/>
