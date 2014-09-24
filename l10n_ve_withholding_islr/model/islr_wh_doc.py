@@ -1148,7 +1148,7 @@ class islr_wh_doc_invoices(osv.osv):
         islr_rate_args = [('concept_id','=',concept_id),('nature','=',nature),('residence','=',residence),]
         order = 'minimum desc'
 
-        date_ret = inv_brw.islr_wh_doc_id.date_uid
+        date_ret = inv_brw and inv_brw.islr_wh_doc_id.date_uid or time.strftime('%Y-%m-%d')
 
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id)
 
