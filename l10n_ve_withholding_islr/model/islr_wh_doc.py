@@ -501,6 +501,7 @@ class islr_wh_doc(osv.osv):
                 raise osv.except_osv(_('Warning !'), _("Not found a fiscal period to date: '%s' please check!") % (
                     ret.date_ret or time.strftime('%Y-%m-%d')))
 
+        ut_obj = self.pool.get('l10n.ut')
         for line in ret.invoice_ids:
             if ret.type in ('in_invoice', 'in_refund'):
                 name = 'COMP. RET. ISLR ' + ret.number + \
@@ -517,6 +518,10 @@ class islr_wh_doc(osv.osv):
                 line.iwdl_ids, context=context)
 
             if line.invoice_id.currency_id.id != line.invoice_id.company_id.currency_id.id:
+                f_xc = ut_obj.xc(cr, uid,
+                        line.invoice_id.company_id.currency_id.id,
+                        line.invoice_id.currency_id.id,
+                        line.islr_wh_doc_id.date_uid)
                 move_obj = self.pool.get('account.move')
                 move_line_obj = self.pool.get('account.move.line')
                 move_brw = move_obj.browse(cr, uid, ret_move['move_id'])
@@ -525,28 +530,12 @@ class islr_wh_doc(osv.osv):
                             {'currency_id': line.invoice_id.currency_id.id})
 
                     if ml.credit:
-
-                        amount_currency = line.exchange(
-                        ml.credit,
-                        line.invoice_id.company_id.currency_id.id,
-                        line.invoice_id.currency_id.id,
-                        line.invoice_id.date_invoice,
-                        )
-
                         move_line_obj.write(cr, uid, ml.id,
-                                {'amount_currency': amount_currency*-1  } )
+                                {'amount_currency': f_xc(ml.credit)*-1  } )
 
                     elif ml.debit:
-
-                        amount_currency = line.exchange(
-                        ml.debit,
-                        line.invoice_id.company_id.currency_id.id,
-                        line.invoice_id.currency_id.id,
-                        line.invoice_id.date_invoice,
-                        )
-
                         move_line_obj.write(cr, uid, ml.id,
-                                {'amount_currency': amount_currency  } )
+                                {'amount_currency': f_xc(ml.debit)  } )
 
             # make the withholding line point to that move
             rl = {
@@ -777,12 +766,9 @@ class islr_wh_doc_invoices(osv.osv):
         """ Return all amount relating to the invoices lines
         """
         res = {}
-        def xc(s, cr, uid, ids, from_currency_id, to_currency_id, exchange_date):
-            def _xc(from_amount):
-                return s.exchange(cr, uid, ids, from_amount, from_currency_id, to_currency_id, exchange_date)
-            return _xc
+        ut_obj = self.pool.get('l10n.ut')
         for ret_line in self.browse(cr, uid, ids, context):
-            f_xc = xc(self, cr, uid, ids,
+            f_xc = ut_obj.xc(cr, uid,
                     ret_line.invoice_id.company_id.currency_id.id,
                     ret_line.invoice_id.currency_id.id,
                     ret_line.islr_wh_doc_id.date_uid)
@@ -857,15 +843,6 @@ class islr_wh_doc_invoices(osv.osv):
                 res_ids += [id]
         return res_ids
 
-    def exchange(self, cr, uid, ids, from_amount, from_currency_id, to_currency_id, exchange_date, context=None):
-        if context is None:
-            context = {}
-        if from_currency_id == to_currency_id:
-            return from_amount
-        curr_obj = self.pool.get('res.currency')
-        context['date'] = exchange_date
-        return curr_obj.compute(cr, uid, from_currency_id, to_currency_id, from_amount, context=context)
-
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
         """ Return a dictionary containing all the values of the retention of an invoice line.
         @param concept_id: Withholding reason
@@ -899,17 +876,15 @@ class islr_wh_doc_invoices(osv.osv):
         base = 0
         wh_concept = 0.0
 
+        #Using a clousure to make this call shorter
+        f_xc = ut_obj.xc(cr, uid,
+                iwdl_brw.invoice_id.currency_id.id,
+                iwdl_brw.invoice_id.company_id.currency_id.id,
+                iwdl_brw.invoice_id.date_invoice)
+
         if iwdl_brw.invoice_id.type in ('in_invoice', 'in_refund'):
             for line in iwdl_brw.xml_ids:
-                base_line = self.exchange(cr,
-                            uid,
-                            ids,
-                            line.account_invoice_line_id.price_subtotal,
-                            line.account_invoice_line_id.invoice_id.currency_id.id,
-                            line.account_invoice_line_id.company_id.currency_id.id,
-                            line.account_invoice_line_id.invoice_id.date_invoice
-                            )
-                base += base_line
+                base += f_xc(line.account_invoice_line_id.price_subtotal)
 
             #rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name, rate2 = self._get_rate(
             #    cr, uid, ail_brw.concept_id.id, residence, nature, inv_brw=ail_brw.invoice_id, context=context)
@@ -928,12 +903,7 @@ class islr_wh_doc_invoices(osv.osv):
             subtract_write = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
-                base_line = self.exchange(cr, uid, ids,
-                    line.account_invoice_line_id.price_subtotal,
-                    line.account_invoice_line_id.invoice_id.currency_id.id,
-                    line.account_invoice_line_id.company_id.currency_id.id,
-                    line.account_invoice_line_id.invoice_id.date_invoice)
-
+                base_line = f_xc(line.account_invoice_line_id.price_subtotal)
                 base_line_ut = money2ut(cr, uid, base_line, ut_date)
                 values = {}
                 if apply and not rate_tuple[7]:
@@ -977,15 +947,7 @@ class islr_wh_doc_invoices(osv.osv):
         else:
             for line in iwdl_brw.invoice_id.invoice_line:
                 if line.concept_id.id == concept_id:
-                    base_line = self.exchange(cr,
-                            uid,
-                            ids,
-                            line.price_subtotal,
-                            line.invoice_id.currency_id.id,
-                            line.company_id.currency_id.id,
-                            line.invoice_id.date_invoice
-                            )
-                    base += base_line
+                    base += f_xc(line.price_subtotal)
 
             rate_tuple = self._get_rate(
                 cr, uid, concept_id, residence, nature, base_line=0.0, inv_brw=iwdl_brw.invoice_id, context=context)
