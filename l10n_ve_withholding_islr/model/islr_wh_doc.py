@@ -1243,12 +1243,24 @@ class islr_wh_doc_line(osv.osv):
         """ Return all amount relating to the invoices lines
         """
         res = {}
+        ut_obj = self.pool.get('l10n.ut')
         for iwdl_brw in self.browse(cr, uid, ids, context):
+            #Using a clousure to make this call shorter
+            f_xc = ut_obj.xc(cr, uid,
+                    iwdl_brw.invoice_id.company_id.currency_id.id,
+                    iwdl_brw.invoice_id.currency_id.id,
+                    iwdl_brw.islr_wh_doc_id.date_uid)
+
             res[iwdl_brw.id] = {
                 'amount': 0.0,
+                'currency_amount': 0.0,
+                'currency_base_amount': 0.0,
             }
             for xml_brw in iwdl_brw.xml_ids:
                 res[iwdl_brw.id]['amount'] += xml_brw.wh
+            res[iwdl_brw.id]['currency_amount'] = f_xc(res[iwdl_brw.id]['amount'])
+            res[iwdl_brw.id]['currency_base_amount'] = f_xc(iwdl_brw.base_amount)
+
 
         return res
 
@@ -1266,8 +1278,10 @@ class islr_wh_doc_line(osv.osv):
     _columns = {
         'name': fields.char('Description', size=64, help="Description of the voucher line"),
         'invoice_id': fields.many2one('account.invoice', 'Invoice', ondelete='set null', help="Invoice to withhold"),
-        'amount': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
+        'amount': fields.function(_amount_all, method=True, digits=(16, 2), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
+        'currency_amount': fields.function(_amount_all, method=True, digits=(16, 2), string='Foreign Currency Withheld Amount', multi='all', help="Amount withheld from the base amount"),
         'base_amount': fields.float('Base Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="Base amount"),
+        'currency_base_amount': fields.function(_amount_all, method=True, digits=(16, 2), string='Foreign Currency Base amount', multi='all', help="Amount withheld from the base amount"),
         'raw_base_ut': fields.float('UT Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
         'raw_tax_ut': fields.float('UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Withheld Tax"),
         'subtract': fields.float('Subtract', digits_compute=dp.get_precision('Withhold ISLR'), help="Subtract"),

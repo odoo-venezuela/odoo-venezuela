@@ -337,11 +337,17 @@
                                                             </tree>
                                                         </field>
                                                     </group>
-                                                    <group col="2" colspan="2">
-                                                        <field name="base_amount"/>
-                                                        <field name="subtract"/>
-                                                        <field name="retencion_islr"/>
-                                                        <field name="amount"/>
+                                                    <group col="4" colspan="4">
+                                                        <group col="2" colspan="2">
+                                                            <field name="base_amount"/>
+                                                            <field name="amount"/>
+                                                            <field name="subtract"/>
+                                                            <field name="retencion_islr"/>
+                                                        </group>
+                                                        <group col="2" colspan="2">
+                                                            <field name="currency_base_amount"/>
+                                                            <field name="currency_amount"/>
+                                                        </group>
                                                     </group>
                                                 </page>
                                             </notebook>
