@@ -867,6 +867,7 @@
         name: ISLR SUPPLIER WH DOC (MANUAL)
         partner_id: l10n_ve_fiscal_requirements.f_req_partner_1
         account_id: account.a_recv
+        date_uid: !eval time.strftime('%Y-%m-%d')
 -
   I unlink the auto-loaded invoices.
 -
@@ -895,7 +896,7 @@
         - len(invoice_ids) == 1
         - invoice_ids[0].invoice_id.id == ref( 'islr_manual_supplier_invoice' )
 -
-  I compute the taxes manually with the button 'Compute Icome Withholding'.
+  I compute the taxes manually with the button 'Compute Income Withholding'.
 -
     !function {model: islr.wh.doc, name: compute_amount_wh, id: islr_manual_supplier_wh_doc}:
         - model: islr.wh.doc
