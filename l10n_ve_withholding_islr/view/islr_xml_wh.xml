@@ -91,6 +91,12 @@
             <field name="model">islr.xml.wh.doc</field>
             <field name="arch" type="xml">
                 <form string="Lines Withholding for XML" version="7.0">
+                    <header>
+                        <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
+                        <button name="action_done1" string="Validate XML" states="confirmed" type="object" icon="gtk-ok"/>
+                        <button name="action_anular1" string="Invalidate" states="confirmed,done" type="object" icon="gtk-cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
+                    </header>
                     <field name="name"/>
                     <field name="period_id" widget="selection" domain="[('state','=','draft')]"/>
                     <notebook colspan="4">
@@ -106,13 +112,6 @@
                                     <field name="wh"/>
                                 </tree>
                             </field>
-
-                            <group col="4" colspan="2">
-                                <field name="state" colspan="4"/>
-                                <button name="action_confirm1" string="Confirm" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
-                                <button name="action_done1" string="Validate XML" states="confirmed" type="object" icon="gtk-ok"/>
-                                <button name="action_anular1" string="Invalidate" states="confirmed,done" type="object" icon="gtk-cancel"/>
-                            </group>
                             <group col="2" colspan="2">
                                 <field name="amount_total_ret"/>
                                 <field name="amount_total_base"/>
