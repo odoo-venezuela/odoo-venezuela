@@ -149,7 +149,6 @@
         <record model="ir.actions.act_window" id="action_wh_islr_rates">
             <field name="name">Income Withholding Rates</field>
             <field name="res_model">islr.rates</field>
-            <field name="model"></field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree</field>

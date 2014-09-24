@@ -29,3 +29,7 @@ access_account_islr_xml_wh_doc,islr.xml.wh.doc,model_islr_xml_wh_doc,l10n_ve_wit
 access_account_islr_xml_wh_line_manager,islr.xml.wh.line.manager,model_islr_xml_wh_line,l10n_ve_withholding_islr.group_account_wh_islr_manager,1,1,1,1
 
 access_account_islr_xml_wh_doc_manager,islr.xml.wh.doc.manager,model_islr_xml_wh_doc,l10n_ve_withholding_islr.group_account_wh_islr_manager,1,1,1,1
+
+access_islr_wh_historical_data_user,islr.wh.historical.data.user,model_islr_wh_historical_data,,1,1,1,0
+
+access_islr_wh_historical_data_manager,islr.wh.historical.data.manager,model_islr_wh_historical_data,l10n_ve_withholding_islr.group_account_wh_islr_manager,1,1,1,1
