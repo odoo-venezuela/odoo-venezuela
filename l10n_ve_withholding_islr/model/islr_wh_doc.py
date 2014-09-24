@@ -777,19 +777,26 @@ class islr_wh_doc_invoices(osv.osv):
         """ Return all amount relating to the invoices lines
         """
         res = {}
+        def xc(s, cr, uid, ids, from_currency_id, to_currency_id, exchange_date):
+            def _xc(from_amount):
+                return s.exchange(cr, uid, ids, from_amount, from_currency_id, to_currency_id, exchange_date)
+            return _xc
         for ret_line in self.browse(cr, uid, ids, context):
+            f_xc = xc(self, cr, uid, ids,
+                    ret_line.invoice_id.company_id.currency_id.id,
+                    ret_line.invoice_id.currency_id.id,
+                    ret_line.islr_wh_doc_id.date_uid)
             res[ret_line.id] = {
                 'amount_islr_ret': 0.0,
-                'base_ret': 0.0
+                'base_ret': 0.0,
+                'currency_amount_islr_ret': 0.0,
+                'currency_base_ret': 0.0,
             }
-            if ret_line.invoice_id.type in ('in_invoice', 'in_refund'):
-                for line in ret_line.islr_xml_id:
-                    res[ret_line.id]['amount_islr_ret'] += line.wh
-                    res[ret_line.id]['base_ret'] += line.base
-            else:
-                for line in ret_line.iwdl_ids:
-                    res[ret_line.id]['amount_islr_ret'] += line.amount
-                    res[ret_line.id]['base_ret'] += line.base_amount
+            for line in ret_line.iwdl_ids:
+                res[ret_line.id]['amount_islr_ret'] += line.amount
+                res[ret_line.id]['base_ret'] += line.base_amount
+                res[ret_line.id]['currency_amount_islr_ret'] += f_xc(line.amount)
+                res[ret_line.id]['currency_base_ret'] += f_xc(line.base_amount)
 
         return res
 
@@ -798,8 +805,10 @@ class islr_wh_doc_invoices(osv.osv):
         'invoice_id': fields.many2one('account.invoice', 'Invoice', help="Withheld invoice"),
         'supplier_invoice_number':fields.related('invoice_id', 'supplier_invoice_number', type='char', string='Supplier inv. #', size=64, store=False, readonly=True),
         'islr_xml_id': fields.one2many('islr.xml.wh.line', 'islr_wh_doc_inv_id', 'Withholding Lines'),
-        'amount_islr_ret': fields.function(_amount_all, method=True, digits=(16, 4), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
-        'base_ret': fields.function(_amount_all, method=True, digits=(16, 4), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
+        'amount_islr_ret': fields.function(_amount_all, method=True, digits=(16, 2), string='Withheld Amount', multi='all', help="Amount withheld from the base amount"),
+        'base_ret': fields.function(_amount_all, method=True, digits=(16, 2), string='Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
+        'currency_amount_islr_ret': fields.function(_amount_all, method=True, digits=(16, 2), string='Foreign Currency Withheld Amount', multi='all', help="Amount withheld from the base amount"),
+        'currency_base_ret': fields.function(_amount_all, method=True, digits=(16, 2), string='Foreign Currency Base Amount', multi='all', help="Amount where a withholding is going to be compute from"),
         'iwdl_ids': fields.one2many('islr.wh.doc.line', 'iwdi_id', 'Withholding Concepts', help='withholding concepts of this withheld invoice'),
         'move_id': fields.many2one('account.move', 'Journal Entry', ondelete='restrict',
                                    readonly=True, help="Accounting voucher"),

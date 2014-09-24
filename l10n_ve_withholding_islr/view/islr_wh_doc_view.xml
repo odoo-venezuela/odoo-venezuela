@@ -277,9 +277,15 @@
                                                             </tree>
                                                         </field>
                                                     </group>
-                                                    <group col="2" colspan="2">
-                                                        <field name="amount_islr_ret"/>
-                                                        <field name="base_ret"/>
+                                                        <group col="4" colspan="2">
+                                                        <group col="2" colspan="2">
+                                                            <field name="amount_islr_ret"/>
+                                                            <field name="base_ret"/>
+                                                        </group>
+                                                        <group col="2" colspan="2">
+                                                            <field name="currency_amount_islr_ret"/>
+                                                            <field name="currency_base_ret"/>
+                                                        </group>
                                                         <field name="move_id"/>
                                                     </group>
                                                     <!--
