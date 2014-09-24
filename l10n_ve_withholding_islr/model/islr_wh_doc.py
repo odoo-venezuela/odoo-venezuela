@@ -903,7 +903,7 @@ class islr_wh_doc_invoices(osv.osv):
                 base += base_line
 
             #rate_base, rate_minimum, rate_wh_perc, rate_subtract, rate_code, rate_id, rate_name, rate2 = self._get_rate(
-            #    cr, uid, ail_brw.concept_id.id, residence, nature, inv_brw=ail_brw.invoice_id, context=context)
+            #    cr, uid, ail_brw.concept_id.id, residence, nature, base=base, inv_brw=ail_brw.invoice_id, context=context)
             rate_tuple = self._get_rate(
                 cr, uid, concept_id, residence, nature, base=base, inv_brw=iwdl_brw.invoice_id, context=context)
 
@@ -979,7 +979,7 @@ class islr_wh_doc_invoices(osv.osv):
                     base += base_line
 
             rate_tuple = self._get_rate(
-                cr, uid, concept_id, residence, nature, base_line=0.0, inv_brw=iwdl_brw.invoice_id, context=context)
+                cr, uid, concept_id, residence, nature, base=0.0, inv_brw=iwdl_brw.invoice_id, context=context)
 
             if rate_tuple[7]:
                 apply = True
