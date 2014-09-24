@@ -224,8 +224,8 @@ class islr_xml_wh_doc(osv.osv):
                 partner_vat,control_number,porcent_rete,concept_code,invoice_number,base,inv_id=line
                 detalle = SubElement(root,"DetalleRetencion")
                 SubElement(detalle, "RifRetenido").text = partner_vat
-                SubElement(detalle, "NumeroFactura").text =invoice_number
-                SubElement(detalle, "NumeroControl").text = control_number
+                SubElement(detalle, "NumeroFactura").text = ''.join(i for i in invoice_number if i.isdigit())[-10:] or '0'
+                SubElement(detalle, "NumeroControl").text = ''.join(i for i in control_number if i.isdigit())[-8:] or 'NA'
                 if inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
                     date_invoice = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret,'%Y-%m-%d')
                     SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_invoice)

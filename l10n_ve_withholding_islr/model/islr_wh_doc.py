@@ -1225,12 +1225,12 @@ class islr_wh_doc_invoices(osv.osv):
             'wh': 0.0,  # To be updated later
             'base': 0.0,  # To be updated later
             'period_id': False,  # We review the definition because it is in NOT NULL
-            'invoice_number': ail_brw.invoice_id.supplier_invoice_number,
+            'invoice_number': ''.join(i for i in ail_brw.invoice_id.nro_ctrl if i.isdigit())[-10:] or '0',
             'partner_id': acc_part_id.id,  # Warning Depends if is a customer or supplier
             'concept_id': ail_brw.concept_id.id,
             'partner_vat': vendor.vat[2:12],  # Warning Depends if is a customer or supplier
             'porcent_rete': 0.0,  # To be updated later
-            'control_number': ail_brw.invoice_id.nro_ctrl,
+            'control_number': ''.join(i for i in ail_brw.invoice_id.nro_ctrl if i.isdigit())[-8:] or 'NA',
             'account_invoice_line_id': ail_brw.id,
             'concept_code': '000',  # To be updated later
         }
