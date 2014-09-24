@@ -90,3 +90,19 @@ class l10n_ut(osv.osv):
         if ut:
             money = amount_ut * ut
         return money
+
+    def exchange(self, cr, uid, from_amount, from_currency_id, to_currency_id, exchange_date, context=None):
+        context = context or {}
+        if from_currency_id == to_currency_id:
+            return from_amount
+        rc_obj = self.pool.get('res.currency')
+        context['date'] = exchange_date
+        return rc_obj.compute(cr, uid, from_currency_id, to_currency_id, from_amount, context=context)
+
+    def xc(self, cr, uid, from_currency_id, to_currency_id, exchange_date, context=None):
+        '''
+        This is a clousure that allow to use the exchange rate conversion in a short way
+        '''
+        def _xc(from_amount):
+            return self.exchange(cr, uid, from_amount, from_currency_id, to_currency_id, exchange_date, context=context)
+        return _xc
