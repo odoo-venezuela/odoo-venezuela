@@ -59,15 +59,31 @@
           <%
           total_base_amount = 0.0
           total_amount = 0.0
+          total_currency_base_amount = 0.0
+          total_currency_amount = 0.0
+          multicurrency = False
+          for iwdl_brw in obj.iwdl_ids:
+            if iwdl_brw.invoice_id.currency_id.id != obj.company_id.currency_id.id:
+              multicurrency = iwdl_brw.invoice_id.currency_id.name
+              break
           %>
           <table width="100%">
             <tr>
-              <td class="headerBodyCenter" width="25.0%"> <div> FACTURA </div> </td>
-              <td class="headerBodyCenter" width="25.0%"> <div> NÚM. CONTROL </div> </td>
+              %if multicurrency:
+                <td class="headerBodyCenter" width="12.5%"> <div> FACTURA </div> </td>
+                <td class="headerBodyCenter" width="12.5%"> <div> NÚM. CONTROL </div> </td>
+              %else:
+                <td class="headerBodyCenter" width="25.0%"> <div> FACTURA </div> </td>
+                <td class="headerBodyCenter" width="25.0%"> <div> NÚM. CONTROL </div> </td>
+              %endif
               <td class="headerBodyCenter" width="12.5%"> <div> FEC. FACT. </div> </td>
-              <td class="headerBodyCenter" width="12.5%"> <div> BASE DE RET. </div> </td>
               <td class="headerBodyCenter" width="12.5%"> <div> PORC. RET. </div> </td>
+              <td class="headerBodyCenter" width="12.5%"> <div> BASE DE RET. </div> </td>
               <td class="headerBodyCenter" width="12.5%"> <div> RETENCIÓN </div> </td>
+              %if multicurrency:
+                  <td class="headerBodyCenter" width="12.5%"> <div>B/RET. FÓRANEA</div> </td>
+                  <td class="headerBodyCenter" width="12.5%"> <div> RET. FÓRANEA </div> </td>
+              %endif
             </tr>
           </table>
           <table class="basic_table" width="100%">
@@ -75,25 +91,45 @@
               <%
                 total_base_amount += iwdl_brw.base_amount
                 total_amount += iwdl_brw.amount
+                total_currency_base_amount += iwdl_brw.currency_base_amount
+                total_currency_amount += iwdl_brw.currency_amount
               %>
               <tr>
+              %if multicurrency:
+                <td class="cellCenter" width="12.5%"> ${iwdl_brw.invoice_id.supplier_invoice_number} </td>
+                <td class="cellCenter" width="12.5%"> ${iwdl_brw.invoice_id.nro_ctrl} </td>
+              %else:
                 <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.supplier_invoice_number} </td>
                 <td class="cellCenter" width="25.0%"> ${iwdl_brw.invoice_id.nro_ctrl} </td>
+              %endif
                 <td class="cellCenter" width="12.5%"> ${iwdl_brw.invoice_id.date_document and formatLang(iwdl_brw.invoice_id.date_document, digits=0, date=True, date_time=False, grouping=3, monetary=False)} </td>
-                <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
                 <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.retencion_islr, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+                <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
                 <td class="cellRightMonospace" width="12.5%"> ${formatLang(iwdl_brw.amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+                %if multicurrency:
+                  <td class="cellRightMonospace" width="12.5%"> ${iwdl_brw.invoice_id.currency_id.name} ${formatLang(iwdl_brw.currency_base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+                  <td class="cellRightMonospace" width="12.5%">  ${iwdl_brw.invoice_id.currency_id.name} ${formatLang(iwdl_brw.currency_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+                %endif
               </tr>
             %endfor
           </table>
           <table width="100%">
             <tr>
+              %if multicurrency:
+              <td class="footerBodyCenter" width="12.5%"> </td>
+              <td class="footerBodyCenter" width="12.5%"> </td>
+              %else:
               <td class="footerBodyCenter" width="25.0%"> </td>
               <td class="footerBodyCenter" width="25.0%"> </td>
+              %endif
+              <td class="footerBodyRightMonospace" width="12.5%"> </td>
               <td class="footerBodyCenter" width="12.5%"> TOTALES </td>
               <td class="footerBodyRightMonospace" width="12.5%"> ${formatLang(total_base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
-              <td class="footerBodyRightMonospace" width="12.5%"> </td>
               <td class="footerBodyRightMonospace" width="12.5%"> ${formatLang(total_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              %if multicurrency:
+              <td class="footerBodyRightMonospace" width="12.5%"> ${multicurrency} ${formatLang(total_currency_base_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              <td class="footerBodyRightMonospace" width="12.5%"> ${multicurrency} ${formatLang(total_currency_amount, digits=2, date=False, date_time=False, grouping=3, monetary=True)} </td>
+              %endif
             </tr>
           </table>
         %endif
