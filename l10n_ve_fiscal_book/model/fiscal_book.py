@@ -629,7 +629,7 @@ class fiscal_book(orm.Model):
     def get_invoices_sin_cred(self, cr, uid, ids, inv_ids, context=None):
         """
         if the fiscal book is of type purchase then need to filter the invoice
-        of the book by only the ones how has sin_cred == False. 
+        of the book by only the ones how has sin_cred == False.
         return the filter invoices list.
         @param inv_ids: list of invoice ids
         @return invoices list
@@ -1523,13 +1523,18 @@ class fiscal_book(orm.Model):
         @param fb_id: the id of the current fiscal book """
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
+        ut_obj = self.pool.get('l10n.ut')
         #~ write book taxes
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
+                f_xc = ut_obj.xc(cr, uid,
+                        fbl.invoice_id.currency_id.id,
+                        fbl.invoice_id.company_id.currency_id.id,
+                        fbl.invoice_id.date_invoice)
                 sign = 1 if fbl.doc_type != 'N/CR' else -1
                 amount_field_data = \
-                    { 'total_with_iva': fbl.invoice_id.amount_untaxed * sign,
+                    { 'total_with_iva': f_xc(fbl.invoice_id.amount_untaxed) * sign,
                       'vat_sdcf': 0.0, 'vat_exempt': 0.0 }
                 taxes = fbl.type in ['im','ex'] \
                     and fbl.invoice_id.imex_tax_line \
@@ -1540,7 +1545,7 @@ class fiscal_book(orm.Model):
                         data.append((0, 0, {'fb_id': fb_id,
                                             'fbl_id': fbl.id,
                                             'ait_id': ait.id}))
-                        amount_field_data['total_with_iva'] += ait.tax_amount * sign
+                        amount_field_data['total_with_iva'] += f_xc(ait.tax_amount) * sign
                         if ait.tax_id.appl_type == 'sdcf':
                             amount_field_data['vat_sdcf'] += ait.base_amount * sign
                         if ait.tax_id.appl_type == 'exento':
