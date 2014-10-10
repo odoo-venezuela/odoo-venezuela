@@ -19,9 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import openerp.pooler
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
+from openerp.osv import osv
 
 class update_info_partner(osv.osv_memory):
     _name = 'update.info.partner'

@@ -20,9 +20,6 @@
 #
 ##############################################################################
 from openerp.osv import fields, osv
-import openerp.tools
-from openerp.tools.translate import _
-from openerp.tools import config
 
 class wizard_url_seniat(osv.osv_memory):
 

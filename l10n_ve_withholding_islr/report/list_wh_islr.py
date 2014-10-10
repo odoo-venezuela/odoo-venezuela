@@ -25,7 +25,6 @@
 ##############################################################################
 
 from openerp.report import report_sxw
-from openerp.osv import osv
 
 class list_wh_islr(report_sxw.rml_parse):
 

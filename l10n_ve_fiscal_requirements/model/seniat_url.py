@@ -23,9 +23,7 @@
 ##########################################################################
 
 from openerp.osv import fields, osv
-import openerp.tools
 from openerp.tools.translate import _
-from openerp.tools import config
 import urllib
 from xml.dom.minidom import parseString
 import re
@@ -119,7 +117,6 @@ class seniat_url(osv.osv):
                     return r
             except:
                 self.logger.warning("Url could not be loaded %s" % str_error)
-                pass
             retries -= 1
         return str_error
 

@@ -23,7 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import time
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp

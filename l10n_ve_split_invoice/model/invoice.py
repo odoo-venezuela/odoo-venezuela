@@ -23,7 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 from openerp.osv import osv
-from openerp.osv import fields
 from openerp.tools.translate import _
 from openerp import netsvc
 

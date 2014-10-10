@@ -1,8 +1,5 @@
 #~ # -*- coding: utf-8 -*-
 from openerp.report import report_sxw
-import time
-from datetime import datetime, timedelta
-import datetime as dt
 
 
 class wh_src_report(report_sxw.rml_parse):

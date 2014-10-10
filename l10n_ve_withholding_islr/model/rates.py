@@ -25,12 +25,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
-from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
+from openerp.osv import osv, fields
 from openerp.addons import decimal_precision as dp
 
 class islr_rates(osv.osv):

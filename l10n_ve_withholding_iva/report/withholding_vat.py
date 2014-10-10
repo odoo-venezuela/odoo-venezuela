@@ -27,8 +27,6 @@
 
 import time
 from openerp.report import report_sxw
-from openerp.osv import osv
-import openerp.pooler
 from openerp.tools.translate import _ 
 
 class rep_comprobante(report_sxw.rml_parse):

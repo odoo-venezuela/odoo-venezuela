@@ -25,8 +25,6 @@
 
 import time
 from openerp.report import report_sxw
-from openerp.osv import osv
-import openerp.pooler
 from openerp.tools.translate import _ 
 
 class wh_muni_report(report_sxw.rml_parse):

@@ -26,10 +26,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import time
-import openerp.pooler
 from openerp.report import report_sxw
-from openerp.tools.translate import _
 
 class list_wh_iva(report_sxw.rml_parse):
     

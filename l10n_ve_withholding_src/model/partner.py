@@ -25,9 +25,7 @@
 ################################################################################
 
 from openerp.osv import fields, osv
-from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
-from openerp import netsvc
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'

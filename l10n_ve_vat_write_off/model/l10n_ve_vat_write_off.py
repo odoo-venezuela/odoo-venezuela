@@ -1,5 +1,4 @@
 from openerp.osv import fields, osv
-from datetime import datetime, timedelta
 
 class vat_write_off(osv.osv):
     _description = ''

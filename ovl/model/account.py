@@ -23,9 +23,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv
 from openerp.tools.translate import _
-from openerp import tools
 
 
 class account_invoice(osv.Model):

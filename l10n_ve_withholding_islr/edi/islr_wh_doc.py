@@ -23,12 +23,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv
 from edi import EDIMixin
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,

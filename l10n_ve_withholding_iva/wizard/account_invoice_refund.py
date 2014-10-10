@@ -19,11 +19,8 @@
 #
 ##############################################################################
 
-import time
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp import netsvc
+from openerp.osv import osv
 
 class account_invoice_refund(osv.osv_memory):
 

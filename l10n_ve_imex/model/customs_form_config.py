@@ -26,8 +26,6 @@
 ###############################################################################
 
 from openerp.osv import fields, osv
-from openerp.tools.translate import _
-import openerp.pooler
 
 
 class customs_form_config(osv.osv):
