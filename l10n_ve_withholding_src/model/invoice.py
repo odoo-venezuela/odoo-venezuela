@@ -34,12 +34,12 @@ class account_invoice(osv.osv):
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
         """ Change invoice information depending of the partner
-        @param type: Invoice type                                                                                                                  
-        @param partner_id: Partner id of the invoice                            
-        @param date_invoice: Date invoice                                       
-        @param payment_term: Payment terms                                      
-        @param partner_bank_id: Partner bank id of the invoice                  
-        @param company_id: Company id  
+        @param type: Invoice type
+        @param partner_id: Partner id of the invoice
+        @param date_invoice: Date invoice
+        @param payment_term: Payment terms
+        @param partner_bank_id: Partner bank id of the invoice
+        @param company_id: Company id
         """
         rp_obj = self.pool.get('res.partner')
         res = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type,
@@ -96,7 +96,7 @@ class account_invoice(osv.osv):
         return invoice_ids
 
     def _check_retention(self, cr, uid, ids, context=None):
-        """ This method will check the retention value will be maximum 5%   
+        """ This method will check the retention value will be maximum 5%
         """
         if context is None:
             context = {}
@@ -127,15 +127,15 @@ class account_invoice(osv.osv):
                         pay_journal_id, writeoff_acc_id,
                         writeoff_period_id, writeoff_journal_id, date,
                         name, context=None):
-        """ Generate move lines in corresponding account                            
-        @param to_wh: whether or not withheld                                   
-        @param period_id: Period                                                
-        @param pay_journal_id: pay journal of the invoice                       
-        @param writeoff_acc_id: account where canceled                          
-        @param writeoff_period_id: period where canceled                        
-        @param writeoff_journal_id: journal where canceled                      
-        @param date: current date                                               
-        @param name: description 
+        """ Generate move lines in corresponding account
+        @param to_wh: whether or not withheld
+        @param period_id: Period
+        @param pay_journal_id: pay journal of the invoice
+        @param writeoff_acc_id: account where canceled
+        @param writeoff_period_id: period where canceled
+        @param writeoff_journal_id: journal where canceled
+        @param date: current date
+        @param name: description
         """
         context = context or {}
         res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh, period_id,

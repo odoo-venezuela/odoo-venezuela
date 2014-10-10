@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>           
+#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>
 #    Planified by: Humberto Arocha
 #    Audited by: Vauxoo C.A.
 #############################################################################

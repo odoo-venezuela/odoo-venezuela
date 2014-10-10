@@ -151,8 +151,8 @@ class res_partner(osv.osv):
         The method will return False when:
             *) The user's company is from Venezuela AND the vat field is empty AND:
                 +) partner is_company=True AND parent_id is not NULL
-                +) partner with parent_id is NULL 
-                +) partner with parent_id is NOT NULL AND type of address is invoice   
+                +) partner with parent_id is NULL
+                +) partner with parent_id is NOT NULL AND type of address is invoice
         """
         if context is None:
             context = {}
@@ -273,7 +273,7 @@ class res_partner(osv.osv):
         return su_obj.update_rif(cr, uid, ids, context=context)
 
     def button_check_vat(self, cr, uid, ids, context=None):
-        """ Is called by the button that load information of the partner from database 
+        """ Is called by the button that load information of the partner from database
         SENIAT
         """
         if context is None:

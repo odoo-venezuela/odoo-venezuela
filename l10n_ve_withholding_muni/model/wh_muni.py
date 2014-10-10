@@ -32,7 +32,7 @@ from openerp.addons import decimal_precision as dp
 class account_wh_munici(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
-        """ Return invoice type 
+        """ Return invoice type
         """
         if context is None:
             context = {}
@@ -187,7 +187,7 @@ class account_wh_munici(osv.osv):
         return True
 
     def action_move_create(self, cr, uid, ids, context=None):
-        """ Create movements associated with retention and reconcile 
+        """ Create movements associated with retention and reconcile
         """
         if context is None:
             context = {}
@@ -239,9 +239,9 @@ class account_wh_munici(osv.osv):
         return True
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
-        """ Changing the partner is again determinated accounts and lines retain for document                                                      
-        @param type: invoice type                                               
-        @param partner_id: vendor or buyer                                      
+        """ Changing the partner is again determinated accounts and lines retain for document
+        @param type: invoice type
+        @param partner_id: vendor or buyer
         """
         context = context or {}
         acc_id = False

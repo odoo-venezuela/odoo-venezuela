@@ -34,15 +34,15 @@ class account_invoice(osv.osv):
                         pay_journal_id, writeoff_acc_id,
                         writeoff_period_id, writeoff_journal_id, date,
                         name, context=None):
-        """ Generate move lines in corresponding account                            
-        @param to_wh: whether or not withheld                                   
-        @param period_id: Period                                                
-        @param pay_journal_id: pay journal of the invoice                       
-        @param writeoff_acc_id: account where canceled                          
-        @param writeoff_period_id: period where canceled                        
-        @param writeoff_journal_id: journal where canceled                      
-        @param date: current date                                               
-        @param name: description                                                
+        """ Generate move lines in corresponding account
+        @param to_wh: whether or not withheld
+        @param period_id: Period
+        @param pay_journal_id: pay journal of the invoice
+        @param writeoff_acc_id: account where canceled
+        @param writeoff_period_id: period where canceled
+        @param writeoff_journal_id: journal where canceled
+        @param date: current date
+        @param name: description
         """
 
         context = context or {}

@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Israel Fermín Montilla  <israel@openerp.com.ve>          
+#    Coded by: Israel Fermín Montilla  <israel@openerp.com.ve>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -25,4 +25,4 @@
 import stock
 import purchase
 import sale
-import product 
+import product

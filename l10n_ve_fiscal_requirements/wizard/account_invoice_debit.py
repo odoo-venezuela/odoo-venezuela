@@ -64,7 +64,7 @@ class account_invoice_debit(osv.osv_memory):
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-        """ Change fields position in the view 
+        """ Change fields position in the view
         """
         if context is None:
             context = {}

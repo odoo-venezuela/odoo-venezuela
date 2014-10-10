@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Javier Duran <javier@vauxoo.com>         
+#    Coded by: Javier Duran <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################

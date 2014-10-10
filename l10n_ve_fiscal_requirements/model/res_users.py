@@ -34,7 +34,7 @@ class res_users(osv.osv):
 
     def create(self, cr, uid, vals, context=None):
         """ To create a new record,
-        adds a Boolean field to true 
+        adds a Boolean field to true
         indicates that the partner is a company
         """
         if context is None:
@@ -44,7 +44,7 @@ class res_users(osv.osv):
 
     def write(self, cr, uid, ids, values, context=None):
         """ To write a new record,
-        adds a Boolean field to true 
+        adds a Boolean field to true
         indicates that the partner is a company
         """
         context = context or {}

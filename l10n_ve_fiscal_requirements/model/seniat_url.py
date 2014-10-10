@@ -76,9 +76,9 @@ class seniat_url(osv.osv):
         return valid_digit
 
     def _validate_rif(self, cr, uid, vat, context=None):
-        '''validates if the VE VAT NUMBER is right         
+        '''validates if the VE VAT NUMBER is right
         @param vat: string: Vat number to Check
-        returns vat when right otherwise returns False 
+        returns vat when right otherwise returns False
 
         '''
         if not vat:

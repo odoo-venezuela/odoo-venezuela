@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -22,6 +22,6 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import model 
+import model
 import wizard
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

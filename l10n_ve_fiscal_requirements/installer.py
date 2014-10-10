@@ -43,7 +43,7 @@ class fiscal_requirements_config(osv.osv_memory):
 
     def execute(self, cr, uid, ids, context=None):
         '''
-        In this method I will configure all needs for work out of the box with 
+        In this method I will configure all needs for work out of the box with
         fiscal requirement and Venezuela Laws
         and update all your partners information.
         '''

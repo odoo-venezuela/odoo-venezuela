@@ -50,7 +50,7 @@ class list_wh_iva(report_sxw.rml_parse):
         })
 
     def _get_total_amount_doc(self, doc_id):
-        """ Return iva total amount   
+        """ Return iva total amount
         """
         total = 0
         for line in self.pool.get('txt.iva').browse(self.cr, self.uid, doc_id).txt_ids:

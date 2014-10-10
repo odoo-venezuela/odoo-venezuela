@@ -46,7 +46,7 @@ class change_invoice_sin_credwizard(osv.TransientModel):
     def set_sin_cred(self, cr, uid, ids, context=None):
         """
         Change the sin cred field in the invoice
-        @return 
+        @return
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids

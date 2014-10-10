@@ -30,7 +30,7 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
 
     def _get_journal(self, cr, uid, context=None):
-        """ Return the journal which is 
+        """ Return the journal which is
         used in the current user's company, otherwise
         it does not exist, return false
         """
@@ -49,7 +49,7 @@ class account_invoice(osv.osv):
         return res and res[0] or False
 
     def _unique_invoice_per_partner(self, cr, uid, ids, context=None):
-        """ Return false when it is found 
+        """ Return false when it is found
         that the bill is not out_invoice or out_refund,
         and it is not unique to the partner.
         """

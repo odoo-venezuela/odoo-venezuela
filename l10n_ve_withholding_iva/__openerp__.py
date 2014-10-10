@@ -38,7 +38,7 @@
  - Generate new tag in the view of partner for  add information basic of withholdings vat.
  - Generate file .txt required by Venezuelan law, based in the withholdings vat made during period
    defined for users.
- - Generate voucher of withholding vat based in the Venezuelan tax laws. 
+ - Generate voucher of withholding vat based in the Venezuelan tax laws.
 
 **Recommendations:**
 
@@ -63,7 +63,7 @@
         "data/l10n_ve_withholding_data.xml",
         'report/txt_wh_report.xml',
         "workflow/wh_iva_workflow.xml",
-        "workflow/wh_action_server.xml",        
+        "workflow/wh_action_server.xml",
     ],
     'demo': [
             "demo/l10n_ve_withholding_iva_sequences_demo.xml",

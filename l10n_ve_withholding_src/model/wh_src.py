@@ -81,7 +81,7 @@ class account_wh_src(osv.osv):
 
     def default_get(self, cr, uid, fields, context=None):
         """ Update fields uid_wh_agent and partner_list to the create a
-        record        
+        record
         """
         context = context or {}
         res = super(account_wh_src, self).default_get(cr, uid, fields, context=context)
@@ -91,7 +91,7 @@ class account_wh_src(osv.osv):
         return res
 
     def _get_p_agent(self, cr, uid, ids, field_name, args, context=None):
-        """ Create a dictionary with ids partner and their browse item 
+        """ Create a dictionary with ids partner and their browse item
         """
         context = context or {}
         res = {}.fromkeys(ids, self._get_partner_agent(cr, uid, context=context))
@@ -162,7 +162,7 @@ class account_wh_src(osv.osv):
     ]
 
     def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
-        """ Return account depending of the invoice         
+        """ Return account depending of the invoice
         @param type: invoice type
         @param partner_id: partner id
         """
@@ -335,7 +335,7 @@ class account_wh_src(osv.osv):
         return True
 
     def action_move_create(self, cr, uid, ids, context=None):
-        """ Build account moves related to withholding invoice 
+        """ Build account moves related to withholding invoice
         """
         inv_obj = self.pool.get('account.invoice')
         if context is None:
@@ -399,7 +399,7 @@ class account_wh_src(osv.osv):
         return True
 
     def action_number(self, cr, uid, ids, *args):
-        """ Is responsible for generating a number for the document if it does not have one  
+        """ Is responsible for generating a number for the document if it does not have one
         """
         obj_ret = self.browse(cr, uid, ids)[0]
         if obj_ret.type == 'in_invoice':
@@ -442,7 +442,7 @@ class account_wh_src_line(osv.osv):
     ]
 
     def onchange_invoice_id(self, cr, uid, ids, type, invoice_id=False, base_amount=0.0, wh_src_rate=5.0, context=None):
-        """ Change src information to change the invoice 
+        """ Change src information to change the invoice
         @param type: invoice type
         @param invoice_id: new invoice id
         @param base_amount: new base amount

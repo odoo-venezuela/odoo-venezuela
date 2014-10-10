@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    OVL : Openerp Venezuelan Localization
 #    Copyleft (Cl) 2008-2021 Vauxoo, C.A. (<http://vauxoo.com>)
@@ -229,7 +229,7 @@ Install all apps needed to comply with Venezuelan laws plus all oficial modules
 
 This module will install for you:
 
-  -  ovl 
+  -  ovl
 
   - And all oficial modules (account, stock, mrp...)
                     """,

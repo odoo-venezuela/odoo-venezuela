@@ -37,7 +37,7 @@ class wh_vat_installer(osv.osv_memory):
     _description = __doc__
 
     def default_get(self, cr, uid, fields, context=None):
-        """ Return information relating to the withholding regime 
+        """ Return information relating to the withholding regime
         """
         data = super(wh_vat_installer, self).default_get(cr, uid, fields, context=context)
         gaceta = open(addons.get_module_resource('l10n_ve_withholding_iva', 'files', 'RegimendeRetencionesdelIVA.odt'), 'rb')
@@ -53,7 +53,7 @@ class wh_vat_installer(osv.osv_memory):
     _defaults = {
         'name': 'RegimendeRetencionesdelIVA.odt',
         'description' : """
-        With this wizard you will configure all needs for work out of the box with 
+        With this wizard you will configure all needs for work out of the box with
         This module,
         First: Setting if The company will be withholding agent.
         Second: Create Minimal Journals.
@@ -118,12 +118,12 @@ class wh_iva_config(osv.osv_memory):
         )
 
     def execute(self, cr, uid, ids, context=None):
-        """ In this method I will configure all needs for work out of the box with 
+        """ In this method I will configure all needs for work out of the box with
         This module,
         First: Setting if The company will be agent of retention.
         Second: Create Minimal Journals.
         Third: Assign Account to work.
-        Fourth: Ask if you have internet conexion and you want to connect to 
+        Fourth: Ask if you have internet conexion and you want to connect to
         SENIAT
         and update all your partners information.
         """

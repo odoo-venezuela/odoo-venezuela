@@ -46,7 +46,7 @@ class account_invoice(osv.osv):
                           period_id, pay_journal_id, writeoff_acc_id,
                           writeoff_period_id, writeoff_journal_id, date,
                           name, to_wh, context=None):
-        """ Make the payment of the invoice 
+        """ Make the payment of the invoice
         """
         if context is None:
             context = {}
@@ -129,8 +129,8 @@ class account_invoice(osv.osv):
         return lines
 
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
-        """ Check if no tax lines are created. If 
-        existing tax lines, there are checks on the invoice 
+        """ Check if no tax lines are created. If
+        existing tax lines, there are checks on the invoice
         and match the tax base.
         """
         if not inv.tax_line:

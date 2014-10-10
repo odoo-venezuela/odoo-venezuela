@@ -143,7 +143,7 @@ class account_invoice_refund(osv.osv_memory):
         return True
 
     def compute_refund(self, cr, uid, ids, mode='refund', context=None):
-        """ 
+        """
         @param ids: the account invoice refund’s ID or list of IDs
         """
         wzd_brw = self.browse(cr, uid, ids[0], context=context)

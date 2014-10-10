@@ -39,7 +39,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
 
     def action_invoice_create(self, cr, uid, ids, wizard_brw, inv_brw, context=None):
         """ If the invoice has control number, this function is responsible for passing the bill to damaged paper
-        @param wizard_brw: nothing for now 
+        @param wizard_brw: nothing for now
         @param inv_brw: damaged paper
         """
         invoice_line_obj = self.pool.get('account.invoice.line')
