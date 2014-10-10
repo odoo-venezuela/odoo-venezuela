@@ -39,7 +39,6 @@ class wiz_retention(osv.osv_memory):
         inv_obj = self.pool.get('account.invoice')
         n_retention = data['vat_apply']
                 
-        invoice = inv_obj.browse(cr, uid, context['active_id'])
         inv_obj.write(cr, uid, context.get('active_id'), {'vat_apply': n_retention}, context=context)
         
         return {}

@@ -68,7 +68,6 @@ class account_invoice(osv.osv):
                         self.pool.get('account.invoice.line').write(cr,uid,il.id,{'invoice_id':inv_id})
                     self.button_compute(cr, uid, [inv.id], set_total=True)
             if inv_id:
-                wf_service = netsvc.LocalService("workflow")
                 self.button_compute(cr, uid, [inv_id], set_total=True)
 #                wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_open', cr)
         return True
@@ -76,7 +75,7 @@ class account_invoice(osv.osv):
     def action_date_assign(self, cr, uid, ids, *args):
         """ Return assigned dat
         """
-        data = super(account_invoice, self).action_date_assign(cr, uid, ids, *args)
+        super(account_invoice, self).action_date_assign(cr, uid, ids, *args)
         self.split_invoice(cr,uid,ids)
         return True
 

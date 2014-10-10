@@ -927,7 +927,6 @@ class fiscal_book(orm.Model):
         """
         # TODO: make this method aware of fortnight.
         context = context or {}
-        per_obj = self.pool.get('account.period')
         cf_obj = self.pool.get('customs.form')
 
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -953,7 +952,6 @@ class fiscal_book(orm.Model):
         context = context or {}
         data = []
         iwdl_obj = self.pool.get('account.wh.iva.line')
-        cf_obj = self.pool.get('customs.form')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         rp_obj = self.pool.get('res.partner')
 
@@ -1848,7 +1846,6 @@ class fiscal_book_lines(orm.Model):
         #~ TODO: for all taxes realted? only a tax type group?
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
-        awilt_obj = self.pool.get("account.wh.iva.line.tax")
         for fbl_brw in self.browse(cr, uid, ids, context=context):
             if fbl_brw.iwdl_id:
                 sign = 1 if fbl_brw.doc_type != 'AJST' else -1

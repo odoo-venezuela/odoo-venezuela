@@ -41,7 +41,6 @@ class wiz_nroctrl(osv.osv_memory):
         inv_obj = self.pool.get('account.invoice')
         n_ctrl = data['name']
         
-        invoice = inv_obj.browse(cr, uid, context['active_id'])
 
         inv_obj.write(cr, uid, context.get('active_id'), {'nro_ctrl': n_ctrl}, context=context)
         return {}

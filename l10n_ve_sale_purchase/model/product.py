@@ -42,7 +42,6 @@ class product_product(osv.osv):
     def onchange_product_type(self, cr, uid, ids, prd_type, context=None):
         """ Function that adds a default concept for products that are not service
         """
-        domain = {}
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
             concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)],context=context)

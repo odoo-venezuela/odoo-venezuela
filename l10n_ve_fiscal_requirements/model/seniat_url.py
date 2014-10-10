@@ -192,7 +192,7 @@ class seniat_url(osv.osv):
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
-        url3 = url_obj.url_seniat2 + '%s'
+        url_obj.url_seniat2 + '%s'
         vat = self._validate_rif(cr, uid,vat,context=None)
         if vat:
             return self._get_rif(cr, uid, vat, url1, url2, context=context)
@@ -208,7 +208,6 @@ class seniat_url(osv.osv):
     def update_rif(self, cr, uid, ids, context={}):
         """ Updates the partner info if it have a vat
         """
-        aux = []
         rp_obj = self.pool.get('res.partner')
         if context.get('exec_wizard'):
             res = self._dom_giver(cr, uid, context['vat'], context=context)

@@ -91,7 +91,6 @@ class wh_iva_config(osv.osv_memory):
         """
         defaults = super(wh_iva_config, self)\
               .default_get(cr, uid, fields_list=fields_list, context=context)
-        user=self.pool.get('res.users').browse(cr,uid,[uid],context)
         #Set Vauxoo logo on config Window.
         logo = open(addons.get_module_resource('l10n_ve_withholding_iva',
                                             'images', 'angelfalls.jpg'),'rb')

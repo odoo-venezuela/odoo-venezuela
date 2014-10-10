@@ -68,7 +68,6 @@ class islr_wh_doc(osv.osv, EDIMixin):
     def edi_export(self, cr, uid, records, edi_struct=None, context=None):
         """Exports a ISLR WH DOC"""
         edi_struct = dict(edi_struct or ISLR_WH_DOC_EDI_STRUCT)
-        res_company = self.pool.get('res.company')
         edi_doc_list = []
         for order in records:
             # generate the main report

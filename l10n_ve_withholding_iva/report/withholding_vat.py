@@ -109,8 +109,6 @@ class rep_comprobante(report_sxw.rml_parse):
         comp_obj = self.pool.get('account.wh.iva')
         rp_obj = self.pool.get('res.partner')
         comp = comp_obj.browse(self.cr,self.uid, comp_id)
-        res = {}
-        ttal = {}
         lst_comp = []
 
         dic_inv = {}

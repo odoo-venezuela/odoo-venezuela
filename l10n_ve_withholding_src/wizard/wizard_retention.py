@@ -45,7 +45,6 @@ class wiz_retention(osv.osv_memory):
         if n_retention and n_retention > 5:
             raise osv.except_osv(_("Error!"), _("Maximum retention is 5%"))
         else:
-            invoice = inv_obj.browse(cr, uid, context['active_id'])
             inv_obj.write(cr, uid, context.get('active_id'), {'wh_src_rate': n_retention}, context=context)
         
         return {}

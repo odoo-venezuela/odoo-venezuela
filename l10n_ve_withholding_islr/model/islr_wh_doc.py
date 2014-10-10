@@ -322,7 +322,6 @@ class islr_wh_doc(osv.osv):
         """
         context = context or {}
         acc_id = False
-        res = {}
         res_wh_lines = []
         rp_obj = self.pool.get('res.partner')
         inv_obj = self.pool.get('account.invoice')
@@ -438,7 +437,6 @@ class islr_wh_doc(osv.osv):
     def cancel_move(self, cr, uid, ids, *args):
         """ Retention cancel documents
         """
-        context = {}
         account_move_obj = self.pool.get('account.move')
         for ret in self.browse(cr, uid, ids):
             if ret.state == 'done':
@@ -460,11 +458,8 @@ class islr_wh_doc(osv.osv):
     def action_move_create(self, cr, uid, ids, context=None):
         """ Build account moves related to withholding invoice
         """
-        wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        inv_id = None
-        doc_brw = None
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         ret = self.browse(cr, uid, ids[0], context=context)
         context.update({'income_wh': True,
@@ -804,7 +799,6 @@ class islr_wh_doc_invoices(osv.osv):
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        inv_str = ''
         for iwdi_brw in self.browse(cr, uid, ids):
             if iwdi_brw.invoice_id.state != 'open':
                 return False
@@ -979,8 +973,6 @@ class islr_wh_doc_invoices(osv.osv):
         iwdl_obj = self.pool.get('islr.wh.doc.line')
         ret_line = self.browse(cr, uid, ids[0], context=context)
         lines = []
-        rates = {}
-        wh_perc = {}
         xmls = {}
 
         if not ret_line.invoice_id:

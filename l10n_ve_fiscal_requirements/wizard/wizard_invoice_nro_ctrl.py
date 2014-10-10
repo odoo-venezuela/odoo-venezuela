@@ -47,7 +47,6 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         acc_mv_l_obj = self.pool.get('account.move.line')
         tax_obj=self.pool.get('account.invoice.tax')
         invoice={}
-        invoice_line ={}
         if inv_brw.nro_ctrl:
             invoice.update({
                 'name': 'PAPELANULADO_NRO_CTRL_%s'%(inv_brw.nro_ctrl and inv_brw.nro_ctrl or '') ,
@@ -95,7 +94,6 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         if context==None:
             context={}
         wizard_brw = self.browse(cr, uid, ids, context=None)
-        wizard_deli_obj = self.pool.get('wz.picking.delivery.note')
         inv_id = context.get('active_id')
         for wizard in wizard_brw:
             if not wizard.sure:

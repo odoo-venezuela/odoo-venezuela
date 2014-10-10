@@ -170,8 +170,6 @@ class account_wh_src(osv.osv):
         if context is None: context = {}    
         acc_part_brw = False
         acc_id = False
-        res = {}
-        inv_obj = self.pool.get('account.invoice')
         rp_obj = self.pool.get('res.partner')
         wh_line_obj = self.pool.get('account.wh.src.line')
         
@@ -424,7 +422,6 @@ class account_wh_src(osv.osv):
     def wh_src_confirmed(self, cr, uid, ids):
         """ Confirm src document
         """
-        number = self.pool.get('account.wh.src.line')
         return True
         
 

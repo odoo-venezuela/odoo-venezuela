@@ -178,7 +178,6 @@ class account_wh_iva_line(osv.osv):
         if not invoice:
             return {}
         result = {}
-        lst=[]
         domain = {}
         ok = True
         res = self.pool.get('account.invoice').browse(cr, uid, invoice, context=context)
@@ -631,7 +630,6 @@ class account_wh_iva(osv.osv):
         per_obj = self.pool.get('account.period')
         rp_obj = self.pool.get('res.partner')
         values_data = dict()
-        res_wh_lines = []
         acc_id = False
         wh_type = (type in ('out_invoice', 'out_refund')) and 'sale' or 'purchase'
 
