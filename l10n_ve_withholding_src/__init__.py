@@ -23,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import model
-import wizard
-import report
+from . import model
+from . import wizard
+from . import report
 

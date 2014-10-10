@@ -23,6 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import invoice
-import partner
-import wh_muni
+from . import invoice
+from . import partner
+from . import wh_muni

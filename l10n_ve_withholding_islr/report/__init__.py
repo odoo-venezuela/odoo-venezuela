@@ -24,5 +24,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import wh_islr
-import list_wh_islr
+from . import wh_islr
+from . import list_wh_islr

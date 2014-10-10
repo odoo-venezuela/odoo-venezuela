@@ -23,8 +23,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import wh_src
-import invoice
-import res_company
-import partner
+from . import wh_src
+from . import invoice
+from . import res_company
+from . import partner
 

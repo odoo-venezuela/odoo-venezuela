@@ -25,6 +25,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-import customs_form_config
-import customs_form
-import invoice
+from . import customs_form_config
+from . import customs_form
+from . import invoice

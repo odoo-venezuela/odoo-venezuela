@@ -22,7 +22,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import stock
-import purchase
-import sale
-import product
+from . import stock
+from . import purchase
+from . import sale
+from . import product

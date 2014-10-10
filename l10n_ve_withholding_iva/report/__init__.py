@@ -25,5 +25,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import list_wh_iva
-import withholding_vat
+from . import list_wh_iva
+from . import withholding_vat

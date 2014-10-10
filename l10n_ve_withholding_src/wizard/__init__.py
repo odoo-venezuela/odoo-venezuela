@@ -24,7 +24,7 @@
 ################################################################################
 
 #~ import wizard_ret_munici_xml
-import wizard_retention
+from . import wizard_retention
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

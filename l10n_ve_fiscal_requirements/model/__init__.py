@@ -22,12 +22,12 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import res_company
-import account
-import partner
-import invoice
-import res_users
-import seniat_url
-import l10n_ut
-import account_tax
+from . import res_company
+from . import account
+from . import partner
+from . import invoice
+from . import res_users
+from . import seniat_url
+from . import l10n_ut
+from . import account_tax
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

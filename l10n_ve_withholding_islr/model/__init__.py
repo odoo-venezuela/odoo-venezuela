@@ -25,12 +25,12 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-import installer
-import islr_wh_concept
-import rates
-import invoice
-import islr_wh_doc
-import islr_xml_wh
-import partner
-import product
-import res_company
+from . import installer
+from . import islr_wh_concept
+from . import rates
+from . import invoice
+from . import islr_wh_doc
+from . import islr_xml_wh
+from . import partner
+from . import product
+from . import res_company

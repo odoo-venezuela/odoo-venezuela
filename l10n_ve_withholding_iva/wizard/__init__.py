@@ -22,8 +22,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import account_invoice_refund
-import wizard_retention
-import wizard_wh_nro
+from . import account_invoice_refund
+from . import wizard_retention
+from . import wizard_wh_nro
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -29,8 +29,8 @@
 #
 ##############################################################################
 
-import invoice
-import fiscal_book
-import wh_iva
-import customs_form
+from . import invoice
+from . import fiscal_book
+from . import wh_iva
+from . import customs_form
 
