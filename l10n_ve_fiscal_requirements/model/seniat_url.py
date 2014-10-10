@@ -193,7 +193,6 @@ class seniat_url(osv.osv):
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
-        url_obj.url_seniat2 + '%s'
         vat = self._validate_rif(cr, uid, vat, context=None)
         if vat:
             return self._get_rif(cr, uid, vat, url1, url2, context=context)
