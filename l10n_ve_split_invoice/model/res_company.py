@@ -24,15 +24,16 @@
 ##############################################################################
 from openerp.osv import osv, fields
 
+
 class res_company(osv.osv):
     _inherit = 'res.company'
 
     _columns = {
-        'lines_invoice':fields.integer('Invoice Lines',required=False, help="Number of lines per invoice"),
+        'lines_invoice': fields.integer('Invoice Lines', required=False, help="Number of lines per invoice"),
     }
 
     _defaults = {
-        'lines_invoice':50,
-            }
+        'lines_invoice': 50,
+    }
 
 res_company()

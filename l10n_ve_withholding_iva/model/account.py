@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -48,4 +48,4 @@ class account_tax(osv.osv):
             view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to a Refund"),
-   }
+    }

@@ -29,6 +29,7 @@ from openerp.osv import fields, osv
 
 
 class customs_form_config(osv.osv):
+
     '''
     Stores common config parameters for form_86 data
     '''
@@ -57,6 +58,7 @@ class customs_form_config(osv.osv):
 
 
 class customs_facility(osv.osv):
+
     '''
     Stores a list with Venezuela's customs
     '''
@@ -80,7 +82,7 @@ class customs_facility(osv.osv):
             cr, user, name, args, operator, context, limit)
         if not res and name:
             ids = self.search(cr, user, [(
-                'code', '=like', name+"%")]+args, limit=limit)
+                'code', '=like', name + "%")] + args, limit=limit)
             if ids:
                 res = self.name_get(cr, user, ids, context=context)
         return res
@@ -99,6 +101,7 @@ class customs_facility(osv.osv):
 
 
 class customs_duty(osv.osv):
+
     '''
     A list of the concepts for taxes in form_86
     '''
@@ -150,4 +153,3 @@ class customs_duty(osv.osv):
         ('sequence_uniq', 'UNIQUE(sequence,company_id)',
          'The sequence must be unique! (for this comany)'),
     ]
-

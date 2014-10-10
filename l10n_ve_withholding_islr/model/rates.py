@@ -28,41 +28,42 @@
 from openerp.osv import osv, fields
 from openerp.addons import decimal_precision as dp
 
+
 class islr_rates(osv.osv):
+
     """ The module to create the rates of the withholding concepts
     """
-    _name='islr.rates'
+    _name = 'islr.rates'
     _description = 'Rates'
 
-
-    def _get_name(self,cr,uid,ids, field_name, arg, context):
+    def _get_name(self, cr, uid, ids, field_name, arg, context):
         """ Get the name of the withholding concept rate
         """
-        res={}
-        for rate in self.browse(cr,uid,ids):
+        res = {}
+        for rate in self.browse(cr, uid, ids):
             if rate.nature:
                 if rate.residence:
-                    name = 'Persona' + ' ' +'Natural' + ' ' +'Residente'
+                    name = 'Persona' + ' ' + 'Natural' + ' ' + 'Residente'
                 else:
-                    name = 'Persona' + ' ' +'Natural' + ' ' +'No Residente'
+                    name = 'Persona' + ' ' + 'Natural' + ' ' + 'No Residente'
             else:
                 if rate.residence:
-                    name = 'Persona' + ' ' +'Juridica' + ' ' +'Domiciliada'
+                    name = 'Persona' + ' ' + 'Juridica' + ' ' + 'Domiciliada'
                 else:
-                    name = 'Persona' + ' ' +'Juridica' + ' ' +'No Domiciliada'
-            res[rate.id]=name
+                    name = 'Persona' + ' ' + 'Juridica' + ' ' + 'No Domiciliada'
+            res[rate.id] = name
         return res
 
-    _columns={
-    'name': fields.function(_get_name, method=True, type='char', string='Rate', size=256, help="Name retention rate of withhold concept"),
-    'code':fields.char('Concept Code', size=3,required=True, help="Concept code"),
-    'base': fields.float('Without Tax Amount',required=True, help="Percentage of the amount on which to apply the withholding", digits_compute= dp.get_precision('Withhold ISLR')),
-    'minimum': fields.float('Min. Amount',required=True, help="Minimum amount, from which it will determine whether you withholded", digits_compute= dp.get_precision('Withhold ISLR')),
-    'wh_perc': fields.float('Percentage Amount',required=True,help="The percentage to apply to taxable withold income  throw the amount to withhold", digits_compute= dp.get_precision('Withhold ISLR')),
-    'subtract': fields.float('Subtrahend in Tax Units',required=True,help="Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold ", digits_compute= dp.get_precision('Withhold ISLR')),
-    'residence': fields.boolean('Residence',help="Indicates whether a person is resident, compared with the direction of the Company"),
-    'nature': fields.boolean('Nature',help="Indicates whether a person is nature or legal"),
-    'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False, ondelete='cascade'),
-    'rate2': fields.boolean('Rate 2', help='Rate Used for Foreign Entities'),
+    _columns = {
+        'name': fields.function(_get_name, method=True, type='char', string='Rate', size=256, help="Name retention rate of withhold concept"),
+        'code': fields.char('Concept Code', size=3, required=True, help="Concept code"),
+        'base': fields.float('Without Tax Amount', required=True, help="Percentage of the amount on which to apply the withholding", digits_compute=dp.get_precision('Withhold ISLR')),
+        'minimum': fields.float('Min. Amount', required=True, help="Minimum amount, from which it will determine whether you withholded", digits_compute=dp.get_precision('Withhold ISLR')),
+        'wh_perc': fields.float('Percentage Amount', required=True, help="The percentage to apply to taxable withold income  throw the amount to withhold", digits_compute=dp.get_precision('Withhold ISLR')),
+        'subtract': fields.float('Subtrahend in Tax Units', required=True, help="Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold ", digits_compute=dp.get_precision('Withhold ISLR')),
+        'residence': fields.boolean('Residence', help="Indicates whether a person is resident, compared with the direction of the Company"),
+        'nature': fields.boolean('Nature', help="Indicates whether a person is nature or legal"),
+        'concept_id': fields.many2one('islr.wh.concept', 'Withhold  Concept', help="Withhold concept associated with this rate", required=False, ondelete='cascade'),
+        'rate2': fields.boolean('Rate 2', help='Rate Used for Foreign Entities'),
     }
 islr_rates()

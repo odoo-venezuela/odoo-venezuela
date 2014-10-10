@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>           
+#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>
 #    Planified by: Humberto Arocha
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -26,6 +26,7 @@
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+
 class wiz_updatename(osv.osv_memory):
     _name = 'wiz.updatename'
     _description = "Wizard that changes the partner name"
@@ -36,10 +37,10 @@ class wiz_updatename(osv.osv_memory):
         data = self.pool.get('wiz.updatename').read(cr, uid, ids)[0]
         if not data['sure']:
             raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
-        
+
         partner_obj = self.pool.get('res.partner')
         name_partner = data['name']
-        
+
         partner_obj.write(cr, uid, context['active_id'], {'name': name_partner}, context=context)
         return {}
 
@@ -55,11 +56,11 @@ class wiz_updatename(osv.osv_memory):
             context = {}
         partner_obj = self.pool.get('res.partner')
         partner = partner_obj.search(cr, uid, [('id', '=', context['active_id'])])
-        partner_o = partner_obj.browse(cr, uid,  partner[0])
+        partner_o = partner_obj.browse(cr, uid, partner[0])
         return partner_o and partner_o.name or False
 
     _defaults = {
         'name': _get_name,
     }
-    
+
 wiz_updatename()

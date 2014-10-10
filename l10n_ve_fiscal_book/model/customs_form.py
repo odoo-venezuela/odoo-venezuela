@@ -30,7 +30,6 @@ class customs_form(osv.osv):
     _inherit = 'customs.form'
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                 help='Fiscal Book where this customs form' \
+                                 help='Fiscal Book where this customs form'
                                  ' is srelated to'),
     }
-

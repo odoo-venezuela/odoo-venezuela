@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -27,55 +27,56 @@ import time
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
+
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
-    
-    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
-                            name, context=None):
+
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
+                        pay_journal_id, writeoff_acc_id,
+                        writeoff_period_id, writeoff_journal_id, date,
+                        name, context=None):
         """ Function openerp is rewritten for adaptation in
         the ovl
         """
-        if context is None: context = {}
+        if context is None:
+            context = {}
         return []
 
-    def ret_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id, 
-                            period_id, pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
-                            name, to_wh, context=None):
+    def ret_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id,
+                          period_id, pay_journal_id, writeoff_acc_id,
+                          writeoff_period_id, writeoff_journal_id, date,
+                          name, to_wh, context=None):
         """ Make the payment of the invoice 
         """
         if context is None:
             context = {}
         rp_obj = self.pool.get('res.partner')
-        
-        #TODO check if we can use different period for payment and the writeoff line
-        assert len(ids)==1, "Can only pay one invoice at a time"
+
+        # TODO check if we can use different period for payment and the writeoff line
+        assert len(ids) == 1, "Can only pay one invoice at a time"
         invoice = self.browse(cr, uid, ids[0])
         src_account_id = invoice.account_id.id
-       
+
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
         direction = types[invoice.type]
         l1 = {
-            'debit': direction * pay_amount>0 and direction * pay_amount,
-            'credit': direction * pay_amount<0 and - direction * pay_amount,
+            'debit': direction * pay_amount > 0 and direction * pay_amount,
+            'credit': direction * pay_amount < 0 and - direction * pay_amount,
             'account_id': src_account_id,
             'partner_id': rp_obj._find_accounting_partner(invoice.partner_id).id,
-            'ref':invoice.number,
+            'ref': invoice.number,
             'date': date,
             'currency_id': False,
-            'name':name
+            'name': name
         }
         lines = [(0, 0, l1)]
-        
-        l2 = self._get_move_lines(cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
+
+        l2 = self._get_move_lines(cr, uid, ids, to_wh, period_id,
+                            pay_journal_id, writeoff_acc_id,
+                            writeoff_period_id, writeoff_journal_id, date,
                             name, context=context)
-        
-       
+
         if not l2:
             raise osv.except_osv(_('Warning !'), _('No accounting moves were created.\n Please, Check if there are Taxes/Concepts to withhold in the Invoices!'))
         lines += l2
@@ -88,13 +89,13 @@ class account_invoice(osv.osv):
         line_ids = []
         total = 0.0
         line = self.pool.get('account.move.line')
-        cr.execute('select id from account_move_line where move_id in ('+str(move_id)+','+str(invoice.move_id.id)+')')
-        lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()) )
-        for l in lines+invoice.payment_ids:
-            if l.account_id.id==src_account_id:
+        cr.execute('select id from account_move_line where move_id in (' + str(move_id) + ',' + str(invoice.move_id.id) + ')')
+        lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()))
+        for l in lines + invoice.payment_ids:
+            if l.account_id.id == src_account_id:
                 line_ids.append(l.id)
                 total += (l.debit or 0.0) - (l.credit or 0.0)
-        if (not round(total,self.pool.get('decimal.precision').precision_get(cr, uid, 'Withhold'))) or writeoff_acc_id:
+        if (not round(total, self.pool.get('decimal.precision').precision_get(cr, uid, 'Withhold'))) or writeoff_acc_id:
             self.pool.get('account.move.line').reconcile(cr, uid, line_ids, 'manual', writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context)
         else:
             self.pool.get('account.move.line').reconcile_partial(cr, uid, line_ids, 'manual', context)
@@ -115,15 +116,15 @@ class account_invoice(osv.osv):
             moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
             src = []
             for m in self.pool.get('account.move.line').browse(cr, uid, moves):
-                temp_lines = []#Added temp list to avoid duplicate records
+                temp_lines = []  # Added temp list to avoid duplicate records
                 if m.reconcile_id:
                     temp_lines = [i.id for i in m.reconcile_id.line_id]
                 elif m.reconcile_partial_id:
                     temp_lines = [i.id for i in m.reconcile_partial_id.line_partial_ids]
-               
+
                 lines = list(set(temp_lines))
                 src.append(m.id)
-                
+
             lines += filter(lambda x: x not in src, lines)
         return lines
 
@@ -153,10 +154,11 @@ class account_invoice(osv.osv):
                 if not key in tax_key:
                     raise osv.except_osv(_('Warning !'), _('Taxes missing !'))
 
+
 class account_invoice_tax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
-        'tax_id': fields.many2one('account.tax', 'Tax', required=False, ondelete='set null', 
+        'tax_id': fields.many2one('account.tax', 'Tax', required=False, ondelete='set null',
         help="Tax relation to original tax, to be able to take off all data from invoices."),
     }
 
@@ -164,7 +166,7 @@ class account_invoice_tax(osv.osv):
         """ Calculate the amount, base, tax amount,
         base amount of the invoice
         """
-        
+
         tax_grouped = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
@@ -173,8 +175,8 @@ class account_invoice_tax(osv.osv):
         company_currency = inv.company_id.currency_id.id
 
         for line in inv.invoice_line:
-            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit* (1-(line.discount or 0.0)/100.0)), line.quantity,line.product_id, inv.partner_id)['taxes']:
-                val={}
+            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, (line.price_unit * (1 - (line.discount or 0.0) / 100.0)), line.quantity, line.product_id, inv.partner_id)['taxes']:
+                val = {}
                 val['invoice_id'] = inv.id
                 val['name'] = tax['name']
                 val['amount'] = tax['amount']
@@ -184,7 +186,7 @@ class account_invoice_tax(osv.osv):
                 ####  add tax id  ####
                 val['tax_id'] = tax['id']
 
-                if inv.type in ('out_invoice','in_invoice'):
+                if inv.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
                     val['base_amount'] = cur_obj.compute(cr, uid, inv.currency_id.id, company_currency, val['base'] * tax['base_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)

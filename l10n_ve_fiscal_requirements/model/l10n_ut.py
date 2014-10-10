@@ -44,7 +44,7 @@ class l10n_ut(osv.osv):
         help="Amount of the tax unit in bs", required=True),
         'user_id': fields.many2one('res.users', 'Salesman',
         readonly=True, states={'draft': [('readonly', False)]},
-        help="Vendor user"),
+            help="Vendor user"),
     }
     _defaults = {
         'name': lambda *a: None,

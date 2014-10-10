@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -24,6 +24,7 @@
 ################################################################################
 from openerp.osv import fields, osv
 import logging
+
 
 class res_partner(osv.osv):
     _inherit = 'res.partner'

@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -27,13 +27,14 @@
 ##############################################################################
 from openerp.osv import osv, fields
 
+
 class sale_order_line(osv.osv):
     _inherit = "sale.order.line"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Withhold concept associated with this rate",required=False),
+        'concept_id': fields.many2one('islr.wh.concept', 'Withhold  Concept', help="Withhold concept associated with this rate", required=False),
     }
-    
+
 #    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,uom=False, qty_uos=0, uos=False, name='', partner_id=False,lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False):
 #        def get_concept():
 #            concept_obj = self.pool.get('islr.wh.concept')
@@ -56,8 +57,8 @@ class sale_order_line(osv.osv):
         create_ids = super(sale_order_line, self).invoice_line_create(cr, uid, ids, context)
         invoice_line_brws = self.pool.get('account.invoice.line').browse(cr, uid, create_ids)
         order_line_sale_brws = self.pool.get('sale.order.line').browse(cr, uid, ids)
-        for line_invoice in invoice_line_brws: #lineas de la factura
-            for line_sale in order_line_sale_brws: #lineas de la orden de venta
-                if line_sale.product_id==line_invoice.product_id: #si es la misma linea 
-                    self.pool.get('account.invoice.line').write(cr, uid, line_invoice.id, {'concept_id':line_sale.concept_id.id}) 
-        return create_ids 
+        for line_invoice in invoice_line_brws:  # lineas de la factura
+            for line_sale in order_line_sale_brws:  # lineas de la orden de venta
+                if line_sale.product_id == line_invoice.product_id:  # si es la misma linea
+                    self.pool.get('account.invoice.line').write(cr, uid, line_invoice.id, {'concept_id': line_sale.concept_id.id})
+        return create_ids

@@ -27,17 +27,19 @@
 ##############################################################################
 from openerp.osv import osv, fields
 
+
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
-    def action_invoice_create(self, cursor, user, ids, journal_id=False,group=False, type='out_invoice', context=None):
+
+    def action_invoice_create(self, cursor, user, ids, journal_id=False, group=False, type='out_invoice', context=None):
         """ Function that adds the concept of retention to the invoice_lines from 
         a purchase order or sales order with billing method from picking list
         """
         if context is None:
             context = {}
         data = super(stock_picking, self).action_invoice_create(cursor, user, ids, journal_id, group, type, context)
-        picking_id=data.keys()[0]
-        invoice_id=data[picking_id]
+        picking_id = data.keys()[0]
+        invoice_id = data[picking_id]
         invoice_brw = self.pool.get('account.invoice').browse(cursor, user, invoice_id)
         invoice_line_obj = self.pool.get('account.invoice.line')
         for l in invoice_brw.invoice_line:
@@ -46,7 +48,5 @@ class stock_picking(osv.osv):
         return data
 
     _columns = {
-        'nro_ctrl': fields.char('Invoice ref.', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Invoice reference"),
+        'nro_ctrl': fields.char('Invoice ref.', size=32, readonly=True, states={'draft': [('readonly', False)]}, help="Invoice reference"),
     }
-
-

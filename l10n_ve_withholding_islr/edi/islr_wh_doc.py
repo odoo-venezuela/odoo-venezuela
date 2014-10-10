@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>           
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Rafael Silva <rsilvam@vauxoo.com>
 #    Audited by: Nhomar Hernandez <nhomar@vauxoo.com>
 #############################################################################
@@ -30,11 +30,11 @@ from edi import EDIMixin
 ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,
     'name': True,
-    #custom: 'date_planned'
+    # custom: 'date_planned'
     'product_id': True,
     'product_uom': True,
     'price_unit': True,
-    #custom: 'product_qty'
+    # custom: 'product_qty'
     'discount': True,
     'notes': True,
 
@@ -54,13 +54,14 @@ ISLR_WH_DOC_EDI_STRUCT = {
     'period_id': True,
     'number': True,
     'date_uid': True,
-    'company_id': True, # -> to be changed into partner
-    #custom: 'partner_ref'
-    #custom: 'partner_address'
-    #custom: 'notes'
+    'company_id': True,  # -> to be changed into partner
+    # custom: 'partner_ref'
+    # custom: 'partner_address'
+    # custom: 'notes'
     #~ 'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
 
 }
+
 
 class islr_wh_doc(osv.osv, EDIMixin):
     _inherit = 'islr.wh.doc'
@@ -74,6 +75,6 @@ class islr_wh_doc(osv.osv, EDIMixin):
             self._edi_generate_report_attachment(cr, uid, order, context=context)
 
             # Get EDI doc based on struct. The result will also contain all metadata fields and attachments.
-            edi_doc = super(islr_wh_doc,self).edi_export(cr, uid, [order], edi_struct, context)[0]
+            edi_doc = super(islr_wh_doc, self).edi_export(cr, uid, [order], edi_struct, context)[0]
             edi_doc_list.append(edi_doc)
         return edi_doc_list

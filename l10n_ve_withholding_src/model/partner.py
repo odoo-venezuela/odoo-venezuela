@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Humberto Arocha / Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -27,11 +27,12 @@
 from openerp.osv import fields, osv
 from openerp.addons import decimal_precision as dp
 
+
 class res_partner(osv.osv):
     _inherit = 'res.partner'
     _columns = {
         'wh_src_agent': fields.boolean('SRC Wh. Agent', help="Indicate if the partner is a SRC withholding agent"),
-        'wh_src_rate': fields.float(string='SRC Rate', digits_compute= dp.get_precision('Withhold'), help="SRC Withholding rate"),
+        'wh_src_rate': fields.float(string='SRC Rate', digits_compute=dp.get_precision('Withhold'), help="SRC Withholding rate"),
     }
     _defaults = {
         'wh_src_rate': lambda *a: 0,

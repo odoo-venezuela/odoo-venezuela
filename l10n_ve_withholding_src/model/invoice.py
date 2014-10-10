@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Humberto Arocha / Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -27,10 +27,11 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
+
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
-     
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
+
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
         """ Change invoice information depending of the partner
         @param type: Invoice type                                                                                                                  
@@ -41,18 +42,18 @@ class account_invoice(osv.osv):
         @param company_id: Company id  
         """
         rp_obj = self.pool.get('res.partner')
-        res = super(account_invoice,self).onchange_partner_id(cr, uid, ids, type, \
-        partner_id, date_invoice,payment_term,partner_bank_id,company_id)
-        
+        res = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type,
+        partner_id, date_invoice, payment_term, partner_bank_id, company_id)
+
         if type in ('out_invoice',):
             p = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
             res['value']['wh_src_rate'] = p.wh_src_agent and p.wh_src_rate or 0
         else:
-            u= self.pool.get('res.users').browse(cr, uid, uid)
+            u = self.pool.get('res.users').browse(cr, uid, uid)
             c = rp_obj._find_accounting_partner(u.company_id.partner_id)
             res['value']['wh_src_rate'] = c.wh_src_agent and c.wh_src_rate or 0
         return res
-    
+
     def _retenida(self, cr, uid, ids, name, args, context):
         """ Verify whether withholding was applied to the invoice
         """
@@ -62,7 +63,7 @@ class account_invoice(osv.osv):
         for id in ids:
             res[id] = self.test_retenida(cr, uid, [id])
         return res
-    
+
     def _get_inv_from_line(self, cr, uid, ids, context={}):
         """ Returns invoice from journal items
         """
@@ -76,7 +77,7 @@ class account_invoice(osv.osv):
                     move[line2.move_id.id] = True
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
@@ -88,32 +89,33 @@ class account_invoice(osv.osv):
                 move[line.move_id.id] = True
             for line in r.line_id:
                 move[line.move_id.id] = True
-        
+
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
-    
+
     def _check_retention(self, cr, uid, ids, context=None):
         """ This method will check the retention value will be maximum 5%   
         """
-        if context is None: context = {}
-        
-        invoice_brw = self.browse(cr, uid,ids)
-        
+        if context is None:
+            context = {}
+
+        invoice_brw = self.browse(cr, uid, ids)
+
         ret = invoice_brw[0].wh_src_rate
-    
+
         if ret and ret > 5:
             return False
-            
+
         return True
-    
+
     _columns = {
         'wh_src': fields.boolean('Social Responsibility Commitment Withheld', help='if the commitment to social responsibility has been retained'),
-        'wh_src_rate': fields.float('SRC Wh rate', digits_compute= dp.get_precision('Withhold'), readonly=True, states={'draft':[('readonly',False)]}, help="Social Responsibility Commitment Withholding Rate"),
-        'wh_src_id': fields.many2one('account.wh.src', 'Wh. SRC Doc.', readonly=True, help="Social Responsibility Commitment Withholding Document"),        
+        'wh_src_rate': fields.float('SRC Wh rate', digits_compute=dp.get_precision('Withhold'), readonly=True, states={'draft': [('readonly', False)]}, help="Social Responsibility Commitment Withholding Rate"),
+        'wh_src_id': fields.many2one('account.wh.src', 'Wh. SRC Doc.', readonly=True, help="Social Responsibility Commitment Withholding Document"),
     }
-    _defaults={
+    _defaults = {
         'wh_src': False,
     }
 
@@ -121,10 +123,10 @@ class account_invoice(osv.osv):
         (_check_retention, _("Error ! Maximum retention is 5%"), []),
     ]
 
-    def _get_move_lines(self, cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
-                            name, context=None):
+    def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
+                        pay_journal_id, writeoff_acc_id,
+                        writeoff_period_id, writeoff_journal_id, date,
+                        name, context=None):
         """ Generate move lines in corresponding account                            
         @param to_wh: whether or not withheld                                   
         @param period_id: Period                                                
@@ -136,33 +138,33 @@ class account_invoice(osv.osv):
         @param name: description 
         """
         context = context or {}
-        res = super(account_invoice,self)._get_move_lines(cr, uid, ids, to_wh, period_id, 
-                            pay_journal_id, writeoff_acc_id, 
-                            writeoff_period_id, writeoff_journal_id, date, 
+        res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh, period_id,
+                            pay_journal_id, writeoff_acc_id,
+                            writeoff_period_id, writeoff_journal_id, date,
                             name, context=context)
         rp_obj = self.pool.get('res.partner')
-        if context.get('wh_src',False):
+        if context.get('wh_src', False):
             invoice = self.browse(cr, uid, ids[0])
             acc_part_brw = rp_obj._find_accounting_partner(invoice.partner_id)
             types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
 
             for tax_brw in to_wh:
-                if types[invoice.type]==1:
+                if types[invoice.type] == 1:
                     acc = tax_brw.wh_id.company_id.wh_src_collected_account_id and tax_brw.wh_id.company_id.wh_src_collected_account_id.id or False
                 else:
                     acc = tax_brw.wh_id.company_id.wh_src_paid_account_id and tax_brw.wh_id.company_id.wh_src_paid_account_id.id or False
                 if not acc:
-                    raise osv.except_osv(_('Missing Account in Company!'),_("Your Company [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
-                res.append((0,0,{
-                    'debit': direction * tax_brw.wh_amount<0 and - direction * tax_brw.wh_amount,
-                    'credit': direction * tax_brw.wh_amount>0 and direction * tax_brw.wh_amount,
+                    raise osv.except_osv(_('Missing Account in Company!'), _("Your Company [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
+                res.append((0, 0, {
+                    'debit': direction * tax_brw.wh_amount < 0 and - direction * tax_brw.wh_amount,
+                    'credit': direction * tax_brw.wh_amount > 0 and direction * tax_brw.wh_amount,
                     'account_id': acc,
                     'partner_id': acc_part_brw.id,
-                    'ref':invoice.number,
+                    'ref': invoice.number,
                     'date': date,
                     'currency_id': False,
-                    'name':name
+                    'name': name
                 }))
         return res
 
@@ -181,4 +183,3 @@ class account_invoice(osv.osv):
                   " Src Withholding Document and then you can cancel this"
                   " invoice."))
         return True
-

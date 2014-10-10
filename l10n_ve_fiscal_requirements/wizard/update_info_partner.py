@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    author.name@company.com
 #
@@ -21,18 +21,19 @@
 ##############################################################################
 from openerp.osv import osv
 
+
 class update_info_partner(osv.osv_memory):
     _name = 'update.info.partner'
-    
+
     def update_info(self, cr, uid, ids, context={}):
         """ OpenERP osv memory wizard : update_info_partner
         """
         seniat_url_obj = self.pool.get('seniat.url')
         cr.execute('''SELECT id FROM res_partner WHERE vat ilike 'VE%';''')
         record = cr.fetchall()
-        pids = record and map(lambda x: x[0],record) or []
+        pids = record and map(lambda x: x[0], record) or []
         seniat_url_obj.connect_seniat(cr, uid, pids, context=context, all_rif=True)
         return{}
 
-   
+
 update_info_partner()

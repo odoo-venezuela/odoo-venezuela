@@ -61,8 +61,8 @@ class partner_income_wh_printwizard(osv.TransientModel):
     }
 
     _defaults = {
-        'company_id': lambda self, cr, uid, context: \
-            self.pool.get('res.users').browse(cr, uid, uid,
+        'company_id': lambda self, cr, uid, context:
+        self.pool.get('res.users').browse(cr, uid, uid,
                 context=context).company_id.id,
     }
 
@@ -71,11 +71,11 @@ class partner_income_wh_printwizard(osv.TransientModel):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         rp_obj = self.pool.get('res.partner')
         addr = rp_obj.browse(cr, uid, idp, context=context)
-        addr_inv = (addr.street and ('%s, '%addr.street.title()) or '')    + \
-            (addr.zip and ('Codigo Postal: %s, '%addr.zip) or '')        +\
-            (addr.city and ('%s, '%addr.city.title()) or '')+ \
-            (addr.state_id and ('%s, '%addr.state_id.name.title()) or '')+ \
-            (addr.country_id and ('%s '%addr.country_id.name.title()) or '') \
+        addr_inv = (addr.street and ('%s, ' % addr.street.title()) or '')    + \
+            (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '')        +\
+            (addr.city and ('%s, ' % addr.city.title()) or '') + \
+            (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '') + \
+            (addr.country_id and ('%s ' % addr.country_id.name.title()) or '') \
             or _('NO INVOICE ADDRESS DEFINED')
         return addr_inv
 
@@ -87,7 +87,7 @@ class partner_income_wh_printwizard(osv.TransientModel):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         iwdl_obj = self.pool.get('islr.wh.doc.line')
         brw = self.browse(cr, uid, ids[0], context=context)
-        iwdl_ids = iwdl_obj.search( cr, uid, [
+        iwdl_ids = iwdl_obj.search(cr, uid, [
             ('invoice_id.partner_id', '=', brw.partner_id.id),
             ('islr_wh_doc_id.type', '=', 'in_invoice'),
             ('islr_wh_doc_id.state', '=', 'done')], context=context)
@@ -96,7 +96,7 @@ class partner_income_wh_printwizard(osv.TransientModel):
                 'iwdl_ids': [(6, 0, iwdl_ids)]}, context=context)
         else:
             raise osv.except_osv(_(u'No Withholdings'),
-                                 _(u'No Income Withholding for %s'%brw.partner_id.name.upper()))
+                                 _(u'No Income Withholding for %s' % brw.partner_id.name.upper()))
         data = dict()
         data['ids'] = ids
         return {

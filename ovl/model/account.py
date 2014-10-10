@@ -42,7 +42,7 @@ class account_invoice(osv.Model):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         aml_obj = self.pool.get('account.move.line')
         for brw in self.browse(cur, uid, ids, context=context):
-            domain = [('invoice', '=', brw.id)] 
+            domain = [('invoice', '=', brw.id)]
             aml_ids = aml_obj.search(cur, uid, domain, context=context)
             aml_ids.extend([aml_brw.id for aml_brw in brw.move_lines])
             aml_ids = list(set(aml_ids))
@@ -54,7 +54,7 @@ class account_invoice(osv.Model):
             am_brws = set(am_brws)
             aml_ids = list()
             for am_brw in am_brws:
-               aml_ids += [aml_brw.id for aml_brw in am_brw.line_id]
+                aml_ids += [aml_brw.id for aml_brw in am_brw.line_id]
 
         return {
             'domain': str([('id', 'in', aml_ids)]),

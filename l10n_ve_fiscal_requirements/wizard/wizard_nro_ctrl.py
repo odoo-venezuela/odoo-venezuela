@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -26,6 +26,7 @@
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+
 class wiz_nroctrl(osv.osv_memory):
     _name = 'wiz.nroctrl'
     _description = "Wizard that changes the invoice control number"
@@ -34,13 +35,12 @@ class wiz_nroctrl(osv.osv_memory):
         """ Change control number of the invoice
         """
         if context is None:
-            context={}
+            context = {}
         data = self.pool.get('wiz.nroctrl').read(cr, uid, ids)[0]
         if not data['sure']:
             raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
         inv_obj = self.pool.get('account.invoice')
         n_ctrl = data['name']
-        
 
         inv_obj.write(cr, uid, context.get('active_id'), {'nro_ctrl': n_ctrl}, context=context)
         return {}
@@ -53,4 +53,3 @@ wiz_nroctrl()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

@@ -28,6 +28,7 @@ import time
 from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 
+
 class account_wh_munici(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
@@ -117,7 +118,7 @@ class account_wh_munici(osv.osv):
         self.clear_munici_line_ids(cr, uid, ids, context=context)
         return True
 
-    def cancel_move(self,cr,uid,ids, *args):
+    def cancel_move(self, cr, uid, ids, *args):
         """ Delete move lines related with withholding vat and cancel
         """
         ret_brw = self.browse(cr, uid, ids)
@@ -126,8 +127,8 @@ class account_wh_munici(osv.osv):
             if ret.state == 'done':
                 for ret_line in ret.munici_line_ids:
                     ret_line.move_id and account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
-                    ret_line.move_id and account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
-            self.write(cr, uid, ret.id, {'state':'cancel'})
+                    ret_line.move_id and account_move_obj.unlink(cr, uid, [ret_line.move_id.id])
+            self.write(cr, uid, ret.id, {'state': 'cancel'})
         return True
 
     def clear_munici_line_ids(self, cr, uid, ids, context=None):
@@ -139,7 +140,7 @@ class account_wh_munici(osv.osv):
         ai_obj = self.pool.get('account.invoice')
         if ids:
             wml_ids = wml_obj.search(cr, uid, [('retention_id', 'in', ids)], context=context)
-            ai_ids = wml_ids and [ wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context) ]
+            ai_ids = wml_ids and [wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context)]
             ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_muni_id': False}, context=context)
             wml_ids and wml_obj.unlink(cr, uid, wml_ids, context=context)
         return True
@@ -203,7 +204,7 @@ class account_wh_munici(osv.osv):
             if not ret.date_ret:
                 self.write(cr, uid, [ret.id], {'date_ret':
                            time.strftime('%Y-%m-%d')})
-                ret = self.browse(cr, uid, ret.id, context = context)
+                ret = self.browse(cr, uid, ret.id, context=context)
 
             period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
@@ -241,7 +242,7 @@ class account_wh_munici(osv.osv):
         """ Changing the partner is again determinated accounts and lines retain for document                                                      
         @param type: invoice type                                               
         @param partner_id: vendor or buyer                                      
-        """        
+        """
         context = context or {}
         acc_id = False
         rp_obj = self.pool.get('res.partner')
@@ -268,7 +269,7 @@ class account_wh_munici(osv.osv):
             for line in awm_brw.munici_line_ids:
                 acc_part_brw = rp_obj._find_accounting_partner(line.invoice_id.partner_id)
                 if acc_part_brw.id != awm_brw.partner_id.id:
-                    inv_str+= '%s'% '\n'+(line.invoice_id.name or line.invoice_id.number or '')
+                    inv_str += '%s' % '\n' + (line.invoice_id.name or line.invoice_id.number or '')
             if inv_str:
                 raise osv.except_osv('Incorrect Invoices !', "The following invoices are not from the selected partner: %s " % (inv_str,))
 
@@ -279,7 +280,7 @@ class account_wh_munici(osv.osv):
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        res = super(account_wh_munici,self).write(cr, uid, ids, vals, context=context)
+        res = super(account_wh_munici, self).write(cr, uid, ids, vals, context=context)
         self._update_check(cr, uid, ids, context=context)
         return res
 
@@ -324,6 +325,7 @@ class account_wh_munici(osv.osv):
                 _("Missing Values !"),
                 _("Missing Withholding Lines!"))
         return True
+
 
 class account_wh_munici_line(osv.osv):
 

@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -30,12 +30,12 @@ class account_tax(osv.osv):
     _inherit = 'account.tax'
     _columns = {
         'appl_type': fields.selection(
-            [('exento', 'Exempt'), 
-            ('sdcf', 'Not entitled to tax credit'), 
+            [('exento', 'Exempt'),
+            ('sdcf', 'Not entitled to tax credit'),
             ('general', 'General Aliquot'),
             ('reducido', 'Reducted Aliquot'),
-            ('adicional', 'General Aliquot + Additional')], 
-        'Aliquot Type', 
-        required=False, 
-        help='Specify the aliquote type for the tax so it can be processed accrordly when the sale/purchase book is generatred'),
-   }
+            ('adicional', 'General Aliquot + Additional')],
+            'Aliquot Type',
+            required=False,
+            help='Specify the aliquote type for the tax so it can be processed accrordly when the sale/purchase book is generatred'),
+    }

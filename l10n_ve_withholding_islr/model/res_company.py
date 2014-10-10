@@ -25,20 +25,21 @@
 
 from openerp.osv import osv, fields
 
+
 class res_company(osv.osv):
     _inherit = 'res.company'
 
     _columns = {
-        'automatic_income_wh':fields.boolean('Automatic Income Withhold', 
-            help='When True, Supplier Income Withholding will be check and '\
+        'automatic_income_wh': fields.boolean('Automatic Income Withhold',
+            help='When True, Supplier Income Withholding will be check and '
                     'validate automatically'),
         'propagate_invoice_date_to_income_withholding': fields.boolean(
             'Propagate Invoice Date to Income Withholding',
             help='Propagate Invoice Date to Income Withholding. By default is'
-                ' in False.'),
+            ' in False.'),
     }
 
     defaults = {
         'automatic_income_wh': False,
-        'propagate_invoice_date_to_income_withholding': False, 
+        'propagate_invoice_date_to_income_withholding': False,
     }
