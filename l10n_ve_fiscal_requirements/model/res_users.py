@@ -26,30 +26,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from openerp.osv import fields, osv
-import openerp.tools
-from openerp.tools.translate import _
-from openerp.tools import config
+from openerp.osv import osv
+
 
 class res_users(osv.osv):
     _inherit = 'res.users'
-        
+
     def create(self, cr, uid, vals, context=None):
         """ To create a new record,
-        adds a Boolean field to true 
+        adds a Boolean field to true
         indicates that the partner is a company
         """
-        if context is None: context = {}
-        context.update({'create_company':True})
+        if context is None:
+            context = {}
+        context.update({'create_company': True})
         return super(res_users, self).create(cr, uid, vals, context=context)
-        
+
     def write(self, cr, uid, ids, values, context=None):
         """ To write a new record,
-        adds a Boolean field to true 
+        adds a Boolean field to true
         indicates that the partner is a company
         """
         context = context or {}
-        context.update({'create_company':True})
+        context.update({'create_company': True})
         return super(res_users, self).write(cr, uid, ids, values, context=context)
 
 res_users()

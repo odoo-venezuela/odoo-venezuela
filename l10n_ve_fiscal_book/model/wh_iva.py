@@ -23,13 +23,14 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv, orm, fields
-from openerp.tools.translate import _
+from openerp.osv import fields
+from openerp.osv import orm
+
 
 class account_wh_iva_line(orm.Model):
-    _inherit= "account.wh.iva.line"
+    _inherit = "account.wh.iva.line"
     _columns = {
-        'fb_id':fields.many2one('fiscal.book','Fiscal Book',
+        'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
             help='Fiscal Book where this line is related to'),
     }
 
@@ -41,7 +42,6 @@ class account_wh_iva_line(orm.Model):
         inv_obj = self.pool.get('account.invoice')
         inv = inv_obj.browse(cr, uid, inv_id, context=context)
         if inv.wh_iva and inv.wh_iva_id:
-            awil_ids = self.search(cr, uid, ids, [('invoice_id' , '=', inv.id)], context=context)
-            self.write(cr, uid, awil_ids, {'fb_id' : fb_id }, context=context)
+            awil_ids = self.search(cr, uid, ids, [('invoice_id', '=', inv.id)], context=context)
+            self.write(cr, uid, awil_ids, {'fb_id': fb_id}, context=context)
         return True
-

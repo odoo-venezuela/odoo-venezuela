@@ -23,9 +23,7 @@
 ##########################################################################
 
 from openerp.osv import fields, osv
-import openerp.tools
 from openerp.tools.translate import _
-from openerp.tools import config
 import urllib
 from xml.dom.minidom import parseString
 import re
@@ -33,6 +31,7 @@ import logging
 
 
 class seniat_url(osv.osv):
+
     """ OpenERP Model : seniat_url
     """
     _name = 'seniat.url'
@@ -54,32 +53,32 @@ class seniat_url(osv.osv):
     }
 
     #    Update Partner Information
-    
-    def _get_valid_digit(self, cr, uid,vat, context=None):
+
+    def _get_valid_digit(self, cr, uid, vat, context=None):
         '''
         @param vat: string
         returns validating digit
         '''
         divisor = 11
-        vat_type = {'V':1, 'E':2, 'J':3, 'P':4, 'G':5} 
-        mapper = {1:3, 2:2, 3:7, 4:6, 5:5, 6:4, 7:3, 8:2}
+        vat_type = {'V': 1, 'E': 2, 'J': 3, 'P': 4, 'G': 5}
+        mapper = {1: 3, 2: 2, 3: 7, 4: 6, 5: 5, 6: 4, 7: 3, 8: 2}
         valid_digit = None
 
         vat_type = vat_type.get(vat[0].upper())
         if vat_type:
             sum = vat_type * 4
             for i in range(8):
-                sum += int(vat[i+1]) * mapper[i+1]
+                sum += int(vat[i + 1]) * mapper[i + 1]
 
-            valid_digit = divisor - sum%divisor
+            valid_digit = divisor - sum % divisor
             if valid_digit >= 10:
                 valid_digit = 0
-        return valid_digit 
+        return valid_digit
 
-    def _validate_rif(self, cr, uid,vat, context=None):
-        '''validates if the VE VAT NUMBER is right         
+    def _validate_rif(self, cr, uid, vat, context=None):
+        '''validates if the VE VAT NUMBER is right
         @param vat: string: Vat number to Check
-        returns vat when right otherwise returns False 
+        returns vat when right otherwise returns False
 
         '''
         if not vat:
@@ -89,17 +88,17 @@ class seniat_url(osv.osv):
             vat = vat[2:]
 
         if re.search(r'^[VJEGP][0-9]{9}$', vat):
-            valid_digit = self._get_valid_digit(cr, uid,vat,
+            valid_digit = self._get_valid_digit(cr, uid, vat,
                     context=context)
             if valid_digit is None:
                 return False
-            if int(vat[9])==valid_digit:
+            if int(vat[9]) == valid_digit:
                 return vat
             else:
                 self._print_error(_('Vat Error !'), _('Invalid VAT!'))
         elif re.search(r'^([VE][0-9]{1,8})$', vat):
             vat = vat[0] + vat[1:].rjust(8, '0')
-            valid_digit = self._get_valid_digit(cr, uid,vat,
+            valid_digit = self._get_valid_digit(cr, uid, vat,
                     context=context)
             vat += str(valid_digit)
             return vat
@@ -119,7 +118,6 @@ class seniat_url(osv.osv):
                     return r
             except:
                 self.logger.warning("Url could not be loaded %s" % str_error)
-                pass
             retries -= 1
         return str_error
 
@@ -169,7 +167,7 @@ class seniat_url(osv.osv):
             else:
                 return False
 
-    def _get_rif(self, cr, uid,  vat, url1, url2, context=None):
+    def _get_rif(self, cr, uid, vat, url1, url2, context=None):
         """ Partner information transforms XML to string and returns.
         """
         if context is None:
@@ -179,7 +177,7 @@ class seniat_url(osv.osv):
         if not self._eval_seniat_data(xml_data, vat, context=context):
             dom = parseString(xml_data)
             return self._parse_dom(cr, uid, dom, vat, url2, context=context)
-            
+
     def check_rif(self, cr, uid, vat, context=None):
         context = context or {}
         return self._dom_giver(cr, uid, vat, context=context)
@@ -195,13 +193,12 @@ class seniat_url(osv.osv):
         url_obj = self.browse(cr, uid, self.search(cr, uid, []))[0]
         url1 = url_obj.name + '%s'
         url2 = url_obj.url_seniat + '%s'
-        url3 = url_obj.url_seniat2 + '%s'
-        vat = self._validate_rif(cr, uid,vat,context=None)
+        vat = self._validate_rif(cr, uid, vat, context=None)
         if vat:
             return self._get_rif(cr, uid, vat, url1, url2, context=context)
         else:
             return False
-                
+
     def _update_partner(self, cr, uid, id, context=None):
         """ Indicates that the partner was updated with information provided by seniat
         """
@@ -211,7 +208,6 @@ class seniat_url(osv.osv):
     def update_rif(self, cr, uid, ids, context={}):
         """ Updates the partner info if it have a vat
         """
-        aux = []
         rp_obj = self.pool.get('res.partner')
         if context.get('exec_wizard'):
             res = self._dom_giver(cr, uid, context['vat'], context=context)

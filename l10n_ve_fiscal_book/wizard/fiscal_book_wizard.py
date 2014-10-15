@@ -25,14 +25,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ###############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
-import sys
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 import time
 
 
 class fiscal_book_wizard(osv.osv_memory):
+
     """
     Sales book wizard implemented using the osv_memory wizard system
     """
@@ -44,7 +43,7 @@ class fiscal_book_wizard(osv.osv_memory):
         ids = self.pool.get('account.period').search(
             cr, uid, [('date_start', '<=', dt), ('date_stop', '>=', dt)])
         if not ids:
-            raise osv.except_osv(_('Error !'), _('No period defined for this' \
+            raise osv.except_osv(_('Error !'), _('No period defined for this'
             ' date !\nPlease create a fiscal year.'))
         return ids
 
@@ -88,7 +87,7 @@ class fiscal_book_wizard(osv.osv_memory):
         invoice = [i for i in inv_browse if i.nro_ctrl == control][0]
         amount = (invoice.amount_tax * invoice.p_ret) / 100
         rp_obj = self.pool.get('res.partner')
-        rp_brw =  rp_obj._find_accounting_partner(invoice.partner_id).id,
+        rp_brw = rp_obj._find_accounting_partner(invoice.partner_id).id,
         return (invoice.date_invoice,
                 invoice.date_document,
                 rp_brw.vat,
@@ -151,17 +150,17 @@ class fiscal_book_wizard(osv.osv_memory):
 
         fiscal_book_obj = self.pool.get('fiscal.book')
         fiscal_book_o = fiscal_book_obj.search(cr, uid, [('id', '=', context['active_id'])])
-        fiscal_book_o = fiscal_book_obj.browse(cr, uid,  fiscal_book_o[0])
+        fiscal_book_o = fiscal_book_obj.browse(cr, uid, fiscal_book_o[0])
         res = super(fiscal_book_wizard, self).default_get(cr, uid, fields, context=context)
         res.update({'type': fiscal_book_o.type})
         res.update({'date_start': fiscal_book_o.period_id and fiscal_book_o.period_id.date_start or ''})
         res.update({'date_end': fiscal_book_o.period_id and fiscal_book_o.period_id.date_stop or ''})
         if fiscal_book_o.fortnight == 'first':
-            date_obj = time.strptime(fiscal_book_o.period_id.date_stop,'%Y-%m-%d')
-            res.update({'date_end': "%0004d-%02d-15"%(date_obj.tm_year, date_obj.tm_mon)})
+            date_obj = time.strptime(fiscal_book_o.period_id.date_stop, '%Y-%m-%d')
+            res.update({'date_end': "%0004d-%02d-15" % (date_obj.tm_year, date_obj.tm_mon)})
         elif fiscal_book_o.fortnight == 'second':
-            date_obj = time.strptime(fiscal_book_o.period_id.date_start,'%Y-%m-%d')
-            res.update({'date_start': "%0004d-%02d-16"%(date_obj.tm_year, date_obj.tm_mon)})
+            date_obj = time.strptime(fiscal_book_o.period_id.date_start, '%Y-%m-%d')
+            res.update({'date_start': "%0004d-%02d-16" % (date_obj.tm_year, date_obj.tm_mon)})
         return res
 
     def check_report(self, cr, uid, ids, context=None):
@@ -190,13 +189,11 @@ class fiscal_book_wizard(osv.osv_memory):
         "control_start": fields.integer("Control Start"),
         "control_end": fields.integer("Control End"),
         "type": fields.selection([
-        ("sale", _("Sale")),
-        ("purchase", _("Purchase")),
+            ("sale", _("Sale")),
+            ("purchase", _("Purchase")),
         ], "Type", required=True,
         ),
     }
-
-
 
     _defaults = {
         'date_start': lambda *a: time.strftime('%Y-%m-%d'),

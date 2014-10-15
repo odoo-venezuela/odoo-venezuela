@@ -24,8 +24,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 from openerp.osv import osv, fields
-from openerp.tools import config
-from openerp.tools.translate import _
 import time
 from openerp.addons import decimal_precision as dp
 
@@ -46,7 +44,7 @@ class l10n_ut(osv.osv):
         help="Amount of the tax unit in bs", required=True),
         'user_id': fields.many2one('res.users', 'Salesman',
         readonly=True, states={'draft': [('readonly', False)]},
-        help="Vendor user"),
+            help="Vendor user"),
     }
     _defaults = {
         'name': lambda *a: None,

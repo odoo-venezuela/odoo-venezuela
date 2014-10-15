@@ -26,7 +26,6 @@
 ###############################################################################
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import openerp.pooler
 import openerp.addons.decimal_precision as dp
 import time
 
@@ -110,8 +109,8 @@ class customs_form(osv.osv):
             readonly=True, states={'draft': [('readonly', False)]},
             ondelete='restrict'),
         'cfl_ids': fields.one2many('customs.form.line', 'customs_form_id',
-                                    'Tax lines', readonly=True,
-                                    states={'draft': [('readonly', False)]}),
+                                   'Tax lines', readonly=True,
+                                   states={'draft': [('readonly', False)]}),
         'amount_total': fields.function(_amount_total, method=True,
                                         type='float', string='Amount total',
                                         store=False),
@@ -329,4 +328,3 @@ class customs_form_line(osv.osv):
         ('code_uniq', 'UNIQUE(customs_form_id,tax_code)',
          'The code must be unique! (for this form)'),
     ]
-

@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Humberto Arocha / Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -23,14 +23,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import time
 from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp.addons import decimal_precision as dp
+
 
 class res_company(osv.osv):
     _inherit = 'res.company'
-    _columns = {        
+    _columns = {
         'wh_src_collected_account_id': fields.many2one(
             'account.account',
             type='many2one',

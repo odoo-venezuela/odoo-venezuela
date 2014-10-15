@@ -13,6 +13,7 @@
 from osv import fields, osv
 from openerp.tools.translate import _
 
+
 class islr_wh_change_concept(osv.osv_memory):
 
     _name = 'islr.wh.change.concept'
@@ -30,14 +31,14 @@ class islr_wh_change_concept(osv.osv_memory):
         ail_obj = self.pool.get('account.invoice.line')
         ail_brw = ail_obj.browse(cr, uid, context.get('active_id'), context={})
         inv_brw = ail_brw.invoice_id
-        if inv_brw.state!='open':
+        if inv_brw.state != 'open':
             raise osv.except_osv(_('Warning!'), _('This Button is meant to be used with Invoices in "Open State"'))
 
         ail_brw.write({'concept_id': iwcc_brw.new_concept_id.id})
         inv_brw.refresh()
 
         if inv_brw.islr_wh_doc_id:
-            if inv_brw.islr_wh_doc_id.state=='draft':
+            if inv_brw.islr_wh_doc_id.state == 'draft':
                 inv_brw.islr_wh_doc_id.compute_amount_wh()
             else:
                 raise osv.except_osv(_('Warning!'), _('Income Withholding from this invoice must be cancelled prior to change concept'))

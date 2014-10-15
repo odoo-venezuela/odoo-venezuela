@@ -32,10 +32,10 @@ class account_invoice(osv.osv):
 
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                 help='Fiscal Book where this line is ' \
+                                 help='Fiscal Book where this line is '
                                  'related to'),
         'issue_fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                       help='Fiscal Book where this invoice ' \
+                                       help='Fiscal Book where this invoice '
                                        'needs to be add'),
     }
 

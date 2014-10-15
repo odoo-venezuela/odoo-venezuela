@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>     
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Humberto Arocha / Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -36,8 +36,8 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
 
     Supuesto cuantitativo de procedencia.
 
-    El Compromiso de Responsabilidad Social será requerido en todas las ofertas presentadas en las modalidades de selección de Contratistas 
-    previstas en la Ley de Contrataciones Públicas, así como; en los procedimientos excluidos de la aplicación de éstas, cuyo monto total, 
+    El Compromiso de Responsabilidad Social será requerido en todas las ofertas presentadas en las modalidades de selección de Contratistas
+    previstas en la Ley de Contrataciones Públicas, así como; en los procedimientos excluidos de la aplicación de éstas, cuyo monto total,
     incluidos los tributos, superen las dos mil quinientas unidades tributarias (2.500 U.T).
 
 **Artículo 35**
@@ -54,7 +54,7 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         'demo/demo_journals.xml',
         'demo/demo_accounts.xml',
         'demo/demo_company.xml',
-    ], 
+    ],
     "test": [
         'test/aws_customer.yml',
         'test/aws_supplier.yml',
@@ -69,7 +69,7 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         'view/partner_view.xml',
         'workflow/l10n_ve_wh_src_wf.xml',
         'report/wh_src_report.xml',
-        
+
     ],
     "active": False,
     "installable": True,

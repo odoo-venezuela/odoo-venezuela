@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Javier Duran <javier@vauxoo.com>         
+#    Coded by: Javier Duran <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -25,11 +25,11 @@
 
 import time
 from openerp.report import report_sxw
-from openerp.osv import osv
-import openerp.pooler
-from openerp.tools.translate import _ 
+from openerp.tools.translate import _
+
 
 class wh_muni_report(report_sxw.rml_parse):
+
     def __init__(self, cr, uid, name, context):
         super(wh_muni_report, self).__init__(cr, uid, name, context)
         self.localcontext.update({
@@ -46,11 +46,10 @@ class wh_muni_report(report_sxw.rml_parse):
 
         addr_obj = self.pool.get('res.partner')
         addr_inv = _('NO INVOICE ADDRESS DEFINED')
-        if idp:                
-            addr = addr_obj.browse(self.cr,self.uid, idp)
-            addr_inv =addr.type == 'invoice' and  (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '') or _('NO INVOICE ADDRESS DEFINED')
-        return addr_inv 
-
+        if idp:
+            addr = addr_obj.browse(self.cr, self.uid, idp)
+            addr_inv = addr.type == 'invoice' and (addr.street or '') + ' ' + (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' + (addr.city or '') + ' ' + (addr.country_id and addr.country_id.name or '') + ', TELF.:' + (addr.phone or '') or _('NO INVOICE ADDRESS DEFINED')
+        return addr_inv
 
     def _get_rif(self, vat=''):
         """ Return partner rif
@@ -59,12 +58,11 @@ class wh_muni_report(report_sxw.rml_parse):
             return []
         return vat[2:].replace(' ', '')
 
-    
-      
+
 report_sxw.report_sxw(
     'report.wh.muni.report',
     'account.wh.munici',
     rml='l10n_ve_withholding_muni/report/wh_muni_report.rml',
     parser=wh_muni_report,
     header=False
-)      
+)

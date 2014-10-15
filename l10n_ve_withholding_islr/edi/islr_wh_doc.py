@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha <hbto@vauxoo.com>           
+#    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Rafael Silva <rsilvam@vauxoo.com>
 #    Audited by: Nhomar Hernandez <nhomar@vauxoo.com>
 #############################################################################
@@ -23,21 +23,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv
 from edi import EDIMixin
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,
     'name': True,
-    #custom: 'date_planned'
+    # custom: 'date_planned'
     'product_id': True,
     'product_uom': True,
     'price_unit': True,
-    #custom: 'product_qty'
+    # custom: 'product_qty'
     'discount': True,
     'notes': True,
 
@@ -57,13 +54,14 @@ ISLR_WH_DOC_EDI_STRUCT = {
     'period_id': True,
     'number': True,
     'date_uid': True,
-    'company_id': True, # -> to be changed into partner
-    #custom: 'partner_ref'
-    #custom: 'partner_address'
-    #custom: 'notes'
+    'company_id': True,  # -> to be changed into partner
+    # custom: 'partner_ref'
+    # custom: 'partner_address'
+    # custom: 'notes'
     #~ 'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
 
 }
+
 
 class islr_wh_doc(osv.osv, EDIMixin):
     _inherit = 'islr.wh.doc'
@@ -71,13 +69,12 @@ class islr_wh_doc(osv.osv, EDIMixin):
     def edi_export(self, cr, uid, records, edi_struct=None, context=None):
         """Exports a ISLR WH DOC"""
         edi_struct = dict(edi_struct or ISLR_WH_DOC_EDI_STRUCT)
-        res_company = self.pool.get('res.company')
         edi_doc_list = []
         for order in records:
             # generate the main report
             self._edi_generate_report_attachment(cr, uid, order, context=context)
 
             # Get EDI doc based on struct. The result will also contain all metadata fields and attachments.
-            edi_doc = super(islr_wh_doc,self).edi_export(cr, uid, [order], edi_struct, context)[0]
+            edi_doc = super(islr_wh_doc, self).edi_export(cr, uid, [order], edi_struct, context)[0]
             edi_doc_list.append(edi_doc)
         return edi_doc_list

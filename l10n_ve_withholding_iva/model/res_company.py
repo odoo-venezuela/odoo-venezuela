@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 #################Credits#######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 ###############################################################################
@@ -24,6 +24,7 @@
 ###############################################################################
 from openerp.osv import fields, osv
 
+
 class res_company(osv.osv):
     _inherit = "res.company"
     _columns = {
@@ -37,10 +38,10 @@ class res_company(osv.osv):
         'propagate_invoice_date_to_vat_withholding': fields.boolean(
             'Propagate Invoice Date to Vat Withholding',
             help='Propagate Invoice Date to Vat Withholding. By default is in'
-                ' False.'),
+            ' False.'),
     }
 
     _defaults = {
         'consolidate_vat_wh': False,
-        'propagate_invoice_date_to_vat_withholding': False, 
+        'propagate_invoice_date_to_vat_withholding': False,
     }

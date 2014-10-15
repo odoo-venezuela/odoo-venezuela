@@ -19,11 +19,9 @@
 #
 ##############################################################################
 
-import time
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp import netsvc
+from openerp.osv import osv
+
 
 class account_invoice_refund(osv.osv_memory):
 
@@ -40,8 +38,8 @@ class account_invoice_refund(osv.osv_memory):
             context = {}
         res = []
         inv_obj = self.pool.get('account.invoice')
-        
-        res.append(super(account_invoice_refund,self).validate_wh(cr, uid, ids, context=context))
+
+        res.append(super(account_invoice_refund, self).validate_wh(cr, uid, ids, context=context))
         res.append(inv_obj.validate_wh_income_done(cr, uid, ids, context=context))
         return all(res)
 

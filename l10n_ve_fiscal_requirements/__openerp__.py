@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -50,7 +50,7 @@ For damaged invoices (Free form formats), you must go to the company and, under 
 create the corresponding journal and account.
 TODO : Include this on wizard configuration.
 
-If you install this module with invoice data on the database, the concept_id will be 
+If you install this module with invoice data on the database, the concept_id will be
 Empty for all those invoices, so, when you try to modify them you have to add a value on
 that field
 
@@ -65,7 +65,7 @@ Custom modules can be found in the following branch:
   * Addons-vauxoo: lp:addons-vauxoo/7.0
 """,
     "depends" : [
-                 "account", 
+                 "account",
                  "base_vat",
                  "account_accountant",
                  "account_voucher",

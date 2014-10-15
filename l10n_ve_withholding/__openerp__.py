@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: javier@vauxoo.com           
+#    Coded by: javier@vauxoo.com
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -36,14 +36,14 @@
 - Add common tabs on views where they will be used to add information for other modules related to Venezuela. localization.
 
 TODO:
-- 
+-
     """,
     'init_xml': [],
     "depends" : ["l10n_ve_fiscal_requirements"],
     'update_xml': [
         'security/withholding_security.xml',
-        'security/ir.model.access.csv',    
-        'data/l10n_ve_withholding_data.xml',    
+        'security/ir.model.access.csv',
+        'data/l10n_ve_withholding_data.xml',
         'view/l10n_ve_withholding_view.xml',
         'workflow/wh_action_server.xml',
     ],

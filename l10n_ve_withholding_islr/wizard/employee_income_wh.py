@@ -30,9 +30,9 @@ class employee_income_wh(osv.osv_memory):
 
     _description = ''
 
-    ##-------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
-    ##------------------------------------------------------- _internal methods
+    # ------------------------------------------------------- _internal methods
 
     def _parse_xml_employee_income_wh(self, cr, uid, xml_file, context=None):
         res = []
@@ -141,7 +141,7 @@ class employee_income_wh(osv.osv_memory):
                 'period_id': context.get('default_period_id'),
                 'islr_xml_wh_doc': context.get('islr_xml_wh_doc_id'),
                 'type': 'employee',
-                })
+            })
             if pnr_id and irt_id:
                 valid.append(data)
             else:
@@ -149,24 +149,24 @@ class employee_income_wh(osv.osv_memory):
 
         return valid, invalid
 
-    ##--------------------------------------------------------- function fields
+    # --------------------------------------------------------- function fields
 
     _columns = {
         'name': fields.char('File name', size=128, readonly=True),
         'obj_file': fields.binary('XML file', required=True, filters='*.xml',
                                   help=("XML file name with employee income "
                                         "withholding data")),
-        }
+    }
 
     _defaults = {
-        }
+    }
 
     _sql_constraints = [
-        ]
+    ]
 
-    ##-------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
 
-    ##---------------------------------------------------------- public methods
+    # ---------------------------------------------------------- public methods
 
     ##-------------------------------------------------------- buttons (object)
 
@@ -200,9 +200,9 @@ class employee_income_wh(osv.osv_memory):
 
         return {'type': 'ir.actions.act_window_close'}
 
-    ##------------------------------------------------------------ on_change...
+    # ------------------------------------------------------------ on_change...
 
-    ##----------------------------------------------------- create write unlink
+    # ----------------------------------------------------- create write unlink
 
     ##---------------------------------------------------------------- Workflow
 

@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
 #                    Javier Duran <javier@vauxoo.com>
-# 
+#
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -28,5 +28,5 @@
 #
 ##############################################################################
 
-import fiscal_book_wizard
-import change_invoice_sin_cred
+from . import fiscal_book_wizard
+from . import change_invoice_sin_cred

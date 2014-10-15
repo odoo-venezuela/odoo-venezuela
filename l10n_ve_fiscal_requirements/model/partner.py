@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    
+#
 #    Programmed by: Alexander Olivares <olivaresa@gmail.com>
 #
-#    This the script to connect with Seniat website 
+#    This the script to connect with Seniat website
 #    for consult the rif asociated with a partner was taken from:
-#    
+#
 #    http://siv.cenditel.gob.ve/svn/sigesic/ramas/sigesic-1.1.x/sigesic/apps/comun/seniat.py
 #
 #    This script was modify by:
@@ -38,6 +38,7 @@ from openerp.tools.translate import _
 from openerp.addons import decimal_precision as dp
 import re
 
+
 class res_partner(osv.osv):
     _inherit = 'res.partner'
 
@@ -47,14 +48,14 @@ class res_partner(osv.osv):
         context = context or {}
         user_company = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id
         return user_company.partner_id and user_company.partner_id.country_id \
-                and user_company.partner_id.country_id.code or 'XX'
+            and user_company.partner_id.country_id.code or 'XX'
 
     def default_get(self, cr, uid, fields, context=None):
         """ Load the country code of the user company to form to be created.
         """
         context = context or {}
         res = super(res_partner, self).default_get(cr, uid, fields, context=context)
-        res.update({'uid_country': self._get_country_code(cr,uid,context=context)})
+        res.update({'uid_country': self._get_country_code(cr, uid, context=context)})
         return res
 
     def _get_uid_country(self, cr, uid, ids, field_name, args, context=None):
@@ -62,9 +63,9 @@ class res_partner(osv.osv):
         of the user company.
         """
         context = context or {}
-        res= {}.fromkeys(ids,self._get_country_code(cr,uid,context=context))
+        res = {}.fromkeys(ids, self._get_country_code(cr, uid, context=context))
         return res
-    
+
     _columns = {
         'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
         'uid_country': fields.function(_get_uid_country, type='char', string="uid_country", size=20, help="country code of the current company"),
@@ -72,57 +73,59 @@ class res_partner(osv.osv):
             string='Rate',
             digits_compute=dp.get_precision('Withhold'),
             help="Vat Withholding rate"),
-        'wh_iva_agent': fields.boolean('Wh. Agent', 
+        'wh_iva_agent': fields.boolean('Wh. Agent',
             help="Indicate if the partner is a withholding vat agent"),
     }
-    
+
     _default = {
         'seniat_updated': False,
     }
 
-    def name_search(self,cr,uid,name='',args=[],operator='ilike',context=None,limit=80):
+    def name_search(self, cr, uid, name='', args=[], operator='ilike', context=None, limit=80):
         """ Gets el id of the partner with the vat or the name and return the name
         """
-        if context is None: 
-            context={}
-        ids= []
+        if context is None:
+            context = {}
+        ids = []
         if len(name) >= 2:
-            ids = self.search(cr, uid, [('vat',operator,name)] + args, limit=limit, context=context)
+            ids = self.search(cr, uid, [('vat', operator, name)] + args, limit=limit, context=context)
         if not ids:
-            ids = self.search(cr,uid,[('name',operator,name)] + args, limit=limit, context=context)
-        return self.name_get(cr,uid,ids,context=context)
-    
+            ids = self.search(cr, uid, [('name', operator, name)] + args, limit=limit, context=context)
+        return self.name_get(cr, uid, ids, context=context)
+
     '''
     Required Invoice Address
     '''
-    def _check_partner_invoice_addr(self,cr,uid,ids,context={}):
+
+    def _check_partner_invoice_addr(self, cr, uid, ids, context={}):
         """ Return true if the partner is a company of Venezuela and if the
         address is for billing.
         """
-        partner_obj = self.browse(cr,uid,ids[0])
+        partner_obj = self.browse(cr, uid, ids[0])
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE' and not partner_obj.parent_id:
-                res = partner_obj.type == 'invoice'
-                if res:
-                    return True
-                else:
-                    return False
-        else:
+            res = partner_obj.type == 'invoice'
+            if res:
                 return True
+            else:
+                return False
+        else:
+            return True
         return True
 
     def _check_vat_uniqueness(self, cr, uid, ids, context=None):
         """ Check that the vat is unique in the level where the partner in the tree
         """
-        if context is None: context = {}
-        
+        if context is None:
+            context = {}
+
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         acc_part_brw = self._find_accounting_partner(user_company.partner_id)
-        
-        #User must be of VE        
+
+        # User must be of VE
         if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
             return True
-       
-        for rp_brw in self.browse(cr, uid,ids):
+
+        for rp_brw in self.browse(cr, uid, ids):
             acc_part_brw = self._find_accounting_partner(rp_brw)
             if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
                 continue
@@ -131,39 +134,41 @@ class res_partner(osv.osv):
             if rp_brw.id == acc_part_brw.id and not acc_part_brw.vat:
                 return False
             elif rp_brw.id == acc_part_brw.id and acc_part_brw.vat:
-                duplicates = self.search(cr, uid, [ ('vat', '=', rp_brw.vat), ('parent_id','=',False), ('id','!=',rp_brw.id) ])
-                if duplicates: return False
+                duplicates = self.search(cr, uid, [('vat', '=', rp_brw.vat), ('parent_id', '=', False), ('id', '!=', rp_brw.id)])
+                if duplicates:
+                    return False
                 continue
-        return True    
+        return True
 
     def _check_vat_mandatory(self, cr, uid, ids, context=None):
         """ This method will check the vat mandatoriness in partners
         for those user logged on with a Venezuelan Company
-        
+
         The method will return True when:
             *) The user's company is not from Venezuela
             *) The partner being created is the one for the a company being created [TODO]
-        
+
         The method will return False when:
             *) The user's company is from Venezuela AND the vat field is empty AND:
                 +) partner is_company=True AND parent_id is not NULL
-                +) partner with parent_id is NULL 
-                +) partner with parent_id is NOT NULL AND type of address is invoice   
+                +) partner with parent_id is NULL
+                +) partner with parent_id is NOT NULL AND type of address is invoice
         """
-        if context is None: context = {}
+        if context is None:
+            context = {}
         # Avoiding Egg-Chicken Syndrome
         # TODO: Refine this approach this is big exception
         # One that can be handle by end user, I hope so!!!
-        if context.get('create_company',False):
+        if context.get('create_company', False):
             return True
-        
+
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         acc_part_brw = self._find_accounting_partner(user_company.partner_id)
-        #Check if the user is not from a VE Company
+        # Check if the user is not from a VE Company
         if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
             return True
-        
-        for rp_brw in self.browse(cr, uid,ids):
+
+        for rp_brw in self.browse(cr, uid, ids):
             acc_part_brw = self._find_accounting_partner(rp_brw)
             if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
                 continue
@@ -176,11 +181,11 @@ class res_partner(osv.osv):
     def _validate(self, cr, uid, ids, context=None):
         """ Validates the fields
         """
-        
-        #In the original orm.py openerp does not allow using
-        #context within the constraint because we have to yield 
+
+        # In the original orm.py openerp does not allow using
+        # context within the constraint because we have to yield
         # the same result always,
-        # we have overridden this behaviour 
+        # we have overridden this behaviour
         # TO ALLOW PASSING CONTEXT TO THE RESTRICTION IN RES.PARTNER
         context = context or {}
         lng = context.get('lang')
@@ -203,7 +208,7 @@ class res_partner(osv.osv):
                 else:
                     translated_msg = trans._get_source(cr, uid, self._name, 'constraint', lng, msg)
                 error_msgs.append(
-                        _("Error occurred while validating the field(s) %s: %s") % (','.join(fields), translated_msg)
+                    _("Error occurred while validating the field(s) %s: %s") % (','.join(fields), translated_msg)
                 )
                 self._invalids.update(fields)
         if error_msgs:
@@ -216,34 +221,34 @@ class res_partner(osv.osv):
         (_check_vat_uniqueness, _("Error ! Partner's VAT must be a unique value or empty"), []),
         #~ (_check_partner_invoice_addr, _('Error ! The partner does not have an invoice address.'), []),
     ]
- 
+
     def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
         """ Checks the syntax of the vat
         """
         if context is None:
-            context={}
+            context = {}
         if not value:
-            return super(res_partner,self).vat_change(cr, uid, ids, value, context=context)
+            return super(res_partner, self).vat_change(cr, uid, ids, value, context=context)
         res = self.search(cr, uid, [('vat', 'ilike', value)])
         if res:
-            rp = self.browse(cr, uid, res[0],context=context)
-            return {'warning':  {
-                                'title':_('Vat Error !'),
-                                'message':_('The VAT [%s] looks like '%value + 
-                                            '[%s] which is'%rp.vat.upper()+
-                                            ' already being used by: %s'%rp.name.upper())
-                                }
-                   }
+            rp = self.browse(cr, uid, res[0], context=context)
+            return {'warning': {
+                'title': _('Vat Error !'),
+                'message': _('The VAT [%s] looks like ' % value +
+                             '[%s] which is' % rp.vat.upper() +
+                             ' already being used by: %s' % rp.name.upper())
+            }
+            }
         else:
-            return super(res_partner,self).vat_change(cr, uid, ids, value, context=context)
+            return super(res_partner, self).vat_change(cr, uid, ids, value, context=context)
 
-    def check_vat_ve(self, vat, context = None):
+    def check_vat_ve(self, vat, context=None):
         """ Check Venezuelan VAT number, locally called RIF.
         RIF: JXXXXXXXXX RIF VENEZOLAN IDENTIFICATION CARD: VXXXXXXXXX FOREIGN IDENTIFICATION CARD: EXXXXXXXXX
         """
 
         if context is None:
-            context={}
+            context = {}
         if re.search(r'^[VJEGP][0-9]{9}$', vat):
             return True
         if re.search(r'^([VE][0-9]{1,8}|[D][0-9]{9})$', vat):
@@ -255,10 +260,10 @@ class res_partner(osv.osv):
         Validate against  VAT Information Exchange System (VIES)
         """
         if country_code.upper() != "VE":
-            return super(res_partner, self).vies_vat_check(cr, uid, country_code, vat_number,context=context)
+            return super(res_partner, self).vies_vat_check(cr, uid, country_code, vat_number, context=context)
         else:
             return super(res_partner, self).simple_vat_check(cr, uid, country_code, vat_number, context=context)
-        
+
     def update_rif(self, cr, uid, ids, context=None):
         """ Load the rif and name of the partner from the database seniat
         """
@@ -268,11 +273,12 @@ class res_partner(osv.osv):
         return su_obj.update_rif(cr, uid, ids, context=context)
 
     def button_check_vat(self, cr, uid, ids, context=None):
-        """ Is called by the button that load information of the partner from database 
+        """ Is called by the button that load information of the partner from database
         SENIAT
         """
-        if context is None: context = {}
-        context.update({'update_fiscal_information':True})
+        if context is None:
+            context = {}
+        context.update({'update_fiscal_information': True})
         super(res_partner, self).check_vat(cr, uid, ids, context=context)
         user_company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         if user_company.vat_check_vies:

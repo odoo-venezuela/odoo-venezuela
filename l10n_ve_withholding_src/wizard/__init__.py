@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Javier Duran <javier@vauxoo.com>     
+#    Coded by: Javier Duran <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -24,7 +24,7 @@
 ################################################################################
 
 #~ import wizard_ret_munici_xml
-import wizard_retention
+from . import wizard_retention
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -23,7 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #############################################################################
 
-import time
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -32,18 +31,18 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
-                            pay_journal_id, writeoff_acc_id,
-                            writeoff_period_id, writeoff_journal_id, date,
-                            name, context=None):
-        """ Generate move lines in corresponding account                            
-        @param to_wh: whether or not withheld                                   
-        @param period_id: Period                                                
-        @param pay_journal_id: pay journal of the invoice                       
-        @param writeoff_acc_id: account where canceled                          
-        @param writeoff_period_id: period where canceled                        
-        @param writeoff_journal_id: journal where canceled                      
-        @param date: current date                                               
-        @param name: description                                                
+                        pay_journal_id, writeoff_acc_id,
+                        writeoff_period_id, writeoff_journal_id, date,
+                        name, context=None):
+        """ Generate move lines in corresponding account
+        @param to_wh: whether or not withheld
+        @param period_id: Period
+        @param pay_journal_id: pay journal of the invoice
+        @param writeoff_acc_id: account where canceled
+        @param writeoff_period_id: period where canceled
+        @param writeoff_journal_id: journal where canceled
+        @param date: current date
+        @param name: description
         """
 
         context = context or {}
@@ -56,10 +55,10 @@ class account_invoice(osv.osv):
             acc_part_brw = rp_obj._find_accounting_partner(to_wh.invoice_id.partner_id)
             invoice = self.browse(cr, uid, ids[0])
             types = {
-              'out_invoice': -1,
-              'in_invoice': 1,
-              'out_refund': 1,
-              'in_refund': -1
+                'out_invoice': -1,
+                'in_invoice': 1,
+                'out_refund': 1,
+                'in_refund': -1
             }
             direction = types[invoice.type]
             if to_wh.retention_id.type == 'in_invoice':
@@ -67,12 +66,12 @@ class account_invoice(osv.osv):
             else:
                 acc = acc_part_brw.property_wh_munici_receivable and acc_part_brw.property_wh_munici_receivable.id or False
             if not acc:
-                raise osv.except_osv(_('Missing Local Account in Partner!'),_("Partner [%s] has missing Local account. Please, fill the missing field") % (acc_part_brw.name,))
+                raise osv.except_osv(_('Missing Local Account in Partner!'), _("Partner [%s] has missing Local account. Please, fill the missing field") % (acc_part_brw.name,))
             res.append((0, 0, {
                 'debit': direction * to_wh.amount < 0 and
-                         - direction * to_wh.amount,
+                - direction * to_wh.amount,
                 'credit': direction * to_wh.amount > 0 and
-                          direction * to_wh.amount,
+                direction * to_wh.amount,
                 'partner_id': acc_part_brw.id,
                 'ref': invoice.number,
                 'date': date,
@@ -111,7 +110,7 @@ class account_invoice(osv.osv):
                 inner join account_journal j on (j.id=l.journal_id) \
             where l.id in (' + ','.join(map(str, res)) + ') and j.type=' +
             '\'' + type_journal + '\'')
-        ok = ok and  bool(cr.fetchone())
+        ok = ok and bool(cr.fetchone())
         return ok
 
     def _get_inv_munici_from_line(self, cr, uid, ids, context=None):
@@ -171,10 +170,10 @@ class account_invoice(osv.osv):
         'wh_local': fields.function(_retenida_munici, method=True,
             string='Local Withholding', type='boolean',
             store={
-              'account.invoice':
+                'account.invoice':
                 (lambda self, cr, uid, ids, c={}: ids, None, 50),
-              'account.move.line': (_get_inv_munici_from_line, None, 50),
-              'account.move.reconcile':
+                'account.move.line': (_get_inv_munici_from_line, None, 50),
+                'account.move.reconcile':
                 (_get_inv_munici_from_reconcile, None, 50),
             },
             help="The account moves of the invoice have been withheld with \

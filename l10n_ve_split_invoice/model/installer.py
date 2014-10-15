@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Vauxoo C.A.           
+#    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -22,18 +22,19 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-from openerp.osv import osv
-from openerp.osv import fields
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 import base64
 import openerp.addons as addons
 
+
 class split_invoice_config(osv.osv_memory):
+
     """ Fiscal Requirements installer wizard
     """
     _name = 'split.invoice.config'
     _inherit = 'res.config'
-    _description= __doc__
+    _description = __doc__
 
     def default_get(self, cr, uid, fields_list=None, context=None):
         """ Default value to the config_logo field
@@ -47,18 +48,18 @@ class split_invoice_config(osv.osv_memory):
         """ In this method I will configure the maximum number of lines in your invoices.
         """
         wiz_data = self.browse(cr, uid, ids[0])
-        if wiz_data.name < 1 :
-             raise osv.except_osv(_('Error !'), _('The number of customer invoice lines must be at least one'))
+        if wiz_data.name < 1:
+            raise osv.except_osv(_('Error !'), _('The number of customer invoice lines must be at least one'))
         company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         company_obj = self.pool.get('res.company')
-        company_id = company_obj.search(cr,uid,[('id','=',company.id)])
+        company_id = company_obj.search(cr, uid, [('id', '=', company.id)])
         data = {'lines_invoice': wiz_data.name}
         company_obj.write(cr, uid, company_id, data)
 
     _columns = {
-        'name': fields.integer('Max Invoice Lines',required=True, help='Select the maximum number of lines in your customer invoices'),
+        'name': fields.integer('Max Invoice Lines', required=True, help='Select the maximum number of lines in your customer invoices'),
     }
-    _defaults={
+    _defaults = {
         'name': 50,
     }
 split_invoice_config()

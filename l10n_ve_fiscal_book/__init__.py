@@ -4,7 +4,7 @@
 # Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
 #                    Javier Duran <javier@vauxoo.com>
 #                    Nhomar Hernandéz <nhomar@vauxoo.com>
-# 
+#
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -29,5 +29,5 @@
 #
 ##############################################################################
 
-import model
-import wizard
+from . import model
+from . import wizard

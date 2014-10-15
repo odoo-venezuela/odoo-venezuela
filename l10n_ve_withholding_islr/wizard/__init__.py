@@ -22,9 +22,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import account_invoice_refund
-import employee_income_wh
-import income_wh_change_concept
+from . import account_invoice_refund
+from . import employee_income_wh
+from . import income_wh_change_concept
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-import partner_income_wh_print
+from . import partner_income_wh_print

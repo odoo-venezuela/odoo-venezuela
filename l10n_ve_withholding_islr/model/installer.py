@@ -25,11 +25,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ###############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 import base64
 import openerp.addons as addons
+
 
 class wh_islr_config(osv.osv_memory):
     _name = 'wh.islr.config'
@@ -47,23 +47,23 @@ class wh_islr_config(osv.osv_memory):
     def _create_journal(self, cr, uid, name, type, code):
         """ Create journal account
         """
-        self.pool.get("account.journal").create(cr, uid, { 
+        self.pool.get("account.journal").create(cr, uid, {
             'name': name,
             'type': type,
             'code': code,
-            'view_id': 3,}
+            'view_id': 3, }
         )
 
-    def _update_concepts(self, cr, uid, sale, purchase,context={}):
+    def _update_concepts(self, cr, uid, sale, purchase, context={}):
         """ Update sale and purchase concepts
         @param sale: sale concept
         @param purchase: purchase concept
         """
         concept_pool = self.pool.get("islr.wh.concept")
-        concept_pool.write(cr, uid, concept_pool.search(cr, uid, [],context=context), {
+        concept_pool.write(cr, uid, concept_pool.search(cr, uid, [], context=context), {
             'property_retencion_islr_payable': purchase,
             'property_retencion_islr_receivable': sale
-        },context=context)
+        }, context=context)
         return True
 
     def _set_wh_agent(self, cr, uid):
@@ -75,13 +75,13 @@ class wh_islr_config(osv.osv_memory):
     def execute(self, cr, uid, ids, context=None):
         """ Create journals and determinate if is withholding agent or not
         """
-        wiz_data = self.read(cr, uid, ids[0],context=context)
+        wiz_data = self.read(cr, uid, ids[0], context=context)
         if wiz_data['journal_purchase']:
             self._create_journal(cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')
         if wiz_data['journal_sale']:
             self._create_journal(cr, uid, wiz_data['journal_sale'], 'islr_sale', 'ISLRS')
         if wiz_data['account_sale'] or wiz_data['account_purchase']:
-            self._update_concepts(cr, uid, wiz_data['account_sale'][0], wiz_data['account_purchase'][0],context=context)
+            self._update_concepts(cr, uid, wiz_data['account_sale'][0], wiz_data['account_purchase'][0], context=context)
         if wiz_data['wh_agent']:
             self._set_wh_agent(cr, uid)
 

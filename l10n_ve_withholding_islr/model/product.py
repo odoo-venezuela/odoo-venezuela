@@ -7,7 +7,7 @@
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier@vauxoo.com>             
+#              Javier Duran              <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -26,20 +26,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from openerp.osv import osv
-from openerp.osv import fields
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
-from openerp.tools import config
-import time
-import datetime
+
 
 class product_template(osv.osv):
 
     _inherit = "product.template"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Withhold  Concept',help="Concept Income Withholding to apply to the service", required=False),
+        'concept_id': fields.many2one('islr.wh.concept', 'Withhold  Concept', help="Concept Income Withholding to apply to the service", required=False),
     }
+
 
 class product_product(osv.osv):
 
@@ -55,10 +53,10 @@ class product_product(osv.osv):
         concept_id = False
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
-            
-            concept_id = concept_obj.search(cr, uid, [('withholdable','=',False)])
-            concept_id = concept_id and concept_id[0] or False 
+
+            concept_id = concept_obj.search(cr, uid, [('withholdable', '=', False)])
+            concept_id = concept_id and concept_id[0] or False
             if not concept_id:
-                 raise osv.except_osv(_('Invalid action !'),_("Must create the concept of income withholding"))
-                
-        return {'value' : {'concept_id':concept_id or False}} 
+                raise osv.except_osv(_('Invalid action !'), _("Must create the concept of income withholding"))
+
+        return {'value': {'concept_id': concept_id or False}}

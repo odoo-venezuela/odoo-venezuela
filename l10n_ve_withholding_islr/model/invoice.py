@@ -23,11 +23,12 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
-from openerp.osv import fields
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+
 class account_invoice_line(osv.osv):
+
     """ It adds a field that determines if a line has been retained or not
     """
     _inherit = "account.invoice.line"
@@ -55,13 +56,13 @@ class account_invoice_line(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj_model = self.pool.get('ir.model.data')
         ail_brw = self.browse(cr, uid, ids[0], context=context)
-        if not ail_brw.invoice_id.state=='open':
+        if not ail_brw.invoice_id.state == 'open':
             raise osv.except_osv(_('Warning!'), _('This Button is meant to be used with Invoices in "Open State"'))
         model_data_ids = obj_model.search(
             cr, uid, [('model', '=', 'ir.ui.view'),
-                        ('name', '=', 'islr_wh_change_concept')])
+                      ('name', '=', 'islr_wh_change_concept')])
         resource_id = obj_model.read(cr, uid, model_data_ids,
-                                        fields=['res_id'])[0]['res_id']
+                                     fields=['res_id'])[0]['res_id']
         return {
             'view_type': 'form',
             'view_mode': 'form',
@@ -115,6 +116,7 @@ class account_invoice_line(osv.osv):
                          })
         return super(account_invoice_line, self).create(cr, uid, vals, context=context)
 
+
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
@@ -134,7 +136,7 @@ class account_invoice(osv.osv):
     _defaults = {
         'status': lambda *a: "no_pro",
     }
-## BEGIN OF REWRITING ISLR
+# BEGIN OF REWRITING ISLR
 
     def check_invoice_type(self, cr, uid, ids, context=None):
         """ This method check if the given invoice record is from a supplier
@@ -184,9 +186,10 @@ class account_invoice(osv.osv):
             return False
         if row.type in ('in_invoice', 'in_refund') and \
                 rp_obj._find_accounting_partner(row.company_id.partner_id).islr_withholding_agent:
-                    res = True
+            res = True
 
-        if not res: return True
+        if not res:
+            return True
 
         context['type'] = row.type
         wh_ret_code = wh_doc_obj.retencion_seq_get(cr, uid)
@@ -304,7 +307,7 @@ class account_invoice(osv.osv):
         direction = types[inv_brw.type]
 
         for iwdl_brw in to_wh:
-            if inv_brw.type in ('out_invoice','out_refund'):
+            if inv_brw.type in ('out_invoice', 'out_refund'):
                 acc = iwdl_brw.concept_id.property_retencion_islr_receivable and \
                     iwdl_brw.concept_id.property_retencion_islr_receivable.id or \
                     False
@@ -331,4 +334,3 @@ class account_invoice(osv.osv):
             }))
 
         return res
-

@@ -1,4 +1,4 @@
-{    
+{
     "name" : "VAT Write Off",
     "version" : "0.5",
     "depends" : ["l10n_ve_fiscal_book",

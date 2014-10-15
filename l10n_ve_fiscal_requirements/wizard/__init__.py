@@ -23,11 +23,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-import wizard_nro_ctrl
-import wizard_invoice_nro_ctrl
-import wizard_url_seniat
-import wizard_update_name
-import update_info_partner
-import account_invoice_refund
-import account_invoice_debit
-import search_info_partner_seniat
+from . import wizard_nro_ctrl
+from . import wizard_invoice_nro_ctrl
+from . import wizard_url_seniat
+from . import wizard_update_name
+from . import update_info_partner
+from . import account_invoice_refund
+from . import account_invoice_debit
+from . import search_info_partner_seniat

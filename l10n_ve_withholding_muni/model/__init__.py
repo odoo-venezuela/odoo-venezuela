@@ -5,7 +5,7 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>           
+#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>
 #    Planified by: Humberto Arocha
 #    Audited by: Vauxoo C.A.
 #############################################################################
@@ -23,6 +23,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-import invoice
-import partner
-import wh_muni
+from . import invoice
+from . import partner
+from . import wh_muni
