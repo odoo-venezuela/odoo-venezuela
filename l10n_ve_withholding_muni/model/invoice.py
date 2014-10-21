@@ -30,6 +30,15 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
+    def copy(self, cr, uid, id, default=None, context=None):
+        """ Initialized fields to the copy a register
+        """
+        context = context or {}
+        default = default or {}
+        default = default.copy()
+        default.update({'wh_local': False, 'wh_muni_id': False})
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
+
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
                         writeoff_period_id, writeoff_journal_id, date,
