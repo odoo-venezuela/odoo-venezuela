@@ -4,7 +4,7 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://www.vauxoo.com>).
 #    All Rights Reserved
-############# Credits #########################################################
+# ########### Credits #########################################################
 #    Coded by: Katherine Zaoral <kathy@vauxoo.com>
 #    Planified by: Humberto Arocha <hbto@vauxoo.com>
 #    Audited by: Humberto Arocha <hbto@vauxoo.com>
@@ -63,7 +63,7 @@ class partner_income_wh_printwizard(osv.TransientModel):
     _defaults = {
         'company_id': lambda self, cr, uid, context:
         self.pool.get('res.users').browse(cr, uid, uid,
-                context=context).company_id.id,
+                                          context=context).company_id.id,
     }
 
     def get_partner_address(self, cr, uid, ids, idp, context=None):
@@ -71,8 +71,8 @@ class partner_income_wh_printwizard(osv.TransientModel):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         rp_obj = self.pool.get('res.partner')
         addr = rp_obj.browse(cr, uid, idp, context=context)
-        addr_inv = (addr.street and ('%s, ' % addr.street.title()) or '')    + \
-            (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '')        +\
+        addr_inv = (addr.street and ('%s, ' % addr.street.title()) or '') + \
+            (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '') +\
             (addr.city and ('%s, ' % addr.city.title()) or '') + \
             (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '') + \
             (addr.country_id and ('%s ' % addr.country_id.name.title()) or '') \
@@ -97,7 +97,8 @@ class partner_income_wh_printwizard(osv.TransientModel):
                 'iwdl_ids': [(6, 0, iwdl_ids)]}, context=context)
         else:
             raise osv.except_osv(_(u'No Withholdings'),
-                                 _(u'No Income Withholding for %s' % brw.partner_id.name.upper()))
+                                 _(u'No Income Withholding for %s'
+                                   % brw.partner_id.name.upper()))
         data = dict()
         data['ids'] = ids
         return {
