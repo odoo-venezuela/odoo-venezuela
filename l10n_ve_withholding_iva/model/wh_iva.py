@@ -517,18 +517,20 @@ class account_wh_iva(osv.osv):
                         per_obj.find_fortnight(cr, uid,
                                                values['date_ret'],
                                                context=context)):
-                    raise osv.except_osv(_("Invalid action !"),
+                    raise osv.except_osv(
+                        _("Invalid action !"),
                         _("You have introduced non-valid accounting date. The"
                           "date needs to be in the same withholding period and"
                           " fortnigh."))
             elif wh.type in ['out_invoice']:
                 values['date_ret'] = wh.date_ret or time.strftime('%Y-%m-%d')
 
-            if values['date_ret'] > time.strftime('%Y-%m-%d'):
-                error_msg = \
-                    "You have introduced a non valid withholding date (a date in " \
-                    "the future). The withholding date needs to be at least " \
-                    "today or a previous date."
+            if not wh.company_id.allow_vat_wh_outdated and \
+                    values['date_ret'] > time.strftime('%Y-%m-%d'):
+                error_msg = _(
+                    'You have introduced a non valid withholding date (a date \
+                    in the future). The withholding date needs to be at least \
+                    today or a previous date.')
                 raise osv.except_osv(_("Invalid action !"), _(error_msg))
 
             self.write(cr, uid, [wh.id], values, context=context)
