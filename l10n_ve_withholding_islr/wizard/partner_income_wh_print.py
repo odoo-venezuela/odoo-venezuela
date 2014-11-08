@@ -89,6 +89,7 @@ class partner_income_wh_printwizard(osv.TransientModel):
         brw = self.browse(cr, uid, ids[0], context=context)
         iwdl_ids = iwdl_obj.search(cr, uid, [
             ('invoice_id.partner_id', '=', brw.partner_id.id),
+            ('islr_wh_doc_id.period_id', '=', brw.period_id.id),
             ('islr_wh_doc_id.type', '=', 'in_invoice'),
             ('islr_wh_doc_id.state', '=', 'done')], context=context)
         if iwdl_ids:
