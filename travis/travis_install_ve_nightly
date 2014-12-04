@@ -3,7 +3,7 @@
 set -v
 
 ##VE PACKAGES
-sudo pip install --allow-external libxml2-python
+sudo apt-get install python-libxml2
 
 ##ODOO PACKAGES#FIXME: This package should be within the main script
 sudo pip install PyWebDAV mygengo
