@@ -16,6 +16,7 @@ install:
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - ${TRAVIS_BUILD_DIR}/travis/travis_install_ve_nightly ${VERSION}
+  - git clone --single-branch --depth=1 https://github.com/Vauxoo/addons-vauxoo.git -b ${VERSION} ${HOME}/addons-vauxoo
 
 script:
   - travis_run_tests
