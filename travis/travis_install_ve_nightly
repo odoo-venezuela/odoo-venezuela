@@ -5,6 +5,9 @@ set -v
 ##VE PACKAGES
 sudo apt-get install python-libxml2
 
+##ADDONS-VAUXOO PACKAGES#FIXME: This modules make error use or not use it
+sudo pip install recaptcha-client egenix-mx-base
+
 ##ODOO PACKAGES#FIXME: This package should be within the main script
 sudo pip install PyWebDAV mygengo
 #sudo apt-get install pdftotext antiword
