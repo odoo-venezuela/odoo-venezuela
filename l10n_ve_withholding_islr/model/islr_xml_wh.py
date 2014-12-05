@@ -235,7 +235,7 @@ class islr_xml_wh_doc(osv.osv):
                     SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
                 # This peace of code will be left for backward compatibility
                 # TODO: Delete on V8 onwards
-                if inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
+                elif inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
                     date_ret = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret, '%Y-%m-%d')
                     SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
                 SubElement(detalle, "CodigoConcepto").text = concept_code
