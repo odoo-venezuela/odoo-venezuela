@@ -231,6 +231,7 @@ class islr_xml_wh_doc(osv.osv):
                 SubElement(detalle, "NumeroFactura").text = ''.join(i for i in invoice_number if i.isdigit())[-10:] or '0'
                 SubElement(detalle, "NumeroControl").text = ''.join(i for i in control_number if i.isdigit())[-8:] or 'NA'
                 if date_ret:
+                    date_ret = time.strptime(date_ret, '%Y-%m-%d')
                     SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
                 # This peace of code will be left for backward compatibility
                 # TODO: Delete on V8 onwards
