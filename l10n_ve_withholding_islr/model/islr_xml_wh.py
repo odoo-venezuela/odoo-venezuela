@@ -135,7 +135,7 @@ class islr_xml_wh_doc(osv.osv):
         obj_ixwl = self.pool.get('islr.xml.wh.line')
         for item in self.browse(cr, uid, ids, context={}):
             for ixwl in item.xml_ids:
-                if not ixwl.date_ret:
+                if not ixwl.date_ret and ixwl.islr_wh_doc_inv_id:
                     obj_ixwl.write(cr, uid, [ixwl.id], {'date_ret':ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret}, context=context)
         return self.write(cr, uid, ids, {'state': 'confirmed'})
 
