@@ -108,7 +108,6 @@
                 "l10n_ve",
                 "portal_project",
                 "sale_crm",
-                "account_followup",
                 "claim_from_delivery",
                 "hr_holidays",
                 "l10n_fr",
@@ -144,7 +143,6 @@
                 "process",
                 "sale_stock",
                 "account_voucher",
-                "crm_partner_assign",
                 "hr_timesheet_invoice",
                 "l10n_hn",
                 "marketing_campaign_crm_demo",
@@ -186,7 +184,6 @@
                 "product_visible_discount",
                 "subscription",
                 "audittrail",
-                #"document_ftp", #No test
                 "l10n_be",
                 "l10n_ma",
                 "mrp_repair",
