@@ -46,7 +46,7 @@
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="concept_id" colspan="4"/>
-                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)"/>
+                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)" required='1'/>
                         <field name="porcent_rete"/>
                         <field name="concept_code"/>
                     </group>
@@ -56,7 +56,8 @@
                         <newline/>
                         <group col="4" colspan="4">
                             <field name="account_invoice_line_id" colspan="4"/>
-                            <field name="period_id" colspan="4"/>
+                            <field name="date_ret" colspan="2" required='1'/>
+                            <field name="period_id" colspan="2" required='1'/>
                             <field name="invoice_number" />
                             <field name="control_number" />
                         </group>

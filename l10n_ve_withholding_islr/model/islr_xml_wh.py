@@ -131,6 +131,12 @@ class islr_xml_wh_doc(osv.osv):
     def action_confirm1(self, cr, uid, ids, context={}):
         """ Passes the document to state confirmed
         """
+        # to set date_ret if don't exists
+        obj_ixwl = self.pool.get('islr.xml.wh.line')
+        for item in self.browse(cr, uid, ids, context={}):
+            for ixwl in item.xml_ids:
+                if not ixwl.date_ret:
+                    obj_ixwl.write(cr, uid, [ixwl.id], {'date_ret':ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret}, context=context)
         return self.write(cr, uid, ids, {'state': 'confirmed'})
 
     def action_done1(self, cr, uid, ids, context={}):
@@ -208,10 +214,10 @@ class islr_xml_wh_doc(osv.osv):
             period = time.strptime(wh_brw.period_id.date_stop, '%Y-%m-%d')
             period2 = "%0004d%02d" % (period.tm_year, period.tm_mon)
 
-            sql = '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id
+            sql = '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id,date_ret
             FROM islr_xml_wh_line
             WHERE period_id= %s and id in (%s)
-            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id''' % (wh_brw.period_id.id, ', '.join([str(i.id) for i in wh_brw.xml_ids]))
+            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id,date_ret''' % (wh_brw.period_id.id, ', '.join([str(i.id) for i in wh_brw.xml_ids]))
             cr.execute(sql)
             xml_lines = cr.fetchall()
 
@@ -219,14 +225,18 @@ class islr_xml_wh_doc(osv.osv):
             root.attrib['RifAgente'] = rp_obj._find_accounting_partner(wh_brw.company_id.partner_id).vat[2:]
             root.attrib['Periodo'] = period2
             for line in xml_lines:
-                partner_vat, control_number, porcent_rete, concept_code, invoice_number, base, inv_id = line
+                partner_vat, control_number, porcent_rete, concept_code, invoice_number, base, inv_id, date_ret = line
                 detalle = SubElement(root, "DetalleRetencion")
                 SubElement(detalle, "RifRetenido").text = partner_vat
                 SubElement(detalle, "NumeroFactura").text = ''.join(i for i in invoice_number if i.isdigit())[-10:] or '0'
                 SubElement(detalle, "NumeroControl").text = ''.join(i for i in control_number if i.isdigit())[-8:] or 'NA'
+                if date_ret:
+                    SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
+                # This peace of code will be left for backward compatibility
+                # TODO: Delete on V8 onwards
                 if inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
-                    date_invoice = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret, '%Y-%m-%d')
-                    SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_invoice)
+                    date_ret = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret, '%Y-%m-%d')
+                    SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
                 SubElement(detalle, "CodigoConcepto").text = concept_code
                 SubElement(detalle, "MontoOperacion").text = str(base)
                 SubElement(detalle, "PorcentajeRetencion").text = str(porcent_rete)
@@ -262,6 +272,7 @@ class islr_xml_wh_line(osv.osv):
         'partner_id': fields.many2one('res.partner', 'Partner', required=True, help="Partner object of withholding"),
         'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute=dp.get_precision('Withhold ISLR')),
         'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices', 'Withheld Invoice', help="Withheld Invoices"),
+        'date_ret': fields.date('Operation Date'),
         'type': fields.selection(
             ISLR_XML_WH_LINE_TYPES,
             string='Type', required=True, readonly=False),
