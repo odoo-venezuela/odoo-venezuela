@@ -108,8 +108,8 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: ''})
         if res:
-            for r in res:
-                ret.update({r.id: r.number and str(r.number) or ''})
+            for inv_brw in res:
+                ret.update({inv_brw.id: inv_brw.number and str(inv_brw.number) or ''})
         return ret
 
     def _get_reference(self, cr, uid, ids, name, args, context=None):
