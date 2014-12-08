@@ -121,8 +121,8 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: ''})
         if res:
-            for r in res:
-                ret.update({r.id: r.reference and r.reference or ''})
+            for inv_brw in res:
+                ret.update({inv_brw.id: inv_brw.reference and inv_brw.reference or ''})
         return ret
 
     def _get_control_number(self, cr, uid, ids, name, args, context=None):
