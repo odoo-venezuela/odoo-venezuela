@@ -68,9 +68,9 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: ''})
         if res:
-            for r in res:
-                if not r.get_is_imported:
-                    ret.update({r.id: r.date_invoice})
+            for inv_brw in res:
+                if not inv_brw.get_is_imported:
+                    ret.update({inv_brw.id: inv_brw.date_invoice})
 #                ret =r.date_document
         return ret
 
