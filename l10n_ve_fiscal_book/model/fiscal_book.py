@@ -938,9 +938,10 @@ class fiscal_book(orm.Model):
                  ('date_liq', '>=', fb_brw.period_id.date_start),
                  ('date_liq', '<=', fb_brw.period_id.date_stop)],
                 context=context)
-            add_cf_ids and self.write(
-                cr, uid, fb_brw.id, {'cf_ids': [(4, cf) for cf in add_cf_ids]},
-                context=context)
+            if add_cf_ids:
+                self.write(
+                    cr, uid, fb_brw.id, {'cf_ids': [(4, cf) for cf in add_cf_ids]},
+                    context=context)
         return True
 
     def update_book_lines(self, cr, uid, fb_id, context=None):
