@@ -55,18 +55,20 @@ class account_invoice(osv.osv):
                   "invoice." % (inv_brw.fb_id.state,)))
         return True
 
-    def copy(self, cur, uid, id, default=None, context=None):
+    def copy(self, cur, uid, ids, default=None, context=None):
         """
         Overwrite the copy orm method to blank the fiscal book field when
         a invoice is copy. Also if a invoice have benn remove from a fiscal
         book the issue_fb_id is add, if a duplicate this invoice that info os
         issue will be garbage so I clean it too.
         """
+        # NOTE: Use as parameter 'ids' instead of 'id' for fix pylint W0622
+        # Redefining built-in 'id'.
         context = context or {}
         default = default or {}
         default.update(fb_id=False)
         if default.get('issue_fb_id', False):
             default.update(issue_fb_id=False)
         res = super(account_invoice, self).copy(
-            cur, uid, id, default=default, context=context)
+            cur, uid, ids, default=default, context=context)
         return res
