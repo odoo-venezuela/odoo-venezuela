@@ -95,8 +95,8 @@ class inherited_invoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         if res:
-            for r in res:
-                ret.update({r.id: r.partner_id.name})
+            for inv_brw in res:
+                ret.update({inv_brw.id: inv_brw.partner_id.name})
         return ret
 
     def _get_inv_number(self, cr, uid, ids, name, args, context=None):
