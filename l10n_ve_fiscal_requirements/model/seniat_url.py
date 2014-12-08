@@ -117,7 +117,7 @@ class seniat_url(osv.osv):
                 if ok:
                     self.logger.info("Url Loaded correctly %s" % url)
                     return r
-            except:
+            except Exception, e:
                 self.logger.warning("Url could not be loaded %s" % str_error)
             retries -= 1
         return str_error
