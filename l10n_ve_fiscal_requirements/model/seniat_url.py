@@ -122,9 +122,10 @@ class seniat_url(osv.osv):
             retries -= 1
         return str_error
 
-    def _parse_dom(self, cr, uid, dom, rif, url_seniat, context={}):
+    def _parse_dom(self, cr, uid, dom, rif, url_seniat, context=None):
         """ This function extracts the information partner of the string and returns
         """
+        context = context or {}
         rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
         name = dom.childNodes[0].childNodes[0].firstChild.data
         wh_agent = dom.childNodes[0].childNodes[
@@ -146,12 +147,11 @@ class seniat_url(osv.osv):
         """
         raise osv.except_osv(error, msg)
 
-    def _eval_seniat_data(self, xml_data, vat, context={}):
+    def _eval_seniat_data(self, xml_data, vat, context=None):
         """ Returns false when there was no error in the query in url SENIAT and
         return true when there was error in the query.
         """
-        if context is None:
-            context = {}
+        context = context or {}
         if not context.get('all_rif'):
             if xml_data.find('450') >= 0 and not vat.find('450') >= 0:
                 self._print_error(_('Vat Error !'), _('Invalid VAT!'))
@@ -206,9 +206,10 @@ class seniat_url(osv.osv):
         rp_obj = self.pool.get('res.partner')
         rp_obj.write(cr, uid, id, {'seniat_updated': True})
 
-    def update_rif(self, cr, uid, ids, context={}):
+    def update_rif(self, cr, uid, ids, context=None):
         """ Updates the partner info if it have a vat
         """
+        context = context or {}
         rp_obj = self.pool.get('res.partner')
         if context.get('exec_wizard'):
             res = self._dom_giver(cr, uid, context['vat'], context=context)
@@ -235,10 +236,11 @@ class seniat_url(osv.osv):
                     return False
         return True
 
-    def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
+    def connect_seniat(self, cr, uid, ids, context=None, all_rif=False):
         """ Adds true value to the field all_rif to denote that rif was charged with
         SENIAT database
         """
+        context = context or {}
         ctx = context.copy()
         if all_rif:
             ctx.update({'all_rif': True})
