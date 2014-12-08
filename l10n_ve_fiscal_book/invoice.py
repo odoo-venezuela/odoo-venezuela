@@ -83,9 +83,9 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: 'N/A'})
         if res:
-            for r in res:
-                if r.partner_id.vat:
-                    ret.update({r.id: r.partner_id.vat[2:]})
+            for inv_brw in res:
+                if inv_brw.partner_id.vat:
+                    ret.update({inv_brw.id: inv_brw.partner_id.vat[2:]})
         return ret
 
     def _get_name(self, cr, uid, ids, name, args, context=None):
