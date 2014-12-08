@@ -67,11 +67,11 @@ class seniat_url(osv.osv):
 
         vat_type = vat_type.get(vat[0].upper())
         if vat_type:
-            sum = vat_type * 4
+            sum_vat = vat_type * 4
             for i in range(8):
-                sum += int(vat[i + 1]) * mapper[i + 1]
+                sum_vat += int(vat[i + 1]) * mapper[i + 1]
 
-            valid_digit = divisor - sum % divisor
+            valid_digit = divisor - sum_vat % divisor
             if valid_digit >= 10:
                 valid_digit = 0
         return valid_digit
