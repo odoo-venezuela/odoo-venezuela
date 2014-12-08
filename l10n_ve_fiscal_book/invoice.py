@@ -145,8 +145,8 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: 0})
         if res:
-            for r in res:
-                ret.update({r.id: r.amount_total})
+            for inv_brw in res:
+                ret.update({inv_brw.id: inv_brw.amount_total})
         return ret
 
     def _get_wh_number(self, cr, uid, ids, name, args, context=None):
