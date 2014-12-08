@@ -23,10 +23,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-from openerp.osv import osv, orm, fields
-from openerp.tools.translate import _
-from openerp.addons import decimal_precision as dp
 import time
+
+from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, orm, osv
+from openerp.tools.translate import _
 
 
 class fiscal_book(orm.Model):

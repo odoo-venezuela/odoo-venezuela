@@ -24,10 +24,10 @@
 ##############################################################################
 
 {
-    "name" : "Split Invoices",
-    "version" : "0.2",
-    "depends" : ["account"],
-    "author" : "Vauxoo",
+    "name": "Split Invoices",
+    "version": "0.2",
+    "depends": ["account"],
+    "author": "Vauxoo",
     "description" : """For legal reasons in Venezuela we need just ONE invoice per page, with this module depending on your company configuration you will stablish the number of lines per invoice, with this you will be able of:
 
  - Add module for establishing the number of lines per invoice
@@ -44,19 +44,19 @@
 
 The document should be now splited on N invoices with the number of lines that you specified
 """,
-    "website" : "http://vauxoo.com",
-    "category" : "Localization",
-    "init_xml" : [
+    "website": "http://vauxoo.com",
+    "category": "Localization",
+    "init_xml": [
     ],
-    "demo_xml" : [
+    "demo_xml": [
     ],
-    "update_xml" : [
-#~        "view/installer_view.xml",
+    "update_xml": [
+        #~        "view/installer_view.xml",
         "view/company_view.xml",
     ],
     'test': [
         'test/spl_test.yml',
-            ],
+    ],
     "active": False,
     "installable": True,
 }

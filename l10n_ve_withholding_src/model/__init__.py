@@ -27,4 +27,3 @@ from . import wh_src
 from . import invoice
 from . import res_company
 from . import partner
-

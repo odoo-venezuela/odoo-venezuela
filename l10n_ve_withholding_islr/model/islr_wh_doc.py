@@ -26,10 +26,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
 import time
+
 from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 
 class islr_wh_doc(osv.osv):

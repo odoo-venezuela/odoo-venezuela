@@ -32,11 +32,12 @@
 #
 ##############################################################################
 
-from openerp.osv.orm import except_orm
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp.addons import decimal_precision as dp
 import re
+
+from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, osv
+from openerp.osv.orm import except_orm
+from openerp.tools.translate import _
 
 
 class res_partner(osv.osv):

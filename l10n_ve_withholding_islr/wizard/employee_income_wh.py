@@ -10,16 +10,20 @@
 #
 ##############################################################################
 #~ from datetime import datetime
+import base64
+import functools
+
+import libxml2
+
 from osv import fields, osv
 from tools.translate import _
+
+
 #~ import pooler
 #~ import decimal_precision as dp
 #~ import time
 #~ import netsvc
 #~ import csv
-import base64
-import libxml2
-import functools
 
 ##---------------------------------------------------------- employee_income_wh
 

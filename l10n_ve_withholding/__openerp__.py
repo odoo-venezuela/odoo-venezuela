@@ -23,10 +23,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 {
-    "name" : "Management withholdings Venezuelan laws",
-    "version" : "0.2",
-    "author" : "Vauxoo",
-    "website" : "http://vauxoo.com",
+    "name": "Management withholdings Venezuelan laws",
+    "version": "0.2",
+    "author": "Vauxoo",
+    "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
     "description": """- General Method for account move for Venezuela withholding process.
 - Add relation between account invoice tax and account tax, to avoid loss historical relation.
@@ -39,7 +39,7 @@ TODO:
 -
     """,
     'init_xml': [],
-    "depends" : ["l10n_ve_fiscal_requirements"],
+    "depends": ["l10n_ve_fiscal_requirements"],
     'update_xml': [
         'security/withholding_security.xml',
         'security/ir.model.access.csv',
@@ -51,7 +51,7 @@ TODO:
     'test': [
         'test/account_supplier_invoice.yml',
         'test/wh_pay_invoice.yml',
-        ],
+    ],
     'installable': True,
     'active': False,
 }

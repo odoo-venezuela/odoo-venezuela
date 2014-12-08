@@ -24,10 +24,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
+import time
+
+import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import openerp.addons.decimal_precision as dp
-import time
 
 
 class customs_form(osv.osv):

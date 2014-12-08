@@ -23,10 +23,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 {
-    "name" : "Venezuelan Fiscal Requirements",
-    "version" : "1.0",
-    "author" : "Vauxoo",
-    "website" : "http://vauxoo.com",
+    "name": "Venezuelan Fiscal Requirements",
+    "version": "1.0",
+    "author": "Vauxoo",
+    "website": "http://vauxoo.com",
     "category": 'Localization',
     "description": """
 - Invoice Control Number.
@@ -64,14 +64,14 @@ You will need some extra modules:
 Custom modules can be found in the following branch:
   * Addons-vauxoo: lp:addons-vauxoo/7.0
 """,
-    "depends" : [
-                 "account",
-                 "base_vat",
-                 "account_accountant",
-                 "account_voucher",
-                 "account_cancel",
-                 "debit_credit_note"
-                 ],
+    "depends": [
+        "account",
+        "base_vat",
+        "account_accountant",
+        "account_voucher",
+        "account_cancel",
+        "debit_credit_note"
+    ],
     'data': [
         'data/l10n_ut_data.xml',
         'data/seniat_url_data.xml',
@@ -111,10 +111,9 @@ Custom modules can be found in the following branch:
         'test/fr_purchase_test.yml',
         'test/fr_control_number.yml',
         'test/fr_damaged.yml',
-#        'test/fr_debit_note.yml',
-#        'test/fr_refund_note.yml',
-      ],
+        #        'test/fr_debit_note.yml',
+        #        'test/fr_refund_note.yml',
+    ],
     'installable': True,
     'active': False,
 }
-

@@ -26,6 +26,7 @@
 ##############################################################################
 
 import time
+
 from openerp.report import report_sxw
 from openerp.tools.translate import _
 

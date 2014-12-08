@@ -24,7 +24,6 @@
 ##############################################################################
 from openerp.osv import osv
 from openerp.tools.translate import _
-from openerp import netsvc
 
 
 class account_invoice(osv.osv):

@@ -10,8 +10,9 @@
 #
 ##############################################################################
 
-from osv import fields, osv
 from openerp.tools.translate import _
+
+from osv import fields, osv
 
 
 class islr_wh_change_concept(osv.osv_memory):

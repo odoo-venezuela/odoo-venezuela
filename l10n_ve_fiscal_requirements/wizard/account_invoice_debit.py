@@ -23,7 +23,6 @@ import time
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-from openerp import netsvc
 
 
 class account_invoice_debit(osv.osv_memory):

@@ -23,9 +23,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+import time
+
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import time
 
 __TYPES__ = [('sale', 'Sale'),
         ('sale_refund', 'Sale Refund'),

@@ -25,14 +25,13 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
-import time
-from xml.etree.ElementTree import Element
-from xml.etree.ElementTree import SubElement
-from xml.etree.ElementTree import tostring
 import base64
+import time
+from xml.etree.ElementTree import Element, SubElement, tostring
+
 from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 ISLR_XML_WH_LINE_TYPES = [('invoice', 'Invoice'), ('employee', 'Employee')]
 
@@ -136,7 +135,7 @@ class islr_xml_wh_doc(osv.osv):
         for item in self.browse(cr, uid, ids, context={}):
             for ixwl in item.xml_ids:
                 if not ixwl.date_ret and ixwl.islr_wh_doc_inv_id:
-                    obj_ixwl.write(cr, uid, [ixwl.id], {'date_ret':ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret}, context=context)
+                    obj_ixwl.write(cr, uid, [ixwl.id], {'date_ret': ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret}, context=context)
         return self.write(cr, uid, ids, {'state': 'confirmed'})
 
     def action_done1(self, cr, uid, ids, context={}):

@@ -24,10 +24,10 @@
 ################################################################################
 
 {
-    "name" : "Compromiso de Responsabilidad Social",
-    "version" : "0.2",
-    "author" : "Vauxoo",
-    "category" : "Generic Modules",
+    "name": "Compromiso de Responsabilidad Social",
+    "version": "0.2",
+    "author": "Vauxoo",
+    "category": "Generic Modules",
     "website": "http://wiki.openerp.org.ve/",
     "description": '''Administración de la Aplicacion del Compromiso de Responsabilidad Social
 que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Oficial Nº 39.181 del 19 de mayo de 2009) Decreto Nº 6.708.
@@ -44,13 +44,13 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
 
     Rango y normativa interna para el suministro de bienes, prestación de servicios o ejecución de obras, se establece para el Compromiso de Responsabilidad Social un valor mínimo del uno por ciento (1%) y un valor máximo del cinco por ciento (5%) del monto del contrato suscrito, el cual asumirán los Contratistas beneficiarios de la adjudicación del mismo. Los órganos o entes contratantes deberán fijar los porcentajes a ser aplicados a cada condición del Compromiso de Responsabilidad Social, así como, establecer categorías o escalas proporcionales con base en los montos de los contratos a ser suscritos.
 ''',
-    "depends" : [
+    "depends": [
                 "base",
                 "account",
                 "l10n_ve_withholding",
-                ],
-    "init_xml" : [],
-    "demo_xml" : [
+    ],
+    "init_xml": [],
+    "demo_xml": [
         'demo/demo_journals.xml',
         'demo/demo_accounts.xml',
         'demo/demo_company.xml',
@@ -59,7 +59,7 @@ que se establece en el Reglamento de Ley de Contrataciones Públicas, (Gaceta Of
         'test/aws_customer.yml',
         'test/aws_supplier.yml',
     ],
-    "update_xml" : [
+    "update_xml": [
         'security/wh_src_security.xml',
         'security/ir.model.access.csv',
         'wizard/wizard_retention_view.xml',

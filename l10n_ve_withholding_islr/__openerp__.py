@@ -27,10 +27,10 @@
 ##############################################################################
 
 {
-    "name" : "Automatically Calculation Income Withholding",
-    "version" : "0.1",
-    "author" : "Vauxoo",
-    "category" : "General",
+    "name": "Automatically Calculation Income Withholding",
+    "version": "0.1",
+    "author": "Vauxoo",
+    "category": "General",
     "website": "http://wiki.openerp.org.ve/",
     "description": ''' - Generate the voucher of income withholding to validate the invoice.
  - Generate the report of voucher of income withholding.
@@ -42,7 +42,7 @@
 #If you want be able to propose withholding concepts from sales and purchases you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',
-    "depends" : [
+    "depends": [
         "account",
         "l10n_ve_withholding",
         "l10n_ve_fiscal_requirements",
@@ -50,38 +50,38 @@
         "report_webkit",
         # ,"edi"],
     ],
-    "init_xml" : [],
-    "demo_xml":[
-            "demo/l10n_ve_islr_withholding_demo.xml",
-               ],
-    "update_xml" : [
-            "view/installer.xml",
-            "security/wh_islr_security.xml",
-            "security/ir.model.access.csv",
-            "data/l10n_ve_islr_withholding_data.xml",
-            "data/retencion_islr_sequence.xml",
-            "view/wh_islr_view.xml",
-            "wizard/income_wh_change_concept.xml",
-            "view/invoice_view.xml",
-            "view/partner_view.xml",
-            "view/res_company_view.xml",
-            "report/islr_wh_report.xml",
-            "view/islr_wh_doc_view.xml",
-            "view/islr_wh_concept_view.xml",
-            "view/product_view.xml",
-            "view/islr_xml_wh.xml",
-            "workflow/islr_wh_workflow.xml",
-            "workflow/wh_action_server.xml",
-            #"edi/islr_wh_doc_action_data.xml",
-            "wizard/partner_income_wh_print_view.xml",
-            "data/partner_income_wh_report_data.xml",
-            "report/partner_income_wh_report.xml",
+    "init_xml": [],
+    "demo_xml": [
+        "demo/l10n_ve_islr_withholding_demo.xml",
+    ],
+    "update_xml": [
+        "view/installer.xml",
+        "security/wh_islr_security.xml",
+        "security/ir.model.access.csv",
+        "data/l10n_ve_islr_withholding_data.xml",
+        "data/retencion_islr_sequence.xml",
+        "view/wh_islr_view.xml",
+        "wizard/income_wh_change_concept.xml",
+        "view/invoice_view.xml",
+        "view/partner_view.xml",
+        "view/res_company_view.xml",
+        "report/islr_wh_report.xml",
+        "view/islr_wh_doc_view.xml",
+        "view/islr_wh_concept_view.xml",
+        "view/product_view.xml",
+        "view/islr_xml_wh.xml",
+        "workflow/islr_wh_workflow.xml",
+        "workflow/wh_action_server.xml",
+        #"edi/islr_wh_doc_action_data.xml",
+        "wizard/partner_income_wh_print_view.xml",
+        "data/partner_income_wh_report_data.xml",
+        "report/partner_income_wh_report.xml",
     ],
     'test': [
-             'test/supplier_wh_islr_invoice.yml',
-             'test/supplier_wh_islr_doc.yml',
-             'test/customer_wh_islr_doc.yml',
-        ],
+        'test/supplier_wh_islr_invoice.yml',
+        'test/supplier_wh_islr_doc.yml',
+        'test/customer_wh_islr_doc.yml',
+    ],
     "active": False,
     "installable": True,
 }

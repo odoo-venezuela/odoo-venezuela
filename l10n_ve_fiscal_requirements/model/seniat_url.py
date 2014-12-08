@@ -22,12 +22,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##########################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+import logging
+import re
 import urllib
 from xml.dom.minidom import parseString
-import re
-import logging
+
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 
 class seniat_url(osv.osv):

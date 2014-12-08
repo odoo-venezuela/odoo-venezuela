@@ -22,10 +22,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
 import base64
+
 import openerp.addons as addons
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 
 class split_invoice_config(osv.osv_memory):
