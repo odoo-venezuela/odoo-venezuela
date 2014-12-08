@@ -267,18 +267,18 @@ class inherited_invoice(osv.osv):
             ret.update({inv_brw.id: amount})
         return ret
 
-    def _get_inv_tax_line(self, s):
+    def _get_inv_tax_line(self, tax_brw):
         '''
         Get Tax Line
         '''
-        name = s.name
+        name = tax_brw.name
         cont = 0
         if name.find('SDCF') >= 0:
             if cont == 0:
                 return 0
         else:
             cont = cont + 1
-        return s.base_amount
+        return tax_brw.base_amount
 
     def _get_taxes(self, cr, uid, ids, name, args, context=None):
         '''

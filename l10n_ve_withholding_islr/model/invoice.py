@@ -243,7 +243,7 @@ class account_invoice(osv.osv):
         data = super(account_invoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
         list = []
-        for x, y, res in data:
+        for xres, yres, res in data:
             if 'concept_id' in res:
                 res['concept_id'] = res.get(
                     'concept_id', False) and res['concept_id']
@@ -251,7 +251,7 @@ class account_invoice(osv.osv):
                 res['apply_wh'] = False
             if 'wh_xml_id' in res:
                 res['wh_xml_id'] = 0
-            list.append((x, y, res))
+            list.append((xres, yres, res))
         return list
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):

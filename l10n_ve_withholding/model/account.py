@@ -76,7 +76,7 @@ account_journal()
 class account_period(osv.osv):
     _inherit = "account.period"
 
-    def _find_fortnight(self, cr, uid, dt=None, context=None):
+    def _find_fortnight(self, cr, uid, date=None, context=None):
         """ This Function returns a tuple composed of
             *) period for the asked dt (int)
             *) fortnight for the asked dt (boolean):
@@ -87,9 +87,9 @@ class account_period(osv.osv):
         """
         if context is None:
             context = {}
-        if not dt:
-            dt = time.strftime('%Y-%m-%d')
-        period_ids = self.find(cr, uid, dt=dt, context=context)
+        if not date:
+            date = time.strftime('%Y-%m-%d')
+        period_ids = self.find(cr, uid, date=date, context=context)
         do = [('special', '=', False), ('id', 'in', period_ids)]
         # Due to the fact that demo data for periods sets 'special' as True on them, this little
         # hack is necesary if this issue is solved we should ask directly for the
@@ -102,19 +102,19 @@ class account_period(osv.osv):
         # End of hack, dear future me I am really sorry for this....
         period_ids = self.search(cr, uid, domain, context=context)
         if not period_ids:
-            raise osv.except_osv(_('Error looking Fortnight !'), _('There is no "Special" period defined for this date: %s.') % dt)
+            raise osv.except_osv(_('Error looking Fortnight !'), _('There is no "Special" period defined for this date: %s.') % date)
 
-        fortnight = False if time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 else True
+        fortnight = False if time.strptime(date, '%Y-%m-%d').tm_mday <= 15 else True
         return (period_ids[0], fortnight)
 
-    def find_fortnight(self, cr, uid, dt=None, context=None):
+    def find_fortnight(self, cr, uid, date=None, context=None):
         """
         Get the period and the fortnoght that correspond to the given dt date.
         @return a tuple( int(period_id), str(fortnight) )
         """
         # TODO: fix this workaround in version 8.0 [hbto notes]
         context = context or {}
-        p, f = self._find_fortnight(cr, uid, dt=dt, context=context)
-        return p, str(f)
+        period, fortnight = self._find_fortnight(cr, uid, date=date, context=context)
+        return period, str(fortnight)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

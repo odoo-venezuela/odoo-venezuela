@@ -127,9 +127,9 @@ class rep_comprobante(report_sxw.rml_parse):
                 #~ in the invoice only in order to obtain
                 #~ only taxes that are not subject to withholding
 
-                a = (txl.name and txl.name.find('SDCF') != -1)
-                b = (txl.tax_id and not txl.tax_id.ret)
-                if not any([a, b]):
+                aaa = (txl.name and txl.name.find('SDCF') != -1)
+                bbb = (txl.tax_id and not txl.tax_id.ret)
+                if not any([aaa, bbb]):
                     continue
 
                 sdcf = False
@@ -137,7 +137,7 @@ class rep_comprobante(report_sxw.rml_parse):
                 tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type], 0.0) + txl.amount
                 tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type], 0.0) + txl.amount_ret
 
-                if any([a, b]):
+                if any([aaa, bbb]):
                     tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type], 0.0) + (txl.base + txl.amount)
                     sdcf = True
                 else:
@@ -165,9 +165,9 @@ class rep_comprobante(report_sxw.rml_parse):
                 dic_inv[rl.invoice_id.id] = lst_tmp
 
             for txl in rl.tax_line:
-                a = (txl.name and txl.name.find('SDCF') != -1)
-                b = (txl.tax_id and not txl.tax_id.ret)
-                if any([a, b]):
+                aaa = (txl.name and txl.name.find('SDCF') != -1)
+                bbb = (txl.tax_id and not txl.tax_id.ret)
+                if any([aaa, bbb]):
                     continue
                 sdcf = False
                 tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type], 0.0) + txl.base

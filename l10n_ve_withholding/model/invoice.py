@@ -92,10 +92,10 @@ class account_invoice(osv.osv):
         line = self.pool.get('account.move.line')
         cr.execute('select id from account_move_line where move_id in (' + str(move_id) + ',' + str(invoice.move_id.id) + ')')
         lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()))
-        for l in lines + invoice.payment_ids:
-            if l.account_id.id == src_account_id:
-                line_ids.append(l.id)
-                total += (l.debit or 0.0) - (l.credit or 0.0)
+        for aml_brw in lines + invoice.payment_ids:
+            if aml_brw.account_id.id == src_account_id:
+                line_ids.append(aml_brw.id)
+                total += (aml_brw.debit or 0.0) - (aml_brw.credit or 0.0)
         if (not round(total, self.pool.get('decimal.precision').precision_get(cr, uid, 'Withhold'))) or writeoff_acc_id:
             self.pool.get('account.move.line').reconcile(cr, uid, line_ids, 'manual', writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context)
         else:
@@ -116,15 +116,15 @@ class account_invoice(osv.osv):
         for invoice in self.browse(cr, uid, ids):
             moves = self.move_line_id_payment_get(cr, uid, [invoice.id])
             src = []
-            for m in self.pool.get('account.move.line').browse(cr, uid, moves):
+            for aml_brw in self.pool.get('account.move.line').browse(cr, uid, moves):
                 temp_lines = []  # Added temp list to avoid duplicate records
-                if m.reconcile_id:
-                    temp_lines = [i.id for i in m.reconcile_id.line_id]
-                elif m.reconcile_partial_id:
-                    temp_lines = [i.id for i in m.reconcile_partial_id.line_partial_ids]
+                if aml_brw.reconcile_id:
+                    temp_lines = [i.id for i in aml_brw.reconcile_id.line_id]
+                elif aml_brw.reconcile_partial_id:
+                    temp_lines = [i.id for i in aml_brw.reconcile_partial_id.line_partial_ids]
 
                 lines = list(set(temp_lines))
-                src.append(m.id)
+                src.append(aml_brw.id)
 
             lines += filter(lambda x: x not in src, lines)
         return lines
@@ -211,9 +211,9 @@ class account_invoice_tax(osv.osv):
                     tax_grouped[key]['base_amount'] += val['base_amount']
                     tax_grouped[key]['tax_amount'] += val['tax_amount']
 
-        for t in tax_grouped.values():
-            t['base'] = cur_obj.round(cr, uid, cur, t['base'])
-            t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
-            t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
-            t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
+        for tax in tax_grouped.values():
+            tax['base'] = cur_obj.round(cr, uid, cur, tax['base'])
+            tax['amount'] = cur_obj.round(cr, uid, cur, tax['amount'])
+            tax['base_amount'] = cur_obj.round(cr, uid, cur, tax['base_amount'])
+            tax['tax_amount'] = cur_obj.round(cr, uid, cur, tax['tax_amount'])
         return tax_grouped

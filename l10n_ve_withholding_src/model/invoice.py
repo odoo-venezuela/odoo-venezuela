@@ -46,12 +46,12 @@ class account_invoice(osv.osv):
         partner_id, date_invoice, payment_term, partner_bank_id, company_id)
 
         if type in ('out_invoice',):
-            p = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
-            res['value']['wh_src_rate'] = p.wh_src_agent and p.wh_src_rate or 0
+            rp_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
+            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and rp_brw.wh_src_rate or 0
         else:
-            u = self.pool.get('res.users').browse(cr, uid, uid)
-            c = rp_obj._find_accounting_partner(u.company_id.partner_id)
-            res['value']['wh_src_rate'] = c.wh_src_agent and c.wh_src_rate or 0
+            ru_brw = self.pool.get('res.users').browse(cr, uid, uid)
+            rp_brw = rp_obj._find_accounting_partner(ru_brw.company_id.partner_id)
+            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and rp_brw.wh_src_rate or 0
         return res
 
     def _retenida(self, cr, uid, ids, name, args, context):
@@ -84,10 +84,10 @@ class account_invoice(osv.osv):
         """ Return invoice from reconciled lines
         """
         move = {}
-        for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
-            for line in r.line_partial_ids:
+        for amr_brw in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
+            for line in amr_brw.line_partial_ids:
                 move[line.move_id.id] = True
-            for line in r.line_id:
+            for line in amr_brw.line_id:
                 move[line.move_id.id] = True
 
         invoice_ids = []

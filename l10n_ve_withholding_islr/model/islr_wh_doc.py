@@ -619,10 +619,10 @@ class islr_wh_doc(osv.osv):
         cr.execute('select id from account_move_line where move_id in (' + str(
             move_id) + ',' + str(invoice.move_id.id) + ')')
         lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()))
-        for l in lines + invoice.payment_ids:
-            if l.account_id.id == src_account_id:
-                line_ids.append(l.id)
-                total += (l.debit or 0.0) - (l.credit or 0.0)
+        for aml_brw in lines + invoice.payment_ids:
+            if aml_brw.account_id.id == src_account_id:
+                line_ids.append(aml_brw.id)
+                total += (aml_brw.debit or 0.0) - (aml_brw.credit or 0.0)
         if (not round(total, self.pool.get('decimal.precision').precision_get(cr, uid, 'Withhold ISLR'))) or writeoff_acc_id:
             self.pool.get('account.move.line').reconcile(
                 cr, uid, line_ids, 'manual', writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context)

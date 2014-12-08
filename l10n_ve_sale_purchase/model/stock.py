@@ -42,9 +42,9 @@ class stock_picking(osv.osv):
         invoice_id = data[picking_id]
         invoice_brw = self.pool.get('account.invoice').browse(cursor, user, invoice_id)
         invoice_line_obj = self.pool.get('account.invoice.line')
-        for l in invoice_brw.invoice_line:
-            invoice_line_obj.write(cursor, user, l.id, {'concept_id':
-                l.product_id and l.product_id.concept_id and l.product_id.concept_id.id or False})
+        for ail_brw in invoice_brw.invoice_line:
+            invoice_line_obj.write(cursor, user, ail_brw.id, {'concept_id':
+                ail_brw.product_id and ail_brw.product_id.concept_id and ail_brw.product_id.concept_id.id or False})
         return data
 
     _columns = {
