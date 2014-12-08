@@ -864,8 +864,8 @@ class fiscal_book(orm.Model):
             and 'accounting_date asc, nro_ctrl asc' \
             or 'emission_date asc, invoice_number asc'
 
-    def get_order_criteria(self, cr, uid, type, context=None):
-        return type == 'sale' \
+    def get_order_criteria(self, cr, uid, book_type, context=None):
+        return book_type == 'sale' \
             and 'accounting_date asc, invoice_number asc' \
             or 'emission_date asc, invoice_number asc'
 
