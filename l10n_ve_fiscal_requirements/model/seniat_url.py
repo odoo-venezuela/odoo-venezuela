@@ -112,11 +112,11 @@ class seniat_url(osv.osv):
         while retries > 0:
             try:
                 url_obj = urllib.urlopen(url)
-                r = url_obj.read()
-                ok = not '404 Not Found' in r
+                url_str = url_obj.read()
+                ok = not '404 Not Found' in url_str
                 if ok:
                     self.logger.info("Url Loaded correctly %s" % url)
-                    return r
+                    return url_str
             except Exception, e:
                 self.logger.warning("Url could not be loaded %s" % str_error)
             retries -= 1
