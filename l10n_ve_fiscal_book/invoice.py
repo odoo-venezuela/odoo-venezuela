@@ -132,8 +132,8 @@ class inherited_invoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         if res:
-            for r in res:
-                ret.update({r.id: r.nro_ctrl and r.nro_ctrl or ''})
+            for inv_brw in res:
+                ret.update({inv_brw.id: inv_brw.nro_ctrl and inv_brw.nro_ctrl or ''})
         return ret
 
     def _get_total(self, cr, uid, ids, name, args, context=None):
