@@ -82,11 +82,15 @@ class res_partner(osv.osv):
         'seniat_updated': False,
     }
 
-    def name_search(self, cr, uid, name='', args=[], operator='ilike', context=None, limit=80):
-        """ Gets el id of the partner with the vat or the name and return the name
+    def name_search(
+            self, cr, uid, name='', args=None, operator='ilike', context=None,
+            limit=80):
+        """
+        Gets el id of the partner with the vat or the name and return the name
         """
         if context is None:
             context = {}
+        args = args or []
         ids = []
         if len(name) >= 2:
             ids = self.search(cr, uid, [('vat', operator, name)] + args, limit=limit, context=context)
