@@ -107,7 +107,7 @@ class account_invoice(osv.osv):
         (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'), ['Control Number (nro_ctrl)', 'Reference (reference)']),
     ]
 
-    def copy(self, cr, uid, ids, default={}, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Allows you to duplicate a record,
         child_ids, nro_ctrl and reference fields are
         cleaned, because they must be unique
@@ -116,6 +116,7 @@ class account_invoice(osv.osv):
         # W0621 Redefining buil-in 'id'
         if context is None:
             context = {}
+        default = default or {}
         default.update({
             'nro_ctrl': None,
             'supplier_invoice_number': None,
