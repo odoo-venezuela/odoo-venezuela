@@ -38,11 +38,11 @@ class fiscal_book_wizard(osv.osv_memory):
     """
     _name = "fiscal.book.wizard"
 
-    def _get_account_period(self, cr, uid, dt=None, context=None):
-        if not dt:
-            dt = time.strftime('%Y-%m-%d')
+    def _get_account_period(self, cr, uid, date=None, context=None):
+        if not date:
+            date = time.strftime('%Y-%m-%d')
         ids = self.pool.get('account.period').search(
-            cr, uid, [('date_start', '<=', dt), ('date_stop', '>=', dt)])
+            cr, uid, [('date_start', '<=', date), ('date_stop', '>=', date)])
         if not ids:
             raise osv.except_osv(_('Error !'), _('No period defined for this'
             ' date !\nPlease create a fiscal year.'))
