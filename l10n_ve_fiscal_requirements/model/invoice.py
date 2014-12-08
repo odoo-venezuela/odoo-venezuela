@@ -107,11 +107,13 @@ class account_invoice(osv.osv):
         (_unique_invoice_per_partner, _('The Document you have been entering for this Partner has already been recorded'), ['Control Number (nro_ctrl)', 'Reference (reference)']),
     ]
 
-    def copy(self, cr, uid, id, default={}, context=None):
+    def copy(self, cr, uid, ids, default={}, context=None):
         """ Allows you to duplicate a record,
         child_ids, nro_ctrl and reference fields are
         cleaned, because they must be unique
         """
+        # NOTE: Use argument name ids instead of id for fix the pylint error
+        # W0621 Redefining buil-in 'id'
         if context is None:
             context = {}
         default.update({
@@ -128,7 +130,7 @@ class account_invoice(osv.osv):
             #'loc_req':False,
             'z_report': '',
         })
-        return super(account_invoice, self).copy(cr, uid, id, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default, context)
 
     def write(self, cr, uid, ids, vals, context=None):
         context = context or {}
