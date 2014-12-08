@@ -159,13 +159,13 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: ''})
 
-        for r in ids:
-            ret.update({r: False})
-            whl_ids = whl_obj.search(cr, uid, [('invoice_id', '=', r)])
+        for inv_brw in ids:
+            ret.update({inv_brw: False})
+            whl_ids = whl_obj.search(cr, uid, [('invoice_id', '=', inv_brw)])
             whl_brw = whl_obj.browse(cr, uid, whl_ids)
             if whl_brw:
                 for whl in whl_brw:
-                    ret.update({r: whl.retention_id.number})
+                    ret.update({inv_brw: whl.retention_id.number})
         return ret
 
     def _get_doc(self, cr, uid, ids, name, args, context=None):
