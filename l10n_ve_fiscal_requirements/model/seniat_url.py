@@ -113,7 +113,7 @@ class seniat_url(osv.osv):
             try:
                 s = urllib.urlopen(url)
                 r = s.read()
-                ok = not('404 Not Found' in r)
+                ok = not '404 Not Found' in r
                 if ok:
                     self.logger.info("Url Loaded correctly %s" % url)
                     return r
