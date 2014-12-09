@@ -154,7 +154,7 @@ class account_wh_iva_line(osv.osv):
                 'base_ret': 0.0
             }
             for line in ret_line.tax_line:
-                if ret_line.invoice_id.type not in ('in_refund'):
+                if ret_line.invoice_id.type not in 'in_refund':
                     res[ret_line.id]['amount_tax_ret'] += line.amount_ret
                     res[ret_line.id]['base_ret'] += line.base
                 else:
