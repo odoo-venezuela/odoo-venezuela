@@ -32,9 +32,11 @@ class wizard_change_number_wh_iva(osv.osv_memory):
     _name = 'wizard.change.number.wh.iva'
     _description = "Wizard that changes the withholding number"
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
-        data = super(wizard_change_number_wh_iva, self).default_get(cr, uid, fields, context)
+        data = super(wizard_change_number_wh_iva, self).default_get(cr, uid, field_list, context)
         if context.get('active_model') == 'account.wh.iva' and context.get('active_id'):
             wh_iva = self.pool.get('account.wh.iva').browse(cr, uid, context['active_id'], context=context)
             if wh_iva.number:

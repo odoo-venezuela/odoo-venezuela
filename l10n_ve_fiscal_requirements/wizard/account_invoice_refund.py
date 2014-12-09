@@ -33,13 +33,15 @@ class account_invoice_refund(osv.osv_memory):
 
     _inherit = 'account.invoice.refund'
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
         """ Get default values
         @param fields: List of fields for default value
         """
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
         if context is None:
             context = {}
-        res = super(account_invoice_refund, self).default_get(cr, uid, fields, context=context)
+        res = super(account_invoice_refund, self).default_get(cr, uid, field_list, context=context)
         if context.get('active_id'):
             code = datetime.datetime.today().strftime('%m/%Y')
             period_obj = self.pool.get('account.period')

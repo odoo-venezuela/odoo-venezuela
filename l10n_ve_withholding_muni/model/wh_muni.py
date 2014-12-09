@@ -330,13 +330,15 @@ class account_wh_munici(osv.osv):
 
 class account_wh_munici_line(osv.osv):
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
         """ Default for munici_context field
         """
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
         if context is None:
             context = {}
         data = super(account_wh_munici_line, self).default_get(cr,
-                                                               uid, fields, context)
+                                                               uid, field_list, context)
         self.munici_context = context
         return data
 

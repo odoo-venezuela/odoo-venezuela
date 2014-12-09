@@ -80,12 +80,14 @@ class account_wh_src(osv.osv):
             res = map(lambda x: x.id, partner_brw)
         return res
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
         """ Update fields uid_wh_agent and partner_list to the create a
         record
         """
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
-        res = super(account_wh_src, self).default_get(cr, uid, fields, context=context)
+        res = super(account_wh_src, self).default_get(cr, uid, field_list, context=context)
         res.update({'uid_wh_agent': self._get_uid_wh_agent(cr, uid, context=context)})
         res.update({'partner_list': self._get_partner_agent(cr, uid, context=context)})
 

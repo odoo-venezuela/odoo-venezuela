@@ -37,10 +37,12 @@ class wh_vat_installer(osv.osv_memory):
     _inherit = 'res.config.installer'
     _description = __doc__
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
         """ Return information relating to the withholding regime
         """
-        data = super(wh_vat_installer, self).default_get(cr, uid, fields, context=context)
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
+        data = super(wh_vat_installer, self).default_get(cr, uid, field_list, context=context)
         gaceta = open(addons.get_module_resource('l10n_ve_withholding_iva', 'files', 'RegimendeRetencionesdelIVA.odt'), 'rb')
         data['gaceta'] = base64.encodestring(gaceta.read())
         return data

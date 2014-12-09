@@ -51,11 +51,13 @@ class res_partner(osv.osv):
         return user_company.partner_id and user_company.partner_id.country_id \
             and user_company.partner_id.country_id.code or 'XX'
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
         """ Load the country code of the user company to form to be created.
         """
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
-        res = super(res_partner, self).default_get(cr, uid, fields, context=context)
+        res = super(res_partner, self).default_get(cr, uid, field_list, context=context)
         res.update({'uid_country': self._get_country_code(cr, uid, context=context)})
         return res
 
@@ -197,7 +199,7 @@ class res_partner(osv.osv):
         trans = self.pool.get('ir.translation')
         error_msgs = []
         for constraint in self._constraints:
-            fun, msg, fields = constraint
+            fun, msg, field_list = constraint
             # We don't pass around the context here: validation code
             # must always yield the same results.
             if not fun(self, cr, uid, ids, context=context):
@@ -213,9 +215,9 @@ class res_partner(osv.osv):
                 else:
                     translated_msg = trans._get_source(cr, uid, self._name, 'constraint', lng, msg)
                 error_msgs.append(
-                    _("Error occurred while validating the field(s) %s: %s") % (','.join(fields), translated_msg)
+                    _("Error occurred while validating the field(s) %s: %s") % (','.join(field_list), translated_msg)
                 )
-                self._invalids.update(fields)
+                self._invalids.update(field_list)
         if error_msgs:
             raise except_orm('ValidateError', '\n'.join(error_msgs))
         else:
