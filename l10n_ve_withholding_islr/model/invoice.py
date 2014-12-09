@@ -275,7 +275,6 @@ class account_invoice(osv.osv):
                                          _('''The Document you are trying to
                                               refund has a income withholding
                                               "%s" which is not yet validated!''' % inv.islr_wh_doc_id.code))
-                    return False
         return True
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, pay_journal_id,

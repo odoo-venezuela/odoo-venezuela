@@ -763,7 +763,6 @@ class account_wh_iva(osv.osv):
         for ti_brw in ti_obj.browse(cr, uid, ti_ids, context=context):
             note += '%s\n' % ti_brw.name
         raise osv.except_osv(_("Invalid Procedure!"), note)
-        return True
 
     def cancel_check(self, cr, uid, ids, context=None):
         '''
@@ -850,7 +849,6 @@ class account_wh_iva(osv.osv):
                       " fortnight.\n\n * Withholding VAT document correspond"
                       " to (" + awi_brw.period_id.name + fortnight_str[
                           awi_brw.fortnight] + ".\n\n" + error_msg))
-                return False
             else:
                 return True
 

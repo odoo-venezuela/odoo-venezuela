@@ -199,7 +199,6 @@ class account_wh_munici(osv.osv):
                 if line.move_id or line.invoice_id.wh_local:
                     raise osv.except_osv(_('Invoice already withhold !'), _(
                         "You must omit the follow invoice '%s' !") % (line.invoice_id.name,))
-                    return False
 
             acc_id = ret.account_id.id
             if not ret.date_ret:

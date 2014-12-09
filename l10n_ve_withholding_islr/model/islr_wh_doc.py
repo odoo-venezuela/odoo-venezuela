@@ -74,8 +74,6 @@ class islr_wh_doc(osv.osv):
                 automatically, please create one in Accounting > Configuration > Journals, contact
                 to the account manager if you don't have access to this menu.!!!"""))
 
-            return False
-
     def _get_currency(self, cr, uid, context):
         """ Return the currency of the current company
         """
@@ -675,7 +673,6 @@ class islr_wh_doc(osv.osv):
         for ixwd_brw in ixwd_obj.browse(cr, uid, ixwd_ids, context=context):
             note += '%s\n' % ixwd_brw.name
         raise osv.except_osv(_("Invalid Procedure!"), note)
-        return True
 
     def cancel_check(self, cr, uid, ids, context=None):
         '''
@@ -1090,7 +1087,6 @@ class islr_wh_doc_invoices(osv.osv):
         if not acc_part_id.vat:
             raise osv.except_osv(_('Invalid action !'), _(
                 "Impossible income withholding, because the partner '%s' has not vat associated!") % (acc_part_id.name))
-            return False
         else:
             if acc_part_id.vat[2:3] in 'VvEe' or acc_part_id.spn:
                 return True

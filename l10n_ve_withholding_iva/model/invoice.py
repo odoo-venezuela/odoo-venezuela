@@ -471,7 +471,6 @@ class account_invoice(osv.osv):
                 if not riva:
                     raise osv.except_osv(_('Error !'),
                                      _('The withholding VAT "%s" is not validated!' % inv.wh_iva_id.code))
-                    return False
         return True
 
     def button_generate_wh_doc(self, cr, uid, ids, context=None):

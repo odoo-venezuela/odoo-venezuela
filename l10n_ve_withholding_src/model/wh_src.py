@@ -325,7 +325,6 @@ class account_wh_src(osv.osv):
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
         # Redefining built-in 'id'
         raise osv.except_osv('Invalid Procedure!', "You can not duplicate lines")
-        return True
 
     def unlink(self, cr, uid, ids, context=None):
         """ Overwrite the unlink method to throw an exception if the
