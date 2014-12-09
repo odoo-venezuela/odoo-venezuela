@@ -65,7 +65,7 @@ class employee_income_wh(osv.osv_memory):
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
-        except:
+        except Exception:
             pass
         return res
 
