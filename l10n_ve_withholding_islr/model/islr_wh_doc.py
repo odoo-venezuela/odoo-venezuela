@@ -281,7 +281,8 @@ class islr_wh_doc(osv.osv):
                                      ('islr_wh_doc_id', '=', wh_doc_id)])
         xml_lines = islr_lines and xml_obj.search(cr, uid, [
                                                   ('islr_wh_doc_line_id', 'in', islr_lines)])
-        xml_lines and xml_obj.unlink(cr, uid, xml_lines)
+        if xml_lines:
+            xml_obj.unlink(cr, uid, xml_lines)
 
         wh_line_list = line_obj.search(cr, uid, [
                                        ('islr_wh_doc_id', '=', wh_doc_id)])
@@ -442,11 +443,12 @@ class islr_wh_doc(osv.osv):
         for ret in self.browse(cr, uid, ids):
             if ret.state == 'done':
                 for ret_line in ret.invoice_ids:
-                    ret_line.move_id and account_move_obj.button_cancel(
-                        cr, uid, [ret_line.move_id.id])
+                    if ret_line.move_id:
+                        account_move_obj.button_cancel(
+                            cr, uid, [ret_line.move_id.id])
                     ret_line.write({'move_id': False})
-                    ret_line.move_id and account_move_obj.unlink(
-                        cr, uid, [ret_line.move_id.id])
+                    if ret_line.move_id:
+                        account_move_obj.unlink(cr, uid, [ret_line.move_id.id])
         self.write(cr, uid, ids, {'state': 'cancel'})
         return True
 
@@ -714,7 +716,8 @@ class account_invoice(osv.osv):
         iwd_brws = iwd_obj.browse(cr, uid, ids, context=context)
         for iwd_brw in iwd_brws:
             for iwdl_brw in iwd_brw.invoice_ids:
-                iwdl_brw.invoice_id and res.append(iwdl_brw.invoice_id.id)
+                if iwdl_brw.invoice_id:
+                    res.append(iwdl_brw.invoice_id.id)
         return res
 
     def _fnct_get_wh_income_id(self, cr, uid, ids, name, args, context=None):

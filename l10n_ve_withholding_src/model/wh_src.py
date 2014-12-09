@@ -186,10 +186,12 @@ class account_wh_src(osv.osv):
         part_brw = ids and rp_obj._find_accounting_partner(self.browse(cr, uid, ids[0], context=context).partner_id)
         wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])])
         if not partner_id:
-            wh_lines and wh_line_obj.unlink(cr, uid, wh_lines)
+            if wh_lines:
+                wh_line_obj.unlink(cr, uid, wh_lines)
             wh_lines = []
         if part_brw and acc_part_brw and part_brw.id != acc_part_brw.id:
-            wh_lines and wh_line_obj.unlink(cr, uid, wh_lines)
+            if wh_lines:
+                wh_line_obj.unlink(cr, uid, wh_lines)
             wh_lines = []
 
         return {'value': {
@@ -202,7 +204,8 @@ class account_wh_src(osv.osv):
         """ if the retention date is empty, is filled with the current date
         """
         for wh in self.browse(cr, uid, ids, context):
-            wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret': time.strftime('%Y-%m-%d')})
+            if wh.date_ret:
+                self.write(cr, uid, [wh.id], {'date_ret': time.strftime('%Y-%m-%d')})
         return True
 
     def action_draft(self, cr, uid, ids, context=None):
@@ -285,8 +288,9 @@ class account_wh_src(osv.osv):
         for ret in self.browse(cr, uid, ids):
             if ret.state == 'done':
                 for ret_line in ret.line_ids:
-                    ret_line.move_id and am_obj.button_cancel(cr, uid, [ret_line.move_id.id])
-                    ret_line.move_id and am_obj.unlink(cr, uid, [ret_line.move_id.id])
+                    if ret_line.move_id:
+                        am_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                        am_obj.unlink(cr, uid, [ret_line.move_id.id])
             ret.write({'state': 'cancel'})
         return True
 
@@ -302,9 +306,11 @@ class account_wh_src(osv.osv):
                     context=context)
             ai_ids = awsl_ids and [awsl.invoice_id.id
                 for awsl in awsl_obj.browse(cr, uid, awsl_ids, context=context)]
-            ai_ids and ai_obj.write(cr, uid, ai_ids,
-                                    {'wh_src_id': False}, context=context)
-            awsl_ids and awsl_obj.unlink(cr, uid, awsl_ids, context=context)
+            if ai_ids:
+                ai_obj.write(cr, uid, ai_ids,
+                             {'wh_src_id': False}, context=context)
+            if awsl_ids:
+                awsl_obj.unlink(cr, uid, awsl_ids, context=context)
 
         return True
 

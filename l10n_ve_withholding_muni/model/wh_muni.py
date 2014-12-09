@@ -127,8 +127,9 @@ class account_wh_munici(osv.osv):
         for ret in ret_brw:
             if ret.state == 'done':
                 for ret_line in ret.munici_line_ids:
-                    ret_line.move_id and account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
-                    ret_line.move_id and account_move_obj.unlink(cr, uid, [ret_line.move_id.id])
+                    if ret_line.move_id:
+                        account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                        account_move_obj.unlink(cr, uid, [ret_line.move_id.id])
             self.write(cr, uid, ret.id, {'state': 'cancel'})
         return True
 
@@ -142,8 +143,10 @@ class account_wh_munici(osv.osv):
         if ids:
             wml_ids = wml_obj.search(cr, uid, [('retention_id', 'in', ids)], context=context)
             ai_ids = wml_ids and [wml.invoice_id.id for wml in wml_obj.browse(cr, uid, wml_ids, context=context)]
-            ai_ids and ai_obj.write(cr, uid, ai_ids, {'wh_muni_id': False}, context=context)
-            wml_ids and wml_obj.unlink(cr, uid, wml_ids, context=context)
+            if ai_ids:
+                ai_obj.write(cr, uid, ai_ids, {'wh_muni_id': False}, context=context)
+            if wml_ids:
+                wml_obj.unlink(cr, uid, wml_ids, context=context)
         return True
 
     def action_confirm(self, cr, uid, ids, context=None):

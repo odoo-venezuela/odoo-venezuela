@@ -44,7 +44,8 @@ class islr_wh_change_concept(osv.osv_memory):
             else:
                 raise osv.except_osv(_('Warning!'), _('Income Withholding from this invoice must be cancelled prior to change concept'))
         else:
-            inv_brw.check_invoice_type() and inv_brw.check_withholdable_concept() and inv_brw._create_islr_wh_doc()
+            if inv_brw.check_invoice_type() and inv_brw.check_withholdable_concept():
+                 inv_brw._create_islr_wh_doc()
 
         return {'type': 'ir.actions.act_window_close'}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

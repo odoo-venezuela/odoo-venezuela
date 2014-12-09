@@ -50,7 +50,8 @@ class fiscal_requirements_config(osv.osv_memory):
         wiz_data = self.browse(cr, uid, ids[0])
         partner = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id
         # Data on res partner address - Invoice
-        partner and partner.type == 'invoice' and self.pool.get('res.partner').write(cr, uid, [partner.id], {
+        if partner and partner.type == 'invoice':
+            self.pool.get('res.partner').write(cr, uid, [partner.id], {
             'street': wiz_data.add,
             'country_id': self.pool.get("res.country").search(cr, uid, [('code', '=', 'VE')])[0],
             'name': wiz_data.name,

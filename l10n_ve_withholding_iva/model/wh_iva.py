@@ -621,9 +621,11 @@ class account_wh_iva(osv.osv):
                 ('retention_id', 'in', ids)], context=context)
             ai_ids = wil_ids and [wil.invoice_id.id
                 for wil in wil_obj.browse(cr, uid, wil_ids, context=context)]
-            ai_ids and ai_obj.write(cr, uid, ai_ids,
-                                    {'wh_iva_id': False}, context=context)
-            wil_ids and wil_obj.unlink(cr, uid, wil_ids, context=context)
+            if ai_ids:
+                ai_obj.write(cr, uid, ai_ids,
+                             {'wh_iva_id': False}, context=context)
+            if wil_ids:
+                wil_obj.unlink(cr, uid, wil_ids, context=context)
 
         return True
 

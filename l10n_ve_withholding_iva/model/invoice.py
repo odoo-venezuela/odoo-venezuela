@@ -55,7 +55,8 @@ class account_invoice(osv.osv):
         awi_brws = awi_obj.browse(cr, uid, ids, context=context)
         for awi_brw in awi_brws:
             for awil_brw in awi_brw.wh_lines:
-                awil_brw.invoice_id and res.append(awil_brw.invoice_id.id)
+                if awil_brw.invoice_id:
+                    res.append(awil_brw.invoice_id.id)
         return res
 
     def _fnct_get_wh_iva_id(self, cr, uid, ids, name, args, context=None):
