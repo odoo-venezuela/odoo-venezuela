@@ -662,6 +662,7 @@ class fiscal_book(orm.Model):
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
             period, fortnight = period_obj._find_fortnight(
                 cr, uid, dt=inv_brw.date_invoice, context=context)
+            period = period
             if fb_fortnight == fortnight:
                 res.append(inv_id)
         return res
@@ -791,6 +792,7 @@ class fiscal_book(orm.Model):
             awi_brw = awi_obj.browse(cr, uid, awi_id, context=context)
             period, fortnight = period_obj._find_fortnight(
                 cr, uid, dt=awi_brw.date_ret, context=context)
+            period = period
             if fb_fortnight == fortnight:
                 res.append(awi_id)
         return res
@@ -1796,9 +1798,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
-        rp_obj = self.pool.get('res.partner')
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        rp_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         if inv_brw.customs_form_id:
             return 'ex' if fb_brw.type == 'sale' else 'im'

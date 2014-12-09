@@ -66,6 +66,7 @@ class list_wh_iva(report_sxw.rml_parse):
         """ Return amount exempt
         """
         amount_exempt, amount_untaxed = self.pool.get('txt.iva').get_amount_exempt_document(self.cr, self.uid, txt_line)
+        amount_untaxed = amount_untaxed
         self.total_amount_exempt += amount_exempt
         return amount_exempt
 
@@ -78,6 +79,7 @@ class list_wh_iva(report_sxw.rml_parse):
         """ Return untaxed amount
         """
         amount_exempt, amount_untaxed = self.pool.get('txt.iva').get_amount_exempt_document(self.cr, self.uid, txt_line)
+        amount_exempt = amount_exempt
         self.total_amount_untaxed += amount_untaxed
         return amount_untaxed
 

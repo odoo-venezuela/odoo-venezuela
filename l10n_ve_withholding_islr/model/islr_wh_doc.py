@@ -857,6 +857,7 @@ class islr_wh_doc_invoices(osv.osv):
 
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, iwdl_brw.invoice_id)
+        wh_agent = wh_agent
         apply_income = not vendor.islr_exempt
         residence = self._get_residence(cr, uid, vendor, buyer)
         nature = self._get_nature(cr, uid, vendor)
@@ -1210,6 +1211,8 @@ class islr_wh_doc_invoices(osv.osv):
         acc_part_id = rp_obj._find_accounting_partner(ail_brw.invoice_id.partner_id)
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, ail_brw.invoice_id)
+        buyer = buyer
+        wh_agent = wh_agent
 
         return {
             'account_invoice_id': ail_brw.invoice_id.id,

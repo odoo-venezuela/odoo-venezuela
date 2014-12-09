@@ -300,6 +300,7 @@ class txt_iva(osv.osv):
         rp_obj = self.pool.get('res.partner')
         for txt in self.browse(cr, uid, ids, context):
             vat = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
+            vat = vat
             for txt_line in txt.txt_ids:
 
                 vendor, buyer = self.get_buyer_vendor(cr, uid, txt, txt_line)
@@ -314,6 +315,7 @@ class txt_iva(osv.osv):
                 document_affected = self.get_document_affected(cr, uid, txt_line)
                 voucher_number = self.get_number(cr, uid, txt_line.voucher_id.number, 'vou_number', 14)
                 amount_exempt, amount_untaxed = self.get_amount_exempt_document(cr, uid, txt_line)
+                amount_untaxed = amount_untaxed
                 alicuota = self.get_alicuota(cr, uid, txt_line)
                 amount_total, amount_exempt = self.get_amount_line(cr, uid, txt_line, amount_exempt)
 
