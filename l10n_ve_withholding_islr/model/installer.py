@@ -55,11 +55,12 @@ class wh_islr_config(osv.osv_memory):
             'view_id': 3, }
         )
 
-    def _update_concepts(self, cr, uid, sale, purchase, context={}):
+    def _update_concepts(self, cr, uid, sale, purchase, context=None):
         """ Update sale and purchase concepts
         @param sale: sale concept
         @param purchase: purchase concept
         """
+        context = context or {}
         concept_pool = self.pool.get("islr.wh.concept")
         concept_pool.write(cr, uid, concept_pool.search(cr, uid, [], context=context), {
             'property_retencion_islr_payable': purchase,

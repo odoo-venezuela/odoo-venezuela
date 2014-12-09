@@ -146,9 +146,10 @@ class islr_wh_doc(osv.osv):
         'automatic_income_wh': False,
     }
 
-    def _check_partner(self, cr, uid, ids, context={}):
+    def _check_partner(self, cr, uid, ids, context=None):
         """ Determine if a given partner is a Income Withholding Agent
         """
+        context = context or {}
         rp_obj = self.pool.get('res.partner')
         obj = self.browse(cr, uid, ids[0])
         if obj.type in ('out_invoice', 'out_refund') and \
@@ -421,9 +422,10 @@ class islr_wh_doc(osv.osv):
                        'WHERE id=%s', (number, iwd_id))
         return True
 
-    def action_cancel(self, cr, uid, ids, context={}):
+    def action_cancel(self, cr, uid, ids, context=None):
         """ The operation is canceled and not allows automatic retention
         """
+        context = context or {}
         #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
         #~ return True
         self.pool.get('islr.wh.doc').write(

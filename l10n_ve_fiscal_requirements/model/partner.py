@@ -104,10 +104,11 @@ class res_partner(osv.osv):
     Required Invoice Address
     '''
 
-    def _check_partner_invoice_addr(self, cr, uid, ids, context={}):
+    def _check_partner_invoice_addr(self, cr, uid, ids, context=None):
         """ Return true if the partner is a company of Venezuela and if the
         address is for billing.
         """
+        context = context or {}
         partner_obj = self.browse(cr, uid, ids[0])
         if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE' and not partner_obj.parent_id:
             res = partner_obj.type == 'invoice'

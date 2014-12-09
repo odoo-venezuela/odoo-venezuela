@@ -54,19 +54,19 @@ class account_invoice(osv.osv):
             res['value']['wh_src_rate'] = rp_brw.wh_src_agent and rp_brw.wh_src_rate or 0
         return res
 
-    def _retenida(self, cr, uid, ids, name, args, context):
+    def _retenida(self, cr, uid, ids, name, args, context=None):
         """ Verify whether withholding was applied to the invoice
         """
         res = {}
-        if context is None:
-            context = {}
+        context = context or {}
         for inv_id in ids:
             res[inv_id] = self.test_retenida(cr, uid, [inv_id])
         return res
 
-    def _get_inv_from_line(self, cr, uid, ids, context={}):
+    def _get_inv_from_line(self, cr, uid, ids, context=None):
         """ Returns invoice from journal items
         """
+        context = context or {}
         move = {}
         for line in self.pool.get('account.move.line').browse(cr, uid, ids):
             if line.reconcile_partial_id:
@@ -80,9 +80,10 @@ class account_invoice(osv.osv):
             invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
-    def _get_inv_from_reconcile(self, cr, uid, ids, context={}):
+    def _get_inv_from_reconcile(self, cr, uid, ids, context=None):
         """ Return invoice from reconciled lines
         """
+        context = context or {}
         move = {}
         for amr_brw in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
             for line in amr_brw.line_partial_ids:

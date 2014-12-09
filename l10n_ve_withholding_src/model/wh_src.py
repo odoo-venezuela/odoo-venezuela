@@ -205,11 +205,10 @@ class account_wh_src(osv.osv):
             wh.date_ret or self.write(cr, uid, [wh.id], {'date_ret': time.strftime('%Y-%m-%d')})
         return True
 
-    def action_draft(self, cr, uid, ids, context={}):
+    def action_draft(self, cr, uid, ids, context=None):
         """ Passes the document to draft status
         """
-        if context is None:
-            context = {}
+        context = context or {}
         inv_obj = self.pool.get('account.invoice')
 
         brw = self.browse(cr, uid, ids[0], context)
@@ -219,11 +218,10 @@ class account_wh_src(osv.osv):
 
         return self.write(cr, uid, ids[0], {'state': 'draft'})
 
-    def action_confirm(self, cr, uid, ids, context={}):
+    def action_confirm(self, cr, uid, ids, context=None):
         """ Retention is valid to pass a status confirmed
         """
-        if context is None:
-            context = {}
+        context = context or {}
         inv_obj = self.pool.get('account.invoice')
 
         brw = self.browse(cr, uid, ids[0], context)

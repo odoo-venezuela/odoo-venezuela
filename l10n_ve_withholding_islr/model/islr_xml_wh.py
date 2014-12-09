@@ -113,24 +113,28 @@ class islr_xml_wh_doc(osv.osv):
                 res['value'].update({'xml_ids': islr_line_ids})
                 return res
 
-    def name_get(self, cr, uid, ids, context={}):
+    def name_get(self, cr, uid, ids, context=None):
         """ Return id and name of all records
         """
+        context = context or {}
         if not len(ids):
             return []
 
-        res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
+        res = [(r['id'], r['name']) for r in self.read(
+            cr, uid, ids, ['name'], context=context)]
         return res
 
-    def action_anular1(self, cr, uid, ids, context={}):
+    def action_anular1(self, cr, uid, ids, context=None):
         """ Return the document to draft status
         """
-        return self.write(cr, uid, ids, {'state': 'draft'})
+        context = context or {}
+        return self.write(cr, uid, ids, {'state': 'draft'}, context=context)
 
-    def action_confirm1(self, cr, uid, ids, context={}):
+    def action_confirm1(self, cr, uid, ids, context=None):
         """ Passes the document to state confirmed
         """
         # to set date_ret if don't exists
+        context = context or {}
         obj_ixwl = self.pool.get('islr.xml.wh.line')
         for item in self.browse(cr, uid, ids, context={}):
             for ixwl in item.xml_ids:
@@ -138,9 +142,10 @@ class islr_xml_wh_doc(osv.osv):
                     obj_ixwl.write(cr, uid, [ixwl.id], {'date_ret': ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret}, context=context)
         return self.write(cr, uid, ids, {'state': 'confirmed'})
 
-    def action_done1(self, cr, uid, ids, context={}):
+    def action_done1(self, cr, uid, ids, context=None):
         """ Passes the document to state done
         """
+        context = context or {}
         root = self._xml(cr, uid, ids)
         self._write_attachment(cr, uid, ids, root, context)
         self.write(cr, uid, ids, {'state': 'done'})
@@ -285,17 +290,19 @@ class islr_xml_wh_line(osv.osv):
         'type': lambda *a: 'invoice',
     }
 
-    def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):
+    def onchange_partner_vat(self, cr, uid, ids, partner_id, context=None):
         """ Changing the partner, the partner_vat field is updated.
         """
+        context = context or {}
         rp_obj = self.pool.get('res.partner')
         acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
         return {'value': {'partner_vat': acc_part_brw.vat[2:]}}
 
-    def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
+    def onchange_code_perc(self, cr, uid, ids, rate_id, context=None):
         """ Changing the rate of the islr, the porcent_rete and concept_code fields
         is updated.
         """
+        context = context or {}
         rate_brw = self.pool.get('islr.rates').browse(cr, uid, rate_id)
         return {'value': {'porcent_rete': rate_brw.wh_perc, 'concept_code': rate_brw.code}}
 

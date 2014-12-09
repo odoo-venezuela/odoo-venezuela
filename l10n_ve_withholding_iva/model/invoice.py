@@ -524,7 +524,7 @@ class account_invoice_tax(osv.osv):
         'base_ret': fields.float('Amount', digits_compute=dp.get_precision('Withhold'), help="Amount without tax"),
     }
 
-    def compute_amount_ret(self, cr, uid, invoice_id, context={}):
+    def compute_amount_ret(self, cr, uid, invoice_id, context=None):
         """ Calculate withholding amount
         """
         context = context or {}

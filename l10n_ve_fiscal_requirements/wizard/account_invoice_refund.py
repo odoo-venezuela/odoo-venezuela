@@ -104,9 +104,10 @@ class account_invoice_refund(osv.osv_memory):
                 res['fields'][field]['selection'] = journal_select
         return res
 
-    def _get_orig(self, cr, uid, inv, ref, context={}):
+    def _get_orig(self, cr, uid, inv, ref, context=None):
         """ Return  default origin value
         """
+        context = context or {}
         nro_ref = ref
         if inv.type == 'out_invoice':
             nro_ref = inv.number
