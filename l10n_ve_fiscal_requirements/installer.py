@@ -52,13 +52,13 @@ class fiscal_requirements_config(osv.osv_memory):
         # Data on res partner address - Invoice
         if partner and partner.type == 'invoice':
             self.pool.get('res.partner').write(cr, uid, [partner.id], {
-            'street': wiz_data.add,
-            'country_id': self.pool.get("res.country").search(cr, uid, [('code', '=', 'VE')])[0],
-            'name': wiz_data.name,
-            'vat': "VE%s" % wiz_data.vat.upper(),
-            'vat_subjected': wiz_data.vat_subjected,
+                'street': wiz_data.add,
+                'country_id': self.pool.get("res.country").search(cr, uid, [('code', '=', 'VE')])[0],
+                'name': wiz_data.name,
+                'vat': "VE%s" % wiz_data.vat.upper(),
+                'vat_subjected': wiz_data.vat_subjected,
 
-        })
+            })
 
     _columns = {
         'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),

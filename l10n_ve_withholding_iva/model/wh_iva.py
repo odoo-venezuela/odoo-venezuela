@@ -795,12 +795,12 @@ class account_wh_iva(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
         if (not self.check_wh_lines(cr, uid, ids, context=context) or
-            not self.check_wh_lines_fortnights(cr, uid, ids, context=context) or
-            not self.check_invoice_nro_ctrl(cr, uid, ids, context=context) or
-            not self.check_vat_wh(cr, uid, ids, context=context) or
-            not self.check_wh_taxes(cr, uid, ids, context=context) or
-            not self.write_wh_invoices(cr, uid, ids, context=context) or
-            not self._dummy_confirm_check(cr, uid, ids, context=context)):
+                not self.check_wh_lines_fortnights(cr, uid, ids, context=context) or
+                not self.check_invoice_nro_ctrl(cr, uid, ids, context=context) or
+                not self.check_vat_wh(cr, uid, ids, context=context) or
+                not self.check_wh_taxes(cr, uid, ids, context=context) or
+                not self.write_wh_invoices(cr, uid, ids, context=context) or
+                not self._dummy_confirm_check(cr, uid, ids, context=context)):
             return False
         return True
 
