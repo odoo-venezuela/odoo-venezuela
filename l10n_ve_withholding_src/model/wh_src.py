@@ -162,7 +162,7 @@ class account_wh_src(osv.osv):
     _sql_constraints = [
     ]
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
+    def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id, context=None):
         """ Return account depending of the invoice
         @param type: invoice type
         @param partner_id: partner id
@@ -176,7 +176,7 @@ class account_wh_src(osv.osv):
 
         if partner_id:
             acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
-            if type in ('out_invoice', 'out_refund'):
+            if inv_type in ('out_invoice', 'out_refund'):
                 acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
                 acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False
@@ -317,9 +317,11 @@ class account_wh_src(osv.osv):
         self.clear_wh_lines(cr, uid, ids, context=context)
         return True
 
-    def copy(self, cr, uid, id, default, context=None):
+    def copy(self, cr, uid, ids, default, context=None):
         """ Lines can not be duplicated in this model
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         raise osv.except_osv('Invalid Procedure!', "You can not duplicate lines")
         return True
 
@@ -408,11 +410,11 @@ class account_wh_src(osv.osv):
                     'FROM account_wh_src '
                     'WHERE id IN (' + ','.join(map(str, ids)) + ')')
 
-            for (id, number) in cr.fetchall():
+            for (aws_id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.src.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_src SET number=%s '
-                        'WHERE id=%s', (number, id))
+                        'WHERE id=%s', (number, aws_id))
 
         return True
 
@@ -442,7 +444,7 @@ class account_wh_src_line(osv.osv):
 
     ]
 
-    def onchange_invoice_id(self, cr, uid, ids, type, invoice_id=False, base_amount=0.0, wh_src_rate=5.0, context=None):
+    def onchange_invoice_id(self, cr, uid, ids, inv_type, invoice_id=False, base_amount=0.0, wh_src_rate=5.0, context=None):
         """ Change src information to change the invoice
         @param type: invoice type
         @param invoice_id: new invoice id

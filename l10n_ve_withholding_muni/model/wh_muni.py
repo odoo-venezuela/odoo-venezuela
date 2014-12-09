@@ -37,8 +37,8 @@ class account_wh_munici(osv.osv):
         """
         if context is None:
             context = {}
-        type = context.get('type', 'in_invoice')
-        return type
+        inv_type = context.get('type', 'in_invoice')
+        return inv_type
 
     def _get_journal(self, cr, uid, context=None):
         """ Return the journal to the journal items that coresspond to local
@@ -239,7 +239,7 @@ class account_wh_munici(osv.osv):
                         cr, uid, [line.invoice_id.id], {'wh_muni_id': ret.id})
         return True
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
+    def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id, context=None):
         """ Changing the partner is again determinated accounts and lines retain for document
         @param type: invoice type
         @param partner_id: vendor or buyer
@@ -249,7 +249,7 @@ class account_wh_munici(osv.osv):
         rp_obj = self.pool.get('res.partner')
         if partner_id:
             acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
-            if type in ('out_invoice', 'out_refund'):
+            if inv_type in ('out_invoice', 'out_refund'):
                 acc_id = acc_part_brw.property_account_receivable and acc_part_brw.property_account_receivable.id or False
             else:
                 acc_id = acc_part_brw.property_account_payable and acc_part_brw.property_account_payable.id or False

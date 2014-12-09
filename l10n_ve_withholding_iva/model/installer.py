@@ -105,7 +105,7 @@ class wh_iva_config(osv.osv_memory):
             return defaults
         return defaults
 
-    def _create_journal(self, cr, uid, name, type, code):
+    def _create_journal(self, cr, uid, name, jtype, code):
         """ Create a journal
         @param name: journal name
         @param type: journal type
@@ -113,7 +113,7 @@ class wh_iva_config(osv.osv_memory):
         """
         self.pool.get("account.journal").create(cr, uid, {
             'name': name,
-            'type': type,
+            'type': jtype,
             'code': code,
             'view_id': 3, }
         )

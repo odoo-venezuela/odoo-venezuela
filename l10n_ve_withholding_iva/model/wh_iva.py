@@ -240,8 +240,8 @@ class account_wh_iva(osv.osv):
         """
         if context is None:
             context = {}
-        type = context.get('type', 'in_invoice')
-        return type
+        inv_type = context.get('type', 'in_invoice')
+        return inv_type
 
     def _get_journal(self, cr, uid, context):
         """ Return a iva journal depending of invoice type
@@ -627,7 +627,7 @@ class account_wh_iva(osv.osv):
 
         return True
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
+    def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id,
                             period_id=False, fortnight=False, context=None):
         """ Update the withholding document accounts and the withholding lines
         depending on the partner and another parameters that depend of the type
@@ -648,7 +648,7 @@ class account_wh_iva(osv.osv):
         rp_obj = self.pool.get('res.partner')
         values_data = dict()
         acc_id = False
-        wh_type = (type in ('out_invoice', 'out_refund')) and 'sale' or 'purchase'
+        wh_type = (inv_type in ('out_invoice', 'out_refund')) and 'sale' or 'purchase'
 
         #~ pull account info
         if partner_id:

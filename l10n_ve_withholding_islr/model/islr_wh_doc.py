@@ -51,8 +51,8 @@ class islr_wh_doc(osv.osv):
         """
         if context is None:
             context = {}
-        type = context.get('type', 'in_invoice')
-        return type
+        inv_type = context.get('type', 'in_invoice')
+        return inv_type
 
     def _get_journal(self, cr, uid, context=None):
         """ Return a islr journal depending on the type of bill
