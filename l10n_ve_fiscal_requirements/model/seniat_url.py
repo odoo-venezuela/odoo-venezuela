@@ -115,10 +115,12 @@ class seniat_url(osv.osv):
                 url_str = url_obj.read()
                 ok = not '404 Not Found' in url_str
                 if ok:
-                    self.logger.info("Url Loaded correctly %s" % url)
+                    log_msg = "Url Loaded correctly %s" % url
+                    self.logger.info(log_msg)
                     return url_str
             except Exception, e:
-                self.logger.warning("Url could not be loaded %s" % str_error)
+                log_msg = "Url could not be loaded %s" % str_error
+                self.logger.warning(log_msg)
             retries -= 1
         return str_error
 
@@ -133,7 +135,8 @@ class seniat_url(osv.osv):
         vat_subjected = dom.childNodes[0].childNodes[
             2].firstChild.data.upper() == 'SI' and True or False
         wh_rate = dom.childNodes[0].childNodes[3].firstChild.data
-        self.logger.info("RIF: %s Found" % rif)
+        log_msg = "rif: %s found" % rif
+        self.logger.info(log_msg)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
         return {'name': name,
