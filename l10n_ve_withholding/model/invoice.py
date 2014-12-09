@@ -91,7 +91,7 @@ class account_invoice(osv.osv):
         total = 0.0
         line = self.pool.get('account.move.line')
         cr.execute('select id from account_move_line where move_id in (' + str(move_id) + ',' + str(invoice.move_id.id) + ')')
-        lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()))
+        lines = line.browse(cr, uid, [item[0] for item in cr.fetchall()])
         for aml_brw in lines + invoice.payment_ids:
             if aml_brw.account_id.id == src_account_id:
                 line_ids.append(aml_brw.id)
@@ -126,7 +126,7 @@ class account_invoice(osv.osv):
                 lines = list(set(temp_lines))
                 src.append(aml_brw.id)
 
-            lines += filter(lambda x: x not in src, lines)
+            lines += [item for item in lines if item not in src]
         return lines
 
     def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):

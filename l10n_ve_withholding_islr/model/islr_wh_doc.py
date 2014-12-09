@@ -410,7 +410,7 @@ class islr_wh_doc(osv.osv):
         obj_ret = self.browse(cr, uid, ids)[0]
         cr.execute('SELECT id, number '
                    'FROM islr_wh_doc '
-                   'WHERE id IN (' + ','.join(map(str, ids)) + ')')
+                   'WHERE id IN (' + ','.join([str(item) for item in ids]) + ')')
 
         for (iwd_id, number) in cr.fetchall():
             if not number:
@@ -618,7 +618,7 @@ class islr_wh_doc(osv.osv):
         line = self.pool.get('account.move.line')
         cr.execute('select id from account_move_line where move_id in (' + str(
             move_id) + ',' + str(invoice.move_id.id) + ')')
-        lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()))
+        lines = line.browse(cr, uid, [item[0] for item in cr.fetchall()])
         for aml_brw in lines + invoice.payment_ids:
             if aml_brw.account_id.id == src_account_id:
                 line_ids.append(aml_brw.id)

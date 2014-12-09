@@ -194,7 +194,7 @@ class account_invoice(osv.osv):
                 l.id \
             from account_move_line l \
                 inner join account_journal j on (j.id=l.journal_id) \
-            where l.id in (' + ','.join(map(str, res)) + ') and j.type=' + '\'' + type_journal + '\'')
+            where l.id in (' + ','.join([str(item) for item in res]) + ') and j.type=' + '\'' + type_journal + '\'')
         ok = ok and bool(cr.fetchone())
         return ok
 

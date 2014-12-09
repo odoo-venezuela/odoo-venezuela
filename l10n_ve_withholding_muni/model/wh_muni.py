@@ -168,7 +168,7 @@ class account_wh_munici(osv.osv):
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number '
                        'FROM account_wh_munici '
-                       'WHERE id IN (' + ','.join(map(str, ids)) + ')')
+                       'WHERE id IN (' + ','.join([str(item) for item in ids]) + ')')
 
             for (awm_id, number) in cr.fetchall():
                 if not number:

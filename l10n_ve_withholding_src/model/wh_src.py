@@ -77,7 +77,7 @@ class account_wh_src(osv.osv):
         partner_ids = obj_partner.search(cr, uid, args)
         if partner_ids:
             partner_brw = obj_partner.browse(cr, uid, partner_ids, context=context)
-            res = map(lambda x: x.id, partner_brw)
+            res = [item.id for item in partner_brw]
         return res
 
     def default_get(self, cr, uid, field_list, context=None):
@@ -410,7 +410,7 @@ class account_wh_src(osv.osv):
         if obj_ret.type == 'in_invoice':
             cr.execute('SELECT id, number '
                     'FROM account_wh_src '
-                    'WHERE id IN (' + ','.join(map(str, ids)) + ')')
+                    'WHERE id IN (' + ','.join([str(item) for item in ids]) + ')')
 
             for (aws_id, number) in cr.fetchall():
                 if not number:
