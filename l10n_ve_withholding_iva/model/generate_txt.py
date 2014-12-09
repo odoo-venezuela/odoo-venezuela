@@ -186,12 +186,12 @@ class txt_iva(osv.osv):
         """ Return the document type
         @param txt_line: line of the current document
         """
-        type = '03'
+        inv_type = '03'
         if txt_line.invoice_id.type in ['out_invoice', 'in_invoice']:
-            type = '01'
+            inv_type = '01'
         elif txt_line.invoice_id.type in ['out_invoice', 'in_invoice'] and txt_line.invoice_id.parent_id:
-            type = '02'
-        return type
+            inv_type = '02'
+        return inv_type
 
     def get_document_affected(self, cr, uid, txt_line, context=None):
         """ Return the reference or number depending of the case
@@ -205,7 +205,7 @@ class txt_iva(osv.osv):
             number = txt_line.invoice_id.parent_id.number
         return number
 
-    def get_number(self, cr, uid, number, inv_type, long):
+    def get_number(self, cr, uid, number, inv_type, max_size):
         """ Return a list of number for document number
         @param number: list of characters from number or reference of the bill
         @param inv_type: invoice type
@@ -216,10 +216,10 @@ class txt_iva(osv.osv):
         result = ''
         for i in number:
             if inv_type == 'vou_number' and i.isdigit():
-                if len(result) < long:
+                if len(result) < max_size:
                     result = i + result
             elif i.isalnum():
-                if len(result) < long:
+                if len(result) < max_size:
                     result = i + result
         return result[::-1].strip()
 
@@ -271,10 +271,10 @@ class txt_iva(osv.osv):
 
     def get_max_aliquot(self, cr, uid, txt_line):
         """Get maximum aliquot per invoice"""
-        list = []
+        res = []
         for tax_line in txt_line.invoice_id.tax_line:
-            list.append(int(tax_line.tax_id.amount * 100))
-        return max(list)
+            res.append(int(tax_line.tax_id.amount * 100))
+        return max(res)
 
     def get_amount_line(self, cr, uid, txt_line, amount_exempt):
         """Method to compute total amount"""

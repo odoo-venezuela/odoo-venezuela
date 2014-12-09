@@ -45,12 +45,12 @@ class wh_islr_config(osv.osv_memory):
         defaults['config_logo'] = base64.encodestring(logo.read())
         return defaults
 
-    def _create_journal(self, cr, uid, name, type, code):
+    def _create_journal(self, cr, uid, name, jtype, code):
         """ Create journal account
         """
         self.pool.get("account.journal").create(cr, uid, {
             'name': name,
-            'type': type,
+            'type': jtype,
             'code': code,
             'view_id': 3, }
         )

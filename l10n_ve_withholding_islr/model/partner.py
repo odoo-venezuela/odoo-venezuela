@@ -42,9 +42,11 @@ class res_partner(osv.osv):
         'islr_withholding_agent': lambda *a: True,
     }
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Initialized id by duplicating
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         if default is None:
             default = {}
         default = default.copy()
@@ -55,4 +57,4 @@ class res_partner(osv.osv):
             'islr_wh_historical_data_ids': [],
         })
 
-        return super(res_partner, self).copy(cr, uid, id, default, context)
+        return super(res_partner, self).copy(cr, uid, ids, default, context)

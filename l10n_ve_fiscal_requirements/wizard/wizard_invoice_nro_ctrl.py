@@ -84,8 +84,8 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         result = mod_obj._get_id(cr, uid, module, xml_id)
-        id = mod_obj.read(cr, uid, result, ['res_id'])['res_id']
-        result = act_obj.read(cr, uid, id)
+        imd_id = mod_obj.read(cr, uid, result, ['res_id'])['res_id']
+        result = act_obj.read(cr, uid, imd_id)
         result['res_id'] = list_ids
         return result
 

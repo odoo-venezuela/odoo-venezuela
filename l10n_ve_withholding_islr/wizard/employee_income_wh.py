@@ -177,8 +177,8 @@ class employee_income_wh(osv.osv_memory):
     def process_employee_income_wh(self, cr, uid, ids, context=None):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         eiw_brw = self.browse(cr, uid, ids, context={})[0]
-        file = eiw_brw.obj_file
-        xml_file = base64.decodestring(file)
+        eiw_file = eiw_brw.obj_file
+        xml_file = base64.decodestring(eiw_file)
         try:
             unicode(xml_file, 'utf8')
         except Exception:  # If we can not convert to UTF-8 maybe the file

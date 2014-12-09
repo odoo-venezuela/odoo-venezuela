@@ -72,16 +72,16 @@ class account_invoice_debit(osv.osv_memory):
         res = super(account_invoice_debit, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         # Debit note only from customer o purchase invoice
         #type = context.get('journal_type', 'sale_refund')
-        type = context.get('journal_type', 'sale')
-        if type in ('sale', 'sale_refund'):
-            type = 'sale_debit'
+        journal_type = context.get('journal_type', 'sale')
+        if journal_type in ('sale', 'sale_refund'):
+            journal_type = 'sale_debit'
         else:
-            type = 'purchase_debit'
+            journal_type = 'purchase_debit'
         company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
         company_id = context.get('company_id', company_id)
         for field in res['fields']:
             if field == 'journal_id':
-                journal_select = journal_obj._name_search(cr, uid, '', [('type', '=', type), ('company_id', '=', company_id)], context=context, limit=None, name_get_uid=1)
+                journal_select = journal_obj._name_search(cr, uid, '', [('type', '=', journal_type), ('company_id', '=', company_id)], context=context, limit=None, name_get_uid=1)
                 res['fields'][field]['selection'] = journal_select
         return res
 
@@ -202,9 +202,9 @@ class account_invoice_debit(osv.osv_memory):
             xml_id = 'action_purchase_debit_tree'
         # we get the model
         result = mod_obj.get_object_reference(cr, uid, 'l10n_ve_fiscal_requirements', xml_id)
-        id = result and result[1] or False
+        xml_id = result and result[1] or False
         # we read the act window
-        result = act_obj.read(cr, uid, id, context=context)
+        result = act_obj.read(cr, uid, xml_id, context=context)
         # we add the new invoices into domain list
         invoice_domain = eval(result['domain'])
         invoice_domain.append(('id', 'in', created_inv))

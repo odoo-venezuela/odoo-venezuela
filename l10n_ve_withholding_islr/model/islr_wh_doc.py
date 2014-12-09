@@ -316,7 +316,7 @@ class islr_wh_doc(osv.osv):
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
 
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id, context=None):
+    def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id, context=None):
         """ Unlink all taxes when change the partner in the document.
         @param type: invoice type
         @param partner_id: partner id was changed
@@ -351,7 +351,7 @@ class islr_wh_doc(osv.osv):
                     ('partner_id', '=', acc_part_id.id),
                     ('partner_id', 'child_of', acc_part_id.id),
                     ]
-            if type in ('out_invoice', 'out_refund'):
+            if inv_type in ('out_invoice', 'out_refund'):
                 acc_id = acc_part_id.property_account_receivable and \
                     acc_part_id.property_account_receivable.id
                 args += [('type', 'in', ('out_invoice', 'out_refund'))]
@@ -412,7 +412,7 @@ class islr_wh_doc(osv.osv):
                    'FROM islr_wh_doc '
                    'WHERE id IN (' + ','.join(map(str, ids)) + ')')
 
-        for (id, number) in cr.fetchall():
+        for (iwd_id, number) in cr.fetchall():
             if not number:
                 number = self.pool.get('ir.sequence').get(
                     cr, uid, 'islr.wh.doc.%s' % obj_ret.type)
@@ -420,7 +420,7 @@ class islr_wh_doc(osv.osv):
                 raise osv.except_osv(_("Missing Configuration !"),
                     _('No Sequence configured for Supplier Income Withholding'))
             cr.execute('UPDATE islr_wh_doc SET number=%s '
-                       'WHERE id=%s', (number, id))
+                       'WHERE id=%s', (number, iwd_id))
         return True
 
     def action_cancel(self, cr, uid, ids, context={}):
@@ -741,15 +741,17 @@ class account_invoice(osv.osv):
             }, help="Document Income Withholding tax generated from this Invoice"),
     }
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Initialized id by duplicating
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         if default is None:
             default = {}
         default = default.copy()
         default.update({'islr_wh_doc_id': 0})
 
-        return super(account_invoice, self).copy(cr, uid, id, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default, context)
 
 
 class islr_wh_doc_invoices(osv.osv):
@@ -830,10 +832,10 @@ class islr_wh_doc_invoices(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res_ids = []
-        for id in ids:
-            id = self._get_concepts(cr, uid, id, context=context) and id
-            if id:
-                res_ids += [id]
+        for iwdi_id in ids:
+            iwdi_id = self._get_concepts(cr, uid, iwdi_id, context=context) and iwdi_id
+            if iwdi_id:
+                res_ids += [iwdi_id]
         return res_ids
 
     def _get_wh(self, cr, uid, ids, concept_id, context=None):
@@ -855,7 +857,7 @@ class islr_wh_doc_invoices(osv.osv):
 
         vendor, buyer, wh_agent = self._get_partners(
             cr, uid, iwdl_brw.invoice_id)
-        apply = not vendor.islr_exempt
+        apply_income = not vendor.islr_exempt
         residence = self._get_residence(cr, uid, vendor, buyer)
         nature = self._get_nature(cr, uid, vendor)
 
@@ -885,21 +887,21 @@ class islr_wh_doc_invoices(osv.osv):
                 cr, uid, concept_id, residence, nature, base=base, inv_brw=iwdl_brw.invoice_id, context=context)
 
             if rate_tuple[7]:
-                apply = True
+                apply_income = True
                 residual_ut = (rate_tuple[0] / 100.0) * (rate_tuple[2] / 100.0) * rate_tuple[7]['cumulative_base_ut']
                 residual_ut -= rate_tuple[7]['cumulative_tax_ut']
                 residual_ut -= rate_tuple[7]['subtrahend']
             else:
-                apply = apply and base >= rate_tuple[0] * rate_tuple[1] / 100.0
+                apply_income = apply_income and base >= rate_tuple[0] * rate_tuple[1] / 100.0
             wh = 0.0
-            subtract = apply and rate_tuple[3] or 0.0
+            subtract = apply_income and rate_tuple[3] or 0.0
             subtract_write = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
                 base_line = f_xc(line.account_invoice_line_id.price_subtotal)
                 base_line_ut = money2ut(cr, uid, base_line, ut_date)
                 values = {}
-                if apply and not rate_tuple[7]:
+                if apply_income and not rate_tuple[7]:
                     wh_calc = (rate_tuple[0] / 100.0) * (rate_tuple[2] / 100.0) * base_line
                     if subtract >= wh_calc:
                         wh = 0.0
@@ -913,7 +915,7 @@ class islr_wh_doc_invoices(osv.osv):
                         'raw_tax_ut': money2ut(cr, uid, wh, ut_date),
                         'sustract': subtract or subtract_write,
                     }
-                elif apply and rate_tuple[7]:
+                elif apply_income and rate_tuple[7]:
                     tax_line_ut = base_line_ut * (rate_tuple[0] / 100.0) * (rate_tuple[2] / 100.0)
                     if residual_ut >= tax_line_ut:
                         wh_ut = 0.0
@@ -946,11 +948,11 @@ class islr_wh_doc_invoices(osv.osv):
                 cr, uid, concept_id, residence, nature, base=0.0, inv_brw=iwdl_brw.invoice_id, context=context)
 
             if rate_tuple[7]:
-                apply = True
+                apply_income = True
             else:
-                apply = apply and base >= rate_tuple[0] * rate_tuple[1] / 100.0
-            sb_concept = apply and rate_tuple[3] or 0.0
-            if apply:
+                apply_income = apply_income and base >= rate_tuple[0] * rate_tuple[1] / 100.0
+            sb_concept = apply_income and rate_tuple[3] or 0.0
+            if apply_income:
                 wh_concept = (rate_tuple[0] / 100.0) * rate_tuple[2] * base / 100.0
                 wh_concept -= sb_concept
         values = {

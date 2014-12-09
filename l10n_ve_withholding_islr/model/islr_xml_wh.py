@@ -207,8 +207,8 @@ class islr_xml_wh_doc(osv.osv):
         rp_obj = self.pool.get('res.partner')
         inv_obj = self.pool.get('account.invoice')
         root = ''
-        for id in ids:
-            wh_brw = self.browse(cr, uid, id)
+        for ixwd_id in ids:
+            wh_brw = self.browse(cr, uid, ixwd_id)
 
             period = time.strptime(wh_brw.period_id.date_stop, '%Y-%m-%d')
             period2 = "%0004d%02d" % (period.tm_year, period.tm_mon)

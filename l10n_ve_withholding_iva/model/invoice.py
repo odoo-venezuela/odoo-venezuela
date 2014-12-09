@@ -77,8 +77,8 @@ class account_invoice(osv.osv):
         res = {}
         if context is None:
             context = {}
-        for id in ids:
-            res[id] = self.test_retenida(cr, uid, [id])
+        for inv_id in ids:
+            res[inv_id] = self.test_retenida(cr, uid, [inv_id])
         return res
 
     def _get_inv_from_line(self, cr, uid, ids, context=None):
@@ -166,16 +166,18 @@ class account_invoice(osv.osv):
 
     _defaults = {'consolidate_vat_wh': False}
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Initialized fields to the copy a register
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         context = context or {}
         if default is None:
             default = {}
         default = default.copy()
         # TODO: PROPERLY CALL THE WH_IVA_RATE
         default.update({'wh_iva': False, 'wh_iva_id': False, 'vat_apply': False})
-        return super(account_invoice, self).copy(cr, uid, id, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default, context)
 
     def test_retenida(self, cr, uid, ids, *args):
         """ Verify if this invoice is withhold
@@ -336,9 +338,9 @@ class account_invoice(osv.osv):
             context = {}
 
         ait_obj = self.pool.get('account.invoice.tax')
-        for id in ids:
+        for inv_id in ids:
             amount_tax_ret = {}
-            amount_tax_ret = ait_obj.compute_amount_ret(cr, uid, id, context)
+            amount_tax_ret = ait_obj.compute_amount_ret(cr, uid, inv_id, context)
             for ait_id in amount_tax_ret.keys():
                 ait_obj.write(cr, uid, ait_id, amount_tax_ret[ait_id])
 

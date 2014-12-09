@@ -170,12 +170,12 @@ class account_wh_munici(osv.osv):
                        'FROM account_wh_munici '
                        'WHERE id IN (' + ','.join(map(str, ids)) + ')')
 
-            for (id, number) in cr.fetchall():
+            for (awm_id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(
                         cr, uid, 'account.wh.muni.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_munici SET number=%s '
-                           'WHERE id=%s', (number, id))
+                           'WHERE id=%s', (number, awm_id))
         return True
 
     def action_done(self, cr, uid, ids, context=None):
@@ -264,9 +264,9 @@ class account_wh_munici(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         rp_obj = self.pool.get('res.partner')
-        for id in ids:
+        for awm_id in ids:
             inv_str = ''
-            awm_brw = self.browse(cr, uid, id, context=context)
+            awm_brw = self.browse(cr, uid, awm_id, context=context)
             for line in awm_brw.munici_line_ids:
                 acc_part_brw = rp_obj._find_accounting_partner(line.invoice_id.partner_id)
                 if acc_part_brw.id != awm_brw.partner_id.id:

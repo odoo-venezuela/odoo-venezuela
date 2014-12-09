@@ -200,11 +200,13 @@ class seniat_url(osv.osv):
         else:
             return False
 
-    def _update_partner(self, cr, uid, id, context=None):
+    def _update_partner(self, cr, uid, ids, context=None):
         """ Indicates that the partner was updated with information provided by seniat
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         rp_obj = self.pool.get('res.partner')
-        rp_obj.write(cr, uid, id, {'seniat_updated': True})
+        rp_obj.write(cr, uid, ids, {'seniat_updated': True})
 
     def update_rif(self, cr, uid, ids, context=None):
         """ Updates the partner info if it have a vat

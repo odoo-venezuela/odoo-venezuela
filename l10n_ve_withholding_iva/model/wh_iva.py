@@ -44,17 +44,19 @@ class account_wh_iva(osv.osv):
 
 class account_wh_iva_line_tax(osv.osv):
 
-    def _set_amount_ret(self, cr, uid, id, name, value, arg, ctx=None):
+    def _set_amount_ret(self, cr, uid, ids, name, value, arg, ctx=None):
         """ Change withholding amount into iva line
         @param value: new value for retention amount
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         if ctx is None:
             ctx = {}
-        if not self.browse(cr, uid, id, context=ctx).wh_vat_line_id.retention_id.type == 'out_invoice':
+        if not self.browse(cr, uid, ids, context=ctx).wh_vat_line_id.retention_id.type == 'out_invoice':
             return False
         sql_str = """UPDATE account_wh_iva_line_tax set
                     amount_ret='%s'
-                    WHERE id=%d """ % (value, id)
+                    WHERE id=%d """ % (value, ids)
         cr.execute(sql_str)
         return True
 
@@ -492,7 +494,7 @@ class account_wh_iva(osv.osv):
                     'FROM account_wh_iva '
                     'WHERE id IN (' + ','.join(map(str, ids)) + ')')
 
-            for (id, number) in cr.fetchall():
+            for (awi_id, number) in cr.fetchall():
                 if not number:
                     number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh.iva.%s' % obj_ret.type)
                 if not number:
@@ -500,7 +502,7 @@ class account_wh_iva(osv.osv):
                         _('No Sequence configured for Supplier VAT Withholding'))
 
                 cr.execute('UPDATE account_wh_iva SET number=%s '
-                        'WHERE id=%s', (number, id))
+                        'WHERE id=%s', (number, awi_id))
         return True
 
     def action_date_ret(self, cr, uid, ids, context=None):
@@ -708,9 +710,9 @@ class account_wh_iva(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         rp_obj = self.pool.get('res.partner')
 
-        for id in ids:
+        for awi_id in ids:
             inv_str = ''
-            awi_brw = self.browse(cr, uid, id, context=context)
+            awi_brw = self.browse(cr, uid, awi_id, context=context)
             for awil_brw in awi_brw.wh_lines:
                 acc_part_id = rp_obj._find_accounting_partner(awil_brw.invoice_id.partner_id)
                 if acc_part_id.id != awi_brw.partner_id.id:
@@ -852,14 +854,16 @@ class account_wh_iva(osv.osv):
             else:
                 return True
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Update fields when duplicating
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         if not default:
             default = {}
         if context is None:
             context = {}
-        if self.browse(cr, uid, id, context=context).type == 'in_invoice':
+        if self.browse(cr, uid, ids, context=context).type == 'in_invoice':
             raise osv.except_osv(_('Alert !'), _('you can not duplicate this document!!!'))
 
         default.update({
@@ -870,7 +874,7 @@ class account_wh_iva(osv.osv):
             'period_id': False
         })
 
-        return super(account_wh_iva, self).copy(cr, uid, id, default, context)
+        return super(account_wh_iva, self).copy(cr, uid, ids, default, context)
 
     def unlink(self, cr, uid, ids, context=None):
         """ Overwrite the unlink method to throw an exception if the

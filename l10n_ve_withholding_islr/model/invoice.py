@@ -223,10 +223,12 @@ class account_invoice(osv.osv):
 
         return islr_wh_doc_id
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Inicializes the fields islr_wh_doc and status
         when the line is duplicated
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         default = default or {}
         context = context or {}
         default = default.copy()
@@ -234,7 +236,7 @@ class account_invoice(osv.osv):
                         'status': 'no_pro',
                         })
         context.update({'new_key': True})
-        return super(account_invoice, self).copy(cr, uid, id, default,
+        return super(account_invoice, self).copy(cr, uid, ids, default,
                                                  context)
 
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
@@ -242,7 +244,7 @@ class account_invoice(osv.osv):
         """
         data = super(account_invoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
-        list = []
+        res = []
         for xres, yres, res in data:
             if 'concept_id' in res:
                 res['concept_id'] = res.get(
@@ -251,8 +253,8 @@ class account_invoice(osv.osv):
                 res['apply_wh'] = False
             if 'wh_xml_id' in res:
                 res['wh_xml_id'] = 0
-            list.append((xres, yres, res))
-        return list
+            res.append((xres, yres, res))
+        return res
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):
         """ Method that check if wh income is validated in invoice refund.

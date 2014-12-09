@@ -60,9 +60,9 @@ class customs_form(osv.osv):
         obj_ct = self.pool.get('customs.duty')
         ct_ids = obj_ct.search(cr, uid, [], context=context)
         res = []
-        for id in ct_ids:
-            vat = obj_ct.browse(cr, uid, id, context=context)
-            res.append({'tax_code': id,
+        for cd_id in ct_ids:
+            vat = obj_ct.browse(cr, uid, cd_id, context=context)
+            res.append({'tax_code': cd_id,
                         'amount': 0.0, 'vat_detail': vat.vat_detail})
         return res
 
