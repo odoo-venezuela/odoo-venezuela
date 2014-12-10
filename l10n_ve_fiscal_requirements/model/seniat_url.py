@@ -118,9 +118,13 @@ class seniat_url(osv.osv):
                     log_msg = "Url Loaded correctly %s" % url
                     self.logger.info(log_msg)
                     return url_str
-            except Exception, e:
-                log_msg = "Url could not be loaded %s" % str_error
-                self.logger.warning(log_msg)
+            except IOError, e:
+                if e.errno == 101:
+                    log_msg = "Url could not be loaded %s" % str_error
+                    self.logger.warning(log_msg)
+                else:
+                    log_msg = "This is a unspected error %s" % str_error
+                    self.logger.warning(log_msg)
             retries -= 1
         return str_error
 
