@@ -31,18 +31,8 @@ from openerp.tools.translate import _
 
 
 class account_wh_iva_line_tax(osv.osv):
+
     _name = 'account.wh.iva.line.tax'
-
-
-class account_wh_iva_line(osv.osv):
-    _name = "account.wh.iva.line"
-
-
-class account_wh_iva(osv.osv):
-    _name = "account.wh.iva"
-
-
-class account_wh_iva_line_tax(osv.osv):
 
     def _set_amount_ret(self, cr, uid, ids, name, value, arg, ctx=None):
         """ Change withholding amount into iva line
@@ -98,6 +88,8 @@ class account_wh_iva_line_tax(osv.osv):
 
 
 class account_wh_iva_line(osv.osv):
+
+    _name = "account.wh.iva.line"
 
     def _get_tax_lines(self, cr, uid, tax_id_brw, context=None):
         """ Return dictionary with tax line data
@@ -208,6 +200,8 @@ class account_wh_iva_line(osv.osv):
 
 
 class account_wh_iva(osv.osv):
+
+    _name = "account.wh.iva"
 
     def name_get(self, cr, uid, ids, context):
         if not len(ids):
