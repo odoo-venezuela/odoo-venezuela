@@ -13,6 +13,7 @@
 import base64
 import functools
 
+import logging
 import libxml2
 
 from openerp.osv import osv, fields
@@ -33,6 +34,8 @@ class employee_income_wh(osv.osv_memory):
     _name = 'employee.income.wh'
 
     _description = ''
+
+    logger = logging.getLogger('employee.income.wh')
 
     # -------------------------------------------------------------------------
 
@@ -65,8 +68,9 @@ class employee_income_wh(osv.osv_memory):
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
-        except Exception:
-            pass
+        except libxml2.parserError, args:
+            log_msg = 'ERROR: the file is not a XML'
+            self.logger.warning(log_msg)
         return res
 
     def _clear_xml_employee_income_wh(self, cr, uid, context=None):
