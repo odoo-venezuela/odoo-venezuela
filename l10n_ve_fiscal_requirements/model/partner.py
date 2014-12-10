@@ -100,10 +100,6 @@ class res_partner(osv.osv):
             ids = self.search(cr, uid, [('name', operator, name)] + args, limit=limit, context=context)
         return self.name_get(cr, uid, ids, context=context)
 
-    '''
-    Required Invoice Address
-    '''
-
     def _check_partner_invoice_addr(self, cr, uid, ids, context=None):
         """ Return true if the partner is a company of Venezuela and if the
         address is for billing.
