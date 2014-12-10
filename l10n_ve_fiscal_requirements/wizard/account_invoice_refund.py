@@ -260,69 +260,69 @@ class account_invoice_refund(osv.osv_memory):
                                         writeoff_journal_id=inv.journal_id.id,
                                         writeoff_acc_id=inv.account_id.id
                                                      )
-                    if mode == 'modify':
-                        invoice = inv_obj.read(cr, uid, [inv.id],
-                                    ['name', 'type', 'number', 'supplier_invoice_number',
-                                    'comment', 'date_due', 'partner_id',
-                                    'partner_insite', 'partner_contact',
-                                    'partner_ref', 'payment_term', 'account_id',
-                                    'currency_id', 'invoice_line', 'tax_line',
-                                    'journal_id', 'period_id'], context=context)
-                        invoice = invoice[0]
-                        del invoice['id']
-                        invoice_lines = inv_line_obj.browse(cr, uid, invoice['invoice_line'], context=context)
+                if mode == 'modify':
+                    invoice = inv_obj.read(cr, uid, [inv.id],
+                                ['name', 'type', 'number', 'supplier_invoice_number',
+                                'comment', 'date_due', 'partner_id',
+                                'partner_insite', 'partner_contact',
+                                'partner_ref', 'payment_term', 'account_id',
+                                'currency_id', 'invoice_line', 'tax_line',
+                                'journal_id', 'period_id'], context=context)
+                    invoice = invoice[0]
+                    del invoice['id']
+                    invoice_lines = inv_line_obj.browse(cr, uid, invoice['invoice_line'], context=context)
 
-                        invoice_lines = inv_obj._refund_cleanup_lines(cr, uid, invoice_lines)
-                        tax_lines = inv_tax_obj.browse(cr, uid, invoice['tax_line'], context=context)
-                        tax_lines = inv_obj._refund_cleanup_lines(cr, uid, tax_lines)
-                        # Add origin value
-                        orig = self._get_orig(cr, uid, inv, invoice['supplier_invoice_number'], context)
-                        invoice.update({
-                            'type': inv.type,
-                            'date_invoice': date,
-                            'state': 'draft',
-                            'number': False,
-                            'invoice_line': invoice_lines,
-                            'tax_line': tax_lines,
-                            'period_id': period,
-                            'name': description,
-                            'origin': orig,
+                    invoice_lines = inv_obj._refund_cleanup_lines(cr, uid, invoice_lines)
+                    tax_lines = inv_tax_obj.browse(cr, uid, invoice['tax_line'], context=context)
+                    tax_lines = inv_obj._refund_cleanup_lines(cr, uid, tax_lines)
+                    # Add origin value
+                    orig = self._get_orig(cr, uid, inv, invoice['supplier_invoice_number'], context)
+                    invoice.update({
+                        'type': inv.type,
+                        'date_invoice': date,
+                        'state': 'draft',
+                        'number': False,
+                        'invoice_line': invoice_lines,
+                        'tax_line': tax_lines,
+                        'period_id': period,
+                        'name': description,
+                        'origin': orig,
 
-                        })
-                        for field in ('partner_id',
-                                'account_id', 'currency_id', 'payment_term', 'journal_id'):
-                            invoice[field] = invoice[field] and invoice[field][0]
-                        inv_id = inv_obj.create(cr, uid, invoice, {})
-                        if inv.payment_term.id:
-                            data = inv_obj.onchange_payment_term_date_invoice(cr, uid, [inv_id], inv.payment_term.id, date)
-                            if 'value' in data and data['value']:
-                                inv_obj.write(cr, uid, [inv_id], data['value'])
-                        created_inv.append(inv_id)
+                    })
+                    for field in ('partner_id',
+                            'account_id', 'currency_id', 'payment_term', 'journal_id'):
+                        invoice[field] = invoice[field] and invoice[field][0]
+                    inv_id = inv_obj.create(cr, uid, invoice, {})
+                    if inv.payment_term.id:
+                        data = inv_obj.onchange_payment_term_date_invoice(cr, uid, [inv_id], inv.payment_term.id, date)
+                        if 'value' in data and data['value']:
+                            inv_obj.write(cr, uid, [inv_id], data['value'])
+                    created_inv.append(inv_id)
 
-                        new_inv_brw = inv_obj.browse(cr, uid, created_inv[1], context=context)
-                        inv_obj.write(cr, uid, created_inv[0], {'name': wzd_brw.description, 'origin': new_inv_brw.origin}, context=context)
-                        inv_obj.write(cr, uid, created_inv[1], {'origin': inv.origin, 'name': wzd_brw.description}, context=context)
-            if inv.type in ('out_invoice', 'out_refund'):
-                xml_id = 'action_invoice_tree3'
-                #~ if hasattr(inv, 'sale_ids'):
-                #~ for i in inv.sale_ids:
-                #~ cr.execute('insert into sale_order_invoice_rel (order_id,invoice_id) values (%s,%s)', (i.id, refund_id[0]))
-            else:
-                xml_id = 'action_invoice_tree4'
-            result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
-            xml_id = result and result[1] or False
-            result = act_obj.read(cr, uid, xml_id, context=context)
-            invoice_domain = eval(result['domain'])
-            invoice_domain.append(('id', 'in', created_inv))
-            result['domain'] = invoice_domain
+                    new_inv_brw = inv_obj.browse(cr, uid, created_inv[1], context=context)
+                    inv_obj.write(cr, uid, created_inv[0], {'name': wzd_brw.description, 'origin': new_inv_brw.origin}, context=context)
+                    inv_obj.write(cr, uid, created_inv[1], {'origin': inv.origin, 'name': wzd_brw.description}, context=context)
+                if inv.type in ('out_invoice', 'out_refund'):
+                    xml_id = 'action_invoice_tree3'
+                    #~ if hasattr(inv, 'sale_ids'):
+                    #~ for i in inv.sale_ids:
+                    #~ cr.execute('insert into sale_order_invoice_rel (order_id,invoice_id) values (%s,%s)', (i.id, refund_id[0]))
+                else:
+                    xml_id = 'action_invoice_tree4'
+                result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
+                xml_id = result and result[1] or False
+                result = act_obj.read(cr, uid, xml_id, context=context)
+                invoice_domain = eval(result['domain'])
+                invoice_domain.append(('id', 'in', created_inv))
+                result['domain'] = invoice_domain
 
-            if wzd_brw.filter_refund == 'cancel':
-                orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
-                inv_obj.write(cr, uid, created_inv[0], {'origin': orig, 'name': wzd_brw.description}, context=context)
+                if wzd_brw.filter_refund == 'cancel':
+                    orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
+                    inv_obj.write(cr, uid, created_inv[0], {'origin': orig, 'name': wzd_brw.description}, context=context)
 
-            if wzd_brw.filter_refund == 'refund':
-                orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
-                inv_obj.write(cr, uid, created_inv[0], {'origin': inv.origin, 'name': wzd_brw.description}, context=context)
+                elif wzd_brw.filter_refund == 'refund':
+                    orig = self._get_orig(cr, uid, inv, inv.supplier_invoice_number, context)
+                    inv_obj.write(cr, uid, created_inv[0], {'origin': inv.origin, 'name': wzd_brw.description}, context=context)
             return result
 
     def validate_total_payment_inv(self, cr, uid, ids, context=None):
