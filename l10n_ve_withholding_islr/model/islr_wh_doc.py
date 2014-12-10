@@ -513,7 +513,7 @@ class islr_wh_doc(osv.osv):
                 line.iwdl_ids, context=context)
 
             if line.invoice_id.currency_id.id != line.invoice_id.company_id.currency_id.id:
-                f_xc = ut_obj.xc(cr, uid,
+                f_xc = ut_obj.sxc(cr, uid,
                         line.invoice_id.company_id.currency_id.id,
                         line.invoice_id.currency_id.id,
                         line.islr_wh_doc_id.date_uid)
@@ -766,7 +766,7 @@ class islr_wh_doc_invoices(osv.osv):
         res = {}
         ut_obj = self.pool.get('l10n.ut')
         for ret_line in self.browse(cr, uid, ids, context):
-            f_xc = ut_obj.xc(cr, uid,
+            f_xc = ut_obj.sxc(cr, uid,
                     ret_line.invoice_id.company_id.currency_id.id,
                     ret_line.invoice_id.currency_id.id,
                     ret_line.islr_wh_doc_id.date_uid)
@@ -875,7 +875,7 @@ class islr_wh_doc_invoices(osv.osv):
         wh_concept = 0.0
 
         # Using a clousure to make this call shorter
-        f_xc = ut_obj.xc(cr, uid,
+        f_xc = ut_obj.sxc(cr, uid,
                 iwdl_brw.invoice_id.currency_id.id,
                 iwdl_brw.invoice_id.company_id.currency_id.id,
                 iwdl_brw.invoice_id.date_invoice)
@@ -1244,7 +1244,7 @@ class islr_wh_doc_line(osv.osv):
         ut_obj = self.pool.get('l10n.ut')
         for iwdl_brw in self.browse(cr, uid, ids, context):
             # Using a clousure to make this call shorter
-            f_xc = ut_obj.xc(cr, uid,
+            f_xc = ut_obj.sxc(cr, uid,
                     iwdl_brw.invoice_id.company_id.currency_id.id,
                     iwdl_brw.invoice_id.currency_id.id,
                     iwdl_brw.islr_wh_doc_id.date_uid)

@@ -98,7 +98,7 @@ class l10n_ut(osv.osv):
         context['date'] = exchange_date
         return rc_obj.compute(cr, uid, from_currency_id, to_currency_id, from_amount, context=context)
 
-    def xc(self, cr, uid, from_currency_id, to_currency_id, exchange_date, context=None):
+    def sxc(self, cr, uid, from_currency_id, to_currency_id, exchange_date, context=None):
         '''
         This is a clousure that allow to use the exchange rate conversion in a short way
         '''

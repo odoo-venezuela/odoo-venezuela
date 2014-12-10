@@ -1528,7 +1528,7 @@ class fiscal_book(orm.Model):
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                f_xc = ut_obj.xc(cr, uid,
+                f_xc = ut_obj.sxc(cr, uid,
                         fbl.invoice_id.currency_id.id,
                         fbl.invoice_id.company_id.currency_id.id,
                         fbl.invoice_id.date_invoice)
