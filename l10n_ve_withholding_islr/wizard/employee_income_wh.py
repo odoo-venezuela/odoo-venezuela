@@ -15,8 +15,8 @@ import functools
 
 import libxml2
 
-from osv import fields, osv
-from tools.translate import _
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
 
 #~ import pooler

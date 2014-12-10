@@ -12,7 +12,7 @@
 
 from openerp.tools.translate import _
 
-from osv import fields, osv
+from openerp.osv import osv, fields
 
 
 class islr_wh_change_concept(osv.osv_memory):
