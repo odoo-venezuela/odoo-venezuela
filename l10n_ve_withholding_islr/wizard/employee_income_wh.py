@@ -68,7 +68,7 @@ class employee_income_wh(osv.osv_memory):
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
-        except libxml2.parserError, args:
+        except libxml2.parserError:
             log_msg = 'ERROR: the file is not a XML'
             self.logger.warning(log_msg)
         return res
