@@ -377,8 +377,6 @@ class account_wh_munici_line(osv.osv):
         if context is None:
             context = {}
 
-        if hasattr(self, 'munici_context') and ('lines' in self.munici_context):
-            [x[2] for x in self.munici_context['lines']]
         if not invoice_id:
             return {'value': {'amount': 0.0,
                               'wh_loc_rate': 0.0}}
