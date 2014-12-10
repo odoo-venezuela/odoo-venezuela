@@ -185,8 +185,9 @@ class employee_income_wh(osv.osv_memory):
         xml_file = base64.decodestring(eiw_file)
         try:
             unicode(xml_file, 'utf8')
-        except Exception:  # If we can not convert to UTF-8 maybe the file
-                           # is codified in ISO-8859-15: We convert it.
+        except UnicodeDecodeError:
+            # If we can not convert to UTF-8 maybe the file
+            # is codified in ISO-8859-15: We convert it.
             xml_file = unicode(xml_file, 'iso-8859-15').encode('utf-8')
         invalid = []
         values = self._parse_xml_employee_income_wh(
