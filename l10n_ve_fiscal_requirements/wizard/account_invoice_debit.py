@@ -20,6 +20,7 @@
 ##############################################################################
 
 import time
+import ast
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -206,7 +207,7 @@ class account_invoice_debit(osv.osv_memory):
         # we read the act window
         result = act_obj.read(cr, uid, xml_id, context=context)
         # we add the new invoices into domain list
-        invoice_domain = eval(result['domain'])
+        invoice_domain = ast.literal_eval(result['domain'])
         invoice_domain.append(('id', 'in', created_inv))
         result['domain'] = invoice_domain
         return result

@@ -21,6 +21,7 @@
 
 import datetime
 import time
+import ast
 
 from openerp import netsvc
 from openerp.osv import fields, osv
@@ -312,7 +313,7 @@ class account_invoice_refund(osv.osv_memory):
                 result = mod_obj.get_object_reference(cr, uid, 'account', xml_id)
                 xml_id = result and result[1] or False
                 result = act_obj.read(cr, uid, xml_id, context=context)
-                invoice_domain = eval(result['domain'])
+                invoice_domain = ast.literal_eval(result['domain'])
                 invoice_domain.append(('id', 'in', created_inv))
                 result['domain'] = invoice_domain
 
