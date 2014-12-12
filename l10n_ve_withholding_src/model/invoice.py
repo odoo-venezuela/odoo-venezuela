@@ -121,9 +121,17 @@ class account_invoice(osv.osv):
         return True
 
     _columns = {
-        'wh_src': fields.boolean('Social Responsibility Commitment Withheld', help='if the commitment to social responsibility has been retained'),
-        'wh_src_rate': fields.float('SRC Wh rate', digits_compute=dp.get_precision('Withhold'), readonly=True, states={'draft': [('readonly', False)]}, help="Social Responsibility Commitment Withholding Rate"),
-        'wh_src_id': fields.many2one('account.wh.src', 'Wh. SRC Doc.', readonly=True, help="Social Responsibility Commitment Withholding Document"),
+        'wh_src': fields.boolean(
+            'Social Responsibility Commitment Withheld',
+            help='if the commitment to social responsibility has been'
+                 ' retained'),
+        'wh_src_rate': fields.float(
+            'SRC Wh rate', digits_compute=dp.get_precision('Withhold'),
+            readonly=True, states={'draft': [('readonly', False)]},
+            help="Social Responsibility Commitment Withholding Rate"),
+        'wh_src_id': fields.many2one(
+            'account.wh.src', 'Wh. SRC Doc.', readonly=True,
+            help="Social Responsibility Commitment Withholding Document"),
     }
     _defaults = {
         'wh_src': False,
@@ -148,27 +156,41 @@ class account_invoice(osv.osv):
         @param name: description
         """
         context = context or {}
-        res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh, period_id,
-                            pay_journal_id, writeoff_acc_id,
-                            writeoff_period_id, writeoff_journal_id, date,
-                            name, context=context)
+        res = super(account_invoice, self)._get_move_lines(
+            cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
+            writeoff_period_id, writeoff_journal_id, date, name,
+            context=context)
         rp_obj = self.pool.get('res.partner')
         if context.get('wh_src', False):
             invoice = self.browse(cr, uid, ids[0])
             acc_part_brw = rp_obj._find_accounting_partner(invoice.partner_id)
-            types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
+            types = {
+                'out_invoice': -1,
+                'in_invoice': 1,
+                'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
 
             for tax_brw in to_wh:
                 if types[invoice.type] == 1:
-                    acc = tax_brw.wh_id.company_id.wh_src_collected_account_id and tax_brw.wh_id.company_id.wh_src_collected_account_id.id or False
+                    acc = (
+                        tax_brw.wh_id.company_id.wh_src_collected_account_id and
+                        tax_brw.wh_id.company_id.wh_src_collected_account_id.id
+                        or False)
                 else:
-                    acc = tax_brw.wh_id.company_id.wh_src_paid_account_id and tax_brw.wh_id.company_id.wh_src_paid_account_id.id or False
+                    acc = (tax_brw.wh_id.company_id.wh_src_paid_account_id and
+                           tax_brw.wh_id.company_id.wh_src_paid_account_id.id or
+                           False)
                 if not acc:
-                    raise osv.except_osv(_('Missing Account in Company!'), _("Your Company [%s] has missing account. Please, fill the missing fields") % (tax_brw.wh_id.company_id.name,))
+                    raise osv.except_osv(
+                        _('Missing Account in Company!'),
+                        _("Your Company [%s] has missing account. Please, fill"
+                          " the missing fields") % (
+                              tax_brw.wh_id.company_id.name,))
                 res.append((0, 0, {
-                    'debit': direction * tax_brw.wh_amount < 0 and - direction * tax_brw.wh_amount,
-                    'credit': direction * tax_brw.wh_amount > 0 and direction * tax_brw.wh_amount,
+                    'debit': direction * tax_brw.wh_amount < 0 and
+                        - direction * tax_brw.wh_amount,
+                    'credit': direction * tax_brw.wh_amount > 0 and
+                        direction * tax_brw.wh_amount,
                     'account_id': acc,
                     'partner_id': acc_part_brw.id,
                     'ref': invoice.number,

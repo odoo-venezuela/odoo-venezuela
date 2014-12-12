@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -444,7 +444,8 @@ class account_wh_src(osv.osv):
                 cr, uid, ret.date_ret or time.strftime('%Y-%m-%d'))
             # Due to the fact that demo data for periods sets 'special' as True
             # on them, this little hack is necesary if this issue is solved we
-            # should ask directly for the refer to this bug for more information
+            # should ask directly for the refer to this bug for more
+            # information
             # https://bugs.launchpad.net/openobject-addons/+bug/924200
             demo_enabled = self.pool.get('ir.module.module').search(
                 cr, uid, [('name', '=', 'base'), ('demo', '=', True)])

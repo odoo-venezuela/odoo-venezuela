@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -37,7 +37,8 @@ class res_company(osv.osv):
             method=True,
             view_load=True,
             domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to an Supplier"),
+            help="This account will be used when applying a withhold to"
+                 " an Supplier"),
         'wh_src_paid_account_id': fields.many2one(
             'account.account',
             type='many2one',
@@ -46,5 +47,6 @@ class res_company(osv.osv):
             method=True,
             view_load=True,
             domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to a Customer"),
+            help="This account will be used when applying a withhold to a"
+                 " Customer"),
     }

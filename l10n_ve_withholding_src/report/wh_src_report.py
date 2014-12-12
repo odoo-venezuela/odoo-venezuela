@@ -17,7 +17,8 @@ class wh_src_report(report_sxw.rml_parse):
     def get_empresa(self, partner_id):
         """ Get information company
         """
-        partner_id = isinstance(partner_id, (int, long)) and [partner_id] or partner_id
+        partner_id = isinstance(partner_id, (int, long)) and [partner_id] or \
+            partner_id
         rp_obj = self.pool.get('res.partner')
         row = rp_obj.browse(self.cr, self.uid, partner_id[0])
         row = rp_obj._find_accounting_partner(row)
