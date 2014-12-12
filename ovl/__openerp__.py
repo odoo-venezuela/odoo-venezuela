@@ -75,7 +75,9 @@ This module will install for you:
   -  l10n_ve_vat_write_off
 
 
-Optionals (Not installed by default), uncomment on your/addons/path/ovl/__openerp__.py file this dependencies if you want to use them
+Optionals (Not installed by default), uncomment on
+your/addons/path/ovl/__openerp__.py file this dependencies if you want to use
+them
 
  - "l10n_ve_sale_purchase", #Install if you want be able set islr
 

@@ -32,7 +32,8 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id,
-            date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
+                            date_invoice=False, payment_term=False,
+                            partner_bank_id=False, company_id=False):
         """ Change invoice information depending of the partner
         @param type: Invoice type
         @param partner_id: Partner id of the invoice
@@ -42,16 +43,21 @@ class account_invoice(osv.osv):
         @param company_id: Company id
         """
         rp_obj = self.pool.get('res.partner')
-        res = super(account_invoice, self).onchange_partner_id(cr, uid, ids, inv_type,
+        res = super(account_invoice, self).onchange_partner_id(
+            cr, uid, ids, inv_type,
         partner_id, date_invoice, payment_term, partner_bank_id, company_id)
 
         if inv_type in ('out_invoice',):
-            rp_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
-            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and rp_brw.wh_src_rate or 0
+            rp_brw = rp_obj._find_accounting_partner(
+                rp_obj.browse(cr, uid, partner_id))
+            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and \
+                rp_brw.wh_src_rate or 0
         else:
             ru_brw = self.pool.get('res.users').browse(cr, uid, uid)
-            rp_brw = rp_obj._find_accounting_partner(ru_brw.company_id.partner_id)
-            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and rp_brw.wh_src_rate or 0
+            rp_brw = rp_obj._find_accounting_partner(
+                ru_brw.company_id.partner_id)
+            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and \
+                rp_brw.wh_src_rate or 0
         return res
 
     def _retenida(self, cr, uid, ids, name, args, context=None):
@@ -77,7 +83,8 @@ class account_invoice(osv.osv):
                     move[line2.move_id.id] = True
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id', 'in', move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(
+                cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def _get_inv_from_reconcile(self, cr, uid, ids, context=None):
@@ -85,7 +92,8 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         move = {}
-        for amr_brw in self.pool.get('account.move.reconcile').browse(cr, uid, ids):
+        for amr_brw in self.pool.get('account.move.reconcile').browse(
+            cr, uid, ids):
             for line in amr_brw.line_partial_ids:
                 move[line.move_id.id] = True
             for line in amr_brw.line_id:
@@ -93,7 +101,8 @@ class account_invoice(osv.osv):
 
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id', 'in', move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(
+                cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def _check_retention(self, cr, uid, ids, context=None):
