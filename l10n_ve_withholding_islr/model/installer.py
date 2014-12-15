@@ -84,7 +84,8 @@ class wh_islr_config(osv.osv_memory):
         wiz_data = self.read(cr, uid, ids[0], context=context)
         if wiz_data['journal_purchase']:
             self._create_journal(
-                cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')
+                cr, uid, wiz_data["journal_purchase"], 'islr_purchase',
+                'ISLRP')
         if wiz_data['journal_sale']:
             self._create_journal(
                 cr, uid, wiz_data['journal_sale'], 'islr_sale', 'ISLRS')

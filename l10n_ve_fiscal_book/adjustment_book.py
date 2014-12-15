@@ -13,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -48,9 +48,11 @@ class adjustment_book(osv.osv):
             for line in adj.adjustment_ids:
                 res[adj.id]['amount_total'] += line.amount
                 res[adj.id]['amount_untaxed_n_total'] += line.amount_untaxed_n
-                res[adj.id]['amount_with_vat_n_total'] += line.amount_with_vat_n
+                res[adj.id]['amount_with_vat_n_total'] += \
+                    line.amount_with_vat_n
                 res[adj.id]['amount_untaxed_i_total'] += line.amount_untaxed_i
-                res[adj.id]['amount_with_vat_i_total'] += line.amount_with_vat_i
+                res[adj.id]['amount_with_vat_i_total'] += \
+                    line.amount_with_vat_i
                 res[adj.id]['uncredit_fiscal_total'] += line.uncredit_fiscal
                 res[adj.id]['amount_with_vat_total'] += line.amount_with_vat
             res[adj.id]['amount_base_total'] += (
@@ -192,10 +194,12 @@ class adjustment_book(osv.osv):
             help="TOTALCREDITOS FISCALES DEL PERIODO/TOTAL DEBITOS FISCALES"
                  " PARA EFECTOS DE DETERMINACION"),
         'sale_export': fields.float(
-            'Ventas de Exportacion', digits_compute=dp.get_precision('Account'),
+            'Ventas de Exportacion',
+            digits_compute=dp.get_precision('Account'),
             help="Ventas de Exportacion"),
         'sale_export_cf': fields.float(
-            'Ventas de Exportacion', digits_compute=dp.get_precision('Account'),
+            'Ventas de Exportacion',
+            digits_compute=dp.get_precision('Account'),
             help="Ventas de Exportacion"),
     }
 

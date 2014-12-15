@@ -200,8 +200,8 @@ class rep_comprobante(report_sxw.rml_parse):
 
                 # TODO: THIS MUST BE SOLVED THROUGH THE USE OF THE FIELD RET IN
                 # THE MODEL ACCOUNT.TAX, SO THAT APPEARS IF THE TAX WITH VALUE
-                # FALSE, AND BECAUSE NOW WE HAVE A TAX_ID IN ACCOUNT.INVOICE.TAX
-                # CAN DO TRACKING TO ACCOUNT.TAX
+                # FALSE, AND BECAUSE NOW WE HAVE A TAX_ID IN
+                # ACCOUNT.INVOICE.TAX CAN DO TRACKING TO ACCOUNT.TAX
                 if txl.name.find('SDCF') != -1:
                     tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(
                         types[rl.invoice_id.type], 0.0) + (
@@ -223,7 +223,8 @@ class rep_comprobante(report_sxw.rml_parse):
                         rl.invoice_id.partner_id).wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
-                    'tot_civa': not sdcf and k * (txl.base + txl.amount) or 0.0,
+                    'tot_civa':
+                    not sdcf and k * (txl.base + txl.amount) or 0.0,
                     'cmp_sdcr': sdcf and k * (txl.base + txl.amount) or 0.0,
                     'bas_impo': k * txl.base,
                     'alic':
@@ -260,7 +261,8 @@ class rep_comprobante(report_sxw.rml_parse):
             tot_comp_sdc.get('s', 0.0) - tot_comp_sdc.get('r', 0.0)
         self.ttbase = tot_base_imp.get('s', 0.0) - tot_base_imp.get('r', 0.0)
         self.ttiva = tot_imp_iva.get('s', 0.0) - tot_imp_iva.get('r', 0.0)
-        self.ttretencion = tot_iva_ret.get('s', 0.0) - tot_iva_ret.get('r', 0.0)
+        self.ttretencion = \
+            tot_iva_ret.get('s', 0.0) - tot_iva_ret.get('r', 0.0)
         return lst_comp
 
     def _get_tot_gral_compra(self):

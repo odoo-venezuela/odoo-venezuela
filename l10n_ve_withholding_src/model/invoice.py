@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 from openerp.addons import decimal_precision as dp
 from openerp.osv import fields, osv
@@ -173,13 +173,14 @@ class account_invoice(osv.osv):
             for tax_brw in to_wh:
                 if types[invoice.type] == 1:
                     acc = (
-                        tax_brw.wh_id.company_id.wh_src_collected_account_id and
+                        tax_brw.wh_id.company_id.wh_src_collected_account_id
+                        and
                         tax_brw.wh_id.company_id.wh_src_collected_account_id.id
                         or False)
                 else:
                     acc = (tax_brw.wh_id.company_id.wh_src_paid_account_id and
-                           tax_brw.wh_id.company_id.wh_src_paid_account_id.id or
-                           False)
+                           tax_brw.wh_id.company_id.wh_src_paid_account_id.id
+                           or False)
                 if not acc:
                     raise osv.except_osv(
                         _('Missing Account in Company!'),

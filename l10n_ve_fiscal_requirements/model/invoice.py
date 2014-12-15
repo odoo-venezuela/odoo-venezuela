@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -70,7 +70,8 @@ class account_invoice(osv.osv):
                 self.search(cr, uid, [
                     '|', ('nro_ctrl', '=', inv.nro_ctrl and
                           inv.nro_ctrl.strip()),
-                    ('supplier_invoice_number', '=', inv.supplier_invoice_number
+                    ('supplier_invoice_number', '=',
+                     inv.supplier_invoice_number
                      and inv.supplier_invoice_number.strip()),
                     ('type', '=', inv.type),
                     ('partner_id', '=', inv.partner_id.id)], context=context)
@@ -162,7 +163,8 @@ class account_invoice(osv.osv):
             #'loc_req':False,
             'z_report': '',
         })
-        return super(account_invoice, self).copy(cr, uid, ids, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default,
+                                                 context)
 
     def write(self, cr, uid, ids, vals, context=None):
         context = context or {}

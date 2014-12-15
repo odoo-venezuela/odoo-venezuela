@@ -13,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -107,8 +107,8 @@ class islr_xml_wh_doc(osv.osv):
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
 
-        'period_id': lambda self, cr, uid, context: self.period_return(cr, uid,
-                                                                       context),
+        'period_id': lambda self, cr, uid, context: self.period_return(
+            cr, uid, context),
         'name': (lambda self, cr, uid, context:
                  'Income Withholding ' + time.strftime('%m/%Y'))
     }
@@ -313,7 +313,8 @@ class islr_xml_wh_line(osv.osv):
         'partner_vat': fields.char(
             'VAT', size=10, required=True, help="Partner VAT"),
         'invoice_number': fields.char(
-            'Invoice Number', size=10, required=True, help="Number of invoice"),
+            'Invoice Number', size=10, required=True,
+            help="Number of invoice"),
         'control_number': fields.char(
             'Control Number', size=8, required=True, help="Reference"),
         'concept_code': fields.char(
@@ -326,13 +327,15 @@ class islr_xml_wh_line(osv.osv):
             'UT Amount', digits_compute=dp.get_precision('Withhold ISLR'),
             help="UT Amount"),
         'raw_tax_ut': fields.float(
-            'UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'),
+            'UT Withheld Tax',
+            digits_compute=dp.get_precision('Withhold ISLR'),
             help="UT Withheld Tax"),
         'porcent_rete': fields.float(
             'Withholding Rate', required=True, help="Withholding Rate",
             digits_compute=dp.get_precision('Withhold ISLR')),
         'wh': fields.float(
-            'Withheld Amount', required=True, help="Withheld amount to partner",
+            'Withheld Amount', required=True,
+            help="Withheld amount to partner",
             digits_compute=dp.get_precision('Withhold ISLR')),
         'rate_id': fields.many2one(
             'islr.rates', 'Person Type',

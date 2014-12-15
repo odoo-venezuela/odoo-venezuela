@@ -152,8 +152,8 @@ class fiscal_book_wizard(osv.osv_memory):
         return False
 
     def default_get(self, cr, uid, field_list, context=None):
-        # NOTE. use argument name field_list instead of fields to fix the pylint
-        # error W0621 Redefining name 'fields' from outer scope.
+        # NOTE. use argument name field_list instead of fields to fix the
+        # pylint error W0621 Redefining name 'fields' from outer scope.
         if context is None:
             context = {}
 

@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 import time
 
@@ -43,8 +43,8 @@ class account_wh_iva_line_tax(osv.osv):
         if ctx is None:
             ctx = {}
         if (not self.browse(
-                cr, uid, ids,
-                context=ctx).wh_vat_line_id.retention_id.type == 'out_invoice'):
+                cr, uid, ids, context=ctx).wh_vat_line_id.retention_id.type ==
+                'out_invoice'):
             return False
         sql_str = """UPDATE account_wh_iva_line_tax set
                     amount_ret='%s'
@@ -308,7 +308,8 @@ class account_wh_iva(osv.osv):
         if context is None:
             context = {}
         type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'iva_sale', 'in_invoice': 'iva_purchase'}
+        type2journal = {'out_invoice': 'iva_sale',
+                        'in_invoice': 'iva_purchase'}
         journal_obj = self.pool.get('account.journal')
         res = journal_obj.search(
             cr, uid,
@@ -324,7 +325,8 @@ class account_wh_iva(osv.osv):
         """
         context = context or {}
         dt = time.strftime('%Y-%m-%d')
-        return time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 and 'False' or 'True'
+        return (time.strptime(dt, '%Y-%m-%d').tm_mday <= 15 and 'False'
+                or 'True')
 
     def _get_currency(self, cr, uid, context):
         """ Return currency to use
@@ -333,8 +335,8 @@ class account_wh_iva(osv.osv):
         if user.company_id:
             return user.company_id.currency_id.id
         else:
-            return self.pool.get('res.currency').search(cr, uid,
-                                                        [('rate', '=', 1.0)])[0]
+            return self.pool.get('res.currency').search(
+                cr, uid, [('rate', '=', 1.0)])[0]
 
     _name = "account.wh.iva"
     _description = "Withholding Vat"
@@ -349,7 +351,8 @@ class account_wh_iva(osv.osv):
             help="Internal withholding reference"),
         'number': fields.char(
             'Number', size=32, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Withholding number"),
+            states={'draft': [('readonly', False)]},
+            help="Withholding number"),
         'type': fields.selection([
             ('out_invoice', 'Customer Invoice'),
             ('in_invoice', 'Supplier Invoice'),
@@ -720,7 +723,8 @@ class account_wh_iva(osv.osv):
                     amount = line.amount_tax_ret
                     if line.invoice_id.type in ['in_invoice', 'in_refund']:
                         name = ('COMP. RET. IVA ' + ret.number + ' Doc. ' +
-                                (line.invoice_id.supplier_invoice_number or ''))
+                                (line.invoice_id.supplier_invoice_number
+                                 or ''))
                     else:
                         name = ('COMP. RET. IVA ' + ret.number + ' Doc. ' +
                                 (line.invoice_id.number or ''))

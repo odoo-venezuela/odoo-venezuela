@@ -110,5 +110,6 @@ class l10n_ut(osv.osv):
 
         def _xc(from_amount):
             return self.exchange(cr, uid, from_amount, from_currency_id,
-                                 to_currency_id, exchange_date, context=context)
+                                 to_currency_id, exchange_date,
+                                 context=context)
         return _xc

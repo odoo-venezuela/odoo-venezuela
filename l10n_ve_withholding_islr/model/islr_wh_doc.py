@@ -14,8 +14,8 @@
 #    Audited by: Humberto Arocha hbto@vauxoo.com
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -153,8 +153,8 @@ class islr_wh_doc(osv.osv):
             'res.company', 'Company', required=True, readonly=True,
             help="Company"),
         'amount_total_ret': fields.function(
-            _get_amount_total, method=True, string='Amount Total', type='float',
-            digits_compute=dp.get_precision('Withhold ISLR'),
+            _get_amount_total, method=True, string='Amount Total',
+            type='float', digits_compute=dp.get_precision('Withhold ISLR'),
             help="Total Withheld amount"),
         'concept_ids': fields.one2many(
             'islr.wh.doc.line', 'islr_wh_doc_id', 'Income Withholding Concept',
@@ -210,7 +210,8 @@ class islr_wh_doc(osv.osv):
         return False
 
     _constraints = [
-        (_check_partner, 'Error! The partner must be income withholding agent.',
+        (_check_partner,
+         'Error! The partner must be income withholding agent.',
          ['partner_id']),
     ]
 
@@ -478,8 +479,10 @@ class islr_wh_doc(osv.osv):
                 number = self.pool.get('ir.sequence').get(
                     cr, uid, 'islr.wh.doc.%s' % obj_ret.type)
             if not number:
-                raise osv.except_osv(_("Missing Configuration !"),
-                    _('No Sequence configured for Supplier Income Withholding'))
+                raise osv.except_osv(
+                    _("Missing Configuration !"),
+                    _('No Sequence configured for Supplier Income'
+                      ' Withholding'))
             cr.execute('UPDATE islr_wh_doc SET number=%s '
                        'WHERE id=%s', (number, iwd_id))
         return True
@@ -637,8 +640,8 @@ class islr_wh_doc(osv.osv):
         ret = self.browse(cr, uid, ids)[0]
         if context is None:
             context = {}
-        # TODO check if we can use different period for payment and the writeoff
-        # line
+        # TODO check if we can use different period for payment and the
+        # writeoff line
         #~ assert len(invoice_ids)==1, "Can only pay one invoice at a time"
         invoice = inv_obj.browse(cr, uid, invoice_id)
         acc_part_id = rp_obj._find_accounting_partner(invoice.partner_id)
@@ -821,7 +824,8 @@ class account_invoice(osv.osv):
             store={'islr.wh.doc': (_get_inv_from_iwd, ['invoice_ids'], 50),
                    'islr.wh.doc.invoices': (
                        _get_inv_from_iwdi, ['invoice_id'], 50),},
-            help="Document Income Withholding tax generated from this Invoice"),
+            help="Document Income Withholding tax generated from this"
+                 " Invoice"),
     }
 
     def copy(self, cr, uid, ids, default=None, context=None):
@@ -834,7 +838,8 @@ class account_invoice(osv.osv):
         default = default.copy()
         default.update({'islr_wh_doc_id': 0})
 
-        return super(account_invoice, self).copy(cr, uid, ids, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default,
+                                                 context)
 
 
 class islr_wh_doc_invoices(osv.osv):
@@ -896,8 +901,8 @@ class islr_wh_doc_invoices(osv.osv):
             'islr.wh.doc.line', 'iwdi_id', 'Withholding Concepts',
             help='withholding concepts of this withheld invoice'),
         'move_id': fields.many2one(
-            'account.move', 'Journal Entry', ondelete='restrict', readonly=True,
-            help="Accounting voucher"),
+            'account.move', 'Journal Entry', ondelete='restrict',
+            readonly=True, help="Accounting voucher"),
     }
 
     _rec_rame = 'invoice_id'
@@ -972,10 +977,11 @@ class islr_wh_doc_invoices(osv.osv):
         concept_id = iwdl_brw.concept_id.id
         # rate_base,rate_minimum,rate_wh_perc,rate_subtract,rate_code,rate_id,
         # rate_name
-        # Add a Key in context to store date of ret fot U.T. value determination
-        # TODO: Future me, this context update need to be checked with the other
-        # date in the withholding in order to take into account the customer
-        # income withholding.
+        # Add a Key in context to store date of ret fot U.T. value
+        # determination
+        # TODO: Future me, this context update need to be checked with the
+        # other date in the withholding in order to take into account the
+        # customer income withholding.
         context.update({
             'wh_islr_date_ret': iwdl_brw.islr_wh_doc_id.date_uid or
                 iwdl_brw.islr_wh_doc_id.date_ret or False
@@ -1049,7 +1055,8 @@ class islr_wh_doc_invoices(osv.osv):
                         'wh': wh,
                         'raw_tax_ut': wh_ut,
                         'sustract': ut2money(
-                            cr, uid, residual_ut or subtract_write_ut, ut_date),
+                            cr, uid, residual_ut or subtract_write_ut,
+                            ut_date),
                     }
                 values.update({
                     'base': base_line * (rate_tuple[0] / 100.0),
@@ -1295,7 +1302,8 @@ class islr_wh_doc_invoices(osv.osv):
                 context=context)
             # Previous amount Tax Unit for this partner in this fiscalyear with
             # this concept
-            for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids, context=context):
+            for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids,
+                                            context=context):
                 base_ut += iwdl_brw.raw_base_ut
                 rate2['cumulative_base_ut'] += iwdl_brw.raw_base_ut
                 rate2['cumulative_tax_ut'] += iwdl_brw.raw_tax_ut
@@ -1306,7 +1314,8 @@ class islr_wh_doc_invoices(osv.osv):
                  ('fiscalyear_id', '=',
                   inv_brw.islr_wh_doc_id.period_id.fiscalyear_id.id)],
                 context=context)
-            for iwhd_brw in iwhd_obj.browse(cr, uid, iwhd_ids, context=context):
+            for iwhd_brw in iwhd_obj.browse(cr, uid, iwhd_ids,
+                                            context=context):
                 base_ut += iwhd_brw.raw_base_ut
                 rate2['cumulative_base_ut'] += iwhd_brw.raw_base_ut
                 rate2['cumulative_tax_ut'] += iwhd_brw.raw_tax_ut
@@ -1318,8 +1327,8 @@ class islr_wh_doc_invoices(osv.osv):
                 # lines can be got and with that it will be possible to which
                 # rate to grab,
                 # MULTICURRENCY WARNING: Values from the invoice_lines must be
-                # translate to VEF and then to UT this way computing in a proper
-                # way the amount values
+                # translate to VEF and then to UT this way computing in a
+                # proper way the amount values
                 if rate_brw.minimum > base_ut:
                     continue
                 rate_brw_minimum = ut2money(
@@ -1458,7 +1467,8 @@ class islr_wh_doc_line(osv.osv):
             'UT Amount', digits_compute=dp.get_precision('Withhold ISLR'),
             help="UT Amount"),
         'raw_tax_ut': fields.float(
-            'UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'),
+            'UT Withheld Tax',
+            digits_compute=dp.get_precision('Withhold ISLR'),
             help="UT Withheld Tax"),
         'subtract': fields.float(
             'Subtract', digits_compute=dp.get_precision('Withhold ISLR'),
@@ -1509,7 +1519,8 @@ class islr_wh_historical_data(osv.osv):
             help="Withholding concept associated with this historical data"),
         'raw_base_ut': fields.float(
             'Cumulative UT Amount', required=True,
-            digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
+            digits_compute=dp.get_precision('Withhold ISLR'),
+            help="UT Amount"),
         'raw_tax_ut': fields.float(
             'Cumulative UT Withheld Tax', required=True,
             digits_compute=dp.get_precision('Withhold ISLR'),

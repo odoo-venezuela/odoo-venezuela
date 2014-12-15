@@ -262,17 +262,20 @@ class fiscal_book(orm.Model):
             string="Article Number",
             required=True,
             help="Article number describing the fiscal book special features"
-            " according to the Venezuelan RLIVA statement for fiscal"
-            " accounting books. Options:"
-            " - Art. 75: Pruchase Book."
-            " - Art. 76: Sale Book. Reflects every individual operation detail."
-            " - Art. 77: Sale Book. Groups Non-Tax Payer operations in one "
-            " consolidated line. Only fiscal billing."
-            " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show"
-            " automatic and mechanized operations in individual way, and "
-            " groups fiscal billing operationss in one consolidated line."),
+                 " according to the Venezuelan RLIVA statement for fiscal"
+                 " accounting books. Options:"
+                 " - Art. 75: Pruchase Book."
+                 " - Art. 76: Sale Book. Reflects every individual operation"
+                 " detail."
+                 " - Art. 77: Sale Book. Groups Non-Tax Payer operations in"
+                 " one "
+                 " consolidated line. Only fiscal billing."
+                 " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show"
+                 " automatic and mechanized operations in individual way, and "
+                 " groups fiscal billing operationss in one consolidated"
+                 " line."),
 
-        #~ Withholding fields
+        # Withholding fields
         'get_wh_sum': fields.function(
             _get_wh,
             type="float", method=True, store=True, multi="get_wh",
@@ -567,7 +570,8 @@ class fiscal_book(orm.Model):
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
             help="Additional VAT Taxed Non-Tax Payer Tax Amount Totalization."
-            " Sum of Additional VAT Tax column for Non-Tax Payer transactions"),
+                 " Sum of Additional VAT Tax column for Non-Tax Payer"
+                 " transactions"),
         'ntp_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
@@ -680,7 +684,8 @@ class fiscal_book(orm.Model):
         for fb_brw in self.browse(cr, uid, ids, context=context):
             self.clear_book(cr, uid, [fb_brw.id], context=context)
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
-            self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
+            self.update_book_issue_invoices(cr, uid, fb_brw.id,
+                                            context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
             self.update_book_customs_form(cr, uid, fb_brw.id, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
@@ -959,7 +964,8 @@ class fiscal_book(orm.Model):
             if add_cf_ids:
                 self.write(
                     cr, uid, fb_brw.id,
-                    {'cf_ids': [(4, cf) for cf in add_cf_ids]}, context=context)
+                    {'cf_ids': [(4, cf) for cf in add_cf_ids]},
+                    context=context)
         return True
 
     def update_book_lines(self, cr, uid, fb_id, context=None):
@@ -993,7 +999,8 @@ class fiscal_book(orm.Model):
                     'emission_date':
                     iwdl_brw.date or iwdl_brw.date_ret or False,
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
-                                                  fb_id=fb_id, context=context),
+                                                  fb_id=fb_id,
+                                                  context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name': rp_brw.name or 'N/A',
                     'partner_vat': rp_brw.vat or 'N/A',
@@ -1076,7 +1083,8 @@ class fiscal_book(orm.Model):
 
             cf_partner_brws = \
                 list(set([
-                    rp_obj._find_accounting_partner(cfl_brw.tax_code.partner_id)
+                    rp_obj._find_accounting_partner(
+                        cfl_brw.tax_code.partner_id)
                     for cfl_brw in cf_brw.cfl_ids
                     if not cfl_brw.tax_code.vat_detail]))
 
@@ -1178,8 +1186,8 @@ class fiscal_book(orm.Model):
     def update_book_ntp_lines(self, cr, uid, fb_id, context=None):
         """ It consolidate Non-Tax Payer book lines into one line considering
         the consecutiveness and next criteria: fiscal printer and z report.
-        This consolidated groups are move to another field: Non-Tax Payer Detail
-        operations. (This only applys when is a sale book)
+        This consolidated groups are move to another field: Non-Tax Payer
+        Detail operations. (This only applys when is a sale book)
         @param fb_id: fiscal book id
         """
         context = context or {}
@@ -1303,7 +1311,8 @@ class fiscal_book(orm.Model):
 
         return True
 
-    def create_consolidate_line(self, cr, uid, fb_id, line_tuple, context=None):
+    def create_consolidate_line(self, cr, uid, fb_id, line_tuple,
+                                context=None):
         """ Create a new consolidate Non-Tax Payer line for a group of no tax
         payer operations.
         @param fb_id: fiscal book line id.
@@ -1599,7 +1608,8 @@ class fiscal_book(orm.Model):
                                 ait.base_amount * sign
                     else:
                         data.append((0, 0, {
-                            'fb_id': fb_id, 'fbl_id': False, 'ait_id': ait.id}))
+                            'fb_id': fb_id, 'fbl_id': False,
+                            'ait_id': ait.id}))
                 fbl_obj.write(cr, uid, fbl.id, amount_field_data,
                               context=context)
 

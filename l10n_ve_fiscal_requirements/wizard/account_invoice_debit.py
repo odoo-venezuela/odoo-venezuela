@@ -35,8 +35,8 @@ class account_invoice_debit(osv.osv_memory):
     _columns = {
         'date': fields.date(
             'Operation date',
-            help='This date will be used as the invoice date for Refund Invoice'
-                 ' and Period will be chosen accordingly!'),
+            help='This date will be used as the invoice date for Refund'
+                 ' Invoice and Period will be chosen accordingly!'),
         'period': fields.many2one(
             'account.period', 'Force period',
             help='Fiscal period to assign to the invoice. Keep empty to use'

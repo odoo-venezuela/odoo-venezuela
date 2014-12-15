@@ -13,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -49,8 +49,8 @@ class sale_order_line(osv.osv):
 #            return concept_id and concept_id[0] or False
 #        res = super(sale_order_line, self).product_id_change(
 #           cr, uid, ids, pricelist, product, qty,uom, qty_uos, uos, name,
-#           partner_id,lang, update_tax, date_order, packaging, fiscal_position,
-#           flag)
+#           partner_id,lang, update_tax, date_order, packaging,
+#           fiscal_position, flag)
 #        if not product:
 #            concept_id = get_concept()
 #            if concept_id:

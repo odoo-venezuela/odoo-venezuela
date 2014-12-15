@@ -6,8 +6,8 @@
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    This module is developed by Vauxoo
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -29,8 +29,8 @@ class search_info_partner_seniat(osv.osv_memory):
     _columns = {
         'vat': fields.char(
             'ID Number (Cedula, Passport, VAT Number)', size=64,
-            help='The VAT number must be in this format J1234567890, if you are'
-                 ' looking for a cedula 12345678 and passport D123456789',
+            help='The VAT number must be in this format J1234567890, if you'
+                 ' are looking for a cedula 12345678 and passport D123456789',
             required=True),
         'name': fields.char('Partner', size=256, help='Partner name'),
         'wh_iva_agent': fields.boolean(

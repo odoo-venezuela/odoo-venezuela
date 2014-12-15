@@ -130,7 +130,8 @@ class seniat_url(osv.osv):
 
     def _parse_dom(self, cr, uid, dom, rif, url_seniat, context=None):
         """
-        This function extracts the information partner of the string and returns
+        This function extracts the information partner of the string and
+        returns
         """
         context = context or {}
         rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
@@ -235,7 +236,8 @@ class seniat_url(osv.osv):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
 
             try:
-                res = self._dom_giver(cr, uid, partner.vat[2:], context=context)
+                res = self._dom_giver(cr, uid, partner.vat[2:],
+                                      context=context)
             except osv.except_osv:
                 continue
 

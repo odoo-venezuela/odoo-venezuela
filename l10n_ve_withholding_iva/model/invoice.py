@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 import time
 
@@ -160,14 +160,16 @@ class account_invoice(osv.osv):
                 'account.move.reconcile': (_get_inv_from_reconcile, None, 50),
             }, help="The account moves of the invoice have been retention with"
                     " account moves of the payment(s)."),
-        'wh_iva_id': fields.function(_fnct_get_wh_iva_id, method=True,
+        'wh_iva_id': fields.function(
+            _fnct_get_wh_iva_id, method=True,
             type='many2one', relation='account.wh.iva',
             string='VAT Wh. Document',
             store={
                 'account.wh.iva': (_get_inv_from_awi, ['wh_lines'], 50),
-                'account.wh.iva.line': (_get_inv_from_awil, ['invoice_id'], 50),
-            }, help="This is the VAT Withholding Document where this invoice"
-                    " is being withheld"),
+                'account.wh.iva.line': (
+                    _get_inv_from_awil, ['invoice_id'], 50)},
+            help="This is the VAT Withholding Document where this invoice"
+                 " is being withheld"),
         'vat_apply': fields.boolean(
             'Exclude this document from VAT Withholding',
             states={'draft': [('readonly', False)]},
@@ -194,7 +196,8 @@ class account_invoice(osv.osv):
         # TODO: PROPERLY CALL THE WH_IVA_RATE
         default.update({'wh_iva': False, 'wh_iva_id': False,
                         'vat_apply': False})
-        return super(account_invoice, self).copy(cr, uid, ids, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default,
+                                                 context)
 
     def test_retenida(self, cr, uid, ids, *args):
         """ Verify if this invoice is withhold
@@ -277,9 +280,9 @@ class account_invoice(osv.osv):
                 else:
                     raise osv.except_osv(
                         _('Warning !'),
-                        _('You have already a withholding doc associate to your'
-                          ' invoice, but this withholding doc is not in cancel '
-                          'state.'))
+                        _('You have already a withholding doc associate to'
+                          ' your invoice, but this withholding doc is not in'
+                          ' cancel state.'))
                 return True
             else:
                 #~ Create Lines Data
@@ -304,7 +307,8 @@ class account_invoice(osv.osv):
                                                     ret_line_id,
                                                     context=context)
                 self.write(cr, uid, [inv_brw.id], {'wh_iva_id': ret_id})
-                wh_iva_obj.compute_amount_wh(cr, uid, [ret_id], context=context)
+                wh_iva_obj.compute_amount_wh(cr, uid, [ret_id],
+                                             context=context)
         return True
 
     def get_fortnight_wh_id(self, cr, uid, ids, context=None):
@@ -415,7 +419,8 @@ class account_invoice(osv.osv):
             context = {}
         return any([
             line.tax_id.ret
-            for line in self.browse(cr, uid, ids[0], context=context).tax_line])
+            for line in self.browse(cr, uid, ids[0],
+                                    context=context).tax_line])
 
     def check_withholdable(self, cr, uid, ids, context=None):
         """ This will test for Refund invoice trying to find out
@@ -475,8 +480,9 @@ class account_invoice(osv.osv):
             context=context)
         if context.get('vat_wh', False):
             invoice = self.browse(cr, uid, ids[0])
-            acc_part_id = self.pool.get('res.partner')._find_accounting_partner(
-                invoice.partner_id)
+            acc_part_id = \
+                self.pool.get('res.partner')._find_accounting_partner(
+                    invoice.partner_id)
 
             types = {'out_invoice': -1, 'in_invoice': 1,
                      'out_refund': 1, 'in_refund': -1}
@@ -563,7 +569,8 @@ class account_invoice(osv.osv):
             #~ print '\n'*3, 'inv_brw.wh_iva_id', inv_brw.wh_iva_id,
             #~       'inv_brw.wh_iva_id.state', inv_brw.wh_iva_id.state, '\n'*3
             if ((not inv_brw.wh_iva_id) or (
-                    inv_brw.wh_iva_id and inv_brw.wh_iva_id.state == 'cancel')):
+                    inv_brw.wh_iva_id and
+                    inv_brw.wh_iva_id.state == 'cancel')):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:

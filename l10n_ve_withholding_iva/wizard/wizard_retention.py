@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -29,7 +29,8 @@ from openerp.tools.translate import _
 
 class wiz_retention(osv.osv_memory):
     _name = 'wiz.vat.apply.wh'
-    _description = "Wizard that changes the retention exclusion from an invoice"
+    _description = ("Wizard that changes the retention exclusion from an"
+                    " invoice")
 
     def set_retention(self, cr, uid, ids, context=None):
         context = context or {}

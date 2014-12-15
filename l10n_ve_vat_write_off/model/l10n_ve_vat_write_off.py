@@ -12,7 +12,8 @@ class vat_write_off(osv.osv):
         'state': fields.selection([('draft', 'Getting Ready'),
             ('open', 'Approved by Manager'), ('done', 'Seniat Submitted')],
             string='Status', required=True),
-        'purchase_fb_id': fields.many2one('fiscal.book', 'Purchase Fiscal Book',
+        'purchase_fb_id': fields.many2one(
+            'fiscal.book', 'Purchase Fiscal Book',
             help='Purchase Fiscal Book'),
         'p_do_general_vat_base_sum': fields.related('purchase_fb_id',
                                                     'do_general_vat_base_sum',
@@ -78,8 +79,8 @@ class vat_write_off(osv.osv):
             'sale_fb_id', 'do_general_vat_base_sum', type="float",
             readonly=True, store=True),
         's_do_general_vat_tax_sum': fields.related(
-            'sale_fb_id', 'do_general_vat_tax_sum', type="float", readonly=True,
-            store=True),
+            'sale_fb_id', 'do_general_vat_tax_sum', type="float",
+            readonly=True, store=True),
         's_do_additional_vat_base_sum': fields.related(
             'sale_fb_id', 'do_additional_vat_base_sum', type="float",
             readonly=True, store=True),
@@ -90,8 +91,8 @@ class vat_write_off(osv.osv):
             'sale_fb_id', 'do_reduced_vat_base_sum', type="float",
             readonly=True, store=True),
         's_do_reduced_vat_tax_sum': fields.related(
-            'sale_fb_id', 'do_reduced_vat_tax_sum', type="float", readonly=True,
-            store=True),
+            'sale_fb_id', 'do_reduced_vat_tax_sum', type="float",
+            readonly=True, store=True),
         's_base_amount': fields.related(
             'sale_fb_id', 'base_amount', type="float", readonly=True,
             store=True),

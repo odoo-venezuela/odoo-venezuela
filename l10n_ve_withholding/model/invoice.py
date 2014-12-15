@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 import time
 
@@ -53,8 +53,8 @@ class account_invoice(osv.osv):
             context = {}
         rp_obj = self.pool.get('res.partner')
 
-        # TODO check if we can use different period for payment and the writeoff
-        # line
+        # TODO check if we can use different period for payment and the
+        # writeoff line
         assert len(ids) == 1, "Can only pay one invoice at a time"
         invoice = self.browse(cr, uid, ids[0])
         src_account_id = invoice.account_id.id
@@ -230,13 +230,15 @@ class account_invoice_tax(osv.osv):
                         cr, uid, inv.currency_id.id, company_currency,
                         val['base'] * tax['base_sign'],
                         context={'date':
-                                 inv.date_invoice or time.strftime('%Y-%m-%d')},
+                                 inv.date_invoice or
+                                 time.strftime('%Y-%m-%d')},
                         round=False)
                     val['tax_amount'] = cur_obj.compute(
                         cr, uid, inv.currency_id.id, company_currency,
                         val['amount'] * tax['tax_sign'],
                         context={'date':
-                                 inv.date_invoice or time.strftime('%Y-%m-%d')},
+                                 inv.date_invoice or
+                                 time.strftime('%Y-%m-%d')},
                         round=False)
                     val['account_id'] = tax['account_collected_id'] or \
                         line.account_id.id
@@ -247,13 +249,15 @@ class account_invoice_tax(osv.osv):
                         cr, uid, inv.currency_id.id, company_currency,
                         val['base'] * tax['ref_base_sign'],
                         context={'date':
-                                 inv.date_invoice or time.strftime('%Y-%m-%d')},
+                                 inv.date_invoice or
+                                 time.strftime('%Y-%m-%d')},
                         round=False)
                     val['tax_amount'] = cur_obj.compute(
                         cr, uid, inv.currency_id.id, company_currency,
                         val['amount'] * tax['ref_tax_sign'],
                         context={'date':
-                                 inv.date_invoice or time.strftime('%Y-%m-%d')},
+                                 inv.date_invoice
+                                 or time.strftime('%Y-%m-%d')},
                         round=False)
                     val['account_id'] = tax['account_paid_id'] or \
                         line.account_id.id
@@ -273,6 +277,7 @@ class account_invoice_tax(osv.osv):
         for tax in tax_grouped.values():
             tax['base'] = cur_obj.round(cr, uid, cur, tax['base'])
             tax['amount'] = cur_obj.round(cr, uid, cur, tax['amount'])
-            tax['base_amount'] = cur_obj.round(cr, uid, cur, tax['base_amount'])
+            tax['base_amount'] = cur_obj.round(
+                cr, uid, cur, tax['base_amount'])
             tax['tax_amount'] = cur_obj.round(cr, uid, cur, tax['tax_amount'])
         return tax_grouped

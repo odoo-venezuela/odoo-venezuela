@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 
 import time
@@ -111,7 +111,8 @@ class account_wh_src(osv.osv):
         """ Create a dictionary with ids agent partner and their browse item
         """
         context = context or {}
-        res = {}.fromkeys(ids, self._get_uid_wh_agent(cr, uid, context=context))
+        res = {}.fromkeys(ids, self._get_uid_wh_agent(cr, uid,
+                                                      context=context))
         return res
 
     _name = "account.wh.src"
@@ -245,7 +246,8 @@ class account_wh_src(osv.osv):
 
         part_brw = ids and rp_obj._find_accounting_partner(self.browse(
             cr, uid, ids[0], context=context).partner_id)
-        wh_lines = ids and wh_line_obj.search(cr, uid, [('wh_id', '=', ids[0])])
+        wh_lines = ids and wh_line_obj.search(cr, uid,
+                                              [('wh_id', '=', ids[0])])
         if not partner_id:
             if wh_lines:
                 wh_line_obj.unlink(cr, uid, wh_lines)
@@ -375,7 +377,8 @@ class account_wh_src(osv.osv):
             awsl_ids = awsl_obj.search(cr, uid, [('wh_id', 'in', ids)],
                     context=context)
             ai_ids = awsl_ids and [awsl.invoice_id.id
-                for awsl in awsl_obj.browse(cr, uid, awsl_ids, context=context)]
+                for awsl in awsl_obj.browse(cr, uid, awsl_ids,
+                                            context=context)]
             if ai_ids:
                 ai_obj.write(cr, uid, ai_ids,
                              {'wh_src_id': False}, context=context)

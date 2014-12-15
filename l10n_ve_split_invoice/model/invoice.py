@@ -10,8 +10,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -46,17 +46,19 @@ class account_invoice(osv.osv):
                     invoice = self.read(
                         cr, uid, inv.id,
                         ['name', 'type', 'number', 'supplier_invoice_number',
-                         'comment', 'date_due', 'partner_id', 'partner_contact',
-                         'partner_insite', 'partner_ref', 'payment_term',
-                         'account_id', 'currency_id', 'invoice_line',
-                         'tax_line', 'journal_id', 'period_id', "user_id"])
+                         'comment', 'date_due', 'partner_id',
+                         'partner_contact', 'partner_insite', 'partner_ref',
+                         'payment_term', 'account_id', 'currency_id',
+                         'invoice_line', 'tax_line', 'journal_id', 'period_id',
+                         "user_id"])
                     invoice.update({
                         'state': 'draft',
                         'number': False,
                         'invoice_line': [],
                         'tax_line': [],
                     })
-                    # take the id part of the tuple returned for many2one fields
+                    # take the id part of the tuple returned for many2one
+                    # fields
                     invoice.pop('id', None)
                     for field in ('partner_id', 'account_id', 'currency_id',
                                   'payment_term', 'journal_id', 'period_id',

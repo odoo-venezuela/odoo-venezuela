@@ -575,8 +575,8 @@ class inherited_invoice(osv.osv):
             _get_credit_affected, method=True, string='Credit notes affected',
             type='char', help=""),
         'get_import_form': fields.function(
-            _get_reference, method=True, string='kind of document', type='char',
-            help=""),
+            _get_reference, method=True, string='kind of document',
+            type='char', help=""),
         'get_import_exp': fields.function(
             _get_nro_inport_expe, method=True, string='kind of document',
             type='char', help=""),
@@ -590,8 +590,8 @@ class inherited_invoice(osv.osv):
             _get_date_invoiced, method=True, string='Invoiced date',
             type='date', help=""),
         'get_import_spreadsheets': fields.function(
-            _get_import_spreadsheets, method=True, string='Import spreadsheets',
-            type='date', help=""),
+            _get_import_spreadsheets, method=True,
+            string='Import spreadsheets', type='date', help=""),
         'get_invoice_printer': fields.function(
             _get_invoice_printer, method=True,
             string='Fiscal printer invoice number', type='char', help=""),

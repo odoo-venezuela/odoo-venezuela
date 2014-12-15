@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 {
     "name": "Compromiso de Responsabilidad Social",
@@ -40,9 +40,9 @@ Oficial Nº 39.181 del 19 de mayo de 2009) Decreto Nº 6.708.
 
     El Compromiso de Responsabilidad Social será requerido en todas las ofertas
     presentadas en las modalidades de selección de Contratistas previstas en la
-    Ley de Contrataciones Públicas, así como; en los procedimientos excluidos de
-    la aplicación de éstas, cuyo monto total, incluidos los tributos, superen
-    las dos mil quinientas unidades tributarias (2.500 U.T).
+    Ley de Contrataciones Públicas, así como; en los procedimientos excluidos
+    de la aplicación de éstas, cuyo monto total, incluidos los tributos,
+    superen las dos mil quinientas unidades tributarias (2.500 U.T).
 
 **Artículo 35**
 
@@ -51,10 +51,10 @@ Oficial Nº 39.181 del 19 de mayo de 2009) Decreto Nº 6.708.
     Responsabilidad Social un valor mínimo del uno por ciento (1%) y un valor
     máximo del cinco por ciento (5%) del monto del contrato suscrito, el cual
     asumirán los Contratistas beneficiarios de la adjudicación del mismo. Los
-    órganos o entes contratantes deberán fijar los porcentajes a ser aplicados a
-    cada condición del Compromiso de Responsabilidad Social, así como,
-    establecer categorías o escalas proporcionales con base en los montos de los
-    contratos a ser suscritos.
+    órganos o entes contratantes deberán fijar los porcentajes a ser aplicados
+    a cada condición del Compromiso de Responsabilidad Social, así como,
+    establecer categorías o escalas proporcionales con base en los montos de
+    los contratos a ser suscritos.
 ''',
     "depends": [
                 "base",

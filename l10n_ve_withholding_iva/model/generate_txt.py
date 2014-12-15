@@ -13,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -109,8 +109,8 @@ class txt_iva(osv.osv):
         self.pool.get('res.users').browse(cr, uid, uid,
                                           context=context).company_id.id,
         'type': lambda *a: True,
-        'period_id': lambda self, cr, uid, context: self.period_return(cr, uid,
-                                                                       context),
+        'period_id': lambda self, cr, uid, context: self.period_return(
+            cr, uid, context),
         'name': (lambda self, cr, uid, context:
                  'Withholding Vat ' + time.strftime('%m/%Y'))
     }
@@ -356,8 +356,8 @@ class txt_iva(osv.osv):
                 vendor, buyer = self.get_buyer_vendor(cr, uid, txt, txt_line)
                 period = txt.period_id.name.split('/')
                 period2 = period[0] + period[1]
-                # TODO: use the start date of the period to get the period2 with
-                # the 'YYYYmm'
+                # TODO: use the start date of the period to get the period2
+                # with the 'YYYYmm'
 
                 operation_type = ('V' if txt_line.invoice_id.type in
                                   ['out_invoice', 'out_refund'] else 'C')
@@ -370,8 +370,8 @@ class txt_iva(osv.osv):
                                                                txt_line)
                 voucher_number = self.get_number(
                     cr, uid, txt_line.voucher_id.number, 'vou_number', 14)
-                amount_exempt, amount_untaxed = self.get_amount_exempt_document(
-                    cr, uid, txt_line)
+                amount_exempt, amount_untaxed = \
+                    self.get_amount_exempt_document(cr, uid, txt_line)
                 amount_untaxed = amount_untaxed
                 alicuota = self.get_alicuota(cr, uid, txt_line)
                 amount_total, amount_exempt = self.get_amount_line(

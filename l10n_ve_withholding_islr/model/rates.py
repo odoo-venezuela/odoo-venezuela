@@ -13,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -50,7 +50,8 @@ class islr_rates(osv.osv):
                 if rate.residence:
                     name = 'Persona' + ' ' + 'Juridica' + ' ' + 'Domiciliada'
                 else:
-                    name = 'Persona' + ' ' + 'Juridica' + ' ' + 'No Domiciliada'
+                    name = 'Persona' + ' ' + 'Juridica' + ' ' + \
+                        'No Domiciliada'
             res[rate.id] = name
         return res
 

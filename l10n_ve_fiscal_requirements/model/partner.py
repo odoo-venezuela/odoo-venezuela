@@ -70,7 +70,8 @@ class res_partner(osv.osv):
         of the user company.
         """
         context = context or {}
-        res = {}.fromkeys(ids, self._get_country_code(cr, uid, context=context))
+        res = {}.fromkeys(ids, self._get_country_code(cr, uid,
+                                                      context=context))
         return res
 
     _columns = {
@@ -144,7 +145,8 @@ class res_partner(osv.osv):
 
         for rp_brw in self.browse(cr, uid, ids):
             acc_part_brw = self._find_accounting_partner(rp_brw)
-            if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
+            if (acc_part_brw.country_id
+                    and acc_part_brw.country_id.code != 'VE'):
                 continue
             elif not acc_part_brw.country_id:
                 continue
@@ -193,7 +195,8 @@ class res_partner(osv.osv):
 
         for rp_brw in self.browse(cr, uid, ids):
             acc_part_brw = self._find_accounting_partner(rp_brw)
-            if acc_part_brw.country_id and acc_part_brw.country_id.code != 'VE':
+            if (acc_part_brw.country_id and
+                    acc_part_brw.country_id.code != 'VE'):
                 continue
             elif not acc_part_brw.country_id:
                 continue
@@ -232,8 +235,8 @@ class res_partner(osv.osv):
                     translated_msg = trans._get_source(cr, uid, self._name,
                                                        'constraint', lng, msg)
                 error_msgs.append(
-                    _("Error occurred while validating the field(s) %s: %s") % (
-                        ','.join(field_list), translated_msg)
+                    _("Error occurred while validating the field(s) %s: %s") %
+                    (','.join(field_list), translated_msg)
                 )
                 self._invalids.update(field_list)
         if error_msgs:
@@ -250,7 +253,8 @@ class res_partner(osv.osv):
         #  _('Error ! The partner does not have an invoice address.'), []),
     ]
 
-    def vat_change_fiscal_requirements(self, cr, uid, ids, value, context=None):
+    def vat_change_fiscal_requirements(self, cr, uid, ids, value,
+                                       context=None):
         """ Checks the syntax of the vat
         """
         if context is None:

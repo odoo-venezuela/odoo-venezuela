@@ -41,6 +41,7 @@ Este módulo es para manejar un catálogo de cuentas ejemplo para Venezuela.
                    'account_tax.xml', 'l10n_chart_ve_wizard.xml'],
     "auto_install": False,
     "installable": True,
-    'images': ['images/config_chart_l10n_ve.jpeg', 'images/l10n_ve_chart.jpeg'],
+    'images': ['images/config_chart_l10n_ve.jpeg',
+               'images/l10n_ve_chart.jpeg'],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

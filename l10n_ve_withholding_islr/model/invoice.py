@@ -214,7 +214,8 @@ class account_invoice(osv.osv):
             if row.company_id.propagate_invoice_date_to_income_withholding:
                 values['date_uid'] = row.date_invoice
 
-            islr_wh_doc_id = wh_doc_obj.create(cr, uid, values, context=context)
+            islr_wh_doc_id = wh_doc_obj.create(cr, uid, values,
+                                               context=context)
             self._create_doc_invoices(cr, uid, row.id, islr_wh_doc_id)
 
             self.pool.get('islr.wh.doc').compute_amount_wh(cr, uid,
@@ -320,8 +321,8 @@ class account_invoice(osv.osv):
             if inv_brw.type in ('out_invoice', 'out_refund'):
                 acc = (
                     iwdl_brw.concept_id.property_retencion_islr_receivable and
-                    iwdl_brw.concept_id.property_retencion_islr_receivable.id or
-                    False)
+                    iwdl_brw.concept_id.property_retencion_islr_receivable.id
+                    or False)
             else:
                 acc = (iwdl_brw.concept_id.property_retencion_islr_payable and
                        iwdl_brw.concept_id.property_retencion_islr_payable.id

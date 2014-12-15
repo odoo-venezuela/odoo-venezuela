@@ -10,8 +10,8 @@
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -66,8 +66,8 @@ class account_wh_munici(osv.osv):
         if user.company_id:
             return user.company_id.currency_id.id
         else:
-            return self.pool.get('res.currency').search(cr, uid,
-                                                        [('rate', '=', 1.0)])[0]
+            return self.pool.get('res.currency').search(
+                cr, uid, [('rate', '=', 1.0)])[0]
 
     _name = "account.wh.munici"
     _description = "Local Withholding"

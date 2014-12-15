@@ -113,8 +113,8 @@ class account_invoice_refund(osv.osv_memory):
         for field in res['fields']:
             if field == 'journal_id':
                 journal_select = journal_obj._name_search(
-                    cr, uid, '', [('type', '=', journal_type)], context=context,
-                    limit=None, name_get_uid=1)
+                    cr, uid, '', [('type', '=', journal_type)],
+                    context=context, limit=None, name_get_uid=1)
                 res['fields'][field]['selection'] = journal_select
         return res
 
@@ -199,7 +199,8 @@ class account_invoice_refund(osv.osv_memory):
                 if inv.state in ['draft', 'proforma2', 'cancel']:
                     raise osv.except_osv(
                         _('Error !'),
-                        _('Can not %s draft/proforma/cancel invoice.') % (mode))
+                        _('Can not %s draft/proforma/cancel invoice.') % (
+                            mode))
                 if inv.reconciled and mode in ('cancel', 'modify'):
                     raise osv.except_osv(
                         _('Error !'),
@@ -312,9 +313,9 @@ class account_invoice_refund(osv.osv_memory):
                 if mode == 'modify':
                     invoice = inv_obj.read(
                         cr, uid, [inv.id], [
-                            'name', 'type', 'number', 'supplier_invoice_number',
-                            'comment', 'date_due', 'partner_id',
-                            'partner_insite', 'partner_contact',
+                            'name', 'type', 'number',
+                            'supplier_invoice_number', 'comment', 'date_due',
+                            'partner_id', 'partner_insite', 'partner_contact',
                             'partner_ref', 'payment_term', 'account_id',
                             'currency_id', 'invoice_line', 'tax_line',
                             'journal_id', 'period_id'],
@@ -388,7 +389,8 @@ class account_invoice_refund(osv.osv_memory):
                     orig = self._get_orig(cr, uid, inv,
                                           inv.supplier_invoice_number, context)
                     inv_obj.write(cr, uid, created_inv[0],
-                                  {'origin': orig, 'name': wzd_brw.description},
+                                  {'origin': orig,
+                                   'name': wzd_brw.description},
                                   context=context)
 
                 elif wzd_brw.filter_refund == 'refund':
@@ -415,8 +417,8 @@ class account_invoice_refund(osv.osv_memory):
     def validate_wh(self, cr, uid, ids, context=None):
         """ Method that validate if invoice has non-yet processed withholds.
 
-        return: True: if invoice is does not have wh's or it does have and those
-                      ones are validated.
+        return: True: if invoice is does not have wh's or it does have and
+                      those ones are validated.
                 False: if invoice is does have and those wh's are not yet
                        validated.
 
