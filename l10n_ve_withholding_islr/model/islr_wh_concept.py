@@ -36,8 +36,13 @@ class islr_wh_concept(osv.osv):
     _description = 'Income Withholding Concept'
 
     _columns = {
-        'name': fields.char('Withholding Concept', translate=True, size=256, required=True, help="Name of Withholding Concept,  Example: Honorarios Profesionales, Comisiones a..."),
-        'withholdable': fields.boolean('Withhold', help="Check if  the concept  withholding is withheld or not."),
+        'name': fields.char(
+            'Withholding Concept', translate=True, size=256, required=True,
+            help="Name of Withholding Concept, Example: Honorarios"
+                 " Profesionales, Comisiones a..."),
+        'withholdable': fields.boolean(
+            'Withhold',
+            help="Check if the concept  withholding is withheld or not."),
         'property_retencion_islr_payable': fields.property(
             'account.account',
             type='many2one',
@@ -47,7 +52,9 @@ class islr_wh_concept(osv.osv):
             view_load=True,
             required=False,
             domain="[('type', '=', 'other')]",
-            help="This account will be used as the account where the withheld amounts shall be charged in full (Purchase) of income tax for this concept"),
+            help="This account will be used as the account where the withheld"
+                 " amounts shall be charged in full (Purchase) of income tax"
+                 " for this concept"),
         'property_retencion_islr_receivable': fields.property(
             'account.account',
             type='many2one',
@@ -57,9 +64,14 @@ class islr_wh_concept(osv.osv):
             view_load=True,
             required=False,
             domain="[('type', '=', 'other')]",
-            help="This account will be used as the account where the withheld amounts shall be charged in (Sale) of income tax"),
-        'rate_ids': fields.one2many('islr.rates', 'concept_id', 'Rate', help="Withholding Concept rate", required=False),
-        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft': [('readonly', False)]}, help="Vendor user"),
+            help="This account will be used as the account where the withheld"
+                 " amounts shall be charged in (Sale) of income tax"),
+        'rate_ids': fields.one2many(
+            'islr.rates', 'concept_id', 'Rate',
+            help="Withholding Concept rate", required=False),
+        'user_id': fields.many2one(
+            'res.users', 'Salesman', readonly=True,
+            states={'draft': [('readonly', False)]}, help="Vendor user"),
     }
     _defaults = {
         'withholdable': lambda *a: True,

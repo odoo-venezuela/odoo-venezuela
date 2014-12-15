@@ -50,14 +50,18 @@ class account_invoice_line(osv.osv):
 
     def islr_wh_change_concept(self, cr, uid, ids, context=None):
         '''
-        Generate a new windows to change the income wh concept in current invoice line
+        Generate a new windows to change the income wh concept in current
+        invoice line
         '''
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         obj_model = self.pool.get('ir.model.data')
         ail_brw = self.browse(cr, uid, ids[0], context=context)
         if not ail_brw.invoice_id.state == 'open':
-            raise osv.except_osv(_('Warning!'), _('This Button is meant to be used with Invoices in "Open State"'))
+            raise osv.except_osv(
+                _('Warning!'),
+                _('This Button is meant to be used with Invoices in'
+                  ' "Open State"'))
         model_data_ids = obj_model.search(
             cr, uid, [('model', '=', 'ir.ui.view'),
                       ('name', '=', 'islr_wh_change_concept')])
@@ -114,7 +118,8 @@ class account_invoice_line(osv.osv):
             vals.update({'wh_xml_id': False,
                          'apply_wh': False,
                          })
-        return super(account_invoice_line, self).create(cr, uid, vals, context=context)
+        return super(account_invoice_line, self).create(cr, uid, vals,
+                                                        context=context)
 
 
 class account_invoice(osv.osv):
@@ -165,8 +170,9 @@ class account_invoice(osv.osv):
         doc_inv_obj = self.pool.get('islr.wh.doc.invoices')
         iwhdi_ids = []
         for inv_id in ids:
-            iwhdi_ids.append(doc_inv_obj.create(cr, uid,
-                                                {'invoice_id': inv_id, 'islr_wh_doc_id': islr_wh_doc_id}))
+            iwhdi_ids.append(doc_inv_obj.create(
+                cr, uid, {'invoice_id': inv_id,
+                          'islr_wh_doc_id': islr_wh_doc_id}))
         return iwhdi_ids
 
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
@@ -185,7 +191,8 @@ class account_invoice(osv.osv):
         if row.type in ('out_invoice', 'out_refund'):
             return False
         if row.type in ('in_invoice', 'in_refund') and \
-                rp_obj._find_accounting_partner(row.company_id.partner_id).islr_withholding_agent:
+                rp_obj._find_accounting_partner(
+                    row.company_id.partner_id).islr_withholding_agent:
             res = True
 
         if not res:
@@ -271,15 +278,16 @@ class account_invoice(osv.osv):
                     inv.islr_wh_doc_id.state in (
                         'done') and True or False
                 if not rislr:
-                    raise osv.except_osv(_('Error !'),
-                                         _('''The Document you are trying to
-                                              refund has a income withholding
-                                              "%s" which is not yet validated!''' % inv.islr_wh_doc_id.code))
+                    raise osv.except_osv(
+                        _('Error !'),
+                        _('The Document you are trying to refund has a income'
+                          ' withholding "%s" which is not yet validated!' %
+                          inv.islr_wh_doc_id.code))
         return True
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id, pay_journal_id,
-                        writeoff_acc_id, writeoff_period_id, writeoff_journal_id, date,
-                        name, context=None):
+                        writeoff_acc_id, writeoff_period_id,
+                        writeoff_journal_id, date, name, context=None):
         """ Generate move lines in corresponding account
         @param to_wh: whether or not withheld
         @param period_id: Period
@@ -293,9 +301,10 @@ class account_invoice(osv.osv):
         context = context or {}
         rp_obj = self.pool.get('res.partner')
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh,
-                                                           period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id,
-                                                           writeoff_journal_id, date, name, context=context)
+        res = super(account_invoice, self)._get_move_lines(
+            cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
+            writeoff_period_id, writeoff_journal_id, date, name,
+            context=context)
 
         if not context.get('income_wh', False):
             return res
@@ -309,12 +318,14 @@ class account_invoice(osv.osv):
 
         for iwdl_brw in to_wh:
             if inv_brw.type in ('out_invoice', 'out_refund'):
-                acc = iwdl_brw.concept_id.property_retencion_islr_receivable and \
-                    iwdl_brw.concept_id.property_retencion_islr_receivable.id or \
-                    False
+                acc = (
+                    iwdl_brw.concept_id.property_retencion_islr_receivable and
+                    iwdl_brw.concept_id.property_retencion_islr_receivable.id or
+                    False)
             else:
-                acc = iwdl_brw.concept_id.property_retencion_islr_payable and \
-                    iwdl_brw.concept_id.property_retencion_islr_payable.id or False
+                acc = (iwdl_brw.concept_id.property_retencion_islr_payable and
+                       iwdl_brw.concept_id.property_retencion_islr_payable.id
+                       or False)
             if not acc:
                 raise osv.except_osv(_('Missing Account in Tax!'),
                                      _("Tax [%s] has missing account. "

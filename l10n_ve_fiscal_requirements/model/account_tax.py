@@ -37,5 +37,6 @@ class account_tax(osv.osv):
             ('adicional', 'General Aliquot + Additional')],
             'Aliquot Type',
             required=False,
-            help='Specify the aliquote type for the tax so it can be processed accrordly when the sale/purchase book is generatred'),
+            help='Specify the aliquote type for the tax so it can be processed'
+                 ' accrordly when the sale/purchase book is generatred'),
     }

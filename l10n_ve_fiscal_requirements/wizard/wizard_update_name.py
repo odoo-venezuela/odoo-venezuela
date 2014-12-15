@@ -36,12 +36,16 @@ class wiz_updatename(osv.osv_memory):
         """
         data = self.pool.get('wiz.updatename').read(cr, uid, ids)[0]
         if not data['sure']:
-            raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
+            raise osv.except_osv(
+                _("Error!"),
+                _("Please confirm that you want to do this by checking the"
+                  " option"))
 
         partner_obj = self.pool.get('res.partner')
         name_partner = data['name']
 
-        partner_obj.write(cr, uid, context['active_id'], {'name': name_partner}, context=context)
+        partner_obj.write(cr, uid, context['active_id'],
+                          {'name': name_partner}, context=context)
         return {}
 
     _columns = {
@@ -55,7 +59,8 @@ class wiz_updatename(osv.osv_memory):
         if context is None:
             context = {}
         partner_obj = self.pool.get('res.partner')
-        partner = partner_obj.search(cr, uid, [('id', '=', context['active_id'])])
+        partner = partner_obj.search(cr, uid,
+                                     [('id', '=', context['active_id'])])
         partner_o = partner_obj.browse(cr, uid, partner[0])
         return partner_o and partner_o.name or False
 

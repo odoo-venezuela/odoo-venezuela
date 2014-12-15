@@ -30,16 +30,26 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def split_invoice(self, cr, uid, ids):
-        """ Split the invoice when the lines exceed the maximum set for the company
+        """
+        Split the invoice when the lines exceed the maximum set for the company
         """
         for inv in self.browse(cr, uid, ids):
             inv_id = False
             if inv.company_id.lines_invoice < 1:
-                raise osv.except_osv(_('Error !'), _('Please set an invoice lines value in:\nAdministration->Company->Configuration->Invoice lines'))
+                raise osv.except_osv(
+                    _('Error !'),
+                    _('Please set an invoice lines value in:\n'
+                      'Administration->Company->Configuration->Invoice lines'))
             if inv.type in ["out_invoice", "out_refund"]:
                 if len(inv.invoice_line) > inv.company_id.lines_invoice:
                     lst = []
-                    invoice = self.read(cr, uid, inv.id, ['name', 'type', 'number', 'supplier_invoice_number', 'comment', 'date_due', 'partner_id', 'partner_contact', 'partner_insite', 'partner_ref', 'payment_term', 'account_id', 'currency_id', 'invoice_line', 'tax_line', 'journal_id', 'period_id', "user_id"])
+                    invoice = self.read(
+                        cr, uid, inv.id,
+                        ['name', 'type', 'number', 'supplier_invoice_number',
+                         'comment', 'date_due', 'partner_id', 'partner_contact',
+                         'partner_insite', 'partner_ref', 'payment_term',
+                         'account_id', 'currency_id', 'invoice_line',
+                         'tax_line', 'journal_id', 'period_id', "user_id"])
                     invoice.update({
                         'state': 'draft',
                         'number': False,
@@ -48,15 +58,17 @@ class account_invoice(osv.osv):
                     })
                     # take the id part of the tuple returned for many2one fields
                     invoice.pop('id', None)
-                    for field in ('partner_id',
-                            'account_id', 'currency_id', 'payment_term', 'journal_id', 'period_id', 'user_id'):
+                    for field in ('partner_id', 'account_id', 'currency_id',
+                                  'payment_term', 'journal_id', 'period_id',
+                                  'user_id'):
                         invoice[field] = invoice[field] and invoice[field][0]
 
-                    #~ if hasattr(inv,'sale_ids'):
-                        #~ if self.browse(cr,uid,inv.id,context={}).sale_ids:
-                        #~ invoice.update({
-                        #~ 'sale_ids':[(6,0,[i.id for i in self.browse(cr,uid,inv.id,context={}).sale_ids])]
-                        #~ })
+                    #  if hasattr(inv,'sale_ids'):
+                        #  if self.browse(cr,uid,inv.id,context={}).sale_ids:
+                        #  invoice.update({
+                        #  'sale_ids':[(6,0,[i.id for i in self.browse(
+                        #       cr,uid,inv.id,context={}).sale_ids])]
+                        #  })
 
                     inv_id = self.create(cr, uid, invoice)
                     cont = 0
@@ -65,11 +77,13 @@ class account_invoice(osv.osv):
                         lst.pop(0)
                         cont += 1
                     for il in lst:
-                        self.pool.get('account.invoice.line').write(cr, uid, il.id, {'invoice_id': inv_id})
+                        self.pool.get('account.invoice.line').write(
+                            cr, uid, il.id, {'invoice_id': inv_id})
                     self.button_compute(cr, uid, [inv.id], set_total=True)
             if inv_id:
                 self.button_compute(cr, uid, [inv_id], set_total=True)
-#                wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_open', cr)
+#                wf_service.trg_validate(uid, 'account.invoice', inv_id,
+#                                        'invoice_open', cr)
         return True
 
     def action_date_assign(self, cr, uid, ids, *args):

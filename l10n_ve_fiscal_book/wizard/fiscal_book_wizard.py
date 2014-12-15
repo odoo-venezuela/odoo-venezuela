@@ -44,12 +44,17 @@ class fiscal_book_wizard(osv.osv_memory):
         ids = self.pool.get('account.period').search(
             cr, uid, [('date_start', '<=', date), ('date_stop', '>=', date)])
         if not ids:
-            raise osv.except_osv(_('Error !'), _('No period defined for this'
-            ' date !\nPlease create a fiscal year.'))
+            raise osv.except_osv(
+                _('Error !'),
+                _('No period defined for this date !\nPlease create a'
+                  ' fiscal year.'))
         return ids
 
-    def _same_account_period(self, cr, uid, admin_date, account_date, context=None):
-        return self._get_account_period(cr, uid, admin_date, context) == self._get_account_period(cr, uid, account_date, context)
+    def _same_account_period(self, cr, uid, admin_date, account_date,
+                             context=None):
+        return self._get_account_period(
+            cr, uid, admin_date, context) == self._get_account_period(
+                cr, uid, account_date, context)
 
     def _do_purchase_report(self, cr, uid, data, context=None):
         """
@@ -113,7 +118,8 @@ class fiscal_book_wizard(osv.osv_memory):
             if 'date_document' in inv:
                 if self._same_account_period(cr, uid, inv['date_document'],
                                              inv['date_invoice'], context):
-                    if 'nro_ctrl' in inv and not self._check_retention(data_list, inv['nro_ctrl']):
+                    if 'nro_ctrl' in inv and not self._check_retention(
+                            data_list, inv['nro_ctrl']):
                         data_list.append(
                             self._do_new_record(inv['nro_ctrl'], inv_browse))
                 else:
@@ -152,18 +158,28 @@ class fiscal_book_wizard(osv.osv_memory):
             context = {}
 
         fiscal_book_obj = self.pool.get('fiscal.book')
-        fiscal_book_o = fiscal_book_obj.search(cr, uid, [('id', '=', context['active_id'])])
+        fiscal_book_o = fiscal_book_obj.search(
+            cr, uid, [('id', '=', context['active_id'])])
         fiscal_book_o = fiscal_book_obj.browse(cr, uid, fiscal_book_o[0])
-        res = super(fiscal_book_wizard, self).default_get(cr, uid, field_list, context=context)
+        res = super(fiscal_book_wizard, self).default_get(cr, uid, field_list,
+                                                          context=context)
         res.update({'type': fiscal_book_o.type})
-        res.update({'date_start': fiscal_book_o.period_id and fiscal_book_o.period_id.date_start or ''})
-        res.update({'date_end': fiscal_book_o.period_id and fiscal_book_o.period_id.date_stop or ''})
+        res.update({'date_start':
+                    fiscal_book_o.period_id and
+                    fiscal_book_o.period_id.date_start or ''})
+        res.update({'date_end':
+                    fiscal_book_o.period_id and
+                    fiscal_book_o.period_id.date_stop or ''})
         if fiscal_book_o.fortnight == 'first':
-            date_obj = time.strptime(fiscal_book_o.period_id.date_stop, '%Y-%m-%d')
-            res.update({'date_end': "%0004d-%02d-15" % (date_obj.tm_year, date_obj.tm_mon)})
+            date_obj = time.strptime(fiscal_book_o.period_id.date_stop,
+                                     '%Y-%m-%d')
+            res.update({'date_end': "%0004d-%02d-15" % (
+                date_obj.tm_year, date_obj.tm_mon)})
         elif fiscal_book_o.fortnight == 'second':
-            date_obj = time.strptime(fiscal_book_o.period_id.date_start, '%Y-%m-%d')
-            res.update({'date_start': "%0004d-%02d-16" % (date_obj.tm_year, date_obj.tm_mon)})
+            date_obj = time.strptime(fiscal_book_o.period_id.date_start,
+                                     '%Y-%m-%d')
+            res.update({'date_start': "%0004d-%02d-16" % (date_obj.tm_year,
+                                                          date_obj.tm_mon)})
         return res
 
     def check_report(self, cr, uid, ids, context=None):

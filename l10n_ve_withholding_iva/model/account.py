@@ -29,7 +29,8 @@ from openerp.osv import fields, osv
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     _columns = {
-        'ret': fields.boolean('Withholdable', help="Indicate if the tax must be withheld"),
+        'ret': fields.boolean('Withholdable',
+                              help="Indicate if the tax must be withheld"),
         'wh_vat_collected_account_id': fields.many2one(
             'account.account',
             type='many2one',
@@ -38,7 +39,8 @@ class account_tax(osv.osv):
             method=True,
             view_load=True,
             domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to an Invoice"),
+            help="This account will be used when applying a withhold to an"
+                 " Invoice"),
         'wh_vat_paid_account_id': fields.many2one(
             'account.account',
             type='many2one',
@@ -47,5 +49,6 @@ class account_tax(osv.osv):
             method=True,
             view_load=True,
             domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to a Refund"),
+            help="This account will be used when applying a withhold to a"
+                 " Refund"),
     }

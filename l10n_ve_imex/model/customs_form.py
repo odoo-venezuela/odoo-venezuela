@@ -153,7 +153,8 @@ class customs_form(osv.osv):
         #~ expenses
         for line in f86.cfl_ids:
             debits = []
-            acc_part_brw = rp_obj._find_accounting_partner(line.tax_code.partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(
+                line.tax_code.partner_id)
             if line.tax_code.vat_detail:
                 for vat in line.imex_tax_line:
                     if vat.tax_amount:
@@ -221,14 +222,16 @@ class customs_form(osv.osv):
                 'narration': _('Form 86 # %s\n\tReference: %s\n\tBroker: %s')
                 % (f86.name, f86.ref or '', f86.broker_id.name or ''),
             }
-            lines = self.create_account_move_lines(cr, uid, f86, context=context)
+            lines = self.create_account_move_lines(
+                cr, uid, f86, context=context)
             if lines:
                 move.update({'line_id': lines})
                 move_id = obj_move.create(cr, uid, move, context=context)
                 obj_move.post(cr, uid, [move_id], context=context)
                 if move_id:
                     move_ids.append(move_id)
-                    self.write(cr, uid, f86.id, {'move_id': move_id}, context=context)
+                    self.write(cr, uid, f86.id, {'move_id': move_id},
+                               context=context)
         return move_ids
 
     def button_draft(self, cr, uid, ids, context=None):

@@ -40,8 +40,10 @@ class wh_islr_config(osv.osv_memory):
     def default_get(self, cr, uid, fields_list=None, context=None):
         """ Default value config_logo field
         """
-        defaults = super(wh_islr_config, self).default_get(cr, uid, fields_list=fields_list, context=context)
-        logo = open(addons.get_module_resource('l10n_ve_withholding_islr', 'images', 'playa-medina.jpg'), 'rb')
+        defaults = super(wh_islr_config, self).default_get(
+            cr, uid, fields_list=fields_list, context=context)
+        logo = open(addons.get_module_resource(
+            'l10n_ve_withholding_islr', 'images', 'playa-medina.jpg'), 'rb')
         defaults['config_logo'] = base64.encodestring(logo.read())
         return defaults
 
@@ -62,7 +64,8 @@ class wh_islr_config(osv.osv_memory):
         """
         context = context or {}
         concept_pool = self.pool.get("islr.wh.concept")
-        concept_pool.write(cr, uid, concept_pool.search(cr, uid, [], context=context), {
+        concept_pool.write(
+            cr, uid, concept_pool.search(cr, uid, [], context=context), {
             'property_retencion_islr_payable': purchase,
             'property_retencion_islr_receivable': sale
         }, context=context)
@@ -72,24 +75,34 @@ class wh_islr_config(osv.osv_memory):
         """ Set if is withholding agent or not
         """
         company = self.pool.get('res.users').browse(cr, uid, uid).company_id
-        self.pool.get('res.partner').write(cr, uid, [company.partner_id.id], {'islr_withholding_agent': True})
+        self.pool.get('res.partner').write(
+            cr, uid, [company.partner_id.id], {'islr_withholding_agent': True})
 
     def execute(self, cr, uid, ids, context=None):
         """ Create journals and determinate if is withholding agent or not
         """
         wiz_data = self.read(cr, uid, ids[0], context=context)
         if wiz_data['journal_purchase']:
-            self._create_journal(cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')
+            self._create_journal(
+                cr, uid, wiz_data["journal_purchase"], 'islr_purchase', 'ISLRP')
         if wiz_data['journal_sale']:
-            self._create_journal(cr, uid, wiz_data['journal_sale'], 'islr_sale', 'ISLRS')
+            self._create_journal(
+                cr, uid, wiz_data['journal_sale'], 'islr_sale', 'ISLRS')
         if wiz_data['account_sale'] or wiz_data['account_purchase']:
-            self._update_concepts(cr, uid, wiz_data['account_sale'][0], wiz_data['account_purchase'][0], context=context)
+            self._update_concepts(
+                cr, uid, wiz_data['account_sale'][0],
+                wiz_data['account_purchase'][0], context=context)
         if wiz_data['wh_agent']:
             self._set_wh_agent(cr, uid)
 
     _columns = {
-        'journal_purchase': fields.char("Journal Wh Income Purchase", 64, help="Journal for purchase operations involving Income Withholding"),
-        'journal_sale': fields.char("Journal Wh Income Sale", 64, help="Journal for sale operations involving Income Withholding"),
+        'journal_purchase': fields.char(
+            "Journal Wh Income Purchase", 64,
+            help="Journal for purchase operations involving Income"
+                 " Withholding"),
+        'journal_sale': fields.char(
+            "Journal Wh Income Sale", 64,
+            help="Journal for sale operations involving Income Withholding"),
         'account_purchase': fields.many2one(
             "account.account",
             "Account Income Withholding Purchase",
@@ -100,7 +113,9 @@ class wh_islr_config(osv.osv_memory):
             "Account Income Withholding Sale",
             help="Account for sale operations involving Income Withholding",
         ),
-        'wh_agent': fields.boolean("Income Withholding Agent", help="Check if this company is a income withholding agent"),
+        'wh_agent': fields.boolean(
+            "Income Withholding Agent",
+            help="Check if this company is a income withholding agent"),
     }
 
     _defaults = {

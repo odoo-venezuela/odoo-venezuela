@@ -57,9 +57,10 @@ class account_invoice(osv.osv):
             _get_imex_invoices, method=True,
             type='many2one', relation='customs.form',
             string='Customs form',
-            store={
-                'account.invoice.tax': (_get_inv_from_ait, ['imex_inv_id'], 50),
-            }, help="This is the VAT Withholding Document where this invoice is being withheld"),
+            store={'account.invoice.tax':
+                   (_get_inv_from_ait, ['imex_inv_id'], 50)},
+            help="This is the VAT Withholding Document where this invoice is"
+                 " being withheld"),
         'imex_tax_line': fields.one2many(
             'account.invoice.tax', 'imex_inv_id', 'Vat lines', readonly=True,
             attrs="{'readonly':[('vat_detail','=',True)], \
@@ -71,7 +72,8 @@ class account_invoice(osv.osv):
                                    on Book"),
     }
 
-    def on_change_customs_form_id(self, cr, uid, ids, customs_form_id, context=None):
+    def on_change_customs_form_id(self, cr, uid, ids, customs_form_id,
+                                  context=None):
         context = context or {}
         res = {}
         if customs_form_id:
@@ -106,10 +108,11 @@ class account_invoice_tax(osv.osv):
                                        ondelete='cascade', select=True),
         'partner_id': fields.related('imex_inv_id', 'partner_id',
                                      type='many2one', relation='res.partner',
-                                     string='Supplier', store=False, readonly=True),
-        'supplier_invoice_number': fields.related('imex_inv_id', 'supplier_invoice_number', type='char',
-                                    string='Invoice ref', size=64, store=False,
-                                    readonly=True),
+                                     string='Supplier', store=False,
+                                     readonly=True),
+        'supplier_invoice_number': fields.related(
+            'imex_inv_id', 'supplier_invoice_number', type='char',
+            string='Invoice ref', size=64, store=False, readonly=True),
     }
 
     _defaults = {
@@ -167,7 +170,8 @@ class account_invoice_tax(osv.osv):
             inv_brw = obj_inv.browse(cr, uid, invoice_id, context=context)
             acc_part_brw = rp_obj._find_accounting_partner(inv_brw.partner_id)
             res = {'value': {'partner_id': acc_part_brw.id,
-                             'supplier_invoice_number': inv_brw.supplier_invoice_number}}
+                             'supplier_invoice_number':
+                             inv_brw.supplier_invoice_number}}
         return res
 
     def on_change_tax_id(self, cr, uid, ids, tax_id, context=None):

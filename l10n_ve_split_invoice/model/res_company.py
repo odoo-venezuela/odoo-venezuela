@@ -29,7 +29,9 @@ class res_company(osv.osv):
     _inherit = 'res.company'
 
     _columns = {
-        'lines_invoice': fields.integer('Invoice Lines', required=False, help="Number of lines per invoice"),
+        'lines_invoice': fields.integer(
+            'Invoice Lines', required=False,
+            help="Number of lines per invoice"),
     }
 
     _defaults = {

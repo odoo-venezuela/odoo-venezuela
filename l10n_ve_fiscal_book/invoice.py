@@ -109,7 +109,8 @@ class inherited_invoice(osv.osv):
             ret.update({i: ''})
         if res:
             for inv_brw in res:
-                ret.update({inv_brw.id: inv_brw.number and str(inv_brw.number) or ''})
+                ret.update({inv_brw.id:
+                            inv_brw.number and str(inv_brw.number) or ''})
         return ret
 
     def _get_reference(self, cr, uid, ids, name, args, context=None):
@@ -122,7 +123,8 @@ class inherited_invoice(osv.osv):
             ret.update({i: ''})
         if res:
             for inv_brw in res:
-                ret.update({inv_brw.id: inv_brw.reference and inv_brw.reference or ''})
+                ret.update({inv_brw.id:
+                            inv_brw.reference and inv_brw.reference or ''})
         return ret
 
     def _get_control_number(self, cr, uid, ids, name, args, context=None):
@@ -133,7 +135,8 @@ class inherited_invoice(osv.osv):
         ret = {}
         if res:
             for inv_brw in res:
-                ret.update({inv_brw.id: inv_brw.nro_ctrl and inv_brw.nro_ctrl or ''})
+                ret.update({inv_brw.id:
+                            inv_brw.nro_ctrl and inv_brw.nro_ctrl or ''})
         return ret
 
     def _get_total(self, cr, uid, ids, name, args, context=None):
@@ -179,9 +182,11 @@ class inherited_invoice(osv.osv):
             ret.update({i: ''})
         if invs:
             for inv in invs:
-                if (inv.type == "in_invoice" or inv.type == "out_invoice") and inv.parent_id:
+                if ((inv.type == "in_invoice" or inv.type == "out_invoice")
+                        and inv.parent_id):
                     doc_type = "ND"
-                elif (inv.type == "in_invoice" or inv.type == "in_refund") and inv.expedient:
+                elif ((inv.type == "in_invoice" or inv.type == "in_refund")
+                      and inv.expedient):
                     doc_type = "E"
                 elif inv.type == 'in_refund' or inv.type == 'out_refund':
                     doc_type = "NC"
@@ -201,9 +206,11 @@ class inherited_invoice(osv.osv):
             ret.update({i: ''})
         if invs:
             for inv in invs:
-                if (inv.type == "in_invoice" or inv.type == "out_invoice") and inv.parent_id:
+                if ((inv.type == "in_invoice" or inv.type == "out_invoice")
+                        and inv.parent_id):
                     doc_type = "N/DE"
-                elif (inv.type == "in_invoice" or inv.type == "in_refund") and inv.expedient:
+                elif ((inv.type == "in_invoice" or inv.type == "in_refund")
+                      and inv.expedient):
                     doc_type = "E"
                 elif inv.type == 'in_refund' or inv.type == 'out_refund':
                     doc_type = "N/CR"
@@ -292,9 +299,11 @@ class inherited_invoice(osv.osv):
             data = tax_obj.browse(cr, uid, tax_ids)
 
             for tax in data:
-                if 'SDCF' in tax.name and tax.tax_id.amount == 0.00 and tam >= 2:
+                if ('SDCF' in tax.name and tax.tax_id.amount == 0.00
+                        and tam >= 2):
                     tax_ids.remove(tax.id)
-                elif 'EXENTO' in tax.name and tax.tax_id.amount == 0.00 and tam >= 2:
+                elif ('EXENTO' in tax.name and tax.tax_id.amount == 0.00
+                      and tam >= 2):
                     tax_ids.remove(tax.id)
                 elif tax.tax_id.amount == 0.00 and tam >= 2:
                     tax_ids.remove(tax.id)
@@ -323,7 +332,7 @@ class inherited_invoice(osv.osv):
                     else:
                         ret.update({inv_brw.id: data})
                 else:
-                    #                    data = self._get_doc(cr, uid, ids, name, args, context)
+                    # data = self._get_doc(cr, uid, ids, name, args, context)
                     ret.update({inv_brw.id: data})
         return ret
 
@@ -381,7 +390,9 @@ class inherited_invoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         for inv_brw in res:
-            if inv_brw.parent_id and inv_brw.parent_id.type in ['in_invoice', 'out_invoice'] and inv_brw.parent_id.parent_id:
+            if (inv_brw.parent_id and
+                    inv_brw.parent_id.type in ['in_invoice', 'out_invoice']
+                    and inv_brw.parent_id.parent_id):
                 ret.update({inv_brw.id: inv_brw.parent_id.number})
             else:
                 ret.update({inv_brw.id: ''})
@@ -394,14 +405,17 @@ class inherited_invoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         for inv_brw in res:
-            if inv_brw.parent_id and inv_brw.parent_id.type in ['in_refund', 'out_refund']:
+            if (inv_brw.parent_id
+                    and inv_brw.parent_id.type in ['in_refund', 'out_refund']):
                 ret.update({inv_brw.id: inv_brw.parent_id.number})
             else:
                 ret.update({inv_brw.id: ''})
         return ret
-#                if (inv.type=="in_invoice" or inv.type=="out_invoice") and inv.parent_id:
+#                if ((inv.type=="in_invoice" or inv.type=="out_invoice")
+#                    and inv.parent_id):
 #                    doc_type = "N/DE"
-#                elif (inv.type=="in_invoice" or inv.type=="in_refund") and inv.expedient:
+#                elif ((inv.type=="in_invoice" or inv.type=="in_refund") and
+#                inv.expedient):
 #                    doc_type="E"
 #                elif inv.type=='in_refund' or inv.type=='out_refund':
 #                    doc_type = "N/CR"
@@ -416,7 +430,8 @@ class inherited_invoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         for inv_brw in res:
-            if inv_brw.parent_id and inv_brw.parent_id.type in ['in_invoice', 'out_invoice']:
+            if (inv_brw.parent_id and
+                    inv_brw.parent_id.type in ['in_invoice', 'out_invoice']):
                 ret.update({inv_brw.id: inv_brw.parent_id.number})
             else:
                 ret.update({inv_brw.id: ''})
@@ -431,7 +446,8 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: False})
         for inv_brw in res:
-            if inv_brw.company_id.partner_id.country.id != inv_brw.partner_id.country.id:
+            if (inv_brw.company_id.partner_id.country.id !=
+                    inv_brw.partner_id.country.id):
                 ret.update({inv_brw.id: True})
         return ret
 
@@ -456,9 +472,9 @@ class inherited_invoice(osv.osv):
         for i in ids:
             ret.update({i: []})
         for inv in ids:
-            isp_ids = self.search(cr, uid, [('affected_invoice', '=', inv),
-                                            ('state', 'in', ['done', 'paid', 'open'])
-                                            ])
+            isp_ids = self.search(cr, uid, [
+                ('affected_invoice', '=', inv),
+                ('state', 'in', ['done', 'paid', 'open'])])
 #            print isp_ids
             if isp_ids:
                 res = self.browse(cr, uid, isp_ids)
@@ -491,68 +507,97 @@ class inherited_invoice(osv.osv):
         return ret
 
     _columns = {
-        'get_date_document': fields.function(_get_date_document, method=True, string='Document date', type='date',
-                            help=""),
-        'get_date_invoice': fields.function(_get_date_invoice, method=True, string='Invoice date', type='date',
-                            help=""),
-        'get_partner_name': fields.function(_get_name, method=True, string='Partner Name', type='char',
-                            help=""),
-        'get_partner_vat': fields.function(_get_vat, method=True, string='Partner vat', type='char',
-                            help=""),
-        'get_reference': fields.function(_get_inv_number, method=True, string='Invoice number', type='char',
-                            help=""),
-        'get_number': fields.function(_get_control_number, method=True, string='Control number', type='char',
-                            help=""),
-        'get_total': fields.function(_get_total, method=True, string='Invoice total', type='float',
-                            help=""),
-        'get_wh_number': fields.function(_get_wh_number, method=True, string='Wh document number', type='char',
-                            help=""),
-        'get_doc': fields.function(_get_doc, method=True, string='Transaction Type', type='char',
-                            help=""),
-        'get_t_doc': fields.function(_get_t_doc, method=True, string='Document Type', type='char',
-                            help=""),
-        'get_parent': fields.function(_get_invoice_affected, method=True, string='Parent invoice', type='char',
-                            help=""),
-        'get_v_sdcf': fields.function(_get_v_sdcf, method=True, string='SDCF', type='float',
-                            help=""),
-        'get_v_exent': fields.function(_get_v_exent, method=True, string='Amount excempt', type='float',
-                            help=""),
-        'get_tax_line': fields.function(_get_inv_tax_line, method=True, string='Tax line', type='char',
-                            help=""),
-        #        'get_parent': fields.function(_get_parent, method=True, string='kind of document', type='char',
-        #                            help=""),
-        'get_lang': fields.function(_get_lang, method=True, string='Language', type='char',
-                            help=""),
-        'get_taxes': fields.function(_get_taxes, method=True, string='Invoice Taxes', type='char',
-                            help=""),
-        'get_papel_anulado': fields.function(_get_papel_anulado, method=True, string='Transaction type', type='char',
-                            help=""),
-        'get_nro_inport_form': fields.function(_get_nro_inport_form, method=True, string='Import form number', type='char',
-                            help=""),
-        'get_nro_inport_expe': fields.function(_get_nro_inport_expe, method=True, string='Import file number', type='char',
-                            help=""),
-        'get_vat_subjected': fields.function(_get_vat_subjected, method=True, string='Vat subjected', type='boolean',
-                            help=""),
-        'get_debit_affected': fields.function(_get_debit_affected, method=True, string='Debit notes affected', type='char',
-                            help=""),
-        'get_credit_affected': fields.function(_get_credit_affected, method=True, string='Credit notes affected', type='char',
-                            help=""),
-        'get_import_form': fields.function(_get_reference, method=True, string='kind of document', type='char',
-                            help=""),
-        'get_import_exp': fields.function(_get_nro_inport_expe, method=True, string='kind of document', type='char',
-                            help=""),
-        'get_is_imported': fields.function(_get_is_imported, method=True, string='Is an import', type='boolean',
-                            help=""),
-        'get_date_imported': fields.function(_get_date_imported, method=True, string='Imported date', type='date',
-                            help=""),
-        'get_date_invoiced': fields.function(_get_date_invoiced, method=True, string='Invoiced date', type='date',
-                            help=""),
-        'get_import_spreadsheets': fields.function(_get_import_spreadsheets, method=True, string='Import spreadsheets', type='date',
-                            help=""),
-        'get_invoice_printer': fields.function(_get_invoice_printer, method=True, string='Fiscal printer invoice number', type='char',
-                            help=""),
-        'get_fiscal_printer': fields.function(_get_fiscal_printer, method=True, string='Fiscal machine number', type='char',
-                            help=""),
+        'get_date_document': fields.function(
+            _get_date_document, method=True, string='Document date',
+            type='date', help=""),
+        'get_date_invoice': fields.function(
+            _get_date_invoice, method=True, string='Invoice date', type='date',
+            help=""),
+        'get_partner_name': fields.function(
+            _get_name, method=True, string='Partner Name', type='char',
+            help=""),
+        'get_partner_vat': fields.function(
+            _get_vat, method=True, string='Partner vat', type='char',
+            help=""),
+        'get_reference': fields.function(
+            _get_inv_number, method=True, string='Invoice number', type='char',
+            help=""),
+        'get_number': fields.function(
+            _get_control_number, method=True, string='Control number',
+            type='char', help=""),
+        'get_total': fields.function(
+            _get_total, method=True, string='Invoice total', type='float',
+            help=""),
+        'get_wh_number': fields.function(
+            _get_wh_number, method=True, string='Wh document number',
+            type='char', help=""),
+        'get_doc': fields.function(
+            _get_doc, method=True, string='Transaction Type', type='char',
+            help=""),
+        'get_t_doc': fields.function(
+            _get_t_doc, method=True, string='Document Type', type='char',
+            help=""),
+        'get_parent': fields.function(
+            _get_invoice_affected, method=True, string='Parent invoice',
+            type='char', help=""),
+        'get_v_sdcf': fields.function(
+            _get_v_sdcf, method=True, string='SDCF', type='float', help=""),
+        'get_v_exent': fields.function(
+            _get_v_exent, method=True, string='Amount excempt', type='float',
+            help=""),
+        'get_tax_line': fields.function(
+            _get_inv_tax_line, method=True, string='Tax line', type='char',
+            help=""),
+        #   'get_parent': fields.function(_get_parent, method=True,
+        #       string='kind of document', type='char', help=""),
+        'get_lang': fields.function(
+            _get_lang, method=True, string='Language', type='char',
+            help=""),
+        'get_taxes': fields.function(
+            _get_taxes, method=True, string='Invoice Taxes', type='char',
+            help=""),
+        'get_papel_anulado': fields.function(
+            _get_papel_anulado, method=True, string='Transaction type',
+            type='char', help=""),
+        'get_nro_inport_form': fields.function(
+            _get_nro_inport_form, method=True, string='Import form number',
+            type='char', help=""),
+        'get_nro_inport_expe': fields.function(
+            _get_nro_inport_expe, method=True, string='Import file number',
+            type='char', help=""),
+        'get_vat_subjected': fields.function(
+            _get_vat_subjected, method=True, string='Vat subjected',
+            type='boolean', help=""),
+        'get_debit_affected': fields.function(
+            _get_debit_affected, method=True, string='Debit notes affected',
+            type='char', help=""),
+        'get_credit_affected': fields.function(
+            _get_credit_affected, method=True, string='Credit notes affected',
+            type='char', help=""),
+        'get_import_form': fields.function(
+            _get_reference, method=True, string='kind of document', type='char',
+            help=""),
+        'get_import_exp': fields.function(
+            _get_nro_inport_expe, method=True, string='kind of document',
+            type='char', help=""),
+        'get_is_imported': fields.function(
+            _get_is_imported, method=True, string='Is an import',
+            type='boolean', help=""),
+        'get_date_imported': fields.function(
+            _get_date_imported, method=True, string='Imported date',
+            type='date', help=""),
+        'get_date_invoiced': fields.function(
+            _get_date_invoiced, method=True, string='Invoiced date',
+            type='date', help=""),
+        'get_import_spreadsheets': fields.function(
+            _get_import_spreadsheets, method=True, string='Import spreadsheets',
+            type='date', help=""),
+        'get_invoice_printer': fields.function(
+            _get_invoice_printer, method=True,
+            string='Fiscal printer invoice number', type='char', help=""),
+        'get_fiscal_printer': fields.function(
+            _get_fiscal_printer, method=True, string='Fiscal machine number',
+            type='char', help=""),
     }
 
 inherited_invoice()

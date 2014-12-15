@@ -44,7 +44,8 @@ class account_invoice(osv.osv):
         the state of the book is in cancel. """
         context = context or {}
         for inv_brw in self.browse(cr, uid, ids, context=context):
-            if not inv_brw.fb_id or (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel'):
+            if (not inv_brw.fb_id or
+                    (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel')):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:

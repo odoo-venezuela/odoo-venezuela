@@ -65,30 +65,54 @@ class txt_iva(osv.osv):
         return res
 
     _columns = {
-        'name': fields.char('Description', 128, required=True, select=True, help="Description about statement of withholding income"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, readonly=True, states={'draft': [('readonly', False)]}, help='Company'),
+        'name': fields.char(
+            'Description', 128, required=True, select=True,
+            help="Description about statement of withholding income"),
+        'company_id': fields.many2one(
+            'res.company', 'Company', required=True, readonly=True,
+            states={'draft': [('readonly', False)]}, help='Company'),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
         ], 'Estado', select=True, readonly=True, help="proof status"),
-        'period_id': fields.many2one('account.period', 'Period', required=True, readonly=True, states={'draft': [('readonly', False)]}, help='fiscal period'),
-        'type': fields.boolean('Retention Suppliers?', required=True, states={'draft': [('readonly', False)]}, help="Select the type of retention to make"),
-        'date_start': fields.date('Begin Date', required=True, states={'draft': [('readonly', False)]}, help="Begin date of period"),
-        'date_end': fields.date('End date', required=True, states={'draft': [('readonly', False)]}, help="End date of period"),
-        'txt_ids': fields.one2many('txt.iva.line', 'txt_id', readonly=True, states={'draft': [('readonly', False)]}, help='Txt field lines of ar required by SENIAT for VAT withholding'),
-        'amount_total_ret': fields.function(_get_amount_total, method=True, digits=(16, 2), readonly=True, string='Withholding total amount', help="Monto Total Retenido"),
-        'amount_total_base': fields.function(_get_amount_total_base, method=True, digits=(16, 2), readonly=True, string='Taxable total amount', help="Total de la Base Imponible"),
+        'period_id': fields.many2one(
+            'account.period', 'Period', required=True, readonly=True,
+            states={'draft': [('readonly', False)]}, help='fiscal period'),
+        'type': fields.boolean(
+            'Retention Suppliers?', required=True,
+            states={'draft': [('readonly', False)]},
+            help="Select the type of retention to make"),
+        'date_start': fields.date(
+            'Begin Date', required=True,
+            states={'draft': [('readonly', False)]},
+            help="Begin date of period"),
+        'date_end': fields.date(
+            'End date', required=True, states={'draft': [('readonly', False)]},
+            help="End date of period"),
+        'txt_ids': fields.one2many(
+            'txt.iva.line', 'txt_id', readonly=True,
+            states={'draft': [('readonly', False)]},
+            help='Txt field lines of ar required by SENIAT for'
+                 ' VAT withholding'),
+        'amount_total_ret': fields.function(
+            _get_amount_total, method=True, digits=(16, 2), readonly=True,
+            string='Withholding total amount', help="Monto Total Retenido"),
+        'amount_total_base': fields.function(
+            _get_amount_total_base, method=True, digits=(16, 2), readonly=True,
+            string='Taxable total amount', help="Total de la Base Imponible"),
     }
     _defaults = {
         'state': lambda *a: 'draft',
         'company_id': lambda self, cr, uid, context:
         self.pool.get('res.users').browse(cr, uid, uid,
-                    context=context).company_id.id,
+                                          context=context).company_id.id,
         'type': lambda *a: True,
-        'period_id': lambda self, cr, uid, context: self.period_return(cr, uid, context),
-        'name': lambda self, cr, uid, context: 'Withholding Vat ' + time.strftime('%m/%Y')
+        'period_id': lambda self, cr, uid, context: self.period_return(cr, uid,
+                                                                       context),
+        'name': (lambda self, cr, uid, context:
+                 'Withholding Vat ' + time.strftime('%m/%Y'))
     }
 
     def period_return(self, cr, uid, context=None):
@@ -109,7 +133,8 @@ class txt_iva(osv.osv):
         context = context or {}
         if not len(ids):
             return []
-        res = [(r['id'], r['name']) for r in self.read(cr, uid, ids, ['name'], context)]
+        res = [(r['id'], r['name'])
+               for r in self.read(cr, uid, ids, ['name'], context)]
         return res
 
     def action_anular(self, cr, uid, ids, context=None):
@@ -150,9 +175,19 @@ class txt_iva(osv.osv):
             txt_iva_obj.unlink(cr, uid, txt_ids)
 
         if txt_brw.type:
-            voucher_ids = voucher_obj.search(cr, uid, [('date_ret', '>=', txt_brw.date_start), ('date_ret', '<=', txt_brw.date_end), ('period_id', '=', txt_brw.period_id.id), ('state', '=', 'done'), ('type', 'in', ['in_invoice', 'in_refund'])])
+            voucher_ids = voucher_obj.search(
+                cr, uid, [('date_ret', '>=', txt_brw.date_start),
+                          ('date_ret', '<=', txt_brw.date_end),
+                          ('period_id', '=', txt_brw.period_id.id),
+                          ('state', '=', 'done'),
+                          ('type', 'in', ['in_invoice', 'in_refund'])])
         else:
-            voucher_ids = voucher_obj.search(cr, uid, [('date_ret', '>=', txt_brw.date_start), ('date_ret', '<=', txt_brw.date_end), ('period_id', '=', txt_brw.period_id.id), ('state', '=', 'done'), ('type', 'in', ['out_invoice', 'out_refund'])])
+            voucher_ids = voucher_obj.search(
+                cr, uid, [('date_ret', '>=', txt_brw.date_start),
+                          ('date_ret', '<=', txt_brw.date_end),
+                          ('period_id', '=', txt_brw.period_id.id),
+                          ('state', '=', 'done'),
+                          ('type', 'in', ['out_invoice', 'out_refund'])])
 
         for voucher in voucher_obj.browse(cr, uid, voucher_ids):
             acc_part_id = rp_obj._find_accounting_partner(voucher.partner_id)
@@ -189,7 +224,8 @@ class txt_iva(osv.osv):
         inv_type = '03'
         if txt_line.invoice_id.type in ['out_invoice', 'in_invoice']:
             inv_type = '01'
-        elif txt_line.invoice_id.type in ['out_invoice', 'in_invoice'] and txt_line.invoice_id.parent_id:
+        elif (txt_line.invoice_id.type in ['out_invoice', 'in_invoice']
+              and txt_line.invoice_id.parent_id):
             inv_type = '02'
         return inv_type
 
@@ -199,7 +235,8 @@ class txt_iva(osv.osv):
         """
         context = context or {}
         number = '0'
-        if txt_line.invoice_id.type in ['in_invoice', 'in_refund'] and txt_line.invoice_id.parent_id:
+        if (txt_line.invoice_id.type in ['in_invoice', 'in_refund']
+                and txt_line.invoice_id.parent_id):
             number = txt_line.invoice_id.parent_id.supplier_invoice_number
         elif txt_line.invoice_id.parent_id:
             number = txt_line.invoice_id.parent_id.number
@@ -223,7 +260,8 @@ class txt_iva(osv.osv):
                     result = i + result
         return result[::-1].strip()
 
-    def get_document_number(self, cr, uid, ids, txt_line, inv_type, context=None):
+    def get_document_number(self, cr, uid, ids, txt_line, inv_type,
+                            context=None):
         """ Return the number o reference of the invoice into txt line
         @param txt_line: One line of the current txt document
         @param inv_type: invoice type into txt line
@@ -232,15 +270,23 @@ class txt_iva(osv.osv):
         number = 0
         if txt_line.invoice_id.type in ['in_invoice', 'in_refund']:
             if not txt_line.invoice_id.supplier_invoice_number:
-                raise osv.except_osv(_('Invalid action !'), _("Unable to make txt file, because the bill has no reference number free!"))
+                raise osv.except_osv(
+                    _('Invalid action !'),
+                    _("Unable to make txt file, because the bill has no"
+                      " reference number free!"))
             else:
-                number = self.get_number(cr, uid, txt_line.invoice_id.supplier_invoice_number.strip(), inv_type, 20)
+                number = self.get_number(
+                    cr, uid,
+                    txt_line.invoice_id.supplier_invoice_number.strip(),
+                    inv_type, 20)
         elif txt_line.invoice_id.number:
-            number = self.get_number(cr, uid, txt_line.invoice_id.number.strip(), inv_type, 20)
+            number = self.get_number(
+                cr, uid, txt_line.invoice_id.number.strip(), inv_type, 20)
         return number
 
     def get_amount_exempt_document(self, cr, uid, txt_line):
-        """ Return total amount not entitled to tax credit and the remaining amounts
+        """ Return total amount not entitled to tax credit and the remaining
+        amounts
         @param txt_line: One line of the current txt document
         """
         tax = 0
@@ -259,8 +305,10 @@ class txt_iva(osv.osv):
         @param txt_line: One line of the current txt document
         """
         rp_obj = self.pool.get('res.partner')
-        vat_company = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
-        vat_partner = rp_obj._find_accounting_partner(txt_line.partner_id).vat[2:]
+        vat_company = rp_obj._find_accounting_partner(
+            txt.company_id.partner_id).vat[2:]
+        vat_partner = rp_obj._find_accounting_partner(
+            txt_line.partner_id).vat[2:]
         if txt_line.invoice_id.type in ['out_invoice', 'out_refund']:
             vendor = vat_company
             buyer = vat_partner
@@ -283,7 +331,8 @@ class txt_iva(osv.osv):
 
         if ali_max == int(txt_line.tax_wh_iva_id.tax_id.amount * 100):
             exempt = amount_exempt
-        total = txt_line.tax_wh_iva_id.base + txt_line.tax_wh_iva_id.amount + exempt
+        total = (txt_line.tax_wh_iva_id.base + txt_line.tax_wh_iva_id.amount +
+                 exempt)
         return total, exempt
 
     def get_alicuota(self, cr, uid, txt_line):
@@ -299,37 +348,51 @@ class txt_iva(osv.osv):
         txt_string = ''
         rp_obj = self.pool.get('res.partner')
         for txt in self.browse(cr, uid, ids, context):
-            vat = rp_obj._find_accounting_partner(txt.company_id.partner_id).vat[2:]
+            vat = rp_obj._find_accounting_partner(
+                txt.company_id.partner_id).vat[2:]
             vat = vat
             for txt_line in txt.txt_ids:
 
                 vendor, buyer = self.get_buyer_vendor(cr, uid, txt, txt_line)
                 period = txt.period_id.name.split('/')
                 period2 = period[0] + period[1]
-                # TODO: use the start date of the period to get the period2 with the 'YYYYmm'
+                # TODO: use the start date of the period to get the period2 with
+                # the 'YYYYmm'
 
-                operation_type = 'V' if txt_line.invoice_id.type in ['out_invoice', 'out_refund'] else 'C'
+                operation_type = ('V' if txt_line.invoice_id.type in
+                                  ['out_invoice', 'out_refund'] else 'C')
                 document_type = self.get_type_document(cr, uid, txt_line)
-                document_number = self.get_document_number(cr, uid, ids, txt_line, 'inv_number')
-                control_number = self.get_number(cr, uid, txt_line.invoice_id.nro_ctrl, 'inv_ctrl', 20)
-                document_affected = self.get_document_affected(cr, uid, txt_line)
-                voucher_number = self.get_number(cr, uid, txt_line.voucher_id.number, 'vou_number', 14)
-                amount_exempt, amount_untaxed = self.get_amount_exempt_document(cr, uid, txt_line)
+                document_number = self.get_document_number(
+                    cr, uid, ids, txt_line, 'inv_number')
+                control_number = self.get_number(
+                    cr, uid, txt_line.invoice_id.nro_ctrl, 'inv_ctrl', 20)
+                document_affected = self.get_document_affected(cr, uid,
+                                                               txt_line)
+                voucher_number = self.get_number(
+                    cr, uid, txt_line.voucher_id.number, 'vou_number', 14)
+                amount_exempt, amount_untaxed = self.get_amount_exempt_document(
+                    cr, uid, txt_line)
                 amount_untaxed = amount_untaxed
                 alicuota = self.get_alicuota(cr, uid, txt_line)
-                amount_total, amount_exempt = self.get_amount_line(cr, uid, txt_line, amount_exempt)
+                amount_total, amount_exempt = self.get_amount_line(
+                    cr, uid, txt_line, amount_exempt)
 
-                txt_string = txt_string + buyer + '\t' + period2.strip() + '\t'\
-                    + txt_line.invoice_id.date_invoice + '\t' + operation_type + '\t' + document_type + '\t' + vendor + '\t'\
-                    + document_number + '\t' + control_number + '\t' + str(round(amount_total, 2)) + '\t'\
-                    + str(round(txt_line.untaxed, 2)) + '\t'\
-                    + str(round(txt_line.amount_withheld, 2)) + '\t' + document_affected + '\t' + voucher_number + '\t'\
-                    + str(round(amount_exempt, 2)) + '\t' + str(alicuota) + '\t' + '0'\
-                    + '\n'
+                txt_string = (
+                    txt_string + buyer + '\t' + period2.strip() + '\t'
+                    + txt_line.invoice_id.date_invoice + '\t' + operation_type
+                    + '\t' + document_type + '\t' + vendor + '\t'
+                    + document_number + '\t' + control_number + '\t'
+                    + str(round(amount_total, 2)) + '\t'
+                    + str(round(txt_line.untaxed, 2)) + '\t'
+                    + str(round(txt_line.amount_withheld, 2)) + '\t'
+                    + document_affected + '\t' + voucher_number + '\t'
+                    + str(round(amount_exempt, 2)) + '\t' + str(alicuota)
+                    + '\t' + '0' + '\n')
         return txt_string
 
     def _write_attachment(self, cr, uid, ids, root, context=None):
-        """ Encrypt txt, save it to the db and view it on the client as an attachment
+        """ Encrypt txt, save it to the db and view it on the client as an
+        attachment
         @param root: location to save document
         """
         context = context or {}
@@ -354,13 +417,25 @@ class txt_iva_line(osv.osv):
     _name = "txt.iva.line"
 
     _columns = {
-        'partner_id': fields.many2one('res.partner', 'Buyer/Seller', help="Natural or juridical person that generates the Invoice, Credit Note, Debit Note or C ertification (seller)"),
-        'invoice_id': fields.many2one('account.invoice', 'Bill/ND/NC', help="Date of invoice, credit note, debit note or certificate, I mportación Statement"),
-        'voucher_id': fields.many2one('account.wh.iva', 'Tax Withholding', help="Withholding of Value Added Tax (VAT)"),
-        'amount_withheld': fields.float('Amount Withheld', help='amount to withhold'),
-        'untaxed': fields.float('Untaxed', help='Untaxed amount'),
-        'txt_id': fields.many2one('txt.iva', 'Generate-Document txt VAT', help='withholding lines'),
-        'tax_wh_iva_id': fields.many2one('account.wh.iva.line.tax', 'Tax Wh Iva Line'),
+        'partner_id': fields.many2one(
+            'res.partner', 'Buyer/Seller',
+            help="Natural or juridical person that generates the Invoice, "
+                 "Credit Note, Debit Note or C ertification (seller)"),
+        'invoice_id': fields.many2one(
+            'account.invoice', 'Bill/ND/NC',
+            help="Date of invoice, credit note, debit note or certificate,"
+                 " I mportación Statement"),
+        'voucher_id': fields.many2one(
+            'account.wh.iva', 'Tax Withholding',
+            help="Withholding of Value Added Tax (VAT)"),
+        'amount_withheld': fields.float(
+            'Amount Withheld', help='amount to withhold'),
+        'untaxed': fields.float(
+            'Untaxed', help='Untaxed amount'),
+        'txt_id': fields.many2one(
+            'txt.iva', 'Generate-Document txt VAT', help='withholding lines'),
+        'tax_wh_iva_id': fields.many2one(
+            'account.wh.iva.line.tax', 'Tax Wh Iva Line'),
     }
     _rec_name = 'partner_id'
 

@@ -33,7 +33,8 @@ class update_info_partner(osv.osv_memory):
         cr.execute('''SELECT id FROM res_partner WHERE vat ilike 'VE%';''')
         record = cr.fetchall()
         pids = [item[0] for item in record]
-        seniat_url_obj.connect_seniat(cr, uid, pids, context=context, all_rif=True)
+        seniat_url_obj.connect_seniat(cr, uid, pids, context=context,
+                                      all_rif=True)
         return{}
 
 

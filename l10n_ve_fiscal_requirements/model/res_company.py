@@ -31,9 +31,16 @@ from openerp.osv import fields, osv
 class res_company(osv.osv):
     _inherit = 'res.company'
     _columns = {
-        'jour_id': fields.many2one('account.journal', 'Journal', required=False, help="Default journal for damaged invoices"),
-        'acc_id': fields.many2one('account.account', 'Account', required=False, help="Default account used for invoices and lines from damaged invoices"),
-        'printer_fiscal': fields.boolean('Manages fiscal printer', help='Indicates that the company can operate a fiscal printer'),
+        'jour_id': fields.many2one(
+            'account.journal', 'Journal', required=False,
+            help="Default journal for damaged invoices"),
+        'acc_id': fields.many2one(
+            'account.account', 'Account', required=False,
+            help="Default account used for invoices and lines from damaged"
+                 " invoices"),
+        'printer_fiscal': fields.boolean(
+            'Manages fiscal printer',
+            help='Indicates that the company can operate a fiscal printer'),
     }
 
     def create(self, cr, uid, vals, context=None):
@@ -53,7 +60,8 @@ class res_company(osv.osv):
         """
         context = context or {}
         context.update({'create_company': True})
-        return super(res_company, self).write(cr, uid, ids, values, context=context)
+        return super(res_company, self).write(cr, uid, ids, values,
+                                              context=context)
 
 
 res_company()

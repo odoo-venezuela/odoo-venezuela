@@ -129,7 +129,8 @@ class seniat_url(osv.osv):
         return str_error
 
     def _parse_dom(self, cr, uid, dom, rif, url_seniat, context=None):
-        """ This function extracts the information partner of the string and returns
+        """
+        This function extracts the information partner of the string and returns
         """
         context = context or {}
         rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
@@ -170,7 +171,8 @@ class seniat_url(osv.osv):
             else:
                 return False
         else:
-            if xml_data.find('450') >= 0 or xml_data.find('452') >= 0 or xml_data.find("404") >= 0:
+            if (xml_data.find('450') >= 0 or xml_data.find('452') >= 0
+                    or xml_data.find("404") >= 0):
                 return True
             else:
                 return False

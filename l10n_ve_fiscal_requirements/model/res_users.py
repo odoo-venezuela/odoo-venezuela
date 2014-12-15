@@ -49,6 +49,7 @@ class res_users(osv.osv):
         """
         context = context or {}
         context.update({'create_company': True})
-        return super(res_users, self).write(cr, uid, ids, values, context=context)
+        return super(res_users, self).write(cr, uid, ids, values,
+                                            context=context)
 
 res_users()

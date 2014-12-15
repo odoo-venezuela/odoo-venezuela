@@ -38,11 +38,15 @@ class wiz_nroctrl(osv.osv_memory):
             context = {}
         data = self.pool.get('wiz.nroctrl').read(cr, uid, ids)[0]
         if not data['sure']:
-            raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
+            raise osv.except_osv(
+                _("Error!"),
+                _("Please confirm that you want to do this by checking the"
+                  " option"))
         inv_obj = self.pool.get('account.invoice')
         n_ctrl = data['name']
 
-        inv_obj.write(cr, uid, context.get('active_id'), {'nro_ctrl': n_ctrl}, context=context)
+        inv_obj.write(cr, uid, context.get('active_id'), {'nro_ctrl': n_ctrl},
+                      context=context)
         return {}
 
     _columns = {

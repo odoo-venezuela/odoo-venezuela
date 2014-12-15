@@ -27,11 +27,21 @@ class search_info_partner_seniat(osv.osv_memory):
 
     _name = "search.info.partner.seniat"
     _columns = {
-        'vat': fields.char('ID Number (Cedula, Passport, VAT Number)', size=64, help='The VAT number must be in this format J1234567890, if you are looking for a cedula 12345678 and passport D123456789', required=True),
+        'vat': fields.char(
+            'ID Number (Cedula, Passport, VAT Number)', size=64,
+            help='The VAT number must be in this format J1234567890, if you are'
+                 ' looking for a cedula 12345678 and passport D123456789',
+            required=True),
         'name': fields.char('Partner', size=256, help='Partner name'),
-        'wh_iva_agent': fields.boolean('Withholding Agent', help='It is withholding agent'),
-        'wh_iva_rate': fields.float('Percent of withholding', help='What is the percentil of withholding that you must to apply to this supplier if you are withholding agent'),
-        'vat_subjected': fields.boolean('Pay VAY', help='Pay VAT, in spanish known as : Contribuyente formal'),
+        'wh_iva_agent': fields.boolean(
+            'Withholding Agent', help='It is withholding agent'),
+        'wh_iva_rate': fields.float(
+            'Percent of withholding',
+            help='What is the percentil of withholding that you must to apply'
+                 ' to this supplier if you are withholding agent'),
+        'vat_subjected': fields.boolean(
+            'Pay VAY',
+            help='Pay VAT, in spanish known as : Contribuyente formal'),
     }
 
     def search_partner_seniat(self, cr, uid, ids, context=None):
@@ -43,7 +53,9 @@ class search_info_partner_seniat(osv.osv_memory):
         su_obj = self.pool.get('seniat.url')
         rp_obj = self.pool.get('res.partner')
         vat = this.vat.upper()
-        res = {'name': _('The requested contributor does not exist'), 'vat_subjected': False, 'vat': vat, 'wh_iva_agent': False, 'wh_iva_rate': 0.0}
+        res = {'name': _('The requested contributor does not exist'),
+               'vat_subjected': False, 'vat': vat, 'wh_iva_agent': False,
+               'wh_iva_rate': 0.0}
 
         if 'VE' in vat:
             vat = vat[2:]

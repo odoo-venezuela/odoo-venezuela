@@ -40,17 +40,23 @@ class split_invoice_config(osv.osv_memory):
     def default_get(self, cr, uid, fields_list=None, context=None):
         """ Default value to the config_logo field
         """
-        defaults = super(split_invoice_config, self).default_get(cr, uid, fields_list=fields_list, context=context)
-        logo = open(addons.get_module_resource('l10n_ve_split_invoice', 'images', 'puente-maracaibo.jpg'), 'rb')
+        defaults = super(split_invoice_config, self).default_get(
+            cr, uid, fields_list=fields_list, context=context)
+        logo = open(addons.get_module_resource(
+            'l10n_ve_split_invoice', 'images', 'puente-maracaibo.jpg'), 'rb')
         defaults['config_logo'] = base64.encodestring(logo.read())
         return defaults
 
     def execute(self, cr, uid, ids, context=None):
-        """ In this method I will configure the maximum number of lines in your invoices.
+        """
+        In this method I will configure the maximum number of lines in your
+        invoices.
         """
         wiz_data = self.browse(cr, uid, ids[0])
         if wiz_data.name < 1:
-            raise osv.except_osv(_('Error !'), _('The number of customer invoice lines must be at least one'))
+            raise osv.except_osv(
+                _('Error !'),
+                _('The number of customer invoice lines must be at least one'))
         company = self.pool.get('res.users').browse(cr, uid, uid).company_id
         company_obj = self.pool.get('res.company')
         company_id = company_obj.search(cr, uid, [('id', '=', company.id)])
@@ -58,7 +64,10 @@ class split_invoice_config(osv.osv_memory):
         company_obj.write(cr, uid, company_id, data)
 
     _columns = {
-        'name': fields.integer('Max Invoice Lines', required=True, help='Select the maximum number of lines in your customer invoices'),
+        'name': fields.integer(
+            'Max Invoice Lines', required=True,
+            help='Select the maximum number of lines in your customer'
+                 ' invoices'),
     }
     _defaults = {
         'name': 50,

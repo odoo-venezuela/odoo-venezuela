@@ -61,21 +61,44 @@ class islr_xml_wh_doc(osv.osv):
         return res
 
     _columns = {
-        'name': fields.char('Description', 128, required=True, select=True, help="Description about statement of income withholding"),
-        'company_id': fields.many2one('res.company', 'Company', required=True, help="Company"),
+        'name': fields.char(
+            'Description', 128, required=True, select=True,
+            help="Description about statement of income withholding"),
+        'company_id': fields.many2one(
+            'res.company', 'Company', required=True, help="Company"),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
         ], 'State', readonly=True, help="Voucher state"),
-        'period_id': fields.many2one('account.period', 'Period', required=True, help="Period when the accounts entries were done"),
-        'amount_total_ret': fields.function(_get_amount_total, method=True, digits=(16, 2), readonly=True, string='Income Withholding Amount Total', help="Amount Total of withholding"),
-        'amount_total_base': fields.function(_get_amount_total_base, method=True, digits=(16, 2), readonly=True, string='Without Tax Amount Total', help="Total without taxes"),
-        'xml_ids': fields.one2many('islr.xml.wh.line', 'islr_xml_wh_doc', 'XML Document Lines', readonly=True, states={'draft': [('readonly', False)]}, help='XML withhold invoice line id'),
-        'invoice_xml_ids': fields.one2many('islr.xml.wh.line', 'islr_xml_wh_doc', 'XML Document Lines', readonly=True, states={'draft': [('readonly', False)]}, help='XML withhold invoice line id', domain=[('type', '=', 'invoice')]),
-        'employee_xml_ids': fields.one2many('islr.xml.wh.line', 'islr_xml_wh_doc', 'XML Document Lines', readonly=True, states={'draft': [('readonly', False)]}, help='XML withhold employee line id', domain=[('type', '=', 'employee')]),
-        'user_id': fields.many2one('res.users', 'Salesman', readonly=True, states={'draft': [('readonly', False)]}, help='Vendor user'),
+        'period_id': fields.many2one(
+            'account.period', 'Period', required=True,
+            help="Period when the accounts entries were done"),
+        'amount_total_ret': fields.function(
+            _get_amount_total, method=True, digits=(16, 2), readonly=True,
+            string='Income Withholding Amount Total',
+            help="Amount Total of withholding"),
+        'amount_total_base': fields.function(
+            _get_amount_total_base, method=True, digits=(16, 2), readonly=True,
+            string='Without Tax Amount Total', help="Total without taxes"),
+        'xml_ids': fields.one2many(
+            'islr.xml.wh.line', 'islr_xml_wh_doc', 'XML Document Lines',
+            readonly=True, states={'draft': [('readonly', False)]},
+            help='XML withhold invoice line id'),
+        'invoice_xml_ids': fields.one2many(
+            'islr.xml.wh.line', 'islr_xml_wh_doc', 'XML Document Lines',
+            readonly=True, states={'draft': [('readonly', False)]},
+            help='XML withhold invoice line id',
+            domain=[('type', '=', 'invoice')]),
+        'employee_xml_ids': fields.one2many(
+            'islr.xml.wh.line', 'islr_xml_wh_doc', 'XML Document Lines',
+            readonly=True, states={'draft': [('readonly', False)]},
+            help='XML withhold employee line id',
+            domain=[('type', '=', 'employee')]),
+        'user_id': fields.many2one(
+            'res.users', 'Salesman', readonly=True,
+            states={'draft': [('readonly', False)]}, help='Vendor user'),
     }
     _defaults = {
         'state': lambda *a: 'draft',
@@ -84,8 +107,10 @@ class islr_xml_wh_doc(osv.osv):
                     context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
 
-        'period_id': lambda self, cr, uid, context: self.period_return(cr, uid, context),
-        'name': lambda self, cr, uid, context: 'Income Withholding ' + time.strftime('%m/%Y')
+        'period_id': lambda self, cr, uid, context: self.period_return(cr, uid,
+                                                                       context),
+        'name': (lambda self, cr, uid, context:
+                 'Income Withholding ' + time.strftime('%m/%Y'))
     }
 
     def period_return(self, cr, uid, context=None):
@@ -108,7 +133,8 @@ class islr_xml_wh_doc(osv.osv):
         res = {'value': {}}
         if period_id:
             islr_line = self.pool.get('islr.xml.wh.line')
-            islr_line_ids = islr_line.search(cr, uid, [('period_id', '=', period_id)], context=context)
+            islr_line_ids = islr_line.search(
+                cr, uid, [('period_id', '=', period_id)], context=context)
             if islr_line_ids:
                 res['value'].update({'xml_ids': islr_line_ids})
                 return res
@@ -139,7 +165,11 @@ class islr_xml_wh_doc(osv.osv):
         for item in self.browse(cr, uid, ids, context={}):
             for ixwl in item.xml_ids:
                 if not ixwl.date_ret and ixwl.islr_wh_doc_inv_id:
-                    obj_ixwl.write(cr, uid, [ixwl.id], {'date_ret': ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret}, context=context)
+                    obj_ixwl.write(
+                        cr, uid, [ixwl.id],
+                        {'date_ret':
+                            ixwl.islr_wh_doc_inv_id.islr_wh_doc_id.date_ret},
+                        context=context)
         return self.write(cr, uid, ids, {'state': 'confirmed'})
 
     def action_done1(self, cr, uid, ids, context=None):
@@ -201,10 +231,12 @@ class islr_xml_wh_doc(osv.osv):
                 'nodestroy': True,
                 'target': 'new',
                 'domain': "",
-                'context': {'default_period_id': xml_brw.period_id.id,
-                            'islr_xml_wh_doc_id': xml_brw.id,
-                            'period_code': "%0004d%02d" % (period.tm_year, period.tm_mon),
-                            'company_vat': xml_brw.company_id.partner_id.vat[2:]}}
+                'context': {
+                    'default_period_id': xml_brw.period_id.id,
+                    'islr_xml_wh_doc_id': xml_brw.id,
+                    'period_code': "%0004d%02d" % (
+                        period.tm_year, period.tm_mon),
+                    'company_vat': xml_brw.company_id.partner_id.vat[2:]}}
 
     def _xml(self, cr, uid, ids):
         """ Transform this document to XML format
@@ -218,33 +250,48 @@ class islr_xml_wh_doc(osv.osv):
             period = time.strptime(wh_brw.period_id.date_stop, '%Y-%m-%d')
             period2 = "%0004d%02d" % (period.tm_year, period.tm_mon)
 
-            sql = '''SELECT partner_vat,control_number,porcent_rete,concept_code,invoice_number, SUM(COALESCE(base,0)) as base,account_invoice_id,date_ret
+            sql = '''
+            SELECT partner_vat,control_number,porcent_rete,
+                concept_code,invoice_number,
+                SUM(COALESCE(base,0)) as base,account_invoice_id,date_ret
             FROM islr_xml_wh_line
             WHERE period_id= %s and id in (%s)
-            GROUP BY partner_vat,control_number,porcent_rete,concept_code,invoice_number,account_invoice_id,date_ret''' % (wh_brw.period_id.id, ', '.join([str(i.id) for i in wh_brw.xml_ids]))
+            GROUP BY partner_vat,control_number,porcent_rete,concept_code,
+                invoice_number,account_invoice_id,date_ret''' % (
+                    wh_brw.period_id.id, ', '.join([
+                        str(i.id)
+                        for i in wh_brw.xml_ids]))
             cr.execute(sql)
             xml_lines = cr.fetchall()
 
             root = Element("RelacionRetencionesISLR")
-            root.attrib['RifAgente'] = rp_obj._find_accounting_partner(wh_brw.company_id.partner_id).vat[2:]
+            root.attrib['RifAgente'] = rp_obj._find_accounting_partner(
+                wh_brw.company_id.partner_id).vat[2:]
             root.attrib['Periodo'] = period2
             for line in xml_lines:
-                partner_vat, control_number, porcent_rete, concept_code, invoice_number, base, inv_id, date_ret = line
+                partner_vat, control_number, porcent_rete, concept_code, \
+                    invoice_number, base, inv_id, date_ret = line
                 detalle = SubElement(root, "DetalleRetencion")
                 SubElement(detalle, "RifRetenido").text = partner_vat
-                SubElement(detalle, "NumeroFactura").text = ''.join(i for i in invoice_number if i.isdigit())[-10:] or '0'
-                SubElement(detalle, "NumeroControl").text = ''.join(i for i in control_number if i.isdigit())[-8:] or 'NA'
+                SubElement(detalle, "NumeroFactura").text = ''.join(
+                    i for i in invoice_number if i.isdigit())[-10:] or '0'
+                SubElement(detalle, "NumeroControl").text = ''.join(
+                    i for i in control_number if i.isdigit())[-8:] or 'NA'
                 if date_ret:
                     date_ret = time.strptime(date_ret, '%Y-%m-%d')
-                    SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
+                    SubElement(detalle, "FechaOperacion").text = time.strftime(
+                        '%d/%m/%Y', date_ret)
                 # This peace of code will be left for backward compatibility
                 # TODO: Delete on V8 onwards
                 elif inv_id and inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id:
-                    date_ret = time.strptime(inv_obj.browse(cr, uid, inv_id).islr_wh_doc_id.date_ret, '%Y-%m-%d')
-                    SubElement(detalle, "FechaOperacion").text = time.strftime('%d/%m/%Y', date_ret)
+                    date_ret = time.strptime(inv_obj.browse(
+                        cr, uid, inv_id).islr_wh_doc_id.date_ret, '%Y-%m-%d')
+                    SubElement(detalle, "FechaOperacion").text = time.strftime(
+                        '%d/%m/%Y', date_ret)
                 SubElement(detalle, "CodigoConcepto").text = concept_code
                 SubElement(detalle, "MontoOperacion").text = str(base)
-                SubElement(detalle, "PorcentajeRetencion").text = str(porcent_rete)
+                SubElement(detalle, "PorcentajeRetencion").text = str(
+                    porcent_rete)
         self.indent(root)
         return tostring(root, encoding="ISO-8859-1")
 
@@ -256,27 +303,60 @@ class islr_xml_wh_line(osv.osv):
     _description = 'Generate XML Lines'
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept', 'Withholding Concept', help="Withholding concept associated with this rate", required=True, ondelete='cascade'),
-        'period_id': fields.many2one('account.period', 'Period', required=False, help="Period when the journal entries were done"),
-        'partner_vat': fields.char('VAT', size=10, required=True, help="Partner VAT"),
-        'invoice_number': fields.char('Invoice Number', size=10, required=True, help="Number of invoice"),
-        'control_number': fields.char('Control Number', size=8, required=True, help="Reference"),
-        'concept_code': fields.char('Concept Code', size=10, required=True, help="Concept code"),
-        'base': fields.float('Base Amount', required=True, help="Amount where a withholding is going to be computed from", digits_compute=dp.get_precision('Withhold ISLR')),
-        'raw_base_ut': fields.float('UT Amount', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Amount"),
-        'raw_tax_ut': fields.float('UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'), help="UT Withheld Tax"),
-        'porcent_rete': fields.float('Withholding Rate', required=True, help="Withholding Rate", digits_compute=dp.get_precision('Withhold ISLR')),
-        'wh': fields.float('Withheld Amount', required=True, help="Withheld amount to partner", digits_compute=dp.get_precision('Withhold ISLR')),
-        'rate_id': fields.many2one('islr.rates', 'Person Type', domain="[('concept_id','=',concept_id)]", required=False, help="Person type"),
-        'islr_wh_doc_line_id': fields.many2one('islr.wh.doc.line', 'Income \
-            Withholding Document', ondelete='cascade', help="Income Withholding\
-            Document"),
-        'account_invoice_line_id': fields.many2one('account.invoice.line', 'Invoice Line', help="Invoice line to Withhold"),
-        'account_invoice_id': fields.many2one('account.invoice', 'Invoice', help="Invoice to Withhold"),
-        'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc', 'ISLR XML Document', help="Income tax XML Doc"),
-        'partner_id': fields.many2one('res.partner', 'Partner', required=True, help="Partner object of withholding"),
-        'sustract': fields.float('Subtrahend', help="Subtrahend", digits_compute=dp.get_precision('Withhold ISLR')),
-        'islr_wh_doc_inv_id': fields.many2one('islr.wh.doc.invoices', 'Withheld Invoice', help="Withheld Invoices"),
+        'concept_id': fields.many2one(
+            'islr.wh.concept', 'Withholding Concept',
+            help="Withholding concept associated with this rate",
+            required=True, ondelete='cascade'),
+        'period_id': fields.many2one(
+            'account.period', 'Period', required=False,
+            help="Period when the journal entries were done"),
+        'partner_vat': fields.char(
+            'VAT', size=10, required=True, help="Partner VAT"),
+        'invoice_number': fields.char(
+            'Invoice Number', size=10, required=True, help="Number of invoice"),
+        'control_number': fields.char(
+            'Control Number', size=8, required=True, help="Reference"),
+        'concept_code': fields.char(
+            'Concept Code', size=10, required=True, help="Concept code"),
+        'base': fields.float(
+            'Base Amount', required=True,
+            help="Amount where a withholding is going to be computed from",
+            digits_compute=dp.get_precision('Withhold ISLR')),
+        'raw_base_ut': fields.float(
+            'UT Amount', digits_compute=dp.get_precision('Withhold ISLR'),
+            help="UT Amount"),
+        'raw_tax_ut': fields.float(
+            'UT Withheld Tax', digits_compute=dp.get_precision('Withhold ISLR'),
+            help="UT Withheld Tax"),
+        'porcent_rete': fields.float(
+            'Withholding Rate', required=True, help="Withholding Rate",
+            digits_compute=dp.get_precision('Withhold ISLR')),
+        'wh': fields.float(
+            'Withheld Amount', required=True, help="Withheld amount to partner",
+            digits_compute=dp.get_precision('Withhold ISLR')),
+        'rate_id': fields.many2one(
+            'islr.rates', 'Person Type',
+            domain="[('concept_id','=',concept_id)]", required=False,
+            help="Person type"),
+        'islr_wh_doc_line_id': fields.many2one(
+            'islr.wh.doc.line', 'Income Withholding Document',
+            ondelete='cascade', help="Income Withholding Document"),
+        'account_invoice_line_id': fields.many2one(
+            'account.invoice.line', 'Invoice Line',
+            help="Invoice line to Withhold"),
+        'account_invoice_id': fields.many2one(
+            'account.invoice', 'Invoice', help="Invoice to Withhold"),
+        'islr_xml_wh_doc': fields.many2one(
+            'islr.xml.wh.doc', 'ISLR XML Document', help="Income tax XML Doc"),
+        'partner_id': fields.many2one(
+            'res.partner', 'Partner', required=True,
+            help="Partner object of withholding"),
+        'sustract': fields.float(
+            'Subtrahend', help="Subtrahend",
+            digits_compute=dp.get_precision('Withhold ISLR')),
+        'islr_wh_doc_inv_id': fields.many2one(
+            'islr.wh.doc.invoices', 'Withheld Invoice',
+            help="Withheld Invoices"),
         'date_ret': fields.date('Operation Date'),
         'type': fields.selection(
             ISLR_XML_WH_LINE_TYPES,
@@ -295,7 +375,8 @@ class islr_xml_wh_line(osv.osv):
         """
         context = context or {}
         rp_obj = self.pool.get('res.partner')
-        acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(cr, uid, partner_id))
+        acc_part_brw = rp_obj._find_accounting_partner(rp_obj.browse(
+            cr, uid, partner_id))
         return {'value': {'partner_vat': acc_part_brw.vat[2:]}}
 
     def onchange_code_perc(self, cr, uid, ids, rate_id, context=None):
@@ -304,7 +385,8 @@ class islr_xml_wh_line(osv.osv):
         """
         context = context or {}
         rate_brw = self.pool.get('islr.rates').browse(cr, uid, rate_id)
-        return {'value': {'porcent_rete': rate_brw.wh_perc, 'concept_code': rate_brw.code}}
+        return {'value': {'porcent_rete': rate_brw.wh_perc,
+                          'concept_code': rate_brw.code}}
 
 
 islr_xml_wh_line()
@@ -314,7 +396,8 @@ class account_invoice_line(osv.osv):
     _inherit = "account.invoice.line"
 
     _columns = {
-        'wh_xml_id': fields.many2one('islr.xml.wh.line', 'XML Id', help="XML withhold line id"),
+        'wh_xml_id': fields.many2one(
+            'islr.xml.wh.line', 'XML Id', help="XML withhold line id"),
     }
     _defaults = {
         'wh_xml_id': lambda *a: 0,

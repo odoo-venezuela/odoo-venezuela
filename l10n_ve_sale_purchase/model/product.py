@@ -34,7 +34,10 @@ class product_template(osv.osv):
     _inherit = "product.template"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept', 'Withhold  Concept', help="Concept Withholding Income to apply to the service", required=False),
+        'concept_id': fields.many2one(
+            'islr.wh.concept', 'Withhold  Concept',
+            help="Concept Withholding Income to apply to the service",
+            required=False),
     }
 
 
@@ -46,10 +49,13 @@ class product_product(osv.osv):
         """
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
-            concept_id = concept_obj.search(cr, uid, [('withholdable', '=', False)], context=context)
+            concept_id = concept_obj.search(
+                cr, uid, [('withholdable', '=', False)], context=context)
             if concept_id:
                 return {'value': {'concept_id': concept_id[0]}}
             else:
-                raise osv.except_osv(_('Invalid action !'), _("Must create the concept of income withholding"))
+                raise osv.except_osv(
+                    _('Invalid action !'),
+                    _("Must create the concept of income withholding"))
         return {'value': {'concept_id': False},
                 'domain': {'concept_id': [('withholdable', '=', True)]}},

@@ -37,8 +37,10 @@ class fiscal_requirements_config(osv.osv_memory):
     def onchange_update_rif(self, cr, uid, ids, vat):
         context = {'exec_wizard': True, 'vat': vat}
 
-        partner_info = self.pool.get('seniat.url').update_rif(cr, uid, ids, context)
-        v = {'name': partner_info.get('name'), 'vat_subjected': partner_info.get('vat_subjected')}
+        partner_info = self.pool.get('seniat.url').update_rif(cr, uid, ids,
+                                                              context)
+        v = {'name': partner_info.get('name'),
+             'vat_subjected': partner_info.get('vat_subjected')}
         return {'value': v}
 
     def execute(self, cr, uid, ids, context=None):
@@ -48,12 +50,14 @@ class fiscal_requirements_config(osv.osv_memory):
         and update all your partners information.
         '''
         wiz_data = self.browse(cr, uid, ids[0])
-        partner = self.pool.get('res.users').browse(cr, uid, uid).company_id.partner_id
+        partner = self.pool.get('res.users').browse(
+            cr, uid, uid).company_id.partner_id
         # Data on res partner address - Invoice
         if partner and partner.type == 'invoice':
             self.pool.get('res.partner').write(cr, uid, [partner.id], {
                 'street': wiz_data.add,
-                'country_id': self.pool.get("res.country").search(cr, uid, [('code', '=', 'VE')])[0],
+                'country_id': self.pool.get("res.country").search(
+                    cr, uid, [('code', '=', 'VE')])[0],
                 'name': wiz_data.name,
                 'vat': "VE%s" % wiz_data.vat.upper(),
                 'vat_subjected': wiz_data.vat_subjected,
@@ -61,9 +65,15 @@ class fiscal_requirements_config(osv.osv_memory):
             })
 
     _columns = {
-        'vat': fields.char('VAT', 16, required=True, help='Partner\'s VAT to update the other fields'),
-        'name': fields.char('Name', 64, help="The commercial name of the company"),
-        'add': fields.char('Invoice Address', 64, help='Put Here the address declared on your VAT information on SENIAT', required=True),
+        'vat': fields.char(
+            'VAT', 16, required=True,
+            help='Partner\'s VAT to update the other fields'),
+        'name': fields.char(
+            'Name', 64, help="The commercial name of the company"),
+        'add': fields.char(
+            'Invoice Address', 64,
+            help='Put Here the address declared on your VAT'
+                 ' information on SENIAT', required=True),
         'vat_subjected': fields.boolean("Apply VAT?"),
     }
 fiscal_requirements_config()
