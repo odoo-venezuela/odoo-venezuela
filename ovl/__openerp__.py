@@ -41,9 +41,9 @@
         "l10n_ve_fiscal_book",
         # Optionals, uncomment if you want to use them Install if you
         # want be able set islr
-        #"l10n_ve_sale_purchase",
+        # "l10n_ve_sale_purchase",
         # Fifth Level of Modules
-        #"l10n_ve_vat_write_off",
+        # "l10n_ve_vat_write_off",
     ],
     "author": "Vauxoo",
     "description" : """
@@ -79,7 +79,7 @@ Optionals (Not installed by default), uncomment on
 your/addons/path/ovl/__openerp__.py file this dependencies if you want to use
 them
 
- - "l10n_ve_sale_purchase", #Install if you want be able set islr
+ - "l10n_ve_sale_purchase", # Install if you want be able set islr
 
 Concepts from Sales and Purchase
 

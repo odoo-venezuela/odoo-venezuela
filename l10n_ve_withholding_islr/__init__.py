@@ -4,7 +4,8 @@
 #    Module Written to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <hbto@vauxoo.com>
 #              María Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Javier Duran              <javier@vauxoo.com>
@@ -28,4 +29,4 @@
 from . import model
 from . import report
 from . import wizard
-#import edi
+# import edi

@@ -4,7 +4,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #              Javier Duran              <javier@vauxoo.com>
@@ -60,7 +61,7 @@ class sale_order_line(osv.osv):
 #        res['value']['concept_id'] = prod_brw.concept_id and \
 #           prod_brw.concept_id.id or get_concept()
 #        return res
-#    #method that adds to the original in concept retention lines for sale, is
+#    # ethod that adds to the original in concept retention lines for sale, is
 #   # called by action_invoice_create() in sale.order
     def invoice_line_create(self, cr, uid, ids, context=None):
         """ Assing concept_id to the invoice lines

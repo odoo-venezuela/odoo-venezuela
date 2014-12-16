@@ -51,8 +51,8 @@
         "l10n_ch",
         "l10n_ro",
         "plugin_thunderbird",
-        # "purchase_analytic_plans",#Error to fix
-        # "account_analytic_plans",#Error to fix
+        # "purchase_analytic_plans",# Error to fix
+        # "account_analytic_plans",# Error to fix
         "base_gengo",
         "fleet",
         "l10n_cl",
@@ -100,7 +100,7 @@
         "l10n_es",
         "l10n_uy",
         "portal_hr_employees",
-        # "sale_analytic_plans",#Error to fix
+        # "sale_analytic_plans",# Error to fix
         "account_check_writing",
         "board",
         "hr_expense",
@@ -168,7 +168,7 @@
         "l10n_in_hr_payroll",
         "mrp_byproduct",
         "product_manufacturer",
-        # "stock_location", #Error to fix
+        # "stock_location", # Error to fix
         "anonymization",
         "delivery",
         "l10n_ar",
@@ -196,7 +196,7 @@
         "multi_company",
         "project_gtd",
         "warning",
-        # "auth_ldap", #No test
+        # "auth_ldap", # No test
         "document_webdav",
         "l10n_be_hr_payroll",
         "l10n_mx",

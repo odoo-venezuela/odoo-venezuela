@@ -94,7 +94,7 @@ class account_invoice_debit(osv.osv_memory):
             cr, uid, view_id=view_id, view_type=view_type, context=context,
             toolbar=toolbar, submenu=submenu)
         # Debit note only from customer o purchase invoice
-        #type = context.get('journal_type', 'sale_refund')
+        # type = context.get('journal_type', 'sale_refund')
         journal_type = context.get('journal_type', 'sale')
         if journal_type in ('sale', 'sale_refund'):
             journal_type = 'sale_debit'
@@ -193,7 +193,7 @@ class account_invoice_debit(osv.osv_memory):
             date = form.date
         else:
             # Take current date
-            #date = inv.date_invoice
+            # date = inv.date_invoice
             date = time.strftime('%Y-%m-%d')
         if form.description:
             description = form.description

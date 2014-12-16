@@ -4,7 +4,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              María Gabriela Quilarque  <gabriela@openerp.com.ve>
 #              Javier Duran              <javier@vauxoo.com>
@@ -43,7 +44,7 @@
  - Load data of the 86 concepts of wittholdings whith their rates.
  - Send an email to supplier with approved withholdings, if not opt_out in the
    partner
-#If you want be able to propose withholding concepts from sales and purchases
+# if you want be able to propose withholding concepts from sales and purchases
     you must install extra module @section{l10n_ve_sale_purchase}.
 
 ''',

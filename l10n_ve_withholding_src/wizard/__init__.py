@@ -4,7 +4,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Javier Duran <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
@@ -23,7 +24,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-#~ import wizard_ret_munici_xml
+# import wizard_ret_munici_xml
 from . import wizard_retention
 
 

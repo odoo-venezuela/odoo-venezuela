@@ -254,7 +254,7 @@ class account_invoice_refund(osv.osv_memory):
                             period = res[0]
                 else:
                     # Take current date
-                    #date = inv.date_invoice
+                    # date = inv.date_invoice
                     date = time.strftime('%Y-%m-%d')
                 if form['description']:
                     description = form['description']
