@@ -268,7 +268,7 @@ class account_wh_src(osv.osv):
         """ if the retention date is empty, is filled with the current date
         """
         for wh in self.browse(cr, uid, ids, context):
-            if wh.date_ret:
+            if not wh.date_ret:
                 self.write(cr, uid, [wh.id],
                            {'date_ret': time.strftime('%Y-%m-%d')})
         return True
