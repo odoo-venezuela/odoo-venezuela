@@ -1322,7 +1322,7 @@ class islr_wh_doc_invoices(osv.osv):
                 rate2['cumulative_tax_ut'] += iwhd_brw.raw_tax_ut
             found_rate = False
             for rate_brw in islr_rate_obj.browse(
-                cr, uid, islr_rate_ids, context=context):
+                    cr, uid, islr_rate_ids, context=context):
                 # Get the invoice_lines that have the same concept_id than the
                 # rate_brw which is here Having the lines the subtotal for each
                 # lines can be got and with that it will be possible to which
