@@ -40,7 +40,7 @@ class rep_comprobante(report_sxw.rml_parse):
     ttbase = 0
     ttiva = 0
 
-    #---------------------------------------------------------------------
+    # ---------------------------------------------------------------------
 
     def __init__(self, cr, uid, name, context):
         super(rep_comprobante, self).__init__(cr, uid, name, context)

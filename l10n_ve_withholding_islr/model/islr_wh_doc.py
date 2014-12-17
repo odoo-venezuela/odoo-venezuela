@@ -879,7 +879,7 @@ class islr_wh_doc_invoices(osv.osv):
             'account.invoice', 'Invoice', help="Withheld invoice"),
         'supplier_invoice_number': fields.related(
             'invoice_id', 'supplier_invoice_number', type='char',
-            string='Supplier inv. #', size=64, store=False, readonly=True),
+            string='Supplier inv. #, size=64, store=False, readonly=True),
         'islr_xml_id': fields.one2many(
             'islr.xml.wh.line', 'islr_wh_doc_inv_id', 'Withholding Lines'),
         'amount_islr_ret': fields.function(
