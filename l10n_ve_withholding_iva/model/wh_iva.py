@@ -781,7 +781,8 @@ class account_wh_iva(osv.osv):
         if ids:
             wil_ids = wil_obj.search(cr, uid, [
                 ('retention_id', 'in', ids)], context=context)
-            ai_ids = wil_ids and [wil.invoice_id.id
+            ai_ids = wil_ids and [
+                wil.invoice_id.id
                 for wil in wil_obj.browse(cr, uid, wil_ids, context=context)]
             if ai_ids:
                 ai_obj.write(cr, uid, ai_ids,

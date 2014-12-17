@@ -377,7 +377,8 @@ class account_wh_src(osv.osv):
         if ids:
             awsl_ids = awsl_obj.search(cr, uid, [('wh_id', 'in', ids)],
                                        context=context)
-            ai_ids = awsl_ids and [awsl.invoice_id.id
+            ai_ids = awsl_ids and [
+                awsl.invoice_id.id
                 for awsl in awsl_obj.browse(cr, uid, awsl_ids,
                                             context=context)]
             if ai_ids:
