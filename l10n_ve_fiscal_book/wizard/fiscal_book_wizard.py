@@ -217,7 +217,7 @@ class fiscal_book_wizard(osv.osv_memory):
     _defaults = {
         'date_start': lambda *a: time.strftime('%Y-%m-%d'),
         'date_end': lambda *a: time.strftime('%Y-%m-%d'),
-        #~ 'type': lambda *a: 'sale',
+        # 'type': lambda *a: 'sale',
     }
 
 fiscal_book_wizard()

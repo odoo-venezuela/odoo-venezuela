@@ -147,7 +147,7 @@ class account_invoice_debit(osv.osv_memory):
         journal_id = form.journal_id and form.journal_id.id or False
         inv = inv_obj.browse(cr, uid, context.get('active_ids')[0],
                              context=context)
-        #~ TODOK: no seria mejor ids=context.get(active_id)
+        # TODOK: no seria mejor ids=context.get(active_id)
 
         company_id = inv.company_id.id
         context.update({'company_id': company_id})

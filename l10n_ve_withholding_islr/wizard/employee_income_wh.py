@@ -9,7 +9,7 @@
 #                 sale order
 #
 ##############################################################################
-#~ from datetime import datetime
+# from datetime import datetime
 import base64
 import functools
 
@@ -20,11 +20,11 @@ from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
 
-#~ import pooler
-#~ import decimal_precision as dp
-#~ import time
-#~ import netsvc
-#~ import csv
+# import pooler
+# import decimal_precision as dp
+# import time
+# import netsvc
+# import csv
 
 ## ---------------------------------------------------------- employee_income_wh
 
