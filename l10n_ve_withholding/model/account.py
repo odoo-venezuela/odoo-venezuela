@@ -101,7 +101,7 @@ class account_period(osv.osv):
             context = {}
         if not date:
             date = time.strftime('%Y-%m-%d')
-        period_ids = self.find(cr, uid, date=date, context=context)
+        period_ids = self.find(cr, uid, date, context=context)
         do = [('special', '=', False), ('id', 'in', period_ids)]
         # Due to the fact that demo data for periods sets 'special' as True on
         # them, this little hack is necesary if this issue is solved we should
