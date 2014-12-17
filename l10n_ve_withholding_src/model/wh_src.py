@@ -210,11 +210,11 @@ class account_wh_src(osv.osv):
 
     _defaults = {
         'state': lambda *a: 'draft',
-        'currency_id': \
+        'currency_id':
             lambda self, cr, uid, c: self.pool.get('res.users').browse(
                 cr, uid, uid, c).company_id.currency_id.id,
         'journal_id': _diario,
-        'company_id': \
+        'company_id':
             lambda self, cr, uid, c: self.pool.get('res.users').browse(
                 cr, uid, uid, c).company_id.id,
     }
