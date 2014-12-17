@@ -259,9 +259,9 @@ class islr_xml_wh_doc(osv.osv):
             WHERE period_id= %s and id in (%s)
             GROUP BY partner_vat,control_number,porcent_rete,concept_code,
                 invoice_number,account_invoice_id,date_ret''' % (
-                    wh_brw.period_id.id, ', '.join([
-                        str(i.id)
-                        for i in wh_brw.xml_ids]))
+                wh_brw.period_id.id, ', '.join([
+                    str(i.id)
+                    for i in wh_brw.xml_ids]))
             cr.execute(sql)
             xml_lines = cr.fetchall()
 

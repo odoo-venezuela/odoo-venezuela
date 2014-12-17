@@ -567,8 +567,8 @@ class account_wh_iva(osv.osv):
         obj = self.browse(cr, uid, ids[0])
         if obj.type in ('out_invoice', 'out_refund'):
             for wh_line in obj.wh_lines:
-                if not inv_obj.write(
-                      cr, uid, [wh_line.invoice_id.id], {'wh_iva_id': obj.id}):
+                if not inv_obj.write(cr, uid, [wh_line.invoice_id.id],
+                                     {'wh_iva_id': obj.id}):
                     return False
         return True
 
@@ -811,9 +811,8 @@ class account_wh_iva(osv.osv):
         rp_obj = self.pool.get('res.partner')
         values_data = dict()
         acc_id = False
-        wh_type = ((
-            inv_type in ('out_invoice', 'out_refund'))
-                and 'sale' or 'purchase')
+        wh_type = ((inv_type in ('out_invoice', 'out_refund'))
+                   and 'sale' or 'purchase')
 
         # pull account info
         if partner_id:
