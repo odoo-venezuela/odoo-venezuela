@@ -93,8 +93,8 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         move = {}
-        for amr_brw in self.pool.get('account.move.reconcile').browse(
-            cr, uid, ids):
+        for amr_brw in self.pool.get('account.move.reconcile').browse(cr, uid,
+                                                                      ids):
             for line in amr_brw.line_partial_ids:
                 move[line.move_id.id] = True
             for line in amr_brw.line_id:

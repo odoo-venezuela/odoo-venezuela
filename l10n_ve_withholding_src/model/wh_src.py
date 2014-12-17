@@ -222,8 +222,8 @@ class account_wh_src(osv.osv):
     _sql_constraints = [
     ]
 
-    def onchange_partner_id(
-        self, cr, uid, ids, inv_type, partner_id, context=None):
+    def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id,
+                            context=None):
         """ Return account depending of the invoice
         @param type: invoice type
         @param partner_id: partner id
