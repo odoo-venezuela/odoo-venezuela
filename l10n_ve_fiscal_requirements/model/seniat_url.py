@@ -39,15 +39,18 @@ class seniat_url(osv.osv):
     _description = "Seniat config needed to run auto-config partner"
     logger = logging.getLogger('res.partner')
     _columns = {
-        'name': fields.char('URL Seniat for Partner Information', size=255,
+        'name': fields.char(
+            'URL Seniat for Partner Information', size=255,
             required=True, readonly=False,
             help='''In this field enter the URL from Seniat for search the
             fiscal information from partner'''),
-        'url_seniat': fields.char('URL Seniat for Retention Rate',
+        'url_seniat': fields.char(
+            'URL Seniat for Retention Rate',
             size=255, required=True, readonly=False,
             help='''In this field enter the URL from Seniat for search the
             retention rate from partner (RIF)'''),
-        'url_seniat2': fields.char('URL Seniat for Retention Rate',
+        'url_seniat2': fields.char(
+            'URL Seniat for Retention Rate',
             size=255, required=True, readonly=False, help='''In this field enter
             the URL from Seniat for search the retention rate from partner
             (CI or Passport)'''),
@@ -89,8 +92,7 @@ class seniat_url(osv.osv):
             vat = vat[2:]
 
         if re.search(r'^[VJEGP][0-9]{9}$', vat):
-            valid_digit = self._get_valid_digit(cr, uid, vat,
-                    context=context)
+            valid_digit = self._get_valid_digit(cr, uid, vat, context=context)
             if valid_digit is None:
                 return False
             if int(vat[9]) == valid_digit:
@@ -99,8 +101,7 @@ class seniat_url(osv.osv):
                 self._print_error(_('Vat Error !'), _('Invalid VAT!'))
         elif re.search(r'^([VE][0-9]{1,8})$', vat):
             vat = vat[0] + vat[1:].rjust(8, '0')
-            valid_digit = self._get_valid_digit(cr, uid, vat,
-                    context=context)
+            valid_digit = self._get_valid_digit(cr, uid, vat, context=context)
             vat += str(valid_digit)
             return vat
         return False

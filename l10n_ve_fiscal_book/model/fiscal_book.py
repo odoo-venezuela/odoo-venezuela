@@ -121,7 +121,7 @@ class fiscal_book(orm.Model):
 
             res[fb_brw.id]['get_total_with_iva_sum'] = \
                 sum([res[fb_brw.id]["get_total_with_iva_" + optype + "_sum"]
-                for optype in op_types])
+                     for optype in op_types])
         return res
 
     def _get_vat_sdcf_sum(self, cr, uid, ids, field_name, arg, context=None):
@@ -134,7 +134,7 @@ class fiscal_book(orm.Model):
             res[fb_brw.id] = fb_brw.type == 'purchase' \
                 and (fb_brw.imex_sdcf_vat_sum + fb_brw.do_sdcf_vat_sum) \
                 or (fb_brw.imex_sdcf_vat_sum + fb_brw.tp_sdcf_vat_sum +
-                fb_brw.ntp_sdcf_vat_sum)
+                    fb_brw.ntp_sdcf_vat_sum)
         return res
 
     def _get_total_tax_credit_debit(self, cr, uid, ids, field_names, arg,
@@ -772,8 +772,8 @@ class fiscal_book(orm.Model):
         awil_ids = []
         awi_ids = awi_obj.search(cr, uid,
                                  [('period_id', '=', fb_brw.period_id.id),
-                                 ('type', 'in', awil_type),
-                                 ('state', '=', 'done')],
+                                  ('type', 'in', awil_type),
+                                  ('state', '=', 'done')],
                                  context=context)
         if fb_brw.fortnight:
             awi_ids = self.get_awi_from_fortnight(
@@ -1387,8 +1387,9 @@ class fiscal_book(orm.Model):
                                 ait.tax_id.name))
             elif fbl.cf_id:
                 if fbl.type != 'do':
-                    raise osv.except_osv(_('Programing Error!'),
-                    _("Customs form lines are domestic transactions"))
+                    raise osv.except_osv(
+                        _('Programing Error!'),
+                        _("Customs form lines are domestic transactions"))
                 base_sum['do']['sdcf'] += fbl.vat_sdcf
 
         data = [(0, 0, {'tax_type': ttype, 'op_type': optype,
@@ -1472,7 +1473,7 @@ class fiscal_book(orm.Model):
 
         data['do_sdcf_and_exempt_sum'] = fb_brw.type == 'sale' \
             and (data['tp_exempt_vat_sum'] + data['tp_sdcf_vat_sum'] +
-                data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum']) \
+                 data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum']) \
             or (data['do_exempt_vat_sum'] + data['do_sdcf_vat_sum'])
 
         for optype in ['imex', 'do', 'tp', 'ntp']:
@@ -1581,10 +1582,11 @@ class fiscal_book(orm.Model):
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                f_xc = ut_obj.sxc(cr, uid,
-                        fbl.invoice_id.currency_id.id,
-                        fbl.invoice_id.company_id.currency_id.id,
-                        fbl.invoice_id.date_invoice)
+                f_xc = ut_obj.sxc(
+                    cr, uid,
+                    fbl.invoice_id.currency_id.id,
+                    fbl.invoice_id.company_id.currency_id.id,
+                    fbl.invoice_id.date_invoice)
                 sign = 1 if fbl.doc_type != 'N/CR' else -1
                 amount_field_data = \
                     {'total_with_iva':
@@ -1873,7 +1875,8 @@ class fiscal_book(orm.Model):
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
             if fb_brw.state != 'cancel':
-                raise osv.except_osv("Invalid Procedure!!",
+                raise osv.except_osv(
+                    "Invalid Procedure!!",
                     "Your book needs to be in cancel state to be deleted.")
             else:
                 super(fiscal_book, self).unlink(cr, uid, ids, context=context)
@@ -1933,21 +1936,22 @@ class fiscal_book_lines(orm.Model):
         'fb_id': fields.many2one(
             'fiscal.book', 'Fiscal Book',
             help='Fiscal Book that owns this book line', ondelete='cascade'),
-        'ntp_fb_id': fields.many2one("fiscal.book", "Non-Tax Payer Detail",
-                                 help="Fiscal Book that owns this book line"
-                                 " This Book is only for Non-Tax Payer lines"),
-        'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id',
-                                   string='Tax Lines', help="Tax Lines being"
-                                   " recorded in a Fiscal Book"),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice',
-                                      help="Invoice related to this book"
-                                      " line"),
-        'iwdl_id': fields.many2one('account.wh.iva.line', 'Vat Withholding',
-                                   help="Withholding iva line related to"
-                                   " this book line"),
-        'cf_id': fields.many2one('customs.form', 'Customs Form',
-                                 help="Customs Form being recorded to this"
-                                 " book line"),
+        'ntp_fb_id': fields.many2one(
+            "fiscal.book", "Non-Tax Payer Detail",
+            help="Fiscal Book that owns this book line"
+                 " This Book is only for Non-Tax Payer lines"),
+        'fbt_ids': fields.one2many(
+            'fiscal.book.taxes', 'fbl_id', string='Tax Lines',
+            help="Tax Lines being recorded in a Fiscal Book"),
+        'invoice_id': fields.many2one(
+            'account.invoice', 'Invoice',
+            help="Invoice related to this book line"),
+        'iwdl_id': fields.many2one(
+            'account.wh.iva.line', 'Vat Withholding',
+            help="Withholding iva line related to this book line"),
+        'cf_id': fields.many2one(
+            'customs.form', 'Customs Form',
+            help="Customs Form being recorded to this book line"),
         'parent_id': fields.many2one(
             "fiscal.book.line",
             string="Consolidated Line",

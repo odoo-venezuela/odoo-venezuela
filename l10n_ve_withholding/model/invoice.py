@@ -78,10 +78,10 @@ class account_invoice(osv.osv):
         }
         lines = [(0, 0, l1)]
 
-        l2 = self._get_move_lines(cr, uid, ids, to_wh, period_id,
-                            pay_journal_id, writeoff_acc_id,
-                            writeoff_period_id, writeoff_journal_id, date,
-                            name, context=context)
+        l2 = self._get_move_lines(
+            cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
+            writeoff_period_id, writeoff_journal_id, date,
+            name, context=context)
 
         if not l2:
             raise osv.except_osv(

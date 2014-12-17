@@ -202,13 +202,13 @@ class account_invoice_debit(osv.osv_memory):
 
         # we get original data of invoice to create a new invoice that is the
         # copy of the original
-        invoice = inv_obj.read(cr, uid, [inv.id],
-                    ['name', 'type', 'number', 'supplier_invoice_number',
-                    'comment', 'date_due', 'partner_id',
-                    'partner_insite', 'partner_contact',
-                    'partner_ref', 'payment_term', 'account_id',
-                    'currency_id', 'invoice_line', 'tax_line',
-                    'journal_id', 'period_id'], context=context)
+        invoice = inv_obj.read(cr, uid, [inv.id], [
+            'name', 'type', 'number', 'supplier_invoice_number',
+            'comment', 'date_due', 'partner_id',
+            'partner_insite', 'partner_contact',
+            'partner_ref', 'payment_term', 'account_id',
+            'currency_id', 'invoice_line', 'tax_line',
+            'journal_id', 'period_id'], context=context)
         invoice = invoice[0]
         del invoice['id']
         invoice_lines = []
@@ -231,8 +231,8 @@ class account_invoice_debit(osv.osv_memory):
             'journal_id': journal_id
         })
         # take the id part of the tuple returned for many2one fields
-        for field in ('partner_id',
-                'account_id', 'currency_id', 'payment_term'):
+        for field in ('partner_id', 'account_id', 'currency_id',
+                      'payment_term'):
             invoice[field] = invoice[field] and invoice[field][0]
         # create the new invoice
         inv_id = inv_obj.create(cr, uid, invoice, {})

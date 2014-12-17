@@ -55,7 +55,8 @@ class change_invoice_sin_credwizard(osv.TransientModel):
         inv_ids = context.get('active_ids', [])
         data = self.browse(cr, uid, ids[0], context=context)
         if not data.sure:
-            raise osv.except_osv(_("Error!"),
+            raise osv.except_osv(
+                _("Error!"),
                 _("Please confirm that you want to do this by checking the"
                   " option"))
         if inv_ids:

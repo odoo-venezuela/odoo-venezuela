@@ -66,11 +66,11 @@ class account_invoice(osv.osv):
             'account.invoice.tax', 'imex_inv_id', 'Vat lines', readonly=True,
             attrs="{'readonly':[('vat_detail','=',True)], \
             'required':[('vat_detail','=',True)]}",),
-        'expedient': fields.boolean('Dossier',
-                                   help="If it is true, it means this is a \
-                                   landindg form, you will need to load this \
-                                   format as an purchase invoice to declarate \
-                                   on Book"),
+        'expedient': fields.boolean(
+            'Dossier',
+            help="If it is true, it means this is a landindg form, you will"
+                 " need to load this format as an purchase invoice to"
+                 " declarate on Book"),
     }
 
     def on_change_customs_form_id(self, cr, uid, ids, customs_form_id,

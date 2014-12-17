@@ -50,11 +50,13 @@ class account_invoice(osv.osv):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
-                raise osv.except_osv(_("Error!"),
-                _("You can't cancel an invoice that is loaded in a processed "
-                  "Fiscal Book (%s). You need to go to Fiscal Book and set "
-                  "the book to Cancel. Then you could be able to cancel the "
-                  "invoice." % (inv_brw.fb_id.state,)))
+                raise osv.except_osv(
+                    _("Error!"),
+                    _("You can't cancel an invoice that is loaded in a"
+                      " processed Fiscal Book (%s). You need to go to"
+                      " Fiscal Book and set the book to Cancel. Then you"
+                      " could be able to cancel the invoice." % (
+                          inv_brw.fb_id.state,)))
         return True
 
     def copy(self, cur, uid, ids, default=None, context=None):

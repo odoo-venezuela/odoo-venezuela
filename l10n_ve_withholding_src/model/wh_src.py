@@ -376,7 +376,7 @@ class account_wh_src(osv.osv):
         ai_obj = self.pool.get('account.invoice')
         if ids:
             awsl_ids = awsl_obj.search(cr, uid, [('wh_id', 'in', ids)],
-                    context=context)
+                                       context=context)
             ai_ids = awsl_ids and [awsl.invoice_id.id
                 for awsl in awsl_obj.browse(cr, uid, awsl_ids,
                                             context=context)]
@@ -434,8 +434,9 @@ class account_wh_src(osv.osv):
 
         for line in ret.line_ids:
             if line.move_id:
-                raise osv.except_osv(_('Invoice already withhold !'),
-                _("You must omit the follow invoice '%s' !") %
+                raise osv.except_osv(
+                    _('Invoice already withhold !'),
+                    _("You must omit the follow invoice '%s' !") %
                     (line.invoice_id.number,))
 
         acc_id = ret.account_id.id
@@ -458,9 +459,10 @@ class account_wh_src(osv.osv):
                 args.append(('special', '=', False))
             period_id = per_obj.search(cr, uid, args)
             if not period_id:
-                raise osv.except_osv(_('Missing Periods!'),
-                _("There are not Periods created for the pointed day: %s!") %
-                    (ret.date_ret or time.strftime('%Y-%m-%d')))
+                raise osv.except_osv(
+                    _('Missing Periods!'),
+                    _("There are not Periods created for the pointed day:"
+                      " %s!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
             period_id = period_id[0]
         if period_id:
             if ret.line_ids:
@@ -510,7 +512,7 @@ class account_wh_src(osv.osv):
                     number = self.pool.get('ir.sequence').get(
                         cr, uid, 'account.wh.src.%s' % obj_ret.type)
                 cr.execute('UPDATE account_wh_src SET number=%s '
-                        'WHERE id=%s', (number, aws_id))
+                           'WHERE id=%s', (number, aws_id))
 
         return True
 

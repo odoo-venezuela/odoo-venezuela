@@ -33,14 +33,16 @@ class account_invoice_line(osv.osv):
     """
     _inherit = "account.invoice.line"
     _columns = {
-        'apply_wh': fields.boolean('Withheld',
-        help="""Indicates whether a line has been retained or not, to
-        accumulate the amount to withhold next month, according to the lines
-        that have not been retained."""),
-        'concept_id': fields.many2one('islr.wh.concept',
-        'Withholding  Concept',
-        help="Concept of Income Withholding asociate this rate",
-        required=False),
+        'apply_wh': fields.boolean(
+            'Withheld',
+            help="Indicates whether a line has been retained or not, to"
+                 " accumulate the amount to withhold next month, according"
+                 " to the lines that have not been retained."),
+        'concept_id': fields.many2one(
+            'islr.wh.concept',
+            'Withholding  Concept',
+            help="Concept of Income Withholding asociate this rate",
+            required=False),
         'state': fields.related('invoice_id', 'state', string='Current Status',
                                 type='char', required=True, readonly=True),
     }

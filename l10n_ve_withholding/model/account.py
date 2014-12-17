@@ -29,8 +29,9 @@ import time
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
-__TYPES__ = [('sale', 'Sale'),
-        ('sale_refund', 'Sale Refund'),
+__TYPES__ = [
+    ('sale', 'Sale'),
+    ('sale_refund', 'Sale Refund'),
     ('purchase', 'Purchase'),
     ('purchase_refund', 'Purchase Refund'),
     ('cash', 'Cash'),
@@ -106,9 +107,8 @@ class account_period(osv.osv):
         # them, this little hack is necesary if this issue is solved we should
         # ask directly for the refer to this bug for more information
         # https://bugs.launchpad.net/openobject-addons/+bug/924200
-        demo_enabled = self.pool.get('ir.module.module').search(cr, uid,
-                                                        [('name', '=', 'base'),
-                                                         ('demo', '=', True)])
+        demo_enabled = self.pool.get('ir.module.module').search(
+            cr, uid, [('name', '=', 'base'), ('demo', '=', True)])
         domain = demo_enabled and [do[1]] or do
         # End of hack, dear future me I am really sorry for this....
         period_ids = self.search(cr, uid, domain, context=context)

@@ -213,9 +213,10 @@ class account_invoice(osv.osv):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
-                raise osv.except_osv(_("Error!"),
-                _("You can't cancel an invoice that have non cancel"
-                  " Src Withholding Document. Needs first cancel the invoice"
-                  " Src Withholding Document and then you can cancel this"
-                  " invoice."))
+                raise osv.except_osv(
+                    _("Error!"),
+                    _("You can't cancel an invoice that have non cancel"
+                      " Src Withholding Document. Needs first cancel the"
+                      " invoice Src Withholding Document and then you can"
+                      " cancel this invoice."))
         return True

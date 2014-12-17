@@ -104,8 +104,8 @@ class islr_xml_wh_doc(osv.osv):
     _defaults = {
         'state': lambda *a: 'draft',
         'company_id': lambda self, cr, uid, context:
-        self.pool.get('res.users').browse(cr, uid, uid,
-                    context=context).company_id.id,
+        self.pool.get('res.users').browse(
+            cr, uid, uid, context=context).company_id.id,
         'user_id': lambda s, cr, u, c: u,
 
         'period_id': lambda self, cr, uid, context: self.period_return(

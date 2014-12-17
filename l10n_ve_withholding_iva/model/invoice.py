@@ -130,7 +130,8 @@ class account_invoice(osv.osv):
         inv_brw = self.browse(cr, uid, ids, context=context)
         if (inv_brw.type in ('in_invoice', 'in_refund') and
                 inv_brw.state == 'open' and not inv_brw.date_document):
-            raise osv.except_osv(_('Warning'),
+            raise osv.except_osv(
+                _('Warning'),
                 _('The document date can not be empty when the invoice is in'
                   ' open state.'))
         return True
@@ -146,7 +147,8 @@ class account_invoice(osv.osv):
         if (inv_brw.type in ('in_invoice', 'in_refund') and
                 inv_brw.date_document and
                 not inv_brw.date_document <= inv_brw.date_invoice):
-            raise osv.except_osv(_('Warning'),
+            raise osv.except_osv(
+                _('Warning'),
                 _('The document date must be less or equal than the invoice'
                   ' date.'))
         return True
@@ -329,8 +331,9 @@ class account_invoice(osv.osv):
             ttype = inv_brw.type in ["out_invoice", "out_refund"] \
                 and "out_invoice" or "in_invoice"
             acc_wh_ids = wh_iva_obj.search(
-                cr, uid, [('state', '=', 'draft'), ('type', '=', ttype), '|',
-                ('partner_id', '=', acc_part_id.id),
+                cr, uid, [
+                    ('state', '=', 'draft'), ('type', '=', ttype), '|',
+                    ('partner_id', '=', acc_part_id.id),
                     ('partner_id', 'child_of', acc_part_id.id),
                     ('period_id', '=', inv_period),
                     ('fortnight', '=', inv_fortnight)], context=context)
@@ -357,9 +360,10 @@ class account_invoice(osv.osv):
             acc_id = acc_part_id.property_account_payable.id
             wh_type = 'in_invoice'
             if not acc_id:
-                raise osv.except_osv('Invalid Action !',
-                        _('You need to configure the partner with'
-                          ' withholding accounts!'))
+                raise osv.except_osv(
+                    _('Invalid Action !'),
+                    _('You need to configure the partner with'
+                      ' withholding accounts!'))
         ret_iva = {
             'name': _('IVA WH - ORIGIN %s' % (inv_brw.number)),
             'type': wh_type,

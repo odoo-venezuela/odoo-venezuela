@@ -32,10 +32,10 @@ class account_tax(osv.osv):
     _columns = {
         'appl_type': fields.selection(
             [('exento', 'Exempt'),
-            ('sdcf', 'Not entitled to tax credit'),
-            ('general', 'General Aliquot'),
-            ('reducido', 'Reducted Aliquot'),
-            ('adicional', 'General Aliquot + Additional')],
+             ('sdcf', 'Not entitled to tax credit'),
+             ('general', 'General Aliquot'),
+             ('reducido', 'Reducted Aliquot'),
+             ('adicional', 'General Aliquot + Additional')],
             'Aliquot Type',
             required=False,
             help='Specify the aliquote type for the tax so it can be processed'

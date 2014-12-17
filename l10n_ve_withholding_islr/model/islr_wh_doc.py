@@ -225,7 +225,8 @@ class islr_wh_doc(osv.osv):
         res = {}
         # Checks for available invoices to Withhold
         if not obj.invoice_ids:
-            raise osv.except_osv(_('Missing Invoices!!!'),
+            raise osv.except_osv(
+                _('Missing Invoices!!!'),
                 _('You need to Add Invoices to Withhold Income Taxes!!!'))
 
         for wh_line in obj.invoice_ids:
@@ -276,9 +277,9 @@ class islr_wh_doc(osv.osv):
         if not iwd_brw.date_uid:
             raise osv.except_osv(
                 _('Missing Date !'), _("Please Fill Voucher Date"))
-        period_ids = self.pool.get('account.period').search(cr, uid,
-                                    [('date_start', '<=', iwd_brw.date_uid),
-                                    ('date_stop', '>=', iwd_brw.date_uid)])
+        period_ids = self.pool.get('account.period').search(
+            cr, uid, [('date_start', '<=', iwd_brw.date_uid),
+                      ('date_stop', '>=', iwd_brw.date_uid)])
         if len(period_ids):
             period_id = period_ids[0]
         else:
@@ -290,7 +291,7 @@ class islr_wh_doc(osv.osv):
 
         # Searching & Unlinking for concept lines from the current withholding
         iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
-                context=context)
+                                   context=context)
         if iwdl_ids:
             iwdl_obj.unlink(cr, uid, iwdl_ids, context=context)
 
@@ -584,24 +585,25 @@ class islr_wh_doc(osv.osv):
 
             if (line.invoice_id.currency_id.id !=
                     line.invoice_id.company_id.currency_id.id):
-                f_xc = ut_obj.sxc(cr, uid,
-                        line.invoice_id.company_id.currency_id.id,
-                        line.invoice_id.currency_id.id,
-                        line.islr_wh_doc_id.date_uid)
+                f_xc = ut_obj.sxc(
+                    cr, uid,
+                    line.invoice_id.company_id.currency_id.id,
+                    line.invoice_id.currency_id.id,
+                    line.islr_wh_doc_id.date_uid)
                 move_obj = self.pool.get('account.move')
                 move_line_obj = self.pool.get('account.move.line')
                 move_brw = move_obj.browse(cr, uid, ret_move['move_id'])
                 for ml in move_brw.line_id:
-                    move_line_obj.write(cr, uid, ml.id,
-                            {'currency_id': line.invoice_id.currency_id.id})
+                    move_line_obj.write(cr, uid, ml.id, {
+                        'currency_id': line.invoice_id.currency_id.id})
 
                     if ml.credit:
-                        move_line_obj.write(cr, uid, ml.id,
-                                {'amount_currency': f_xc(ml.credit) * -1})
+                        move_line_obj.write(cr, uid, ml.id, {
+                            'amount_currency': f_xc(ml.credit) * -1})
 
                     elif ml.debit:
-                        move_line_obj.write(cr, uid, ml.id,
-                                {'amount_currency': f_xc(ml.debit)})
+                        move_line_obj.write(cr, uid, ml.id, {
+                            'amount_currency': f_xc(ml.debit)})
 
             # make the withholding line point to that move
             rl = {
@@ -852,10 +854,11 @@ class islr_wh_doc_invoices(osv.osv):
         res = {}
         ut_obj = self.pool.get('l10n.ut')
         for ret_line in self.browse(cr, uid, ids, context):
-            f_xc = ut_obj.sxc(cr, uid,
-                    ret_line.invoice_id.company_id.currency_id.id,
-                    ret_line.invoice_id.currency_id.id,
-                    ret_line.islr_wh_doc_id.date_uid)
+            f_xc = ut_obj.sxc(
+                cr, uid,
+                ret_line.invoice_id.company_id.currency_id.id,
+                ret_line.invoice_id.currency_id.id,
+                ret_line.islr_wh_doc_id.date_uid)
             res[ret_line.id] = {
                 'amount_islr_ret': 0.0,
                 'base_ret': 0.0,
@@ -991,10 +994,10 @@ class islr_wh_doc_invoices(osv.osv):
         wh_concept = 0.0
 
         # Using a clousure to make this call shorter
-        f_xc = ut_obj.sxc(cr, uid,
-                iwdl_brw.invoice_id.currency_id.id,
-                iwdl_brw.invoice_id.company_id.currency_id.id,
-                iwdl_brw.invoice_id.date_invoice)
+        f_xc = ut_obj.sxc(
+            cr, uid, iwdl_brw.invoice_id.currency_id.id,
+            iwdl_brw.invoice_id.company_id.currency_id.id,
+            iwdl_brw.invoice_id.date_invoice)
 
         if iwdl_brw.invoice_id.type in ('in_invoice', 'in_refund'):
             for line in iwdl_brw.xml_ids:
@@ -1414,10 +1417,11 @@ class islr_wh_doc_line(osv.osv):
         ut_obj = self.pool.get('l10n.ut')
         for iwdl_brw in self.browse(cr, uid, ids, context):
             # Using a clousure to make this call shorter
-            f_xc = ut_obj.sxc(cr, uid,
-                    iwdl_brw.invoice_id.company_id.currency_id.id,
-                    iwdl_brw.invoice_id.currency_id.id,
-                    iwdl_brw.islr_wh_doc_id.date_uid)
+            f_xc = ut_obj.sxc(
+                cr, uid,
+                iwdl_brw.invoice_id.company_id.currency_id.id,
+                iwdl_brw.invoice_id.currency_id.id,
+                iwdl_brw.islr_wh_doc_id.date_uid)
 
             res[iwdl_brw.id] = {
                 'amount': 0.0,

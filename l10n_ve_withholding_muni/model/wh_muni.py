@@ -365,7 +365,8 @@ class account_wh_munici(osv.osv):
         context = context or {}
         for muni_brw in self.browse(cr, uid, ids, context=context):
             if muni_brw.state != 'cancel':
-                raise osv.except_osv(_("Invalid Procedure!!"),
+                raise osv.except_osv(
+                    _("Invalid Procedure!!"),
                     _("The withholding document needs to be in cancel state"
                       " to be deleted."))
             else:
@@ -467,7 +468,7 @@ class account_wh_munici_line(osv.osv):
             cr.execute('select retention_id '
                        'from account_wh_munici_line '
                        'where invoice_id=%s',
-                (invoice_id,))
+                       (invoice_id,))
             ret_ids = cr.fetchone()
             if bool(ret_ids):
                 ret = self.pool.get(

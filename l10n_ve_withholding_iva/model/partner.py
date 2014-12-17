@@ -33,7 +33,8 @@ class res_partner(osv.osv):
     logger = logging.getLogger('res.partner')
 
     _columns = {
-        'consolidate_vat_wh': fields.boolean('Fortnight Consolidate Wh. VAT',
+        'consolidate_vat_wh': fields.boolean(
+            'Fortnight Consolidate Wh. VAT',
             help='If set then the withholdings vat generate in a same'
             ' fornight will be grouped in one withholding receipt.'),
     }

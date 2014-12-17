@@ -59,10 +59,10 @@ class account_invoice(osv.osv):
         """
 
         context = context or {}
-        res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh,
-                            period_id, pay_journal_id, writeoff_acc_id,
-                            writeoff_period_id, writeoff_journal_id, date,
-                            name, context=context)
+        res = super(account_invoice, self)._get_move_lines(
+            cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
+            writeoff_period_id, writeoff_journal_id, date, name,
+            context=context)
         if context.get('muni_wh', False):
             rp_obj = self.pool.get('res.partner')
             acc_part_brw = rp_obj._find_accounting_partner(
@@ -147,8 +147,8 @@ class account_invoice(osv.osv):
                     move[line2.move_id.id] = True
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid,
-                         [('move_id', 'in', move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(
+                cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def _get_inv_munici_from_reconcile(self, cr, uid, ids, context=None):
@@ -165,8 +165,8 @@ class account_invoice(osv.osv):
 
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid,
-                          [('move_id', 'in', move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(
+                cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def action_cancel(self, cr, uid, ids, context=None):
@@ -178,15 +178,17 @@ class account_invoice(osv.osv):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
-                raise osv.except_osv(_("Error!"),
-                _("You can't cancel an invoice that have non cancel"
-                  " Local Withholding Document. Needs first cancel the invoice"
-                  " Local Withholding Document and then you can cancel this"
-                  " invoice."))
+                raise osv.except_osv(
+                    _("Error!"),
+                    _("You can't cancel an invoice that have non cancel"
+                      " Local Withholding Document. Needs first cancel the"
+                      " invoice Local Withholding Document and then you can"
+                      " cancel this invoice."))
         return True
 
     _columns = {
-        'wh_local': fields.function(_retenida_munici, method=True,
+        'wh_local': fields.function(
+            _retenida_munici, method=True,
             string='Local Withholding', type='boolean',
             store={
                 'account.invoice':
@@ -197,7 +199,8 @@ class account_invoice(osv.osv):
             },
             help="The account moves of the invoice have been withheld with \
             account moves of the payment(s)."),
-        'wh_muni_id': fields.many2one('account.wh.munici', 'Wh. Municipality',
+        'wh_muni_id': fields.many2one(
+            'account.wh.munici', 'Wh. Municipality',
             readonly=True, help="Withholding muni."),
 
     }

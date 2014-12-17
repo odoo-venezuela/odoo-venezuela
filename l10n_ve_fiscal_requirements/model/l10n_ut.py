@@ -35,16 +35,18 @@ class l10n_ut(osv.osv):
     _description = 'Tax Unit'
     _order = 'date desc'
     _columns = {
-        'name': fields.char('Reference number',
-        size=64, required=True, readonly=False,
-        help="Reference number under the law"),
-        'date': fields.date('Date', required=True,
-        help="Date on which goes into effect the new Unit Tax Unit"),
-        'amount': fields.float('Amount',
-        digits_compute=dp.get_precision('Amount Bs per UT'),
-        help="Amount of the tax unit in bs", required=True),
-        'user_id': fields.many2one('res.users', 'Salesman',
-        readonly=True, states={'draft': [('readonly', False)]},
+        'name': fields.char(
+            'Reference number', size=64, required=True, readonly=False,
+            help="Reference number under the law"),
+        'date': fields.date(
+            'Date', required=True,
+            help="Date on which goes into effect the new Unit Tax Unit"),
+        'amount': fields.float(
+            'Amount', digits_compute=dp.get_precision('Amount Bs per UT'),
+            help="Amount of the tax unit in bs", required=True),
+        'user_id': fields.many2one(
+            'res.users', 'Salesman',
+            readonly=True, states={'draft': [('readonly', False)]},
             help="Vendor user"),
     }
     _defaults = {

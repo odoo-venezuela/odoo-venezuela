@@ -86,7 +86,8 @@ class res_partner(osv.osv):
             string='Rate',
             digits_compute=dp.get_precision('Withhold'),
             help="Vat Withholding rate"),
-        'wh_iva_agent': fields.boolean('Wh. Agent',
+        'wh_iva_agent': fields.boolean(
+            'Wh. Agent',
             help="Indicate if the partner is a withholding vat agent"),
     }
 

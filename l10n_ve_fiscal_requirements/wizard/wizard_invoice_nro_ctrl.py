@@ -83,13 +83,14 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
                              context=context)
         if tax:
             tax_obj.write(cr, uid, tax[0], {'invoice_id': []}, context=context)
-        tax_obj.create(cr, uid, {'name': 'SDCF',
-                         'tax_id': tax_ids and tax_ids[0],
-                         'amount': 0.00,
-                         'tax_amount': 0.00,
-                         'base': 0.00,
-                         'account_id': inv_brw.company_id.acc_id.id,
-                         'invoice_id': inv_brw and inv_brw.id}, {})
+        tax_obj.create(cr, uid, {
+            'name': 'SDCF',
+            'tax_id': tax_ids and tax_ids[0],
+            'amount': 0.00,
+            'tax_amount': 0.00,
+            'base': 0.00,
+            'account_id': inv_brw.company_id.acc_id.id,
+            'invoice_id': inv_brw and inv_brw.id}, {})
         move_id = inv_brw.move_id and inv_brw.move_id.id
 
         if move_id:

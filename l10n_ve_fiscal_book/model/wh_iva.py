@@ -29,7 +29,8 @@ from openerp.osv import fields, orm
 class account_wh_iva_line(orm.Model):
     _inherit = "account.wh.iva.line"
     _columns = {
-        'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
+        'fb_id': fields.many2one(
+            'fiscal.book', 'Fiscal Book',
             help='Fiscal Book where this line is related to'),
     }
 

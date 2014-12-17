@@ -100,9 +100,8 @@ class wh_iva_config(osv.osv_memory):
         otherwise users tend to forget to fill in the real company data in
         their production databases
         """
-        return self.pool.get('ir.model.data').get_object(cr, uid,
-                                                         'base',
-                                             'module_meta_information').demo
+        return self.pool.get('ir.model.data').get_object(
+            cr, uid, 'base', 'module_meta_information').demo
 
     def default_get(self, cr, uid, fields_list=None, context=None):
         """ Get default company if any, and the various other fields
@@ -111,8 +110,8 @@ class wh_iva_config(osv.osv_memory):
         defaults = super(wh_iva_config, self)\
             .default_get(cr, uid, fields_list=fields_list, context=context)
         # Set Vauxoo logo on config Window.
-        logo = open(addons.get_module_resource('l10n_ve_withholding_iva',
-                                            'images', 'angelfalls.jpg'), 'rb')
+        logo = open(addons.get_module_resource(
+            'l10n_ve_withholding_iva', 'images', 'angelfalls.jpg'), 'rb')
         defaults['config_logo'] = base64.encodestring(logo.read())
         if not self._show_company_data(cr, uid, context=context):
             #            defaults['add']=''
@@ -156,9 +155,9 @@ class wh_iva_config(osv.osv_memory):
                                  'iva_sale', 'VATS')
         if wiz_data.get('wh'):
             p_obj.write(cr, uid, [partner_id], {'wh_iva_agent': 1,
-                                            'wh_iva_rate': 75.00})
+                                                'wh_iva_rate': 75.00})
         else:
             p_obj.write(cr, uid, [partner_id], {'wh_iva_agent': 0,
-                                            'wh_iva_rate': 75.00})
+                                                'wh_iva_rate': 75.00})
 
 wh_iva_config()

@@ -646,7 +646,7 @@ class account_wh_iva(osv.osv):
                           ' VAT Withholding'))
 
                 cr.execute('UPDATE account_wh_iva SET number=%s '
-                        'WHERE id=%s', (number, awi_id))
+                           'WHERE id=%s', (number, awi_id))
         return True
 
     def action_date_ret(self, cr, uid, ids, context=None):
@@ -698,8 +698,9 @@ class account_wh_iva(osv.osv):
         ret = self.browse(cr, uid, ids[0], context)
         for line in ret.wh_lines:
             if line.move_id or line.invoice_id.wh_iva:
-                raise osv.except_osv(_('Invoice already withhold !'),
-                _("You must omit the follow invoice '%s' !") %
+                raise osv.except_osv(
+                    _('Invoice already withhold !'),
+                    _("You must omit the follow invoice '%s' !") %
                     (line.invoice_id.name,))
 
         acc_id = ret.account_id.id
@@ -852,8 +853,9 @@ class account_wh_iva(osv.osv):
             ai_ids = [
                 ai_brw.id
                 for ai_brw in ai_obj.browse(cr, uid, ai_ids, context=context)
-                if per_obj.find_fortnight(cr, uid, ai_brw.date_invoice,
-              context=context) == (period_id, fortnight)]
+                if per_obj.find_fortnight(
+                    cr, uid, ai_brw.date_invoice,
+                    context=context) == (period_id, fortnight)]
 
         ai_ids = self._withholdable_tax_(cr, uid, ai_ids, context=context)
         # print 'ai_ids', ai_ids
@@ -886,7 +888,8 @@ class account_wh_iva(osv.osv):
                 acc_part_id = rp_obj._find_accounting_partner(
                     awil_brw.invoice_id.partner_id)
                 if acc_part_id.id != awi_brw.partner_id.id:
-                    inv_str += '%s' % '\n' + (awil_brw.invoice_id.name or
+                    inv_str += '%s' % '\n' + (
+                        awil_brw.invoice_id.name or
                         awil_brw.invoice_id.number or '')
 
             if inv_str:
@@ -997,7 +1000,7 @@ class account_wh_iva(osv.osv):
         per_obj = self.pool.get('account.period')
         error_msg = str()
         fortnight_str = {'True': ' - Second Fortnight)',
-                        'False': ' - First Fortnight)'}
+                         'False': ' - First Fortnight)'}
         for awi_brw in self.browse(cr, uid, ids, context=context):
             if awi_brw.type in ['out_invoice']:
                 return True
@@ -1009,8 +1012,8 @@ class account_wh_iva(osv.osv):
                    awil_fortnight != awi_brw.fortnight:
                     error_msg += \
                         (" * Line '" + awil_brw.invoice_id.number +
-                         "' belongs to (" + per_obj.browse(cr, uid,
-                         awil_period_id, context=context).name +
+                         "' belongs to (" + per_obj.browse(
+                             cr, uid, awil_period_id, context=context).name +
                          fortnight_str[awil_fortnight] + ".\n")
             if error_msg:
                 raise osv.except_osv(

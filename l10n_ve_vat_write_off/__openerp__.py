@@ -2,7 +2,7 @@
     "name": "VAT Write Off",
     "version": "0.5",
     "depends": ["l10n_ve_fiscal_book",
-        "report_webkit"],
+                "report_webkit"],
     "author": "Vauxoo",
     "description": """
     """,
