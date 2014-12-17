@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
+import ast
 import datetime
 import time
-import ast
 
 from openerp import netsvc
 from openerp.osv import fields, osv

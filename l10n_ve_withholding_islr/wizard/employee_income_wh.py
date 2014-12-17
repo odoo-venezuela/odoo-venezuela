@@ -12,11 +12,10 @@
 # from datetime import datetime
 import base64
 import functools
-
 import logging
-import libxml2
 
-from openerp.osv import osv, fields
+import libxml2
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
