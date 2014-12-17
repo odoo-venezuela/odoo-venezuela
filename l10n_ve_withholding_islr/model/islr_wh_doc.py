@@ -823,7 +823,7 @@ class account_invoice(osv.osv):
             string='Income Withholding Document',
             store={'islr.wh.doc': (_get_inv_from_iwd, ['invoice_ids'], 50),
                    'islr.wh.doc.invoices': (
-                       _get_inv_from_iwdi, ['invoice_id'], 50),},
+                       _get_inv_from_iwdi, ['invoice_id'], 50)},
             help="Document Income Withholding tax generated from this"
                  " Invoice"),
     }
