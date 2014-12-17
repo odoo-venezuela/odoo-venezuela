@@ -41,7 +41,7 @@ class wizard_change_number_wh_iva(osv.osv_memory):
         data = super(wizard_change_number_wh_iva, self).default_get(
             cr, uid, field_list, context)
         if (context.get('active_model') == 'account.wh.iva' and
-            context.get('active_id')):
+                context.get('active_id')):
             wh_iva = self.pool.get('account.wh.iva').browse(
                 cr, uid, context['active_id'], context=context)
             if wh_iva.number:
