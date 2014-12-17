@@ -171,7 +171,7 @@ class account_invoice(osv.osv):
                 # group by tax id #
                 key = (tax.tax_id.id)
                 tax_key.append(key)
-                if not key in compute_taxes:
+                if key not in compute_taxes:
                     raise osv.except_osv(
                         _('Warning !'),
                         _('Global taxes defined, but are not in invoice'
@@ -183,7 +183,7 @@ class account_invoice(osv.osv):
                         _('Tax base different !\nClick on compute to update'
                           ' tax base'))
             for key in compute_taxes:
-                if not key in tax_key:
+                if key not in tax_key:
                     raise osv.except_osv(_('Warning !'), _('Taxes missing !'))
 
 
@@ -267,7 +267,7 @@ class account_invoice_tax(osv.osv):
 #                       val['account_id'])
                 # group by tax id #
                 key = (val['tax_id'])
-                if not key in tax_grouped:
+                if key not in tax_grouped:
                     tax_grouped[key] = val
                 else:
                     tax_grouped[key]['amount'] += val['amount']
