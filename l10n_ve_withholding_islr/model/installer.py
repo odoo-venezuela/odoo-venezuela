@@ -66,9 +66,8 @@ class wh_islr_config(osv.osv_memory):
         concept_pool = self.pool.get("islr.wh.concept")
         concept_pool.write(
             cr, uid, concept_pool.search(cr, uid, [], context=context), {
-            'property_retencion_islr_payable': purchase,
-            'property_retencion_islr_receivable': sale
-        }, context=context)
+                'property_retencion_islr_payable': purchase,
+                'property_retencion_islr_receivable': sale}, context=context)
         return True
 
     def _set_wh_agent(self, cr, uid):

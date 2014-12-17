@@ -45,8 +45,8 @@ class account_invoice(osv.osv):
         """
         rp_obj = self.pool.get('res.partner')
         res = super(account_invoice, self).onchange_partner_id(
-            cr, uid, ids, inv_type,
-        partner_id, date_invoice, payment_term, partner_bank_id, company_id)
+            cr, uid, ids, inv_type, partner_id, date_invoice, payment_term,
+            partner_bank_id, company_id)
 
         if inv_type in ('out_invoice',):
             rp_brw = rp_obj._find_accounting_partner(

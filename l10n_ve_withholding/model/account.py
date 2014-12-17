@@ -78,7 +78,7 @@ class account_journal(osv.osv):
                  " Select 'Sale Wh SRC' for customer social withholding"
                  " journals."
                  " Select 'Purchase Wh SRC' for supplier social withholding"
-                 " journals."
+                 " journals.")
     }
 
 account_journal()

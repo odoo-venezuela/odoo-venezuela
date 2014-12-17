@@ -181,8 +181,8 @@ class account_invoice_tax(osv.osv):
     _columns = {
         'tax_id': fields.many2one(
             'account.tax', 'Tax', required=False, ondelete='set null',
-        help="Tax relation to original tax, to be able to take off all data"
-             " from invoices."),
+            help="Tax relation to original tax, to be able to take off all"
+                 " data from invoices."),
     }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
