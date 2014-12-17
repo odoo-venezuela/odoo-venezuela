@@ -441,7 +441,7 @@ class account_invoice(osv.osv):
         if inv_brw.type == 'in_refund' and inv_brw.parent_id:
             dt_refund = inv_brw.date_invoice or time.strftime('%Y-%m-%d')
             dt_invoice = inv_brw.parent_id.date_invoice
-            return  per_obj.find_fortnight(cr, uid, dt=dt_refund, context=context) == \
+            return per_obj.find_fortnight(cr, uid, dt=dt_refund, context=context) == \
                 per_obj.find_fortnight(cr, uid, dt=dt_invoice, context=context)
         return False
 
