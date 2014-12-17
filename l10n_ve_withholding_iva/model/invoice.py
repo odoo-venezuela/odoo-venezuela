@@ -503,10 +503,12 @@ class account_invoice(osv.osv):
                         _("Tax [%s] has missing account. Please, fill the"
                           " missing fields") % (tax_brw.tax_id.name,))
                 res.append((0, 0, {
-                    'debit': direction * tax_brw.amount_ret < 0 and
-                        - direction * tax_brw.amount_ret,
-                    'credit': direction * tax_brw.amount_ret > 0 and
-                        direction * tax_brw.amount_ret,
+                    'debit':
+                    direction * tax_brw.amount_ret < 0 and
+                    - direction * tax_brw.amount_ret,
+                    'credit':
+                    direction * tax_brw.amount_ret > 0 and
+                    direction * tax_brw.amount_ret,
                     'account_id': acc,
                     'partner_id': acc_part_id.id,
                     'ref': invoice.number,

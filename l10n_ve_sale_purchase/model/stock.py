@@ -49,9 +49,10 @@ class stock_picking(osv.osv):
         invoice_line_obj = self.pool.get('account.invoice.line')
         for ail_brw in invoice_brw.invoice_line:
             invoice_line_obj.write(cursor, user, ail_brw.id, {
-                'concept_id': ail_brw.product_id and
-                              ail_brw.product_id.concept_id and
-                              ail_brw.product_id.concept_id.id or False})
+                'concept_id':
+                ail_brw.product_id and
+                ail_brw.product_id.concept_id and
+                ail_brw.product_id.concept_id.id or False})
         return data
 
     _columns = {

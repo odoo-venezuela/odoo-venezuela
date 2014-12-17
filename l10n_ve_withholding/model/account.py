@@ -116,7 +116,7 @@ class account_period(osv.osv):
             raise osv.except_osv(
                 _('Error looking Fortnight !'),
                 _('There is no "Special" period defined for this date: %s.')
-                    % date)
+                % date)
 
         fortnight = (False if time.strptime(date, '%Y-%m-%d').tm_mday <= 15
                      else True)

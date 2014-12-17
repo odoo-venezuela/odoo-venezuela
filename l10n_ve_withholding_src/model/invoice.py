@@ -189,10 +189,12 @@ class account_invoice(osv.osv):
                           " the missing fields") % (
                               tax_brw.wh_id.company_id.name,))
                 res.append((0, 0, {
-                    'debit': direction * tax_brw.wh_amount < 0 and
-                        - direction * tax_brw.wh_amount,
-                    'credit': direction * tax_brw.wh_amount > 0 and
-                        direction * tax_brw.wh_amount,
+                    'debit':
+                    direction * tax_brw.wh_amount < 0 and
+                    - direction * tax_brw.wh_amount,
+                    'credit':
+                    direction * tax_brw.wh_amount > 0 and
+                    direction * tax_brw.wh_amount,
                     'account_id': acc,
                     'partner_id': acc_part_brw.id,
                     'ref': invoice.number,

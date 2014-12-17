@@ -267,7 +267,7 @@ class account_invoice_refund(osv.osv_memory):
                     else:
                         raise osv.except_osv(
                             _('Control Number !'),
-                           _('Missing Control Number on Invoice Refund!'))
+                            _('Missing Control Number on Invoice Refund!'))
 
                 if not period:
                     raise osv.except_osv(_('Data Insufficient !'),

@@ -983,8 +983,9 @@ class islr_wh_doc_invoices(osv.osv):
         # other date in the withholding in order to take into account the
         # customer income withholding.
         context.update({
-            'wh_islr_date_ret': iwdl_brw.islr_wh_doc_id.date_uid or
-                iwdl_brw.islr_wh_doc_id.date_ret or False
+            'wh_islr_date_ret':
+            iwdl_brw.islr_wh_doc_id.date_uid or
+            iwdl_brw.islr_wh_doc_id.date_ret or False
         })
         base = 0
         wh_concept = 0.0
