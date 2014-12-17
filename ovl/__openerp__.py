@@ -46,7 +46,7 @@
         # "l10n_ve_vat_write_off",
     ],
     "author": "Vauxoo",
-    "description" : """
+    "description": """
 Install all apps needed to comply with Venezuelan laws
 ======================================================
 

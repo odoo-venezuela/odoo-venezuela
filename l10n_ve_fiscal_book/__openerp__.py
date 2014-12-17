@@ -35,7 +35,7 @@
     "depends": ["account", "l10n_ve_withholding_iva",
                 "l10n_ve_fiscal_requirements", "l10n_ve_imex"],
     "author": "Vauxoo",
-    "description" : """
+    "description": """
 Fiscal Book
 ===============================================================================
 Build all Fiscal Reports for Law in Venezuela.

@@ -62,7 +62,7 @@ class wh_vat_installer(osv.osv_memory):
 
     _defaults = {
         'name': 'RegimendeRetencionesdelIVA.odt',
-        'description' : """
+        'description': """
         With this wizard you will configure all needs for work out of the box
         with This module,
         First: Setting if The company will be withholding agent.

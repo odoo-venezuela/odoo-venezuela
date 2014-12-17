@@ -29,7 +29,7 @@
     "version": "0.2",
     "depends": ["account"],
     "author": "Vauxoo",
-    "description" : """
+    "description": """
 For legal reasons in Venezuela we need just ONE invoice per page, with this
 module depending on your company configuration you will stablish the number
 of lines per invoice, with this you will be able of:

@@ -220,7 +220,7 @@
         # End list of all oficial modules
     ],
     "author": "Vauxoo",
-    "description" : """
+    "description": """
 Install all apps needed to comply with Venezuelan laws plus all oficial modules
 ======================================================
 

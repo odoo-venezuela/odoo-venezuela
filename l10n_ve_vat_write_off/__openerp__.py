@@ -4,7 +4,7 @@
     "depends": ["l10n_ve_fiscal_book",
         "report_webkit"],
     "author": "Vauxoo",
-    "description" : """
+    "description": """
     """,
     "website": "http://openerp.com.ve",
     "category": "Generic Modules/Accounting",
