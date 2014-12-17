@@ -1472,7 +1472,7 @@ class fiscal_book(orm.Model):
 
         data['do_sdcf_and_exempt_sum'] = fb_brw.type == 'sale' \
             and (data['tp_exempt_vat_sum'] + data['tp_sdcf_vat_sum'] +
-                data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum'] ) \
+                data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum']) \
             or (data['do_exempt_vat_sum'] + data['do_sdcf_vat_sum'])
 
         for optype in ['imex', 'do', 'tp', 'ntp']:
