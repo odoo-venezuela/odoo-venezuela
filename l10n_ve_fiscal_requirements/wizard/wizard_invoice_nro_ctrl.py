@@ -116,9 +116,8 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
     def create_invoice(self, cr, uid, ids, context=None):
         """ Create a invoice refund
         """
-        if context == None:
-            context = {}
-        wizard_brw = self.browse(cr, uid, ids, context=None)
+        context = context or {}
+        wizard_brw = self.browse(cr, uid, ids, context=context)
         inv_id = context.get('active_id')
         for wizard in wizard_brw:
             if not wizard.sure:
