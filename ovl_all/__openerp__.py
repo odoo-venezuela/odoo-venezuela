@@ -238,6 +238,5 @@ This module will install for you:
     "test": [],
     "images": [],
     "auto_install": False,
-    "application": True,
     "installable": True,
  }
