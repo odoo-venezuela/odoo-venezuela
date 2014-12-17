@@ -599,7 +599,7 @@ class account_wh_iva(osv.osv):
         res = super(account_wh_iva, self).write(cr, uid, ids, values,
                                                 context=context)
         self._partner_invoice_check(cr, uid, ids, context=context)
-        return
+        return res
 
     def create(self, cr, uid, values, context=None):
         context = context or {}
