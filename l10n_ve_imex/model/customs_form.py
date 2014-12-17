@@ -81,7 +81,7 @@ class customs_form(osv.osv):
                 })
 
     _columns = {
-        'name': fields.char('Form #, size=16, required=True, readonly=True,
+        'name': fields.char('Form #', size=16, required=True, readonly=True,
                             states={'draft': [('readonly', False)]}),
         'ref': fields.char('Reference', size=64, required=False, readonly=True,
                            states={'draft': [('readonly', False)]}),
