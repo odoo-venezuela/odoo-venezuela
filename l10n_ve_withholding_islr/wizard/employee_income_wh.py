@@ -26,7 +26,7 @@ from openerp.tools.translate import _
 # import netsvc
 # import csv
 
-## ---------------------------------------------------------- employee_income_wh
+# ---------------------------------------------------------- employee_income_wh
 
 
 class employee_income_wh(osv.osv_memory):
@@ -176,7 +176,7 @@ class employee_income_wh(osv.osv_memory):
 
     # ---------------------------------------------------------- public methods
 
-    ## -------------------------------------------------------- buttons (object)
+    # -------------------------------------------------------- buttons (object)
 
     def process_employee_income_wh(self, cr, uid, ids, context=None):
         ids = isinstance(ids, (int, long)) and [ids] or ids
@@ -213,7 +213,7 @@ class employee_income_wh(osv.osv_memory):
 
     # ----------------------------------------------------- create write unlink
 
-    ## ---------------------------------------------------------------- Workflow
+    # ---------------------------------------------------------------- Workflow
 
 employee_income_wh()
 
