@@ -131,13 +131,13 @@ class rep_comprobante(report_sxw.rml_parse):
                 no_fac_afe = rl.invoice_id.parent_id and \
                     rl.invoice_id.parent_id.supplier_invoice_number or ''
 
-            #~ Code to meet the changes in the new use field ret,
-            #~ and the new relation in account.invoice.tax
+            # Code to meet the changes in the new use field ret,
+            # and the new relation in account.invoice.tax
 
             for txl in rl.invoice_id.tax_line:
-                #~ Here being reviewed the taxes they are
-                #~ in the invoice only in order to obtain
-                #~ only taxes that are not subject to withholding
+                # Here being reviewed the taxes they are
+                # in the invoice only in order to obtain
+                # only taxes that are not subject to withholding
 
                 aaa = (txl.name and txl.name.find('SDCF') != -1)
                 bbb = (txl.tax_id and not txl.tax_id.ret)

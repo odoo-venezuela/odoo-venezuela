@@ -58,7 +58,7 @@ you specified
     "demo_xml": [
     ],
     "update_xml": [
-        #~        "view/installer_view.xml",
+        #        "view/installer_view.xml",
         "view/company_view.xml",
     ],
     'test': [

@@ -286,14 +286,14 @@ class account_invoice(osv.osv):
                           ' cancel state.'))
                 return True
             else:
-                #~ Create Lines Data
+                # Create Lines Data
                 ret_line_id = self.wh_iva_line_create(cr, uid, inv_brw.id,
                                                       context=context)
                 fortnight_wh_id = self.get_fortnight_wh_id(cr, uid, inv_brw.id,
                                                            context=context)
-                #~ Add line to a WH DOC
+                # Add line to a WH DOC
                 if inv_brw.company_id.consolidate_vat_wh and fortnight_wh_id:
-                    #~ Add to an exist WH Doc
+                    # Add to an exist WH Doc
                     ret_id = isinstance(fortnight_wh_id, (int, long)) \
                         and fortnight_wh_id or fortnight_wh_id[0]
                     if not ret_id:
@@ -303,7 +303,7 @@ class account_invoice(osv.osv):
                                      {'wh_lines': [(4, ret_line_id)]},
                                      context=context)
                 else:
-                    #~ Create a New WH Doc and add line
+                    # Create a New WH Doc and add line
                     ret_id = self.create_new_wh_iva(cr, uid, inv_brw.id,
                                                     ret_line_id,
                                                     context=context)
@@ -567,8 +567,8 @@ class account_invoice(osv.osv):
         If it has then raise a error message. """
         context = context or {}
         for inv_brw in self.browse(cr, uid, ids, context=context):
-            #~ print '\n'*3, 'inv_brw.wh_iva_id', inv_brw.wh_iva_id,
-            #~       'inv_brw.wh_iva_id.state', inv_brw.wh_iva_id.state, '\n'*3
+            # print '\n'*3, 'inv_brw.wh_iva_id', inv_brw.wh_iva_id,
+            #       'inv_brw.wh_iva_id.state', inv_brw.wh_iva_id.state, '\n'*3
             if ((not inv_brw.wh_iva_id) or (
                     inv_brw.wh_iva_id and
                     inv_brw.wh_iva_id.state == 'cancel')):

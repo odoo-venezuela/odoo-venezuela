@@ -77,7 +77,7 @@ class customs_facility(osv.osv):
 
     def name_search(self, cr, user, name, args=None, operator='ilike',
                     context=None, limit=100):
-        #~ Based on account.account.name_search...
+        # Based on account.account.name_search...
         res = super(customs_facility, self).name_search(
             cr, user, name, args, operator, context, limit)
         if not res and name:

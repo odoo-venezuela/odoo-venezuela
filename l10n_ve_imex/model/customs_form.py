@@ -150,7 +150,7 @@ class customs_form(osv.osv):
         company_id = context.get('f86_company_id')
         rp_obj = self.pool.get('res.partner')
 
-        #~ expenses
+        # expenses
         for line in f86.cfl_ids:
             debits = []
             acc_part_brw = rp_obj._find_accounting_partner(
@@ -293,7 +293,7 @@ class customs_form(osv.osv):
                 _('Error!'),
                 _('Multiple operations not allowed'))
         for f86 in self.browse(cr, uid, ids, context=None):
-            #~ Validate account_move.state != draft
+            # Validate account_move.state != draft
             if f86.move_id and f86.move_id.state != 'draft':
                 raise osv.except_osv(
                     _('Error!'),

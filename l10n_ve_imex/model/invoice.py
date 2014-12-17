@@ -118,28 +118,28 @@ class account_invoice_tax(osv.osv):
     _defaults = {
     }
 
-    #~ _sql_constraints = [
-    #~ ('base_gt_zero', 'CHECK (base>0)',
-    #~ 'The base amount must be > 0!'),
-    #~ ('amount_zero', 'CHECK (amount>=0)',
-    #~ 'The tax amount must be >= 0!'),
-    #~ ]
+    # _sql_constraints = [
+    # ('base_gt_zero', 'CHECK (base>0)',
+    # 'The base amount must be > 0!'),
+    # ('amount_zero', 'CHECK (amount>=0)',
+    # 'The tax amount must be >= 0!'),
+    # ]
 
-    #~ def on_change_cfl_id(self, cr, uid, ids,
-    #~                                cfl_id):
-    #~ '''
-    #~ Create a domain to filter invoice_id for invoices listed in
-    #~ customs_form.invoice_ids only
-    #~ http://help.openerp.com/question/11180/how-to-create-a-domain-for-
-    #~ field-in-parentparent-model/
-    #~ '''
-    #~ res = {}
-    #~ if cfl_id:
-    #~ line_obj = self.pool.get('customs.form.line')
-    #~ invoices = [i.id for i in line_obj.browse(
-    #~ cr, uid, cfl_id).customs_form_id.invoice_ids]
-    #~ res = {'domain': {'invoice_id': [('id','in',invoices)]}}
-    #~ return res
+    # def on_change_cfl_id(self, cr, uid, ids,
+    #                                cfl_id):
+    # '''
+    # Create a domain to filter invoice_id for invoices listed in
+    # customs_form.invoice_ids only
+    # http://help.openerp.com/question/11180/how-to-create-a-domain-for-
+    # field-in-parentparent-model/
+    # '''
+    # res = {}
+    # if cfl_id:
+    # line_obj = self.pool.get('customs.form.line')
+    # invoices = [i.id for i in line_obj.browse(
+    # cr, uid, cfl_id).customs_form_id.invoice_ids]
+    # res = {'domain': {'invoice_id': [('id','in',invoices)]}}
+    # return res
 
     def on_change_amount(self, cr, uid, ids, tax_id, base_amount, tax_amount,
                          context=None):

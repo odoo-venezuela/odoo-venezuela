@@ -288,7 +288,7 @@ class islr_wh_doc(osv.osv):
                     iwd_brw.date_uid or time.strftime('%Y-%m-%d')))
         iwd_brw.write({'period_id': period_id})
 
-        #~ Searching & Unlinking for concept lines from the current withholding
+        # Searching & Unlinking for concept lines from the current withholding
         iwdl_ids = iwdl_obj.search(cr, uid, [('islr_wh_doc_id', '=', ids[0])],
                 context=context)
         if iwdl_ids:
@@ -331,7 +331,7 @@ class islr_wh_doc(osv.osv):
         xml_obj = self.pool.get('islr.xml.wh.line')
         wh_doc_id = ids[0]
 
-        #~ DELETED XML LINES
+        # DELETED XML LINES
         islr_lines = line_obj.search(cr, uid, [
                                      ('islr_wh_doc_id', '=', wh_doc_id)])
         xml_lines = islr_lines and xml_obj.search(
@@ -491,8 +491,8 @@ class islr_wh_doc(osv.osv):
         """ The operation is canceled and not allows automatic retention
         """
         context = context or {}
-        #~ if self.browse(cr,uid,ids)[0].type=='in_invoice':
-        #~ return True
+        # if self.browse(cr,uid,ids)[0].type=='in_invoice':
+        # return True
         self.pool.get('islr.wh.doc').write(
             cr, uid, ids, {'automatic_income_wh': False})
 
@@ -642,7 +642,7 @@ class islr_wh_doc(osv.osv):
             context = {}
         # TODO check if we can use different period for payment and the
         # writeoff line
-        #~ assert len(invoice_ids)==1, "Can only pay one invoice at a time"
+        # assert len(invoice_ids)==1, "Can only pay one invoice at a time"
         invoice = inv_obj.browse(cr, uid, invoice_id)
         acc_part_id = rp_obj._find_accounting_partner(invoice.partner_id)
         src_account_id = invoice.account_id.id
@@ -1117,13 +1117,13 @@ class islr_wh_doc_invoices(osv.osv):
                                           context=context)
 
         if ret_line.invoice_id.type in ('in_invoice', 'in_refund'):
-            #~ Searching & Unlinking for xml lines from the current invoice
+            # Searching & Unlinking for xml lines from the current invoice
             xml_lines = ixwl_obj.search(cr, uid, [(
                 'islr_wh_doc_inv_id', '=', ret_line.id)], context=context)
             if xml_lines:
                 ixwl_obj.unlink(cr, uid, xml_lines)
 
-            #~ Creating xml lines from the current invoices again
+            # Creating xml lines from the current invoices again
             ail_brws = [
                 i for i in ret_line.invoice_id.invoice_line
                 if i.concept_id and i.concept_id.withholdable]
@@ -1136,24 +1136,24 @@ class islr_wh_doc_invoices(osv.osv):
                         _("Please fill the Invoice number to continue, without"
                           " this number will be impossible to compute the"
                           " withholding"))
-                #~ Vuelve a crear las lineas
+                # Vuelve a crear las lineas
                 xml_id = ixwl_obj.create(cr, uid, values, context=context)
-                #~ Write back the new xml_id into the account_invoice_line
+                # Write back the new xml_id into the account_invoice_line
                 i.write({'wh_xml_id': xml_id}, context=context)
                 lines.append(xml_id)
-                #~ Keeps a log of the rate & percentage for a concept
+                # Keeps a log of the rate & percentage for a concept
                 if xmls.get(i.concept_id.id):
                     xmls[i.concept_id.id] += [xml_id]
                 else:
                     xmls[i.concept_id.id] = [xml_id]
 
-            #~ Searching & Unlinking for concept lines from the current invoice
+            # Searching & Unlinking for concept lines from the current invoice
             iwdl_ids = iwdl_obj.search(cr, uid, [(
                 'invoice_id', '=', ret_line.invoice_id.id)], context=context)
             if iwdl_ids:
                 iwdl_obj.unlink(cr, uid, iwdl_ids)
                 iwdl_ids = []
-            #~ Creating concept lines for the current invoice
+            # Creating concept lines for the current invoice
             for concept_id in concept_list:
                 iwdl_id = iwdl_obj.create(
                     cr, uid, {'islr_wh_doc_id': ret_line.islr_wh_doc_id.id,

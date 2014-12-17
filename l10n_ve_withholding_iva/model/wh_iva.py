@@ -815,7 +815,7 @@ class account_wh_iva(osv.osv):
             inv_type in ('out_invoice', 'out_refund'))
                 and 'sale' or 'purchase')
 
-        #~ pull account info
+        # pull account info
         if partner_id:
             acc_part_id = rp_obj._find_accounting_partner(rp_obj.browse(
                 cr, uid, partner_id))
@@ -827,7 +827,7 @@ class account_wh_iva(osv.osv):
                           acc_part_id.property_account_payable.id or False)
             values_data['account_id'] = acc_id
 
-        #~ clear lines
+        # clear lines
         self.clear_wh_lines(cr, uid, ids, context=context)
 
         if not partner_id:
@@ -837,7 +837,7 @@ class account_wh_iva(osv.osv):
                 if not period_id or not fortnight:
                     return {'value': values_data}
 
-        #~ add lines
+        # add lines
         ttype = wh_type == 'sale' and ['out_invoice', 'out_refund'] \
             or ['in_invoice', 'in_refund']
         ai_ids = ai_obj.search(cr, uid, [
@@ -857,7 +857,7 @@ class account_wh_iva(osv.osv):
               context=context) == (period_id, fortnight)]
 
         ai_ids = self._withholdable_tax_(cr, uid, ai_ids, context=context)
-        #~ print 'ai_ids', ai_ids
+        # print 'ai_ids', ai_ids
         if ai_ids:
             values_data['wh_lines'] = \
                 [{'invoice_id': inv_brw.id,

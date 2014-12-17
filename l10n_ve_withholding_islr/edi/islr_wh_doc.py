@@ -60,7 +60,7 @@ ISLR_WH_DOC_EDI_STRUCT = {
     # custom: 'partner_ref'
     # custom: 'partner_address'
     # custom: 'notes'
-    #~ 'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
+    # 'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
 
 }
 
