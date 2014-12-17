@@ -79,7 +79,7 @@ class account_invoice_debit(osv.osv_memory):
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
         'journal_id': _get_journal,
-        #filter_refund': 'modify',
+        # filter_refund': 'modify',
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,

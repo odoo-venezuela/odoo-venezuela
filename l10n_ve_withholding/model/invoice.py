@@ -129,7 +129,7 @@ class account_invoice(osv.osv):
     def ret_payment_get(self, cr, uid, ids, *args):
         """ Return payments associated with this bill
         """
-        #/!\ This method need revision and I (hbto) have come to believe it is
+        # /!\ This method need revision and I (hbto) have come to believe it is
         # useless at worst, at best it needs to be refactored, to get payments
         # from invoice one just need to look at the payment_ids field
 
@@ -168,7 +168,7 @@ class account_invoice(osv.osv):
                     continue
 #                key = (tax.tax_code_id.id, tax.base_code_id.id,
 #                       tax.account_id.id)
-                #### group by tax id  ####
+                # group by tax id #
                 key = (tax.tax_id.id)
                 tax_key.append(key)
                 if not key in compute_taxes:
@@ -221,7 +221,7 @@ class account_invoice_tax(osv.osv):
                 val['manual'] = False
                 val['sequence'] = tax['sequence']
                 val['base'] = tax['price_unit'] * line['quantity']
-                ####  add tax id  ####
+                # add tax id #
                 val['tax_id'] = tax['id']
 
                 if inv.type in ('out_invoice', 'in_invoice'):
@@ -265,7 +265,7 @@ class account_invoice_tax(osv.osv):
 
 #                key = (val['tax_code_id'], val['base_code_id'],
 #                       val['account_id'])
-                #### group by tax id  ####
+                # group by tax id #
                 key = (val['tax_id'])
                 if not key in tax_grouped:
                     tax_grouped[key] = val

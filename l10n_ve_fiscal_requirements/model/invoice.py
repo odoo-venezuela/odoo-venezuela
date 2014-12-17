@@ -161,7 +161,7 @@ class account_invoice(osv.osv):
             'fiscal_printer': '',
             # No cleaned in this copy because it is related to the previous
             # document, if previous document says so this too
-            #loc_req':False,
+            # loc_req':False,
             'z_report': '',
         })
         return super(account_invoice, self).copy(cr, uid, ids, default,
