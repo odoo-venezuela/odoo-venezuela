@@ -1240,8 +1240,8 @@ class fiscal_book(orm.Model):
         rank = 1
         # order_dict[date][printer][z_report] = [ ('desde', 'hasta', 'tipot',
         #                                          list(line_brws)) ]
-        ntp_groups_list = list()        # format [ ( rank, invoice_number,
-                                        # [line_brws] ) ]
+        ntp_groups_list = list()
+        # format [ ( rank, invoice_number, [line_brws] ) ]
         ntp_no_group_list = list()      # format [ ( rank, [line_brws] ) ]
         order_no_group_list = list()    # format [ ( rank, line_id ) ]
 
