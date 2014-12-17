@@ -4,14 +4,15 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -21,7 +22,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 from openerp.osv import fields, osv
 
@@ -29,7 +30,8 @@ from openerp.osv import fields, osv
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     _columns = {
-        'ret': fields.boolean('Withholdable', help="Indicate if the tax must be withheld"),
+        'ret': fields.boolean('Withholdable',
+                              help="Indicate if the tax must be withheld"),
         'wh_vat_collected_account_id': fields.many2one(
             'account.account',
             type='many2one',
@@ -38,7 +40,8 @@ class account_tax(osv.osv):
             method=True,
             view_load=True,
             domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to an Invoice"),
+            help="This account will be used when applying a withhold to an"
+                 " Invoice"),
         'wh_vat_paid_account_id': fields.many2one(
             'account.account',
             type='many2one',
@@ -47,5 +50,6 @@ class account_tax(osv.osv):
             method=True,
             view_load=True,
             domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to a Refund"),
+            help="This account will be used when applying a withhold to a"
+                 " Refund"),
     }

@@ -9,19 +9,23 @@
 #                 sale order
 #
 ##############################################################################
-#~ from datetime import datetime
-from osv import fields, osv
-from tools.translate import _
-#~ import pooler
-#~ import decimal_precision as dp
-#~ import time
-#~ import netsvc
-#~ import csv
+# from datetime import datetime
 import base64
-import libxml2
 import functools
+import logging
 
-##---------------------------------------------------------- employee_income_wh
+import libxml2
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+
+
+# import pooler
+# import decimal_precision as dp
+# import time
+# import netsvc
+# import csv
+
+# ---------------------------------------------------------- employee_income_wh
 
 
 class employee_income_wh(osv.osv_memory):
@@ -29,6 +33,8 @@ class employee_income_wh(osv.osv_memory):
     _name = 'employee.income.wh'
 
     _description = ''
+
+    logger = logging.getLogger('employee.income.wh')
 
     # -------------------------------------------------------------------------
 
@@ -61,8 +67,9 @@ class employee_income_wh(osv.osv_memory):
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
-        except:
-            pass
+        except libxml2.parserError:
+            log_msg = 'ERROR: the file is not a XML'
+            self.logger.warning(log_msg)
         return res
 
     def _clear_xml_employee_income_wh(self, cr, uid, context=None):
@@ -168,17 +175,18 @@ class employee_income_wh(osv.osv_memory):
 
     # ---------------------------------------------------------- public methods
 
-    ##-------------------------------------------------------- buttons (object)
+    # -------------------------------------------------------- buttons (object)
 
     def process_employee_income_wh(self, cr, uid, ids, context=None):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         eiw_brw = self.browse(cr, uid, ids, context={})[0]
-        file = eiw_brw.obj_file
-        xml_file = base64.decodestring(file)
+        eiw_file = eiw_brw.obj_file
+        xml_file = base64.decodestring(eiw_file)
         try:
             unicode(xml_file, 'utf8')
-        except Exception:  # If we can not convert to UTF-8 maybe the file
-                           # is codified in ISO-8859-15: We convert it.
+        except UnicodeDecodeError:
+            # If we can not convert to UTF-8 maybe the file
+            # is codified in ISO-8859-15: We convert it.
             xml_file = unicode(xml_file, 'iso-8859-15').encode('utf-8')
         invalid = []
         values = self._parse_xml_employee_income_wh(
@@ -204,7 +212,7 @@ class employee_income_wh(osv.osv_memory):
 
     # ----------------------------------------------------- create write unlink
 
-    ##---------------------------------------------------------------- Workflow
+    # ---------------------------------------------------------------- Workflow
 
 employee_income_wh()
 

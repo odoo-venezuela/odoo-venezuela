@@ -4,7 +4,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-#################Credits#######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Vauxoo C.A.
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
@@ -28,7 +29,8 @@ from openerp.osv import fields, osv
 class res_company(osv.osv):
     _inherit = "res.company"
     _columns = {
-        "consolidate_vat_wh": fields.boolean("Fortnight Consolidate Wh. VAT",
+        "consolidate_vat_wh": fields.boolean(
+            "Fortnight Consolidate Wh. VAT",
             help="If it set then the withholdings vat generate in a same"
             " fornight will be grouped in one withholding receipt."),
         "allow_vat_wh_outdated": fields.boolean(

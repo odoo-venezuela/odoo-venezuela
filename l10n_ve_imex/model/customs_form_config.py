@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
 #    All Rights Reserved
-############# Credits #########################################################
+###############################################################################
+#    Credits:
 #    Coded by:  Juan Marzquez (Tecvemar, c.a.) <jmarquez@tecvemar.com.ve>
 #               Katherine Zaoral               <katherine.zaoral@vauxoo.com>
 #    Planified by:
@@ -77,7 +78,7 @@ class customs_facility(osv.osv):
 
     def name_search(self, cr, user, name, args=None, operator='ilike',
                     context=None, limit=100):
-        #~ Based on account.account.name_search...
+        # Based on account.account.name_search...
         res = super(customs_facility, self).name_search(
             cr, user, name, args, operator, context, limit)
         if not res and name:
