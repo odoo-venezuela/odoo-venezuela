@@ -1504,8 +1504,9 @@ class islr_wh_doc_line(osv.osv):
             'islr_wh_doc_id', 'partner_id', string='Partner', type='many2one',
             relation='res.partner', store=True),
         'fiscalyear_id': fields.related(
-            'islr_wh_doc_id', 'period_id', 'fiscalyear_id', string='Partner',
-            type='many2one', relation='res.partner', store=True),
+            'islr_wh_doc_id', 'period_id', 'fiscalyear_id',
+            string='Fiscalyear', type='many2one',
+            relation='account.fiscalyear', store=True),
     }
 
 
