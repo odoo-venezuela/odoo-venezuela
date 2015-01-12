@@ -672,7 +672,7 @@ class fiscal_book(orm.Model):
         for inv_id in inv_ids:
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
             period, fortnight = period_obj._find_fortnight(
-                cr, uid, dt=inv_brw.date_invoice, context=context)
+                cr, uid, date=inv_brw.date_invoice, context=context)
             period = period
             if fb_fortnight == fortnight:
                 res.append(inv_id)
@@ -803,7 +803,7 @@ class fiscal_book(orm.Model):
         for awi_id in awi_ids:
             awi_brw = awi_obj.browse(cr, uid, awi_id, context=context)
             period, fortnight = period_obj._find_fortnight(
-                cr, uid, dt=awi_brw.date_ret, context=context)
+                cr, uid, date=awi_brw.date_ret, context=context)
             period = period
             if fb_fortnight == fortnight:
                 res.append(awi_id)
