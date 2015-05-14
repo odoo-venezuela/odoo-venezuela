@@ -53,6 +53,24 @@ class account_wh_iva_line_tax(osv.osv):
         cr.execute(sql_str)
         return True
 
+    def _get_base(self, cr, uid, ids, fieldname, args, context=None):
+        """ Return withholding amount
+        """
+        if context is None:
+            context = None
+        res = {}
+
+        awilt_brw = self.browse(cr, uid, ids, context=context)
+
+        for each in awilt_brw:
+            f_xc = self.pool.get('l10n.ut').sxc(
+                cr, uid,
+                each.inv_tax_id.invoice_id.currency_id.id,
+                each.inv_tax_id.invoice_id.company_id.currency_id.id,
+                each.wh_vat_line_id.retention_id.date)
+            res[each.id] = f_xc(each.inv_tax_id.base)
+        return res
+
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
         """ Return withholding amount
         """
@@ -91,9 +109,18 @@ class account_wh_iva_line_tax(osv.osv):
             'inv_tax_id', 'name', type='char', string='Tax Name', size=256,
             store=True, select=True, readonly=True, ondelete='set null',
             help=" Tax Name"),
-        'base': fields.related(
-            'inv_tax_id', 'base', type='float', string='Tax Base', store=True,
-            select=True, readonly=True, ondelete='set null', help="Tax Base"),
+        'base': fields.function(
+            _get_base,
+            method=True,
+            type='float',
+            string='Tax Base',
+            digits_compute=dp.get_precision('Withhold'),
+            store={
+                'account.wh.iva.line.tax': (
+                    lambda self, cr, uid, ids, c={}: ids, ['inv_tax_id'], 15)
+            },
+            fnct_inv=_set_amount_ret,
+            help="Tax Base"),
         'amount': fields.related(
             'inv_tax_id', 'amount', type='float', string='Taxed Amount',
             store=True, select=True, readonly=True, ondelete='set null',
