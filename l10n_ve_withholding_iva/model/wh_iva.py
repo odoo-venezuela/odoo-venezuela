@@ -110,7 +110,7 @@ class account_wh_iva_line_tax(osv.osv):
             digits_compute=dp.get_precision('Withhold'),
             store={
                 'account.wh.iva.line.tax': (
-                    lambda self, cr, uid, ids, c={}: ids, ['amount'], 15)
+                    lambda self, cr, uid, ids, c={}: ids, [], 15)
             },
             fnct_inv=_set_amount_ret,
             help="Vat Withholding amount"),
