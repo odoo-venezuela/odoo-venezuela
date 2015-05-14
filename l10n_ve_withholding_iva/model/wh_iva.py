@@ -774,7 +774,7 @@ class account_wh_iva(osv.osv):
                             cr, uid,
                             line.invoice_id.currency_id.id,
                             line.invoice_id.company_id.currency_id.id,
-                            line.wh_vat_line_id.retention_id.date)
+                            line.retention_id.date)
                         move_obj = self.pool.get('account.move')
                         move_line_obj = self.pool.get('account.move.line')
                         move_brw = move_obj.browse(cr, uid,
