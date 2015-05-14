@@ -732,7 +732,9 @@ class account_wh_iva(osv.osv):
                     _("You must omit the follow invoice '%s' !") %
                     (line.invoice_id.name,))
 
-        acc_id = ret.account_id.id
+        # TODO: Get rid of field in future versions?
+        # We rather use the account in the invoice
+        # acc_id = ret.account_id.id
 
         period_id = ret.period_id and ret.period_id.id or False
         journal_id = ret.journal_id.id
@@ -759,6 +761,7 @@ class account_wh_iva(osv.osv):
                     else:
                         name = ('COMP. RET. IVA ' + ret.number + ' Doc. ' +
                                 (line.invoice_id.number or ''))
+                    acc_id = line.invoice_id.account_id.id
                     ret_move = inv_obj.ret_and_reconcile(
                         cr, uid, [line.invoice_id.id], abs(amount), acc_id,
                         period_id, journal_id, writeoff_account_id, period_id,
