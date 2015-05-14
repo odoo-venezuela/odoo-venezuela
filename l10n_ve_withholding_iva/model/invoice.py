@@ -245,29 +245,13 @@ class account_invoice(osv.osv):
         """ Validate the currencys are equal
         """
         context = context or {}
-        user_obj = self.pool.get('res.users')
-        user_brw = user_obj.browse(cr, uid, uid)
         for inv in self.browse(cr, uid, ids):
-            if (inv.amount_total == 0.0 and
-                    inv.currency_id.id != user_brw.company_id.currency_id.id):
+            if inv.amount_total == 0.0:
                 raise osv.except_osv(
                     _('Invalid Action !'),
-                    _('The currency of the invoice does not match with the'
-                      ' currency of the company. Check this please'))
-
-            elif (inv.amount_total == 0.0 or
-                  inv.currency_id.id != user_brw.company_id.currency_id.id):
-                if inv.amount_total == 0.0:
-                    raise osv.except_osv(
-                        _('Invalid Action !'),
-                        _('This invoice has total amount %s %s check the'
-                          ' products price') % (inv.amount_total,
-                                                inv.currency_id.symbol))
-                elif inv.currency_id.id != user_brw.company_id.currency_id.id:
-                    raise osv.except_osv(
-                        _('Invalid Action !'),
-                        _('The currency of the invoice does not match with the'
-                          ' currency of the company. Check this please'))
+                    _('This invoice has total amount %s %s check the'
+                        ' products price') % (inv.amount_total,
+                                              inv.currency_id.symbol))
         return True
 
     def action_wh_iva_create(self, cr, uid, ids, context=None):

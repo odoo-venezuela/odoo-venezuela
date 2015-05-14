@@ -53,6 +53,26 @@ class account_wh_iva_line_tax(osv.osv):
         cr.execute(sql_str)
         return True
 
+    def _get_base_amount(self, cr, uid, ids, fieldname, args, context=None):
+        """ Return withholding amount
+        """
+        if context is None:
+            context = None
+        res = {}
+
+        awilt_brw = self.browse(cr, uid, ids, context=context)
+
+        for each in awilt_brw:
+            res[each.id] = dict((fn, 0.0) for fn in fieldname)
+            f_xc = self.pool.get('l10n.ut').sxc(
+                cr, uid,
+                each.inv_tax_id.invoice_id.currency_id.id,
+                each.inv_tax_id.invoice_id.company_id.currency_id.id,
+                each.wh_vat_line_id.retention_id.date)
+            for fn in fieldname:
+                res[each.id][fn] = f_xc(getattr(each.inv_tax_id, fn))
+        return res
+
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
         """ Return withholding amount
         """
@@ -86,12 +106,29 @@ class account_wh_iva_line_tax(osv.osv):
             'inv_tax_id', 'name', type='char', string='Tax Name', size=256,
             store=True, select=True, readonly=True, ondelete='set null',
             help=" Tax Name"),
-        'base': fields.related(
-            'inv_tax_id', 'base', type='float', string='Tax Base', store=True,
-            select=True, readonly=True, ondelete='set null', help="Tax Base"),
-        'amount': fields.related(
-            'inv_tax_id', 'amount', type='float', string='Taxed Amount',
-            store=True, select=True, readonly=True, ondelete='set null',
+        'base': fields.function(
+            _get_base_amount,
+            method=True,
+            type='float',
+            string='Tax Base',
+            digits_compute=dp.get_precision('Withhold'),
+            store={
+                'account.wh.iva.line.tax': (
+                    lambda self, cr, uid, ids, c={}: ids, ['inv_tax_id'], 15)
+            },
+            multi='base_amount',
+            help="Tax Base"),
+        'amount': fields.function(
+            _get_base_amount,
+            method=True,
+            type='float',
+            string='Taxed Amount',
+            digits_compute=dp.get_precision('Withhold'),
+            store={
+                'account.wh.iva.line.tax': (
+                    lambda self, cr, uid, ids, c={}: ids, ['inv_tax_id'], 15)
+            },
+            multi='base_amount',
             help="Withholding tax amount"),
         'company_id': fields.related(
             'inv_tax_id', 'company_id', type='many2one',
@@ -105,7 +142,7 @@ class account_wh_iva_line_tax(osv.osv):
             digits_compute=dp.get_precision('Withhold'),
             store={
                 'account.wh.iva.line.tax': (
-                    lambda self, cr, uid, ids, c={}: ids, ['amount'], 15)
+                    lambda self, cr, uid, ids, c={}: ids, [], 15)
             },
             fnct_inv=_set_amount_ret,
             help="Vat Withholding amount"),
@@ -122,17 +159,10 @@ class account_wh_iva_line(osv.osv):
         """
         if context is None:
             context = {}
-        rp_obj = self.pool.get('res.partner')
-        acc_part_id = rp_obj._find_accounting_partner(
-            tax_id_brw.invoice_id.partner_id)
+
         return {
             'inv_tax_id': tax_id_brw.id,
             'tax_id': tax_id_brw.tax_id.id,
-            'name': tax_id_brw.tax_id.name,
-            'base': tax_id_brw.base,
-            'amount': tax_id_brw.amount,
-            'company_id': tax_id_brw.company_id.id,
-            'wh_iva_rate': acc_part_id.wh_iva_rate
         }
 
     def load_taxes(self, cr, uid, ids, context=None):
@@ -164,7 +194,6 @@ class account_wh_iva_line(osv.osv):
                 for i in tax_ids:
                     values = self._get_tax_lines(cr, uid, i, context=context)
                     values.update({'wh_vat_line_id': ret_line.id, })
-                    del values['wh_iva_rate']
                     lines.append(awilt_obj.create(cr, uid, values,
                                                   context=context))
         return True
@@ -703,7 +732,9 @@ class account_wh_iva(osv.osv):
                     _("You must omit the follow invoice '%s' !") %
                     (line.invoice_id.name,))
 
-        acc_id = ret.account_id.id
+        # TODO: Get rid of field in future versions?
+        # We rather use the account in the invoice
+        # acc_id = ret.account_id.id
 
         period_id = ret.period_id and ret.period_id.id or False
         journal_id = ret.journal_id.id
@@ -730,6 +761,7 @@ class account_wh_iva(osv.osv):
                     else:
                         name = ('COMP. RET. IVA ' + ret.number + ' Doc. ' +
                                 (line.invoice_id.number or ''))
+                    acc_id = line.invoice_id.account_id.id
                     ret_move = inv_obj.ret_and_reconcile(
                         cr, uid, [line.invoice_id.id], abs(amount), acc_id,
                         period_id, journal_id, writeoff_account_id, period_id,
