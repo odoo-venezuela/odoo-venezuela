@@ -767,6 +767,30 @@ class account_wh_iva(osv.osv):
                         period_id, journal_id, writeoff_account_id, period_id,
                         writeoff_journal_id, ret.date_ret, name, line.tax_line,
                         context)
+
+                    if (line.invoice_id.currency_id.id !=
+                            line.invoice_id.company_id.currency_id.id):
+                        f_xc = self.pool.get('l10n.ut').sxc(
+                            cr, uid,
+                            line.invoice_id.currency_id.id,
+                            line.invoice_id.company_id.currency_id.id,
+                            line.retention_id.date)
+                        move_obj = self.pool.get('account.move')
+                        move_line_obj = self.pool.get('account.move.line')
+                        move_brw = move_obj.browse(cr, uid,
+                                                   ret_move['move_id'])
+                        for ml in move_brw.line_id:
+                            move_line_obj.write(cr, uid, ml.id, {
+                                'currency_id': line.invoice_id.currency_id.id})
+
+                            if ml.credit:
+                                move_line_obj.write(cr, uid, ml.id, {
+                                    'amount_currency': f_xc(ml.credit) * -1})
+
+                            elif ml.debit:
+                                move_line_obj.write(cr, uid, ml.id, {
+                                    'amount_currency': f_xc(ml.debit)})
+
                     # make the withholding line point to that move
                     rl = {
                         'move_id': ret_move['move_id'],
