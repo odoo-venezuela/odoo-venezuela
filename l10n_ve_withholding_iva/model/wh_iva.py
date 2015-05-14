@@ -53,7 +53,7 @@ class account_wh_iva_line_tax(osv.osv):
         cr.execute(sql_str)
         return True
 
-    def _get_base(self, cr, uid, ids, fieldname, args, context=None):
+    def _get_base_amount(self, cr, uid, ids, fieldname, args, context=None):
         """ Return withholding amount
         """
         if context is None:
@@ -63,12 +63,14 @@ class account_wh_iva_line_tax(osv.osv):
         awilt_brw = self.browse(cr, uid, ids, context=context)
 
         for each in awilt_brw:
+            res[each.id] = dict((fn, 0.0) for fn in fieldname)
             f_xc = self.pool.get('l10n.ut').sxc(
                 cr, uid,
                 each.inv_tax_id.invoice_id.currency_id.id,
                 each.inv_tax_id.invoice_id.company_id.currency_id.id,
                 each.wh_vat_line_id.retention_id.date)
-            res[each.id] = f_xc(each.inv_tax_id.base)
+            for fn in fieldname:
+                res[each.id][fn] = f_xc(getattr(each.inv_tax_id, fn))
         return res
 
     def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
@@ -110,7 +112,7 @@ class account_wh_iva_line_tax(osv.osv):
             store=True, select=True, readonly=True, ondelete='set null',
             help=" Tax Name"),
         'base': fields.function(
-            _get_base,
+            _get_base_amount,
             method=True,
             type='float',
             string='Tax Base',
@@ -119,8 +121,20 @@ class account_wh_iva_line_tax(osv.osv):
                 'account.wh.iva.line.tax': (
                     lambda self, cr, uid, ids, c={}: ids, ['inv_tax_id'], 15)
             },
-            fnct_inv=_set_amount_ret,
+            multi='base_amount',
             help="Tax Base"),
+        'amount': fields.function(
+            _get_base_amount,
+            method=True,
+            type='float',
+            string='Taxed Amount',
+            digits_compute=dp.get_precision('Withhold'),
+            store={
+                'account.wh.iva.line.tax': (
+                    lambda self, cr, uid, ids, c={}: ids, ['inv_tax_id'], 15)
+            },
+            multi='base_amount',
+            help="Withholding tax amount"),
         'amount': fields.related(
             'inv_tax_id', 'amount', type='float', string='Taxed Amount',
             store=True, select=True, readonly=True, ondelete='set null',
