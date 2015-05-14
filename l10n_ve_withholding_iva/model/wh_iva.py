@@ -65,8 +65,13 @@ class account_wh_iva_line_tax(osv.osv):
         for each in awilt_brw:
             # TODO: THIS NEEDS REFACTORY IN ORDER TO COMPLY WITH THE SALE
             # WITHHOLDING
+            f_xc = self.pool.get('l10n.ut').sxc(
+                cr, uid,
+                each.inv_tax_id.invoice_id.currency_id.id,
+                each.inv_tax_id.invoice_id.company_id.currency_id.id,
+                each.retention_id.date)
             res[each.id] = round(
-                (each.amount * each.wh_vat_line_id.wh_iva_rate / 100.0) +
+                (f_xc(each.amount) * each.wh_vat_line_id.wh_iva_rate / 100.0) +
                 0.00000001, 2)
         return res
 
