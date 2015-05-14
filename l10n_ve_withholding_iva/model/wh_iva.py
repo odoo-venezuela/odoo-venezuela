@@ -121,32 +121,16 @@ class account_wh_iva_line(osv.osv):
 
     _name = "account.wh.iva.line"
 
-    def _get_tax_lines(self, cr, uid, tax_id_brw, date=False, context=None):
+    def _get_tax_lines(self, cr, uid, tax_id_brw, context=None):
         """ Return dictionary with tax line data
         @param tax_id_brw: tax object
         """
         if context is None:
             context = {}
-        rp_obj = self.pool.get('res.partner')
-        acc_part_id = rp_obj._find_accounting_partner(
-            tax_id_brw.invoice_id.partner_id)
-
-        if not date:
-            date = fields.date.today()
-        f_xc = self.pool.get('l10n.ut').sxc(
-            cr, uid,
-            tax_id_brw.invoice_id.company_id.currency_id.id,
-            tax_id_brw.invoice_id.currency_id.id,
-            date)
 
         return {
             'inv_tax_id': tax_id_brw.id,
             'tax_id': tax_id_brw.tax_id.id,
-            'name': tax_id_brw.tax_id.name,
-            'base': f_xc(tax_id_brw.base),
-            'amount': f_xc(tax_id_brw.amount),
-            'company_id': tax_id_brw.company_id.id,
-            'wh_iva_rate': acc_part_id.wh_iva_rate
         }
 
     def load_taxes(self, cr, uid, ids, context=None):
@@ -176,11 +160,8 @@ class account_wh_iva_line(osv.osv):
                            for i in ret_line.invoice_id.tax_line
                            if i.tax_id and i.tax_id.ret]
                 for i in tax_ids:
-                    values = self._get_tax_lines(
-                        cr, uid, i, date=ret_line.retention_id.date_ret,
-                        context=context)
+                    values = self._get_tax_lines(cr, uid, i, context=context)
                     values.update({'wh_vat_line_id': ret_line.id, })
-                    del values['wh_iva_rate']
                     lines.append(awilt_obj.create(cr, uid, values,
                                                   context=context))
         return True
