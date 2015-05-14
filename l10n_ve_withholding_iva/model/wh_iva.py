@@ -135,10 +135,6 @@ class account_wh_iva_line_tax(osv.osv):
             },
             multi='base_amount',
             help="Withholding tax amount"),
-        'amount': fields.related(
-            'inv_tax_id', 'amount', type='float', string='Taxed Amount',
-            store=True, select=True, readonly=True, ondelete='set null',
-            help="Withholding tax amount"),
         'company_id': fields.related(
             'inv_tax_id', 'company_id', type='many2one',
             relation='res.company', string='Company', store=True, select=True,
