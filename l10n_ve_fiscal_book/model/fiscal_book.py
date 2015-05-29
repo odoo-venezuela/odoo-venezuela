@@ -1602,7 +1602,7 @@ class fiscal_book(orm.Model):
                                             'fbl_id': fbl.id,
                                             'ait_id': ait.id}))
                         amount_field_data['total_with_iva'] += \
-                            f_xc(ait.tax_amount) * sign
+                            ait.tax_amount * sign
                         if ait.tax_id.appl_type == 'sdcf':
                             amount_field_data['vat_sdcf'] += \
                                 ait.base_amount * sign
