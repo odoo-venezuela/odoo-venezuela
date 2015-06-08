@@ -193,8 +193,8 @@ class employee_income_wh(osv.osv_memory):
         eiw_brw = self.browse(cr, uid, ids, context={})[0]
         eiw_file = eiw_brw.obj_file
         invalid = []
+        xml_file = base64.decodestring(eiw_file)
         if eiw_brw.type == 'xml':
-            xml_file = base64.decodestring(eiw_file)
             try:
                 unicode(xml_file, 'utf8')
             except UnicodeDecodeError:
