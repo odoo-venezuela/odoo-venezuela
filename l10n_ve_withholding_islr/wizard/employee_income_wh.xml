@@ -11,7 +11,8 @@
                     <separator string="TXT file" colspan="4"/>
                     <label string="Select a file to load data from collector"/>
                     <group col="4" colspan= "4">
-                        <field name="obj_file" nolabel="1" filename="name" colspan="4"/>
+                        <field name="type" colspan="2"/>
+                        <field name="obj_file" nolabel="1" filename="name" colspan="2"/>
                     </group>
                     <group col="4" colspan= "4">
                         <field name="name" colspan="4" select="1"/>
