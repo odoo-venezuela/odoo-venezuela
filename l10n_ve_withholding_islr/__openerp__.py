@@ -80,6 +80,7 @@
         "workflow/wh_action_server.xml",
         # "edi/islr_wh_doc_action_data.xml",
         "wizard/partner_income_wh_print_view.xml",
+        "wizard/employee_income_wh.xml",
         "data/partner_income_wh_report_data.xml",
         "report/partner_income_wh_report.xml",
     ],
