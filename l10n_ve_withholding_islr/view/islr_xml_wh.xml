@@ -130,7 +130,7 @@
                                  icon="terp-hr"
                                  type="object"
                                  colspan="1"
-                                 attrs="{'readonly':[('state','!=','draft')]}"/>
+                                 states="draft"/>
                             <field
                                  name="employee_xml_ids"
                                  nolabel="1"
