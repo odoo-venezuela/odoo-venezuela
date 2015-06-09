@@ -35,7 +35,7 @@ from openerp.tools.translate import _
 
 class islr_wh_doc(osv.osv):
 
-    def name_get(self, cr, uid, ids, context):
+    def name_get(self, cr, uid, ids, context=None):
         if not len(ids):
             return []
         res = []
