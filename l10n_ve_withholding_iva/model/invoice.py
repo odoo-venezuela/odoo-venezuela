@@ -85,7 +85,7 @@ class account_invoice(osv.osv):
         return res
 
     def _get_inv_from_line(self, cr, uid, ids, context=None):
-        """ Return invoice from journal items
+        """ Returns invoice from journal items
         """
         context = context or {}
         move = {}

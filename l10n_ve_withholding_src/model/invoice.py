@@ -61,42 +61,6 @@ class account_invoice(osv.osv):
                 rp_brw.wh_src_rate or 0
         return res
 
-    def _get_inv_from_line(self, cr, uid, ids, context=None):
-        """ Returns invoice from journal items
-        """
-        context = context or {}
-        move = {}
-        for line in self.pool.get('account.move.line').browse(cr, uid, ids):
-            if line.reconcile_partial_id:
-                for line2 in line.reconcile_partial_id.line_partial_ids:
-                    move[line2.move_id.id] = True
-            if line.reconcile_id:
-                for line2 in line.reconcile_id.line_id:
-                    move[line2.move_id.id] = True
-        invoice_ids = []
-        if move:
-            invoice_ids = self.pool.get('account.invoice').search(
-                cr, uid, [('move_id', 'in', move.keys())], context=context)
-        return invoice_ids
-
-    def _get_inv_from_reconcile(self, cr, uid, ids, context=None):
-        """ Return invoice from reconciled lines
-        """
-        context = context or {}
-        move = {}
-        for amr_brw in self.pool.get('account.move.reconcile').browse(cr, uid,
-                                                                      ids):
-            for line in amr_brw.line_partial_ids:
-                move[line.move_id.id] = True
-            for line in amr_brw.line_id:
-                move[line.move_id.id] = True
-
-        invoice_ids = []
-        if move:
-            invoice_ids = self.pool.get('account.invoice').search(
-                cr, uid, [('move_id', 'in', move.keys())], context=context)
-        return invoice_ids
-
     def _check_retention(self, cr, uid, ids, context=None):
         """ This method will check the retention value will be maximum 5%
         """
