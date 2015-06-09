@@ -59,7 +59,7 @@ class employee_income_wh(osv.osv_memory):
             msg = _('Missing Fields in CSV File.\n'
                     'File shall bear following fields:\n')
             for fn in fieldnames:
-                msg += '{field},\n'.forma(field=fn)
+                msg += '{field},\n'.format(field=fn)
             raise osv.except_osv(_('Error!'), msg)
         res = []
         for item in csv_file:
