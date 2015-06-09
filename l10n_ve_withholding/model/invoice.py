@@ -55,6 +55,16 @@ class account_invoice(osv.osv):
         ok = ok and bool(cr.fetchone())
         return ok
 
+    def _retenida(self, cr, uid, ids, name, args, context=None):
+        """ Verify whether withholding was applied to the invoice
+        """
+        res = {}
+        if context is None:
+            context = {}
+        for inv_id in ids:
+            res[inv_id] = self.test_retenida(cr, uid, [inv_id])
+        return res
+
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
                         writeoff_period_id, writeoff_journal_id, date,
