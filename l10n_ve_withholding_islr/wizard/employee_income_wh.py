@@ -55,7 +55,7 @@ class employee_income_wh(osv.osv_memory):
         stream = StringIO(csv_file)
         csv_file = csv.DictReader(stream)
 
-        if set(csv_file.fieldnames) <= set(fieldnames):
+        if set(csv_file.fieldnames) < set(fieldnames):
             msg = _('Missing Fields in CSV File.\n'
                     'File shall bear following fields:\n')
             for fn in fieldnames:
