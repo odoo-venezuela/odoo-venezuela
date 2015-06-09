@@ -74,6 +74,16 @@ class account_invoice(osv.osv):
                 res[i.invoice_id.id] = i.retention_id.id or False
         return res
 
+    def _retenida(self, cr, uid, ids, name, args, context=None):
+        """ Verify whether withholding was applied to the invoice
+        """
+        res = {}
+        if context is None:
+            context = {}
+        for inv_id in ids:
+            res[inv_id] = self.test_retenida(cr, uid, [inv_id])
+        return res
+
     def _get_inv_from_line(self, cr, uid, ids, context=None):
         """ Return invoice from journal items
         """
