@@ -291,7 +291,8 @@ class account_invoice_refund(osv.osv_memory):
                     for line in movelines:
                         if line.account_id.id == inv.account_id.id:
                             to_reconcile_ids[line.account_id.id] = [line.id]
-                        if type(line.reconcile_id) != osv.orm.browse_null:
+                        if not isinstance(line.reconcile_id,
+                                          osv.orm.browse_null):
                             reconcile_obj.unlink(cr, uid, line.reconcile_id.id)
                     wf_service.trg_validate(uid, 'account.invoice',
                                             refund.id, 'invoice_open', cr)
