@@ -298,7 +298,7 @@ class account_wh_iva(osv.osv):
 
     _name = "account.wh.iva"
 
-    def name_get(self, cr, uid, ids, context):
+    def name_get(self, cr, uid, ids, context=None):
         if not len(ids):
             return []
         res = []
