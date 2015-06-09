@@ -398,7 +398,7 @@ class account_wh_src(osv.osv):
         self.clear_wh_lines(cr, uid, ids, context=context)
         return True
 
-    def copy(self, cr, uid, ids, default, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Lines can not be duplicated in this model
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.

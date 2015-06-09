@@ -259,31 +259,31 @@ class adjustment_book_line(osv.osv):
 
     _name = 'adjustment.book.line'
     _columns = {
-        'date_accounting': fields.date(
-            'Date Accounting', required=True,
-            help="Date accounting for adjustment book"),
-        'date_admin': fields.date(
-            'Date Administrative', required=True,
-            help="Date administrative for adjustment book"),
         'vat': fields.char(
             'Vat', size=10, required=True,
             help="Vat of partner for adjustment book"),
-        'partner': fields.char(
-            'Partner', size=256, required=True,
-            help="Partner for adjustment book"),
+        'date_admin': fields.date(
+            'Date Administrative', required=True,
+            help="Date administrative for adjustment book"),
         'invoice_number': fields.char(
             'Invoice Number', size=256, required=True,
             help="Invoice number for adjustment book"),
-        'control_number': fields.char(
-            'Invoice Control', size=256, required=True,
-            help="Invoice control for adjustment book"),
+        'partner': fields.char(
+            'Partner', size=256, required=True,
+            help="Partner for adjustment book"),
         'amount': fields.float(
             'Amount Document at VAT Withholding',
             digits_compute=dp.get_precision('Account'), required=True,
             help="Amount document for adjustment book"),
+        'control_number': fields.char(
+            'Invoice Control', size=256, required=True,
+            help="Invoice control for adjustment book"),
         'type_doc': fields.selection(
             [('F', 'Invoice'), ('ND', 'Debit Note'), ('NC', 'Credit Note')],
             'Document Type', select=True, required=True,
+            help="Date accounting for adjustment book"),
+        'date_accounting': fields.date(
+            'Date Accounting', required=True,
             help="Type of Document for adjustment book: -Invoice(F),-Debit"
                  " Note(dn),-Credit Note(cn)"),
         'doc_affected': fields.char(

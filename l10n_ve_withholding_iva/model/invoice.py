@@ -85,7 +85,7 @@ class account_invoice(osv.osv):
         return res
 
     def _get_inv_from_line(self, cr, uid, ids, context=None):
-        """ Return invoice from journal items
+        """ Returns invoice from journal items
         """
         context = context or {}
         move = {}
@@ -201,28 +201,6 @@ class account_invoice(osv.osv):
                         'vat_apply': False})
         return super(account_invoice, self).copy(cr, uid, ids, default,
                                                  context)
-
-    def test_retenida(self, cr, uid, ids, *args):
-        """ Verify if this invoice is withhold
-        """
-        type2journal = {'out_invoice': 'iva_sale',
-                        'in_invoice': 'iva_purchase', 'out_refund': 'iva_sale',
-                        'in_refund': 'iva_purchase'}
-        type_inv = self.browse(cr, uid, ids[0]).type
-        type_journal = type2journal.get(type_inv, 'iva_purchase')
-        res = self.ret_payment_get(cr, uid, ids)
-        if not res:
-            return False
-        ok = True
-
-        cr.execute('select l.id '
-                   'from account_move_line l '
-                   'inner join account_journal j on (j.id=l.journal_id)'
-                   ' where l.id in (' + ','.join(
-                       [str(item) for item in res]) + ') and j.type=' + '\''
-                   + type_journal + '\'')
-        ok = ok and bool(cr.fetchone())
-        return ok
 
     def wh_iva_line_create(self, cr, uid, ids, context=None):
         """ Creates line with iva withholding

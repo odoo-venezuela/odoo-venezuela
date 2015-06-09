@@ -18,12 +18,21 @@ import libxml2
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
+from StringIO import StringIO
 
 # import pooler
 # import decimal_precision as dp
 # import time
 # import netsvc
-# import csv
+import csv
+
+FIELDNAMES = [
+    'RifRetenido',
+    'NumeroFactura',
+    'NumeroControl',
+    'CodigoConcepto',
+    'MontoOperacion',
+    'PorcentajeRetencion']
 
 # ---------------------------------------------------------- employee_income_wh
 
@@ -40,6 +49,24 @@ class employee_income_wh(osv.osv_memory):
 
     # ------------------------------------------------------- _internal methods
 
+    def _parse_csv_employee_income_wh(self, cr, uid, csv_file, context=None):
+        '''
+        Method to parse CSV File
+        '''
+        stream = StringIO(csv_file)
+        csv_file = csv.DictReader(stream)
+
+        if set(csv_file.fieldnames) < set(FIELDNAMES):
+            msg = _('Missing Fields in CSV File.\n'
+                    'File shall bear following fields:\n')
+            for fn in FIELDNAMES:
+                msg += '{field},\n'.format(field=fn)
+            raise osv.except_osv(_('Error!'), msg)
+        res = []
+        for item in csv_file:
+            res.append(item)
+        return res
+
     def _parse_xml_employee_income_wh(self, cr, uid, xml_file, context=None):
         res = []
         try:
@@ -54,16 +81,9 @@ class employee_income_wh(osv.osv_memory):
                 return res
             xpath = '/RelacionRetencionesISLR/DetalleRetencion'
             varlist = cntx.xpathEval(xpath)
-            xml_keys = ['RifRetenido',
-                        'NumeroFactura',
-                        'NumeroControl',
-                        'CodigoConcepto',
-                        'MontoOperacion',
-                        'PorcentajeRetencion',
-                        ]
             for item in varlist:
                 values = {}
-                for k in xml_keys:
+                for k in FIELDNAMES:
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
@@ -160,12 +180,16 @@ class employee_income_wh(osv.osv_memory):
 
     _columns = {
         'name': fields.char('File name', size=128, readonly=True),
+        'type': fields.selection(
+            [('csv', 'CSV File'), ('xml', 'XML File')], 'File Type',
+            required=True),
         'obj_file': fields.binary('XML file', required=True, filters='*.xml',
                                   help=("XML file name with employee income "
                                         "withholding data")),
     }
 
     _defaults = {
+        'type': lambda *a: 'csv',
     }
 
     _sql_constraints = [
@@ -181,16 +205,20 @@ class employee_income_wh(osv.osv_memory):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         eiw_brw = self.browse(cr, uid, ids, context={})[0]
         eiw_file = eiw_brw.obj_file
-        xml_file = base64.decodestring(eiw_file)
-        try:
-            unicode(xml_file, 'utf8')
-        except UnicodeDecodeError:
-            # If we can not convert to UTF-8 maybe the file
-            # is codified in ISO-8859-15: We convert it.
-            xml_file = unicode(xml_file, 'iso-8859-15').encode('utf-8')
         invalid = []
-        values = self._parse_xml_employee_income_wh(
-            cr, uid, xml_file, context=context)
+        xml_file = base64.decodestring(eiw_file)
+        if eiw_brw.type == 'xml':
+            try:
+                unicode(xml_file, 'utf8')
+            except UnicodeDecodeError:
+                # If we can not convert to UTF-8 maybe the file
+                # is codified in ISO-8859-15: We convert it.
+                xml_file = unicode(xml_file, 'iso-8859-15').encode('utf-8')
+            values = self._parse_xml_employee_income_wh(
+                cr, uid, xml_file, context=context)
+        elif eiw_brw.type == 'csv':
+            values = self._parse_csv_employee_income_wh(
+                cr, uid, xml_file, context=context)
         obj_ixwl = self.pool.get('islr.xml.wh.line')
         if values:
             self._clear_xml_employee_income_wh(cr, uid, context=context)

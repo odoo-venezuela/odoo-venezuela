@@ -37,7 +37,7 @@ class customs_form(osv.osv):
     _name = 'customs.form'
     _description = ''
 
-    def name_get(self, cr, uid, ids, context):
+    def name_get(self, cr, uid, ids, context=None):
         if not len(ids):
             return []
         res = []

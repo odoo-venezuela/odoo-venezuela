@@ -33,7 +33,9 @@ class stock_picking(osv.osv):
     _inherit = 'stock.picking'
 
     def action_invoice_create(self, cursor, user, ids, journal_id=False,
-                              group=False, type='out_invoice', context=None):
+                              group=False,
+                              type='out_invoice',  # pylint: disable=W0622
+                              context=None):
         """
         Function that adds the concept of retention to the invoice_lines from
         a purchase order or sales order with billing method from picking list

@@ -33,6 +33,28 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
+    def test_retenida(self, cr, uid, ids, *args):
+        """ Verify if this invoice is withhold
+        """
+        type2journal = {'out_invoice': 'iva_sale',
+                        'in_invoice': 'iva_purchase', 'out_refund': 'iva_sale',
+                        'in_refund': 'iva_purchase'}
+        type_inv = self.browse(cr, uid, ids[0]).type
+        type_journal = type2journal.get(type_inv, 'iva_purchase')
+        res = self.ret_payment_get(cr, uid, ids)
+        if not res:
+            return False
+        ok = True
+
+        cr.execute('select l.id '
+                   'from account_move_line l '
+                   'inner join account_journal j on (j.id=l.journal_id)'
+                   ' where l.id in (' + ','.join(
+                       [str(item) for item in res]) + ') and j.type=' + '\''
+                   + type_journal + '\'')
+        ok = ok and bool(cr.fetchone())
+        return ok
+
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
                         writeoff_period_id, writeoff_journal_id, date,

@@ -76,7 +76,7 @@ class customs_facility(osv.osv):
             res.append((item.id, '[%s] %s' % (item.code, item.name)))
         return res
 
-    def name_search(self, cr, user, name, args=None, operator='ilike',
+    def name_search(self, cr, user, name='', args=None, operator='ilike',
                     context=None, limit=100):
         # Based on account.account.name_search...
         res = super(customs_facility, self).name_search(
