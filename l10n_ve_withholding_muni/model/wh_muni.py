@@ -99,27 +99,27 @@ class account_wh_munici(osv.osv):
         'date': fields.date(
             'Date', readonly=True, states={'draft': [('readonly', False)]},
             help="Date"),
+        'account_id': fields.many2one(
+            'account.account', 'Account', required=True, readonly=True,
+            states={'draft': [('readonly', False)]},
+            help="The pay account used for this withholding."),
         'period_id': fields.many2one(
             'account.period', 'Force Period', domain=[('state', '<>', 'done')],
             readonly=True, states={'draft': [('readonly', False)]},
             help="Keep empty to use the period of the validation(Withholding"
                  " date) date."),
-        'account_id': fields.many2one(
-            'account.account', 'Account', required=True, readonly=True,
-            states={'draft': [('readonly', False)]},
-            help="The pay account used for this withholding."),
+        'currency_id': fields.many2one(
+            'res.currency', 'Currency', required=True, readonly=True,
+            states={'draft': [('readonly', False)]}, help="Currency"),
         'partner_id': fields.many2one(
             'res.partner', 'Partner', readonly=True, required=True,
             states={'draft': [('readonly', False)]},
             help="Withholding customer/supplier"),
-        'currency_id': fields.many2one(
-            'res.currency', 'Currency', required=True, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Currency"),
+        'company_id': fields.many2one(
+            'res.company', 'Company', required=True, help="Company"),
         'journal_id': fields.many2one(
             'account.journal', 'Journal', required=True, readonly=True,
             states={'draft': [('readonly', False)]}, help="Journal entry"),
-        'company_id': fields.many2one(
-            'res.company', 'Company', required=True, help="Company"),
         'munici_line_ids': fields.one2many(
             'account.wh.munici.line', 'retention_id',
             'Local withholding lines', readonly=True,
