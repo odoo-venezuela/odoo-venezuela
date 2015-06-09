@@ -18,12 +18,13 @@ import libxml2
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
+from StringIO import StringIO
 
 # import pooler
 # import decimal_precision as dp
 # import time
 # import netsvc
-# import csv
+import csv
 
 # ---------------------------------------------------------- employee_income_wh
 
@@ -42,9 +43,27 @@ class employee_income_wh(osv.osv_memory):
 
     def _parse_csv_employee_income_wh(self, cr, uid, csv_file, context=None):
         '''
-        Dummy method to import CSV file containing data from employees
+        Method to parse CSV File
         '''
+        fieldnames = ['RifRetenido',
+                    'NumeroFactura',
+                    'NumeroControl',
+                    'CodigoConcepto',
+                    'MontoOperacion',
+                    'PorcentajeRetencion',
+                    ]
+        stream = StringIO(csv_file)
+        csv_file = csv.DictReader(stream)
+
+        if set(csv_file.fieldnames) <= set(fieldnames):
+            msg = _('Missing Fields in CSV File.\n'
+                    'File shall bear following fields:\n')
+            for fn in fieldnames:
+                msg += '{field},\n'.forma(field=fn)
+            raise osv.except_osv(_('Error!'), msg)
         res = []
+        for item in csv_file:
+            res.append(item)
         return res
 
     def _parse_xml_employee_income_wh(self, cr, uid, xml_file, context=None):
