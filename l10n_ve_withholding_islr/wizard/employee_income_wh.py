@@ -26,6 +26,14 @@ from StringIO import StringIO
 # import netsvc
 import csv
 
+FIELDNAMES = [
+    'RifRetenido',
+    'NumeroFactura',
+    'NumeroControl',
+    'CodigoConcepto',
+    'MontoOperacion',
+    'PorcentajeRetencion']
+
 # ---------------------------------------------------------- employee_income_wh
 
 
@@ -45,20 +53,13 @@ class employee_income_wh(osv.osv_memory):
         '''
         Method to parse CSV File
         '''
-        fieldnames = ['RifRetenido',
-                    'NumeroFactura',
-                    'NumeroControl',
-                    'CodigoConcepto',
-                    'MontoOperacion',
-                    'PorcentajeRetencion',
-                    ]
         stream = StringIO(csv_file)
         csv_file = csv.DictReader(stream)
 
-        if set(csv_file.fieldnames) < set(fieldnames):
+        if set(csv_file.fieldnames) < set(FIELDNAMES):
             msg = _('Missing Fields in CSV File.\n'
                     'File shall bear following fields:\n')
-            for fn in fieldnames:
+            for fn in FIELDNAMES:
                 msg += '{field},\n'.format(field=fn)
             raise osv.except_osv(_('Error!'), msg)
         res = []
@@ -80,16 +81,9 @@ class employee_income_wh(osv.osv_memory):
                 return res
             xpath = '/RelacionRetencionesISLR/DetalleRetencion'
             varlist = cntx.xpathEval(xpath)
-            xml_keys = ['RifRetenido',
-                        'NumeroFactura',
-                        'NumeroControl',
-                        'CodigoConcepto',
-                        'MontoOperacion',
-                        'PorcentajeRetencion',
-                        ]
             for item in varlist:
                 values = {}
-                for k in xml_keys:
+                for k in FIELDNAMES:
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
