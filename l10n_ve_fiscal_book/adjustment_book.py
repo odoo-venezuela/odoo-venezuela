@@ -280,10 +280,10 @@ class adjustment_book_line(osv.osv):
             help="Invoice control for adjustment book"),
         'type_doc': fields.selection(
             [('F', 'Invoice'), ('ND', 'Debit Note'), ('NC', 'Credit Note')],
+            'Document Type', select=True, required=True,
             help="Date accounting for adjustment book"),
         'date_accounting': fields.date(
             'Date Accounting', required=True,
-            'Document Type', select=True, required=True,
             help="Type of Document for adjustment book: -Invoice(F),-Debit"
                  " Note(dn),-Credit Note(cn)"),
         'doc_affected': fields.char(
