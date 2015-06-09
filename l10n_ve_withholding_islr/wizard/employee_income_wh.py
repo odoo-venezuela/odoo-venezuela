@@ -190,6 +190,7 @@ class employee_income_wh(osv.osv_memory):
     }
 
     _defaults = {
+        'type': lambda *a: 'csv',
     }
 
     _sql_constraints = [
