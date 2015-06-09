@@ -79,9 +79,10 @@ class account_invoice_line(osv.osv):
         }
 
     def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
-                          type='out_invoice', partner_id=False,
-                          fposition_id=False, price_unit=False,
-                          currency_id=False, context=None, company_id=None):
+                          type='out_invoice',  # pylint: disable=W0622
+                          partner_id=False, fposition_id=False,
+                          price_unit=False, currency_id=False, context=None,
+                          company_id=None):
         """ Onchange information of the product invoice line
         at once in the line of the bill
         @param product: new product for the invoice line
