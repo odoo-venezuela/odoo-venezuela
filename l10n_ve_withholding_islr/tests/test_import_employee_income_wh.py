@@ -70,5 +70,9 @@ class test_import_csv_employee_income_wh(TransactionCase):
     def test_import_csv(self):
         self._create_ixwd()
         self._create_eiw()
+        cr, uid = self.cr, self.uid
+        context = {'islr_xml_wh_doc_id': self.ixwd_id}
+        self.eiw_obj.process_employee_income_wh(cr, uid, self.eiw_id,
+                                                context=context)
 
 # EOF
