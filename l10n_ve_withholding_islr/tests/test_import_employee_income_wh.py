@@ -70,17 +70,17 @@ class test_import_csv_employee_income_wh(TransactionCase):
             obj_file += '\nJ317520881,0,N/A,001,10000,1'
         return base64.encodestring(obj_file)
 
-    def _create_eiw(self):
+    def _create_eiw(self, filetype='csv'):
         cr, uid = self.cr, self.uid
         values = dict(
-            type='csv',
-            obj_file=self._create_file(),  # create obj_file as a binary file
+            type=filetype,
+            obj_file=self._create_file(filetype),
         )
         self.eiw_id = self.eiw_obj.create(cr, uid, values)
 
-    def test_import_csv(self):
+    def test_import_csv_xml(self, filetype='csv'):
         self._create_ixwd()
-        self._create_eiw()
+        self._create_eiw(filetype)
         cr, uid = self.cr, self.uid
         ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
         self.assertEquals(len(ixwd_brw.xml_ids), 0,
