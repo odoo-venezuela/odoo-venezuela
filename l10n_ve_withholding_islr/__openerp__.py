@@ -29,7 +29,7 @@
 
 {
     "name": "Automatically Calculation Income Withholding",
-    "version": "0.2",
+    "version": "0.3",
     "author": "Vauxoo",
     "category": "General",
     "website": "http://wiki.openerp.org.ve/",

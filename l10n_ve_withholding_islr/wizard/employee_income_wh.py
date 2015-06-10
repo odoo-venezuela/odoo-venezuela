@@ -73,6 +73,8 @@ class employee_income_wh(osv.osv_memory):
             context = context or {}
             xmldoc = libxml2.parseDoc(xml_file)
             cntx = xmldoc.xpathNewContext()
+            # TODO: Code in wizard needs to be improved this context is
+            # cheating on xml test as there is not strong test on data in XML
             xpath = '/RelacionRetencionesISLR[@RifAgente="%s" ' \
                 'and @Periodo="%s"]' \
                 % (context.get('company_vat'), context.get('period_code'))

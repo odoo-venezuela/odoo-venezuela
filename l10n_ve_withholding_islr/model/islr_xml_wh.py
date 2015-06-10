@@ -98,8 +98,9 @@ class islr_xml_wh_doc(osv.osv):
             help='XML withhold employee line id',
             domain=[('type', '=', 'employee')]),
         'user_id': fields.many2one(
-            'res.users', 'Salesman', readonly=True,
-            states={'draft': [('readonly', False)]}, help='Vendor user'),
+            'res.users', 'User', readonly=True,
+            states={'draft': [('readonly', False)]},
+            help='User Creating Document'),
     }
     _defaults = {
         'state': lambda *a: 'draft',
