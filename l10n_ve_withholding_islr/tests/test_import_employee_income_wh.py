@@ -27,5 +27,24 @@ from openerp.tests.common import TransactionCase
 
 
 class test_import_csv_employee_income_wh(TransactionCase):
-    def SetUp(self):
-        super(test_import_csv_employee_income_wh, self).SetUp()
+    def setUp(self):
+        super(test_import_csv_employee_income_wh, self).setUp()
+        ap_obj = self.registry('account.period')
+        self.period_id = ap_obj.find(self.cr, self.uid, dt=None,
+                                     # exception=False, context=None
+                                     )
+
+    def _create_ixwd(self):
+        ixwd_obj = self.registry('islr.xml.wh.doc')
+        cr, uid = self.cr, self.uid
+        values = dict(
+            name='Importing CSV File',
+            period_id=self.period_id[0],  # TODO: Find This period
+            user_id=uid,
+        )
+        self.ixwd_id = ixwd_obj.create(cr, uid, values)
+
+    def test_import_csv(self):
+        self._create_ixwd()
+
+# EOF
