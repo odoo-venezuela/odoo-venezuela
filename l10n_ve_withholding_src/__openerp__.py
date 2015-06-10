@@ -26,7 +26,7 @@
 
 {
     "name": "Compromiso de Responsabilidad Social",
-    "version": "0.2",
+    "version": "0.3",
     "author": "Vauxoo",
     "category": "Generic Modules",
     "website": "http://wiki.openerp.org.ve/",
