@@ -24,6 +24,15 @@
 #############################################################################
 
 from openerp.tests.common import TransactionCase
+import base64
+
+FIELDNAMES = [
+    'RifRetenido',
+    'NumeroFactura',
+    'NumeroControl',
+    'CodigoConcepto',
+    'MontoOperacion',
+    'PorcentajeRetencion']
 
 
 class test_import_csv_employee_income_wh(TransactionCase):
@@ -45,11 +54,16 @@ class test_import_csv_employee_income_wh(TransactionCase):
         )
         self.ixwd_id = self.ixwd_obj.create(cr, uid, values)
 
+    def _create_file(self, filetype='csv'):
+        if filetype == 'csv':
+            file = ','.join(FIELDNAMES)
+        return base64.encodestring(file)
+
     def _create_eiw(self):
         cr, uid = self.cr, self.uid
         values = dict(
             type='csv',
-            obj_file=None,  # create obj_file as a binary file
+            obj_file=self._create_file(),  # create obj_file as a binary file
         )
         self.eiw_id = self.eiw_obj.create(cr, uid, values)
 
