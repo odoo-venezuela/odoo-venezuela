@@ -101,6 +101,8 @@ class test_import_csv_employee_income_wh(TransactionCase):
         ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
         self.assertEquals(len(ixwd_brw.xml_ids), 0,
                           'There should no record at all')
+        # TODO: Code in wizard needs to be improved this context is cheating on
+        # xml test as there is not strong test on data in XML
         context = {
             'islr_xml_wh_doc_id': self.ixwd_id,
             'company_vat': 'V123456789',
