@@ -185,35 +185,30 @@ class account_wh_src(osv.osv):
 
     }
 
-    def _diario(self, cr, uid, model, context=None):
-        """  Return journal to use in purchase or sale
+    def _get_journal(self, cr, uid, context=None):
         """
-        if context is None:
-            context = {}
-        ir_model_data = self.pool.get('ir.model.data')
-        journal_purchase = ir_model_data.search(cr, uid, [
-            ('model', '=', 'account.journal'),
-            ('module', '=', 'l10n_ve_withholding_src'),
-            ('name', '=', 'withholding_scr_purchase_journal')])
-        journal_sale = ir_model_data.search(cr, uid, [
-            ('model', '=', 'account.journal'),
-            ('module', '=', 'l10n_ve_withholding_src'),
-            ('name', '=', 'withholding_src_sale_journal')])
-        ir_model_purchase_brw = ir_model_data.browse(
-            cr, uid, journal_purchase, context=context)
-        ir_model_sale_brw = ir_model_data.browse(
-            cr, uid, journal_sale, context=context)
-        if context.get('type') == 'in_invoice':
-            return ir_model_purchase_brw[0].res_id
-        else:
-            return ir_model_sale_brw[0].res_id
+        Return a SRC journal depending of invoice type
+        """
+        context = dict(context or {})
+        type_inv = context.get('type', 'in_invoice')
+        type2journal = {'out_invoice': 'src_sale',
+                        'in_invoice': 'src_purchase'}
+        journal_obj = self.pool.get('account.journal')
+        user = self.pool.get('res.users').browse(
+            cr, uid, uid, context=context)
+        company_id = context.get('company_id', user.company_id.id)
+        domain = [('company_id', '=', company_id)]
+        domain += [('type', '=', type2journal.get(
+            type_inv, 'src_purchase'))],
+        res = journal_obj.search(cr, uid, domain, limit=1)
+        return res and res[0] or False
 
     _defaults = {
         'state': lambda *a: 'draft',
         'currency_id':
             lambda self, cr, uid, c: self.pool.get('res.users').browse(
                 cr, uid, uid, c).company_id.currency_id.id,
-        'journal_id': _diario,
+        'journal_id': _get_journal,
         'company_id':
             lambda self, cr, uid, c: self.pool.get('res.users').browse(
                 cr, uid, uid, c).company_id.id,
