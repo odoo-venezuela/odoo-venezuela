@@ -199,7 +199,7 @@ class account_wh_src(osv.osv):
         company_id = context.get('company_id', user.company_id.id)
         domain = [('company_id', '=', company_id)]
         domain += [('type', '=', type2journal.get(
-            type_inv, 'src_purchase'))],
+            type_inv, 'src_purchase'))]
         res = journal_obj.search(cr, uid, domain, limit=1)
         return res and res[0] or False
 
