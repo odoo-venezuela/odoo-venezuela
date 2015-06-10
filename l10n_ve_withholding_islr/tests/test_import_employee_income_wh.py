@@ -56,8 +56,8 @@ class test_import_csv_employee_income_wh(TransactionCase):
 
     def _create_file(self, filetype='csv'):
         if filetype == 'csv':
-            file = ','.join(FIELDNAMES)
-        return base64.encodestring(file)
+            obj_file = ','.join(FIELDNAMES)
+        return base64.encodestring(obj_file)
 
     def _create_eiw(self):
         cr, uid = self.cr, self.uid
