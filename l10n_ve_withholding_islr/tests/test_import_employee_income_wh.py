@@ -82,8 +82,14 @@ class test_import_csv_employee_income_wh(TransactionCase):
         self._create_ixwd()
         self._create_eiw()
         cr, uid = self.cr, self.uid
+        ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
+        self.assertEquals(len(ixwd_brw.xml_ids), 0,
+                          'There should no record at all')
         context = {'islr_xml_wh_doc_id': self.ixwd_id}
         self.eiw_obj.process_employee_income_wh(cr, uid, self.eiw_id,
                                                 context=context)
+        ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
+        self.assertEquals(len(ixwd_brw.xml_ids), 1,
+                          'There should be only one record')
 
 # EOF
