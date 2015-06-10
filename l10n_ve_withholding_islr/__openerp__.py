@@ -85,9 +85,9 @@
         "report/partner_income_wh_report.xml",
     ],
     'test': [
-        # 'test/supplier_wh_islr_invoice.yml',
-        # 'test/supplier_wh_islr_doc.yml',
-        # 'test/customer_wh_islr_doc.yml',
+        'test/supplier_wh_islr_invoice.yml',
+        'test/supplier_wh_islr_doc.yml',
+        'test/customer_wh_islr_doc.yml',
     ],
     "active": False,
     "installable": True,
