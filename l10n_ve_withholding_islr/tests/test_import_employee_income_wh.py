@@ -68,6 +68,21 @@ class test_import_csv_employee_income_wh(TransactionCase):
         if filetype == 'csv':
             obj_file = ','.join(FIELDNAMES)
             obj_file += '\nJ317520881,0,N/A,001,10000,1'
+        elif filetype == 'xml':
+            obj_file = '''
+            <?xml version='1.0' encoding='ISO-8859-1'?>
+            <RelacionRetencionesISLR Periodo="201506" RifAgente="V123456789">
+            <DetalleRetencion>
+                <RifRetenido>J317520882</RifRetenido>
+                <NumeroFactura>0</NumeroFactura>
+                <NumeroControl>NA</NumeroControl>
+                <FechaOperacion>13/06/2015</FechaOperacion>
+                <CodigoConcepto>004</CodigoConcepto>
+                <MontoOperacion>1000.0</MontoOperacion>
+                <PorcentajeRetencion>5.0</PorcentajeRetencion>
+            </DetalleRetencion>
+            </RelacionRetencionesISLR>
+            '''  # TODO: This File needs generalization
         return base64.encodestring(obj_file)
 
     def _create_eiw(self, filetype='csv'):
@@ -78,7 +93,7 @@ class test_import_csv_employee_income_wh(TransactionCase):
         )
         self.eiw_id = self.eiw_obj.create(cr, uid, values)
 
-    def test_import_csv_xml(self, filetype='csv'):
+    def _import_csv_xml(self, filetype='csv'):
         self._create_ixwd()
         self._create_eiw(filetype)
         cr, uid = self.cr, self.uid
@@ -91,5 +106,11 @@ class test_import_csv_employee_income_wh(TransactionCase):
         ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
         self.assertEquals(len(ixwd_brw.xml_ids), 1,
                           'There should be only one record')
+
+    def test_import_csv(self):
+        self._import_csv_xml('csv')
+
+    def test_import_xml(self):
+        self._import_csv_xml('xml')
 
 # EOF
