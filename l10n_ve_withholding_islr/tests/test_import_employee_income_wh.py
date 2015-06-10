@@ -44,6 +44,8 @@ class test_import_csv_employee_income_wh(TransactionCase):
                                      )
         self.ixwd_obj = self.registry('islr.xml.wh.doc')
         self.eiw_obj = self.registry('employee.income.wh')
+        self.rp_obj = self.registry('res.partner')
+        self._create_rp()
 
     def _create_ixwd(self):
         cr, uid = self.cr, self.uid
@@ -54,9 +56,18 @@ class test_import_csv_employee_income_wh(TransactionCase):
         )
         self.ixwd_id = self.ixwd_obj.create(cr, uid, values)
 
+    def _create_rp(self):
+        cr, uid = self.cr, self.uid
+        values = dict(
+            name='Odoo Venezuela',
+            vat='VEJ317520881',
+        )
+        self.rp_id = self.rp_obj.create(cr, uid, values)
+
     def _create_file(self, filetype='csv'):
         if filetype == 'csv':
             obj_file = ','.join(FIELDNAMES)
+            obj_file += '\nJ317520881,0,N/A,001,10000,1'
         return base64.encodestring(obj_file)
 
     def _create_eiw(self):
