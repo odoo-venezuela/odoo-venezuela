@@ -33,18 +33,28 @@ class test_import_csv_employee_income_wh(TransactionCase):
         self.period_id = ap_obj.find(self.cr, self.uid, dt=None,
                                      # exception=False, context=None
                                      )
+        self.ixwd_obj = self.registry('islr.xml.wh.doc')
+        self.eiw_obj = self.registry('employee.income.wh')
 
     def _create_ixwd(self):
-        ixwd_obj = self.registry('islr.xml.wh.doc')
         cr, uid = self.cr, self.uid
         values = dict(
             name='Importing CSV File',
-            period_id=self.period_id[0],  # TODO: Find This period
+            period_id=self.period_id[0],
             user_id=uid,
         )
-        self.ixwd_id = ixwd_obj.create(cr, uid, values)
+        self.ixwd_id = self.ixwd_obj.create(cr, uid, values)
+
+    def _create_eiw(self):
+        cr, uid = self.cr, self.uid
+        values = dict(
+            type='csv',
+            obj_file=None,  # create obj_file as a binary file
+        )
+        self.eiw_id = self.eiw_obj.create(cr, uid, values)
 
     def test_import_csv(self):
         self._create_ixwd()
+        self._create_eiw()
 
 # EOF
