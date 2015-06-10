@@ -69,11 +69,12 @@ class test_import_csv_employee_income_wh(TransactionCase):
             obj_file = ','.join(FIELDNAMES)
             obj_file += '\nJ317520881,0,N/A,001,10000,1'
         elif filetype == 'xml':
-            obj_file = '''
-            <?xml version='1.0' encoding='ISO-8859-1'?>
-            <RelacionRetencionesISLR Periodo="201506" RifAgente="V123456789">
+            obj_file = '''<?xml version='1.0' encoding='ISO-8859-1'?>
+            <RelacionRetencionesISLR
+                Periodo="201506"
+                RifAgente="V123456789">
             <DetalleRetencion>
-                <RifRetenido>J317520882</RifRetenido>
+                <RifRetenido>J317520881</RifRetenido>
                 <NumeroFactura>0</NumeroFactura>
                 <NumeroControl>NA</NumeroControl>
                 <FechaOperacion>13/06/2015</FechaOperacion>
@@ -100,7 +101,11 @@ class test_import_csv_employee_income_wh(TransactionCase):
         ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
         self.assertEquals(len(ixwd_brw.xml_ids), 0,
                           'There should no record at all')
-        context = {'islr_xml_wh_doc_id': self.ixwd_id}
+        context = {
+            'islr_xml_wh_doc_id': self.ixwd_id,
+            'company_vat': 'V123456789',
+            'period_code': '201506',
+        }
         self.eiw_obj.process_employee_income_wh(cr, uid, self.eiw_id,
                                                 context=context)
         ixwd_brw = self.ixwd_obj.browse(cr, uid, self.ixwd_id)
@@ -114,3 +119,8 @@ class test_import_csv_employee_income_wh(TransactionCase):
         self._import_csv_xml('xml')
 
 # EOF
+        # context = {
+        #     'islr_xml_wh_doc_id': self.ixwd_id,
+        #     'company_vat': 'V123456789',
+        #     'period_code': '201506',
+        # }
