@@ -115,6 +115,21 @@ class islr_xml_wh_doc(osv.osv):
                  'Income Withholding ' + time.strftime('%m/%Y'))
     }
 
+    def copy(self, cr, uid, ids, default=None, context=None):
+        """ Initialized id by duplicating
+        """
+        if default is None:
+            default = {}
+        default = default.copy()
+        default.update({
+            'xml_ids': [],
+            'invoice_xml_ids': [],
+            'employee_xml_ids': [],
+        })
+
+        return super(islr_xml_wh_doc, self).copy(cr, uid, ids, default,
+                                                 context)
+
     def period_return(self, cr, uid, context=None):
         """ Return current period
         """
