@@ -5,7 +5,6 @@
         <record model="ir.ui.view" id="view_employee_income_wh">
             <field name="name">employee.income.wh.form</field>
             <field name="model">employee.income.wh</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Load data from collector" version="7.0">
                     <header>
