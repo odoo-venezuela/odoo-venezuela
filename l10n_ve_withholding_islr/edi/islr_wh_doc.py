@@ -27,7 +27,7 @@
 
 from openerp.osv import osv
 
-from edi import EDIMixin
+from openerp.addons.edi import EDIMixin
 
 ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,
