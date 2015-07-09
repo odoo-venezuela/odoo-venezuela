@@ -30,6 +30,7 @@ FIELDNAMES = [
     'RifRetenido',
     'NumeroFactura',
     'NumeroControl',
+    'FechaOperacion',
     'CodigoConcepto',
     'MontoOperacion',
     'PorcentajeRetencion']
@@ -67,7 +68,7 @@ class test_import_csv_employee_income_wh(TransactionCase):
     def _create_file(self, filetype='csv'):
         if filetype == 'csv':
             obj_file = ','.join(FIELDNAMES)
-            obj_file += '\nJ317520881,0,N/A,001,10000,1'
+            obj_file += '\nJ317520881,0,N/A,13/06/2015,001,10000,1'
         elif filetype == 'xml':
             obj_file = '''<?xml version='1.0' encoding='ISO-8859-1'?>
             <RelacionRetencionesISLR
