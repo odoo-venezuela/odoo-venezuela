@@ -51,11 +51,11 @@
                         <field name="concept_code"/>
                     </group>
                     <newline/>
-                    <group col="4" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}">
-                        <separator string="Invoice" colspan="4"/>
+                    <group col="4" colspan="4">
+                        <separator string="Invoice" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}"/>
                         <newline/>
                         <group col="4" colspan="4">
-                            <field name="account_invoice_line_id" colspan="4"/>
+                            <field name="account_invoice_line_id" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}"/>
                             <field name="date_ret" colspan="2" required='1'/>
                             <field name="period_id" colspan="2" required='1'/>
                             <field name="invoice_number" />

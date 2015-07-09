@@ -22,7 +22,7 @@ from StringIO import StringIO
 
 # import pooler
 # import decimal_precision as dp
-# import time
+import time
 # import netsvc
 import csv
 
@@ -30,6 +30,7 @@ FIELDNAMES = [
     'RifRetenido',
     'NumeroFactura',
     'NumeroControl',
+    'FechaOperacion',
     'CodigoConcepto',
     'MontoOperacion',
     'PorcentajeRetencion']
@@ -144,6 +145,7 @@ class employee_income_wh(osv.osv_memory):
                      'NumeroFactura': 'invoice_number',
                      'NumeroControl': 'control_number',
                      'CodigoConcepto': 'concept_code',
+                     'FechaOperacion': 'date_ret',
                      'MontoOperacion': 'base',
                      'PorcentajeRetencion': 'porcent_rete',
                      }
@@ -165,9 +167,14 @@ class employee_income_wh(osv.osv_memory):
                 irt_brw = obj_irt.browse(cr, uid, irt_id, context=context)
                 data.update({'concept_id': irt_brw.concept_id.id,
                              'rate_id': irt_id})
+
+            date_ret = time.strptime(data['date_ret'], '%d/%m/%Y')
+            date_ret = time.strftime('%Y-%m-%d', date_ret)
+
             data.update({
                 'wh': float(data['base']) * float(data['porcent_rete']) / 100,
                 'period_id': context.get('default_period_id'),
+                'date_ret': date_ret,
                 'islr_xml_wh_doc': context.get('islr_xml_wh_doc_id'),
                 'type': 'employee',
             })
