@@ -1333,7 +1333,7 @@ class islr_wh_doc_invoices(osv.osv):
                 # MULTICURRENCY WARNING: Values from the invoice_lines must be
                 # translate to VEF and then to UT this way computing in a
                 # proper way the amount values
-                if rate_brw.minimum > base_ut:
+                if rate_brw.minimum > base_ut * rate_brw.base / 100.0:
                     continue
                 rate_brw_minimum = ut2money(
                     cr, uid, rate_brw.minimum, date_ret, context)
