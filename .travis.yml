@@ -1,13 +1,24 @@
-language: python
+sudo: required
 
-build_image: vauxoo/odoo-80-image-shippable-auto
-commit_container: cowardvassal/vauxoo-dev
+language: python
 
 python:
   - "2.7"
 
+virtualenv:
+  system_site_packages: true
+
+addons:
+  apt:
+    packages:
+      - expect-dev
+      - python-lxml
+      - python-simplejson
+      - python-yaml
+
 env:
-  - VERSION="7.0" ODOO_REPO="odoo/odoo" INCLUDE="ovl_all"
+  - VERSION="7.0" LINT_CHECK="0" TESTS="1" ODOO_REPO="odoo/odoo"
+  - VERSION="7.0" LINT_CHECK="1" TESTS="0"
 
 virtualenv:
   system_site_packages: true
@@ -20,7 +31,7 @@ install:
   - git clone --single-branch --depth=1 https://github.com/Vauxoo/addons-vauxoo.git -b ${VERSION} ${HOME}/addons-vauxoo
 
 script:
-  - travis_run_tests
+  - travis_wait travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success
